@@ -8,6 +8,11 @@
 
 <title>CreatorHub Marketplace</title>
 
+<!-- ✅ GOOGLE ADSENSE ADDED -->
+<script async 
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7722332127550985"
+crossorigin="anonymous"></script>
+
 <style>
 
 /* ⭐⭐⭐ ALL CSS SAME ⭐⭐⭐ */
@@ -197,7 +202,6 @@ footer a:hover{text-decoration:underline;}
 <div class="right">
 <div class="cart" onclick="location.href='cart.html'">🛒</div>
 
-<!-- ✅ PROFILE IMAGE WORKING -->
 <img id="profile" class="profile" onclick="location.href='dashboard.html'">
 
 </div>
@@ -264,7 +268,6 @@ Users must verify product details before purchase.
 
 <script>
 
-/* ✅ GOOGLE SCRIPT API */
 const API="https://script.google.com/macros/s/AKfycbzgKPuIAmuZWOfilOj8gM9qJcZesz3ECPIhpCvBmupKFY2t76_ObVWyylnoTa4ecyda/exec";
 
 const menu=document.getElementById("menu");
@@ -282,7 +285,6 @@ overlay.style.display="none";
 document.body.style.overflow="auto";
 }
 
-/* ✅ PROFILE IMAGE LOGIC (WORKING LIKE BEFORE) */
 let user = JSON.parse(localStorage.getItem("user")) || {email:"guest"};
 
 let profileImg = localStorage.getItem("profile_"+user.email);
@@ -290,7 +292,6 @@ let profileImg = localStorage.getItem("profile_"+user.email);
 document.getElementById("profile").src =
 profileImg || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
 
-/* DRIVE IMAGE FIX */
 function driveImage(link){
 if(!link) return "https://picsum.photos/400";
 try{
@@ -305,7 +306,6 @@ return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000";
 return link;
 }
 
-/* DATABASE FETCH */
 async function getDB(db){
 let r=await fetch(API+"?db="+db+"&t="+Date.now());
 return await r.json();
