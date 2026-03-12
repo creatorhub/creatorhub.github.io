@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>CreatorHub Premium Subscription</title>
+<title>CreatorHub Premium</title>
 
 <style>
 
@@ -15,7 +15,6 @@ margin:0;
 font-family:Arial;
 background:#020617;
 color:white;
-text-align:center;
 }
 
 .topbar{
@@ -40,9 +39,22 @@ color:#22c55e;
 }
 
 .container{
-max-width:600px;
+max-width:1000px;
 margin:auto;
 padding:40px 20px;
+text-align:center;
+}
+
+h1{
+color:#22c55e;
+margin-bottom:30px;
+}
+
+.plans{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
 }
 
 .card{
@@ -53,26 +65,27 @@ box-shadow:0 10px 30px black;
 }
 
 .price{
-font-size:40px;
+font-size:38px;
 color:#22c55e;
-margin:20px 0;
+margin:15px 0;
 }
 
 button{
 width:100%;
-padding:16px;
+padding:14px;
 border:none;
-border-radius:12px;
+border-radius:10px;
 background:linear-gradient(90deg,#22c55e,#4ade80);
 color:white;
-font-size:18px;
 font-weight:bold;
 cursor:pointer;
+margin-top:10px;
 }
 
 ul{
 text-align:left;
-line-height:30px;
+line-height:28px;
+padding-left:18px;
 }
 
 </style>
@@ -81,49 +94,49 @@ line-height:30px;
 
 <body>
 
-
 <div class="topbar">
 
 <div class="back"
 onclick="location.href='index.html'">
+
 ⬅
+
 </div>
 
 <div class="title">
+
 CreatorHub Premium
-</div>
 
 </div>
 
+</div>
 
 
 <div class="container">
 
+<h1>Unlock Unlimited Ebook Reading</h1>
+
+
+<div class="plans">
+
+
+<!-- 15 DAY PLAN -->
+
 <div class="card">
 
-<h2>CreatorHub Unlimited Reading</h2>
+<h2>15 Days Plan</h2>
 
 <div class="price">
-₹199 / Month
+₹199
 </div>
 
 <ul>
-
 <li>Unlimited Ebook Reading</li>
-
-<li>All Premium Books Free</li>
-
-<li>New Books Early Access</li>
-
+<li>Premium Books Access</li>
 <li>No Ads Reading</li>
-
 </ul>
 
-
-<br>
-
-
-<a href="upi://pay?pa=9429970598@fam&pn=CreatorHub&am=199&cu=INR">
+<a href="upi://pay?pa=9429970598@fam&pn=CreatorHub%2015Day&am=199&cu=INR">
 
 <button>
 
@@ -133,11 +146,72 @@ Subscribe Now
 
 </a>
 
+</div>
+
+
+
+<!-- MONTHLY PLAN -->
+
+<div class="card">
+
+<h2>Monthly Plan</h2>
+
+<div class="price">
+₹249
+</div>
+
+<ul>
+<li>Unlimited Ebook Reading</li>
+<li>All Premium Books Free</li>
+<li>Early Access New Books</li>
+</ul>
+
+<a href="upi://pay?pa=9429970598@fam&pn=CreatorHub%20Monthly&am=249&cu=INR">
+
+<button>
+
+Subscribe Now
+
+</button>
+
+</a>
+
+</div>
+
+
+
+<!-- YEARLY PLAN -->
+
+<div class="card">
+
+<h2>Yearly Plan</h2>
+
+<div class="price">
+₹599
+</div>
+
+<ul>
+<li>Unlimited Ebook Reading</li>
+<li>All Premium Books Free</li>
+<li>Early Access + No Ads</li>
+</ul>
+
+<a href="upi://pay?pa=9429970598@fam&pn=CreatorHub%20Yearly&am=599&cu=INR">
+
+<button>
+
+Subscribe Now
+
+</button>
+
+</a>
+
+</div>
+
 
 </div>
 
 </div>
-
 
 </body>
 </html>
