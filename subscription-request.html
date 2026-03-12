@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>CreatorHub Subscription Request</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#020617;
+color:white;
+text-align:center;
+}
+
+.topbar{
+display:flex;
+align-items:center;
+padding:14px;
+background:#020617;
+box-shadow:0 5px 20px black;
+}
+
+.back{
+font-size:22px;
+cursor:pointer;
+width:40px;
+}
+
+.title{
+flex:1;
+text-align:center;
+font-weight:bold;
+color:#22c55e;
+}
+
+.container{
+max-width:600px;
+margin:auto;
+padding:40px 20px;
+}
+
+.card{
+background:#111827;
+padding:30px;
+border-radius:16px;
+box-shadow:0 10px 30px black;
+}
+
+input{
+width:100%;
+padding:14px;
+margin-top:12px;
+border-radius:10px;
+border:none;
+background:#020617;
+color:white;
+}
+
+button{
+width:100%;
+padding:16px;
+margin-top:16px;
+border:none;
+border-radius:12px;
+background:linear-gradient(90deg,#22c55e,#4ade80);
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.upi{
+background:#020617;
+padding:12px;
+border-radius:10px;
+margin-top:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<div class="topbar">
+
+<div class="back"
+onclick="location.href='subscription.html'">
+⬅
+</div>
+
+<div class="title">
+CreatorHub Premium
+</div>
+
+</div>
+
+
+<div class="container">
+
+<div class="card">
+
+<h2>Complete Subscription Payment</h2>
+
+<p>Pay ₹199 using UPI</p>
+
+<div class="upi">
+UPI ID : <b>9429970598@fam</b>
+</div>
+
+<br>
+
+<a href="upi://pay?pa=9429970598@fam&pn=CreatorHub&am=199&cu=INR">
+
+<button>
+
+Pay ₹199 Now
+
+</button>
+
+</a>
+
+<br><br>
+
+<h3>Submit Payment Details</h3>
+
+<input id="email" placeholder="Enter Your Email">
+
+<input type="file" id="screenshot">
+
+<button onclick="submitRequest()">
+
+Submit Subscription Request
+
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+function submitRequest(){
+
+let email=document.getElementById("email").value;
+
+if(!email){
+
+alert("Enter Email");
+
+return;
+
+}
+
+alert("Subscription request submitted. Admin will verify and unlock premium.");
+
+localStorage.setItem("subscription_request",email);
+
+}
+
+</script>
+
+</body>
+</html>
