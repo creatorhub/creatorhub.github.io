@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>CreatorHub Premium</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#020617;
+color:white;
+}
+
+/* TOPBAR */
+
+.topbar{
+display:flex;
+align-items:center;
+padding:14px;
+background:#020617;
+box-shadow:0 5px 20px black;
+}
+
+.back{
+font-size:22px;
+cursor:pointer;
+width:40px;
+}
+
+.title{
+flex:1;
+text-align:center;
+font-weight:bold;
+color:#22c55e;
+}
+
+/* CONTAINER */
+
+.container{
+max-width:1000px;
+margin:auto;
+padding:40px 20px;
+text-align:center;
+}
+
+h1{
+color:#22c55e;
+margin-bottom:30px;
+}
+
+/* PLANS GRID */
+
+.plans{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+}
+
+/* CARD */
+
+.card{
+background:#111827;
+padding:30px;
+border-radius:16px;
+box-shadow:0 10px 30px black;
+transition:.3s;
+}
+
+.card:hover{
+transform:scale(1.03);
+}
+
+/* PRICE */
+
+.price{
+font-size:38px;
+color:#22c55e;
+margin:15px 0;
+}
+
+/* BUTTON */
+
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:10px;
+background:linear-gradient(90deg,#22c55e,#4ade80);
+color:white;
+font-weight:bold;
+cursor:pointer;
+margin-top:10px;
+}
+
+/* LIST */
+
+ul{
+text-align:left;
+line-height:28px;
+padding-left:18px;
+}
+
+.badge{
+background:#22c55e;
+color:black;
+padding:4px 10px;
+border-radius:20px;
+font-size:12px;
+margin-left:6px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="topbar">
+
+<div class="back"
+onclick="location.href='index.html'">
+
+⬅
+
+</div>
+
+<div class="title">
+
+CreatorHub Premium
+
+</div>
+
+</div>
+
+
+<div class="container">
+
+<h1>Unlock Unlimited Ebook Reading</h1>
+
+
+<div class="plans">
+
+
+<!-- 15 DAYS PLAN -->
+
+<div class="card">
+
+<h2>15 Days Plan</h2>
+
+<div class="price">
+₹399
+</div>
+
+<ul>
+
+<li>Unlimited Ebook Reading</li>
+<li>Access All Premium Books</li>
+<li>No Ads Reading</li>
+<li>Instant Access</li>
+
+</ul>
+
+<button onclick="buyPlan('15 Days','399')">
+
+Subscribe Now
+
+</button>
+
+</div>
+
+
+
+<!-- MONTHLY PLAN -->
+
+<div class="card">
+
+<h2>Monthly Plan
+<span class="badge">Popular</span>
+</h2>
+
+<div class="price">
+₹799
+</div>
+
+<ul>
+
+<li>Unlimited Ebook Reading</li>
+<li>All Premium Books Free</li>
+<li>Early Access New Books</li>
+<li>No Ads Reading</li>
+
+</ul>
+
+<button onclick="buyPlan('Monthly','799')">
+
+Subscribe Now
+
+</button>
+
+</div>
+
+
+
+<!-- YEARLY PLAN -->
+
+<div class="card">
+
+<h2>Yearly Plan</h2>
+
+<div class="price">
+₹3599
+</div>
+
+<ul>
+
+<li>Unlimited Ebook Reading</li>
+<li>All Premium Books Free</li>
+<li>Early Access + No Ads</li>
+<li>Best Value Plan</li>
+
+</ul>
+
+<button onclick="buyPlan('Yearly','3599')">
+
+Subscribe Now
+
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<script>
+
+function buyPlan(plan,price){
+
+localStorage.setItem("premiumPlan",plan);
+localStorage.setItem("premiumPrice",price);
+
+location.href="subscription-request.html";
+
+}
+
+</script>
+
+
+</body>
+</html>
