@@ -153,7 +153,7 @@ cursor:pointer;
 }
 
 .cartBtn{
-width:100%;
+width:80%;
 padding:11px;
 margin-top:6px;
 border:none;
@@ -161,6 +161,23 @@ background:black;
 border-radius:10px;
 color:white;
 cursor:pointer;
+}
+
+.shareBtn{
+width:18%;
+padding:11px;
+margin-top:6px;
+border:none;
+background:#2563eb;
+border-radius:10px;
+color:white;
+cursor:pointer;
+font-size:18px;
+}
+
+.rowBtns{
+display:flex;
+gap:6px;
 }
 
 footer{
@@ -334,14 +351,46 @@ html+=`
 <button class="buy" onclick="buyNow('${p.id}')">
 Buy Ebook
 </button>
+
+<div class="rowBtns">
+
 <button class="cartBtn" onclick='addCart(${JSON.stringify(p)})'>
 Add To Cart
 </button>
+
+<button class="shareBtn" onclick="shareProduct('${p.title}')">
+🔗
+</button>
+
+</div>
+
 </div>
 `;
 });
 document.getElementById("products").innerHTML=
 html||"No Products";
+}
+
+function shareProduct(title){
+
+let url=window.location.href;
+
+if(navigator.share){
+
+navigator.share({
+title:title,
+text:"Check this ebook on CreatorHub",
+url:url
+});
+
+}else{
+
+window.open(
+"https://wa.me/?text="+encodeURIComponent(title+" "+url)
+);
+
+}
+
 }
 
 function searchProduct(q){
