@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Premium Activated</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#020617;
+color:white;
+text-align:center;
+padding-top:100px;
+}
+
+.card{
+background:#111827;
+padding:40px;
+border-radius:14px;
+max-width:500px;
+margin:auto;
+box-shadow:0 10px 30px black;
+}
+
+button{
+padding:14px;
+border:none;
+border-radius:10px;
+background:#22c55e;
+color:white;
+font-weight:bold;
+cursor:pointer;
+margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>Premium Activated 🎉</h2>
+
+<p>
+You now have unlimited ebook reading access.
+</p>
+
+<button onclick="activatePremium()">
+
+Activate Premium
+
+</button>
+
+</div>
+
+
+<script>
+
+function activatePremium(){
+
+localStorage.setItem("premium","yes");
+
+alert("Premium Activated");
+
+location.href="index.html";
+
+}
+
+</script>
+
+</body>
+
+</html>
