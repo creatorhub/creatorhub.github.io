@@ -240,12 +240,31 @@ function previewImage(e){
 let file=e.target.files[0];
 if(!file)return;
 
+let img=new Image();
 let reader=new FileReader();
 
-reader.onload=()=>{
-imageBase64=reader.result;
+reader.onload=function(event){
+
+img.src=event.target.result;
+
+img.onload=function(){
+
+if(img.width!==2560 || img.height!==1600){
+
+alert("Cover Image Must Be 2560 x 1600 pixels");
+
+return;
+
+}
+
+imageBase64=event.target.result;
+
 preview.src=imageBase64;
+
 preview.style.display="block";
+
+};
+
 };
 
 reader.readAsDataURL(file);
