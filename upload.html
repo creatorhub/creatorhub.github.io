@@ -99,15 +99,11 @@ margin-top:4px;
 
 <div class="back"
 onclick="location.href='dashboard.html'">
-
 ⬅
-
 </div>
 
 <div class="title">
-
 📘 Upload Ebook
-
 </div>
 
 </div>
@@ -135,13 +131,14 @@ placeholder="Author Name">
 placeholder="Book Description"></textarea>
 
 <input id="keywords"
-placeholder="Keywords (example: online earning, digital business)">
+placeholder="Keywords (example: online earning, business, education)">
 
 <select id="category">
 <option>Business</option>
 <option>Education</option>
 <option>Technology</option>
 <option>Self Improvement</option>
+<option>Finance</option>
 <option>Other</option>
 </select>
 
@@ -152,9 +149,9 @@ placeholder="Price ₹">
 <p>Cover Image</p>
 
 <small>
-Amazon KDP Recommended Size:  
-2560 x 1600 (1.6:1 ratio)  
-Minimum: 1280 x 800
+CreatorHub Recommended Size:  
+1280 x 720 (16:9 Ratio)  
+High Quality JPG or PNG
 </small>
 
 <input type="file"
@@ -164,12 +161,11 @@ onchange="previewImage(event)">
 <img id="preview"
 class="preview">
 
-<p>Select Ebook PDF</p>
+<p>Select Ebook File</p>
 
 <small>
-Amazon KDP Preferred Format:  
-PDF / EPUB  
-Max Size: 650MB (CreatorHub limit: 15MB)
+Supported Format: PDF  
+Maximum File Size: 15MB
 </small>
 
 <input type="file"
@@ -178,9 +174,7 @@ onchange="loadPDF(event)">
 
 <button id="uploadBtn"
 onclick="uploadBook()">
-
 Upload Ebook 🚀
-
 </button>
 
 </div>
