@@ -308,6 +308,32 @@ Users must verify product details before purchase.
 
 <script>
 
+/* MENU */
+
+const menu=document.getElementById("menu");
+const overlay=document.getElementById("overlay");
+
+function openMenu(){
+menu.classList.add("open");
+overlay.style.display="block";
+}
+
+function closeMenu(){
+menu.classList.remove("open");
+overlay.style.display="none";
+}
+
+/* PROFILE */
+
+let user=JSON.parse(localStorage.getItem("user")) || {email:"guest"};
+
+let profileImg=localStorage.getItem("profile_"+user.email);
+
+document.getElementById("profile").src=
+profileImg || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+
+/* API */
+
 const API="https://script.google.com/macros/s/AKfycbzgKPuIAmuZWOfilOj8gM9qJcZesz3ECPIhpCvBmupKFY2t76_ObVWyylnoTa4ecyda/exec";
 
 let allProducts=[];
@@ -337,11 +363,17 @@ return link;
 
 async function getDB(db){
 
+try{
+
 let r=await fetch(API+"?db="+db+"&t="+Date.now());
-
 let data=await r.json();
-
 return Array.isArray(data)?data:[];
+
+}catch{
+
+return [];
+
+}
 
 }
 
