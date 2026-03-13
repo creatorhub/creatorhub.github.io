@@ -108,20 +108,20 @@ color:#22c55e;
 
 <h2>Upload Digital Ebook</h2>
 
-<input id="title" placeholder="Ebook Title">
-<input id="author" placeholder="Author Name">
+<input id="titleInput" placeholder="Ebook Title">
+<input id="authorInput" placeholder="Author Name">
 
-<select id="language">
+<select id="languageInput">
 <option>English</option>
 <option>Hindi</option>
 <option>Other</option>
 </select>
 
-<textarea id="description" placeholder="Book Description"></textarea>
+<textarea id="descriptionInput" placeholder="Book Description"></textarea>
 
-<input id="keywords" placeholder="Keywords">
+<input id="keywordsInput" placeholder="Keywords">
 
-<select id="category">
+<select id="categoryInput">
 <option>Business</option>
 <option>Education</option>
 <option>Technology</option>
@@ -130,7 +130,7 @@ color:#22c55e;
 <option>Other</option>
 </select>
 
-<input id="price" type="number" placeholder="Price ₹">
+<input id="priceInput" type="number" placeholder="Price ₹">
 
 <p>Cover Image (KDP size 1600 × 2560)</p>
 
@@ -139,7 +139,7 @@ color:#22c55e;
 
 <p>Select Ebook PDF</p>
 
-<input type="file" id="pdfFile" accept="application/pdf" onchange="loadPDF(event)">
+<input type="file" accept="application/pdf" onchange="loadPDF(event)">
 
 <div id="pageCount" class="pageinfo"></div>
 <div id="pdfPages"></div>
@@ -152,6 +152,7 @@ color:#22c55e;
 <script>
 
 const API="https://script.google.com/macros/s/AKfycbx6U5oGFpD5HSl8wlwjv_z4zSMa_C25LLXmh2DYRZZxu-ac4iowrKEwXCNkua85U8dQ/exec";
+const API_KEY="CREATORHUB_SECURE_KEY";
 
 let user=JSON.parse(localStorage.getItem("user"));
 
@@ -160,32 +161,31 @@ alert("Login First");
 location.href="login.html";
 }
 
-/* IMAGE */
-
 let imageBase64="";
 let pdfBase64="";
+
+/* IMAGE PREVIEW */
 
 function previewImage(e){
 
 let file=e.target.files[0];
 if(!file) return;
 
-let img=new Image();
 let reader=new FileReader();
 
 reader.onload=function(ev){
+
+let img=new Image();
 
 img.src=ev.target.result;
 
 img.onload=function(){
 
 let canvas=document.createElement("canvas");
-
 canvas.width=1600;
 canvas.height=2560;
 
 let ctx=canvas.getContext("2d");
-
 ctx.drawImage(img,0,0,1600,2560);
 
 imageBase64=canvas.toDataURL("image/jpeg",0.85);
@@ -212,7 +212,7 @@ let reader=new FileReader();
 
 reader.onload=async function(){
 
-pdfBase64 = reader.result;
+pdfBase64=reader.result;
 
 let typedarray=new Uint8Array(
 atob(pdfBase64.split(',')[1]).split('').map(c=>c.charCodeAt(0))
@@ -243,15 +243,23 @@ reader.readAsDataURL(file);
 
 }
 
-/* DATABASE */
+/* DATABASE API */
 
 async function getDB(db){
 
-let r=await fetch(API+"?db="+db+"&t="+Date.now());
+let r=await fetch(API,{
+method:"POST",
+headers:{"Content-Type":"text/plain"},
+body:JSON.stringify({
+api_key:API_KEY,
+action:"getDB",
+db:db
+})
+});
 
 let data=await r.json();
 
-return Array.isArray(data)?data:[];
+return data.data||[];
 
 }
 
@@ -260,7 +268,12 @@ async function saveDB(db,data){
 await fetch(API,{
 method:"POST",
 headers:{"Content-Type":"text/plain"},
-body:JSON.stringify({db:db,data:data})
+body:JSON.stringify({
+api_key:API_KEY,
+action:"saveDB",
+db:db,
+data:data
+})
 });
 
 }
@@ -269,23 +282,25 @@ body:JSON.stringify({db:db,data:data})
 
 async function uploadBook(){
 
-uploadBtn.disabled=true;
-uploadBtn.innerText="Uploading...";
+let btn=document.getElementById("uploadBtn");
 
-let title=title.value.trim();
-let price=price.value.trim();
-let author=author.value.trim();
-let description=description.value.trim();
-let keywords=keywords.value.trim();
-let category=category.value;
-let language=language.value;
+btn.disabled=true;
+btn.innerText="Uploading...";
+
+let title=document.getElementById("titleInput").value.trim();
+let price=document.getElementById("priceInput").value.trim();
+let author=document.getElementById("authorInput").value.trim();
+let description=document.getElementById("descriptionInput").value.trim();
+let keywords=document.getElementById("keywordsInput").value.trim();
+let category=document.getElementById("categoryInput").value;
+let language=document.getElementById("languageInput").value;
 
 if(!title||!price||!imageBase64||!pdfBase64){
 
 alert("Fill All Fields");
 
-uploadBtn.disabled=false;
-uploadBtn.innerText="Upload Ebook";
+btn.disabled=false;
+btn.innerText="Upload Ebook";
 
 return;
 
@@ -299,9 +314,10 @@ let res=await fetch(API,{
 method:"POST",
 headers:{"Content-Type":"text/plain"},
 body:JSON.stringify({
+api_key:API_KEY,
 action:"uploadFile",
-image:imageBase64,
-pdf:pdfBase64
+imageBase64:imageBase64.split(',')[1],
+pdfBase64:pdfBase64.split(',')[1]
 })
 });
 
@@ -311,8 +327,8 @@ if(!result.success){
 
 alert("Drive Upload Failed");
 
-uploadBtn.disabled=false;
-uploadBtn.innerText="Upload Ebook";
+btn.disabled=false;
+btn.innerText="Upload Ebook";
 
 return;
 
@@ -346,8 +362,8 @@ location.href="products.html";
 
 alert("Upload Error");
 
-uploadBtn.disabled=false;
-uploadBtn.innerText="Upload Ebook";
+btn.disabled=false;
+btn.innerText="Upload Ebook";
 
 }
 
