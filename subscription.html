@@ -131,12 +131,11 @@ CreatorHub Premium
 <li>No Ads Reading</li>
 </ul>
 
-<button onclick="subscribe('15 Days',399,15)">
+<button onclick="subscribe('15days',399)">
 Subscribe Now
 </button>
 
 </div>
-
 
 
 <!-- MONTHLY -->
@@ -155,12 +154,11 @@ Subscribe Now
 <li>Early Access New Books</li>
 </ul>
 
-<button onclick="subscribe('Monthly',799,30)">
+<button onclick="subscribe('month',799)">
 Subscribe Now
 </button>
 
 </div>
-
 
 
 <!-- YEARLY -->
@@ -179,7 +177,7 @@ Subscribe Now
 <li>Early Access + No Ads</li>
 </ul>
 
-<button onclick="subscribe('Yearly',3599,365)">
+<button onclick="subscribe('year',3599)">
 Subscribe Now
 </button>
 
@@ -206,89 +204,51 @@ location.href="login.html";
 
 }
 
-/* DATABASE */
 
-async function getDB(db){
+/* SUBSCRIBE */
 
-try{
+async function subscribe(plan,price){
 
-let r=await fetch(API+"?db="+db+"&t="+Date.now());
+let upi=`upi://pay?pa=${ADMIN_UPI}&pn=CreatorHub%20Premium&am=${price}&cu=INR`;
 
-let data=await r.json();
+window.open(upi,"_blank");
 
-return Array.isArray(data)?data:[];
+if(!confirm("After Payment Click OK To Activate Premium")) return;
 
-}catch{
 
-return [];
+/* ACTIVATE PREMIUM */
 
-}
-
-}
-
-async function saveDB(db,data){
-
-await fetch(API,{
+let activate=await fetch(API,{
 
 method:"POST",
 
 headers:{
-
 "Content-Type":"text/plain"
-
 },
 
 body:JSON.stringify({
 
-db:db,
-
-data:data
+action:"premium",
+email:user.email,
+plan:plan
 
 })
 
 });
 
+let res=await activate.json();
+
+if(res.success){
+
+alert("Premium Activated Successfully 🎉");
+
+location.href="library.html";
+
+}else{
+
+alert("Activation Failed");
+
 }
-
-/* SUBSCRIBE */
-
-async function subscribe(plan,price,days){
-
-let upiLink=`upi://pay?pa=${ADMIN_UPI}&pn=CreatorHub%20${plan}&am=${price}&cu=INR`;
-
-window.open(upiLink,"_blank");
-
-if(!confirm("After Payment Click OK To Confirm"))return;
-
-let requests=await getDB("premiumRequests");
-
-let expiry=new Date();
-
-expiry.setDate(expiry.getDate()+days);
-
-requests.push({
-
-id:Date.now(),
-
-email:user.email,
-
-plan:plan,
-
-price:price,
-
-expiry:expiry.toISOString(),
-
-status:"pending",
-
-date:new Date().toLocaleString()
-
-});
-
-await saveDB("premiumRequests",requests);
-
-alert("Premium Request Sent ✅\nAdmin Will Activate Soon");
-
-location.href="dashboard.html";
 
 }
 
