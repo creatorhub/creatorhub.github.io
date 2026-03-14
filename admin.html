@@ -72,15 +72,6 @@ background:#22c55e;
 width:100%;
 }
 
-.approve{
-background:#22c55e;
-}
-
-.reject{
-background:red;
-margin-left:10px;
-}
-
 .row{
 background:#020617;
 padding:15px;
@@ -102,8 +93,7 @@ padding:10px;
 
 <div class="topbar">
 
-<div class="back"
-onclick="location.href='dashboard.html'">
+<div class="back" onclick="location.href='dashboard.html'">
 ⬅
 </div>
 
@@ -118,124 +108,58 @@ onclick="location.href='dashboard.html'">
 
 
 <div class="card">
-
 <h2>💰 Owner Profit</h2>
-
 ₹ <span id="profit" class="big">0</span>
-
 </div>
 
 
-
 <div class="card">
-
 <h2>📊 Earnings Analytics</h2>
-
 <canvas id="chart"></canvas>
-
 </div>
 
 
-
 <div class="card">
-
 <h2>⭐ Seller Approval Requests</h2>
-
 <div id="sellerList">
-
 Loading...
-
 </div>
-
 </div>
-
 
 
 <div class="card">
-
-<h2>⭐ Premium Subscription Requests</h2>
-
-<div id="premiumList">
-
-Loading...
-
-</div>
-
-</div>
-
-
-
-<div class="card">
-
 <h2>📦 Product Control</h2>
-
 <button class="open"
 onclick="location.href='product-control.html'">
-
 Open Product Control Panel
-
 </button>
-
 </div>
 
 
-
 <div class="card">
-
 <h2>🚫 Seller Control</h2>
-
 <button class="open"
 onclick="location.href='seller-control.html'">
-
 Open Seller Control
-
 </button>
-
 </div>
 
 
-
 <div class="card">
-
 <h2>👤 USER WALLET BALANCE</h2>
-
 <button class="open"
 onclick="location.href='wallet-balance.html'">
-
 Open Wallet Balance Panel
-
 </button>
-
 </div>
 
 
-
 <div class="card">
-
-<h2>🏦 Withdraw Requests</h2>
-
-<button class="open"
-onclick="location.href='withdraw-control.html'">
-
-Open Withdraw Requests
-
-</button>
-
-</div>
-
-
-
-<div class="card">
-
 <h2>📊 User Activity Analytics</h2>
-
 <button class="open"
 onclick="location.href='user-analytics.html'">
-
 Open User Analytics
-
 </button>
-
 </div>
 
 </div>
@@ -252,7 +176,6 @@ let user=JSON.parse(localStorage.getItem("user"));
 if(!user || user.email!==ADMIN){
 
 alert("Admin Only");
-
 location.href="index.html";
 
 }
@@ -272,13 +195,12 @@ return Array.isArray(d)?d:[];
 
 }catch(e){
 
-console.log(e);
-
 return [];
 
 }
 
 }
+
 
 async function saveDB(db,data){
 
@@ -296,7 +218,7 @@ data:data
 }
 
 
-/* PREMIUM AUTO EXPIRY CHECK */
+/* PREMIUM AUTO EXPIRY */
 
 async function checkPremiumExpiry(){
 
@@ -341,23 +263,41 @@ async function loadProfit(){
 
 let orders=await getDB("orders");
 
-let total=0;
+let subscriptions=await getDB("subscriptions");
+
+let profit=0;
 
 orders.forEach(o=>{
-total+=Number(o.amount||0)*0.20;
+profit+=Number(o.amount||0)*0.20;
 });
 
-document.getElementById("profit").innerText=Math.floor(total);
+subscriptions.forEach(s=>{
+profit+=Number(s.amount||0);
+});
+
+document.getElementById("profit").innerText=Math.floor(profit);
+
+
+let chartData=[];
+
+orders.forEach(o=>{
+chartData.push(Number(o.amount||0)*0.20);
+});
+
+subscriptions.forEach(s=>{
+chartData.push(Number(s.amount||0));
+});
+
 
 new Chart(
 document.getElementById("chart"),
 {
 type:"line",
 data:{
-labels:orders.map((_,i)=>"Order "+(i+1)),
+labels:chartData.map((_,i)=>"Sale "+(i+1)),
 datasets:[{
 label:"Owner Profit",
-data:orders.map(o=>(o.amount||0)*0.20),
+data:chartData,
 borderColor:"#22c55e",
 tension:.4
 }]
@@ -369,7 +309,7 @@ tension:.4
 loadProfit();
 
 
-/* SELLER REQUEST LOAD */
+/* SELLER REQUESTS */
 
 async function loadSellerRequests(){
 
@@ -380,9 +320,7 @@ let box=document.getElementById("sellerList");
 box.innerHTML="";
 
 let pending=
-users.filter(
-u=>u.sellerRequest===true && !u.seller
-);
+users.filter(u=>u.sellerRequest===true && !u.seller);
 
 if(pending.length===0){
 
@@ -406,17 +344,10 @@ ${u.email}
 
 <br>
 
-<button class="approve"
+<button class="open"
 onclick="approveSeller('${u.email}')">
 
-Approve ✅
-
-</button>
-
-<button class="reject"
-onclick="rejectSeller('${u.email}')">
-
-Reject ❌
+Approve Seller
 
 </button>
 
@@ -435,9 +366,7 @@ async function approveSeller(email){
 
 let users=await getDB("users");
 
-let index=users.findIndex(
-u=>u.email===email
-);
+let index=users.findIndex(u=>u.email===email);
 
 if(index>-1){
 
@@ -448,153 +377,9 @@ users[index].sellerRequest=false;
 
 await saveDB("users",users);
 
-alert("Seller Approved ✅");
+alert("Seller Approved");
 
 loadSellerRequests();
-
-}
-
-
-async function rejectSeller(email){
-
-let users=await getDB("users");
-
-let index=users.findIndex(
-u=>u.email===email
-);
-
-if(index>-1){
-
-users[index].sellerRequest=false;
-
-}
-
-await saveDB("users",users);
-
-alert("Rejected ❌");
-
-loadSellerRequests();
-
-}
-
-
-/* PREMIUM REQUEST LOAD */
-
-async function loadPremiumRequests(){
-
-let requests=await getDB("premiumRequests");
-
-let box=document.getElementById("premiumList");
-
-box.innerHTML="";
-
-if(!requests.length){
-
-box.innerHTML="No Premium Requests";
-
-return;
-
-}
-
-requests
-.filter(r=>r.status==="pending")
-.forEach(r=>{
-
-box.innerHTML+=`
-
-<div class="row">
-
-<b>${r.email}</b>
-
-<br>
-
-Plan : ${r.plan}
-
-<br>
-
-Price : ₹${r.price}
-
-<br>
-
-<button class="approve"
-onclick="approvePremium('${r.email}','${r.plan}')">
-
-Approve Premium ✅
-
-</button>
-
-<button class="reject"
-onclick="rejectPremium('${r.id}')">
-
-Reject ❌
-
-</button>
-
-</div>
-
-`;
-
-});
-
-}
-
-loadPremiumRequests();
-
-
-async function approvePremium(email,plan){
-
-let users=await getDB("users");
-
-let index=users.findIndex(
-u=>u.email===email
-);
-
-if(index>-1){
-
-users[index].premium=true;
-
-let days=30;
-
-if(plan==="15 Days") days=15;
-if(plan==="Monthly") days=30;
-if(plan==="Yearly") days=365;
-
-let d=new Date();
-
-d.setDate(d.getDate()+days);
-
-users[index].premiumExpire=d.toISOString();
-
-}
-
-await saveDB("users",users);
-
-alert("Premium Activated ✅");
-
-loadPremiumRequests();
-
-}
-
-
-async function rejectPremium(id){
-
-let requests=await getDB("premiumRequests");
-
-let index=requests.findIndex(
-r=>r.id==id
-);
-
-if(index>-1){
-
-requests[index].status="rejected";
-
-}
-
-await saveDB("premiumRequests",requests);
-
-alert("Rejected ❌");
-
-loadPremiumRequests();
 
 }
 
