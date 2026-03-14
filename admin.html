@@ -92,15 +92,8 @@ padding:10px;
 <body>
 
 <div class="topbar">
-
-<div class="back" onclick="location.href='dashboard.html'">
-⬅
-</div>
-
-<div class="title">
-CreatorHub SUPER ADMIN PANEL
-</div>
-
+<div class="back" onclick="location.href='dashboard.html'">⬅</div>
+<div class="title">CreatorHub SUPER ADMIN PANEL</div>
 </div>
 
 <div class="container">
@@ -117,39 +110,33 @@ CreatorHub SUPER ADMIN PANEL
 
 <div class="card">
 <h2>Seller Approval Requests</h2>
-<div id="sellerList">
-Loading...
-</div>
+<div id="sellerList">Loading...</div>
 </div>
 
 <div class="card">
 <h2>Product Control</h2>
-<button class="open"
-onclick="location.href='product-control.html'">
+<button class="open" onclick="location.href='product-control.html'">
 Open Product Control Panel
 </button>
 </div>
 
 <div class="card">
 <h2>Seller Control</h2>
-<button class="open"
-onclick="location.href='seller-control.html'">
+<button class="open" onclick="location.href='seller-control.html'">
 Open Seller Control
 </button>
 </div>
 
 <div class="card">
 <h2>USER WALLET BALANCE</h2>
-<button class="open"
-onclick="location.href='wallet-balance.html'">
+<button class="open" onclick="location.href='wallet-balance.html'">
 Open Wallet Balance Panel
 </button>
 </div>
 
 <div class="card">
 <h2>User Activity Analytics</h2>
-<button class="open"
-onclick="location.href='user-analytics.html'">
+<button class="open" onclick="location.href='user-analytics.html'">
 Open User Analytics
 </button>
 </div>
@@ -158,9 +145,16 @@ Open User Analytics
 
 <script>
 
+/* ADMIN EMAIL */
+
 const ADMIN="ayushprajpati6@gmail.com";
 
-const API="https://script.google.com/macros/s/AKfycbzgKPuIAmuZWOfilOj8gM9qJcZesz3ECPIhpCvBmupKFY2t76_ObVWyylnoTa4ecyda/exec";
+/* APIs */
+
+const API_AUTH="https://script.google.com/macros/s/AKfycbx-Bu9s127GGueMP9w-BHp-J2oGz4YNLpPhaQ33oYGZNPpOnXRVl1BVKhCQz2y8E14R/exec";
+
+const API_PAYMENT="https://script.google.com/macros/s/AKfycbx7vyDJEi9v2RO7ujHdMAnlgUX8AV2JVOfydtw8DJU4AI-7vcTlWMEt07KFcFr1lYTa/exec";
+
 
 let user=JSON.parse(localStorage.getItem("user"));
 
@@ -170,13 +164,19 @@ location.href="index.html";
 }
 
 
-/* DATABASE */
+/* DATABASE ROUTER */
 
 async function getDB(db){
 
+let api = API_AUTH;
+
+if(db==="orders" || db==="subscriptions" || db==="wallets"){
+api = API_PAYMENT;
+}
+
 try{
 
-let r=await fetch(API+"?db="+db+"&t="+Date.now());
+let r=await fetch(api+"?db="+db+"&t="+Date.now());
 let d=await r.json();
 
 return Array.isArray(d)?d:[];
@@ -193,15 +193,18 @@ return [];
 
 async function saveDB(db,data){
 
-await fetch(API,{
+let api = API_AUTH;
+
+if(db==="orders" || db==="subscriptions" || db==="wallets"){
+api = API_PAYMENT;
+}
+
+await fetch(api,{
 method:"POST",
 headers:{
 "Content-Type":"text/plain"
 },
-body:JSON.stringify({
-db:db,
-data:data
-})
+body:JSON.stringify({db:db,data:data})
 });
 
 }
@@ -265,7 +268,7 @@ profit+=Number(s.amount||0);
 document.getElementById("profit").innerText=Math.floor(profit);
 
 
-/* CHART DATA */
+/* CHART */
 
 let chartData=[];
 
@@ -279,10 +282,10 @@ chartData.push(Number(s.amount||0));
 
 if(chart) chart.destroy();
 
-chart=new Chart(
-document.getElementById("chart"),
-{
+chart=new Chart(document.getElementById("chart"),{
+
 type:"line",
+
 data:{
 labels:chartData.map((_,i)=>"Sale "+(i+1)),
 datasets:[{
@@ -293,6 +296,7 @@ backgroundColor:"rgba(34,197,94,.2)",
 tension:.4
 }]
 }
+
 });
 
 }
@@ -310,14 +314,11 @@ let box=document.getElementById("sellerList");
 
 box.innerHTML="";
 
-let pending=
-users.filter(u=>u.sellerRequest===true && !u.seller);
+let pending=users.filter(u=>u.sellerRequest===true && !u.seller);
 
 if(pending.length===0){
-
 box.innerHTML="No Seller Requests";
 return;
-
 }
 
 pending.forEach(u=>{
