@@ -120,6 +120,8 @@ Upload Ebook 🚀
 
 const API="https://script.google.com/macros/s/AKfycbzsaFkxtK_iyH2EeYepSAKTRvmIW_QBsWM0rnj-uLWPpx6JE17bamcoa2njWurpFRob/exec";
 
+/* LOGIN CHECK */
+
 let user=JSON.parse(localStorage.getItem("user"));
 
 if(!user){
@@ -127,8 +129,7 @@ alert("Login First");
 location.href="login.html";
 }
 
-
-/* PREVIEW IMAGE */
+/* COVER PREVIEW */
 
 function previewCover(e){
 
@@ -151,7 +152,7 @@ reader.readAsDataURL(file);
 }
 
 
-/* FILE TO BASE64 */
+/* FILE → BASE64 */
 
 function fileToBase64(file){
 
@@ -188,7 +189,7 @@ alert("Fill all fields");
 return;
 }
 
-/* PDF SIZE LIMIT */
+/* FILE SIZE LIMIT */
 
 if(pdf.size > 8*1024*1024){
 alert("PDF must be under 8MB");
@@ -205,6 +206,7 @@ let pdfBase64=await fileToBase64(pdf);
 
 let res=await fetch(API,{
 method:"POST",
+mode:"cors",
 headers:{
 "Content-Type":"application/json"
 },
@@ -229,6 +231,7 @@ let data=await res.json();
 if(data.success){
 
 alert("Ebook Uploaded Successfully ✅");
+
 location.href="dashboard.html";
 
 }
@@ -260,4 +263,4 @@ btn.innerText="Upload Ebook 🚀";
 </script>
 
 </body>
-  </html>
+</html>
