@@ -123,10 +123,8 @@ const API="https://script.google.com/macros/s/AKfycbzsaFkxtK_iyH2EeYepSAKTRvmIW_
 let user=JSON.parse(localStorage.getItem("user"));
 
 if(!user){
-
 alert("Login First");
 location.href="login.html";
-
 }
 
 
@@ -153,7 +151,7 @@ reader.readAsDataURL(file);
 }
 
 
-/* FILE → BASE64 */
+/* FILE TO BASE64 */
 
 function fileToBase64(file){
 
@@ -172,7 +170,7 @@ reader.onerror=error=>reject(error);
 }
 
 
-/* UPLOAD */
+/* UPLOAD FUNCTION */
 
 async function uploadEbook(){
 
@@ -186,19 +184,15 @@ let cover=document.getElementById("cover").files[0];
 let pdf=document.getElementById("pdf").files[0];
 
 if(!title || !desc || !price || !cover || !pdf){
-
 alert("Fill all fields");
 return;
-
 }
 
-/* FILE SIZE LIMIT */
+/* PDF SIZE LIMIT */
 
 if(pdf.size > 8*1024*1024){
-
 alert("PDF must be under 8MB");
 return;
-
 }
 
 btn.disabled=true;
@@ -210,17 +204,13 @@ let coverBase64=await fileToBase64(cover);
 let pdfBase64=await fileToBase64(pdf);
 
 let res=await fetch(API,{
-
 method:"POST",
-
 headers:{
 "Content-Type":"application/json"
 },
-
 body:JSON.stringify({
 
 action:"upload_ebook",
-
 title:title,
 desc:desc,
 price:price,
@@ -230,21 +220,24 @@ cover:coverBase64,
 pdf:pdfBase64
 
 })
-
 });
 
 let data=await res.json();
 
-/* RESPONSE */
+/* SUCCESS */
 
 if(data.success){
 
 alert("Ebook Uploaded Successfully ✅");
 location.href="dashboard.html";
 
-}else{
+}
 
-alert("Server Error : "+JSON.stringify(data));
+/* ERROR */
+
+else{
+
+alert("Upload Failed : "+JSON.stringify(data));
 
 btn.disabled=false;
 btn.innerText="Upload Ebook 🚀";
@@ -255,7 +248,7 @@ btn.innerText="Upload Ebook 🚀";
 
 console.log(err);
 
-alert("Upload Failed");
+alert("Server Error : "+err);
 
 btn.disabled=false;
 btn.innerText="Upload Ebook 🚀";
@@ -267,4 +260,4 @@ btn.innerText="Upload Ebook 🚀";
 </script>
 
 </body>
-</html>
+  </html>
