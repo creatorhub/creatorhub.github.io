@@ -102,7 +102,6 @@ background:#22c55e;
 
 const ADMIN="ayushprajpati6@gmail.com";
 
-/* ⚠ NEW WORKING API URL USE KARO */
 const API="https://script.google.com/macros/s/AKfycbzMCnhAdxOSnSl7tO6u3yZZEARctzq9kQIenT-PoO8Y68gN5kXWViEFD01BiRObxOY1/exec";
 
 let user=JSON.parse(localStorage.getItem("user"));
@@ -115,26 +114,40 @@ location.href="index.html";
 /* ===== GET DATABASE ===== */
 
 async function getDB(db){
+
 try{
+
 let res=await fetch(API+"?db="+db+"&t="+Date.now());
+
 let data=await res.json();
+
 return Array.isArray(data)?data:[];
+
 }catch(e){
+
 console.log("DB ERROR",e);
+
 return [];
+
 }
+
 }
 
 /* ===== SAVE DATABASE ===== */
 
 async function saveDB(db,data){
+
 await fetch(API,{
 method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
 body:JSON.stringify({
 db:db,
 data:data
 })
 });
+
 }
 
 /* ===== LOAD USERS ===== */
@@ -143,36 +156,50 @@ async function loadWallets(){
 
 let box=document.getElementById("walletList");
 
+box.innerHTML="Loading...";
+
 try{
 
 let users=await getDB("users");
 
 if(!users || users.length===0){
+
 box.innerHTML="No Users Found";
+
 return;
+
 }
 
 box.innerHTML="";
 
 users.reverse().forEach(u=>{
 
-let balance=u.wallet || 0;
+let balance=Number(u.wallet)||0;
+
+/* SAFE INPUT ID */
+
+let safeId=u.email.replace(/[^a-zA-Z0-9]/g,"_");
 
 box.innerHTML+=`
+
 <div class="row">
 
 <b>Name:</b> ${u.name || "Not Set"}<br>
-<b>Email:</b> ${u.email}<br>
+<b>Email:</b> ${u.email}<br><br>
 
-Balance ₹ 
-<input type="number" value="${balance}" id="bal_${u.id}">
+Balance ₹
+
+<input type="number"
+value="${balance}"
+id="bal_${safeId}">
 
 <button class="save"
-onclick="updateBalance(${u.id})">
+onclick="updateBalance('${u.email}','${safeId}')">
 Save
 </button>
 
 </div>
+
 `;
 
 });
@@ -187,18 +214,40 @@ box.innerHTML="Database Error ❌";
 
 /* ===== UPDATE WALLET ===== */
 
-async function updateBalance(userId){
+async function updateBalance(email,safeId){
 
 let users=await getDB("users");
 
-let input=document.getElementById("bal_"+userId);
-let newAmount=Number(input.value);
+let input=document.getElementById("bal_"+safeId);
+
+let newAmount=Number(input.value)||0;
+
+/* NEGATIVE BLOCK */
+
+if(newAmount<0){
+
+alert("Balance cannot be negative");
+
+return;
+
+}
+
+/* CONFIRM */
+
+if(!confirm("Are you sure you want to change wallet balance?")){
+return;
+}
 
 users=users.map(u=>{
-if(Number(u.id)===Number(userId)){
+
+if(u.email===email){
+
 u.wallet=newAmount;
+
 }
+
 return u;
+
 });
 
 await saveDB("users",users);
@@ -206,6 +255,7 @@ await saveDB("users",users);
 alert("Balance Updated ✅");
 
 loadWallets();
+
 }
 
 /* ===== INIT ===== */
