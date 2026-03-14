@@ -101,7 +101,7 @@ display:none;
 <input id="price" type="number" placeholder="Price ₹">
 
 <label>Cover Image</label>
-<input type="file" id="cover" accept="image/*" onchange="previewCover(event)">
+<input type="file" id="cover" accept="image/*">
 
 <img id="coverPreview" class="preview">
 
@@ -125,14 +125,13 @@ let user=JSON.parse(localStorage.getItem("user"));
 if(!user){
 
 alert("Login First");
-
 location.href="login.html";
 
 }
 
 /* COVER PREVIEW */
 
-function previewCover(e){
+document.getElementById("cover").addEventListener("change",function(e){
 
 let file=e.target.files[0];
 
@@ -145,21 +144,21 @@ reader.onload=function(ev){
 let img=document.getElementById("coverPreview");
 
 img.src=ev.target.result;
-
 img.style.display="block";
 
 };
 
 reader.readAsDataURL(file);
 
-}
+});
 
-/* UPLOAD */
+
+/* UPLOAD EBOOK */
 
 async function uploadEbook(){
 
-let title=document.getElementById("title").value;
-let desc=document.getElementById("desc").value;
+let title=document.getElementById("title").value.trim();
+let desc=document.getElementById("desc").value.trim();
 let price=document.getElementById("price").value;
 
 let cover=document.getElementById("cover").files[0];
@@ -168,7 +167,6 @@ let pdf=document.getElementById("pdf").files[0];
 if(!title || !desc || !price || !cover || !pdf){
 
 alert("Fill all fields");
-
 return;
 
 }
@@ -180,22 +178,24 @@ readerCover.onload=function(){
 
 readerPdf.onload=async function(){
 
+try{
+
 let res=await fetch(API,{
 method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
 body:JSON.stringify({
 
 action:"upload_ebook",
-
 title:title,
 desc:desc,
 price:price,
 owner:user.email,
-
 cover:readerCover.result,
 pdf:readerPdf.result
 
 })
-
 });
 
 let data=await res.json();
@@ -209,6 +209,13 @@ location.href="dashboard.html";
 }else{
 
 alert("Upload Failed");
+
+}
+
+}catch(err){
+
+console.log(err);
+alert("Server Error");
 
 }
 
