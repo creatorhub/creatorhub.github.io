@@ -136,38 +136,54 @@ margin:0;
 .products{
 padding:15px;
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:18px;
+grid-template-columns:1fr;
+gap:15px;
 }
 
 /* CARD */
 
 .card{
+display:flex;
+gap:15px;
 background:#111827;
-padding:14px;
-border-radius:14px;
-box-shadow:0 10px 25px black;
+padding:12px;
+border-radius:12px;
+align-items:center;
+box-shadow:0 10px 20px black;
+cursor:pointer;
 }
 
 .card img{
-width:100%;
+width:90px;
 aspect-ratio:2/3;
 object-fit:cover;
-border-radius:12px;
+border-radius:8px;
+}
+
+.bookInfo{
+flex:1;
+}
+
+.bookTitle{
+font-size:17px;
+font-weight:bold;
+}
+
+.price{
+color:#22c55e;
+margin-top:5px;
 }
 
 /* BUTTON */
 
 .buy{
-width:100%;
-padding:12px;
-margin-top:8px;
+padding:8px 12px;
 border:none;
-background:linear-gradient(90deg,#22c55e,#4ade80);
-border-radius:10px;
+background:#22c55e;
+border-radius:6px;
 color:white;
-font-weight:bold;
 cursor:pointer;
+margin-top:6px;
 }
 
 /* FOOTER */
@@ -203,18 +219,11 @@ margin:0 6px;
 <a href="wallet.html">Wallet</a>
 <a href="orders.html">Orders</a>
 <a href="library.html">My Library</a>
-
 <a href="subscription.html">Premium Subscription</a>
-
-<a href="trending.html">Trending Books</a>
-<a href="topselling.html">Top Selling Books</a>
-<a href="toprated.html">Highest Rated Books</a>
 
 </div>
 
 <div id="overlay" onclick="closeMenu()"></div>
-
-<!-- HEADER -->
 
 <header>
 
@@ -233,13 +242,9 @@ onclick="location.href='dashboard.html'">
 
 </header>
 
-<!-- SEARCH -->
-
 <div class="search">
 <input placeholder="Search Ebook..." oninput="searchProduct(this.value)">
 </div>
-
-<!-- HERO -->
 
 <div class="hero">
 
@@ -247,11 +252,7 @@ onclick="location.href='dashboard.html'">
 
 <p>Sell • Buy • Earn From Digital Products</p>
 
-<p>Upload Your Ebook & Start Earning Today</p>
-
 </div>
-
-<!-- PRODUCTS -->
 
 <h2 style="padding:15px">All Books</h2>
 
@@ -259,48 +260,21 @@ onclick="location.href='dashboard.html'">
 Loading...
 </div>
 
-<!-- FOOTER -->
-
 <footer>
 
 <h2>CreatorHub Policies</h2>
 
 Admin Commission : 20%<br>
-Seller Earnings : 80%<br>
-Digital Products Only.
+Seller Earnings : 80%
 
 <br><br>
 
 <a href="about.html">About</a> |
 <a href="privacy.html">Privacy</a> |
 <a href="contact.html">Contact</a> |
-<a href="rules.html">Rules</a> |
-<a href="disclaimer.html">Disclaimer</a> |
-<a href="terms.html">Terms</a> |
-
-<a href="blog.html">Blog</a> |
-<a href="guides.html">Guides</a> |
-<a href="learn.html">Learn</a> |
-<a href="earning-tips.html">Earning Tips</a> |
-<a href="subscription.html">Subscription</a> |
-
-<a href="faq.html">FAQ</a> |
-<a href="support.html">Support</a> |
-
-<a href="authors.html">Authors</a> |
-<a href="editorial-policy.html">Editorial Policy</a> |
-<a href="advertising-policy.html">Advertising Policy</a> |
-<a href="sitemap.html">Sitemap</a>
+<a href="terms.html">Terms</a>
 
 <br><br>
-
-<p style="opacity:.7;font-size:14px">
-CreatorHub is a digital ebook marketplace platform.  
-All ebooks uploaded by independent sellers.  
-No Refund Policy Applies.
-</p>
-
-<br>
 
 © 2026 CreatorHub Marketplace
 
@@ -327,11 +301,9 @@ overlay.style.display="none";
 
 const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
 
-/* USER */
+/* PROFILE */
 
 let user=JSON.parse(localStorage.getItem("user")||"{}");
-
-/* PROFILE IMAGE */
 
 let profileImg=localStorage.getItem("profile_"+(user.email||"guest"));
 
@@ -353,7 +325,7 @@ if(link.includes("id=")){
 id=link.split("id=")[1].split("&")[0];
 }
 
-else if(link.includes("/file/d/")){
+if(link.includes("/file/d/")){
 id=link.split("/file/d/")[1].split("/")[0];
 }
 
@@ -369,7 +341,7 @@ return link;
 
 let allProducts=[];
 
-/* LOAD PRODUCTS */
+/* LOAD */
 
 async function loadProducts(){
 
@@ -390,30 +362,27 @@ function render(list){
 
 let box=document.getElementById("products");
 
-if(!list.length){
-box.innerHTML="No Books Found";
-return;
-}
-
 let html="";
 
 list.forEach(p=>{
 
-let img=driveImage(p.image);
-
 html+=`
 
-<div class="card">
+<div class="card" onclick="viewBook('${p.id}')">
 
-<img src="${img}" onclick="viewBook('${p.id}')">
+<img src="${driveImage(p.image)}">
 
-<h3>${p.title||"Untitled"}</h3>
+<div class="bookInfo">
 
-₹ ${p.price||0}
+<div class="bookTitle">${p.title||"Untitled"}</div>
 
-<button class="buy" onclick="viewBook('${p.id}')">
-View Ebook
+<div class="price">₹ ${p.price||0}</div>
+
+<button class="buy">
+View Details
 </button>
+
+</div>
 
 </div>
 
@@ -421,7 +390,7 @@ View Ebook
 
 });
 
-box.innerHTML=html;
+box.innerHTML=html || "No Books";
 
 }
 
@@ -439,13 +408,11 @@ render(filtered);
 
 }
 
-/* VIEW BOOK */
+/* VIEW */
 
 function viewBook(id){
 
-localStorage.setItem("viewProduct",id);
-
-location.href="ebook.html";
+location.href="ebook.html?id="+id;
 
 }
 
