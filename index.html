@@ -114,7 +114,7 @@ Loading...
 
 <script>
 
-/* MENU FUNCTIONS (IMPORTANT FIX) */
+/* MENU FUNCTIONS */
 
 function openMenu(){
 
@@ -185,7 +185,7 @@ profileImg||
 
 /* API */
 
-const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
+const API="https://script.google.com/macros/s/AKfycbzgKPuIAmuZWOfilOj8gM9qJcZesz3ECPIhpCvBmupKFY2t76_ObVWyylnoTa4ecyda/exec";
 
 /* IMAGE FIX */
 
@@ -274,47 +274,4 @@ box.innerHTML=html || "No Books";
 
 function searchProduct(q){
 
-q=q.toLowerCase();
-
-let filtered=allProducts.filter(p=>
-(p.title||"").toLowerCase().includes(q)
-);
-
-render(filtered);
-
-}
-
-/* OPEN DETAILS */
-
-function openDetails(id){
-
-location.href="ebook.html?id="+id;
-
-}
-
-/* BUY */
-
-function buyNow(e,id){
-
-e.stopPropagation();
-
-localStorage.setItem("buyProduct",id);
-
-location.href="payment.html";
-
-}
-
-loadProducts();
-
-/* LOAD FOOTER */
-
-fetch("footer.html")
-.then(res=>res.text())
-.then(data=>{
-document.getElementById("footer").innerHTML=data;
-});
-
-</script>
-
-</body>
-</html>
+q=q.to
