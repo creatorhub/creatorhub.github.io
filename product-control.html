@@ -153,33 +153,67 @@ location.href="index.html"
 let products=[]
 let editID=null
 
-async function loadProducts(){
+async function getProducts(){
+
+try{
 
 let r=await fetch(API+"?db=products&t="+Date.now())
-products=await r.json()
+
+let data=await r.json()
+
+return Array.isArray(data)?data:[]
+
+}catch(e){
+
+console.log("DB error",e)
+
+return[]
+
+}
+
+}
+
+async function saveProducts(){
+
+await fetch(API,{
+method:"POST",
+headers:{"Content-Type":"text/plain"},
+body:JSON.stringify({
+db:"products",
+data:products
+})
+})
+
+}
+
+/* LOAD */
+
+async function loadProducts(){
+
+products=await getProducts()
 
 let box=document.getElementById("products")
 
 if(products.length==0){
-box.innerHTML="❌ No Products"
+box.innerHTML="❌ No Products Found"
 return
 }
 
 let html=""
 
-products.reverse().forEach(p=>{
+products.slice().reverse().forEach(p=>{
 
 html+=`
 
 <div class="row">
 
-<b>${p.title}</b><br>
+<b>${p.title||"Untitled"}</b><br>
 
-₹${p.price}<br>
+₹${p.price||0}<br>
 
-Seller : ${p.owner}<br>
+Seller : ${p.owner||"-"}<br>
 
-Status : ${p.status}<br>
+Status : ${p.status||"pending"}<br>
 
 <button class="edit" onclick="openEdit('${p.id}')">Edit</button>
 
@@ -200,15 +234,19 @@ box.innerHTML=html
 
 }
 
+/* EDIT */
+
 function openEdit(id){
 
 editID=id
 
-let p=products.find(x=>x.id==id)
+let p=products.find(x=>String(x.id)===String(id))
 
-eTitle.value=p.title
-ePrice.value=p.price
-eSeller.value=p.owner
+if(!p)return
+
+eTitle.value=p.title||""
+ePrice.value=p.price||0
+eSeller.value=p.owner||""
 
 editBox.style.display="block"
 
@@ -218,33 +256,22 @@ function closeEdit(){
 editBox.style.display="none"
 }
 
-async function saveDB(){
-
-await fetch(API,{
-method:"POST",
-headers:{"Content-Type":"text/plain"},
-body:JSON.stringify({
-db:"products",
-data:products
-})
-})
-
-}
+/* SAVE */
 
 async function saveEdit(){
 
 products=products.map(p=>{
-if(p.id==editID){
+if(String(p.id)===String(editID)){
 p.title=eTitle.value
-p.price=ePrice.value
+p.price=Number(ePrice.value)
 p.owner=eSeller.value
 }
 return p
 })
 
-await saveDB()
+await saveProducts()
 
-alert("Updated")
+alert("Updated Successfully")
 
 closeEdit()
 
@@ -252,33 +279,40 @@ loadProducts()
 
 }
 
+/* DELETE */
+
 async function deleteEdit(){
+
 await deleteProduct(editID)
+
 closeEdit()
+
 }
 
 async function deleteProduct(id){
 
-if(!confirm("Delete Ebook?")) return
+if(!confirm("Delete Ebook?"))return
 
-products=products.filter(p=>p.id!=id)
+products=products.filter(p=>String(p.id)!==String(id))
 
-await saveDB()
+await saveProducts()
 
 loadProducts()
 
 }
 
+/* APPROVE */
+
 async function approve(id){
 
 products=products.map(p=>{
-if(p.id==id){
+if(String(p.id)===String(id)){
 p.status="approved"
 }
 return p
 })
 
-await saveDB()
+await saveProducts()
 
 alert("Approved")
 
@@ -286,11 +320,15 @@ loadProducts()
 
 }
 
+/* REJECT */
+
 async function reject(id){
 
 await deleteProduct(id)
 
 }
+
+/* START */
 
 loadProducts()
 
