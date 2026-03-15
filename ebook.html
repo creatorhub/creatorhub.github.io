@@ -138,6 +138,20 @@ border-radius:12px;
 line-height:1.6;
 }
 
+/* REVIEWS */
+
+.reviews{
+margin-top:30px;
+background:#111827;
+padding:18px;
+border-radius:12px;
+}
+
+.review{
+border-bottom:1px solid #333;
+padding:10px 0;
+}
+
 /* FOOTER */
 
 footer{
@@ -174,6 +188,32 @@ margin:0 5px;
 Loading Ebook...
 </div>
 
+<div class="reviews">
+
+<h3>⭐ Ratings & Reviews</h3>
+
+<div id="ratingBox"></div>
+
+<select id="userRating">
+<option value="5">⭐⭐⭐⭐⭐</option>
+<option value="4">⭐⭐⭐⭐</option>
+<option value="3">⭐⭐⭐</option>
+<option value="2">⭐⭐</option>
+<option value="1">⭐</option>
+</select>
+
+<textarea id="userReview"
+placeholder="Write review..."
+style="width:100%;padding:10px;margin-top:10px;border-radius:8px;border:none"></textarea>
+
+<button class="btn buy" onclick="submitReview()">
+Submit Review
+</button>
+
+<div id="reviewList"></div>
+
+</div>
+
 </div>
 
 <footer>
@@ -204,12 +244,10 @@ Seller Earnings : 80%
 
 const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
 
-/* GET PRODUCT ID */
-
 let params=new URLSearchParams(location.search);
 let id=params.get("id");
 
-/* DRIVE IMAGE FIX */
+/* IMAGE FIX */
 
 function driveImage(link){
 
@@ -234,7 +272,7 @@ return link;
 
 }
 
-/* GET DATABASE */
+/* DATABASE */
 
 async function getDB(db){
 
@@ -260,35 +298,8 @@ return;
 
 }
 
-/* AUTHOR */
-
 let authorName = book.author || book.owner || "Unknown";
-
-/* RATING FIX */
-
-let rating = Number(book.rating || 5).toFixed(1);
-
-/* SALES FIX */
-
 let sales = Number(book.sales || 0);
-
-/* STAR DISPLAY */
-
-let stars="";
-
-for(let i=1;i<=5;i++){
-
-if(i<=Math.round(rating)){
-
-stars+="⭐";
-
-}else{
-
-stars+="☆";
-
-}
-
-}
 
 document.getElementById("book").innerHTML=`
 
@@ -304,10 +315,6 @@ ${book.title}
 
 <div class="author">
 👤 Author : ${authorName}
-</div>
-
-<div class="rating">
-${stars} ${rating} / 5
 </div>
 
 <div class="sales">
@@ -335,6 +342,86 @@ ${book.description || "No description provided."}
 </div>
 
 `;
+
+loadReviews();
+
+}
+
+/* LOAD REVIEWS */
+
+async function loadReviews(){
+
+let reviews=await getDB("reviews");
+
+let list=reviews.filter(r=>String(r.productId)===String(id));
+
+let total=0;
+
+list.forEach(r=>{
+total+=Number(r.rating);
+});
+
+let avg= list.length ? (total/list.length).toFixed(1) : "0";
+
+document.getElementById("ratingBox").innerHTML=
+"⭐ "+avg+" / 5 ("+list.length+" reviews)";
+
+let html="";
+
+list.reverse().forEach(r=>{
+
+let stars="";
+
+for(let i=1;i<=r.rating;i++){
+stars+="⭐";
+}
+
+html+=`
+
+<div class="review">
+
+<div>${stars}</div>
+
+<div>${r.text}</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("reviewList").innerHTML=html;
+
+}
+
+/* ADD REVIEW */
+
+async function submitReview(){
+
+let rating=document.getElementById("userRating").value;
+let text=document.getElementById("userReview").value;
+
+if(!text){
+alert("Write review");
+return;
+}
+
+await fetch(API,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+action:"add_review",
+productId:id,
+rating:rating,
+text:text
+})
+});
+
+alert("Review Added");
+
+loadReviews();
 
 }
 
