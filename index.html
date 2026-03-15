@@ -18,21 +18,6 @@ background:#020617;
 color:white;
 }
 
-/* SEARCH */
-
-.search{
-padding:15px;
-}
-
-.search input{
-width:100%;
-padding:14px;
-border-radius:40px;
-border:none;
-background:#111827;
-color:white;
-}
-
 /* HERO */
 
 .hero{
@@ -111,10 +96,6 @@ margin-top:6px;
 <!-- HEADER LOAD -->
 <div id="headerLoad"></div>
 
-<div class="search">
-<input placeholder="Search Ebook..." oninput="searchProduct(this.value)">
-</div>
-
 <div class="hero">
 
 <h1>CreatorHub Marketplace</h1>
@@ -139,6 +120,9 @@ fetch("header.html")
 .then(res=>res.text())
 .then(data=>{
 document.getElementById("headerLoad").innerHTML=data;
+
+loadProfile();
+
 });
 
 /* LOAD MENU */
@@ -149,9 +133,31 @@ fetch("menu.html")
 document.getElementById("menuLoad").innerHTML=data;
 });
 
+/* PROFILE IMAGE */
+
+function loadProfile(){
+
+let user=JSON.parse(localStorage.getItem("user")||"{}");
+
+let profileImg=localStorage.getItem("profile_"+(user.email||"guest"));
+
+let profile=document.getElementById("profile");
+
+if(profile){
+
+profile.src=
+profileImg||
+"https://cdn-icons-png.flaticon.com/512/149/149071.png";
+
+}
+
+}
+
 /* API */
 
 const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
+
+/* IMAGE FIX */
 
 function driveImage(link){
 
@@ -181,6 +187,8 @@ return link;
 
 let allProducts=[];
 
+/* LOAD PRODUCTS */
+
 async function loadProducts(){
 
 let r=await fetch(API+"?db=products&t="+Date.now());
@@ -193,6 +201,8 @@ allProducts=products.reverse();
 render(allProducts);
 
 }
+
+/* RENDER */
 
 function render(list){
 
@@ -230,6 +240,8 @@ box.innerHTML=html || "No Books";
 
 }
 
+/* SEARCH (header search use karega) */
+
 function searchProduct(q){
 
 q=q.toLowerCase();
@@ -242,11 +254,15 @@ render(filtered);
 
 }
 
+/* OPEN DETAILS */
+
 function openDetails(id){
 
 location.href="ebook.html?id="+id;
 
 }
+
+/* BUY */
 
 function buyNow(e,id){
 
@@ -260,7 +276,7 @@ location.href="payment.html";
 
 loadProducts();
 
-/* FOOTER */
+/* LOAD FOOTER */
 
 fetch("footer.html")
 .then(res=>res.text())
