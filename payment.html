@@ -80,14 +80,14 @@ color:white;
 <div class="container">
 <div class="card">
 
-<h2>💳 Buy Ebook</h2>
+<h2>Buy Ebook</h2>
 
 <img id="cover">
 <h3 id="title"></h3>
 <h2 id="price"></h2>
 
 <button onclick="buyNow()">
-Buy Now 🚀
+Buy Now 
 </button>
 
 </div>
@@ -97,13 +97,25 @@ Buy Now 🚀
 
 const API="https://script.google.com/macros/s/AKfycbzgKPuIAmuZWOfilOj8gM9qJcZesz3ECPIhpCvBmupKFY2t76_ObVWyylnoTa4ecyda/exec";
 
-let buyId=localStorage.getItem("buyProduct");
-let user=JSON.parse(localStorage.getItem("user"));
+/* SAFE USER LOAD */
+
+let user=JSON.parse(localStorage.getItem("user")||"null");
 
 if(!user){
 alert("Login First");
 location.href="login.html";
 }
+
+/* PRODUCT ID */
+
+let buyId=localStorage.getItem("buyProduct");
+
+if(!buyId){
+alert("Product Missing");
+location.href="index.html";
+}
+
+/* IMAGE FIX */
 
 function driveImage(link){
 
@@ -131,6 +143,8 @@ return link;
 
 }
 
+/* DATABASE */
+
 async function getDB(db){
 
 try{
@@ -151,6 +165,8 @@ return [];
 
 let product=null;
 
+/* LOAD PRODUCT */
+
 async function load(){
 
 let products=await getDB("products");
@@ -159,20 +175,26 @@ product=products.find(p=>String(p.id)===String(buyId));
 
 if(!product){
 alert("Product Missing");
-history.back();
+location.href="index.html";
 return;
 }
 
 document.getElementById("cover").src=driveImage(product.image);
-document.getElementById("title").innerText=product.title;
-document.getElementById("price").innerText="₹ "+product.price;
+document.getElementById("title").innerText=product.title||"Untitled";
+document.getElementById("price").innerText="₹ "+(product.price||0);
 
 }
 
 load();
 
+/* BUY */
 
 async function buyNow(){
+
+if(!product){
+alert("Product Missing");
+return;
+}
 
 let order=await fetch(API,{
 
