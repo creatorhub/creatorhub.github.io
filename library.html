@@ -180,7 +180,7 @@ location.href="dashboard.html";
 
 const API="https://script.google.com/macros/s/AKfycbzgKPuIAmuZWOfilOj8gM9qJcZesz3ECPIhpCvBmupKFY2t76_ObVWyylnoTa4ecyda/exec";
 
-let user=JSON.parse(localStorage.getItem("user"));
+let user=JSON.parse(localStorage.getItem("user")||"{}");
 
 if(!user){
 alert("Login First");
@@ -190,52 +190,55 @@ location.href="login.html";
 let isAdmin=user.email===ADMIN;
 
 
-/* IMAGE FIX */
+/* DRIVE FILE ID */
+
+function getDriveId(link){
+
+if(!link) return null
+
+try{
+
+if(link.includes("id=")){
+return link.split("id=")[1].split("&")[0]
+}
+
+if(link.includes("/file/d/")){
+return link.split("/file/d/")[1].split("/")[0]
+}
+
+}catch{}
+
+return null
+
+}
+
+
+/* IMAGE */
 
 function driveImage(link){
 
-if(!link) return "https://picsum.photos/400";
-
-try{
-
-let id="";
-
-if(link.includes("id=")){
-id=link.split("id=")[1].split("&")[0];
-}
+let id=getDriveId(link)
 
 if(id){
-return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000";
+return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000"
 }
 
-}catch{}
-
-return link;
+return "https://picsum.photos/400"
 
 }
 
 
-/* PDF VIEW */
+/* VIEW */
 
 function drivePDF(link){
 
-if(!link) return "#";
-
-try{
-
-let id="";
-
-if(link.includes("id=")){
-id=link.split("id=")[1].split("&")[0];
-}
+let id=getDriveId(link)
 
 if(id){
-return "https://drive.google.com/file/d/"+id+"/preview";
+return "https://drive.google.com/file/d/"+id+"/preview"
 }
 
-}catch{}
-
-return link;
+return "#"
 
 }
 
@@ -244,23 +247,13 @@ return link;
 
 function driveDownload(link){
 
-if(!link) return "#";
-
-try{
-
-let id="";
-
-if(link.includes("id=")){
-id=link.split("id=")[1].split("&")[0];
-}
+let id=getDriveId(link)
 
 if(id){
-return "https://drive.google.com/uc?export=download&id="+id;
+return "https://drive.google.com/uc?export=download&id="+id
 }
 
-}catch{}
-
-return link;
+return "#"
 
 }
 
@@ -290,27 +283,27 @@ return [];
 
 async function isPremium(){
 
-if(isAdmin) return true;
+if(isAdmin) return true
 
-let users=await getDB("users");
+let users=await getDB("users")
 
-let me=users.find(u=>u.email===user.email);
+let me=users.find(u=>u.email===user.email)
 
-if(!me) return false;
+if(!me) return false
 
-if(me.premium!==true) return false;
+if(me.premium!==true) return false
 
 if(me.premiumExpiry){
 
-let exp=new Date(me.premiumExpiry);
+let exp=new Date(me.premiumExpiry)
 
 if(new Date()>exp){
-return false;
+return false
 }
 
 }
 
-return true;
+return true
 
 }
 
@@ -319,40 +312,39 @@ return true;
 
 async function loadLibrary(){
 
-let orders=await getDB("orders");
+let orders=await getDB("orders")
 
-let products=await getDB("products");
+let products=await getDB("products")
 
-let premium=await isPremium();
+let premium=await isPremium()
 
-let box=document.getElementById("library");
+let box=document.getElementById("library")
 
-let myOrders=orders.filter(o=>o.buyer===user.email);
+let myOrders=orders.filter(o=>o.buyer===user.email)
 
 if(!products.length){
 
-box.innerHTML="<div class='empty'>No Books Found</div>";
-
-return;
+box.innerHTML="<div class='empty'>No Books Found</div>"
+return
 
 }
 
-box.innerHTML="";
+box.innerHTML=""
 
 products.reverse().forEach(product=>{
 
 let purchased=myOrders.find(
-o=>String(o.product)===String(product.id)
-);
+o=>String(o.productId||o.product)===String(product.id)
+)
 
-let image=driveImage(product.image);
+let image=driveImage(product.image)
 
-let pdfView=drivePDF(product.pdf);
+let pdfView=drivePDF(product.pdf)
 
-let pdfDownload=driveDownload(product.pdf);
+let pdfDownload=driveDownload(product.pdf)
 
-let readBtn="";
-let downloadBtn="";
+let readBtn=""
+let downloadBtn=""
 
 
 /* ADMIN FULL ACCESS */
@@ -364,14 +356,14 @@ readBtn=`
 onclick="window.open('${pdfView}','_blank')">
 Read Ebook
 </button>
-`;
+`
 
 downloadBtn=`
 <button class="download"
 onclick="window.open('${pdfDownload}','_blank')">
 Download PDF ⬇
 </button>
-`;
+`
 
 }
 
@@ -385,14 +377,14 @@ readBtn=`
 onclick="window.open('${pdfView}','_blank')">
 Read Ebook
 </button>
-`;
+`
 
 downloadBtn=`
 <button class="download"
 onclick="window.open('${pdfDownload}','_blank')">
 Download PDF ⬇
 </button>
-`;
+`
 
 }
 
@@ -406,7 +398,7 @@ readBtn=`
 onclick="window.open('${pdfView}','_blank')">
 Read Premium
 </button>
-`;
+`
 
 }
 
@@ -420,7 +412,7 @@ readBtn=`
 onclick="location.href='subscription.html'">
 Unlock Premium
 </button>
-`;
+`
 
 }
 
@@ -434,7 +426,7 @@ readBtn=`
 onclick="buyBook('${product.id}')">
 Buy Ebook ₹${product.price}
 </button>
-`;
+`
 
 }
 
@@ -446,11 +438,11 @@ box.innerHTML+=`
 onerror="this.src='https://picsum.photos/400'">
 
 <div class="bookTitle">
-${product.title}
+${product.title||"Untitled"}
 </div>
 
 <div class="price">
-₹ ${product.price}
+₹ ${product.price||0}
 </div>
 
 ${readBtn}
@@ -459,20 +451,20 @@ ${downloadBtn}
 
 </div>
 
-`;
+`
 
-});
+})
 
 }
 
-loadLibrary();
+loadLibrary()
 
 
 function buyBook(id){
 
-localStorage.setItem("buyProduct",id);
+localStorage.setItem("buyProduct",id)
 
-location.href="payment.html";
+location.href="payment.html"
 
 }
 
