@@ -166,17 +166,22 @@ location.href="index.html";
 
 /* DATABASE ROUTER */
 
-async function getDB(db){
+function getAPI(db){
 
-let api = API_AUTH;
-
-if(db==="orders" || db==="subscriptions" || db==="wallets"){
-api = API_PAYMENT;
+if(db==="orders" || db==="subscriptions" || db==="wallet"){
+return API_PAYMENT;
 }
+
+return API_AUTH;
+
+}
+
+async function getDB(db){
 
 try{
 
-let r=await fetch(api+"?db="+db+"&t="+Date.now());
+let r=await fetch(getAPI(db)+"?db="+db+"&t="+Date.now());
+
 let d=await r.json();
 
 return Array.isArray(d)?d:[];
@@ -192,32 +197,21 @@ return [];
 
 async function saveDB(db,data){
 
-let api = API_AUTH;
-
-if(db==="orders" || db==="subscriptions" || db==="wallets"){
-api = API_PAYMENT;
-}
-
 try{
 
-let r = await fetch(api,{
+await fetch(getAPI(db),{
+
 method:"POST",
 headers:{
 "Content-Type":"text/plain"
 },
 body:JSON.stringify({db:db,data:data})
+
 });
-
-let res = await r.json();
-
-if(!res.success){
-alert("Database Save Failed");
-}
 
 }catch(e){
 
 console.log("SAVE ERROR",e);
-alert("Database Save Failed");
 
 }
 
@@ -373,7 +367,7 @@ await saveDB("users",users);
 
 alert("Seller Approved");
 
-setTimeout(loadSellerRequests,400);
+loadSellerRequests();
 
 }
 
