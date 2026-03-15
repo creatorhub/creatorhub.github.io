@@ -182,7 +182,7 @@ try{
 let res = await fetch(API,{
 method:"POST",
 headers:{
-"Content-Type":"application/json"
+"Content-Type":"text/plain"
 },
 body:JSON.stringify({
 db:"products",
@@ -190,7 +190,9 @@ data:products
 })
 })
 
-return true
+let data = await res.json()
+
+return data.success
 
 }catch(e){
 
@@ -295,7 +297,7 @@ alert("Updated")
 
 closeEdit()
 
-setTimeout(loadProducts,400)
+loadProducts()
 
 }
 
@@ -321,7 +323,7 @@ let ok = await saveProducts()
 
 if(ok){
 
-setTimeout(loadProducts,400)
+loadProducts()
 
 }
 
@@ -344,7 +346,7 @@ if(ok){
 
 alert("Approved")
 
-setTimeout(loadProducts,400)
+loadProducts()
 
 }
 
