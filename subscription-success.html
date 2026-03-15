@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Subscription Success</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#020617;
+color:white;
+text-align:center;
+padding:60px;
+}
+
+.card{
+background:#111827;
+padding:40px;
+border-radius:14px;
+max-width:500px;
+margin:auto;
+}
+
+button{
+padding:12px 20px;
+border:none;
+border-radius:8px;
+background:#22c55e;
+color:white;
+cursor:pointer;
+margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>Payment Processing...</h1>
+
+<p id="msg">
+Please wait
+</p>
+
+<button onclick="location.href='index.html'">
+Go Home
+</button>
+
+</div>
+
+<script>
+
+const API="https://script.google.com/macros/s/AKfycbx7vyDJEi9v2RO7ujHdMAnlgUX8AV2JVOfydtw8DJU4AI-7vcTlWMEt07KFcFr1lYTa/exec";
+
+/* ORDER ID FROM URL */
+
+let params=new URLSearchParams(location.search);
+
+let orderId=params.get("order_id");
+
+/* VERIFY PAYMENT */
+
+async function verify(){
+
+if(!orderId){
+
+document.getElementById("msg").innerText="Order not found";
+
+return;
+
+}
+
+let res=await fetch(API,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+action:"verify_subscription",
+orderId:orderId
+
+})
+
+});
+
+let data=await res.json();
+
+if(data.status=="success"){
+
+document.getElementById("msg").innerText="Subscription Activated 🎉";
+
+}else{
+
+document.getElementById("msg").innerText="Payment verification failed";
+
+}
+
+}
+
+verify();
+
+</script>
+
+</body>
+
+</html>
