@@ -80,6 +80,24 @@ cursor:pointer;
 margin-top:10px;
 }
 
+button:hover{
+opacity:.9;
+}
+
+ul{
+text-align:left;
+margin-top:10px;
+line-height:1.8;
+}
+
+.badge{
+background:#22c55e;
+padding:6px 10px;
+border-radius:6px;
+font-size:13px;
+margin-left:6px;
+}
+
 </style>
 
 </head>
@@ -88,7 +106,7 @@ margin-top:10px;
 
 <div class="topbar">
 <div class="back" onclick="location.href='index.html'">⬅</div>
-<div class="title">CreatorHub Premium</div>
+<div class="title">CreatorHub Premium <span id="badge" class="badge" style="display:none">Premium</span></div>
 </div>
 
 <div class="container">
@@ -105,7 +123,9 @@ margin-top:10px;
 <li>Premium Books Access</li>
 <li>No Ads Reading</li>
 </ul>
-<button onclick="subscribe('15days',399)">Subscribe Now</button>
+<button onclick="subscribe('15days',399)">
+Subscribe Now
+</button>
 </div>
 
 <div class="card">
@@ -116,7 +136,9 @@ margin-top:10px;
 <li>All Premium Books Free</li>
 <li>Early Access New Books</li>
 </ul>
-<button onclick="subscribe('month',799)">Subscribe Now</button>
+<button onclick="subscribe('month',799)">
+Subscribe Now
+</button>
 </div>
 
 <div class="card">
@@ -127,7 +149,9 @@ margin-top:10px;
 <li>All Premium Books Free</li>
 <li>Early Access + No Ads</li>
 </ul>
-<button onclick="subscribe('year',3599)">Subscribe Now</button>
+<button onclick="subscribe('year',3599)">
+Subscribe Now
+</button>
 </div>
 
 </div>
@@ -135,18 +159,57 @@ margin-top:10px;
 
 <script>
 
-const API="https://script.google.com/macros/s/AKfycbzgKPuIAmuZWOfilOj8gM9qJcZesz3ECPIhpCvBmupKFY2t76_ObVWyylnoTa4ecyda/exec";
+const API="https://script.google.com/macros/s/AKfycbx7vyDJEi9v2RO7ujHdMAnlgUX8AV2JVOfydtw8DJU4AI-7vcTlWMEt07KFcFr1lYTa/exec";
 
-let user=JSON.parse(localStorage.getItem("user"));
+/* USER */
+
+let user=JSON.parse(localStorage.getItem("user")||"null");
 
 if(!user){
+
 alert("Login First");
 location.href="login.html";
+
 }
+
+/* CHECK PREMIUM */
+
+async function checkSubscription(){
+
+try{
+
+let res=await fetch(API+"?action=check_subscription&email="+user.email);
+
+let data=await res.json();
+
+if(data.active){
+
+document.getElementById("badge").style.display="inline-block";
+
+}
+
+}catch(e){}
+
+}
+
+checkSubscription();
 
 /* SUBSCRIBE */
 
 async function subscribe(plan,price){
+
+if(!user){
+
+alert("Login required");
+return;
+
+}
+
+if(!confirm("Proceed to payment?")){
+return;
+}
+
+try{
 
 let order=await fetch(API,{
 
@@ -169,7 +232,7 @@ amount:price
 
 let res=await order.json();
 
-/* REDIRECT TO CASHFREE CHECKOUT */
+/* REDIRECT PAYMENT */
 
 if(res.payment_link){
 
@@ -178,6 +241,12 @@ window.location.href=res.payment_link;
 }else{
 
 alert("Payment initialization failed");
+
+}
+
+}catch(e){
+
+alert("Payment server error");
 
 }
 
