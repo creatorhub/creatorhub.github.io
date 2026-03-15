@@ -23,6 +23,8 @@ background:#020617;
 color:white;
 }
 
+/* HEADER */
+
 header{
 display:flex;
 align-items:center;
@@ -36,7 +38,13 @@ z-index:999;
 
 .menu{font-size:26px;cursor:pointer;width:40px;}
 .title{flex:1;text-align:center;font-size:22px;font-weight:bold;color:#22c55e;}
-.right{display:flex;gap:12px;align-items:center;}
+
+.right{
+display:flex;
+gap:12px;
+align-items:center;
+}
+
 .cart{font-size:22px;cursor:pointer;}
 
 .profile{
@@ -47,6 +55,8 @@ border:2px solid #22c55e;
 object-fit:cover;
 cursor:pointer;
 }
+
+/* SIDE MENU */
 
 .side{
 position:fixed;
@@ -62,7 +72,9 @@ z-index:9999;
 box-shadow:5px 0 30px black;
 }
 
-.side.open{transform:translateX(0);}
+.side.open{
+transform:translateX(0);
+}
 
 .close{
 background:#ef4444;
@@ -83,6 +95,8 @@ text-decoration:none;
 color:white;
 }
 
+/* OVERLAY */
+
 #overlay{
 position:fixed;
 top:0;
@@ -94,7 +108,11 @@ display:none;
 z-index:9998;
 }
 
-.search{padding:15px;}
+/* SEARCH */
+
+.search{
+padding:15px;
+}
 
 .search input{
 width:100%;
@@ -105,13 +123,20 @@ background:#111827;
 color:white;
 }
 
+/* HERO */
+
 .hero{
 padding:40px 15px;
 text-align:center;
 background:linear-gradient(135deg,#020617,#111827);
 }
 
-.hero h1{color:#22c55e;margin:0;}
+.hero h1{
+color:#22c55e;
+margin:0;
+}
+
+/* PRODUCTS */
 
 .products{
 padding:15px;
@@ -120,20 +145,23 @@ grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
 gap:18px;
 }
 
+/* CARD */
+
 .card{
 background:#111827;
 padding:14px;
 border-radius:14px;
 box-shadow:0 10px 25px black;
-position:relative;
 }
 
 .card img{
 width:100%;
-height:210px;
+aspect-ratio:2/3;
 object-fit:cover;
 border-radius:12px;
 }
+
+/* BUTTON */
 
 .buy{
 width:100%;
@@ -146,6 +174,8 @@ color:white;
 font-weight:bold;
 cursor:pointer;
 }
+
+/* FOOTER */
 
 footer{
 background:black;
@@ -167,6 +197,8 @@ margin:0 6px;
 
 <body>
 
+<!-- SIDE MENU -->
+
 <div id="menu" class="side">
 
 <div class="close" onclick="closeMenu()">⬅ Close</div>
@@ -185,6 +217,8 @@ margin:0 6px;
 
 <div id="overlay" onclick="closeMenu()"></div>
 
+<!-- HEADER -->
+
 <header>
 
 <div class="menu" onclick="openMenu()">☰</div>
@@ -195,15 +229,20 @@ margin:0 6px;
 
 <div class="cart" onclick="location.href='cart.html'">🛒</div>
 
-<img id="profile" class="profile" onclick="location.href='dashboard.html'">
+<img id="profile" class="profile"
+onclick="location.href='dashboard.html'">
 
 </div>
 
 </header>
 
+<!-- SEARCH -->
+
 <div class="search">
 <input placeholder="Search Ebook..." oninput="searchProduct(this.value)">
 </div>
+
+<!-- HERO -->
 
 <div class="hero">
 
@@ -215,17 +254,15 @@ margin:0 6px;
 
 </div>
 
-<h2 style="padding:15px">Trending Books</h2>
-<div id="trending" class="products"></div>
-
-<h2 style="padding:15px">Top Selling Books</h2>
-<div id="topselling" class="products"></div>
-
-<h2 style="padding:15px">Highest Rated Books</h2>
-<div id="toprated" class="products"></div>
+<!-- PRODUCTS -->
 
 <h2 style="padding:15px">All Books</h2>
-<div id="products" class="products">Loading...</div>
+
+<div id="products" class="products">
+Loading...
+</div>
+
+<!-- FOOTER -->
 
 <footer>
 
@@ -241,22 +278,7 @@ Digital Products Only.
 <a href="privacy.html">Privacy</a> |
 <a href="contact.html">Contact</a> |
 <a href="rules.html">Rules</a> |
-<a href="disclaimer.html">Disclaimer</a> |
-<a href="terms.html">Terms</a> |
-
-<a href="blog.html">Blog</a> |
-<a href="guides.html">Guides</a> |
-<a href="learn.html">Learn</a> |
-<a href="earning-tips.html">Earning Tips</a> |
-<a href="subscription.html">Subscription</a> |
-
-<a href="faq.html">FAQ</a> |
-<a href="support.html">Support</a> |
-
-<a href="authors.html">Authors</a> |
-<a href="editorial-policy.html">Editorial Policy</a> |
-<a href="advertising-policy.html">Advertising Policy</a> |
-<a href="sitemap.html">Sitemap</a>
+<a href="terms.html">Terms</a>
 
 <br><br>
 
@@ -274,6 +296,8 @@ No Refund Policy Applies.
 
 <script>
 
+/* MENU */
+
 const menu=document.getElementById("menu");
 const overlay=document.getElementById("overlay");
 
@@ -287,39 +311,93 @@ menu.classList.remove("open");
 overlay.style.display="none";
 }
 
+/* API */
+
 const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
 
+/* USER */
+
+let user=JSON.parse(localStorage.getItem("user")||"{}");
+
+/* PROFILE IMAGE */
+
+let profileImg=localStorage.getItem("profile_"+(user.email||"guest"));
+
+document.getElementById("profile").src=
+profileImg||
+"https://cdn-icons-png.flaticon.com/512/149/149071.png";
+
+/* IMAGE FIX */
+
+function driveImage(link){
+
+if(!link) return "https://picsum.photos/400";
+
+try{
+
+let id="";
+
+if(link.includes("id=")){
+id=link.split("id=")[1].split("&")[0];
+}
+
+else if(link.includes("/file/d/")){
+id=link.split("/file/d/")[1].split("/")[0];
+}
+
+if(id){
+return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000";
+}
+
+}catch{}
+
+return link;
+
+}
+
 let allProducts=[];
+
+/* LOAD PRODUCTS */
 
 async function loadProducts(){
 
 let r=await fetch(API+"?db=products&t="+Date.now());
 let products=await r.json();
 
-allProducts=products;
+if(!Array.isArray(products)) products=[];
 
-render(products,"products");
-render(products.slice(0,6),"trending");
-render(products.slice(0,6),"topselling");
-render(products.slice(0,6),"toprated");
+allProducts=products.reverse();
+
+render(allProducts);
 
 }
 
-function render(list,id){
+/* RENDER */
+
+function render(list){
+
+let box=document.getElementById("products");
+
+if(!list.length){
+box.innerHTML="No Books Found";
+return;
+}
 
 let html="";
 
 list.forEach(p=>{
 
+let img=driveImage(p.image);
+
 html+=`
 
 <div class="card">
 
-<img src="${p.image}">
+<img src="${img}" onerror="this.src='https://picsum.photos/400'">
 
-<h3>${p.title}</h3>
+<h3>${p.title||"Untitled"}</h3>
 
-₹ ${p.price}
+₹ ${p.price||0}
 
 <button class="buy" onclick="viewBook('${p.id}')">
 View Ebook
@@ -331,9 +409,11 @@ View Ebook
 
 });
 
-document.getElementById(id).innerHTML=html || "No Books";
+box.innerHTML=html;
 
 }
+
+/* SEARCH */
 
 function searchProduct(q){
 
@@ -343,13 +423,18 @@ let filtered=allProducts.filter(p=>
 (p.title||"").toLowerCase().includes(q)
 );
 
-render(filtered,"products");
+render(filtered);
 
 }
 
+/* VIEW BOOK */
+
 function viewBook(id){
+
 localStorage.setItem("viewProduct",id);
+
 location.href="ebook.html";
+
 }
 
 loadProducts();
