@@ -139,7 +139,7 @@ color:white;
 
 const ADMIN="ayushprajpati6@gmail.com"
 
-const API="https://script.google.com/macros/s/AKfycbx-Bu9s127GGueMP9w-BHp-J2oGz4YNLpPhaQ33oYGZNPpOnXRVl1BVKhCQz2y8E14R/exec"
+const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
 let user=JSON.parse(localStorage.getItem("user")||"{}")
 
@@ -151,8 +151,6 @@ location.href="index.html"
 let products=[]
 let editID=null
 
-
-/* GET PRODUCTS */
 
 async function getProducts(){
 
@@ -173,8 +171,6 @@ return[]
 }
 
 
-/* SAVE PRODUCTS */
-
 async function saveProducts(){
 
 try{
@@ -182,7 +178,7 @@ try{
 let res = await fetch(API,{
 method:"POST",
 headers:{
-"Content-Type":"text/plain"
+"Content-Type":"application/json"
 },
 body:JSON.stringify({
 db:"products",
@@ -190,23 +186,13 @@ data:products
 })
 })
 
-let text=await res.text()
+let json=await res.json()
 
-try{
-let json=JSON.parse(text)
-
-if(json.success===true){
-return true
-}
-
-}catch{}
-
-alert("Save Failed")
-return false
+return json.success===true
 
 }catch(e){
 
-console.log("Save error",e)
+console.log(e)
 alert("Save Failed")
 return false
 
@@ -214,8 +200,6 @@ return false
 
 }
 
-
-/* LOAD PRODUCTS */
 
 async function loadProducts(){
 
@@ -264,8 +248,6 @@ box.innerHTML=html
 }
 
 
-/* OPEN EDIT */
-
 function openEdit(id){
 
 editID=id
@@ -274,28 +256,26 @@ let p=products.find(x=>String(x.id)===String(id))
 
 if(!p)return
 
-eTitle.value=p.title||""
-ePrice.value=p.price||0
-eSeller.value=p.owner||""
+document.getElementById("eTitle").value=p.title||""
+document.getElementById("ePrice").value=p.price||0
+document.getElementById("eSeller").value=p.owner||""
 
-editBox.style.display="block"
+document.getElementById("editBox").style.display="block"
 
 }
 
 function closeEdit(){
-editBox.style.display="none"
+document.getElementById("editBox").style.display="none"
 }
 
-
-/* SAVE EDIT */
 
 async function saveEdit(){
 
 products=products.map(p=>{
 if(String(p.id)===String(editID)){
-p.title=eTitle.value
-p.price=Number(ePrice.value)
-p.owner=eSeller.value
+p.title=document.getElementById("eTitle").value
+p.price=Number(document.getElementById("ePrice").value)
+p.owner=document.getElementById("eSeller").value
 }
 return p
 })
@@ -312,8 +292,6 @@ loadProducts()
 
 }
 
-
-/* DELETE */
 
 async function deleteEdit(){
 
@@ -337,8 +315,6 @@ loadProducts()
 }
 
 
-/* APPROVE */
-
 async function approve(id){
 
 products=products.map(p=>{
@@ -360,16 +336,12 @@ loadProducts()
 }
 
 
-/* REJECT */
-
 async function reject(id){
 
 await deleteProduct(id)
 
 }
 
-
-/* INIT */
 
 loadProducts()
 
