@@ -2,13 +2,25 @@
 
 <div class="menu" onclick="openMenu()">☰</div>
 
-<div class="title" onclick="location.href='index.html'">
+<div class="logo" onclick="location.href='index.html'">
 CreatorHub
+</div>
+
+<div class="searchBox">
+
+<input
+type="text"
+placeholder="Search ebooks..."
+oninput="searchProduct(this.value)"
+>
+
 </div>
 
 <div class="right">
 
-<div class="cart" onclick="location.href='cart.html'">🛒</div>
+<div class="cart" onclick="location.href='cart.html'">
+🛒
+</div>
 
 <img id="profile" class="profile"
 onclick="location.href='dashboard.html'">
@@ -23,47 +35,84 @@ onclick="location.href='dashboard.html'">
 .mainHeader{
 display:flex;
 align-items:center;
-padding:14px;
+gap:15px;
+padding:12px 16px;
 background:#020617;
-box-shadow:0 5px 20px black;
+box-shadow:0 5px 20px rgba(0,0,0,.7);
 position:sticky;
 top:0;
 z-index:999;
 }
 
+/* MENU */
+
 .menu{
 font-size:26px;
 cursor:pointer;
-width:40px;
+color:white;
 }
 
-.title{
-flex:1;
-text-align:center;
+/* LOGO */
+
+.logo{
 font-size:22px;
 font-weight:bold;
-color:#22c55e;
+background:linear-gradient(90deg,#22c55e,#4ade80);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 cursor:pointer;
 }
 
+/* SEARCH */
+
+.searchBox{
+flex:1;
+max-width:420px;
+}
+
+.searchBox input{
+width:100%;
+padding:10px 14px;
+border-radius:25px;
+border:none;
+background:#111827;
+color:white;
+font-size:14px;
+}
+
+.searchBox input::placeholder{
+opacity:.7;
+}
+
+/* RIGHT SIDE */
+
 .right{
 display:flex;
-gap:12px;
 align-items:center;
+gap:12px;
 }
+
+/* CART */
 
 .cart{
 font-size:22px;
 cursor:pointer;
 }
 
+/* PROFILE */
+
 .profile{
-width:42px;
-height:42px;
+width:40px;
+height:40px;
 border-radius:50%;
 border:2px solid #22c55e;
 object-fit:cover;
 cursor:pointer;
+transition:.2s;
+}
+
+.profile:hover{
+transform:scale(1.05);
 }
 
 </style>
