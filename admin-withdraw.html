@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Withdraw Requests</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#020617;
+color:white;
+padding:20px;
+}
+
+h2{
+color:#22c55e;
+}
+
+.card{
+background:#111827;
+padding:15px;
+border-radius:12px;
+margin-top:12px;
+}
+
+.email{
+font-weight:bold;
+}
+
+button{
+border:none;
+padding:8px 14px;
+border-radius:8px;
+cursor:pointer;
+margin-top:8px;
+margin-right:5px;
+color:white;
+}
+
+.approve{
+background:#22c55e;
+}
+
+.reject{
+background:red;
+}
+
+.status{
+margin-top:5px;
+opacity:.7;
+font-size:14px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Withdraw Requests</h2>
+
+<div id="list">Loading...</div>
+
+<script>
+
+const API="https://script.google.com/macros/s/AKfycbx7vyDJEi9v2RO7ujHdMAnlgUX8AV2JVOfydtw8DJU4AI-7vcTlWMEt07KFcFr1lYTa/exec";
+
+const ADMIN="ayushprajpati6@gmail.com";
+
+/* USER CHECK */
+
+let user=JSON.parse(localStorage.getItem("user")||"{}");
+
+if(!user || user.email!==ADMIN){
+
+alert("Admin only");
+
+location.href="index.html";
+
+}
+
+/* DATABASE */
+
+async function getDB(db){
+
+let r=await fetch(API+"?db="+db+"&t="+Date.now());
+
+let d=await r.json();
+
+return Array.isArray(d)?d:[];
+
+}
+
+async function saveDB(db,data){
+
+await fetch(API,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"text/plain"
+},
+
+body:JSON.stringify({
+
+db:db,
+data:data
+
+})
+
+});
+
+}
+
+/* LOAD WITHDRAW REQUESTS */
+
+async function load(){
+
+let withdraws=await getDB("withdraw");
+
+let html="";
+
+if(!withdraws.length){
+
+document.getElementById("list").innerHTML="No Requests";
+
+return;
+
+}
+
+withdraws.reverse().forEach(w=>{
+
+html+=`
+
+<div class="card">
+
+<div class="email">${w.email}</div>
+
+Amount : ₹${w.amount}<br>
+
+UPI : ${w.upi}
+
+<div class="status">
+Status : ${w.status}
+</div>
+
+${w.status==="pending"?`
+
+<button class="approve"
+onclick="approve('${w.id}')">
+Approve
+</button>
+
+<button class="reject"
+onclick="reject('${w.id}')">
+Reject
+</button>
+
+`:""}
+
+</div>
+
+`;
+
+});
+
+document.getElementById("list").innerHTML=html;
+
+}
+
+load();
+
+/* APPROVE */
+
+async function approve(id){
+
+if(!confirm("Send payout?")) return;
+
+let withdraws=await getDB("withdraw");
+
+let w=withdraws.find(x=>x.id===id);
+
+if(!w) return;
+
+if(w.status!=="pending"){
+
+alert("Already processed");
+
+return;
+
+}
+
+/* PAYOUT API */
+
+await fetch(API,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+action:"payout",
+
+amount:w.amount,
+
+upi:w.upi,
+
+email:w.email
+
+})
+
+});
+
+/* UPDATE STATUS */
+
+w.status="paid";
+
+await saveDB("withdraw",withdraws);
+
+alert("Payout Sent");
+
+load();
+
+}
+
+/* REJECT */
+
+async function reject(id){
+
+if(!confirm("Reject withdraw?")) return;
+
+let withdraws=await getDB("withdraw");
+
+let w=withdraws.find(x=>x.id===id);
+
+if(!w) return;
+
+w.status="rejected";
+
+await saveDB("withdraw",withdraws);
+
+alert("Withdraw Rejected");
+
+load();
+
+}
+
+</script>
+
+</body>
+
+</html>
