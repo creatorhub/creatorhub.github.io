@@ -143,7 +143,7 @@ const ADMIN="ayushprajpati6@gmail.com"
 
 const API="https://script.google.com/macros/s/AKfycbx-Bu9s127GGueMP9w-BHp-J2oGz4YNLpPhaQ33oYGZNPpOnXRVl1BVKhCQz2y8E14R/exec"
 
-let user=JSON.parse(localStorage.getItem("user"))
+let user=JSON.parse(localStorage.getItem("user")||"{}")
 
 if(!user || user.email!==ADMIN){
 alert("Admin Only")
@@ -153,12 +153,13 @@ location.href="index.html"
 let products=[]
 let editID=null
 
+/* GET PRODUCTS */
+
 async function getProducts(){
 
 try{
 
 let r=await fetch(API+"?db=products&t="+Date.now())
-
 let data=await r.json()
 
 return Array.isArray(data)?data:[]
@@ -166,14 +167,17 @@ return Array.isArray(data)?data:[]
 }catch(e){
 
 console.log("DB error",e)
-
 return[]
 
 }
 
 }
 
+/* SAVE PRODUCTS */
+
 async function saveProducts(){
+
+try{
 
 await fetch(API,{
 method:"POST",
@@ -184,9 +188,16 @@ data:products
 })
 })
 
+}catch(e){
+
+alert("Save Failed")
+console.log(e)
+
 }
 
-/* LOAD */
+}
+
+/* LOAD PRODUCTS */
 
 async function loadProducts(){
 
@@ -234,7 +245,7 @@ box.innerHTML=html
 
 }
 
-/* EDIT */
+/* OPEN EDIT */
 
 function openEdit(id){
 
@@ -244,27 +255,29 @@ let p=products.find(x=>String(x.id)===String(id))
 
 if(!p)return
 
-eTitle.value=p.title||""
-ePrice.value=p.price||0
-eSeller.value=p.owner||""
+document.getElementById("eTitle").value=p.title||""
+document.getElementById("ePrice").value=p.price||0
+document.getElementById("eSeller").value=p.owner||""
 
-editBox.style.display="block"
+document.getElementById("editBox").style.display="block"
 
 }
+
+/* CLOSE EDIT */
 
 function closeEdit(){
-editBox.style.display="none"
+document.getElementById("editBox").style.display="none"
 }
 
-/* SAVE */
+/* SAVE EDIT */
 
 async function saveEdit(){
 
 products=products.map(p=>{
 if(String(p.id)===String(editID)){
-p.title=eTitle.value
-p.price=Number(ePrice.value)
-p.owner=eSeller.value
+p.title=document.getElementById("eTitle").value
+p.price=Number(document.getElementById("ePrice").value)
+p.owner=document.getElementById("eSeller").value
 }
 return p
 })
