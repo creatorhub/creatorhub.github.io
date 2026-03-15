@@ -87,7 +87,7 @@ color:white;
 <h2 id="price"></h2>
 
 <button onclick="buyNow()">
-Buy Now 
+Buy Now
 </button>
 
 </div>
@@ -95,15 +95,19 @@ Buy Now
 
 <script>
 
-const API="https://script.google.com/macros/s/AKfycbzgKPuIAmuZWOfilOj8gM9qJcZesz3ECPIhpCvBmupKFY2t76_ObVWyylnoTa4ecyda/exec";
+/* NEW BACKEND API */
 
-/* SAFE USER LOAD */
+const API="https://script.google.com/macros/s/AKfycbx7vyDJEi9v2RO7ujHdMAnlgUX8AV2JVOfydtw8DJU4AI-7vcTlWMEt07KFcFr1lYTa/exec";
+
+/* USER */
 
 let user=JSON.parse(localStorage.getItem("user")||"null");
 
 if(!user){
+
 alert("Login First");
 location.href="login.html";
+
 }
 
 /* PRODUCT ID */
@@ -111,15 +115,17 @@ location.href="login.html";
 let buyId=localStorage.getItem("buyProduct");
 
 if(!buyId){
+
 alert("Product Missing");
 location.href="index.html";
+
 }
 
 /* IMAGE FIX */
 
 function driveImage(link){
 
-if(!link)return "https://picsum.photos/500";
+if(!link) return "https://picsum.photos/500";
 
 try{
 
@@ -174,14 +180,16 @@ let products=await getDB("products");
 product=products.find(p=>String(p.id)===String(buyId));
 
 if(!product){
+
 alert("Product Missing");
 location.href="index.html";
 return;
+
 }
 
 document.getElementById("cover").src=driveImage(product.image);
-document.getElementById("title").innerText=product.title||"Untitled";
-document.getElementById("price").innerText="₹ "+(product.price||0);
+document.getElementById("title").innerText=product.title || "Untitled";
+document.getElementById("price").innerText="₹ "+(product.price || 0);
 
 }
 
@@ -192,11 +200,13 @@ load();
 async function buyNow(){
 
 if(!product){
+
 alert("Product Missing");
 return;
+
 }
 
-let order=await fetch(API,{
+let res = await fetch(API,{
 
 method:"POST",
 
@@ -207,24 +217,18 @@ headers:{
 body:JSON.stringify({
 
 action:"create_order",
-
 productId:product.id,
-
-buyer:user.email,
-
-seller:product.owner,
-
-amount:product.price
+buyer:user.email
 
 })
 
 });
 
-let res=await order.json();
+let data=await res.json();
 
-if(res.payment_link){
+if(data.payment_link){
 
-window.location.href=res.payment_link;
+window.location.href=data.payment_link;
 
 }else{
 
