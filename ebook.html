@@ -52,29 +52,52 @@ padding:20px;
 
 .cover{
 display:block;
-width:200px;
+width:220px;
 max-width:90%;
 aspect-ratio:2/3;
 object-fit:cover;
-border-radius:10px;
-box-shadow:0 10px 25px black;
+border-radius:12px;
+box-shadow:0 10px 30px black;
 margin:0 auto;
 }
 
 /* TITLE */
 
 .bookTitle{
-font-size:24px;
-margin-top:15px;
+font-size:26px;
+margin-top:20px;
 font-weight:bold;
-text-align:center;
 }
+
+/* PRICE */
 
 .price{
 font-size:22px;
 color:#22c55e;
 margin-top:5px;
-text-align:center;
+}
+
+/* AUTHOR */
+
+.author{
+margin-top:6px;
+opacity:.8;
+}
+
+/* RATING */
+
+.rating{
+margin-top:10px;
+color:gold;
+font-size:18px;
+}
+
+/* SALES */
+
+.sales{
+margin-top:5px;
+font-size:14px;
+opacity:.7;
 }
 
 /* BUTTONS */
@@ -84,9 +107,10 @@ width:100%;
 padding:14px;
 border:none;
 border-radius:10px;
-margin-top:10px;
+margin-top:12px;
 font-weight:bold;
 cursor:pointer;
+font-size:16px;
 }
 
 .buy{
@@ -107,11 +131,48 @@ color:white;
 /* DESCRIPTION */
 
 .desc{
-margin-top:20px;
+margin-top:25px;
 background:#111827;
-padding:15px;
-border-radius:10px;
+padding:18px;
+border-radius:12px;
 line-height:1.6;
+}
+
+/* RELATED */
+
+.related{
+margin-top:40px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:15px;
+margin-top:15px;
+}
+
+.card{
+background:#111827;
+padding:10px;
+border-radius:10px;
+cursor:pointer;
+}
+
+.card img{
+width:100%;
+aspect-ratio:2/3;
+object-fit:cover;
+border-radius:8px;
+}
+
+.card h4{
+margin:6px 0 0;
+font-size:14px;
+}
+
+.card p{
+color:#22c55e;
+font-size:13px;
 }
 
 /* FOOTER */
@@ -144,13 +205,23 @@ margin:0 5px;
 
 </header>
 
+
 <div class="container">
 
 <div id="book">
 Loading Ebook...
 </div>
 
+<div class="related">
+
+<h3>📚 Related Ebooks</h3>
+
+<div id="relatedGrid" class="grid"></div>
+
 </div>
+
+</div>
+
 
 <footer>
 
@@ -176,21 +247,15 @@ Seller Earnings : 80%
 
 </footer>
 
-<script>
 
-/* IMPORTANT — SAME API AS HOMEPAGE */
+<script>
 
 const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
 
 /* GET PRODUCT ID */
 
 let params=new URLSearchParams(location.search);
-
-let id=params.get("id") || localStorage.getItem("viewProduct");
-
-if(!id){
-document.getElementById("book").innerHTML="Product ID Missing";
-}
+let id=params.get("id");
 
 /* DRIVE IMAGE FIX */
 
@@ -202,17 +267,14 @@ try{
 
 let fileId="";
 
-if(link.includes("id=")){
+if(link.includes("id="))
 fileId=link.split("id=")[1].split("&")[0];
-}
 
-if(link.includes("/file/d/")){
+if(link.includes("/file/d/"))
 fileId=link.split("/file/d/")[1].split("/")[0];
-}
 
-if(fileId){
+if(fileId)
 return "https://drive.google.com/thumbnail?id="+fileId+"&sz=w1000";
-}
 
 }catch{}
 
@@ -224,19 +286,10 @@ return link;
 
 async function getDB(db){
 
-try{
-
 let r=await fetch(API+"?db="+db+"&t="+Date.now());
-
 let data=await r.json();
 
 return Array.isArray(data)?data:[];
-
-}catch{
-
-return [];
-
-}
 
 }
 
@@ -255,16 +308,33 @@ return;
 
 }
 
+/* RANDOM DATA FOR DEMO */
+
+let rating=(Math.random()*5).toFixed(1);
+let sales=Math.floor(Math.random()*500)+20;
+
 document.getElementById("book").innerHTML=`
 
 <img class="cover" src="${driveImage(book.image)}">
 
 <div class="bookTitle">
-${book.title || "Untitled"}
+${book.title}
 </div>
 
 <div class="price">
-₹ ${book.price || 0}
+₹ ${book.price}
+</div>
+
+<div class="author">
+👤 Author : ${book.owner || "Unknown"}
+</div>
+
+<div class="rating">
+⭐ ${rating} / 5
+</div>
+
+<div class="sales">
+📈 ${sales}+ sales
 </div>
 
 <button class="btn buy" onclick="buyBook('${book.id}')">
@@ -289,6 +359,41 @@ ${book.description || "No description provided."}
 
 `;
 
+/* RELATED BOOKS */
+
+let related=products.filter(p=>p.id!=id).slice(0,6);
+
+let html="";
+
+related.forEach(b=>{
+
+html+=`
+
+<div class="card"
+onclick="openBook('${b.id}')">
+
+<img src="${driveImage(b.image)}">
+
+<h4>${b.title}</h4>
+
+<p>₹${b.price}</p>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("relatedGrid").innerHTML=html;
+
+}
+
+/* OPEN RELATED */
+
+function openBook(id){
+
+location.href="ebook.html?id="+id;
+
 }
 
 /* BUY */
@@ -301,7 +406,7 @@ location.href="payment.html";
 
 }
 
-/* ADD CART */
+/* CART */
 
 function addCart(id){
 
@@ -343,8 +448,6 @@ window.open(
 }
 
 }
-
-/* START */
 
 loadBook();
 
