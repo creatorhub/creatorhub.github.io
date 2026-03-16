@@ -1,0 +1,35 @@
+<button onclick="recoverAccount()">
+Recover My Account
+</button>
+
+<script>
+
+async function recoverAccount(){
+
+const API="YOUR_API_URL";
+
+let user=JSON.parse(localStorage.getItem("user"));
+
+let users=await fetch(API+"?db=users").then(r=>r.json());
+
+let index=users.findIndex(
+u=>u.email===user.email
+);
+
+users[index].deleted=false;
+
+users[index].deleteDate="";
+
+await fetch(API,{
+method:"POST",
+headers:{"Content-Type":"text/plain"},
+body:JSON.stringify({db:"users",data:users})
+});
+
+alert("Account recovered");
+
+location.href="dashboard.html";
+
+}
+
+</script>
