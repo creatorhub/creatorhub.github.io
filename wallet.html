@@ -76,11 +76,6 @@ color:white;
 cursor:pointer;
 }
 
-button:disabled{
-opacity:0.5;
-cursor:not-allowed;
-}
-
 .item{
 background:#020617;
 padding:12px;
@@ -115,7 +110,7 @@ justify-content:space-between;
 <input id="upi" placeholder="Enter UPI ID">
 <input id="amount" type="number" placeholder="Withdraw Amount ₹">
 
-<button id="withdrawBtn" onclick="withdraw()">Withdraw 🚀</button>
+<button onclick="withdraw()">Withdraw 🚀</button>
 
 </div>
 
@@ -128,46 +123,22 @@ justify-content:space-between;
 
 <script>
 
-const API="https://script.google.com/macros/s/AKfycbx7vyDJEi9v2RO7ujHdMAnlgUX8AV2JVOfydtw8DJU4AI-7vcTlWMEt07KFcFr1lYTa/exec";
+const API="https://script.google.com/macros/s/AKfycbx7vyDJEi9v2RO7ujHdMAnlgUX8AV2JVOfydtw8DJU4AI-7vcTlWMEt07KFcFr1lYTa/exec"
 
-const ADMIN="ayushprajpati6@gmail.com";
-
-let user=JSON.parse(localStorage.getItem("user"));
+let user=JSON.parse(localStorage.getItem("user"))
 
 if(!user){
-alert("Login First");
-location.href="login.html";
+alert("Login First")
+location.href="login.html"
 }
 
-let balance=0;
-
-/* DATABASE */
+/* GET DB */
 
 async function getDB(db){
 
-try{
+let r=await fetch(API+"?db="+db)
 
-let r=await fetch(API+"?db="+db+"&t="+Date.now());
-let data=await r.json();
-
-return Array.isArray(data)?data:[];
-
-}catch{
-return [];
-}
-
-}
-
-async function saveDB(db,data){
-
-await fetch(API,{
-method:"POST",
-headers:{"Content-Type":"text/plain"},
-body:JSON.stringify({
-db:db,
-data:data
-})
-});
+return await r.json()
 
 }
 
@@ -175,154 +146,104 @@ data:data
 
 async function loadWallet(){
 
-let wallets=await getDB("wallet");
+let wallets=await getDB("wallets")
 
-let my=wallets.find(w=>w.email===user.email);
+let my=wallets.find(w=>w.email===user.email)
 
-balance=my?Number(my.balance)||0:0;
+let balance=my?my.balance:0
 
-document.getElementById("balance").innerText=balance;
+document.getElementById("balance").innerText=balance
 
 /* HISTORY */
 
-let orders=await getDB("orders");
+let orders=await getDB("orders")
 
-let myOrders=orders.filter(o=>o.seller===user.email);
+let myOrders=orders.filter(o=>o.seller===user.email && o.status==="paid")
 
-let box=document.getElementById("history");
+let box=document.getElementById("history")
 
 if(!myOrders.length){
 
-box.innerHTML="No Earnings Yet";
-return;
+box.innerHTML="No Earnings Yet"
+return
 
 }
 
-box.innerHTML="";
+box.innerHTML=""
 
 myOrders.reverse().forEach(o=>{
 
-let earn=Math.floor((Number(o.amount)||0)*0.8);
+let earn=Math.floor(o.amount*0.8)
 
 box.innerHTML+=`
-<div class="item">
-<div>₹ ${earn}</div>
-<div>Ebook Sale</div>
-</div>
-`;
 
-});
+<div class="item">
+
+<div>₹ ${earn}</div>
+
+<div>Ebook Sale</div>
+
+</div>
+
+`
+
+})
 
 }
 
-loadWallet();
+loadWallet()
 
-/* VALIDATE UPI */
+/* UPI VALIDATION */
 
 function validUPI(vpa){
-return /^[a-zA-Z0-9.\-_]{2,}@[a-zA-Z]{2,}$/.test(vpa);
+
+return /^[a-zA-Z0-9.\-_]{2,}@[a-zA-Z]{2,}$/.test(vpa)
+
 }
 
-/* WITHDRAW */
+/* WITHDRAW REQUEST */
 
 async function withdraw(){
 
-let btn=document.getElementById("withdrawBtn");
-
-let amount=Number(document.getElementById("amount").value);
-let upi=document.getElementById("upi").value.trim();
+let amount=Number(document.getElementById("amount").value)
+let upi=document.getElementById("upi").value.trim()
 
 if(!amount || !upi){
-alert("Fill Details");
-return;
+alert("Fill all details")
+return
 }
 
 if(!validUPI(upi)){
-alert("Invalid UPI");
-return;
+alert("Invalid UPI")
+return
 }
 
-if(amount>balance){
-alert("Low Balance");
-return;
-}
-
-/* LIMITS */
-
-if(user.email!==ADMIN){
-
-if(amount<100){
-alert("Minimum withdraw ₹100");
-return;
-}
-
-if(amount>5000){
-alert("Max withdraw ₹5000 per request");
-return;
-}
-
-}
-
-/* COOLDOWN */
-
-let last=localStorage.getItem("lastWithdraw");
-
-if(user.email!==ADMIN && last){
-
-let diff=(Date.now()-Number(last))/60000;
-
-if(diff<10){
-alert("Wait "+Math.ceil(10-diff)+" minutes");
-return;
-}
-
-}
-
-btn.disabled=true;
-
-/* LOAD DB */
-
-let wallets=await getDB("wallet");
-let withdraws=await getDB("withdraw");
-
-let index=wallets.findIndex(w=>w.email===user.email);
-
-if(index===-1){
-alert("Wallet Missing");
-btn.disabled=false;
-return;
-}
-
-/* UPDATE WALLET */
-
-wallets[index].balance =
-Number(wallets[index].balance) - amount;
-
-/* CREATE REQUEST */
-
-withdraws.push({
-
-id:"WD"+Date.now(),
-email:user.email,
+let res=await fetch(API,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+action:"withdraw",
+user:user.email,
 amount:amount,
-upi:upi,
-status:"pending",
-date:new Date().toLocaleString()
+upi:upi
+})
+})
 
-});
+let data=await res.json()
 
-/* SAVE */
+if(data.success){
 
-await saveDB("wallet",wallets);
-await saveDB("withdraw",withdraws);
+alert("Withdraw request sent to admin")
 
-/* COOLDOWN SAVE */
+location.reload()
 
-localStorage.setItem("lastWithdraw",Date.now());
+}else{
 
-alert("Withdraw request sent to admin");
+alert(data.message || "Withdraw failed")
 
-location.reload();
+}
 
 }
 
