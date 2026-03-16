@@ -175,37 +175,6 @@ return[]
 }
 
 
-async function saveProducts(){
-
-try{
-
-let res = await fetch(API,{
-method:"POST",
-headers:{
-"Content-Type":"text/plain"
-},
-body:JSON.stringify({
-db:"products",
-data:products
-})
-})
-
-let text=await res.text()
-let json=JSON.parse(text)
-
-return json.success
-
-}catch(e){
-
-console.log(e)
-alert("Save Failed")
-return false
-
-}
-
-}
-
-
 async function loadProducts(){
 
 products=await getProducts()
@@ -273,7 +242,7 @@ async function saveEdit(){
 let res = await fetch(API,{
 method:"POST",
 headers:{
-"Content-Type":"application/json"
+"Content-Type":"text/plain"
 },
 body:JSON.stringify({
 
@@ -281,7 +250,8 @@ action:"editProduct",
 id:editID,
 title:eTitle.value,
 price:Number(ePrice.value),
-description:eDesc.value
+description:eDesc.value,
+owner:eSeller.value
 
 })
 })
@@ -296,7 +266,7 @@ loadProducts()
 
 }else{
 
-alert("Update Failed")
+alert(data.message || "Update Failed")
 
 }
 
@@ -310,7 +280,7 @@ if(!confirm("Delete Ebook?"))return
 let res = await fetch(API,{
 method:"POST",
 headers:{
-"Content-Type":"application/json"
+"Content-Type":"text/plain"
 },
 body:JSON.stringify({
 
@@ -329,7 +299,7 @@ loadProducts()
 
 }else{
 
-alert("Delete Failed")
+alert(data.message || "Delete Failed")
 
 }
 
