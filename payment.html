@@ -95,15 +95,19 @@ Buy Now
 
 <script>
 
-/* NEW BACKEND API */
-
 const API="https://script.google.com/macros/s/AKfycbx7vyDJEi9v2RO7ujHdMAnlgUX8AV2JVOfydtw8DJU4AI-7vcTlWMEt07KFcFr1lYTa/exec";
 
-/* USER */
+/* USER CHECK */
 
-let user=JSON.parse(localStorage.getItem("user")||"null");
+let user=null;
 
-if(!user){
+try{
+user=JSON.parse(localStorage.getItem("user"));
+}catch{
+user=null;
+}
+
+if(!user || !user.email){
 
 alert("Login First");
 location.href="login.html";
@@ -121,7 +125,7 @@ location.href="index.html";
 
 }
 
-/* IMAGE FIX */
+/* DRIVE IMAGE FIX */
 
 function driveImage(link){
 
@@ -149,33 +153,19 @@ return link;
 
 }
 
-/* DATABASE */
-
-async function getDB(db){
-
-try{
-
-let r=await fetch(API+"?db="+db+"&t="+Date.now());
-
-let data=await r.json();
-
-return Array.isArray(data)?data:[];
-
-}catch{
-
-return [];
-
-}
-
-}
-
 let product=null;
 
 /* LOAD PRODUCT */
 
 async function load(){
 
-let products=await getDB("products");
+try{
+
+let res=await fetch(API+"?db=products&t="+Date.now());
+
+let products=await res.json();
+
+if(!Array.isArray(products)) products=[];
 
 product=products.find(p=>String(p.id)===String(buyId));
 
@@ -191,11 +181,17 @@ document.getElementById("cover").src=driveImage(product.image);
 document.getElementById("title").innerText=product.title || "Untitled";
 document.getElementById("price").innerText="₹ "+(product.price || 0);
 
+}catch{
+
+alert("Failed to load product");
+
+}
+
 }
 
 load();
 
-/* BUY */
+/* BUY NOW */
 
 async function buyNow(){
 
@@ -205,6 +201,8 @@ alert("Product Missing");
 return;
 
 }
+
+try{
 
 let res = await fetch(API,{
 
@@ -232,7 +230,13 @@ window.location.href=data.payment_link;
 
 }else{
 
-alert("Payment Failed");
+alert("Payment initialization failed");
+
+}
+
+}catch{
+
+alert("Payment server error");
 
 }
 
