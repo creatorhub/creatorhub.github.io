@@ -39,7 +39,6 @@ background:var(--bg);
 box-shadow:0 5px 20px rgba(0,0,0,.4);
 position:sticky;
 top:0;
-z-index:999;
 }
 
 .back{
@@ -51,7 +50,6 @@ width:40px;
 .title{
 flex:1;
 text-align:center;
-font-size:18px;
 font-weight:bold;
 color:var(--accent);
 }
@@ -140,7 +138,7 @@ font-size:18px;
 
 <div class="topbar">
 
-<div class="back" onclick="goBack()">⬅</div>
+<div class="back" onclick="history.back()">⬅</div>
 
 <div class="title">
 My Library
@@ -162,37 +160,34 @@ Loading Library...
 
 <script>
 
-/* ADMIN EMAIL */
+/* ================= ADMIN ================= */
 
 const ADMIN="ayushprajpati6@gmail.com"
 
-function goBack(){
-if(document.referrer){
-history.back();
-}else{
-location.href="dashboard.html";
+/* ================= APIs ================= */
+
+const PRODUCT_API=
+"https://script.google.com/macros/s/AKfycbzgKPuIAmuZWOfilOj8gM9qJcZesz3ECPIhpCvBmupKFY2t76_ObVWyylnoTa4ecyda/exec";
+
+const PAYMENT_API=
+"https://script.google.com/macros/s/AKfycbx7vyDJEi9v2RO7ujHdMAnlgUX8AV2JVOfydtw8DJU4AI-7vcTlWMEt07KFcFr1lYTa/exec";
+
+/* ================= USER ================= */
+
+let user=JSON.parse(localStorage.getItem("user")||"null")
+
+if(!user){
+alert("Login first")
+location.href="login.html"
 }
-}
 
-const API="https://script.google.com/macros/s/AKfycbzgKPuIAmuZWOfilOj8gM9qJcZesz3ECPIhpCvBmupKFY2t76_ObVWyylnoTa4ecyda/exec";
+let isAdmin=user.email===ADMIN
 
-let user=JSON.parse(localStorage.getItem("user")||"{}");
+/* ================= DRIVE ================= */
 
-if(!user || !user.email){
-alert("Login First");
-location.href="login.html";
-}
-
-let isAdmin=user.email===ADMIN;
-
-
-/* DRIVE FILE ID */
-
-function getDriveId(link){
+function driveId(link){
 
 if(!link) return null
-
-try{
 
 if(link.includes("id=")){
 return link.split("id=")[1].split("&")[0]
@@ -202,18 +197,13 @@ if(link.includes("/file/d/")){
 return link.split("/file/d/")[1].split("/")[0]
 }
 
-}catch{}
-
 return null
 
 }
 
-
-/* IMAGE */
-
 function driveImage(link){
 
-let id=getDriveId(link)
+let id=driveId(link)
 
 if(id){
 return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000"
@@ -223,12 +213,9 @@ return "https://picsum.photos/400"
 
 }
 
+function driveView(link){
 
-/* VIEW */
-
-function drivePDF(link){
-
-let id=getDriveId(link)
+let id=driveId(link)
 
 if(id){
 return "https://drive.google.com/file/d/"+id+"/preview"
@@ -238,12 +225,9 @@ return "#"
 
 }
 
-
-/* DOWNLOAD */
-
 function driveDownload(link){
 
-let id=getDriveId(link)
+let id=driveId(link)
 
 if(id){
 return "https://drive.google.com/uc?export=download&id="+id
@@ -253,178 +237,102 @@ return "#"
 
 }
 
+/* ================= API ================= */
 
-/* DATABASE */
+async function getDB(api,db){
 
-async function getDB(db){
-
-try{
-
-let r=await fetch(API+"?db="+db+"&t="+Date.now())
+let r=await fetch(api+"?db="+db+"&t="+Date.now())
 
 let data=await r.json()
 
 return Array.isArray(data)?data:[]
 
-}catch{
-
-return []
-
 }
 
-}
-
-
-/* PREMIUM CHECK */
-
-async function isPremium(){
-
-if(isAdmin) return true
-
-let users=await getDB("users")
-
-let me=users.find(u=>u.email===user.email)
-
-if(!me) return false
-
-if(me.premium!==true) return false
-
-if(me.premiumExpiry){
-
-let exp=new Date(me.premiumExpiry)
-
-if(new Date()>exp){
-return false
-}
-
-}
-
-return true
-
-}
-
-
-/* LOAD LIBRARY */
+/* ================= LOAD LIBRARY ================= */
 
 async function loadLibrary(){
 
-let orders=await getDB("orders")
+let products=await getDB(PRODUCT_API,"products")
 
-let products=await getDB("products")
+let orders=await getDB(PAYMENT_API,"orders")
 
-let premium=await isPremium()
+let users=await getDB(PRODUCT_API,"users")
 
-let box=document.getElementById("library")
+let me=users.find(u=>u.email===user.email)
 
-let myOrders=orders.filter(o=>o.buyer===user.email)
+let premium=false
 
-if(!products.length){
+if(me && me.premium===true){
 
-box.innerHTML="<div class='empty'>No Books Found</div>"
-return
+if(!me.premiumExpiry || new Date(me.premiumExpiry)>new Date()){
+premium=true
+}
 
 }
+
+let myOrders=orders.filter(o=>o.buyer===user.email && o.status==="paid")
+
+let box=document.getElementById("library")
 
 box.innerHTML=""
 
 products.reverse().forEach(product=>{
 
 let purchased=myOrders.find(
-o=>String(o.productId||o.product)===String(product.id)
+o=>String(o.productId)===String(product.id)
 )
 
 let image=driveImage(product.image)
 
-let pdfView=drivePDF(product.pdf)
+let view=driveView(product.pdf)
 
-let pdfDownload=driveDownload(product.pdf)
+let download=driveDownload(product.pdf)
 
 let readBtn=""
 let downloadBtn=""
 
-
-
-
-/* ADMIN FULL ACCESS */
+/* ADMIN */
 
 if(isAdmin){
 
-readBtn=`
-<button class="read"
-onclick="window.open('${pdfView}','_blank')">
-Read Ebook
-</button>
-`
+readBtn=`<button class="read" onclick="window.open('${view}')">Read Ebook</button>`
 
-downloadBtn=`
-<button class="download"
-onclick="window.open('${pdfDownload}','_blank')">
-Download PDF ⬇
-</button>
-`
+downloadBtn=`<button class="download" onclick="window.open('${download}')">Download PDF</button>`
 
 }
-
 
 /* PURCHASED */
 
 else if(purchased){
 
-readBtn=`
-<button class="read"
-onclick="window.open('${pdfView}','_blank')">
-Read Ebook
-</button>
-`
+readBtn=`<button class="read" onclick="window.open('${view}')">Read Ebook</button>`
 
-downloadBtn=`
-<button class="download"
-onclick="window.open('${pdfDownload}','_blank')">
-Download PDF ⬇
-</button>
-`
+downloadBtn=`<button class="download" onclick="window.open('${download}')">Download PDF</button>`
 
 }
 
+/* PREMIUM */
 
-/* PREMIUM USER */
+else if(product.premium && premium){
 
-else if((product.premium===true || product.premium==="true") && premium){
-
-readBtn=`
-<button class="read"
-onclick="window.open('${pdfView}','_blank')">
-Read Premium
-</button>
-`
+readBtn=`<button class="read" onclick="window.open('${view}')">Read Premium</button>`
 
 }
-
 
 /* LOCKED PREMIUM */
 
-else if((product.premium===true || product.premium==="true") && !premium){
+else if(product.premium && !premium){
 
-readBtn=`
-<button class="read"
-onclick="location.href='subscription.html'">
-Unlock Premium
-</button>
-`
+readBtn=`<button class="read" onclick="location.href='subscription.html'">Unlock Premium</button>`
 
 }
 
-
-/* NORMAL BUY */
+/* BUY */
 
 else{
 
-readBtn=`
-<button class="read"
-onclick="buyBook('${product.id}')">
-Buy Ebook ₹${product.price}
-</button>
-`
+readBtn=`<button class="read" onclick="buyBook('${product.id}')">Buy Ebook ₹${product.price}</button>`
 
 }
 
@@ -432,16 +340,11 @@ box.innerHTML+=`
 
 <div class="card">
 
-<img src="${image}"
-onerror="this.src='https://picsum.photos/400'">
+<img src="${image}">
 
-<div class="bookTitle">
-${product.title||"Untitled"}
-</div>
+<div class="bookTitle">${product.title||"Untitled"}</div>
 
-<div class="price">
-₹ ${product.price||0}
-</div>
+<div class="price">₹ ${product.price||0}</div>
 
 ${readBtn}
 
@@ -457,7 +360,6 @@ ${downloadBtn}
 
 loadLibrary()
 
-
 function buyBook(id){
 
 localStorage.setItem("buyProduct",id)
@@ -469,5 +371,4 @@ location.href="payment.html"
 </script>
 
 </body>
-
 </html>
