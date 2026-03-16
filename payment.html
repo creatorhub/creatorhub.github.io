@@ -95,11 +95,15 @@ Buy Now
 
 <script>
 
-/* ================= API ================= */
+/* ================= APIs ================= */
 
-const API="https://script.google.com/macros/s/AKfycbx7vyDJEi9v2RO7ujHdMAnlgUX8AV2JVOfydtw8DJU4AI-7vcTlWMEt07KFcFr1lYTa/exec";
+const PRODUCT_API =
+"https://script.google.com/macros/s/AKfycbzgKPuIAmuZWOfilOj8gM9qJcZesz3ECPIhpCvBmupKFY2t76_ObVWyylnoTa4ecyda/exec";
 
-/* ================= USER CHECK ================= */
+const PAYMENT_API =
+"https://script.google.com/macros/s/AKfycbx7vyDJEi9v2RO7ujHdMAnlgUX8AV2JVOfydtw8DJU4AI-7vcTlWMEt07KFcFr1lYTa/exec";
+
+/* ================= USER ================= */
 
 let user=null;
 
@@ -111,7 +115,7 @@ user=null;
 
 if(!user || !user.email){
 
-alert("Please login first");
+alert("Login First");
 location.href="login.html";
 
 }
@@ -122,12 +126,12 @@ let buyId=localStorage.getItem("buyProduct");
 
 if(!buyId){
 
-alert("Product not found");
+alert("Product Missing");
 location.href="index.html";
 
 }
 
-/* ================= DRIVE IMAGE FIX ================= */
+/* ================= DRIVE IMAGE ================= */
 
 function driveImage(link){
 
@@ -163,13 +167,11 @@ async function load(){
 
 try{
 
-let res=await fetch(API+"?db=products&t="+Date.now());
+let res=await fetch(PRODUCT_API+"?db=products&t="+Date.now());
 
 let products=await res.json();
 
-if(!Array.isArray(products)){
-throw new Error("Invalid product data");
-}
+if(!Array.isArray(products)) products=[];
 
 product=products.find(p=>String(p.id)===String(buyId));
 
@@ -218,7 +220,7 @@ btn.disabled=true;
 
 try{
 
-let res = await fetch(API,{
+let res = await fetch(PAYMENT_API,{
 
 method:"POST",
 
@@ -240,13 +242,11 @@ let data=await res.json();
 
 if(data.payment_link){
 
-/* redirect to cashfree */
-
 window.location.href=data.payment_link;
 
 }else{
 
-alert("Payment initialization failed");
+alert("Payment failed");
 
 btn.innerText="Buy Now";
 btn.disabled=false;
