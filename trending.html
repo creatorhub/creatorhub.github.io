@@ -84,6 +84,14 @@ font-weight:bold;
 cursor:pointer;
 }
 
+.badge{
+font-size:12px;
+background:#22c55e;
+padding:3px 6px;
+border-radius:6px;
+margin-left:5px;
+}
+
 </style>
 
 </head>
@@ -95,7 +103,7 @@ cursor:pointer;
 <div class="back" onclick="history.back()">⬅</div>
 
 <div class="title">
-🔥 Trending Books
+Trending Books
 </div>
 
 </div>
@@ -113,7 +121,7 @@ Loading...
 const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
 
 
-/* DRIVE IMAGE FIX */
+/* DRIVE IMAGE */
 
 function driveImage(link){
 
@@ -142,7 +150,7 @@ return link
 }
 
 
-/* LOAD PRODUCTS */
+/* LOAD TRENDING */
 
 async function load(){
 
@@ -153,13 +161,29 @@ let products=await r.json()
 
 if(!Array.isArray(products)) products=[]
 
-let box=document.getElementById("books")
 
-products.reverse()
+/* TRENDING SCORE */
+
+products.forEach(p=>{
+
+let sales = Number(p.sales || 0)
+let rating = Number(p.rating || 0)
+
+p.trendingScore = (sales*3) + (rating*10)
+
+})
+
+
+/* SORT BY TRENDING */
+
+products.sort((a,b)=>b.trendingScore-a.trendingScore)
+
+
+let box=document.getElementById("books")
 
 let html=""
 
-products.slice(0,20).forEach(p=>{
+products.slice(0,20).forEach((p,i)=>{
 
 html+=`
 
@@ -169,7 +193,11 @@ html+=`
 onclick="openBook('${p.id}')">
 
 <div class="name">
+
 ${p.title || "Untitled"}
+
+${i<3?'<span class="badge">Top</span>':''}
+
 </div>
 
 <div class="price">
