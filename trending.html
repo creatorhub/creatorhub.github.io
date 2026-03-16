@@ -69,6 +69,19 @@ font-weight:bold;
 .price{
 color:#22c55e;
 font-size:14px;
+margin-top:4px;
+}
+
+.buy{
+margin-top:8px;
+width:100%;
+padding:8px;
+border:none;
+border-radius:8px;
+background:linear-gradient(90deg,#22c55e,#4ade80);
+color:white;
+font-weight:bold;
+cursor:pointer;
 }
 
 </style>
@@ -82,7 +95,7 @@ font-size:14px;
 <div class="back" onclick="history.back()">⬅</div>
 
 <div class="title">
-Trending Books
+🔥 Trending Books
 </div>
 
 </div>
@@ -97,11 +110,14 @@ Loading...
 
 <script>
 
-const API="https://script.google.com/macros/s/AKfycbzgKPuIAmuZWOfilOj8gM9qJcZesz3ECPIhpCvBmupKFY2t76_ObVWyylnoTa4ecyda/exec";
+const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
+
+
+/* DRIVE IMAGE FIX */
 
 function driveImage(link){
 
-if(!link)return "https://picsum.photos/400"
+if(!link) return "https://picsum.photos/400"
 
 try{
 
@@ -125,10 +141,17 @@ return link
 
 }
 
+
+/* LOAD PRODUCTS */
+
 async function load(){
+
+try{
 
 let r=await fetch(API+"?db=products&t="+Date.now())
 let products=await r.json()
+
+if(!Array.isArray(products)) products=[]
 
 let box=document.getElementById("books")
 
@@ -140,17 +163,25 @@ products.slice(0,20).forEach(p=>{
 
 html+=`
 
-<div class="card" onclick="openBook('${p.id}')">
+<div class="card">
 
-<img src="${driveImage(p.image)}">
+<img src="${driveImage(p.image)}"
+onclick="openBook('${p.id}')">
 
 <div class="name">
-${p.title}
+${p.title || "Untitled"}
 </div>
 
 <div class="price">
-₹ ${p.price}
+₹ ${p.price || 0}
 </div>
+
+<button class="buy"
+onclick="buyNow(event,'${p.id}')">
+
+Buy Now
+
+</button>
 
 </div>
 
@@ -158,15 +189,38 @@ ${p.title}
 
 })
 
-box.innerHTML=html
+box.innerHTML=html || "No Books Found"
+
+}catch{
+
+document.getElementById("books").innerHTML="Books Loading Failed"
 
 }
+
+}
+
+
+/* OPEN DETAILS */
 
 function openBook(id){
 
 location.href="ebook.html?id="+id
 
 }
+
+
+/* BUY */
+
+function buyNow(e,id){
+
+e.stopPropagation()
+
+localStorage.setItem("buyProduct",id)
+
+location.href="payment.html"
+
+}
+
 
 load()
 
