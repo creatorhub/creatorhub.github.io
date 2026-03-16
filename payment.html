@@ -86,7 +86,7 @@ color:white;
 <h3 id="title"></h3>
 <h2 id="price"></h2>
 
-<button onclick="buyNow()">
+<button id="buyBtn" onclick="buyNow()">
 Buy Now
 </button>
 
@@ -95,9 +95,11 @@ Buy Now
 
 <script>
 
+/* ================= API ================= */
+
 const API="https://script.google.com/macros/s/AKfycbx7vyDJEi9v2RO7ujHdMAnlgUX8AV2JVOfydtw8DJU4AI-7vcTlWMEt07KFcFr1lYTa/exec";
 
-/* USER CHECK */
+/* ================= USER CHECK ================= */
 
 let user=null;
 
@@ -109,23 +111,23 @@ user=null;
 
 if(!user || !user.email){
 
-alert("Login First");
+alert("Please login first");
 location.href="login.html";
 
 }
 
-/* PRODUCT ID */
+/* ================= PRODUCT ID ================= */
 
 let buyId=localStorage.getItem("buyProduct");
 
 if(!buyId){
 
-alert("Product Missing");
+alert("Product not found");
 location.href="index.html";
 
 }
 
-/* DRIVE IMAGE FIX */
+/* ================= DRIVE IMAGE FIX ================= */
 
 function driveImage(link){
 
@@ -153,9 +155,9 @@ return link;
 
 }
 
-let product=null;
+/* ================= LOAD PRODUCT ================= */
 
-/* LOAD PRODUCT */
+let product=null;
 
 async function load(){
 
@@ -165,24 +167,31 @@ let res=await fetch(API+"?db=products&t="+Date.now());
 
 let products=await res.json();
 
-if(!Array.isArray(products)) products=[];
+if(!Array.isArray(products)){
+throw new Error("Invalid product data");
+}
 
 product=products.find(p=>String(p.id)===String(buyId));
 
 if(!product){
 
-alert("Product Missing");
+alert("Product not found");
 location.href="index.html";
 return;
 
 }
 
 document.getElementById("cover").src=driveImage(product.image);
-document.getElementById("title").innerText=product.title || "Untitled";
-document.getElementById("price").innerText="₹ "+(product.price || 0);
 
-}catch{
+document.getElementById("title").innerText=
+product.title || "Untitled Ebook";
 
+document.getElementById("price").innerText=
+"₹ "+(product.price || 0);
+
+}catch(err){
+
+console.log(err);
 alert("Failed to load product");
 
 }
@@ -191,16 +200,21 @@ alert("Failed to load product");
 
 load();
 
-/* BUY NOW */
+/* ================= BUY NOW ================= */
 
 async function buyNow(){
 
 if(!product){
 
-alert("Product Missing");
+alert("Product not loaded");
 return;
 
 }
+
+let btn=document.getElementById("buyBtn");
+
+btn.innerText="Processing...";
+btn.disabled=true;
 
 try{
 
@@ -226,17 +240,27 @@ let data=await res.json();
 
 if(data.payment_link){
 
+/* redirect to cashfree */
+
 window.location.href=data.payment_link;
 
 }else{
 
 alert("Payment initialization failed");
 
+btn.innerText="Buy Now";
+btn.disabled=false;
+
 }
 
-}catch{
+}catch(err){
+
+console.log(err);
 
 alert("Payment server error");
+
+btn.innerText="Buy Now";
+btn.disabled=false;
 
 }
 
