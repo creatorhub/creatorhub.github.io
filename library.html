@@ -17,13 +17,11 @@
 }
 
 @media(prefers-color-scheme:dark){
-
 :root{
 --bg:#020617;
 --text:#ffffff;
 --card:#111827;
 }
-
 }
 
 body{
@@ -169,20 +167,18 @@ Loading Library...
 const ADMIN="ayushprajpati6@gmail.com"
 
 function goBack(){
-
 if(document.referrer){
 history.back();
 }else{
 location.href="dashboard.html";
 }
-
 }
 
 const API="https://script.google.com/macros/s/AKfycbzgKPuIAmuZWOfilOj8gM9qJcZesz3ECPIhpCvBmupKFY2t76_ObVWyylnoTa4ecyda/exec";
 
 let user=JSON.parse(localStorage.getItem("user")||"{}");
 
-if(!user){
+if(!user || !user.email){
 alert("Login First");
 location.href="login.html";
 }
@@ -264,15 +260,15 @@ async function getDB(db){
 
 try{
 
-let r=await fetch(API+"?db="+db+"&t="+Date.now());
+let r=await fetch(API+"?db="+db+"&t="+Date.now())
 
-let data=await r.json();
+let data=await r.json()
 
-return Array.isArray(data)?data:[];
+return Array.isArray(data)?data:[]
 
 }catch{
 
-return [];
+return []
 
 }
 
@@ -347,6 +343,8 @@ let readBtn=""
 let downloadBtn=""
 
 
+
+
 /* ADMIN FULL ACCESS */
 
 if(isAdmin){
@@ -391,7 +389,7 @@ Download PDF ⬇
 
 /* PREMIUM USER */
 
-else if(product.premium==="true" && premium){
+else if((product.premium===true || product.premium==="true") && premium){
 
 readBtn=`
 <button class="read"
@@ -405,7 +403,7 @@ Read Premium
 
 /* LOCKED PREMIUM */
 
-else if(product.premium==="true" && !premium){
+else if((product.premium===true || product.premium==="true") && !premium){
 
 readBtn=`
 <button class="read"
