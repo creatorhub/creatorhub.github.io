@@ -20,7 +20,6 @@ background:var(--bg);
 color:var(--text);
 }
 
-/* HEADER */
 .topbar{
 display:flex;
 align-items:center;
@@ -55,7 +54,6 @@ cursor:pointer;
 font-size:13px;
 }
 
-/* HEADER 2 */
 .header{
 display:flex;
 justify-content:space-between;
@@ -74,7 +72,6 @@ border:2px solid #22c55e;
 cursor:pointer;
 }
 
-/* USER TOP */
 .top{
 text-align:center;
 padding:30px;
@@ -91,7 +88,6 @@ font-weight:bold;
 opacity:.9;
 }
 
-/* GRID */
 .container{
 padding:20px;
 display:grid;
@@ -154,6 +150,7 @@ CreatorHub Dashboard
 <div class="card" onclick="go('wallet.html')">Wallet</div>
 <div class="card" onclick="go('upload.html')">Upload Ebook</div>
 <div class="card" onclick="go('become-seller.html')">Become Seller</div>
+<div class="card" onclick="deleteAccount()">Delete My Account</div>
 <div id="adminBox" class="card" style="display:none" onclick="go('admin.html')">Admin Panel</div>
 </div>
 
@@ -164,6 +161,7 @@ CreatorHub Dashboard
 <script>
 
 const API="https://script.google.com/macros/s/AKfycbw7xwjcEGIdj3xS8q7qhRNCSbch2uVsXFGFJYWgMNU4UPA-2BSfhq79PHsQ_oCEeYTm/exec";
+const ADMIN="ayushprajpati6@gmail.com";
 
 let user=JSON.parse(localStorage.getItem("user"));
 
@@ -196,31 +194,155 @@ body:JSON.stringify({db,data})
 });
 }
 
+/* LOAD USER */
+
 async function loadUser(){
+
 let users=await getDB("users");
+
 let index=users.findIndex(u=>u.email===user.email);
 
 if(index===-1){
+
 users.push({
 email:user.email,
 name:user.name,
 seller:false,
 banned:false,
+deleted:false,
+deleteDate:"",
 created:new Date().toLocaleString()
 });
+
 await saveDB("users",users);
+
 }
 
-if(user.email==="ayushprajpati6@gmail.com"){
+/* CHECK DELETED ACCOUNT */
+
+if(users[index]?.deleted){
+
+let deleteDate=new Date(users[index].deleteDate);
+
+let diff=(Date.now()-deleteDate)/(1000*60*60*24);
+
+if(diff<7){
+
+alert("Account deleted but recoverable for 7 days");
+
+location.href="recover.html";
+return;
+
+}
+
+}
+
+/* ADMIN PANEL */
+
+if(user.email===ADMIN){
 document.getElementById("adminBox").style.display="block";
 }
+
 }
+
 loadUser();
+
+/* DELETE ACCOUNT */
+
+async function deleteAccount(){
+
+let ok=confirm(
+"⚠️ Account will be disabled for 7 days.\nYou can recover anytime."
+);
+
+if(!ok) return;
+
+let users=await getDB("users");
+
+let index=users.findIndex(u=>u.email===user.email);
+
+if(index==-1){
+alert("User not found");
+return;
+}
+
+users[index].deleted=true;
+users[index].deleteDate=new Date().toISOString();
+
+await saveDB("users",users);
+
+localStorage.clear();
+
+alert("Account disabled for 7 days");
+
+location.href="login.html";
+
+}
+
+/* AUTO CLEANUP AFTER 7 DAYS */
+
+async function cleanupDeleted(){
+
+let users=await getDB("users");
+let wallets=await getDB("wallet");
+
+let changed=false;
+
+users=users.filter(u=>{
+
+if(!u.deleted) return true;
+
+let deleteDate=new Date(u.deleteDate);
+let diff=(Date.now()-deleteDate)/(1000*60*60*24);
+
+if(diff>=7){
+
+let wallet=wallets.find(w=>w.email===u.email);
+
+if(wallet){
+
+let adminWallet=wallets.find(w=>w.email===ADMIN);
+
+if(adminWallet){
+adminWallet.balance=
+Number(adminWallet.balance||0)+Number(wallet.balance||0);
+}else{
+wallets.push({
+email:ADMIN,
+balance:Number(wallet.balance||0)
+});
+}
+
+wallets=wallets.filter(w=>w.email!==u.email);
+
+}
+
+changed=true;
+
+return false;
+
+}
+
+return true;
+
+});
+
+if(changed){
+await saveDB("users",users);
+await saveDB("wallet",wallets);
+}
+
+}
+
+cleanupDeleted();
+
+/* LOGOUT */
 
 function logout(){
 localStorage.removeItem("user");
 location.href="login.html";
 }
+
 </script>
 
 </body>
