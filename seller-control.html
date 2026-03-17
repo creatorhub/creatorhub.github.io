@@ -119,10 +119,8 @@ let res=await fetch(API+"?db=sellers&t="+Date.now());
 let sellers=await res.json();
 
 if(!Array.isArray(sellers) || sellers.length===0){
-
 box.innerHTML="No Seller Requests";
 return;
-
 }
 
 box.innerHTML="";
@@ -138,13 +136,8 @@ let buttons="";
 if(s.status!=="approved"){
 
 buttons=`
-<button class="approve" onclick="approveSeller('${s.email}')">
-Approve
-</button>
-
-<button class="reject" onclick="rejectSeller('${s.email}')">
-Reject
-</button>
+<button class="approve" onclick="approveSeller('${s.email}')">Approve</button>
+<button class="reject" onclick="rejectSeller('${s.email}')">Reject</button>
 `;
 
 }
@@ -198,29 +191,29 @@ async function approveSeller(email){
 if(!confirm("Approve this seller?")) return;
 
 let res=await fetch(API+"?db=sellers");
-
 let sellers=await res.json();
 
 sellers=sellers.map(s=>{
-
 if(s.email===email){
 s.status="approved";
 }
-
 return s;
-
 });
 
-await fetch(API,{
+let response=await fetch(API,{
 method:"POST",
 headers:{
-"Content-Type":"application/json"
+"Content-Type":"text/plain"
 },
 body:JSON.stringify({
 action:"update_sellers",
 data:sellers
 })
 });
+
+let result=await response.text();
+
+console.log(result);
 
 alert("Seller Approved");
 
@@ -235,21 +228,24 @@ async function rejectSeller(email){
 if(!confirm("Reject seller request?")) return;
 
 let res=await fetch(API+"?db=sellers");
-
 let sellers=await res.json();
 
 sellers=sellers.filter(s=>s.email!==email);
 
-await fetch(API,{
+let response=await fetch(API,{
 method:"POST",
 headers:{
-"Content-Type":"application/json"
+"Content-Type":"text/plain"
 },
 body:JSON.stringify({
 action:"update_sellers",
 data:sellers
 })
 });
+
+let result=await response.text();
+
+console.log(result);
 
 alert("Seller Rejected");
 
