@@ -123,7 +123,16 @@ transition:.3s;
 
 const API="https://script.google.com/macros/s/AKfycbx-Bu9s127GGueMP9w-BHp-J2oGz4YNLpPhaQ33oYGZNPpOnXRVl1BVKhCQz2y8E14R/exec";
 
-  /* SELLER CHECK */
+/* USER */
+
+let user = JSON.parse(localStorage.getItem("user") || "{}");
+
+if(!user.email){
+alert("Login First");
+location.href="login.html";
+}
+
+/* SELLER CHECK */
 
 async function checkSeller(){
 
@@ -152,15 +161,6 @@ console.log("Seller check error",e)
 }
 
 checkSeller()
-  
-/* USER */
-
-let user = JSON.parse(localStorage.getItem("user") || "{}");
-
-if(!user.email){
-alert("Login First");
-location.href="login.html";
-}
 
 /* IMAGE PREVIEW */
 
@@ -290,4 +290,4 @@ alert("Upload Error");
 </script>
 
 </body>
-</html>
+  </html>
