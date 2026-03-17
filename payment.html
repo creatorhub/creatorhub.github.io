@@ -122,8 +122,10 @@ cursor:not-allowed;
 const PRODUCT_API =
 "https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
+/* NEW DEPLOYED PAYMENT API */
+
 const PAYMENT_API =
-"https://script.google.com/macros/s/AKfycbx7vyDJEi9v2RO7ujHdMAnlgUX8AV2JVOfydtw8DJU4AI-7vcTlWMEt07KFcFr1lYTa/exec"
+"https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
 
 
 /* ================= USER ================= */
@@ -191,11 +193,6 @@ let res = await fetch(PRODUCT_API+"?db=products&t="+Date.now())
 
 let products = await res.json()
 
-if(!Array.isArray(products)){
-alert("Product API error")
-return
-}
-
 product = products.find(p => String(p.id) === String(buyId))
 
 if(!product){
@@ -261,6 +258,10 @@ buyer:user.email
 })
 
 let data = await res.json()
+
+console.log("API Response:",data)
+
+/* PAYMENT REDIRECT */
 
 if(data.payment_session_id){
 
