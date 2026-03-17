@@ -105,6 +105,7 @@ Admin approval required.
 
 <input id="name" placeholder="Full Name">
 <input id="phone" placeholder="Phone Number">
+<input id="upi" placeholder="UPI ID (for payment receive)">
 
 <button id="applyBtn" onclick="applySeller()">Apply Now 🚀</button>
 
@@ -114,7 +115,7 @@ Admin approval required.
 
 <script>
 
-const API="https://script.google.com/macros/s/AKfycbw7xwjcEGIdj3xS8q7qhRNCSbch2uVsXFGFJYWgMNU4UPA-2BSfhq79PHsQ_oCEeYTm/exec";
+const API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec";
 
 let user=JSON.parse(localStorage.getItem("user")||"{}");
 
@@ -122,13 +123,13 @@ if(!user || !user.email){
 location.href="login.html";
 }
 
-/* DATABASE */
+/* LOAD SELLERS */
 
-async function getDB(db){
+async function getSellers(){
 
 try{
 
-let res=await fetch(API+"?db="+db+"&t="+Date.now());
+let res=await fetch(API+"?db=sellers&t="+Date.now());
 
 let data=await res.json();
 
@@ -136,32 +137,12 @@ return Array.isArray(data)?data:[];
 
 }catch(e){
 
-console.log("DB Load Error",e);
+console.log(e);
 return [];
 
 }
 
 }
-
-async function saveDB(db,data){
-
-try{
-
-await fetch(API,{
-method:"POST",
-headers:{"Content-Type":"text/plain"},
-body:JSON.stringify({db:db,data:data})
-});
-
-}catch(e){
-
-console.log("DB Save Error",e);
-alert("Server Error");
-
-}
-
-}
-
 
 /* APPLY SELLER */
 
@@ -171,8 +152,9 @@ let btn=document.getElementById("applyBtn");
 
 let name=document.getElementById("name").value.trim();
 let phone=document.getElementById("phone").value.trim();
+let upi=document.getElementById("upi").value.trim();
 
-if(!name || !phone){
+if(!name || !phone || !upi){
 alert("Fill all fields");
 return;
 }
@@ -184,55 +166,80 @@ alert("Enter valid 10 digit phone number");
 return;
 }
 
+/* UPI VALIDATION */
+
+if(!upi.includes("@")){
+alert("Enter valid UPI ID");
+return;
+}
+
 btn.disabled=true;
 
-let users=await getDB("users");
+let sellers=await getSellers();
 
-let index=users.findIndex(u=>u.email===user.email);
+/* CHECK EXIST */
 
-/* NEW USER */
+let exist=sellers.find(s=>s.email===user.email);
 
-if(index===-1){
+if(exist){
 
-users.push({
+alert("Seller request already submitted");
+
+btn.disabled=false;
+return;
+
+}
+
+/* SEND REQUEST */
+
+try{
+
+let res=await fetch(API,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+action:"apply_seller",
+
 email:user.email,
 name:name,
 phone:phone,
-seller:false,
-sellerRequest:true,
-banned:false,
-created:new Date().toLocaleString()
+upi:upi
+
+})
+
 });
 
-}
+let result=await res.json();
 
-/* EXISTING USER */
-
-else{
-
-if(users[index].seller){
-alert("Already Seller");
-btn.disabled=false;
-return;
-}
-
-if(users[index].sellerRequest){
-alert("Already Applied");
-btn.disabled=false;
-return;
-}
-
-users[index].sellerRequest=true;
-users[index].phone=phone;
-users[index].name=name;
-
-}
-
-await saveDB("users",users);
+if(result.success){
 
 alert("Application Sent ✅ Waiting Admin Approval");
 
 location.href="dashboard.html";
+
+}else{
+
+alert(result.message || "Application Failed");
+
+btn.disabled=false;
+
+}
+
+}catch(e){
+
+console.log(e);
+
+alert("Server Error");
+
+btn.disabled=false;
+
+}
 
 }
 
