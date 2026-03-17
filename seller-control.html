@@ -59,28 +59,16 @@ margin-right:6px;
 margin-top:6px;
 }
 
-.ban{background:#ef4444;}
-.unban{background:#22c55e;}
 .approve{background:#22c55e;}
-.reject{background:#f59e0b;}
+.reject{background:#ef4444;}
 
-.status-active{
-color:#22c55e;
-font-weight:bold;
-}
-
-.status-banned{
-color:#ef4444;
-font-weight:bold;
-}
-
-.status-seller{
-color:#38bdf8;
-font-weight:bold;
-}
-
-.status-request{
+.status-pending{
 color:#f59e0b;
+font-weight:bold;
+}
+
+.status-approved{
+color:#22c55e;
 font-weight:bold;
 }
 
@@ -97,9 +85,9 @@ font-weight:bold;
 
 <div class="container">
 
-<h2>Users Management</h2>
+<h2>Seller Requests</h2>
 
-<div id="users">Loading...</div>
+<div id="sellers">Loading...</div>
 
 </div>
 
@@ -107,7 +95,7 @@ font-weight:bold;
 
 const ADMIN="ayushprajpati6@gmail.com";
 
-const API="https://script.google.com/macros/s/AKfycbzgKPuIAmuZWOfilOj8gM9qJcZesz3ECPIhpCvBmupKFY2t76_ObVWyylnoTa4ecyda/exec";
+const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
 
 let user=JSON.parse(localStorage.getItem("user"));
 
@@ -122,19 +110,11 @@ location.href="index.html";
 
 async function getDB(db){
 
-try{
-
 let r=await fetch(API+"?db="+db+"&t="+Date.now());
+
 let data=await r.json();
 
 return Array.isArray(data)?data:[];
-
-}catch(e){
-
-console.log(e);
-return [];
-
-}
 
 }
 
@@ -144,87 +124,52 @@ async function saveDB(db,data){
 
 await fetch(API,{
 method:"POST",
-headers:{"Content-Type":"application/json"},
+headers:{"Content-Type":"text/plain"},
 body:JSON.stringify({db:db,data:data})
 });
 
 }
 
-/* LOAD USERS */
+/* LOAD SELLERS */
 
-async function loadUsers(){
+async function loadSellers(){
 
-let users=await getDB("users");
+let sellers=await getDB("sellers");
 
-let box=document.getElementById("users");
+let box=document.getElementById("sellers");
 
 box.innerHTML="";
 
-if(!users.length){
+if(!sellers.length){
 
-box.innerHTML="No Users Found";
+box.innerHTML="No Seller Requests";
 return;
 
 }
 
-users.reverse().forEach(u=>{
-
-if(!u.email || u.email==="guest") return;
+sellers.reverse().forEach(s=>{
 
 let status="";
 
-if(u.banned){
-status="<span class='status-banned'>Banned</span>";
+if(s.status==="approved"){
+status="<span class='status-approved'>Approved</span>";
+}else{
+status="<span class='status-pending'>Pending</span>";
 }
-else if(u.seller){
-status="<span class='status-seller'>Seller</span>";
-}
-else if(u.sellerRequest){
-status="<span class='status-request'>Seller Request</span>";
-}
-else{
-status="<span class='status-active'>User</span>";
-}
-
-/* BUTTONS */
 
 let buttons="";
 
-/* SELLER REQUEST */
-
-if(u.sellerRequest){
+if(s.status!=="approved"){
 
 buttons+=`
 <button class="approve"
-onclick="approveSeller('${u.email}')">
-Approve Seller
+onclick="approveSeller('${s.email}')">
+Approve
 </button>
 
 <button class="reject"
-onclick="rejectSeller('${u.email}')">
+onclick="rejectSeller('${s.email}')">
 Reject
-</button>
-`;
-
-}
-
-/* BAN / UNBAN */
-
-if(u.banned){
-
-buttons+=`
-<button class="unban"
-onclick="toggleBan('${u.email}',false)">
-Unban
-</button>
-`;
-
-}else{
-
-buttons+=`
-<button class="ban"
-onclick="toggleBan('${u.email}',true)">
-Ban
 </button>
 `;
 
@@ -234,7 +179,19 @@ box.innerHTML+=`
 
 <div class="card">
 
-<b>${u.email}</b>
+<b>${s.email}</b>
+
+<br><br>
+
+Name : ${s.name || "-"}
+
+<br>
+
+Phone : ${s.phone || "-"}
+
+<br>
+
+UPI : ${s.upi || "-"}
 
 <br><br>
 
@@ -258,26 +215,25 @@ async function approveSeller(email){
 
 if(!confirm("Approve this seller?")) return;
 
-let users=await getDB("users");
+let sellers=await getDB("sellers");
 
-users=users.map(u=>{
+sellers=sellers.map(s=>{
 
-if(u.email===email){
+if(s.email===email){
 
-u.seller=true;
-u.sellerRequest=false;
+s.status="approved";
 
 }
 
-return u;
+return s;
 
 });
 
-await saveDB("users",users);
+await saveDB("sellers",sellers);
 
 alert("Seller Approved");
 
-loadUsers();
+loadSellers();
 
 }
 
@@ -285,61 +241,23 @@ loadUsers();
 
 async function rejectSeller(email){
 
-if(!confirm("Reject seller request?")) return;
+if(!confirm("Reject this seller?")) return;
 
-let users=await getDB("users");
+let sellers=await getDB("sellers");
 
-users=users.map(u=>{
+sellers=sellers.filter(s=>s.email!==email);
 
-if(u.email===email){
+await saveDB("sellers",sellers);
 
-u.sellerRequest=false;
+alert("Seller Rejected");
 
-}
-
-return u;
-
-});
-
-await saveDB("users",users);
-
-alert("Seller Request Rejected");
-
-loadUsers();
-
-}
-
-/* BAN / UNBAN */
-
-async function toggleBan(email,ban){
-
-if(!confirm(ban?"Ban this user?":"Unban this user?")) return;
-
-let users=await getDB("users");
-
-users=users.map(u=>{
-
-if(u.email===email){
-
-u.banned=ban;
-
-}
-
-return u;
-
-});
-
-await saveDB("users",users);
-
-alert(ban?"User Banned":"User Unbanned");
-
-loadUsers();
+loadSellers();
 
 }
 
 /* INIT */
 
-loadUsers();
+loadSellers();
 
 </script>
 
