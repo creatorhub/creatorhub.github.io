@@ -109,11 +109,13 @@ location.href="index.html";
 async function loadSellers(){
 
 let box=document.getElementById("sellers");
+
 box.innerHTML="Loading...";
 
 try{
 
 let res=await fetch(API+"?db=sellers&t="+Date.now());
+
 let sellers=await res.json();
 
 if(!Array.isArray(sellers) || sellers.length===0){
@@ -127,7 +129,7 @@ box.innerHTML="";
 
 sellers.reverse().forEach(s=>{
 
-let status = s.status==="approved"
+let status=s.status==="approved"
 ? "<span class='status-approved'>Approved</span>"
 : "<span class='status-pending'>Pending</span>";
 
@@ -182,6 +184,7 @@ ${buttons}
 }catch(err){
 
 console.log(err);
+
 box.innerHTML="API Connection Error";
 
 }
@@ -195,18 +198,24 @@ async function approveSeller(email){
 if(!confirm("Approve this seller?")) return;
 
 let res=await fetch(API+"?db=sellers");
+
 let sellers=await res.json();
 
 sellers=sellers.map(s=>{
+
 if(s.email===email){
 s.status="approved";
 }
+
 return s;
+
 });
 
 await fetch(API,{
 method:"POST",
-headers:{"Content-Type":"application/json"},
+headers:{
+"Content-Type":"application/json"
+},
 body:JSON.stringify({
 action:"update_sellers",
 data:sellers
@@ -226,13 +235,16 @@ async function rejectSeller(email){
 if(!confirm("Reject seller request?")) return;
 
 let res=await fetch(API+"?db=sellers");
+
 let sellers=await res.json();
 
 sellers=sellers.filter(s=>s.email!==email);
 
 await fetch(API,{
 method:"POST",
-headers:{"Content-Type":"application/json"},
+headers:{
+"Content-Type":"application/json"
+},
 body:JSON.stringify({
 action:"update_sellers",
 data:sellers
