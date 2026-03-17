@@ -69,7 +69,7 @@ margin-top:20px;
 Verifying payment and unlocking your ebook...
 </p>
 
-<div class="loader">
+<div id="loader" class="loader">
 ⏳ Please wait...
 </div>
 
@@ -98,14 +98,22 @@ location.href="login.html";
 
 }
 
-/* ================= ORDER ID ================= */
+/* ================= GET ORDER ID ================= */
+
+function getOrderId(){
 
 let params = new URLSearchParams(window.location.search);
 
-let orderId =
+return (
 params.get("order_id") ||
 params.get("orderId") ||
-params.get("cf_order_id");
+params.get("cf_order_id") ||
+params.get("order-id")
+);
+
+}
+
+let orderId = getOrderId();
 
 /* ================= VERIFY PAYMENT ================= */
 
@@ -115,6 +123,8 @@ if(!orderId){
 
 document.getElementById("status").innerText =
 "Order ID not found";
+
+document.getElementById("loader").style.display="none";
 
 return;
 
@@ -146,20 +156,24 @@ if(data.status==="PAID"){
 document.getElementById("status").innerText =
 "Ebook unlocked successfully!";
 
+document.getElementById("loader").style.display="none";
+
 localStorage.removeItem("buyProduct");
 
-}
-else{
+}else{
 
-document.getElementById("status").innerText =
-"Payment verification pending";
+/* Retry after 3 seconds */
+
+setTimeout(verifyPayment,3000);
 
 }
 
 }catch(e){
 
 document.getElementById("status").innerText =
-"Verification failed";
+"Verification failed, retrying...";
+
+setTimeout(verifyPayment,3000);
 
 }
 
