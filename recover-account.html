@@ -6,29 +6,73 @@ Recover My Account
 
 async function recoverAccount(){
 
-const API="YOUR_API_URL";
+const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
 
-let user=JSON.parse(localStorage.getItem("user"));
+let user = JSON.parse(localStorage.getItem("user") || "null");
 
-let users=await fetch(API+"?db=users").then(r=>r.json());
+if(!user){
 
-let index=users.findIndex(
+alert("Login required");
+location.href="login.html";
+return;
+
+}
+
+try{
+
+let users = await fetch(API+"?db=users&t="+Date.now())
+.then(r=>r.json());
+
+if(!Array.isArray(users)){
+alert("User database error");
+return;
+}
+
+let index = users.findIndex(
 u=>u.email===user.email
 );
 
-users[index].deleted=false;
+if(index===-1){
 
+alert("User not found");
+return;
+
+}
+
+if(!users[index].deleted){
+
+alert("Account is already active");
+return;
+
+}
+
+/* RECOVER */
+
+users[index].deleted=false;
 users[index].deleteDate="";
+
+/* SAVE */
 
 await fetch(API,{
 method:"POST",
-headers:{"Content-Type":"text/plain"},
-body:JSON.stringify({db:"users",data:users})
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+db:"users",
+data:users
+})
 });
 
-alert("Account recovered");
+alert("Account recovered successfully");
 
 location.href="dashboard.html";
+
+}catch(e){
+
+alert("Server error");
+
+}
 
 }
 
