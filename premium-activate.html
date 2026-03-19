@@ -46,30 +46,77 @@ margin-top:20px;
 
 <div class="card">
 
-<h2>Premium Activated 🎉</h2>
+<h2>Checking Premium Status...</h2>
 
-<p>
-You now have unlimited ebook reading access.
+<p id="status">
+Please wait...
 </p>
 
-<button onclick="activatePremium()">
-
-Activate Premium
-
+<button onclick="goHome()">
+Go To Marketplace
 </button>
 
 </div>
 
-
 <script>
 
-function activatePremium(){
+/* API */
 
-localStorage.setItem("premium","yes");
+const API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
 
-alert("Premium Activated");
+/* USER */
 
-location.href="index.html";
+let user=JSON.parse(localStorage.getItem("user")||"null")
+
+if(!user){
+
+alert("Login first")
+location.href="login.html"
+
+}
+
+/* CHECK PREMIUM */
+
+async function checkPremium(){
+
+try{
+
+let r=await fetch(API+"?db=subscriptions&t="+Date.now())
+
+let subs=await r.json()
+
+let active=subs.find(s=>s.email===user.email)
+
+if(active){
+
+document.querySelector("h2").innerText="Premium Activated 🎉"
+
+document.getElementById("status").innerText=
+"You now have unlimited ebook reading access."
+
+}else{
+
+document.querySelector("h2").innerText="Premium Not Found"
+
+document.getElementById("status").innerText=
+"No active subscription detected."
+
+}
+
+}catch{
+
+document.getElementById("status").innerText=
+"Server error"
+
+}
+
+}
+
+checkPremium()
+
+function goHome(){
+
+location.href="index.html"
 
 }
 
