@@ -106,7 +106,9 @@ margin-left:8px;
 
 const ADMIN="ayushprajpati6@gmail.com"
 
-const API="https://script.google.com/macros/s/AKfycbx7vyDJEi9v2RO7ujHdMAnlgUX8AV2JVOfydtw8DJU4AI-7vcTlWMEt07KFcFr1lYTa/exec"
+/* PAYMENT API */
+
+const API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
 
 let user=JSON.parse(localStorage.getItem("user")||"{}")
 
@@ -115,57 +117,52 @@ alert("Admin Only")
 location.href="index.html"
 }
 
-/* DATABASE */
+/* GET DB */
 
 async function getDB(db){
+
 let r=await fetch(API+"?db="+db+"&t="+Date.now())
 let data=await r.json()
-return Array.isArray(data)?data:[]
-}
 
-async function saveDB(db,data){
-await fetch(API,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({db:db,data:data})
-})
+return Array.isArray(data)?data:[]
+
 }
 
 /* LOAD WALLETS */
 
 async function loadWallets(){
 
-let users=await getDB("users")
 let wallets=await getDB("wallets")
 
 let box=document.getElementById("walletList")
+
 box.innerHTML=""
 
-users.forEach(u=>{
+if(!wallets.length){
+box.innerHTML="No Wallets"
+return
+}
 
-let wallet=wallets.find(w=>w.email===u.email)
-let balance=wallet?Number(wallet.balance)||0:0
+wallets.forEach(w=>{
 
-let safeId=u.email.replace(/[^a-zA-Z0-9]/g,"_")
+let safeId=w.email.replace(/[^a-zA-Z0-9]/g,"_")
 
 box.innerHTML+=`
 
 <div class="row">
 
-<b>${u.name||"User"}</b>
-<br>
-${u.email}
+<b>${w.email}</b>
 
 <br><br>
 
 Balance ₹
 
 <input type="number"
-value="${balance}"
+value="${Number(w.balance)||0}"
 id="bal_${safeId}">
 
 <button class="save"
-onclick="updateBalance('${u.email}','${safeId}')">
+onclick="updateBalance('${w.email}','${safeId}')">
 Save
 </button>
 
@@ -177,7 +174,7 @@ Save
 
 }
 
-/* UPDATE BALANCE WITH ADMIN WALLET TRANSFER */
+/* UPDATE BALANCE */
 
 async function updateBalance(email,id){
 
@@ -192,33 +189,23 @@ alert("Balance cannot be negative")
 return
 }
 
-let userWallet=wallets.find(w=>w.email===email)
-let adminWallet=wallets.find(w=>w.email===ADMIN)
+let wallet=wallets.find(w=>w.email===email)
 
-/* CREATE IF MISSING */
-
-if(!userWallet){
-userWallet={email:email,balance:0}
-wallets.push(userWallet)
+if(!wallet){
+wallet={email:email,balance:0}
+wallets.push(wallet)
 }
 
-if(!adminWallet){
-adminWallet={email:ADMIN,balance:0}
-wallets.push(adminWallet)
-}
+wallet.balance=newAmount
 
-let oldBalance=Number(userWallet.balance)||0
-let diff=newAmount-oldBalance
-
-/* UPDATE USER */
-
-userWallet.balance=newAmount
-
-/* UPDATE ADMIN */
-
-adminWallet.balance-=diff
-
-await saveDB("wallets",wallets)
+await fetch(API,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+action:"update_wallet",
+wallets:wallets
+})
+})
 
 alert("Wallet Updated")
 
@@ -231,8 +218,6 @@ loadWallets()
 async function loadWithdraw(){
 
 let withdraws=await getDB("withdrawals")
-
-let wallets=await getDB("wallets")
 
 let box=document.getElementById("withdrawList")
 
@@ -249,10 +234,14 @@ box.innerHTML+=`
 
 <div class="row">
 
-<b>${w.user}</b>
+<b>${w.email}</b>
+
 <br>
+
 UPI: ${w.upi}
+
 <br>
+
 Amount: ₹${w.amount}
 
 <br><br>
@@ -285,23 +274,33 @@ Reject
 
 async function approveWithdraw(id){
 
-let withdraws=await getDB("withdrawals")
+let res=await fetch(API,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+action:"approve_withdraw",
+id:id,
+admin_key:"creatorhub_admin_secret_987"
+})
+})
 
-let w=withdraws.find(x=>x.id===id)
+let data=await res.json()
 
-if(!w) return
-
-w.status="approved"
-
-await saveDB("withdrawals",withdraws)
+if(data.success){
 
 alert("Withdraw Approved")
+
+}else{
+
+alert(data.message||"Error")
+
+}
 
 loadWithdraw()
 
 }
 
-/* REJECT WITH REFUND */
+/* REJECT WITHDRAW */
 
 async function rejectWithdraw(id){
 
@@ -314,16 +313,29 @@ if(!w) return
 
 w.status="rejected"
 
-/* REFUND USER */
-
-let userWallet=wallets.find(x=>x.email===w.user)
+let userWallet=wallets.find(x=>x.email===w.email)
 
 if(userWallet){
 userWallet.balance+=Number(w.amount)
 }
 
-await saveDB("wallets",wallets)
-await saveDB("withdrawals",withdraws)
+await fetch(API,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+action:"update_wallet",
+wallets:wallets
+})
+})
+
+await fetch(API,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+action:"update_withdrawals",
+withdrawals:withdraws
+})
+})
 
 alert("Withdraw Rejected & Refunded")
 
