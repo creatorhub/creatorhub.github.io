@@ -104,23 +104,54 @@ alert("Admin Only");
 location.href="index.html";
 }
 
+/* DATABASE */
+
+async function getDB(db){
+
+try{
+
+let r=await fetch(API+"?db="+db+"&t="+Date.now());
+
+let d=await r.json();
+
+return Array.isArray(d)?d:[];
+
+}catch{
+
+return[];
+
+}
+
+}
+
+async function saveDB(db,data){
+
+await fetch(API,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+db:db,
+data:data
+})
+});
+
+}
+
 /* LOAD SELLERS */
 
 async function loadSellers(){
 
 let box=document.getElementById("sellers");
 
-box.innerHTML="Loading...";
+let sellers=await getDB("sellers");
 
-try{
+if(!sellers.length){
 
-let res=await fetch(API+"?db=sellers&t="+Date.now());
-
-let sellers=await res.json();
-
-if(!Array.isArray(sellers) || sellers.length===0){
 box.innerHTML="No Seller Requests";
 return;
+
 }
 
 box.innerHTML="";
@@ -136,8 +167,13 @@ let buttons="";
 if(s.status!=="approved"){
 
 buttons=`
-<button class="approve" onclick="approveSeller('${s.email}')">Approve</button>
-<button class="reject" onclick="rejectSeller('${s.email}')">Reject</button>
+<button class="approve" onclick="approveSeller('${s.email}')">
+Approve
+</button>
+
+<button class="reject" onclick="rejectSeller('${s.email}')">
+Reject
+</button>
 `;
 
 }
@@ -174,14 +210,6 @@ ${buttons}
 
 });
 
-}catch(err){
-
-console.log(err);
-
-box.innerHTML="API Connection Error";
-
-}
-
 }
 
 /* APPROVE SELLER */
@@ -190,8 +218,10 @@ async function approveSeller(email){
 
 if(!confirm("Approve this seller?")) return;
 
-let res=await fetch(API+"?db=sellers");
-let sellers=await res.json();
+let sellers=await getDB("sellers");
+let users=await getDB("users");
+
+/* UPDATE SELLER TABLE */
 
 sellers=sellers.map(s=>{
 if(s.email===email){
@@ -200,20 +230,21 @@ s.status="approved";
 return s;
 });
 
-let response=await fetch(API,{
-method:"POST",
-headers:{
-"Content-Type":"text/plain"
-},
-body:JSON.stringify({
-action:"update_sellers",
-data:sellers
-})
-});
+/* UPDATE USER TABLE */
 
-let result=await response.text();
+let index=users.findIndex(u=>u.email===email);
 
-console.log(result);
+if(index>-1){
+
+users[index].seller=true;
+users[index].sellerRequest=false;
+
+}
+
+/* SAVE */
+
+await saveDB("sellers",sellers);
+await saveDB("users",users);
 
 alert("Seller Approved");
 
@@ -227,25 +258,13 @@ async function rejectSeller(email){
 
 if(!confirm("Reject seller request?")) return;
 
-let res=await fetch(API+"?db=sellers");
-let sellers=await res.json();
+let sellers=await getDB("sellers");
+
+/* REMOVE REQUEST */
 
 sellers=sellers.filter(s=>s.email!==email);
 
-let response=await fetch(API,{
-method:"POST",
-headers:{
-"Content-Type":"text/plain"
-},
-body:JSON.stringify({
-action:"update_sellers",
-data:sellers
-})
-});
-
-let result=await response.text();
-
-console.log(result);
+await saveDB("sellers",sellers);
 
 alert("Seller Rejected");
 
