@@ -17,6 +17,8 @@ background:#020617;
 color:white;
 }
 
+/* HERO */
+
 .hero{
 padding:40px 15px;
 text-align:center;
@@ -28,12 +30,16 @@ color:#22c55e;
 margin:0;
 }
 
+/* PRODUCTS */
+
 .products{
 padding:15px;
 display:grid;
 grid-template-columns:1fr;
 gap:15px;
 }
+
+/* CARD */
 
 .card{
 display:flex;
@@ -105,8 +111,37 @@ Loading...
 
 const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
-const PAYMENT_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
+/* MENU FUNCTIONS */
 
+function openMenu(){
+
+let menu=document.getElementById("menu")
+let overlay=document.getElementById("overlay")
+
+if(menu){
+menu.style.left="0"
+}
+
+if(overlay){
+overlay.style.display="block"
+}
+
+}
+
+function closeMenu(){
+
+let menu=document.getElementById("menu")
+let overlay=document.getElementById("overlay")
+
+if(menu){
+menu.style.left="-260px"
+}
+
+if(overlay){
+overlay.style.display="none"
+}
+
+}
 
 /* LOAD HEADER */
 
@@ -172,7 +207,7 @@ id=link.split("/file/d/")[1].split("/")[0]
 }
 
 if(id){
-return "https://drive.google.com/uc?export=view&id="+id
+return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000"
 }
 
 }catch{}
@@ -180,8 +215,6 @@ return "https://drive.google.com/uc?export=view&id="+id
 return link
 
 }
-
-let allProducts=[]
 
 /* LOAD PRODUCTS */
 
@@ -201,13 +234,9 @@ products=[]
 
 let approved=products.filter(p=>p.status==="approved")
 
-/* NEW FIRST */
-
 approved.reverse()
 
-allProducts=approved
-
-render(allProducts)
+render(approved)
 
 }catch(e){
 
@@ -276,17 +305,15 @@ e.stopPropagation()
 
 localStorage.setItem("buyProduct",id)
 
-/* payment page will call payment API */
-
 location.href="payment.html"
 
 }
 
-/* AUTO LOAD */
+/* INIT */
 
 loadProducts()
 
-/* REFRESH */
+/* AUTO REFRESH */
 
 setInterval(loadProducts,15000)
 
