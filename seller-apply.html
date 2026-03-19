@@ -107,7 +107,9 @@ Admin approval required.
 <input id="phone" placeholder="Phone Number">
 <input id="upi" placeholder="UPI ID (for payment receive)">
 
-<button id="applyBtn" onclick="applySeller()">Apply Now 🚀</button>
+<button id="applyBtn" onclick="applySeller()">
+Apply Now 🚀
+</button>
 
 </div>
 
@@ -117,28 +119,29 @@ Admin approval required.
 
 const API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec";
 
-let user=JSON.parse(localStorage.getItem("user")||"{}");
+let user=JSON.parse(localStorage.getItem("user")||"null");
 
 if(!user || !user.email){
+
 location.href="login.html";
+
 }
 
-/* LOAD SELLERS */
+/* DATABASE */
 
-async function getSellers(){
+async function getDB(db){
 
 try{
 
-let res=await fetch(API+"?db=sellers&t="+Date.now());
+let r=await fetch(API+"?db="+db+"&t="+Date.now());
 
-let data=await res.json();
+let d=await r.json();
 
-return Array.isArray(data)?data:[];
+return Array.isArray(d)?d:[];
 
-}catch(e){
+}catch{
 
-console.log(e);
-return [];
+return[];
 
 }
 
@@ -154,63 +157,100 @@ let name=document.getElementById("name").value.trim();
 let phone=document.getElementById("phone").value.trim();
 let upi=document.getElementById("upi").value.trim();
 
+/* VALIDATION */
+
 if(!name || !phone || !upi){
+
 alert("Fill all fields");
 return;
+
 }
 
-/* PHONE VALIDATION */
+/* PHONE */
 
 if(!/^[0-9]{10}$/.test(phone)){
-alert("Enter valid 10 digit phone number");
+
+alert("Enter valid phone number");
 return;
+
 }
 
-/* UPI VALIDATION */
+/* UPI */
 
 if(!upi.includes("@")){
+
 alert("Enter valid UPI ID");
 return;
+
 }
 
 btn.disabled=true;
+btn.innerText="Submitting...";
 
-let sellers=await getSellers();
+/* CHECK USERS DB */
 
-/* CHECK EXIST */
+let users=await getDB("users");
 
-let exist=sellers.find(s=>s.email===user.email);
+let index=users.findIndex(u=>u.email===user.email);
 
-if(exist){
+if(index>-1){
 
-if(exist.status==="approved"){
-alert("You are already a seller ✅");
-}
-else{
-alert("Seller request already submitted ⏳");
-}
+if(users[index].seller){
+
+alert("You are already a seller");
 
 btn.disabled=false;
+btn.innerText="Apply Now 🚀";
 return;
 
 }
 
-/* SEND REQUEST */
+if(users[index].sellerRequest){
 
-try{
+alert("Seller request already submitted");
 
-let res=await fetch(API,{
+btn.disabled=false;
+btn.innerText="Apply Now 🚀";
+return;
+
+}
+
+}
+
+/* UPDATE USER */
+
+if(index>-1){
+
+users[index].sellerRequest=true;
+
+}
+
+await fetch(API,{
 
 method:"POST",
-
 headers:{
-"Content-Type":"text/plain"
+"Content-Type":"application/json"
 },
+body:JSON.stringify({
 
+db:"users",
+data:users
+
+})
+
+});
+
+/* SAVE SELLER REQUEST */
+
+await fetch(API,{
+
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
 body:JSON.stringify({
 
 action:"apply_seller",
-
 email:user.email,
 name:name,
 phone:phone,
@@ -220,31 +260,9 @@ upi:upi
 
 });
 
-let result=await res.json();
-
-if(result.success){
-
-alert("Application Sent ✅ Waiting Admin Approval");
+alert("Application submitted successfully");
 
 location.href="dashboard.html";
-
-}else{
-
-alert(result.message || "Application Failed");
-
-btn.disabled=false;
-
-}
-
-}catch(e){
-
-console.log(e);
-
-alert("Server Error");
-
-btn.disabled=false;
-
-}
 
 }
 
