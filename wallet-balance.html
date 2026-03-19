@@ -98,46 +98,44 @@ background:#22c55e;
 
 <script>
 
-/* ===== ADMIN CHECK ===== */
+/* ADMIN */
 
-const ADMIN="ayushprajpati6@gmail.com";
+const ADMIN="ayushprajpati6@gmail.com"
 
-const API="https://script.google.com/macros/s/AKfycbzMCnhAdxOSnSl7tO6u3yZZEARctzq9kQIenT-PoO8Y68gN5kXWViEFD01BiRObxOY1/exec";
+const API="https://script.google.com/macros/s/AKfycbzMCnhAdxOSnSl7tO6u3yZZEARctzq9kQIenT-PoO8Y68gN5kXWViEFD01BiRObxOY1/exec"
 
-let user=JSON.parse(localStorage.getItem("user"));
+let user=JSON.parse(localStorage.getItem("user")||"null")
 
 if(!user || user.email!==ADMIN){
-alert("Admin Only");
-location.href="index.html";
+
+alert("Admin Only")
+location.href="index.html"
+
 }
 
-/* ===== GET DATABASE ===== */
+/* DB */
 
 async function getDB(db){
 
 try{
 
-let res=await fetch(API+"?db="+db+"&t="+Date.now());
+let r=await fetch(API+"?db="+db+"&t="+Date.now())
+let d=await r.json()
 
-let data=await res.json();
+return Array.isArray(d)?d:[]
 
-return Array.isArray(data)?data:[];
+}catch{
 
-}catch(e){
-
-console.log("DB ERROR",e);
-
-return [];
+return[]
 
 }
 
 }
-
-/* ===== SAVE DATABASE ===== */
 
 async function saveDB(db,data){
 
 await fetch(API,{
+
 method:"POST",
 headers:{
 "Content-Type":"application/json"
@@ -146,121 +144,122 @@ body:JSON.stringify({
 db:db,
 data:data
 })
-});
+
+})
 
 }
 
-/* ===== LOAD USERS ===== */
+/* LOAD */
 
 async function loadWallets(){
 
-let box=document.getElementById("walletList");
+let box=document.getElementById("walletList")
 
-box.innerHTML="Loading...";
+box.innerHTML="Loading..."
 
-try{
+let users=await getDB("users")
 
-let users=await getDB("users");
+if(users.length===0){
 
-if(!users || users.length===0){
-
-box.innerHTML="No Users Found";
-
-return;
+box.innerHTML="No Users Found"
+return
 
 }
 
-box.innerHTML="";
+/* SAFE COPY */
 
-users.reverse().forEach(u=>{
+let list=[...users].reverse()
 
-let balance=Number(u.wallet)||0;
+box.innerHTML=""
 
-/* SAFE INPUT ID */
+list.forEach(u=>{
 
-let safeId=u.email.replace(/[^a-zA-Z0-9]/g,"_");
+let balance=Number(u.wallet||0)
+
+let safeId=u.email.replace(/[^a-zA-Z0-9]/g,"_")
 
 box.innerHTML+=`
 
 <div class="row">
 
-<b>Name:</b> ${u.name || "Not Set"}<br>
+<b>Name:</b> ${u.name||"User"}<br>
 <b>Email:</b> ${u.email}<br><br>
 
 Balance ₹
 
-<input type="number"
+<input
+type="number"
 value="${balance}"
-id="bal_${safeId}">
+id="bal_${safeId}"
+>
 
-<button class="save"
-onclick="updateBalance('${u.email}','${safeId}')">
+<button
+class="save"
+onclick="updateBalance('${u.email}','${safeId}',this)"
+>
+
 Save
+
 </button>
 
 </div>
 
-`;
+`
 
-});
-
-}catch(e){
-
-box.innerHTML="Database Error ❌";
+})
 
 }
 
-}
+/* UPDATE */
 
-/* ===== UPDATE WALLET ===== */
+async function updateBalance(email,id,btn){
 
-async function updateBalance(email,safeId){
+let users=await getDB("users")
 
-let users=await getDB("users");
+let input=document.getElementById("bal_"+id)
 
-let input=document.getElementById("bal_"+safeId);
-
-let newAmount=Number(input.value)||0;
-
-/* NEGATIVE BLOCK */
+let newAmount=Number(input.value)||0
 
 if(newAmount<0){
 
-alert("Balance cannot be negative");
-
-return;
+alert("Balance cannot be negative")
+return
 
 }
 
-/* CONFIRM */
+if(!confirm("Update wallet balance?")) return
 
-if(!confirm("Are you sure you want to change wallet balance?")){
-return;
-}
+btn.disabled=true
+btn.innerText="Saving..."
 
 users=users.map(u=>{
 
 if(u.email===email){
 
-u.wallet=newAmount;
+u.wallet=newAmount
 
 }
 
-return u;
+return u
 
-});
+})
 
-await saveDB("users",users);
+await saveDB("users",users)
 
-alert("Balance Updated ✅");
+btn.innerText="Saved"
 
-loadWallets();
+setTimeout(()=>{
+
+btn.disabled=false
+btn.innerText="Save"
+
+},1500)
 
 }
 
-/* ===== INIT ===== */
+/* INIT */
 
-loadWallets();
+loadWallets()
 
 </script>
 
