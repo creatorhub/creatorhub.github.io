@@ -11,69 +11,44 @@ content="width=device-width,initial-scale=1">
 <style>
 
 body{
-
 font-family:Arial;
-background:#111;
+background:#020617;
 color:white;
 text-align:center;
 margin:0;
-
 }
 
 .card{
-
-background:#222;
-
+background:#111827;
 margin:50px auto;
-
 padding:25px;
-
 width:90%;
-
 max-width:400px;
-
 border-radius:12px;
-
 box-shadow:0 0 15px black;
-
 }
 
 button{
-
-background:orange;
-
+background:#22c55e;
 border:none;
-
 padding:14px;
-
 margin-top:15px;
-
 width:100%;
-
 font-size:17px;
-
 border-radius:8px;
-
 cursor:pointer;
-
 font-weight:bold;
-
+color:white;
 }
 
 button:hover{
-
-background:#ff8800;
-
+opacity:.9;
 }
 
 .back{
-
 background:#000;
-
 padding:10px;
-
 cursor:pointer;
-
 }
 
 </style>
@@ -82,130 +57,181 @@ cursor:pointer;
 
 <body>
 
-
 <div class="back"
-
 onclick="history.back()">
-
 ⬅ Back
-
 </div>
-
-
 
 <div class="card">
 
 <h2>
-
 📘 Ebook Download
-
 </h2>
 
-
-<p>
-
-Payment Verified ✅
-
+<p id="status">
+Checking access...
 </p>
 
-
 <button onclick="downloadBook()">
-
 ⬇ Download Ebook
-
 </button>
-
 
 <button onclick="openBook()">
-
 📖 Read Online
-
 </button>
-
 
 </div>
 
-
-
 <script>
 
+/* APIs */
 
-// LOGIN CHECK
+const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
-const token=
+const PAYMENT_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
 
-localStorage.getItem("token");
+/* USER */
 
-if(!token){
+let user=JSON.parse(localStorage.getItem("user")||"null")
 
-alert("Login First");
+if(!user){
 
-location.href="login.html";
-
-}
-
-
-
-// PAYMENT CHECK
-
-const paid=
-
-localStorage.getItem("paid");
-
-if(paid!=="true"){
-
-alert("Payment Required");
-
-location.href="products.html";
+alert("Login First")
+location.href="login.html"
 
 }
 
+/* PRODUCT */
 
+let productId=localStorage.getItem("buyProduct")
 
-// PDF GET
+if(!productId){
 
-const pdf=
-
-localStorage.getItem("ebookPdf");
-
-
-if(!pdf){
-
-alert("No Ebook Found");
-
-location.href="products.html";
+alert("Product Missing")
+location.href="index.html"
 
 }
 
+/* DRIVE LINKS */
 
+function driveId(link){
 
-// DOWNLOAD
+if(!link) return null
+
+if(link.includes("id="))
+return link.split("id=")[1].split("&")[0]
+
+if(link.includes("/file/d/"))
+return link.split("/file/d/")[1].split("/")[0]
+
+return null
+
+}
+
+function driveView(link){
+
+let id=driveId(link)
+
+if(id)
+return "https://drive.google.com/file/d/"+id+"/preview"
+
+return link
+
+}
+
+function driveDownload(link){
+
+let id=driveId(link)
+
+if(id)
+return "https://drive.google.com/uc?export=download&id="+id
+
+return link
+
+}
+
+/* GLOBAL PDF */
+
+let pdfLink=""
+
+/* ACCESS CHECK */
+
+async function checkAccess(){
+
+let ordersRes=
+await fetch(PAYMENT_API+"?db=orders&t="+Date.now())
+
+let orders=
+await ordersRes.json()
+
+let productsRes=
+await fetch(PRODUCT_API+"?db=products&t="+Date.now())
+
+let products=
+await productsRes.json()
+
+let product=
+products.find(p=>String(p.id)===String(productId))
+
+if(!product){
+
+document.getElementById("status").innerText="Product not found"
+return
+
+}
+
+pdfLink=product.pdf
+
+let purchased=
+orders.find(o=>
+
+o.buyer===user.email &&
+String(o.productId)===String(productId) &&
+o.status==="paid"
+
+)
+
+if(purchased){
+
+document.getElementById("status").innerText="Payment Verified ✅"
+
+}else{
+
+document.getElementById("status").innerText="Access Denied ❌"
+
+alert("You have not purchased this ebook")
+
+location.href="payment.html"
+
+}
+
+}
+
+checkAccess()
+
+/* DOWNLOAD */
 
 function downloadBook(){
 
+if(!pdfLink) return
+
 window.open(
-
-pdf,
-
+driveDownload(pdfLink),
 "_blank"
-
-);
+)
 
 }
 
-
-
-// READ ONLINE
+/* READ */
 
 function openBook(){
 
+if(!pdfLink) return
+
 window.open(
-
-pdf,
-
+driveView(pdfLink),
 "_blank"
-
-);
+)
 
 }
 
