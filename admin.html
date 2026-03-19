@@ -151,9 +151,10 @@ const ADMIN="ayushprajpati6@gmail.com";
 
 /* APIs */
 
-const API_AUTH="https://script.google.com/macros/s/AKfycbx-Bu9s127GGueMP9w-BHp-J2oGz4YNLpPhaQ33oYGZNPpOnXRVl1BVKhCQz2y8E14R/exec";
+const API_PRODUCTS="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
 
-const API_PAYMENT="https://script.google.com/macros/s/AKfycbx7vyDJEi9v2RO7ujHdMAnlgUX8AV2JVOfydtw8DJU4AI-7vcTlWMEt07KFcFr1lYTa/exec";
+const API_PAYMENT="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec";
+
 
 /* USER */
 
@@ -164,15 +165,16 @@ alert("Admin Only");
 location.href="index.html";
 }
 
+
 /* DATABASE ROUTER */
 
 function getAPI(db){
 
-if(db==="orders" || db==="subscriptions" || db==="wallet"){
+if(db==="orders" || db==="subscriptions" || db==="wallets"){
 return API_PAYMENT;
 }
 
-return API_AUTH;
+return API_PRODUCTS;
 
 }
 
@@ -195,62 +197,6 @@ return [];
 
 }
 
-async function saveDB(db,data){
-
-try{
-
-await fetch(getAPI(db),{
-
-method:"POST",
-headers:{
-"Content-Type":"text/plain"
-},
-body:JSON.stringify({db:db,data:data})
-
-});
-
-}catch(e){
-
-console.log("SAVE ERROR",e);
-
-}
-
-}
-
-/* PREMIUM AUTO EXPIRY */
-
-async function checkPremiumExpiry(){
-
-let users=await getDB("users");
-
-let now=new Date();
-
-let changed=false;
-
-users.forEach(u=>{
-
-if(u.premium && u.premiumExpiry){
-
-let exp=new Date(u.premiumExpiry);
-
-if(now>exp){
-
-u.premium=false;
-changed=true;
-
-}
-
-}
-
-});
-
-if(changed){
-await saveDB("users",users);
-}
-
-}
-
-checkPremiumExpiry();
 
 /* OWNER PROFIT */
 
@@ -308,35 +254,36 @@ tension:.4
 
 loadProfit();
 
+
 /* SELLER REQUESTS */
 
 async function loadSellerRequests(){
 
-let users=await getDB("users");
+let sellers=await getDB("sellers");
 
 let box=document.getElementById("sellerList");
 
 box.innerHTML="";
 
-let pending=users.filter(u=>u.sellerRequest===true && !u.seller);
+let pending=sellers.filter(s=>s.status==="pending");
 
 if(pending.length===0){
 box.innerHTML="No Seller Requests";
 return;
 }
 
-pending.forEach(u=>{
+pending.forEach(s=>{
 
 box.innerHTML+=`
 
 <div class="row">
 
-<b>${escapeHTML(u.name||"User")}</b>
+<b>${escapeHTML(s.name||"User")}</b>
 <br>
-${escapeHTML(u.email)}
+${escapeHTML(s.email)}
 <br>
 
-<button class="open" onclick="approveSeller('${u.email}')">
+<button class="open" onclick="approveSeller('${s.email}')">
 Approve Seller
 </button>
 
@@ -350,26 +297,13 @@ Approve Seller
 
 loadSellerRequests();
 
-async function approveSeller(email){
 
-let users=await getDB("users");
+function approveSeller(email){
 
-let index=users.findIndex(u=>u.email===email);
-
-if(index>-1){
-
-users[index].seller=true;
-users[index].sellerRequest=false;
+alert("Seller approval should be handled in seller-control panel");
 
 }
 
-await saveDB("users",users);
-
-alert("Seller Approved");
-
-loadSellerRequests();
-
-}
 
 /* SECURITY */
 
