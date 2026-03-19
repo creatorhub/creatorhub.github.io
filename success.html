@@ -81,58 +81,57 @@ Go To My Library
 
 <script>
 
-/* ================= API ================= */
+/* PAYMENT API */
 
-const API =
-"https://script.google.com/macros/s/AKfycbx7vyDJEi9v2RO7ujHdMAnlgUX8AV2JVOfydtw8DJU4AI-7vcTlWMEt07KFcFr1lYTa/exec";
+const PAYMENT_API =
+"https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
 
-/* ================= USER ================= */
+/* USER */
 
-let user = JSON.parse(localStorage.getItem("user") || "null");
+let user = JSON.parse(localStorage.getItem("user") || "null")
 
 if(!user){
 
-alert("Login required");
-
-location.href="login.html";
+alert("Login required")
+location.href="login.html"
 
 }
 
-/* ================= GET ORDER ID ================= */
+/* GET ORDER ID */
 
 function getOrderId(){
 
-let params = new URLSearchParams(window.location.search);
+let params = new URLSearchParams(window.location.search)
 
 return (
 params.get("order_id") ||
 params.get("orderId") ||
 params.get("cf_order_id") ||
 params.get("order-id")
-);
+)
 
 }
 
-let orderId = getOrderId();
+let orderId = getOrderId()
 
-/* ================= VERIFY PAYMENT ================= */
+/* VERIFY PAYMENT */
 
 async function verifyPayment(){
 
 if(!orderId){
 
 document.getElementById("status").innerText =
-"Order ID not found";
+"Order ID not found"
 
-document.getElementById("loader").style.display="none";
+document.getElementById("loader").style.display="none"
 
-return;
+return
 
 }
 
 try{
 
-let res = await fetch(API,{
+let res = await fetch(PAYMENT_API,{
 
 method:"POST",
 
@@ -147,45 +146,43 @@ orderId:orderId
 
 })
 
-});
+})
 
-let data = await res.json();
+let data = await res.json()
 
-if(data.status==="PAID"){
+if(data.success){
 
 document.getElementById("status").innerText =
-"Ebook unlocked successfully!";
+"Ebook unlocked successfully!"
 
-document.getElementById("loader").style.display="none";
+document.getElementById("loader").style.display="none"
 
-localStorage.removeItem("buyProduct");
+localStorage.removeItem("buyProduct")
 
 }else{
 
-/* Retry after 3 seconds */
-
-setTimeout(verifyPayment,3000);
+setTimeout(verifyPayment,3000)
 
 }
 
 }catch(e){
 
 document.getElementById("status").innerText =
-"Verification failed, retrying...";
+"Verification failed, retrying..."
 
-setTimeout(verifyPayment,3000);
-
-}
+setTimeout(verifyPayment,3000)
 
 }
 
-verifyPayment();
+}
 
-/* ================= LIBRARY ================= */
+verifyPayment()
+
+/* GO LIBRARY */
 
 function goLibrary(){
 
-location.href="library.html";
+location.href="library.html"
 
 }
 
