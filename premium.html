@@ -17,8 +17,6 @@ background:#020617;
 color:white;
 }
 
-/* TOPBAR */
-
 .topbar{
 display:flex;
 align-items:center;
@@ -40,8 +38,6 @@ font-weight:bold;
 color:#22c55e;
 }
 
-/* CONTAINER */
-
 .container{
 max-width:1000px;
 margin:auto;
@@ -54,16 +50,11 @@ color:#22c55e;
 margin-bottom:30px;
 }
 
-/* PLANS GRID */
-
 .plans{
 display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(260px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
 gap:20px;
 }
-
-/* CARD */
 
 .card{
 background:#111827;
@@ -77,15 +68,11 @@ transition:.3s;
 transform:scale(1.03);
 }
 
-/* PRICE */
-
 .price{
 font-size:38px;
 color:#22c55e;
 margin:15px 0;
 }
-
-/* BUTTON */
 
 button{
 width:100%;
@@ -98,8 +85,6 @@ font-weight:bold;
 cursor:pointer;
 margin-top:10px;
 }
-
-/* LIST */
 
 ul{
 text-align:left;
@@ -124,136 +109,148 @@ margin-left:6px;
 
 <div class="topbar">
 
-<div class="back"
-onclick="location.href='index.html'">
+<div class="back" onclick="location.href='index.html'">⬅</div>
 
-⬅
-
-</div>
-
-<div class="title">
-
-CreatorHub Premium
+<div class="title">CreatorHub Premium</div>
 
 </div>
-
-</div>
-
 
 <div class="container">
 
 <h1>Unlock Unlimited Ebook Reading</h1>
 
-
 <div class="plans">
-
-
-<!-- 15 DAYS PLAN -->
 
 <div class="card">
 
 <h2>15 Days Plan</h2>
 
-<div class="price">
-₹399
-</div>
+<div class="price">₹399</div>
 
 <ul>
-
 <li>Unlimited Ebook Reading</li>
 <li>Access All Premium Books</li>
 <li>No Ads Reading</li>
 <li>Instant Access</li>
-
 </ul>
 
-<button onclick="buyPlan('15 Days','399')">
-
+<button onclick="buyPlan('15days',399)">
 Subscribe Now
-
 </button>
 
 </div>
 
-
-
-<!-- MONTHLY PLAN -->
-
 <div class="card">
 
-<h2>Monthly Plan
-<span class="badge">Popular</span>
-</h2>
+<h2>Monthly Plan <span class="badge">Popular</span></h2>
 
-<div class="price">
-₹799
-</div>
+<div class="price">₹799</div>
 
 <ul>
-
 <li>Unlimited Ebook Reading</li>
 <li>All Premium Books Free</li>
 <li>Early Access New Books</li>
 <li>No Ads Reading</li>
-
 </ul>
 
-<button onclick="buyPlan('Monthly','799')">
-
+<button onclick="buyPlan('month',799)">
 Subscribe Now
-
 </button>
 
 </div>
-
-
-
-<!-- YEARLY PLAN -->
 
 <div class="card">
 
 <h2>Yearly Plan</h2>
 
-<div class="price">
-₹3599
-</div>
+<div class="price">₹3599</div>
 
 <ul>
-
 <li>Unlimited Ebook Reading</li>
 <li>All Premium Books Free</li>
 <li>Early Access + No Ads</li>
 <li>Best Value Plan</li>
-
 </ul>
 
-<button onclick="buyPlan('Yearly','3599')">
-
+<button onclick="buyPlan('year',3599)">
 Subscribe Now
-
 </button>
 
 </div>
 
-
 </div>
 
 </div>
-
 
 <script>
 
-function buyPlan(plan,price){
+/* PAYMENT API */
 
-localStorage.setItem("premiumPlan",plan);
-localStorage.setItem("premiumPrice",price);
+const API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
 
-location.href="subscription-request.html";
+/* USER */
+
+let user=JSON.parse(localStorage.getItem("user")||"null")
+
+if(!user){
+
+alert("Login first")
+location.href="login.html"
+
+}
+
+/* BUY PLAN */
+
+async function buyPlan(plan,price){
+
+if(!confirm("Proceed to payment?"))
+return
+
+try{
+
+let res=await fetch(API,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+action:"create_subscription_order",
+email:user.email,
+plan:plan,
+amount:price
+
+})
+
+})
+
+let data=await res.json()
+
+if(data.payment_session_id){
+
+let url=
+"https://sandbox.cashfree.com/pg/view/payment-session-id?payment_session_id="+data.payment_session_id
+
+window.location.href=url
+
+}else{
+
+alert("Payment initialization failed")
+
+}
+
+}catch(e){
+
+alert("Server error")
+
+}
 
 }
 
 </script>
-
 
 </body>
 </html>
