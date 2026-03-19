@@ -16,8 +16,6 @@ background:#020617;
 color:white;
 }
 
-/* TOP BAR */
-
 .topbar{
 display:flex;
 align-items:center;
@@ -38,15 +36,11 @@ font-weight:bold;
 color:#22c55e;
 }
 
-/* CONTAINER */
-
 .container{
 padding:20px;
 display:flex;
 justify-content:center;
 }
-
-/* CARD */
 
 .card{
 background:#111827;
@@ -58,8 +52,6 @@ text-align:center;
 box-shadow:0 10px 25px rgba(0,0,0,.5);
 }
 
-/* IMAGE CENTER */
-
 .card img{
 width:260px;
 height:260px;
@@ -68,8 +60,6 @@ border-radius:12px;
 display:block;
 margin:0 auto 15px auto;
 }
-
-/* BUTTON */
 
 button{
 width:100%;
@@ -121,8 +111,6 @@ cursor:not-allowed;
 
 const PRODUCT_API =
 "https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
-
-/* NEW DEPLOYED PAYMENT API */
 
 const PAYMENT_API =
 "https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
@@ -193,6 +181,10 @@ let res = await fetch(PRODUCT_API+"?db=products&t="+Date.now())
 
 let products = await res.json()
 
+if(!Array.isArray(products)){
+products=[]
+}
+
 product = products.find(p => String(p.id) === String(buyId))
 
 if(!product){
@@ -261,7 +253,7 @@ let data = await res.json()
 
 console.log("API Response:",data)
 
-/* PAYMENT REDIRECT */
+/* ================= PAYMENT REDIRECT ================= */
 
 if(data.payment_session_id){
 
