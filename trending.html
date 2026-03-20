@@ -123,11 +123,11 @@ Loading...
 
 <script>
 
-/* PRODUCT API */
-
 const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
-/* DRIVE IMAGE */
+const PAYMENT_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
+
+/* IMAGE FIX */
 
 function driveImage(link){
 
@@ -161,36 +161,64 @@ async function load(){
 
 try{
 
-let r=await fetch(PRODUCT_API+"?db=products&t="+Date.now())
+let productsRes=await fetch(PRODUCT_API+"?db=products&t="+Date.now())
+let products=await productsRes.json()
 
-let products=await r.json()
+let ordersRes=await fetch(PAYMENT_API+"?db=orders&t="+Date.now())
+let orders=await ordersRes.json()
+
+let reviewsRes=await fetch(PRODUCT_API+"?db=reviews&t="+Date.now())
+let reviews=await reviewsRes.json()
 
 if(!Array.isArray(products)) products=[]
-
-/* APPROVED PRODUCTS ONLY */
+if(!Array.isArray(orders)) orders=[]
+if(!Array.isArray(reviews)) reviews=[]
 
 products=products.filter(p=>p.status==="approved")
 
-/* TRENDING SCORE */
+/* CALCULATE DATA */
 
 products.forEach(p=>{
 
-let sales=Number(p.sales||0)
-let rating=Number(p.rating||0)
+let sales=orders.filter(o=>
 
-p.trendingScore=(sales*3)+(rating*10)
+String(o.productId)===String(p.id) &&
+o.status==="paid"
+
+).length
+
+let productReviews=reviews.filter(r=>
+
+String(r.productId)===String(p.id)
+
+)
+
+let total=0
+
+productReviews.forEach(r=>{
+total+=Number(r.rating||0)
+})
+
+let rating=productReviews.length
+? total/productReviews.length
+:0
+
+/* TRENDING SCORE */
+
+p.trendingScore=(sales*5)+(rating*10)
+
+p.sales=sales
+p.rating=rating
 
 })
 
-/* SORT BY TRENDING */
+/* SORT */
 
 products.sort((a,b)=>b.trendingScore-a.trendingScore)
 
 let box=document.getElementById("books")
 
 let html=""
-
-/* SHOW TOP 20 */
 
 products.slice(0,20).forEach((p,i)=>{
 
@@ -206,12 +234,16 @@ html+=`
 
 ${p.title || "Untitled"}
 
-${i<3?'<span class="badge">Top</span>':''}
+${i<3?'<span class="badge">Trending</span>':''}
 
 </div>
 
 <div class="price">
 ₹ ${p.price || 0}
+</div>
+
+<div style="font-size:13px;color:#aaa">
+⭐ ${p.rating.toFixed(1)} • 📈 ${p.sales} sales
 </div>
 
 <button class="buy"
