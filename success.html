@@ -63,7 +63,7 @@ margin-top:20px;
 
 <div class="card">
 
-<h1>Payment Successful 🎉</h1>
+<h1 id="title">Payment Successful 🎉</h1>
 
 <p id="status">
 Verifying payment and unlocking your ebook...
@@ -114,14 +114,36 @@ params.get("order-id")
 
 let orderId = getOrderId()
 
+/* RETRY CONTROL */
+
+let retry = 0
+const maxRetry = 10
+
 /* VERIFY PAYMENT */
 
 async function verifyPayment(){
 
 if(!orderId){
 
+document.getElementById("title").innerText="Order Error"
+
 document.getElementById("status").innerText =
 "Order ID not found"
+
+document.getElementById("loader").style.display="none"
+
+return
+
+}
+
+/* STOP AFTER MAX RETRY */
+
+if(retry >= maxRetry){
+
+document.getElementById("title").innerText="Verification Timeout"
+
+document.getElementById("status").innerText =
+"Unable to verify payment. Please contact support."
 
 document.getElementById("loader").style.display="none"
 
@@ -150,6 +172,8 @@ orderId:orderId
 
 let data = await res.json()
 
+/* SUCCESS */
+
 if(data.success){
 
 document.getElementById("status").innerText =
@@ -157,18 +181,32 @@ document.getElementById("status").innerText =
 
 document.getElementById("loader").style.display="none"
 
+/* REMOVE CART BUY FLAG */
+
 localStorage.removeItem("buyProduct")
 
-}else{
+}
+
+/* NOT READY YET */
+
+else{
+
+retry++
 
 setTimeout(verifyPayment,3000)
 
 }
 
-}catch(e){
+}
+
+/* ERROR */
+
+catch(e){
+
+retry++
 
 document.getElementById("status").innerText =
-"Verification failed, retrying..."
+"Verification error. Retrying..."
 
 setTimeout(verifyPayment,3000)
 
