@@ -113,6 +113,24 @@ location.href="index.html"
 
 }
 
+/* SAFE HTML */
+
+function escapeHTML(str){
+
+return String(str).replace(/[&<>"']/g,function(m){
+
+return({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+})[m]
+
+})
+
+}
+
 /* DB */
 
 async function getDB(db){
@@ -182,8 +200,8 @@ box.innerHTML+=`
 
 <div class="row">
 
-<b>Name:</b> ${u.name||"User"}<br>
-<b>Email:</b> ${u.email}<br><br>
+<b>Name:</b> ${escapeHTML(u.name||"User")}<br>
+<b>Email:</b> ${escapeHTML(u.email)}<br><br>
 
 Balance ₹
 
