@@ -151,18 +151,20 @@ const ADMIN="ayushprajpati6@gmail.com";
 
 /* APIs */
 
-const API_PRODUCTS="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
+const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
 
-const API_PAYMENT="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec";
+const PAYMENT_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec";
 
 
-/* USER */
+/* USER CHECK */
 
 let user=JSON.parse(localStorage.getItem("user")||"{}");
 
 if(!user || user.email!==ADMIN){
+
 alert("Admin Only");
 location.href="index.html";
+
 }
 
 
@@ -171,10 +173,10 @@ location.href="index.html";
 function getAPI(db){
 
 if(db==="orders" || db==="subscriptions" || db==="wallets"){
-return API_PAYMENT;
+return PAYMENT_API;
 }
 
-return API_PRODUCTS;
+return PRODUCT_API;
 
 }
 
@@ -209,8 +211,10 @@ let subscriptions=await getDB("subscriptions");
 
 let profit=0;
 
+/* ADMIN COMMISSION 8% */
+
 orders.forEach(o=>{
-profit+=Number(o.amount||0)*0.20;
+profit+=Number(o.amount||0)*0.08;
 });
 
 subscriptions.forEach(s=>{
@@ -219,12 +223,13 @@ profit+=Number(s.amount||0);
 
 document.getElementById("profit").innerText=Math.floor(profit);
 
+
 /* CHART DATA */
 
 let chartData=[];
 
 orders.forEach(o=>{
-chartData.push(Number(o.amount||0)*0.20);
+chartData.push(Number(o.amount||0)*0.08);
 });
 
 subscriptions.forEach(s=>{
@@ -232,6 +237,10 @@ chartData.push(Number(s.amount||0));
 });
 
 if(chart) chart.destroy();
+
+if(chartData.length===0){
+chartData=[0];
+}
 
 chart=new Chart(document.getElementById("chart"),{
 
@@ -298,9 +307,11 @@ Approve Seller
 loadSellerRequests();
 
 
-function approveSeller(email){
+/* APPROVE SELLER */
 
-alert("Seller approval should be handled in seller-control panel");
+async function approveSeller(email){
+
+alert("Use seller-control panel to approve sellers.");
 
 }
 
