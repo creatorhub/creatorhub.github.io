@@ -166,7 +166,7 @@ return;
 
 }
 
-/* PHONE */
+/* PHONE VALIDATION */
 
 if(!/^[0-9]{10}$/.test(phone)){
 
@@ -175,7 +175,7 @@ return;
 
 }
 
-/* UPI */
+/* UPI VALIDATION */
 
 if(!upi.includes("@")){
 
@@ -187,7 +187,9 @@ return;
 btn.disabled=true;
 btn.innerText="Submitting...";
 
-/* CHECK USERS DB */
+try{
+
+/* CHECK USER DB */
 
 let users=await getDB("users");
 
@@ -223,46 +225,49 @@ if(index>-1){
 
 users[index].sellerRequest=true;
 
-}
-
 await fetch(API,{
-
 method:"POST",
 headers:{
 "Content-Type":"application/json"
 },
 body:JSON.stringify({
-
 db:"users",
 data:users
-
 })
-
 });
+
+}
 
 /* SAVE SELLER REQUEST */
 
 await fetch(API,{
-
 method:"POST",
 headers:{
 "Content-Type":"application/json"
 },
 body:JSON.stringify({
-
 action:"apply_seller",
 email:user.email,
 name:name,
 phone:phone,
 upi:upi
-
 })
-
 });
 
-alert("Application submitted successfully");
+alert("Application submitted successfully ✅");
 
 location.href="dashboard.html";
+
+}catch(e){
+
+console.log(e);
+
+alert("Server error ❌");
+
+btn.disabled=false;
+btn.innerText="Apply Now 🚀";
+
+}
 
 }
 
