@@ -59,9 +59,9 @@ display:inline-block;
 margin-top:6px;
 }
 
-.processing{background:#f59e0b}
-.shipped{background:#3b82f6}
-.transit{background:#6366f1}
+.placed{background:#f59e0b}
+.printing{background:#3b82f6}
+.shipped{background:#6366f1}
 .delivery{background:#10b981}
 .delivered{background:#22c55e}
 
@@ -88,119 +88,96 @@ opacity:.7;
 <body>
 
 <div class="topbar">
-
 <div class="back" onclick="history.back()">⬅</div>
-
 <div class="title">My Orders</div>
-
 </div>
-
 
 <div class="container">
-
-<div id="orders">
-
-Loading orders...
-
+<div id="orders">Loading orders...</div>
 </div>
-
-</div>
-
 
 <script>
 
-/* ===== API ===== */
+/* APIs */
 
-const API="YOUR_SCRIPT_URL";
+const ORDER_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
+
+const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
 
-/* ===== USER ===== */
+/* USER */
 
-let user=JSON.parse(localStorage.getItem("user")||"{}");
+let user=JSON.parse(localStorage.getItem("user")||"{}")
 
 if(!user.email){
 
-alert("Login first");
-
-location.href="login.html";
+alert("Login first")
+location.href="login.html"
 
 }
 
 
-/* ===== LOAD ORDERS ===== */
+/* GET DB */
+
+async function getDB(api,db){
+
+let res=await fetch(api+"?db="+db+"&t="+Date.now())
+
+let data=await res.json()
+
+return Array.isArray(data)?data:[]
+
+}
+
+
+/* LOAD ORDERS */
 
 async function loadOrders(){
 
-let box=document.getElementById("orders");
+let box=document.getElementById("orders")
 
-box.innerHTML="Loading...";
+box.innerHTML="Loading..."
 
 try{
 
-let res=await fetch(API+"?db=orders&t="+Date.now());
+let orders=await getDB(ORDER_API,"orders")
 
-let orders=await res.json();
-
-if(!Array.isArray(orders)){
-orders=[];
-}
+let products=await getDB(PRODUCT_API,"products")
 
 
-/* FILTER USER ORDERS */
+/* USER ORDERS */
 
 let myOrders=orders.filter(
 o=>o.buyer===user.email
-);
+)
 
-
-/* NEW FIRST */
-
-myOrders.reverse();
-
+myOrders.reverse()
 
 if(myOrders.length===0){
 
-box.innerHTML=`<div class="empty">
-
-No orders yet 📦
-
-</div>`;
-
-return;
+box.innerHTML="<div class='empty'>No orders yet 📦</div>"
+return
 
 }
 
-box.innerHTML="";
-
+box.innerHTML=""
 
 myOrders.forEach(o=>{
 
+let product=products.find(
+p=>String(p.id)===String(o.productId)
+)
 
-let status=o.order_status || "processing";
+let title=product?product.title:"Unknown Product"
 
-let statusClass="processing";
+let status=o.status || "Order Placed"
 
+let statusClass="placed"
 
-if(status==="shipped") statusClass="shipped";
-if(status==="in_transit") statusClass="transit";
-if(status==="out_for_delivery") statusClass="delivery";
-if(status==="delivered") statusClass="delivered";
-
-
-let trackBtn="";
-
-
-if(o.tracking){
-
-trackBtn=`
-<button class="track"
-onclick="trackOrder('${o.tracking}','${o.courier}')">
-Track Order
-</button>
-`;
-
-}
-
+if(status==="Printing") statusClass="printing"
+if(status==="Shipped") statusClass="shipped"
+if(status==="Out for Delivery") statusClass="delivery"
+if(status==="Delivered") statusClass="delivered"
 
 box.innerHTML+=`
 
@@ -210,7 +187,7 @@ box.innerHTML+=`
 
 <br><br>
 
-<b>Product:</b> ${o.productId}
+<b>Product:</b> ${title}
 
 <br>
 
@@ -218,81 +195,34 @@ box.innerHTML+=`
 
 <br>
 
-<b>Date:</b> ${o.date}
+<b>Date:</b> ${o.date || ""}
 
 <br><br>
 
 <b>Status:</b>
 
 <span class="status ${statusClass}">
-
 ${status}
-
 </span>
-
-<br><br>
-
-<b>Courier:</b> ${o.courier || "Not Assigned"}
-
-<br>
-
-<b>Tracking:</b> ${o.tracking || "Not Available"}
-
-<br>
-
-<b>Delivery:</b> ${o.delivery_date || "Pending"}
-
-${trackBtn}
 
 </div>
 
-`;
+`
 
-});
+})
 
 }catch(e){
 
-box.innerHTML="Failed to load orders ❌";
+box.innerHTML="Failed to load orders ❌"
 
 }
 
 }
 
 
-/* ===== TRACK ORDER ===== */
+/* INIT */
 
-function trackOrder(tracking,courier){
-
-if(!tracking){
-
-alert("Tracking not available");
-
-return;
-
-}
-
-/* example courier link */
-
-let url="";
-
-if(courier==="delhivery"){
-
-url="https://www.delhivery.com/track/"+tracking;
-
-}else{
-
-url="https://www.google.com/search?q=track+order+"+tracking;
-
-}
-
-window.open(url);
-
-}
-
-
-/* ===== INIT ===== */
-
-loadOrders();
+loadOrders()
 
 </script>
 
