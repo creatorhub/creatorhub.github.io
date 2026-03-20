@@ -161,7 +161,7 @@ Digital Products Marketplace
 
 <script>
 
-/* CORRECT PRODUCT API */
+/* PRODUCT API */
 
 const API =
 "https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
@@ -265,19 +265,19 @@ src="${driveImage(p.image)}"
 onclick="openProduct('${p.id}')"
 >
 
-<h3>${p.title}</h3>
+<h3>${p.title || "Untitled Ebook"}</h3>
 
-<p>₹ ${p.price}</p>
+<p>₹ ${p.price || 0}</p>
 
 <button
 class="buy"
-onclick="buyNow('${p.id}')">
+onclick="buyNow(event,'${p.id}')">
 Buy Ebook 🚀
 </button>
 
 <button
 class="cart"
-onclick="addCart('${p.id}')">
+onclick="addCart(event,'${p.id}')">
 Add Cart
 </button>
 
@@ -303,7 +303,9 @@ location.href="ebook.html?id="+id;
 
 /* BUY */
 
-function buyNow(id){
+function buyNow(e,id){
+
+e.stopPropagation();
 
 if(!user){
 
@@ -323,7 +325,9 @@ location.href="payment.html";
 
 /* CART */
 
-function addCart(id){
+function addCart(e,id){
+
+e.stopPropagation();
 
 let cart =
 JSON.parse(localStorage.getItem("cart")||"[]");
