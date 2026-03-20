@@ -100,7 +100,6 @@ Back to Login
 
 <script>
 
-// ✅ YOUR FINAL WEB APP URL
 const API="https://script.google.com/macros/s/AKfycbzMCnhAdxOSnSl7tO6u3yZZEARctzq9kQIenT-PoO8Y68gN5kXWViEFD01BiRObxOY1/exec";
 
 async function resetPassword(){
@@ -122,8 +121,11 @@ try{
 
 let res=await fetch(API,{
 method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
 body:JSON.stringify({
-action:"forgot",
+action:"reset_password",
 email:email,
 newPassword:newPassword
 })
