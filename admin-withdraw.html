@@ -4,7 +4,6 @@
 <head>
 
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>Withdraw Requests</title>
 
 <style>
@@ -68,20 +67,19 @@ font-size:14px;
 
 <script>
 
-/* PAYMENT API */
+/* API */
 
 const API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
 
 const ADMIN="ayushprajpati6@gmail.com"
 
-/* USER CHECK */
+/* ADMIN CHECK */
 
 let user=JSON.parse(localStorage.getItem("user")||"{}")
 
 if(!user || user.email!==ADMIN){
 
 alert("Admin only")
-
 location.href="index.html"
 
 }
@@ -91,14 +89,13 @@ location.href="index.html"
 async function getDB(db){
 
 let r=await fetch(API+"?db="+db+"&t="+Date.now())
-
 let d=await r.json()
 
 return Array.isArray(d)?d:[]
 
 }
 
-/* LOAD WITHDRAW REQUESTS */
+/* LOAD REQUESTS */
 
 async function load(){
 
@@ -109,7 +106,6 @@ let html=""
 if(!withdraws.length){
 
 document.getElementById("list").innerHTML="No Requests"
-
 return
 
 }
@@ -130,7 +126,7 @@ UPI : ${w.upi}
 Status : ${w.status}
 </div>
 
-${w.status==="pending"||w.status==="processing"?`
+${w.status==="pending"?`
 
 <button class="approve"
 onclick="approve('${w.id}')">
@@ -173,8 +169,7 @@ headers:{
 body:JSON.stringify({
 
 action:"approve_withdraw",
-id:id,
-admin_key:"creatorhub_admin_secret_987"
+id:id
 
 })
 
@@ -202,45 +197,34 @@ async function reject(id){
 
 if(!confirm("Reject withdraw?")) return
 
-let withdraws=await getDB("withdrawals")
+let res=await fetch(API,{
 
-let wallets=await getDB("wallets")
+method:"POST",
 
-let w=withdraws.find(x=>x.id===id)
+headers:{
+"Content-Type":"application/json"
+},
 
-if(!w) return
+body:JSON.stringify({
 
-w.status="rejected"
+action:"reject_withdraw",
+id:id
 
-/* REFUND USER */
+})
 
-let wallet=wallets.find(x=>x.email===w.email)
+})
 
-if(wallet){
-wallet.balance+=Number(w.amount)
+let data=await res.json()
+
+if(data.success){
+
+alert("Withdraw Rejected")
+
+}else{
+
+alert("Error")
+
 }
-
-/* SAVE */
-
-await fetch(API,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-action:"update_wallet",
-wallets:wallets
-})
-})
-
-await fetch(API,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-action:"update_withdrawals",
-withdrawals:withdraws
-})
-})
-
-alert("Withdraw Rejected & Refunded")
 
 load()
 
