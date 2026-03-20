@@ -169,9 +169,27 @@ return link
 }
 
 
-/* ================= LOAD PRODUCT ================= */
+/* ================= SAFE TEXT ================= */
+
+function escapeHTML(str){
+
+return String(str).replace(/[&<>"']/g,function(m){
+return({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+})[m]
+})
+
+}
+
+
+/* ================= PRODUCT ================= */
 
 let product=null
+
 
 async function loadProduct(){
 
@@ -195,11 +213,14 @@ return
 
 }
 
-document.getElementById("title").innerText = product.title || "Untitled"
+document.getElementById("title").innerText =
+escapeHTML(product.title || "Untitled")
 
-document.getElementById("price").innerText = "₹ "+(product.price || 0)
+document.getElementById("price").innerText =
+"₹ "+(product.price || 0)
 
-document.getElementById("cover").src = driveImage(product.image)
+document.getElementById("cover").src =
+driveImage(product.image)
 
 }catch(e){
 
@@ -243,6 +264,7 @@ body:JSON.stringify({
 
 action:"create_order",
 productId:product.id,
+type:"ebook",
 buyer:user.email
 
 })
