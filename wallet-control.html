@@ -106,25 +106,51 @@ margin-left:8px;
 
 const ADMIN="ayushprajpati6@gmail.com"
 
-/* PAYMENT API */
-
 const API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
 
 let user=JSON.parse(localStorage.getItem("user")||"{}")
 
 if(!user || user.email!==ADMIN){
+
 alert("Admin Only")
 location.href="index.html"
+
+}
+
+/* SAFE HTML */
+
+function escapeHTML(str){
+
+return String(str).replace(/[&<>"']/g,function(m){
+
+return({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+})[m]
+
+})
+
 }
 
 /* GET DB */
 
 async function getDB(db){
 
+try{
+
 let r=await fetch(API+"?db="+db+"&t="+Date.now())
 let data=await r.json()
 
 return Array.isArray(data)?data:[]
+
+}catch{
+
+return[]
+
+}
 
 }
 
@@ -139,8 +165,11 @@ let box=document.getElementById("walletList")
 box.innerHTML=""
 
 if(!wallets.length){
+
 box.innerHTML="No Wallets"
+
 return
+
 }
 
 wallets.forEach(w=>{
@@ -151,7 +180,7 @@ box.innerHTML+=`
 
 <div class="row">
 
-<b>${w.email}</b>
+<b>${escapeHTML(w.email)}</b>
 
 <br><br>
 
@@ -178,6 +207,8 @@ Save
 
 async function updateBalance(email,id){
 
+if(!confirm("Update wallet balance?")) return
+
 let wallets=await getDB("wallets")
 
 let input=document.getElementById("bal_"+id)
@@ -185,18 +216,24 @@ let input=document.getElementById("bal_"+id)
 let newAmount=Number(input.value)||0
 
 if(newAmount<0){
+
 alert("Balance cannot be negative")
 return
+
 }
 
 let wallet=wallets.find(w=>w.email===email)
 
 if(!wallet){
-wallet={email:email,balance:0}
+
+wallet={email:email,balance:newAmount}
 wallets.push(wallet)
-}
+
+}else{
 
 wallet.balance=newAmount
+
+}
 
 await fetch(API,{
 method:"POST",
@@ -213,7 +250,7 @@ loadWallets()
 
 }
 
-/* LOAD WITHDRAW REQUESTS */
+/* LOAD WITHDRAW */
 
 async function loadWithdraw(){
 
@@ -224,8 +261,11 @@ let box=document.getElementById("withdrawList")
 box.innerHTML=""
 
 if(!withdraws.length){
+
 box.innerHTML="No Requests"
+
 return
+
 }
 
 withdraws.reverse().forEach(w=>{
@@ -234,19 +274,19 @@ box.innerHTML+=`
 
 <div class="row">
 
-<b>${w.email}</b>
+<b>${escapeHTML(w.email)}</b>
 
 <br>
 
-UPI: ${w.upi}
+UPI: ${escapeHTML(w.upi)}
 
 <br>
 
-Amount: ₹${w.amount}
+Amount: ₹${Number(w.amount)||0}
 
 <br><br>
 
-Status: ${w.status}
+Status: ${escapeHTML(w.status)}
 
 ${w.status==="processing"?`
 
@@ -270,9 +310,11 @@ Reject
 
 }
 
-/* APPROVE WITHDRAW */
+/* APPROVE */
 
 async function approveWithdraw(id){
+
+if(!confirm("Approve this withdraw request?")) return
 
 let res=await fetch(API,{
 method:"POST",
@@ -300,9 +342,11 @@ loadWithdraw()
 
 }
 
-/* REJECT WITHDRAW */
+/* REJECT */
 
 async function rejectWithdraw(id){
+
+if(!confirm("Reject withdraw request?")) return
 
 let withdraws=await getDB("withdrawals")
 let wallets=await getDB("wallets")
@@ -316,7 +360,9 @@ w.status="rejected"
 let userWallet=wallets.find(x=>x.email===w.email)
 
 if(userWallet){
+
 userWallet.balance+=Number(w.amount)
+
 }
 
 await fetch(API,{
