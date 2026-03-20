@@ -5,8 +5,7 @@
 
 <title>CreatorHub Admin Payments</title>
 
-<meta name="viewport"
-content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <style>
 
@@ -43,30 +42,20 @@ color:orange;
 
 <body>
 
-<h2>
+<h2>CreatorHub Payment Monitor</h2>
 
-🔥 CreatorHub Payment Monitor
-
-</h2>
-
-<div id="list">
-
-Loading...
-
-</div>
+<div id="list">Loading...</div>
 
 <script>
 
-/* ADMIN */
+/* ADMIN EMAIL */
 
 const ADMIN="ayushprajpati6@gmail.com"
 
-/* PAYMENT API */
+/* APIs */
 
 const PAYMENT_API=
 "https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
-
-/* PRODUCT API */
 
 const PRODUCT_API=
 "https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
@@ -74,8 +63,11 @@ const PRODUCT_API=
 
 /* LOGIN CHECK */
 
-let user=
-JSON.parse(localStorage.getItem("user"))
+let user=null
+
+try{
+user=JSON.parse(localStorage.getItem("user"))
+}catch{}
 
 if(!user || user.email!==ADMIN){
 
@@ -90,11 +82,9 @@ location.href="index.html"
 
 async function getDB(api,db){
 
-let r=
-await fetch(api+"?db="+db+"&t="+Date.now())
+let r=await fetch(api+"?db="+db+"&t="+Date.now())
 
-let data=
-await r.json()
+let data=await r.json()
 
 return Array.isArray(data)?data:[]
 
@@ -105,29 +95,28 @@ return Array.isArray(data)?data:[]
 
 async function loadPayments(){
 
-let orders=
-await getDB(PAYMENT_API,"orders")
+let orders=await getDB(PAYMENT_API,"orders")
 
-let products=
-await getDB(PRODUCT_API,"products")
+let products=await getDB(PRODUCT_API,"products")
 
 let html=""
 
 if(!orders.length){
 
-html="No Payments Yet"
+document.getElementById("list").innerHTML="No Payments Yet"
+return
 
 }
 
 orders.reverse().forEach(o=>{
 
 let product=
-products.find(
-p=>String(p.id)===String(o.productId)
-)
+products.find(p=>String(p.id)===String(o.productId))
 
 let title=
 product?product.title:"Unknown Product"
+
+let status=o.payment || "pending"
 
 html+=`
 
@@ -145,9 +134,9 @@ Seller : ${o.seller}
 
 Amount : ₹${o.amount}
 
-<div class="status ${o.status==='paid'?'paid':'pending'}">
+<div class="status ${status==='paid'?'paid':'pending'}">
 
-Status : ${o.status}
+Status : ${status}
 
 </div>
 
