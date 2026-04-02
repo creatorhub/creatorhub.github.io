@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>CreatorHub Marketplace</title>
+<title>CreatorHub Marketplace – Buy & Sell eBooks</title>
 
 <style>
 
@@ -18,13 +18,13 @@ color:white;
 
 /* HEADER */
 
-.topbar{
+.header{
 display:flex;
-align-items:center;
 justify-content:space-between;
+align-items:center;
 padding:15px 20px;
 background:#020617;
-border-bottom:1px solid #111;
+border-bottom:1px solid #111827;
 }
 
 .logo{
@@ -33,15 +33,27 @@ font-weight:bold;
 color:#22c55e;
 }
 
+.nav{
+display:flex;
+gap:20px;
+font-size:14px;
+}
+
+.nav a{
+color:white;
+text-decoration:none;
+opacity:.8;
+}
+
 /* HERO */
 
 .hero{
-padding:70px 20px;
 display:flex;
 flex-wrap:wrap;
 align-items:center;
 justify-content:space-between;
-gap:30px;
+padding:60px 20px;
+background:linear-gradient(135deg,#020617,#111827);
 }
 
 .heroText{
@@ -57,11 +69,6 @@ margin:0;
 color:#22c55e;
 }
 
-.hero p{
-opacity:.8;
-margin-top:10px;
-}
-
 .heroButtons{
 margin-top:20px;
 display:flex;
@@ -69,7 +76,7 @@ gap:10px;
 }
 
 .btn{
-padding:10px 18px;
+padding:10px 16px;
 border-radius:8px;
 border:none;
 cursor:pointer;
@@ -89,7 +96,7 @@ color:white;
 
 .stats{
 display:grid;
-grid-template-columns:repeat(4,1fr);
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
 gap:15px;
 padding:20px;
 }
@@ -119,13 +126,18 @@ grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
 gap:15px;
 }
 
-/* BOOK CARD */
+/* CARD */
 
 .card{
 background:#111827;
-border-radius:10px;
+border-radius:12px;
 overflow:hidden;
 cursor:pointer;
+transition:.2s;
+}
+
+.card:hover{
+transform:translateY(-4px);
 }
 
 .card img{
@@ -138,10 +150,27 @@ object-fit:cover;
 padding:10px;
 }
 
+.title{
+font-weight:bold;
+}
+
+.author{
+font-size:13px;
+opacity:.8;
+}
+
 .price{
 color:#22c55e;
 font-weight:bold;
+margin-top:4px;
 }
+
+.sales{
+font-size:12px;
+opacity:.7;
+}
+
+/* BUTTONS */
 
 .buttons{
 display:flex;
@@ -154,8 +183,9 @@ flex:1;
 background:#22c55e;
 border:none;
 padding:6px;
-color:white;
 border-radius:6px;
+color:white;
+cursor:pointer;
 }
 
 .cart{
@@ -163,15 +193,16 @@ flex:1;
 background:#2563eb;
 border:none;
 padding:6px;
-color:white;
 border-radius:6px;
+color:white;
+cursor:pointer;
 }
 
 /* CATEGORIES */
 
 .categories{
 display:grid;
-grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
 gap:10px;
 }
 
@@ -186,19 +217,16 @@ text-align:center;
 
 .creator{
 background:#064e3b;
+margin:30px 20px;
 padding:30px;
-text-align:center;
-margin:30px;
 border-radius:10px;
+text-align:center;
 }
-
-/* FOOTER */
 
 footer{
 padding:20px;
 text-align:center;
-background:#020617;
-border-top:1px solid #111;
+border-top:1px solid #111827;
 }
 
 </style>
@@ -207,8 +235,21 @@ border-top:1px solid #111;
 
 <body>
 
-<div class="topbar">
+<!-- HEADER -->
+
+<div class="header">
+
 <div class="logo">CreatorHub</div>
+
+<div class="nav">
+
+<a href="#">Home</a>
+<a href="#">Best Sellers</a>
+<a href="#">Categories</a>
+<a href="#">Sell eBook</a>
+
+</div>
+
 </div>
 
 <!-- HERO -->
@@ -241,7 +282,7 @@ border-top:1px solid #111;
 
 <div class="stat">5K+ Creators</div>
 
-<div class="stat">50K+ Sales</div>
+<div class="stat">50K+ Books Sold</div>
 
 <div class="stat">100% Secure</div>
 
@@ -253,7 +294,11 @@ border-top:1px solid #111;
 
 <h2>🔥 Best Seller eBooks</h2>
 
-<div id="bestSeller" class="grid">Loading...</div>
+<div id="bestSeller" class="grid">
+
+Loading...
+
+</div>
 
 </section>
 
@@ -266,15 +311,10 @@ border-top:1px solid #111;
 <div class="categories">
 
 <div class="cat">Programming</div>
-
 <div class="cat">Business</div>
-
 <div class="cat">Marketing</div>
-
 <div class="cat">Design</div>
-
 <div class="cat">Education</div>
-
 <div class="cat">Self Development</div>
 
 </div>
@@ -287,11 +327,15 @@ border-top:1px solid #111;
 
 <h2>📚 All eBooks</h2>
 
-<div id="products" class="grid">Loading...</div>
+<div id="products" class="grid">
+
+Loading...
+
+</div>
 
 </section>
 
-<!-- CREATOR -->
+<!-- CREATOR CTA -->
 
 <section class="creator">
 
@@ -311,7 +355,11 @@ CreatorHub © 2026
 
 <script>
 
+/* API */
+
 const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
+
+/* DRIVE IMAGE */
 
 function driveImage(link){
 
@@ -333,15 +381,27 @@ return link
 
 }
 
+/* LOAD PRODUCTS */
+
 async function loadProducts(){
+
+try{
 
 let res=await fetch(PRODUCT_API+"?db=products&t="+Date.now())
 
 let products=await res.json()
 
+if(!Array.isArray(products)) products=[]
+
 let approved=products.filter(p=>p.status==="approved")
 
-let best=[...approved].sort((a,b)=>(b.sales||0)-(a.sales||0)).slice(0,4)
+/* BEST SELLERS */
+
+let best=[...approved]
+
+.sort((a,b)=>(Number(b.sales)||0)-(Number(a.sales)||0))
+
+.slice(0,4)
 
 render(best,"bestSeller")
 
@@ -349,7 +409,15 @@ approved.reverse()
 
 render(approved,"products")
 
+}catch(e){
+
+console.log(e)
+
 }
+
+}
+
+/* RENDER */
 
 function render(list,id){
 
@@ -359,25 +427,41 @@ let html=""
 
 list.forEach(p=>{
 
+let author=p.author || p.owner || "Unknown"
+
+let sales=Number(p.sales||0)
+
 html+=`
 
-<div class="card">
+<div class="card" onclick="openDetails('${p.id||""}')">
 
 <img src="${driveImage(p.image)}">
 
 <div class="cardBody">
 
-<div>${p.title||"Untitled"}</div>
+<div class="title">${escapeHTML(p.title||"Untitled")}</div>
 
-<div>👤 ${p.author||p.owner||"Unknown"}</div>
+<div class="author">👤 ${escapeHTML(author)}</div>
 
-<div class="price">₹${p.price||0}</div>
+<div class="sales">📈 ${sales}+ sales</div>
+
+<div class="price">₹ ${p.price||0}</div>
 
 <div class="buttons">
 
-<button class="buy">Buy</button>
+<button class="buy"
+onclick="buyNow(event,'${p.id}')">
 
-<button class="cart">Cart</button>
+Buy
+
+</button>
+
+<button class="cart"
+onclick="addCart(event,'${p.id}')">
+
+Cart
+
+</button>
 
 </div>
 
@@ -392,6 +476,72 @@ html+=`
 box.innerHTML=html
 
 }
+
+/* DETAILS */
+
+function openDetails(id){
+
+location.href="ebook.html?id="+id
+
+}
+
+/* BUY */
+
+function buyNow(e,id){
+
+e.stopPropagation()
+
+localStorage.setItem("buyProduct",id)
+
+location.href="payment.html"
+
+}
+
+/* CART */
+
+function addCart(e,id){
+
+e.stopPropagation()
+
+let cart=JSON.parse(localStorage.getItem("cart")||"[]")
+
+if(cart.includes(id)){
+
+alert("Already added")
+
+return
+
+}
+
+cart.push(id)
+
+localStorage.setItem("cart",JSON.stringify(cart))
+
+alert("Added to Cart")
+
+}
+
+/* SECURITY */
+
+function escapeHTML(str){
+
+return String(str).replace(/[&<>"']/g,function(m){
+
+return({
+
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+
+})[m]
+
+})
+
+}
+
+/* INIT */
 
 loadProducts()
 
