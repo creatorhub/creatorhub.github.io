@@ -159,7 +159,20 @@ action:"google_login",
 email:data.email,
 name:data.name
 })
+})
+.then(r=>r.json())
+.then(d=>{
+
+localStorage.setItem("user",JSON.stringify({
+email:data.email,
+name:data.name
+}));
+
+location.href="dashboard.html";
+
 });
+
+  }
 
 localStorage.setItem("user",JSON.stringify({
 email:data.email,
