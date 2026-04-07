@@ -63,6 +63,11 @@ font-weight:bold;
 cursor:pointer;
 }
 
+button:disabled{
+opacity:.6;
+cursor:not-allowed;
+}
+
 .link{
 margin-top:12px;
 text-align:center;
@@ -78,13 +83,17 @@ cursor:pointer;
 
 <div class="card">
 
-<div class="back" onclick="location.href='index.html'">
-⬅
-</div>
+<div class="back" onclick="location.href='login.html'">⬅</div>
 
 <h2>🔑 Reset Password</h2>
 
 <input id="email" placeholder="Enter Registered Email">
+
+<button id="otpBtn" onclick="sendOTP()">
+Send OTP
+</button>
+
+<input id="otp" placeholder="Enter OTP">
 
 <input id="newPassword" type="password" placeholder="Enter New Password">
 
@@ -102,19 +111,74 @@ Back to Login
 
 const API="https://script.google.com/macros/s/AKfycbzMCnhAdxOSnSl7tO6u3yZZEARctzq9kQIenT-PoO8Y68gN5kXWViEFD01BiRObxOY1/exec";
 
-async function resetPassword(){
+/* SEND OTP */
+
+async function sendOTP(){
 
 let email=document.getElementById("email").value.trim().toLowerCase();
-let newPassword=document.getElementById("newPassword").value.trim();
+let btn=document.getElementById("otpBtn");
 
-if(!email || !newPassword){
-alert("Fill all fields");
+if(!email){
+alert("Enter email");
 return;
 }
 
-if(newPassword.length < 4){
+btn.disabled=true;
+btn.innerText="Sending...";
+
+try{
+
+let res=await fetch(API,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+action:"send_reset_otp",
+email:email
+})
+});
+
+let data=await res.json();
+
+if(data.success){
+alert("OTP sent to your email 📩");
+}else{
+alert(data.message || "Failed to send OTP");
+}
+
+}catch(e){
+
+alert("Server Error");
+
+}
+
+btn.disabled=false;
+btn.innerText="Send OTP";
+
+}
+
+
+/* RESET PASSWORD */
+
+async function resetPassword(){
+
+let email=document.getElementById("email").value.trim().toLowerCase();
+let otp=document.getElementById("otp").value.trim();
+let password=document.getElementById("newPassword").value.trim();
+
+if(!email || !otp || !password){
+
+alert("Fill all fields");
+return;
+
+}
+
+if(password.length<4){
+
 alert("Password must be at least 4 characters");
 return;
+
 }
 
 try{
@@ -127,25 +191,28 @@ headers:{
 body:JSON.stringify({
 action:"reset_password",
 email:email,
-newPassword:newPassword
+otp:otp,
+password:password
 })
 });
 
 let data=await res.json();
 
-if(!data.success){
-alert(data.message || "Reset Failed");
-return;
-}
+if(data.success){
 
-alert("Password Updated Successfully ✅");
+alert("Password updated successfully ✅");
 
 location.href="login.html";
+
+}else{
+
+alert(data.message || "Reset Failed");
+
+}
 
 }catch(e){
 
 alert("Server Error ❌");
-console.log(e);
 
 }
 
