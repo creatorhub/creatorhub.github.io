@@ -61,6 +61,20 @@ display:block;
 margin:0 auto 15px auto;
 }
 
+input,textarea{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:8px;
+background:#020617;
+color:white;
+}
+
+textarea{
+min-height:80px;
+}
+
 button{
 width:100%;
 padding:15px;
@@ -99,6 +113,16 @@ cursor:not-allowed;
 <h3 id="title">Loading...</h3>
 
 <h2 id="price"></h2>
+
+<!-- ADDRESS FORM -->
+
+<input id="name" placeholder="Full Name">
+
+<input id="phone" placeholder="Phone Number">
+
+<textarea id="address" placeholder="Delivery Address"></textarea>
+
+<input id="pincode" placeholder="Pincode">
 
 <button id="buyBtn" disabled onclick="buyNow()">
 Loading...
@@ -198,21 +222,10 @@ return
 
 }
 
-/* STATUS CHECK */
-
 if(product.ai_status !== "approved"){
 
 alert("Product unavailable")
 location.href="index.html"
-return
-
-}
-
-/* PRICE CHECK */
-
-if(!product.price || product.price <= 0){
-
-alert("Invalid product price")
 return
 
 }
@@ -226,9 +239,8 @@ document.getElementById("price").innerText =
 document.getElementById("cover").src =
 driveImage(product.image)
 
-/* ENABLE BUTTON */
-
 let btn=document.getElementById("buyBtn")
+
 btn.disabled=false
 btn.innerText="Buy Now"
 
@@ -250,6 +262,35 @@ async function buyNow(){
 
 if(!product) return
 
+let name=document.getElementById("name").value.trim()
+let phone=document.getElementById("phone").value.trim()
+let address=document.getElementById("address").value.trim()
+let pincode=document.getElementById("pincode").value.trim()
+
+if(!name || !phone || !address || !pincode){
+
+alert("Fill address details")
+
+return
+
+}
+
+if(!/^[0-9]{10}$/.test(phone)){
+
+alert("Invalid phone number")
+
+return
+
+}
+
+if(!/^[0-9]{6}$/.test(pincode)){
+
+alert("Invalid pincode")
+
+return
+
+}
+
 let btn=document.getElementById("buyBtn")
 
 btn.innerText="Creating Order..."
@@ -269,16 +310,19 @@ body:JSON.stringify({
 
 action:"create_order",
 productId:product.id,
-type:"ebook",
-buyer:user.email
+type:"printed",
+buyer:user.email,
+
+name:name,
+phone:phone,
+address:address,
+pincode:pincode
 
 })
 
 })
 
 let data = await res.json()
-
-/* PAYMENT */
 
 if(data.success && data.payment_session_id){
 
