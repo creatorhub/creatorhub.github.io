@@ -24,11 +24,11 @@ height:100vh;
 
 .card{
 background:#111827;
-padding:30px;
+padding:35px;
 border-radius:18px;
 width:90%;
 max-width:420px;
-box-shadow:0 10px 30px black;
+box-shadow:0 10px 30px rgba(0,0,0,.8);
 position:relative;
 }
 
@@ -38,6 +38,7 @@ top:15px;
 left:15px;
 font-size:22px;
 cursor:pointer;
+opacity:.8;
 }
 
 h2{
@@ -67,22 +68,29 @@ font-weight:bold;
 cursor:pointer;
 }
 
-button:disabled{
-opacity:.6;
-cursor:not-allowed;
+.google{
+margin-top:20px;
+display:flex;
+justify-content:center;
 }
 
 .link{
 margin-top:12px;
 text-align:center;
-opacity:.7;
+opacity:.8;
 cursor:pointer;
+font-size:14px;
 }
 
-.google{
-margin-top:15px;
-display:flex;
-justify-content:center;
+.link:hover{
+color:#22c55e;
+}
+
+.recovery{
+margin-top:10px;
+font-size:13px;
+opacity:.7;
+text-align:center;
 }
 
 </style>
@@ -127,6 +135,14 @@ Create Account
 Forgot Password
 </div>
 
+<div class="link" onclick="recoverUsername()">
+Recover Username
+</div>
+
+<div class="recovery">
+If you forgot your username, recover using email
+</div>
+
 </div>
 
 <script>
@@ -141,68 +157,36 @@ let username=document.getElementById("username").value.trim();
 let email=document.getElementById("email").value.trim().toLowerCase();
 let password=document.getElementById("password").value.trim();
 
-let btn=document.getElementById("loginBtn");
-
 if(!username || !email || !password){
-
 alert("Fill all fields");
 return;
-
 }
 
-btn.disabled=true;
-btn.innerText="Logging in...";
-
-try{
-
 let res=await fetch(API,{
-
 method:"POST",
-
 headers:{
 "Content-Type":"application/json"
 },
-
 body:JSON.stringify({
-
 action:"login",
 username:username,
 email:email,
 password:password
-
 })
-
 });
 
 let data=await res.json();
 
 if(!data.success){
-
 alert(data.message || "Login failed");
-
-btn.disabled=false;
-btn.innerText="Login";
-
 return;
-
 }
-
-/* SAVE USER */
 
 localStorage.setItem("user",JSON.stringify(data.user));
 
 alert("Login Success ✅");
 
 location.href="dashboard.html";
-
-}catch(e){
-
-alert("Server Error");
-
-btn.disabled=false;
-btn.innerText="Login";
-
-}
 
 }
 
@@ -212,29 +196,15 @@ async function handleGoogleLogin(response){
 
 let data=parseJwt(response.credential);
 
-try{
-
-let res=await fetch(API,{
-
+await fetch(API,{
 method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
+headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
-
 action:"google_login",
 email:data.email,
 name:data.name
-
 })
-
 });
-
-let result=await res.json();
-
-if(result.success){
 
 localStorage.setItem("user",JSON.stringify({
 email:data.email,
@@ -243,21 +213,42 @@ name:data.name
 
 location.href="dashboard.html";
 
+}
+
+/* RECOVER USERNAME */
+
+async function recoverUsername(){
+
+let email=prompt("Enter your registered email");
+
+if(!email) return;
+
+let res=await fetch(API,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+action:"recover_username",
+email:email
+})
+});
+
+let data=await res.json();
+
+if(data.success){
+
+alert("Your username: "+data.username);
+
 }else{
 
-alert("Google login failed");
-
-}
-
-}catch{
-
-alert("Google login error");
+alert("Account not found");
 
 }
 
 }
 
-/* PARSE JWT */
+/* JWT */
 
 function parseJwt(token){
 
