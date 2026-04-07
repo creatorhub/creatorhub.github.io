@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CreatorHub Support</title>
-
-<style>
+<!DOCTYPE html><html>
+<head><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CreatorHub Support</title><style>
 
 body{
 margin:0;
@@ -19,8 +14,9 @@ height:100vh;
 
 .header{
 padding:15px;
-background:#111827;
+background:#0f172a;
 font-weight:bold;
+text-align:center;
 }
 
 .chat{
@@ -31,20 +27,24 @@ padding:15px;
 
 .msg{
 margin:10px 0;
+padding:10px;
+max-width:80%;
+border-radius:10px;
 }
 
 .user{
-text-align:right;
+margin-left:auto;
+background:#2563eb;
 }
 
 .ai{
-text-align:left;
+background:#111827;
 color:#22c55e;
 }
 
 .inputBox{
 display:flex;
-background:#111827;
+background:#0f172a;
 padding:10px;
 }
 
@@ -67,27 +67,11 @@ border-radius:8px;
 cursor:pointer;
 }
 
-</style>
+</style></head><body><div class="header">CreatorHub AI Support</div><div class="chat" id="chat"></div><div class="inputBox"><input id="msg" placeholder="Ask anything..."><button onclick="send()">Send</button>
 
-</head>
+</div><script>
 
-<body>
-
-<div class="header">CreatorHub AI Support</div>
-
-<div class="chat" id="chat"></div>
-
-<div class="inputBox">
-
-<input id="msg" placeholder="Ask anything...">
-
-<button onclick="send()">Send</button>
-
-</div>
-
-<script>
-
-const API="YOUR_API_URL"
+const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
 function addMessage(text,type){
 
@@ -123,8 +107,8 @@ headers:{
 "Content-Type":"application/json"
 },
 body:JSON.stringify({
-action:"ai_chat",
-prompt:text
+action:"support",
+message:text
 })
 })
 
@@ -134,7 +118,5 @@ addMessage(data.reply,"ai")
 
 }
 
-</script>
-
-</body>
+</script></body>
 </html>
