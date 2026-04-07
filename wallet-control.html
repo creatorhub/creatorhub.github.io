@@ -1,39 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Wallet Control</title><style>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CreatorHub Wallet Control</title>
-
-<style>
+*{
+box-sizing:border-box;
+}
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial,Helvetica,sans-serif;
 background:#020617;
 color:white;
 }
 
-.topbar{
+/* HEADER */
+
+.header{
 display:flex;
 align-items:center;
-padding:14px;
-box-shadow:0 5px 20px black;
+padding:16px;
+border-bottom:1px solid #1f2937;
 }
 
 .back{
 font-size:22px;
 cursor:pointer;
-width:40px;
+margin-right:10px;
 }
 
 .title{
-flex:1;
-text-align:center;
-color:#22c55e;
+font-size:20px;
 font-weight:bold;
+color:#22c55e;
 }
+
+/* CONTAINER */
 
 .container{
 max-width:900px;
@@ -41,78 +42,103 @@ margin:auto;
 padding:20px;
 }
 
+/* CARD */
+
 .card{
-background:#111827;
+
+background:linear-gradient(145deg,#111827,#020617);
+
+border-radius:16px;
+
 padding:20px;
-border-radius:15px;
+
 margin-bottom:20px;
+
+box-shadow:0 10px 25px rgba(0,0,0,0.6);
+
+border:1px solid #1f2937;
+
 }
+
+/* ROW */
 
 .row{
+
 background:#020617;
+
 padding:15px;
+
 border-radius:10px;
+
 margin-top:12px;
+
+border:1px solid #1f2937;
+
 }
+
+/* INPUT */
 
 input{
-width:120px;
+
+width:130px;
+
 padding:8px;
-border:none;
-border-radius:6px;
+
+border-radius:8px;
+
+border:1px solid #1f2937;
+
 background:#111827;
+
 color:white;
+
 }
+
+/* BUTTON */
 
 button{
+
 border:none;
+
 padding:8px 14px;
+
 border-radius:8px;
+
 cursor:pointer;
+
 color:white;
+
 margin-left:8px;
+
 }
 
-.save{background:#22c55e;}
-.approve{background:#2563eb;}
-.reject{background:#dc2626;}
+.save{
+background:linear-gradient(90deg,#22c55e,#4ade80);
+color:black;
+}
 
-</style>
+.approve{
+background:#2563eb;
+}
 
-</head>
+.reject{
+background:#dc2626;
+}
 
-<body>
-
-<div class="topbar">
-<div class="back" onclick="history.back()">⬅</div>
-<div class="title">Wallet Control Panel</div>
-</div>
-
-<div class="container">
-
-<div class="card">
-<h2>User Wallets</h2>
-<div id="walletList">Loading...</div>
-</div>
-
-<div class="card">
-<h2>Withdraw Requests</h2>
-<div id="withdrawList">Loading...</div>
-</div>
-
-</div>
-
-<script>
+</style></head><body><div class="header"><div class="back" onclick="history.back()">⬅</div><div class="title">Wallet Control Panel</div></div><div class="container"><div class="card"><h2>User Wallets</h2><div id="walletList">Loading...</div></div><div class="card"><h2>Withdraw Requests</h2><div id="withdrawList">Loading...</div></div></div><script>
 
 const ADMIN="ayushprajpati6@gmail.com"
 
-const API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
+/* MAIN API */
+
+const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
 let user=JSON.parse(localStorage.getItem("user")||"{}")
 
-if(!user || user.email!==ADMIN){
+if(!user.email || user.email!==ADMIN){
 
 alert("Admin Only")
+
 location.href="index.html"
 
 }
@@ -135,13 +161,14 @@ return({
 
 }
 
-/* GET DB */
+/* GET DATABASE */
 
 async function getDB(db){
 
 try{
 
 let r=await fetch(API+"?db="+db+"&t="+Date.now())
+
 let data=await r.json()
 
 return Array.isArray(data)?data:[]
@@ -218,6 +245,7 @@ let newAmount=Number(input.value)||0
 if(newAmount<0){
 
 alert("Balance cannot be negative")
+
 return
 
 }
@@ -227,6 +255,7 @@ let wallet=wallets.find(w=>w.email===email)
 if(!wallet){
 
 wallet={email:email,balance:newAmount}
+
 wallets.push(wallet)
 
 }else{
@@ -321,8 +350,7 @@ method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
 action:"approve_withdraw",
-id:id,
-admin_key:"creatorhub_admin_secret_987"
+id:id
 })
 })
 
@@ -349,6 +377,7 @@ async function rejectWithdraw(id){
 if(!confirm("Reject withdraw request?")) return
 
 let withdraws=await getDB("withdrawals")
+
 let wallets=await getDB("wallets")
 
 let w=withdraws.find(x=>x.id===id)
@@ -392,9 +421,8 @@ loadWithdraw()
 /* INIT */
 
 loadWallets()
+
 loadWithdraw()
 
-</script>
-
-</body>
+</script></body>
 </html>
