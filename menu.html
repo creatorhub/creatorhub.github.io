@@ -1,24 +1,43 @@
+<!-- MENU BUTTON -->
+<div onclick="openMenu()" style="padding:12px;font-size:22px;cursor:pointer">
+☰
+</div>
+
+
+<!-- SIDE MENU -->
+
 <div id="menu" class="side">
 
-<a href="index.html">Home</a>
+<div class="menuHeader">
 
-<a href="upload.html">Upload Ebook</a>
+<img id="menuProfile">
 
-<a href="library.html">My Library</a>
-
-<a href="orders.html">Orders</a>
-
-<a href="wallet.html">Wallet</a>
-
-<a href="subscription.html">Premium Subscription</a>
-
-<a href="trending.html">Trending Books</a>
-
-<a href="topselling.html">Top Selling Books</a>
-
-<a href="toprated.html">Highest Rated Books</a>
+<div id="menuName">User</div>
 
 </div>
+
+<a href="index.html">🏠 Home</a>
+
+<a href="upload.html">📤 Upload Ebook</a>
+
+<a href="library.html">📚 My Library</a>
+
+<a href="orders.html">📦 Orders</a>
+
+<a href="wallet.html">💰 Wallet</a>
+
+<a href="subscription.html">⭐ Premium Subscription</a>
+
+<a href="trending.html">🔥 Trending Books</a>
+
+<a href="topselling.html">📈 Top Selling Books</a>
+
+<a href="toprated.html">⭐ Highest Rated Books</a>
+
+<a onclick="logout()">🚪 Logout</a>
+
+</div>
+
 
 <div id="overlay" onclick="closeMenu()"></div>
 
@@ -29,7 +48,7 @@
 position:fixed;
 top:0;
 left:0;
-width:260px;
+width:270px;
 height:100%;
 background:#020617;
 padding:20px;
@@ -44,6 +63,24 @@ overflow:auto;
 transform:translateX(0);
 }
 
+.menuHeader{
+text-align:center;
+margin-bottom:20px;
+}
+
+.menuHeader img{
+width:70px;
+height:70px;
+border-radius:50%;
+border:2px solid #22c55e;
+object-fit:cover;
+}
+
+.menuHeader div{
+margin-top:8px;
+font-weight:bold;
+}
+
 .side a{
 display:block;
 background:#111827;
@@ -54,6 +91,7 @@ text-decoration:none;
 color:white;
 font-size:16px;
 transition:.2s;
+cursor:pointer;
 }
 
 .side a:hover{
@@ -77,33 +115,53 @@ z-index:9998;
 
 <script>
 
+/* USER */
+
+let user=JSON.parse(localStorage.getItem("user")||"{}")
+
+let profile=
+localStorage.getItem("profile_"+(user?.email||"guest"))
+
+document.getElementById("menuProfile").src=
+profile ||
+"https://cdn-icons-png.flaticon.com/512/149/149071.png"
+
+document.getElementById("menuName").innerText=
+user.name || "Guest"
+
+
+/* MENU */
+
 function openMenu(){
 
-let menu=document.getElementById("menu");
-let overlay=document.getElementById("overlay");
+let menu=document.getElementById("menu")
+let overlay=document.getElementById("overlay")
 
-if(menu){
-menu.classList.add("open");
-}
-
-if(overlay){
-overlay.style.display="block";
-}
+menu.classList.add("open")
+overlay.style.display="block"
 
 }
 
 function closeMenu(){
 
-let menu=document.getElementById("menu");
-let overlay=document.getElementById("overlay");
+let menu=document.getElementById("menu")
+let overlay=document.getElementById("overlay")
 
-if(menu){
-menu.classList.remove("open");
+menu.classList.remove("open")
+overlay.style.display="none"
+
 }
 
-if(overlay){
-overlay.style.display="none";
-}
+
+/* LOGOUT */
+
+function logout(){
+
+if(!confirm("Logout from account?")) return
+
+localStorage.removeItem("user")
+
+location.href="login.html"
 
 }
 
