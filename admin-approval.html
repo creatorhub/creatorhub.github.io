@@ -14,6 +14,18 @@ background:#020617;
 color:white;
 font-family:Arial;
 padding:20px;
+margin:0;
+}
+
+h2{
+color:#22c55e;
+}
+
+.summary{
+background:#111827;
+padding:15px;
+border-radius:12px;
+margin-bottom:15px;
 }
 
 .card{
@@ -26,6 +38,7 @@ border-radius:12px;
 .status{
 margin-top:6px;
 font-size:14px;
+font-weight:bold;
 }
 
 .paid{
@@ -33,7 +46,13 @@ color:#22c55e;
 }
 
 .pending{
-color:orange;
+color:#f59e0b;
+}
+
+.orderId{
+opacity:.7;
+font-size:13px;
+margin-bottom:5px;
 }
 
 </style>
@@ -43,6 +62,12 @@ color:orange;
 <body>
 
 <h2>CreatorHub Payment Monitor</h2>
+
+<div class="summary">
+Total Revenue ₹ <span id="revenue">0</span>
+<br>
+Total Paid Orders : <span id="count">0</span>
+</div>
 
 <div id="list">Loading...</div>
 
@@ -72,8 +97,26 @@ user=JSON.parse(localStorage.getItem("user"))
 if(!user || user.email!==ADMIN){
 
 alert("Admin Only")
-
 location.href="index.html"
+
+}
+
+
+/* SAFE TEXT */
+
+function escapeHTML(str){
+
+return String(str).replace(/[&<>"']/g,function(m){
+
+return({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+})[m]
+
+})
 
 }
 
@@ -82,11 +125,19 @@ location.href="index.html"
 
 async function getDB(api,db){
 
+try{
+
 let r=await fetch(api+"?db="+db+"&t="+Date.now())
 
 let data=await r.json()
 
 return Array.isArray(data)?data:[]
+
+}catch{
+
+return[]
+
+}
 
 }
 
@@ -99,44 +150,77 @@ let orders=await getDB(PAYMENT_API,"orders")
 
 let products=await getDB(PRODUCT_API,"products")
 
-let html=""
+let box=document.getElementById("list")
 
 if(!orders.length){
 
-document.getElementById("list").innerHTML="No Payments Yet"
+box.innerHTML="No Payments Yet"
 return
 
 }
 
-orders.reverse().forEach(o=>{
+/* PAID FIRST */
+
+orders.sort((a,b)=>{
+
+let aPaid=(a.status==="paid"||a.payment==="paid")
+let bPaid=(b.status==="paid"||b.payment==="paid")
+
+return bPaid-aPaid
+
+})
+
+let revenue=0
+let paidCount=0
+
+let html=""
+
+orders.forEach(o=>{
 
 let product=
 products.find(p=>String(p.id)===String(o.productId))
 
 let title=
-product?product.title:"Unknown Product"
+product?escapeHTML(product.title):"Unknown Product"
 
-let status=o.payment || "pending"
+let status=(o.status||o.payment||"pending")
+
+let statusClass=status==="paid"?"paid":"pending"
+
+if(status==="paid"){
+
+revenue+=Number(o.amount||0)
+paidCount++
+
+}
 
 html+=`
 
 <div class="card">
 
+<div class="orderId">
+Order ID : ${escapeHTML(o.id||"-")}
+</div>
+
 <h3>${title}</h3>
 
-Buyer : ${o.buyer}
+Buyer : ${escapeHTML(o.buyer||"-")}
 
 <br>
 
-Seller : ${o.seller}
+Seller : ${escapeHTML(o.seller||"-")}
 
 <br>
 
-Amount : ₹${o.amount}
+Amount : ₹${Number(o.amount||0)}
 
-<div class="status ${status==='paid'?'paid':'pending'}">
+<br>
 
-Status : ${status}
+Date : ${escapeHTML(o.date||"-")}
+
+<div class="status ${statusClass}">
+
+Status : ${escapeHTML(status)}
 
 </div>
 
@@ -146,7 +230,10 @@ Status : ${status}
 
 })
 
-document.getElementById("list").innerHTML=html
+document.getElementById("revenue").innerText=revenue
+document.getElementById("count").innerText=paidCount
+
+box.innerHTML=html
 
 }
 
