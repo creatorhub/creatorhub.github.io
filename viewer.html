@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Ebook Reader</title>
+
+<style>
+
+body{
+margin:0;
+background:#020617;
+color:white;
+font-family:Arial;
+}
+
+.topbar{
+padding:12px;
+background:#111827;
+display:flex;
+align-items:center;
+}
+
+.back{
+cursor:pointer;
+font-size:20px;
+}
+
+.title{
+flex:1;
+text-align:center;
+color:#22c55e;
+font-weight:bold;
+}
+
+iframe{
+width:100%;
+height:calc(100vh - 50px);
+border:none;
+}
+
+.block{
+display:flex;
+justify-content:center;
+align-items:center;
+height:80vh;
+font-size:20px;
+opacity:.7;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="topbar">
+
+<div class="back" onclick="history.back()">⬅</div>
+
+<div class="title">Ebook Reader</div>
+
+</div>
+
+<div id="viewer"></div>
+
+<script>
+
+/* APIs */
+
+const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
+
+const PAYMENT_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
+
+/* USER */
+
+let user=JSON.parse(localStorage.getItem("user")||"null")
+
+if(!user){
+
+location.href="login.html"
+
+}
+
+/* PRODUCT ID */
+
+let params=new URLSearchParams(location.search)
+
+let id=params.get("id")
+
+if(!id){
+
+document.getElementById("viewer").innerHTML="<div class='block'>Invalid ebook</div>"
+
+}
+
+/* DRIVE ID */
+
+function driveId(link){
+
+if(!link) return null
+
+if(link.includes("id="))
+return link.split("id=")[1].split("&")[0]
+
+if(link.includes("/file/d/"))
+return link.split("/file/d/")[1].split("/")[0]
+
+return null
+
+}
+
+async function loadViewer(){
+
+let products=await fetch(PRODUCT_API+"?db=products").then(r=>r.json())
+
+let orders=await fetch(PAYMENT_API+"?db=orders").then(r=>r.json())
+
+let product=products.find(p=>String(p.id)===String(id))
+
+if(!product){
+
+document.getElementById("viewer").innerHTML="<div class='block'>Ebook not found</div>"
+
+return
+
+}
+
+/* PURCHASE CHECK */
+
+let purchased=orders.find(o=>
+
+o.productId==id &&
+o.buyer===user.email &&
+(o.status==="paid"||o.payment==="paid")
+
+)
+
+let owner=product.owner===user.email
+
+if(!purchased && !owner){
+
+document.getElementById("viewer").innerHTML="<div class='block'>Buy this ebook first</div>"
+
+return
+
+}
+
+let fileId=driveId(product.pdf)
+
+let url="https://drive.google.com/file/d/"+fileId+"/preview"
+
+document.getElementById("viewer").innerHTML=
+
+`<iframe src="${url}" allow="autoplay"></iframe>`
+
+}
+
+loadViewer()
+
+</script>
+
+</body>
+</html>
