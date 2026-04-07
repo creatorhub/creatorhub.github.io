@@ -122,6 +122,18 @@ font-weight:bold;
 cursor:pointer;
 }
 
+.buy{
+background:#f97316;
+border:none;
+width:100%;
+padding:12px;
+margin-top:12px;
+border-radius:10px;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
 .empty{
 text-align:center;
 opacity:.7;
@@ -164,13 +176,15 @@ const PAYMENT_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh
 let user=JSON.parse(localStorage.getItem("user")||"null")
 
 if(!user){
+
 alert("Login first")
 location.href="login.html"
+
 }
 
 let isAdmin=user.email===ADMIN
 
-/* DRIVE IMAGE */
+/* DRIVE FUNCTIONS */
 
 function driveId(link){
 
@@ -219,22 +233,6 @@ return "#"
 
 }
 
-/* SAFE HTML */
-
-function escapeHTML(str){
-
-return String(str).replace(/[&<>"']/g,function(m){
-return({
-'&':'&amp;',
-'<':'&lt;',
-'>':'&gt;',
-'"':'&quot;',
-"'":'&#039;'
-})[m]
-})
-
-}
-
 /* GET DB */
 
 async function getDB(api,db){
@@ -242,6 +240,7 @@ async function getDB(api,db){
 try{
 
 let r=await fetch(api+"?db="+db+"&t="+Date.now())
+
 let data=await r.json()
 
 return Array.isArray(data)?data:[]
@@ -259,29 +258,52 @@ return[]
 async function loadLibrary(){
 
 let products=await getDB(PRODUCT_API,"products")
+
 let orders=await getDB(PAYMENT_API,"orders")
+
+let subs=await getDB(PAYMENT_API,"subscriptions")
 
 let box=document.getElementById("library")
 
+/* CHECK PREMIUM */
+
+let premium=subs.find(s=>s.email===user.email)
+
+let isPremium=false
+
+if(premium){
+
+let exp=new Date(premium.expiry)
+
+if(Date.now()<exp){
+
+isPremium=true
+
+}
+
+}
+
+/* USER PURCHASE */
+
 let myOrders=orders.filter(o=>
+
 o.buyer===user.email &&
+
 (o.status==="paid" || o.payment==="paid")
+
 )
 
 let ownedProducts=myOrders.map(o=>String(o.productId))
 
-if(!products.length){
-
-box.innerHTML="<div class='empty'>No ebooks available</div>"
-return
-
-}
-
 box.innerHTML=""
+
+/* PRODUCTS LOOP */
 
 products.forEach(product=>{
 
 let purchased=ownedProducts.includes(String(product.id))
+
+let owner=product.owner===user.email
 
 let image=driveImage(product.image)
 
@@ -289,13 +311,23 @@ let view=driveView(product.pdf)
 
 let download=driveDownload(product.pdf)
 
+/* ACCESS */
+
+let allow=false
+
+if(isAdmin) allow=true
+else if(owner) allow=true
+else if(isPremium) allow=true
+else if(purchased) allow=true
+
 let buttons=""
 
-/* ADMIN */
+/* ALLOWED */
 
-if(isAdmin){
+if(allow){
 
 buttons=`
+
 <button class="read" onclick="window.open('${view}')">
 Read Ebook
 </button>
@@ -303,22 +335,7 @@ Read Ebook
 <button class="download" onclick="window.open('${download}')">
 Download PDF
 </button>
-`
 
-}
-
-/* PURCHASED */
-
-else if(purchased){
-
-buttons=`
-<button class="read" onclick="window.open('${view}')">
-Read Ebook
-</button>
-
-<button class="download" onclick="window.open('${download}')">
-Download PDF
-</button>
 `
 
 }
@@ -328,9 +345,11 @@ Download PDF
 else{
 
 buttons=`
-<button class="read" onclick="buyBook('${product.id}')">
+
+<button class="buy" onclick="buyBook('${product.id}')">
 Buy Ebook ₹${product.price}
 </button>
+
 `
 
 }
@@ -342,7 +361,7 @@ box.innerHTML+=`
 <img src="${image}">
 
 <div class="bookTitle">
-${escapeHTML(product.title||"Untitled")}
+${product.title||"Untitled"}
 </div>
 
 <div class="price">
@@ -356,6 +375,12 @@ ${buttons}
 `
 
 })
+
+if(box.innerHTML===""){
+
+box.innerHTML="<div class='empty'>No ebooks found</div>"
+
+}
 
 }
 
