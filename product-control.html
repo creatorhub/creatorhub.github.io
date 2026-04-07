@@ -104,6 +104,7 @@ resize:vertical;
 
 </style>
 </head>
+
 <body>
 
 <div class="topbar">
@@ -157,6 +158,25 @@ let products=[]
 let editID=null
 
 
+/* SAFE HTML */
+
+function escapeHTML(str){
+
+return String(str).replace(/[&<>"']/g,function(m){
+
+return({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+})[m]
+
+})
+
+}
+
+
 /* GET PRODUCTS */
 
 async function getProducts(){
@@ -204,11 +224,11 @@ html+=`
 
 <div class="row">
 
-<b>${p.title || "Untitled"}</b><br>
+<b>${escapeHTML(p.title || "Untitled")}</b><br>
 
-Price : ₹${p.price || 0}<br>
+Price : ₹${Number(p.price)||0}<br>
 
-Seller : ${p.owner || "-"}<br>
+Seller : ${escapeHTML(p.owner || "-")}<br>
 
 <button class="edit" onclick="openEdit('${p.id}')">
 Edit
@@ -272,6 +292,30 @@ let price=Number(document.getElementById("ePrice").value)
 let owner=document.getElementById("eSeller").value.trim()
 
 let description=document.getElementById("eDesc").value.trim()
+
+if(!title){
+
+alert("Enter title")
+
+return
+
+}
+
+if(!owner.includes("@")){
+
+alert("Enter valid seller email")
+
+return
+
+}
+
+if(price<0){
+
+alert("Invalid price")
+
+return
+
+}
 
 let res=await fetch(API,{
 
