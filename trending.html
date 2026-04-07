@@ -1,69 +1,92 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Trending Books</title><style>
 
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>Trending Books</title>
-
-<style>
+*{
+box-sizing:border-box;
+}
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial,Helvetica,sans-serif;
 background:#020617;
 color:white;
 }
 
-.topbar{
+/* HEADER */
+
+.header{
 display:flex;
 align-items:center;
-padding:14px;
-box-shadow:0 5px 20px black;
+padding:16px;
+border-bottom:1px solid #1f2937;
 }
 
 .back{
 font-size:22px;
 cursor:pointer;
-width:40px;
+margin-right:10px;
 }
 
 .title{
-flex:1;
-text-align:center;
-color:#22c55e;
+font-size:20px;
 font-weight:bold;
+color:#22c55e;
 }
 
+/* CONTAINER */
+
 .container{
-padding:18px;
+padding:20px;
+max-width:900px;
+margin:auto;
 }
+
+/* LIST */
 
 .list{
 display:flex;
 flex-direction:column;
-gap:15px;
+gap:16px;
 }
+
+/* CARD */
 
 .card{
+
 display:flex;
-gap:15px;
-background:#111827;
+
+gap:14px;
+
+background:linear-gradient(145deg,#111827,#020617);
+
 padding:12px;
-border-radius:12px;
-align-items:center;
-box-shadow:0 10px 20px black;
+
+border-radius:14px;
+
+border:1px solid #1f2937;
+
+box-shadow:0 10px 25px rgba(0,0,0,0.6);
+
 cursor:pointer;
+
 }
 
+/* IMAGE */
+
 .card img{
+
 width:90px;
+
 aspect-ratio:2/3;
+
 object-fit:cover;
-border-radius:8px;
+
+border-radius:10px;
+
 }
+
+/* INFO */
 
 .info{
 flex:1;
@@ -76,56 +99,62 @@ font-weight:bold;
 
 .price{
 color:#22c55e;
-margin-top:5px;
-}
-
-.buy{
-padding:8px 12px;
-border:none;
-background:#22c55e;
-border-radius:6px;
-color:white;
-cursor:pointer;
 margin-top:6px;
 }
 
-.badge{
-font-size:11px;
-background:#22c55e;
-padding:2px 6px;
-border-radius:6px;
-margin-left:6px;
+.meta{
+font-size:13px;
+color:#9ca3af;
+margin-top:4px;
 }
 
-</style>
+/* BUY BUTTON */
 
-</head>
+.buy{
 
-<body>
+margin-top:8px;
 
-<div class="topbar">
+padding:8px 12px;
 
-<div class="back" onclick="history.back()">⬅</div>
+border:none;
 
-<div class="title">
-Trending Books
-</div>
+border-radius:8px;
 
-</div>
+cursor:pointer;
 
-<div class="container">
+background:linear-gradient(90deg,#22c55e,#4ade80);
 
-<div id="books" class="list">
-Loading...
-</div>
+color:black;
 
-</div>
+font-weight:bold;
 
-<script>
+}
 
-const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
+/* BADGE */
 
-const PAYMENT_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
+.badge{
+
+font-size:11px;
+
+background:#22c55e;
+
+color:black;
+
+padding:2px 6px;
+
+border-radius:6px;
+
+margin-left:6px;
+
+}
+
+</style></head><body><div class="header"><div class="back" onclick="history.back()">⬅</div><div class="title">Trending Books</div></div><div class="container"><div id="books" class="list">Loading...
+
+</div></div><script>
+
+/* API */
+
+const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
 /* IMAGE FIX */
 
@@ -161,54 +190,35 @@ async function load(){
 
 try{
 
-let productsRes=await fetch(PRODUCT_API+"?db=products&t="+Date.now())
+let productsRes=await fetch(API+"?db=products&t="+Date.now())
+
 let products=await productsRes.json()
 
-let ordersRes=await fetch(PAYMENT_API+"?db=orders&t="+Date.now())
-let orders=await ordersRes.json()
+let ordersRes=await fetch(API+"?db=orders&t="+Date.now())
 
-let reviewsRes=await fetch(PRODUCT_API+"?db=reviews&t="+Date.now())
-let reviews=await reviewsRes.json()
+let orders=await ordersRes.json()
 
 if(!Array.isArray(products)) products=[]
 if(!Array.isArray(orders)) orders=[]
-if(!Array.isArray(reviews)) reviews=[]
 
-products=products.filter(p=>p.status==="approved")
+/* APPROVED PRODUCTS */
 
-/* CALCULATE DATA */
+products=products.filter(p=>p.ai_status==="approved")
+
+/* CALCULATE TREND */
 
 products.forEach(p=>{
 
 let sales=orders.filter(o=>
 
 String(o.productId)===String(p.id) &&
-o.status==="paid"
+o.payment==="paid"
 
 ).length
 
-let productReviews=reviews.filter(r=>
-
-String(r.productId)===String(p.id)
-
-)
-
-let total=0
-
-productReviews.forEach(r=>{
-total+=Number(r.rating||0)
-})
-
-let rating=productReviews.length
-? total/productReviews.length
-:0
-
-/* TRENDING SCORE */
-
-p.trendingScore=(sales*5)+(rating*10)
-
 p.sales=sales
-p.rating=rating
+
+p.trendingScore=sales*5
 
 })
 
@@ -219,6 +229,8 @@ products.sort((a,b)=>b.trendingScore-a.trendingScore)
 let box=document.getElementById("books")
 
 let html=""
+
+/* SHOW TOP 20 */
 
 products.slice(0,20).forEach((p,i)=>{
 
@@ -239,16 +251,22 @@ ${i<3?'<span class="badge">Trending</span>':''}
 </div>
 
 <div class="price">
+
 ₹ ${p.price || 0}
+
 </div>
 
-<div style="font-size:13px;color:#aaa">
-⭐ ${p.rating.toFixed(1)} • 📈 ${p.sales} sales
+<div class="meta">
+
+📈 ${p.sales} sales
+
 </div>
 
 <button class="buy"
 onclick="buyNow(event,'${p.id}')">
+
 Buy
+
 </button>
 
 </div>
@@ -291,7 +309,5 @@ location.href="payment.html"
 
 load()
 
-</script>
-
-</body>
+</script></body>
 </html>
