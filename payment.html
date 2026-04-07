@@ -100,14 +100,16 @@ cursor:not-allowed;
 
 <h2 id="price"></h2>
 
-<button id="buyBtn" onclick="buyNow()">Buy Now</button>
+<button id="buyBtn" disabled onclick="buyNow()">
+Loading...
+</button>
 
 </div>
 </div>
 
 <script>
 
-/* ================= APIs ================= */
+/* APIs */
 
 const PRODUCT_API =
 "https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
@@ -116,7 +118,7 @@ const PAYMENT_API =
 "https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
 
 
-/* ================= USER ================= */
+/* USER */
 
 let user = JSON.parse(localStorage.getItem("user") || "{}")
 
@@ -128,7 +130,7 @@ location.href="login.html"
 }
 
 
-/* ================= PRODUCT ID ================= */
+/* PRODUCT ID */
 
 let buyId = localStorage.getItem("buyProduct")
 
@@ -140,7 +142,7 @@ location.href="index.html"
 }
 
 
-/* ================= DRIVE IMAGE ================= */
+/* DRIVE IMAGE */
 
 function driveImage(link){
 
@@ -169,24 +171,7 @@ return link
 }
 
 
-/* ================= SAFE TEXT ================= */
-
-function escapeHTML(str){
-
-return String(str).replace(/[&<>"']/g,function(m){
-return({
-'&':'&amp;',
-'<':'&lt;',
-'>':'&gt;',
-'"':'&quot;',
-"'":'&#039;'
-})[m]
-})
-
-}
-
-
-/* ================= PRODUCT ================= */
+/* PRODUCT */
 
 let product=null
 
@@ -213,14 +198,39 @@ return
 
 }
 
+/* STATUS CHECK */
+
+if(product.ai_status !== "approved"){
+
+alert("Product unavailable")
+location.href="index.html"
+return
+
+}
+
+/* PRICE CHECK */
+
+if(!product.price || product.price <= 0){
+
+alert("Invalid product price")
+return
+
+}
+
 document.getElementById("title").innerText =
-escapeHTML(product.title || "Untitled")
+product.title || "Untitled"
 
 document.getElementById("price").innerText =
-"₹ "+(product.price || 0)
+"₹ "+Number(product.price)
 
 document.getElementById("cover").src =
 driveImage(product.image)
+
+/* ENABLE BUTTON */
+
+let btn=document.getElementById("buyBtn")
+btn.disabled=false
+btn.innerText="Buy Now"
 
 }catch(e){
 
@@ -234,16 +244,11 @@ alert("Failed to load product")
 loadProduct()
 
 
-/* ================= BUY ================= */
+/* BUY */
 
 async function buyNow(){
 
-if(!product){
-
-alert("Product not loaded")
-return
-
-}
+if(!product) return
 
 let btn=document.getElementById("buyBtn")
 
@@ -273,11 +278,9 @@ buyer:user.email
 
 let data = await res.json()
 
-console.log("API Response:",data)
+/* PAYMENT */
 
-/* ================= PAYMENT REDIRECT ================= */
-
-if(data.payment_session_id){
+if(data.success && data.payment_session_id){
 
 let paymentURL =
 "https://sandbox.cashfree.com/pg/view/payment-session-id?payment_session_id="
