@@ -1,40 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>User Analytics - CreatorHub</title><style>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>User Analytics - CreatorHub</title>
-
-<style>
+*{
+box-sizing:border-box;
+}
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial,Helvetica,sans-serif;
 background:#020617;
 color:white;
 }
 
-.topbar{
+/* HEADER */
+
+.header{
 display:flex;
 align-items:center;
-padding:14px;
-background:#020617;
-box-shadow:0 5px 20px black;
+padding:16px;
+border-bottom:1px solid #1f2937;
 }
 
 .back{
 font-size:22px;
 cursor:pointer;
-width:40px;
+margin-right:10px;
 }
 
 .title{
-flex:1;
-text-align:center;
-color:#22c55e;
+font-size:20px;
 font-weight:bold;
+color:#22c55e;
 }
+
+/* CONTAINER */
 
 .container{
 max-width:1000px;
@@ -42,71 +42,69 @@ margin:auto;
 padding:20px;
 }
 
+/* CARD */
+
 .card{
-background:#111827;
+background:linear-gradient(145deg,#111827,#020617);
+border-radius:16px;
 padding:20px;
-border-radius:15px;
+border:1px solid #1f2937;
+box-shadow:0 10px 25px rgba(0,0,0,0.6);
 }
+
+/* ROW */
 
 .row{
 background:#020617;
-padding:15px;
+padding:16px;
 border-radius:10px;
 margin-top:12px;
-line-height:24px;
+border:1px solid #1f2937;
+line-height:26px;
 }
+
+/* STAT */
 
 .stat{
 color:#22c55e;
 font-weight:bold;
 }
 
+/* BUTTON */
+
 .refresh{
-margin-top:15px;
-padding:10px;
-background:#22c55e;
+margin-top:12px;
+padding:10px 16px;
 border:none;
-border-radius:8px;
+border-radius:10px;
 cursor:pointer;
-color:white;
+background:linear-gradient(90deg,#22c55e,#4ade80);
+color:black;
+font-weight:bold;
 }
 
-</style>
-</head>
-<body>
-
-<div class="topbar">
-<div class="back" onclick="history.back()">⬅</div>
-<div class="title">📊 User Activity Analytics</div>
-</div>
-
-<div class="container">
-
-<div class="card">
-
-<h2>All Users Activity</h2>
-
-<button class="refresh" onclick="loadAnalytics()">Refresh</button>
+</style></head><body><div class="header"><div class="back" onclick="history.back()">⬅</div><div class="title">📊 User Activity Analytics</div></div><div class="container"><div class="card"><h2>All Users Activity</h2><button class="refresh" onclick="loadAnalytics()">Refresh</button>
 
 <div id="analyticsList">
 Loading...
-</div>
+</div></div></div><script>
 
-</div>
-
-</div>
-
-<script>
+/* ADMIN */
 
 const ADMIN="ayushprajpati6@gmail.com"
 
-const API="https://script.google.com/macros/s/AKfycbzgKPuIAmuZWOfilOj8gM9qJcZesz3ECPIhpCvBmupKFY2t76_ObVWyylnoTa4ecyda/exec"
+/* MAIN BACKEND API */
 
-let user=JSON.parse(localStorage.getItem("user")||"null")
+const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
-if(!user || user.email!==ADMIN){
+/* LOGIN CHECK */
+
+let user=JSON.parse(localStorage.getItem("user")||"{}")
+
+if(!user.email || user.email!==ADMIN){
 
 alert("Admin Only")
+
 location.href="index.html"
 
 }
@@ -129,13 +127,14 @@ return({
 
 }
 
-/* GET DB */
+/* GET DATABASE */
 
 async function getDB(db){
 
 try{
 
 let r=await fetch(API+"?db="+db+"&t="+Date.now())
+
 let data=await r.json()
 
 return Array.isArray(data)?data:[]
@@ -153,36 +152,43 @@ return[]
 async function loadAnalytics(){
 
 let users=await getDB("users")
+
 let products=await getDB("products")
+
 let orders=await getDB("orders")
 
 let box=document.getElementById("analyticsList")
 
 box.innerHTML=""
 
+/* NO USERS */
+
 if(users.length===0){
 
 box.innerHTML="No Users Found"
+
 return
 
 }
 
+/* LOOP USERS */
+
 users.reverse().forEach(u=>{
 
-/* Uploaded Products */
+/* PRODUCTS UPLOADED */
 
 let uploaded=products.filter(p=>p.owner===u.email)
 
-/* Purchased Orders */
+/* PRODUCTS PURCHASED */
 
 let bought=orders.filter(o=>
 
 o.buyer===u.email &&
-o.status==="paid"
+o.payment==="paid"
 
 )
 
-/* Total Buy Amount */
+/* PURCHASE AMOUNT */
 
 let totalBuy=0
 
@@ -192,7 +198,7 @@ totalBuy+=Number(b.amount||0)
 
 })
 
-/* Total Sales */
+/* SALES FROM PRODUCTS */
 
 let totalSales=0
 
@@ -201,7 +207,7 @@ uploaded.forEach(prod=>{
 let sales=orders.filter(o=>
 
 String(o.productId)===String(prod.id) &&
-o.status==="paid"
+o.payment==="paid"
 
 )
 
@@ -212,6 +218,8 @@ totalSales+=Number(s.amount||0)
 })
 
 })
+
+/* UI */
 
 box.innerHTML+=`
 
@@ -252,7 +260,5 @@ Total Sales From Upload:
 
 loadAnalytics()
 
-</script>
-
-</body>
+</script></body>
 </html>
