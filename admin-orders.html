@@ -29,9 +29,9 @@ border-radius:12px;
 }
 
 .status{
-margin-top:5px;
+margin-top:6px;
 font-size:14px;
-opacity:.8;
+font-weight:bold;
 }
 
 .paid{
@@ -39,7 +39,13 @@ color:#22c55e;
 }
 
 .pending{
-color:orange;
+color:#f59e0b;
+}
+
+.orderId{
+opacity:.7;
+font-size:13px;
+margin-bottom:6px;
 }
 
 </style>
@@ -82,15 +88,42 @@ location.href="index.html"
 }
 
 
+/* SAFE HTML */
+
+function escapeHTML(str){
+
+return String(str).replace(/[&<>"']/g,function(m){
+
+return({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+})[m]
+
+})
+
+}
+
+
 /* DATABASE */
 
 async function getDB(api,db){
+
+try{
 
 let r=await fetch(api+"?db="+db+"&t="+Date.now())
 
 let data=await r.json()
 
 return Array.isArray(data)?data:[]
+
+}catch{
+
+return[]
+
+}
 
 }
 
@@ -112,37 +145,58 @@ return
 
 }
 
+/* PAID FIRST */
+
+orders.sort((a,b)=>{
+
+let aPaid=(a.status==="paid"||a.payment==="paid")
+let bPaid=(b.status==="paid"||b.payment==="paid")
+
+return bPaid-aPaid
+
+})
+
 let html=""
 
-orders.reverse().forEach(o=>{
+orders.forEach(o=>{
 
 let product=
 products.find(p=>String(p.id)===String(o.productId))
 
 let title=
-product?product.title:"Unknown Product"
+product?escapeHTML(product.title):"Unknown Product"
 
-let status=o.payment || "pending"
+let status=(o.status||o.payment||"pending")
+
+let statusClass=status==="paid"?"paid":"pending"
 
 html+=`
 
 <div class="card">
 
+<div class="orderId">
+Order ID : ${escapeHTML(o.id||"-")}
+</div>
+
 <h3>${title}</h3>
 
-Buyer : ${o.buyer}
+Buyer : ${escapeHTML(o.buyer||"-")}
 
 <br>
 
-Seller : ${o.seller}
+Seller : ${escapeHTML(o.seller||"-")}
 
 <br>
 
-Amount : ₹${o.amount}
+Amount : ₹${Number(o.amount||0)}
 
-<div class="status ${status==='paid'?'paid':'pending'}">
+<br>
 
-Payment : ${status}
+Date : ${escapeHTML(o.date||"-")}
+
+<div class="status ${statusClass}">
+
+Payment : ${escapeHTML(status)}
 
 </div>
 
