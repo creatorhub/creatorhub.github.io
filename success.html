@@ -1,98 +1,127 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>Payment Success</title>
-
-<style>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Payment Success</title><style>
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial,Helvetica,sans-serif;
 background:#020617;
 color:white;
 display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
+padding:20px;
 }
+
+/* CARD */
 
 .card{
-background:#111827;
+
+background:linear-gradient(145deg,#111827,#020617);
+
 padding:35px;
-border-radius:16px;
+
+border-radius:18px;
+
 max-width:420px;
-width:90%;
+
+width:100%;
+
 text-align:center;
-box-shadow:0 10px 30px black;
+
+border:1px solid #1f2937;
+
+box-shadow:0 20px 40px rgba(0,0,0,0.7);
+
 }
+
+/* TITLE */
 
 h1{
+
 color:#22c55e;
+
 margin-bottom:10px;
+
 }
 
-p{
+/* STATUS */
+
+#status{
+
 opacity:.8;
+
+font-size:14px;
+
 }
+
+/* BUTTON */
 
 button{
-margin-top:20px;
+
+margin-top:22px;
+
 width:100%;
+
 padding:14px;
+
 border:none;
+
 border-radius:10px;
+
 background:linear-gradient(90deg,#22c55e,#4ade80);
-color:white;
+
+color:black;
+
 font-weight:bold;
+
 cursor:pointer;
+
+display:none;
+
 }
+
+/* LOADER */
 
 .loader{
-margin-top:20px;
+
+margin-top:25px;
+
+font-size:14px;
+
+animation:pulse 1.2s infinite;
+
 }
 
-</style>
+@keyframes pulse{
 
-</head>
+0%{opacity:.3}
+50%{opacity:1}
+100%{opacity:.3}
 
-<body>
+}
 
-<div class="card">
-
-<h1 id="title">Payment Successful 🎉</h1>
-
-<p id="status">
+</style></head><body><div class="card"><h1 id="title">Payment Successful 🎉</h1><p id="status">
 Verifying payment and unlocking your ebook...
-</p>
-
-<div id="loader" class="loader">
+</p><div id="loader" class="loader">
 ⏳ Please wait...
-</div>
-
-<button onclick="goLibrary()">
+</div><button id="libraryBtn" onclick="goLibrary()">
 Go To My Library
-</button>
-
-</div>
-
-<script>
+</button></div><script>
 
 /* PAYMENT API */
 
-const PAYMENT_API =
+const PAYMENT_API=
 "https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
 
-/* USER */
+/* USER CHECK */
 
-let user = JSON.parse(localStorage.getItem("user") || "null")
+let user=JSON.parse(localStorage.getItem("user")||"null")
 
 if(!user){
 
 alert("Login required")
+
 location.href="login.html"
 
 }
@@ -101,23 +130,24 @@ location.href="login.html"
 
 function getOrderId(){
 
-let params = new URLSearchParams(window.location.search)
+let params=new URLSearchParams(window.location.search)
 
-return (
-params.get("order_id") ||
-params.get("orderId") ||
-params.get("cf_order_id") ||
+return(
+params.get("order_id")||
+params.get("orderId")||
+params.get("cf_order_id")||
 params.get("order-id")
 )
 
 }
 
-let orderId = getOrderId()
+let orderId=getOrderId()
 
-/* RETRY CONTROL */
+/* RETRY SYSTEM */
 
-let retry = 0
-const maxRetry = 10
+let retry=0
+
+const maxRetry=10
 
 /* VERIFY PAYMENT */
 
@@ -127,7 +157,7 @@ if(!orderId){
 
 document.getElementById("title").innerText="Order Error"
 
-document.getElementById("status").innerText =
+document.getElementById("status").innerText=
 "Order ID not found"
 
 document.getElementById("loader").style.display="none"
@@ -136,16 +166,18 @@ return
 
 }
 
-/* STOP AFTER MAX RETRY */
+/* STOP AFTER LIMIT */
 
-if(retry >= maxRetry){
+if(retry>=maxRetry){
 
 document.getElementById("title").innerText="Verification Timeout"
 
-document.getElementById("status").innerText =
-"Unable to verify payment. Please contact support."
+document.getElementById("status").innerText=
+"Payment verification failed. Contact support."
 
 document.getElementById("loader").style.display="none"
+
+document.getElementById("libraryBtn").style.display="block"
 
 return
 
@@ -153,7 +185,7 @@ return
 
 try{
 
-let res = await fetch(PAYMENT_API,{
+let res=await fetch(PAYMENT_API,{
 
 method:"POST",
 
@@ -170,24 +202,26 @@ orderId:orderId
 
 })
 
-let data = await res.json()
+let data=await res.json()
 
 /* SUCCESS */
 
 if(data.success){
 
-document.getElementById("status").innerText =
+document.getElementById("status").innerText=
 "Ebook unlocked successfully!"
 
 document.getElementById("loader").style.display="none"
 
-/* REMOVE CART BUY FLAG */
+document.getElementById("libraryBtn").style.display="block"
+
+/* CLEAR CART */
 
 localStorage.removeItem("buyProduct")
 
 }
 
-/* NOT READY YET */
+/* RETRY */
 
 else{
 
@@ -199,13 +233,11 @@ setTimeout(verifyPayment,3000)
 
 }
 
-/* ERROR */
-
 catch(e){
 
 retry++
 
-document.getElementById("status").innerText =
+document.getElementById("status").innerText=
 "Verification error. Retrying..."
 
 setTimeout(verifyPayment,3000)
@@ -216,7 +248,7 @@ setTimeout(verifyPayment,3000)
 
 verifyPayment()
 
-/* GO LIBRARY */
+/* LIBRARY */
 
 function goLibrary(){
 
@@ -224,7 +256,5 @@ location.href="library.html"
 
 }
 
-</script>
-
-</body>
+</script></body>
 </html>
