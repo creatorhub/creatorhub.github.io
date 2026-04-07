@@ -1,36 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>CreatorHub</title>
-<link rel="stylesheet" href="style.css">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#020617;
+color:white;
+}
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:15px;
+background:#020617;
+box-shadow:0 5px 20px black;
+}
+
+.logo{
+font-size:22px;
+color:#22c55e;
+font-weight:bold;
+}
+
+nav a{
+margin:0 10px;
+text-decoration:none;
+color:white;
+opacity:.8;
+}
+
+nav a:hover{
+opacity:1;
+}
+
+.search input{
+padding:8px;
+border-radius:8px;
+border:none;
+}
+
+/* HERO */
+
+.hero{
+display:flex;
+flex-wrap:wrap;
+padding:50px 20px;
+justify-content:space-between;
+align-items:center;
+}
+
+.hero-text{
+max-width:500px;
+}
+
+.hero h1{
+font-size:36px;
+}
+
+.hero span{
+color:#22c55e;
+}
+
+.btn-green{
+background:#22c55e;
+border:none;
+padding:12px 18px;
+border-radius:8px;
+color:white;
+cursor:pointer;
+}
+
+.btn-dark{
+background:#111827;
+border:none;
+padding:12px 18px;
+border-radius:8px;
+color:white;
+cursor:pointer;
+margin-left:10px;
+}
+
+.hero-books img{
+width:130px;
+margin:10px;
+border-radius:10px;
+}
+
+/* BOOK GRID */
+
+.books{
+padding:40px 20px;
+}
+
+.book-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+}
+
+.book{
+background:#111827;
+padding:15px;
+border-radius:12px;
+text-align:center;
+}
+
+.book img{
+width:100%;
+height:200px;
+object-fit:cover;
+border-radius:8px;
+}
+
+.book button{
+background:#22c55e;
+border:none;
+padding:10px;
+border-radius:8px;
+color:white;
+margin-top:10px;
+cursor:pointer;
+width:100%;
+}
+
+/* CTA */
+
+.cta{
+text-align:center;
+padding:60px 20px;
+background:#111827;
+}
+
+.cta button{
+background:#22c55e;
+padding:12px 20px;
+border:none;
+border-radius:8px;
+color:white;
+cursor:pointer;
+}
+
+/* FOOTER */
+
+footer{
+background:black;
+padding:30px;
+text-align:center;
+margin-top:40px;
+}
+
+</style>
+
 </head>
 
 <body>
-
-<!-- NAVBAR -->
 
 <header class="navbar">
 
 <div class="logo">CreatorHub</div>
 
 <nav>
-<a href="#">Home</a>
-<a href="#">Categories</a>
-<a href="#">Best Sellers</a>
-<a href="#">Sell eBook</a>
-<a href="#">Dashboard</a>
+
+<a href="index.html">Home</a>
+<a href="products.html">Marketplace</a>
+<a href="topselling.html">Best Sellers</a>
+<a href="upload.html">Sell eBook</a>
+<a href="dashboard.html">Dashboard</a>
+
 </nav>
 
 <div class="search">
-<input type="text" placeholder="Search eBooks...">
+<input id="search" placeholder="Search ebooks...">
 </div>
 
 </header>
 
-<!-- HERO SECTION -->
+<!-- HERO -->
 
 <section class="hero">
 
@@ -40,31 +199,9 @@
 
 <p>Explore thousands of digital books from talented creators.</p>
 
-<div class="hero-buttons">
+<button class="btn-green" onclick="goProducts()">Browse Ebooks</button>
 
-<button class="btn-green">Browse Ebooks</button>
-<button class="btn-dark">Sell Your eBook</button>
-
-</div>
-
-<div class="stats">
-
-<div class="stat">
-<h3>10K+</h3>
-<p>Ebooks</p>
-</div>
-
-<div class="stat">
-<h3>5K+</h3>
-<p>Creators</p>
-</div>
-
-<div class="stat">
-<h3>58%</h3>
-<p>Secure</p>
-</div>
-
-</div>
+<button class="btn-dark" onclick="goUpload()">Sell Your eBook</button>
 
 </div>
 
@@ -78,86 +215,21 @@
 
 </section>
 
-<!-- CATEGORIES -->
-
-<section class="categories">
-
-<h2>Popular Categories</h2>
-
-<div class="category-grid">
-
-<div class="category">Code</div>
-<div class="category">Business</div>
-<div class="category">Marketing</div>
-<div class="category">Design</div>
-<div class="category">Education</div>
-<div class="category">Self Growth</div>
-
-</div>
-
-</section>
-
-<!-- TRENDING BOOKS -->
+<!-- TRENDING -->
 
 <section class="books">
 
 <h2>Trending eBooks</h2>
 
-<div class="book-grid">
+<div id="bookGrid" class="book-grid">
 
-<div class="book">
-
-<img src="https://covers.openlibrary.org/b/id/10521270-L.jpg">
-
-<h3>Atomic Habits</h3>
-
-<p>₹199</p>
-
-<button>Buy Now</button>
-
-</div>
-
-<div class="book">
-
-<img src="https://covers.openlibrary.org/b/id/10521269-L.jpg">
-
-<h3>Deep Work</h3>
-
-<p>₹149</p>
-
-<button>Buy Now</button>
-
-</div>
-
-<div class="book">
-
-<img src="https://covers.openlibrary.org/b/id/10521268-L.jpg">
-
-<h3>Psychology of Money</h3>
-
-<p>₹179</p>
-
-<button>Buy Now</button>
-
-</div>
-
-<div class="book">
-
-<img src="https://covers.openlibrary.org/b/id/10521267-L.jpg">
-
-<h3>The 5AM Club</h3>
-
-<p>₹199</p>
-
-<button>Buy Now</button>
-
-</div>
+Loading books...
 
 </div>
 
 </section>
 
-<!-- CTA SECTION -->
+<!-- CTA -->
 
 <section class="cta">
 
@@ -165,70 +237,143 @@
 
 <p>Upload your ebook once and earn from every sale.</p>
 
-<button class="btn-green">Upload Your eBook</button>
+<button onclick="goUpload()">Upload Your eBook</button>
 
 </section>
-
-<!-- FEATURES -->
-
-<section class="features">
-
-<div class="feature">
-<i class="fa fa-download"></i>
-<h3>Instant Downloads</h3>
-</div>
-
-<div class="feature">
-<i class="fa fa-lock"></i>
-<h3>Secure Payments</h3>
-</div>
-
-<div class="feature">
-<i class="fa fa-book"></i>
-<h3>Sell Your Own eBooks</h3>
-</div>
-
-<div class="feature">
-<i class="fa fa-globe"></i>
-<h3>Global Marketplace</h3>
-</div>
-
-</section>
-
-<!-- FOOTER -->
 
 <footer>
 
-<div class="footer-grid">
-
-<div>
-<h3>CreatorHub</h3>
-<p>The future of digital creators.</p>
-</div>
-
-<div>
-<h4>Marketplace</h4>
-<p>All ebooks</p>
-<p>Categories</p>
-</div>
-
-<div>
-<h4>For Creators</h4>
-<p>Dashboard</p>
-<p>Sell ebooks</p>
-</div>
-
-<div>
-<h4>Legal</h4>
-<p>Privacy Policy</p>
-<p>Terms</p>
-</div>
-
-</div>
-
-<p class="copyright">© 2024 CreatorHub</p>
+<p>© 2026 CreatorHub Marketplace</p>
 
 </footer>
 
+<script>
+
+/* PRODUCT API */
+
+const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
+
+/* DRIVE IMAGE */
+
+function driveImage(link){
+
+if(!link) return "https://picsum.photos/400"
+
+try{
+
+let id=""
+
+if(link.includes("id="))
+id=link.split("id=")[1].split("&")[0]
+
+if(link.includes("/file/d/"))
+id=link.split("/file/d/")[1].split("/")[0]
+
+if(id)
+return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000"
+
+}catch{}
+
+return link
+
+}
+
+/* LOAD TRENDING */
+
+async function loadBooks(){
+
+let res=await fetch(API+"?db=products&t="+Date.now())
+
+let products=await res.json()
+
+if(!Array.isArray(products))
+products=[]
+
+products=products.filter(p=>p.status==="approved")
+
+products=products.slice(0,6)
+
+let html=""
+
+products.forEach(p=>{
+
+html+=`
+
+<div class="book">
+
+<img src="${driveImage(p.image)}">
+
+<h3>${p.title}</h3>
+
+<p>₹${p.price}</p>
+
+<button onclick="buy('${p.id}')">Buy Now</button>
+
+</div>
+
+`
+
+})
+
+document.getElementById("bookGrid").innerHTML=html
+
+}
+
+loadBooks()
+
+/* BUY */
+
+function buy(id){
+
+localStorage.setItem("buyProduct",id)
+
+location.href="payment.html"
+
+}
+
+/* NAVIGATION */
+
+function goProducts(){
+
+location.href="products.html"
+
+}
+
+function goUpload(){
+
+let user=JSON.parse(localStorage.getItem("user")||"null")
+
+if(!user){
+
+alert("Login required")
+
+location.href="login.html"
+
+return
+
+}
+
+location.href="upload.html"
+
+}
+
+/* SEARCH */
+
+document.getElementById("search").addEventListener("keypress",function(e){
+
+if(e.key==="Enter"){
+
+let q=this.value.trim()
+
+if(!q) return
+
+location.href="products.html?search="+encodeURIComponent(q)
+
+}
+
+})
+
+</script>
+
 </body>
-    </html>
+</html>
