@@ -110,18 +110,6 @@ font-weight:bold;
 cursor:pointer;
 }
 
-.download{
-background:#2563eb;
-border:none;
-width:100%;
-padding:12px;
-margin-top:8px;
-border-radius:10px;
-color:white;
-font-weight:bold;
-cursor:pointer;
-}
-
 .buy{
 background:#f97316;
 border:none;
@@ -161,17 +149,11 @@ Loading Library...
 
 <script>
 
-/* ADMIN */
-
 const ADMIN="ayushprajpati6@gmail.com"
-
-/* APIs */
 
 const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
 const PAYMENT_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
-
-/* USER */
 
 let user=JSON.parse(localStorage.getItem("user")||"null")
 
@@ -183,8 +165,6 @@ location.href="login.html"
 }
 
 let isAdmin=user.email===ADMIN
-
-/* DRIVE FUNCTIONS */
 
 function driveId(link){
 
@@ -211,30 +191,6 @@ return "https://picsum.photos/400"
 
 }
 
-function driveView(link){
-
-let id=driveId(link)
-
-if(id)
-return "https://drive.google.com/file/d/"+id+"/preview"
-
-return "#"
-
-}
-
-function driveDownload(link){
-
-let id=driveId(link)
-
-if(id)
-return "https://drive.google.com/uc?export=download&id="+id
-
-return "#"
-
-}
-
-/* GET DB */
-
 async function getDB(api,db){
 
 try{
@@ -253,8 +209,6 @@ return[]
 
 }
 
-/* LOAD LIBRARY */
-
 async function loadLibrary(){
 
 let products=await getDB(PRODUCT_API,"products")
@@ -264,8 +218,6 @@ let orders=await getDB(PAYMENT_API,"orders")
 let subs=await getDB(PAYMENT_API,"subscriptions")
 
 let box=document.getElementById("library")
-
-/* CHECK PREMIUM */
 
 let premium=subs.find(s=>s.email===user.email)
 
@@ -283,12 +235,9 @@ isPremium=true
 
 }
 
-/* USER PURCHASE */
-
 let myOrders=orders.filter(o=>
 
 o.buyer===user.email &&
-
 (o.status==="paid" || o.payment==="paid")
 
 )
@@ -297,8 +246,6 @@ let ownedProducts=myOrders.map(o=>String(o.productId))
 
 box.innerHTML=""
 
-/* PRODUCTS LOOP */
-
 products.forEach(product=>{
 
 let purchased=ownedProducts.includes(String(product.id))
@@ -306,12 +253,6 @@ let purchased=ownedProducts.includes(String(product.id))
 let owner=product.owner===user.email
 
 let image=driveImage(product.image)
-
-let view=driveView(product.pdf)
-
-let download=driveDownload(product.pdf)
-
-/* ACCESS */
 
 let allow=false
 
@@ -322,27 +263,17 @@ else if(purchased) allow=true
 
 let buttons=""
 
-/* ALLOWED */
-
 if(allow){
 
 buttons=`
 
-<button class="read" onclick="window.open('${view}')">
+<button class="read" onclick="openReader('${product.id}')">
 Read Ebook
-</button>
-
-<button class="download" onclick="window.open('${download}')">
-Download PDF
 </button>
 
 `
 
-}
-
-/* BUY */
-
-else{
+}else{
 
 buttons=`
 
@@ -386,7 +317,11 @@ box.innerHTML="<div class='empty'>No ebooks found</div>"
 
 loadLibrary()
 
-/* BUY */
+function openReader(id){
+
+location.href="viewer.html?id="+id
+
+}
 
 function buyBook(id){
 
