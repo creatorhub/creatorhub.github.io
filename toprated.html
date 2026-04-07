@@ -1,69 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Highest Rated Books</title><style>
 
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>Highest Rated Books</title>
-
-<style>
+*{
+box-sizing:border-box;
+}
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial,Helvetica,sans-serif;
 background:#020617;
 color:white;
 }
 
-.topbar{
+/* HEADER */
+
+.header{
 display:flex;
 align-items:center;
-padding:14px;
-box-shadow:0 5px 20px black;
+padding:16px;
+border-bottom:1px solid #1f2937;
 }
 
 .back{
 font-size:22px;
 cursor:pointer;
-width:40px;
+margin-right:10px;
 }
 
 .title{
-flex:1;
-text-align:center;
-color:#22c55e;
+font-size:20px;
 font-weight:bold;
+color:#22c55e;
 }
 
+/* CONTAINER */
+
 .container{
-padding:18px;
+padding:20px;
+max-width:900px;
+margin:auto;
 }
+
+/* LIST */
 
 .list{
 display:flex;
 flex-direction:column;
-gap:15px;
+gap:16px;
 }
+
+/* CARD */
 
 .card{
+
 display:flex;
-gap:15px;
-background:#111827;
+
+gap:14px;
+
+background:linear-gradient(145deg,#111827,#020617);
+
 padding:12px;
-border-radius:12px;
-align-items:center;
-box-shadow:0 10px 20px black;
+
+border-radius:14px;
+
+border:1px solid #1f2937;
+
+box-shadow:0 10px 25px rgba(0,0,0,0.6);
+
 cursor:pointer;
+
 }
 
+/* IMAGE */
+
 .card img{
+
 width:90px;
+
 aspect-ratio:2/3;
+
 object-fit:cover;
-border-radius:8px;
+
+border-radius:10px;
+
 }
+
+/* INFO */
 
 .info{
 flex:1;
@@ -74,53 +96,63 @@ font-size:17px;
 font-weight:bold;
 }
 
-.rating{
-color:gold;
-margin-top:4px;
-font-size:14px;
-}
+/* RATING */
 
-.buy{
-padding:8px 12px;
-border:none;
-background:#22c55e;
-border-radius:6px;
-color:white;
-cursor:pointer;
+.rating{
+color:#facc15;
+font-size:14px;
 margin-top:6px;
 }
 
-.badge{
-font-size:11px;
-background:gold;
+/* BUY BUTTON */
+
+.buy{
+
+margin-top:8px;
+
+padding:8px 12px;
+
+border:none;
+
+border-radius:8px;
+
+cursor:pointer;
+
+background:linear-gradient(90deg,#22c55e,#4ade80);
+
 color:black;
-padding:2px 6px;
-border-radius:6px;
-margin-left:6px;
+
+font-weight:bold;
+
 }
 
-</style>
+/* BADGE */
 
-</head>
+.badge{
 
-<body>
+font-size:11px;
 
-<div class="topbar">
-<div class="back" onclick="history.back()">⬅</div>
-<div class="title">Highest Rated Books</div>
-</div>
+background:#facc15;
 
-<div class="container">
-<div id="books" class="list">
-Loading...
-</div>
-</div>
+color:black;
 
-<script>
+padding:2px 6px;
+
+border-radius:6px;
+
+margin-left:6px;
+
+}
+
+</style></head><body><div class="header"><div class="back" onclick="history.back()">⬅</div><div class="title">Highest Rated Books</div></div><div class="container"><div id="books" class="list">Loading...
+
+</div></div><script>
+
+/* API */
 
 const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
-/* DRIVE IMAGE */
+/* DRIVE IMAGE FIX */
 
 function driveImage(link){
 
@@ -177,15 +209,19 @@ async function load(){
 try{
 
 let productsRes=await fetch(API+"?db=products&t="+Date.now())
+
 let products=await productsRes.json()
 
 let reviewsRes=await fetch(API+"?db=reviews&t="+Date.now())
+
 let reviews=await reviewsRes.json()
 
 if(!Array.isArray(products)) products=[]
 if(!Array.isArray(reviews)) reviews=[]
 
-products=products.filter(p=>p.status==="approved")
+/* ONLY APPROVED */
+
+products=products.filter(p=>p.ai_status==="approved")
 
 /* CALCULATE RATING */
 
@@ -204,13 +240,15 @@ p.reviewCount=list.length
 
 })
 
-/* SORT */
+/* SORT BY RATING */
 
 products.sort((a,b)=>b.rating-a.rating)
 
 let box=document.getElementById("books")
 
 let html=""
+
+/* SHOW TOP 20 */
 
 products.slice(0,20).forEach((p,i)=>{
 
@@ -224,7 +262,7 @@ html+=`
 
 <div class="name">
 
-${p.title||"Untitled"}
+${p.title || "Untitled"}
 
 ${i<3?'<span class="badge">Top Rated</span>':''}
 
@@ -238,7 +276,9 @@ ${stars(p.rating)} (${p.rating.toFixed(1)}) • ${p.reviewCount} reviews
 
 <button class="buy"
 onclick="buyNow(event,'${p.id}')">
+
 Buy
+
 </button>
 
 </div>
@@ -281,7 +321,5 @@ location.href="payment.html"
 
 load()
 
-</script>
-
-</body>
+</script></body>
 </html>
