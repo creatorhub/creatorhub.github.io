@@ -4,7 +4,6 @@
 <head>
 
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>Admin Upload Ebook</title>
 
 <style>
@@ -50,7 +49,7 @@ margin:auto;
 margin-bottom:20px;
 }
 
-input{
+input,textarea{
 width:100%;
 padding:14px;
 margin-top:12px;
@@ -58,6 +57,10 @@ border:none;
 border-radius:10px;
 background:#020617;
 color:white;
+}
+
+textarea{
+min-height:100px;
 }
 
 button{
@@ -70,6 +73,11 @@ background:#22c55e;
 color:white;
 font-weight:bold;
 cursor:pointer;
+}
+
+button:disabled{
+opacity:.6;
+cursor:not-allowed;
 }
 
 </style>
@@ -102,7 +110,9 @@ cursor:pointer;
 
 <input id="pdf" placeholder="Drive PDF Link">
 
-<button onclick="uploadAdminBook()">
+<textarea id="description" placeholder="Book Description"></textarea>
+
+<button id="uploadBtn" onclick="uploadAdminBook()">
 Upload + Auto Approve ✅
 </button>
 
@@ -112,35 +122,38 @@ Upload + Auto Approve ✅
 
 <script>
 
-/* ADMIN */
-
 const ADMIN="ayushprajpati6@gmail.com"
-
-/* PRODUCT API */
 
 const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
-/* LOGIN CHECK */
-
-let user=JSON.parse(localStorage.getItem("user"))
+let user=JSON.parse(localStorage.getItem("user")||"{}")
 
 if(!user || user.email!==ADMIN){
 
 alert("Admin Only")
-
 location.href="index.html"
 
 }
 
+/* VALIDATE DRIVE LINK */
 
-/* ADMIN UPLOAD */
+function isDriveLink(link){
+
+return link.includes("drive.google.com")
+
+}
+
+/* UPLOAD */
 
 async function uploadAdminBook(){
 
+let btn=document.getElementById("uploadBtn")
+
 let title=document.getElementById("title").value.trim()
-let price=document.getElementById("price").value.trim()
+let price=Number(document.getElementById("price").value)
 let image=document.getElementById("image").value.trim()
 let pdf=document.getElementById("pdf").value.trim()
+let description=document.getElementById("description").value.trim()
 
 if(!title||!price||!image||!pdf){
 
@@ -148,6 +161,25 @@ alert("Fill All Fields")
 return
 
 }
+
+if(price<=0){
+
+alert("Price must be greater than 0")
+return
+
+}
+
+if(!isDriveLink(image)||!isDriveLink(pdf)){
+
+alert("Use Google Drive links")
+return
+
+}
+
+btn.disabled=true
+btn.innerText="Uploading..."
+
+try{
 
 let res=await fetch(PRODUCT_API,{
 
@@ -165,8 +197,11 @@ title:title,
 price:price,
 image:image,
 pdf:pdf,
+description:description,
+
 author:"Admin",
-owner:ADMIN
+owner:ADMIN,
+status:"approved"
 
 })
 
@@ -182,7 +217,19 @@ location.reload()
 
 }else{
 
-alert("Upload Failed")
+alert(data.message||"Upload Failed")
+
+btn.disabled=false
+btn.innerText="Upload + Auto Approve ✅"
+
+}
+
+}catch(e){
+
+alert("Server Error")
+
+btn.disabled=false
+btn.innerText="Upload + Auto Approve ✅"
 
 }
 
