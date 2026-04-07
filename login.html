@@ -67,6 +67,11 @@ font-weight:bold;
 cursor:pointer;
 }
 
+button:disabled{
+opacity:.6;
+cursor:not-allowed;
+}
+
 .link{
 margin-top:10px;
 text-align:center;
@@ -96,7 +101,7 @@ justify-content:center;
 
 <input id="password" type="password" placeholder="Password">
 
-<button onclick="login()">Login</button>
+<button id="loginBtn" onclick="login()">Login</button>
 
 <div class="google">
 
@@ -128,17 +133,37 @@ Forgot Password
 
 const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
 
+
 /* EMAIL LOGIN */
 
 async function login(){
 
 let email=document.getElementById("email").value.trim().toLowerCase();
 let password=document.getElementById("password").value.trim();
+let btn=document.getElementById("loginBtn");
+
+/* VALIDATION */
 
 if(!email || !password){
+
 alert("Fill all fields");
 return;
+
 }
+
+/* EMAIL FORMAT */
+
+let emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if(!emailRegex.test(email)){
+
+alert("Enter valid email");
+return;
+
+}
+
+btn.disabled=true;
+btn.innerText="Logging in...";
 
 try{
 
@@ -161,8 +186,14 @@ password:password
 let data=await res.json();
 
 if(!data.success){
+
 alert(data.message || "Wrong Login");
+
+btn.disabled=false;
+btn.innerText="Login";
+
 return;
+
 }
 
 localStorage.setItem("user",JSON.stringify(data.user));
@@ -175,25 +206,41 @@ location.href="dashboard.html";
 
 alert("Server Error");
 
+btn.disabled=false;
+btn.innerText="Login";
+
 }
 
 }
+
 
 /* GOOGLE LOGIN */
 
-function handleGoogleLogin(response){
+async function handleGoogleLogin(response){
 
 let data=parseJwt(response.credential);
 
-fetch(API,{
+try{
+
+let res=await fetch(API,{
+
 method:"POST",
-headers:{"Content-Type":"application/json"},
+
+headers:{
+"Content-Type":"application/json"
+},
+
 body:JSON.stringify({
 action:"google_login",
 email:data.email,
 name:data.name
 })
+
 });
+
+let result=await res.json();
+
+if(result.success){
 
 localStorage.setItem("user",JSON.stringify({
 email:data.email,
@@ -202,7 +249,20 @@ name:data.name
 
 location.href="dashboard.html";
 
+}else{
+
+alert("Google login failed");
+
 }
+
+}catch{
+
+alert("Google login error");
+
+}
+
+}
+
 
 /* JWT PARSE */
 
@@ -218,13 +278,14 @@ return JSON.parse(jsonPayload);
 
 }
 
+
 /* GUEST LOGIN */
 
 function guestLogin(){
 
 let guestUser={
-name:"Guest User",
-email:"guest@creatorhub.com",
+name:"Guest",
+email:"guest_"+Date.now()+"@guest.creatorhub",
 guest:true
 };
 
