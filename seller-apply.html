@@ -1,32 +1,26 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Become Seller - CreatorHub</title>
-
-<style>
+<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Become Seller - CreatorHub</title><style>
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial,Helvetica,sans-serif;
 background:#020617;
 color:white;
 }
 
+/* HEADER */
+
 .topbar{
 display:flex;
 align-items:center;
-padding:14px;
-background:#020617;
-box-shadow:0 5px 20px black;
+padding:16px;
+border-bottom:1px solid #1f2937;
 }
 
 .back{
 font-size:22px;
 cursor:pointer;
-width:40px;
+margin-right:10px;
 }
 
 .title{
@@ -36,42 +30,76 @@ color:#22c55e;
 font-weight:bold;
 }
 
+/* CONTAINER */
+
 .container{
 max-width:500px;
 margin:auto;
 padding:20px;
 }
 
+/* CARD */
+
 .card{
-background:#111827;
+
+background:linear-gradient(145deg,#111827,#020617);
+
 padding:25px;
-border-radius:15px;
+
+border-radius:18px;
+
+border:1px solid #1f2937;
+
+box-shadow:0 10px 30px rgba(0,0,0,0.6);
+
 }
+
+/* INPUT */
 
 input{
+
 width:100%;
+
 padding:14px;
+
 margin-top:12px;
+
 border:none;
+
 border-radius:12px;
+
 background:#020617;
+
 color:white;
+
 }
 
+/* BUTTON */
+
 button{
+
 width:100%;
+
 padding:14px;
+
 margin-top:18px;
+
 border:none;
+
 border-radius:12px;
+
 background:linear-gradient(90deg,#22c55e,#4ade80);
-color:white;
+
+color:black;
+
 font-weight:bold;
+
 cursor:pointer;
+
 }
 
 button:disabled{
-opacity:0.6;
+opacity:.6;
 cursor:not-allowed;
 }
 
@@ -81,69 +109,32 @@ font-size:14px;
 margin-top:8px;
 }
 
-</style>
-
-</head>
-
-<body>
-
-<div class="topbar">
-<div class="back" onclick="location.href='dashboard.html'">⬅</div>
-<div class="title">Become Seller</div>
-</div>
-
-<div class="container">
-
-<div class="card">
-
-<h2>Apply For Seller Account</h2>
-
-<p class="note">
+</style></head><body><div class="topbar"><div class="back" onclick="location.href='dashboard.html'">⬅</div><div class="title">Become Seller</div></div><div class="container"><div class="card"><h2>Apply For Seller Account</h2><p class="note">
 Upload ebooks and earn 80% profit.<br>
 Admin approval required.
-</p>
-
-<input id="name" placeholder="Full Name">
-<input id="phone" placeholder="Phone Number">
-<input id="upi" placeholder="UPI ID (for payment receive)">
-
-<button id="applyBtn" onclick="applySeller()">
+</p><input id="name" placeholder="Full Name"><input id="phone" placeholder="Phone Number"><input id="upi" placeholder="UPI ID (for payment receive)"><button id="applyBtn" onclick="applySeller()">
 Apply Now 🚀
-</button>
+</button></div></div><script>
 
-</div>
+/* SELLER API */
 
-</div>
+const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
-<script>
+/* USER */
 
-const API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec";
-
-let user=JSON.parse(localStorage.getItem("user")||"null");
+let user=JSON.parse(localStorage.getItem("user")||"null")
 
 if(!user || !user.email){
 
-location.href="login.html";
+location.href="login.html"
 
 }
 
-/* DATABASE */
+/* VALIDATE UPI */
 
-async function getDB(db){
+function validUPI(vpa){
 
-try{
-
-let r=await fetch(API+"?db="+db+"&t="+Date.now());
-
-let d=await r.json();
-
-return Array.isArray(d)?d:[];
-
-}catch{
-
-return[];
-
-}
+return /^[a-zA-Z0-9.\-_]{2,}@[a-zA-Z]{2,}$/.test(vpa)
 
 }
 
@@ -151,127 +142,97 @@ return[];
 
 async function applySeller(){
 
-let btn=document.getElementById("applyBtn");
+let btn=document.getElementById("applyBtn")
 
-let name=document.getElementById("name").value.trim();
-let phone=document.getElementById("phone").value.trim();
-let upi=document.getElementById("upi").value.trim();
+let name=document.getElementById("name").value.trim()
 
-/* VALIDATION */
+let phone=document.getElementById("phone").value.trim()
+
+let upi=document.getElementById("upi").value.trim()
 
 if(!name || !phone || !upi){
 
-alert("Fill all fields");
-return;
+alert("Fill all fields")
+
+return
 
 }
-
-/* PHONE VALIDATION */
 
 if(!/^[0-9]{10}$/.test(phone)){
 
-alert("Enter valid phone number");
-return;
+alert("Enter valid phone number")
+
+return
 
 }
 
-/* UPI VALIDATION */
+if(!validUPI(upi)){
 
-if(!upi.includes("@")){
+alert("Invalid UPI ID")
 
-alert("Enter valid UPI ID");
-return;
+return
 
 }
 
-btn.disabled=true;
-btn.innerText="Submitting...";
+btn.disabled=true
+
+btn.innerText="Submitting..."
 
 try{
 
-/* CHECK USER DB */
+let res=await fetch(API,{
 
-let users=await getDB("users");
-
-let index=users.findIndex(u=>u.email===user.email);
-
-if(index>-1){
-
-if(users[index].seller){
-
-alert("You are already a seller");
-
-btn.disabled=false;
-btn.innerText="Apply Now 🚀";
-return;
-
-}
-
-if(users[index].sellerRequest){
-
-alert("Seller request already submitted");
-
-btn.disabled=false;
-btn.innerText="Apply Now 🚀";
-return;
-
-}
-
-}
-
-/* UPDATE USER */
-
-if(index>-1){
-
-users[index].sellerRequest=true;
-
-await fetch(API,{
 method:"POST",
+
 headers:{
 "Content-Type":"application/json"
 },
+
 body:JSON.stringify({
-db:"users",
-data:users
-})
-});
 
-}
-
-/* SAVE SELLER REQUEST */
-
-await fetch(API,{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
 action:"apply_seller",
+
 email:user.email,
+
 name:name,
+
 phone:phone,
+
 upi:upi
+
 })
-});
 
-alert("Application submitted successfully ✅");
+})
 
-location.href="dashboard.html";
+let data=await res.json()
+
+if(data.success){
+
+alert("Application submitted successfully ✅")
+
+location.href="dashboard.html"
+
+}else{
+
+alert(data.message || "Application failed")
+
+btn.disabled=false
+
+btn.innerText="Apply Now 🚀"
+
+}
 
 }catch(e){
 
-console.log(e);
+alert("Server error")
 
-alert("Server error ❌");
+btn.disabled=false
 
-btn.disabled=false;
-btn.innerText="Apply Now 🚀";
-
-}
+btn.innerText="Apply Now 🚀"
 
 }
 
-</script>
+}
 
-</body>
+</script></body>
 </html>
