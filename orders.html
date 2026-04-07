@@ -49,6 +49,20 @@ background:#111827;
 padding:20px;
 border-radius:14px;
 margin-bottom:15px;
+display:flex;
+gap:15px;
+align-items:center;
+}
+
+.cover{
+width:80px;
+height:110px;
+object-fit:cover;
+border-radius:8px;
+}
+
+.info{
+flex:1;
 }
 
 .status{
@@ -64,16 +78,6 @@ margin-top:6px;
 .shipped{background:#6366f1}
 .delivery{background:#10b981}
 .delivered{background:#22c55e}
-
-.track{
-margin-top:10px;
-padding:10px 14px;
-background:#22c55e;
-border:none;
-border-radius:8px;
-color:white;
-cursor:pointer;
-}
 
 .empty{
 text-align:center;
@@ -113,6 +117,54 @@ if(!user.email){
 
 alert("Login first")
 location.href="login.html"
+
+}
+
+
+/* SAFE TEXT */
+
+function escapeHTML(str){
+
+return String(str).replace(/[&<>"']/g,function(m){
+
+return({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+})[m]
+
+})
+
+}
+
+
+/* DRIVE IMAGE */
+
+function driveImage(link){
+
+if(!link) return "https://picsum.photos/200"
+
+try{
+
+let id=""
+
+if(link.includes("id=")){
+id=link.split("id=")[1].split("&")[0]
+}
+
+if(link.includes("/file/d/")){
+id=link.split("/file/d/")[1].split("/")[0]
+}
+
+if(id){
+return "https://drive.google.com/thumbnail?id="+id+"&sz=w500"
+}
+
+}catch{}
+
+return link
 
 }
 
@@ -170,6 +222,8 @@ p=>String(p.id)===String(o.productId)
 
 let title=product?product.title:"Unknown Product"
 
+let image=product?product.image:""
+
 let status=o.status || "Order Placed"
 
 let statusClass="placed"
@@ -183,27 +237,32 @@ box.innerHTML+=`
 
 <div class="card">
 
-<b>Order ID:</b> ${o.id}
+<img class="cover"
+src="${driveImage(image)}">
+
+<div class="info">
+
+<b>${escapeHTML(title)}</b>
 
 <br><br>
 
-<b>Product:</b> ${title}
+<b>Order ID:</b> ${escapeHTML(o.id)}
 
 <br>
 
-<b>Amount:</b> ₹ ${o.amount}
+<b>Amount:</b> ₹ ${Number(o.amount||0)}
 
 <br>
 
-<b>Date:</b> ${o.date || ""}
+<b>Date:</b> ${escapeHTML(o.date || "")}
 
 <br><br>
-
-<b>Status:</b>
 
 <span class="status ${statusClass}">
-${status}
+${escapeHTML(status)}
 </span>
+
+</div>
 
 </div>
 
