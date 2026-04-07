@@ -5,7 +5,7 @@
 
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>Ebook Reader</title>
+<title>CreatorHub Reader</title>
 
 <style>
 
@@ -14,18 +14,19 @@ margin:0;
 background:#020617;
 color:white;
 font-family:Arial;
+overflow:hidden;
 }
 
 .topbar{
-padding:12px;
 background:#111827;
+padding:12px;
 display:flex;
 align-items:center;
 }
 
 .back{
 cursor:pointer;
-font-size:20px;
+font-size:22px;
 }
 
 .title{
@@ -35,10 +36,27 @@ color:#22c55e;
 font-weight:bold;
 }
 
-iframe{
+.reader{
 width:100%;
 height:calc(100vh - 50px);
+position:relative;
+}
+
+iframe{
+width:100%;
+height:100%;
 border:none;
+}
+
+.watermark{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:40px;
+opacity:0.1;
+pointer-events:none;
+white-space:nowrap;
 }
 
 .block{
@@ -46,7 +64,7 @@ display:flex;
 justify-content:center;
 align-items:center;
 height:80vh;
-font-size:20px;
+font-size:22px;
 opacity:.7;
 }
 
@@ -60,7 +78,9 @@ opacity:.7;
 
 <div class="back" onclick="history.back()">⬅</div>
 
-<div class="title">Ebook Reader</div>
+<div class="title">
+Secure Ebook Reader
+</div>
 
 </div>
 
@@ -73,6 +93,10 @@ opacity:.7;
 const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
 const PAYMENT_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
+
+/* ADMIN */
+
+const ADMIN="ayushprajpati6@gmail.com"
 
 /* USER */
 
@@ -92,7 +116,7 @@ let id=params.get("id")
 
 if(!id){
 
-document.getElementById("viewer").innerHTML="<div class='block'>Invalid ebook</div>"
+document.getElementById("viewer").innerHTML="<div class='block'>Invalid Ebook</div>"
 
 }
 
@@ -112,11 +136,27 @@ return null
 
 }
 
-async function loadViewer(){
+/* GET DB */
 
-let products=await fetch(PRODUCT_API+"?db=products").then(r=>r.json())
+async function getDB(api,db){
 
-let orders=await fetch(PAYMENT_API+"?db=orders").then(r=>r.json())
+let res=await fetch(api+"?db="+db+"&t="+Date.now())
+
+let data=await res.json()
+
+return Array.isArray(data)?data:[]
+
+}
+
+/* LOAD READER */
+
+async function loadReader(){
+
+let products=await getDB(PRODUCT_API,"products")
+
+let orders=await getDB(PAYMENT_API,"orders")
+
+let subs=await getDB(PAYMENT_API,"subscriptions")
 
 let product=products.find(p=>String(p.id)===String(id))
 
@@ -128,7 +168,7 @@ return
 
 }
 
-/* PURCHASE CHECK */
+/* ACCESS CHECK */
 
 let purchased=orders.find(o=>
 
@@ -140,13 +180,38 @@ o.buyer===user.email &&
 
 let owner=product.owner===user.email
 
-if(!purchased && !owner){
+let premium=subs.find(s=>s.email===user.email)
 
-document.getElementById("viewer").innerHTML="<div class='block'>Buy this ebook first</div>"
+let isPremium=false
+
+if(premium){
+
+let exp=new Date(premium.expiry)
+
+if(Date.now()<exp){
+
+isPremium=true
+
+}
+
+}
+
+let allow=false
+
+if(user.email===ADMIN) allow=true
+else if(owner) allow=true
+else if(purchased) allow=true
+else if(isPremium) allow=true
+
+if(!allow){
+
+document.getElementById("viewer").innerHTML="<div class='block'>Buy this ebook to read</div>"
 
 return
 
 }
+
+/* PDF VIEW */
 
 let fileId=driveId(product.pdf)
 
@@ -154,11 +219,45 @@ let url="https://drive.google.com/file/d/"+fileId+"/preview"
 
 document.getElementById("viewer").innerHTML=
 
-`<iframe src="${url}" allow="autoplay"></iframe>`
+`
+
+<div class="reader">
+
+<iframe src="${url}" allow="autoplay"></iframe>
+
+<div class="watermark">
+${user.email}
+</div>
+
+</div>
+
+`
 
 }
 
-loadViewer()
+loadReader()
+
+/* BLOCK RIGHT CLICK */
+
+document.addEventListener("contextmenu",e=>e.preventDefault())
+
+/* BLOCK COPY */
+
+document.addEventListener("copy",e=>e.preventDefault())
+
+/* BLOCK PRINT */
+
+document.addEventListener("keydown",function(e){
+
+if(e.ctrlKey && e.key==="p"){
+
+e.preventDefault()
+
+alert("Printing disabled")
+
+}
+
+})
 
 </script>
 
