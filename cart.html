@@ -10,7 +10,7 @@
 
 body{
 font-family:Arial;
-background:#111;
+background:#020617;
 color:white;
 margin:0;
 }
@@ -44,7 +44,7 @@ padding:20px;
 }
 
 .card{
-background:#222;
+background:#111827;
 display:flex;
 gap:15px;
 margin-bottom:15px;
@@ -65,18 +65,27 @@ flex:1;
 }
 
 button{
-background:orange;
+background:#f97316;
 border:none;
 padding:8px 12px;
 cursor:pointer;
 border-radius:6px;
+color:white;
 }
 
 .total{
-background:black;
+background:#111827;
 padding:15px;
 border-radius:10px;
 margin-top:20px;
+}
+
+.buy{
+background:linear-gradient(90deg,#22c55e,#4ade80);
+width:100%;
+padding:12px;
+margin-top:10px;
+font-weight:bold;
 }
 
 </style>
@@ -110,7 +119,7 @@ margin-top:20px;
 Total ₹ :
 <span id="total">0</span>
 
-<button onclick="placeOrder()" style="width:100%;margin-top:10px">
+<button class="buy" onclick="placeOrder()">
 🔥 Buy Now
 </button>
 
@@ -120,15 +129,33 @@ Total ₹ :
 
 <script>
 
-/* APIs */
-
 const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
 const PAYMENT_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
 
-/* CART */
+let cart = JSON.parse(localStorage.getItem("cart")||"[]")
 
-let cart = JSON.parse(localStorage.getItem("cart")) || []
+/* REMOVE DUPLICATES */
+
+cart=[...new Set(cart)]
+
+localStorage.setItem("cart",JSON.stringify(cart))
+
+function escapeHTML(str){
+
+return String(str).replace(/[&<>"']/g,function(m){
+
+return({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+})[m]
+
+})
+
+}
 
 function driveImage(link){
 
@@ -141,6 +168,7 @@ let id=""
 if(link.includes("id=")){
 id=link.split("id=")[1].split("&")[0]
 }
+
 else if(link.includes("/file/d/")){
 id=link.split("/file/d/")[1].split("/")[0]
 }
@@ -155,8 +183,6 @@ return link
 
 }
 
-/* GET PRODUCTS */
-
 async function getProducts(){
 
 let r = await fetch(PRODUCT_API+"?db=products&t="+Date.now())
@@ -165,8 +191,6 @@ let data = await r.json()
 return Array.isArray(data)?data:[]
 
 }
-
-/* LOAD CART */
 
 async function loadCart(){
 
@@ -198,7 +222,7 @@ html+=`
 
 <div class="info">
 
-<h3>${p.title}</h3>
+<h3>${escapeHTML(p.title)}</h3>
 
 ₹${p.price}
 
@@ -223,8 +247,6 @@ document.getElementById("cart").innerHTML=html
 
 }
 
-/* REMOVE ITEM */
-
 function removeItem(i){
 
 cart.splice(i,1)
@@ -234,8 +256,6 @@ localStorage.setItem("cart",JSON.stringify(cart))
 loadCart()
 
 }
-
-/* ORDER */
 
 async function placeOrder(){
 
@@ -256,9 +276,7 @@ return
 
 }
 
-/* FIRST PRODUCT ORDER */
-
-let productId = cart[0]
+/* MULTI PRODUCT ORDER */
 
 let res=await fetch(PAYMENT_API,{
 
@@ -270,9 +288,8 @@ headers:{
 
 body:JSON.stringify({
 
-action:"create_order",
-productId:productId,
-type:"ebook",
+action:"create_cart_order",
+products:cart,
 buyer:user.email
 
 })
@@ -289,7 +306,7 @@ window.location.href=url
 
 }else{
 
-alert("Payment error")
+alert(data.message||"Payment error")
 
 }
 
