@@ -111,19 +111,6 @@ border-radius:12px;
 box-shadow:0 5px 20px black;
 }
 
-/* STATS */
-
-.stats{
-display:flex;
-gap:30px;
-margin-top:25px;
-}
-
-.stat h3{
-margin:0;
-color:#22c55e;
-}
-
 /* BOOK GRID */
 
 .books{
@@ -193,9 +180,28 @@ margin-top:10px;
 
 footer{
 background:black;
-padding:30px;
-text-align:center;
+padding:40px 20px;
 margin-top:50px;
+}
+
+.footer-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+}
+
+footer h3{
+color:#22c55e;
+}
+
+footer p{
+opacity:.7;
+}
+
+.copyright{
+text-align:center;
+margin-top:20px;
+opacity:.6;
 }
 
 </style>
@@ -242,25 +248,6 @@ margin-top:50px;
 
 </div>
 
-<div class="stats">
-
-<div class="stat">
-<h3>10K+</h3>
-<p>Ebooks</p>
-</div>
-
-<div class="stat">
-<h3>5K+</h3>
-<p>Creators</p>
-</div>
-
-<div class="stat">
-<h3>Secure</h3>
-<p>Payments</p>
-</div>
-
-</div>
-
 </div>
 
 <div class="hero-books">
@@ -279,9 +266,23 @@ margin-top:50px;
 
 <h2>Trending eBooks</h2>
 
-<div id="bookGrid" class="book-grid">
+<div id="trendingBooks" class="book-grid">
 
 Loading books...
+
+</div>
+
+</section>
+
+<!-- ALL BOOKS -->
+
+<section class="books">
+
+<h2>All eBooks</h2>
+
+<div id="allBooks" class="book-grid">
+
+Loading ebooks...
 
 </div>
 
@@ -299,9 +300,40 @@ Loading books...
 
 </section>
 
+<!-- FOOTER -->
+
 <footer>
 
-<p>© 2026 CreatorHub Marketplace</p>
+<div class="footer-grid">
+
+<div>
+<h3>CreatorHub</h3>
+<p>The future of digital creators.</p>
+</div>
+
+<div>
+<h4>Marketplace</h4>
+<p>All ebooks</p>
+<p>Categories</p>
+</div>
+
+<div>
+<h4>For Creators</h4>
+<p>Dashboard</p>
+<p>Sell ebooks</p>
+</div>
+
+<div>
+<h4>Legal</h4>
+<p>Privacy Policy</p>
+<p>Terms</p>
+</div>
+
+</div>
+
+<p class="copyright">
+© 2026 CreatorHub Marketplace
+</p>
 
 </footer>
 
@@ -349,13 +381,13 @@ products=[]
 
 products=products.filter(p=>p.status==="approved")
 
-products.reverse()
+/* TRENDING */
 
-let html=""
+let trendingHTML=""
 
-products.slice(0,8).forEach(p=>{
+products.slice(0,6).forEach(p=>{
 
-html+=`
+trendingHTML+=`
 
 <div class="book">
 
@@ -365,7 +397,9 @@ html+=`
 
 <p>₹${p.price}</p>
 
-<button onclick="buy('${p.id}')">Buy Now</button>
+<button onclick="buy('${p.id}')">
+Buy Now
+</button>
 
 </div>
 
@@ -373,7 +407,35 @@ html+=`
 
 })
 
-document.getElementById("bookGrid").innerHTML=html
+document.getElementById("trendingBooks").innerHTML=trendingHTML
+
+/* ALL BOOKS */
+
+let allHTML=""
+
+products.reverse().forEach(p=>{
+
+allHTML+=`
+
+<div class="book">
+
+<img src="${driveImage(p.image)}">
+
+<h3>${p.title}</h3>
+
+<p>₹${p.price}</p>
+
+<button onclick="buy('${p.id}')">
+Buy Now
+</button>
+
+</div>
+
+`
+
+})
+
+document.getElementById("allBooks").innerHTML=allHTML
 
 }
 
@@ -432,4 +494,4 @@ location.href="products.html?search="+encodeURIComponent(q)
 </script>
 
 </body>
-</html>
+  </html>
