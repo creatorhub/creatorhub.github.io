@@ -2,150 +2,204 @@
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial,Helvetica,sans-serif;
 background:#020617;
 color:white;
 display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
+padding:20px;
 }
+
+/* CARD */
 
 .card{
-background:#111827;
+
+background:linear-gradient(145deg,#111827,#020617);
+
 padding:30px;
+
 border-radius:18px;
-width:90%;
+
+width:100%;
+
 max-width:420px;
-box-shadow:0 10px 30px black;
+
+border:1px solid #1f2937;
+
+box-shadow:0 20px 40px rgba(0,0,0,0.7);
+
 position:relative;
+
 }
+
+/* BACK BUTTON */
 
 .back{
+
 position:absolute;
+
 top:15px;
+
 left:15px;
+
 font-size:22px;
+
 cursor:pointer;
+
 }
+
+/* TITLE */
 
 h2{
+
 text-align:center;
+
 color:#22c55e;
+
 }
+
+/* INPUT */
 
 input{
+
 width:100%;
+
 padding:14px;
+
 margin-top:14px;
+
 border:none;
+
 border-radius:12px;
+
 background:#020617;
+
 color:white;
+
 }
 
+/* BUTTON */
+
 button{
+
 width:100%;
+
 padding:14px;
+
 margin-top:18px;
+
 border:none;
+
 border-radius:12px;
+
 background:linear-gradient(90deg,#22c55e,#4ade80);
-color:white;
+
+color:black;
+
 font-weight:bold;
+
 cursor:pointer;
+
 }
 
 button:disabled{
+
 opacity:.6;
+
 cursor:not-allowed;
+
 }
 
+/* LOGIN LINK */
+
 .link{
-margin-top:10px;
+
+margin-top:14px;
+
 text-align:center;
-opacity:.7;
+
+opacity:.8;
+
 cursor:pointer;
+
 }
 
 </style></head><body><div class="card"><div class="back"
-onclick="location.href='index.html'">
-⬅
+onclick="location.href='index.html'">⬅
+
 </div><h2>🔥 CreatorHub Register</h2><input id="name" placeholder="Full Name"><input id="email" placeholder="Email"><input id="password"
 type="password"
 placeholder="Password">
 
 <button id="registerBtn"
 onclick="registerUser()">
-Create Account 🚀
-</button>
 
-<div class="link"
-onclick="location.href='login.html'">
-Already have account? Login
+Create Account 🚀
+
+</button><div class="link"
+onclick="location.href='login.html'">Already have account? Login
+
 </div></div><script>
 
 /* API */
 
-const API =
-"https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
-
+const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
 /* REGISTER */
 
 async function registerUser(){
 
-let btn=document.getElementById("registerBtn");
+let btn=document.getElementById("registerBtn")
 
-let name =
-document.getElementById("name").value.trim();
+let name=document.getElementById("name").value.trim()
 
-let email =
-document.getElementById("email").value.trim().toLowerCase();
+let email=document.getElementById("email").value.trim().toLowerCase()
 
-let password =
-document.getElementById("password").value.trim();
-
+let password=document.getElementById("password").value.trim()
 
 /* VALIDATION */
 
 if(!name || !email || !password){
 
-alert("Fill All Fields");
+alert("Fill all fields")
 
-return;
+return
 
 }
 
 /* EMAIL CHECK */
 
-let emailRegex =
-/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+let emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 if(!emailRegex.test(email)){
 
-alert("Enter valid email");
+alert("Enter valid email")
 
-return;
+return
 
 }
 
 /* PASSWORD CHECK */
 
-if(password.length < 4){
+if(password.length < 6){
 
-alert("Password Minimum 4 Characters");
+alert("Password minimum 6 characters")
 
-return;
+return
 
 }
 
-btn.innerText="Creating Account...";
-btn.disabled=true;
+/* BUTTON LOCK */
+
+btn.disabled=true
+
+btn.innerText="Creating Account..."
 
 try{
 
-let res = await fetch(API,{
+let res=await fetch(API,{
 
 method:"POST",
 
@@ -156,54 +210,58 @@ headers:{
 body:JSON.stringify({
 
 action:"register",
+
 name:name,
+
 email:email,
+
 password:password
 
 })
 
-});
+})
 
-let data = await res.json();
+let data=await res.json()
 
 if(!data.success){
 
-alert(data.message || "Register Failed");
+alert(data.message || "Register failed")
 
-btn.innerText="Create Account 🚀";
-btn.disabled=false;
+btn.disabled=false
 
-return;
+btn.innerText="Create Account 🚀"
+
+return
 
 }
 
 /* AUTO LOGIN */
 
-localStorage.setItem(
-
-"user",
+localStorage.setItem("user",
 
 JSON.stringify({
 
 email:email,
+
 name:name
 
 })
 
-);
+)
 
-alert("Account Created Successfully ✅");
+alert("Account Created Successfully ✅")
 
-location.href="dashboard.html";
+location.href="dashboard.html"
 
-}catch(e){
+}
 
-console.log(e);
+catch(e){
 
-alert("Server Error ❌");
+alert("Server error ❌")
 
-btn.innerText="Create Account 🚀";
-btn.disabled=false;
+btn.disabled=false
+
+btn.innerText="Create Account 🚀"
 
 }
 
