@@ -1,125 +1,170 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<title>Subscription Success</title>
-
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<style>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Subscription Success</title><style>
 
 body{
-font-family:Arial;
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
 background:#020617;
 color:white;
-text-align:center;
-padding:60px;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+padding:20px;
 }
+
+/* CARD */
 
 .card{
-background:#111827;
+
+background:linear-gradient(145deg,#111827,#020617);
+
 padding:40px;
-border-radius:14px;
-max-width:500px;
-margin:auto;
+
+border-radius:18px;
+
+max-width:420px;
+
+width:100%;
+
+text-align:center;
+
+border:1px solid #1f2937;
+
+box-shadow:0 20px 40px rgba(0,0,0,0.7);
+
 }
+
+/* TITLE */
+
+h1{
+
+color:#22c55e;
+
+margin-bottom:10px;
+
+}
+
+/* MESSAGE */
+
+#msg{
+
+opacity:.8;
+
+font-size:14px;
+
+}
+
+/* BUTTON */
 
 button{
-padding:12px 20px;
+
+margin-top:22px;
+
+width:100%;
+
+padding:14px;
+
 border:none;
-border-radius:8px;
-background:#22c55e;
-color:white;
+
+border-radius:10px;
+
+background:linear-gradient(90deg,#22c55e,#4ade80);
+
+color:black;
+
+font-weight:bold;
+
 cursor:pointer;
-margin-top:20px;
+
+display:none;
+
 }
+
+/* LOADER */
 
 .loader{
-margin-top:20px;
-font-size:18px;
-opacity:.8;
+
+margin-top:25px;
+
+font-size:14px;
+
+animation:pulse 1.2s infinite;
+
 }
 
-</style>
+@keyframes pulse{
 
-</head>
+0%{opacity:.3}
+50%{opacity:1}
+100%{opacity:.3}
 
-<body>
+}
 
-<div class="card">
-
-<h1 id="title">Payment Processing...</h1>
-
-<p id="msg">
+</style></head><body><div class="card"><h1 id="title">Payment Processing...</h1><p id="msg">
 Verifying your subscription
-</p>
-
-<div class="loader" id="loader">
+</p><div class="loader" id="loader">
 ⏳ Please wait...
-</div>
-
-<button onclick="location.href='index.html'">
+</div><button id="homeBtn" onclick="goHome()">
 Go Home
-</button>
+</button></div><script>
 
-</div>
+/* API */
 
-<script>
-
-/* PAYMENT VERIFY API */
-
-const API="https://script.google.com/macros/s/AKfycbx7vyDJEi9v2RO7ujHdMAnlgUX8AV2JVOfydtw8DJU4AI-7vcTlWMEt07KFcFr1lYTa/exec";
+const API="https://script.google.com/macros/s/AKfycbx7vyDJEi9v2RO7ujHdMAnlgUX8AV2JVOfydtw8DJU4AI-7vcTlWMEt07KFcFr1lYTa/exec"
 
 /* GET ORDER ID */
 
 function getOrderId(){
 
-let params=new URLSearchParams(location.search);
+let params=new URLSearchParams(location.search)
 
-return (
-
-params.get("order_id") ||
-params.get("orderId") ||
-params.get("cf_order_id") ||
+return(
+params.get("order_id")||
+params.get("orderId")||
+params.get("cf_order_id")||
 params.get("order-id")
-
-);
+)
 
 }
 
-let orderId=getOrderId();
+let orderId=getOrderId()
 
-let retryCount=0;
-const maxRetry=10;
+let retryCount=0
 
-/* VERIFY PAYMENT */
+const maxRetry=10
+
+/* VERIFY */
 
 async function verify(){
 
 if(!orderId){
 
-document.getElementById("title").innerText="Order Error";
+document.getElementById("title").innerText="Order Error"
 
-document.getElementById("msg").innerText="Order ID not found";
+document.getElementById("msg").innerText="Order ID not found"
 
-document.getElementById("loader").style.display="none";
+document.getElementById("loader").style.display="none"
 
-return;
+document.getElementById("homeBtn").style.display="block"
+
+return
 
 }
 
-/* STOP AFTER MAX RETRY */
+/* STOP AFTER LIMIT */
 
 if(retryCount>=maxRetry){
 
-document.getElementById("title").innerText="Verification Timeout";
+document.getElementById("title").innerText="Verification Timeout"
 
-document.getElementById("msg").innerText="Unable to verify payment. Please contact support.";
+document.getElementById("msg").innerText="Unable to verify payment. Contact support."
 
-document.getElementById("loader").style.display="none";
+document.getElementById("loader").style.display="none"
 
-return;
+document.getElementById("homeBtn").style.display="block"
+
+return
 
 }
 
@@ -140,42 +185,48 @@ orderId:orderId
 
 })
 
-});
+})
 
-let data=await res.json();
+let data=await res.json()
 
 if(data.status==="success"){
 
-document.getElementById("title").innerText="Subscription Activated 🎉";
+document.getElementById("title").innerText="Subscription Activated 🎉"
 
-document.getElementById("msg").innerText="Premium access is now active.";
+document.getElementById("msg").innerText="Premium access is now active."
 
-document.getElementById("loader").style.display="none";
+document.getElementById("loader").style.display="none"
+
+document.getElementById("homeBtn").style.display="block"
 
 }else{
 
-retryCount++;
+retryCount++
 
-setTimeout(verify,3000);
+setTimeout(verify,3000)
 
 }
 
 }catch(e){
 
-retryCount++;
+retryCount++
 
-document.getElementById("msg").innerText="Verification error. Retrying...";
+document.getElementById("msg").innerText="Verification error. Retrying..."
 
-setTimeout(verify,3000);
-
-}
+setTimeout(verify,3000)
 
 }
 
-verify();
+}
 
-</script>
+verify()
 
-</body>
+/* HOME */
 
-</html>
+function goHome(){
+
+location.href="index.html"
+
+}
+
+</script></body></html>
