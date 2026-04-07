@@ -2,97 +2,152 @@
 <head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Wallet</title><style>
 
+*{
+box-sizing:border-box;
+}
+
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial,Helvetica,sans-serif;
 background:#020617;
 color:white;
 }
 
-.topbar{
+/* HEADER */
+
+.header{
 display:flex;
 align-items:center;
-padding:14px;
-box-shadow:0 5px 20px black;
+padding:16px;
+background:#020617;
+border-bottom:1px solid #1f2937;
 }
 
 .back{
 font-size:22px;
 cursor:pointer;
-width:40px;
+margin-right:10px;
 }
 
-.pageTitle{
-flex:1;
-text-align:center;
+.title{
+font-size:20px;
 font-weight:bold;
 color:#22c55e;
 }
+
+/* CONTAINER */
 
 .container{
-padding:18px;
+padding:20px;
+max-width:700px;
+margin:auto;
 }
+
+/* CARD STYLE (Homepage same) */
 
 .card{
-background:#111827;
-padding:18px;
+
+background:linear-gradient(145deg,#111827,#020617);
+
 border-radius:16px;
-margin-bottom:18px;
+
+padding:20px;
+
+margin-bottom:20px;
+
+box-shadow:0 10px 25px rgba(0,0,0,0.6);
+
+border:1px solid #1f2937;
+
 }
+
+/* BALANCE */
 
 .balance{
-font-size:34px;
+
+font-size:36px;
+
 font-weight:bold;
-color:#22c55e;
+
 margin-top:10px;
+
+color:#22c55e;
+
 }
+
+/* INPUT */
 
 input{
+
 width:100%;
+
 padding:14px;
+
 margin-top:12px;
+
 border:none;
+
 border-radius:10px;
+
 background:#020617;
+
 color:white;
+
+border:1px solid #1f2937;
+
+outline:none;
+
 }
+
+/* BUTTON */
 
 button{
+
 width:100%;
+
 padding:14px;
+
 margin-top:15px;
+
 border:none;
-background:linear-gradient(90deg,#22c55e,#4ade80);
+
 border-radius:12px;
+
 font-weight:bold;
-color:white;
+
+background:linear-gradient(90deg,#22c55e,#4ade80);
+
+color:black;
+
 cursor:pointer;
+
 }
+
+/* HISTORY ITEM */
 
 .item{
+
 background:#020617;
+
 padding:12px;
+
 border-radius:10px;
+
 margin-top:8px;
+
 display:flex;
+
 justify-content:space-between;
+
+border:1px solid #1f2937;
+
 }
 
-</style></head><body><div class="topbar">
-<div class="back" onclick="history.back()">⬅</div>
-<div class="pageTitle">Creator Wallet</div>
-</div><div class="container"><div class="card">
-<h3>Available Balance</h3>
-₹ <span id="balance" class="balance">0</span>
-</div><div class="card"><h3>Withdraw Money</h3><input id="upi" placeholder="Enter UPI ID">
-<input id="amount" type="number" placeholder="Withdraw Amount ₹"><button onclick="withdraw()">Withdraw 🚀</button>
+</style></head><body><div class="header"><div class="back" onclick="history.back()">⬅</div><div class="title">Creator Wallet</div></div><div class="container"><div class="card"><h3>Available Balance</h3><div class="balance">₹ <span id="balance">0</span></div></div><div class="card"><h3>Withdraw Money</h3><input id="upi" placeholder="Enter UPI ID"><input id="amount" type="number" placeholder="Withdraw Amount ₹"><button onclick="withdraw()">Withdraw Money 🚀</button>
 
-</div><div class="card">
-<h3>Earnings History</h3>
-<div id="history">Loading...</div>
-</div></div><script>
+</div><div class="card"><h3>Earnings History</h3><div id="history">Loading...</div></div></div><script>
 
-/* MAIN BACKEND API */
+/* BACKEND API */
 
 const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
@@ -103,6 +158,7 @@ let user=JSON.parse(localStorage.getItem("user")||"{}")
 if(!user.email){
 
 alert("Login First")
+
 location.href="login.html"
 
 }
@@ -114,6 +170,7 @@ async function getDB(db){
 try{
 
 let r=await fetch(API+"?db="+db+"&t="+Date.now())
+
 let data=await r.json()
 
 return Array.isArray(data)?data:[]
@@ -156,6 +213,7 @@ let box=document.getElementById("history")
 if(!myOrders.length){
 
 box.innerHTML="No Earnings Yet"
+
 return
 
 }
@@ -197,11 +255,13 @@ return /^[a-zA-Z0-9.\-_]{2,}@[a-zA-Z]{2,}$/.test(vpa)
 async function withdraw(){
 
 let amount=Number(document.getElementById("amount").value)
+
 let upi=document.getElementById("upi").value.trim()
 
 if(!amount || !upi){
 
 alert("Fill all details")
+
 return
 
 }
@@ -209,6 +269,7 @@ return
 if(!validUPI(upi)){
 
 alert("Invalid UPI")
+
 return
 
 }
@@ -216,6 +277,7 @@ return
 if(amount<100){
 
 alert("Minimum withdraw ₹100")
+
 return
 
 }
@@ -223,6 +285,7 @@ return
 if(amount>currentBalance){
 
 alert("Insufficient balance")
+
 return
 
 }
@@ -236,14 +299,19 @@ let res=await fetch(API,{
 method:"POST",
 
 headers:{
+
 "Content-Type":"application/json"
+
 },
 
 body:JSON.stringify({
 
 action:"withdraw",
+
 email:user.email,
+
 amount:amount,
+
 upi:upi
 
 })
