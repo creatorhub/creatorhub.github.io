@@ -46,13 +46,24 @@ background:#22c55e;
 }
 
 .reject{
-background:red;
+background:#ef4444;
 }
 
 .status{
 margin-top:5px;
-opacity:.7;
 font-size:14px;
+}
+
+.pending{
+color:#f59e0b;
+}
+
+.approved{
+color:#22c55e;
+}
+
+.rejected{
+color:#ef4444;
 }
 
 </style>
@@ -67,13 +78,9 @@ font-size:14px;
 
 <script>
 
-/* API */
-
 const API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
 
 const ADMIN="ayushprajpati6@gmail.com"
-
-/* ADMIN CHECK */
 
 let user=JSON.parse(localStorage.getItem("user")||"{}")
 
@@ -84,18 +91,38 @@ location.href="index.html"
 
 }
 
-/* DATABASE */
+function escapeHTML(str){
+
+return String(str).replace(/[&<>"']/g,function(m){
+
+return({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+})[m]
+
+})
+
+}
 
 async function getDB(db){
+
+try{
 
 let r=await fetch(API+"?db="+db+"&t="+Date.now())
 let d=await r.json()
 
 return Array.isArray(d)?d:[]
 
+}catch{
+
+return[]
+
 }
 
-/* LOAD REQUESTS */
+}
 
 async function load(){
 
@@ -112,18 +139,25 @@ return
 
 withdraws.reverse().forEach(w=>{
 
+let statusClass="pending"
+
+if(w.status==="approved") statusClass="approved"
+if(w.status==="rejected") statusClass="rejected"
+
+let amount=Number(w.amount||0)
+
 html+=`
 
 <div class="card">
 
-<div class="email">${w.email}</div>
+<div class="email">${escapeHTML(w.email)}</div>
 
-Amount : ₹${w.amount}<br>
+Amount : ₹${amount}<br>
 
-UPI : ${w.upi}
+UPI : ${escapeHTML(w.upi)}
 
-<div class="status">
-Status : ${w.status}
+<div class="status ${statusClass}">
+Status : ${escapeHTML(w.status)}
 </div>
 
 ${w.status==="pending"?`
@@ -152,11 +186,11 @@ document.getElementById("list").innerHTML=html
 
 load()
 
-/* APPROVE */
-
 async function approve(id){
 
 if(!confirm("Send payout?")) return
+
+try{
 
 let res=await fetch(API,{
 
@@ -179,7 +213,7 @@ let data=await res.json()
 
 if(data.success){
 
-alert("Payout Sent")
+alert("Payout Approved")
 
 }else{
 
@@ -187,15 +221,21 @@ alert(data.message||"Error")
 
 }
 
+}catch{
+
+alert("Server Error")
+
+}
+
 load()
 
 }
 
-/* REJECT */
-
 async function reject(id){
 
 if(!confirm("Reject withdraw?")) return
+
+try{
 
 let res=await fetch(API,{
 
@@ -223,6 +263,12 @@ alert("Withdraw Rejected")
 }else{
 
 alert("Error")
+
+}
+
+}catch{
+
+alert("Server Error")
 
 }
 
