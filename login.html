@@ -5,7 +5,9 @@
 
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>Reset Password</title>
+<title>CreatorHub Login</title>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <style>
 
@@ -56,7 +58,7 @@ color:white;
 button{
 width:100%;
 padding:14px;
-margin-top:16px;
+margin-top:18px;
 border:none;
 border-radius:12px;
 background:linear-gradient(90deg,#22c55e,#4ade80);
@@ -70,11 +72,17 @@ opacity:.6;
 cursor:not-allowed;
 }
 
-.note{
-margin-top:10px;
+.link{
+margin-top:12px;
 text-align:center;
 opacity:.7;
-font-size:14px;
+cursor:pointer;
+}
+
+.google{
+margin-top:15px;
+display:flex;
+justify-content:center;
 }
 
 </style>
@@ -85,26 +93,38 @@ font-size:14px;
 
 <div class="card">
 
-<div class="back" onclick="location.href='login.html'">⬅</div>
+<div class="back" onclick="location.href='index.html'">⬅</div>
 
-<h2>Reset Password</h2>
+<h2>CreatorHub Login</h2>
 
-<input id="email" placeholder="Enter your email">
+<input id="username" placeholder="Username">
 
-<button id="sendBtn" onclick="sendOTP()">
-Send Reset OTP
-</button>
+<input id="email" placeholder="Email">
 
-<input id="otp" placeholder="Enter OTP">
+<input id="password" type="password" placeholder="Password">
 
-<input id="password" type="password" placeholder="New Password">
+<button id="loginBtn" onclick="login()">Login</button>
 
-<button id="resetBtn" onclick="resetPassword()">
-Reset Password
-</button>
+<div class="google">
 
-<div class="note">
-OTP will be sent to your email
+<div id="g_id_onload"
+data-client_id="895144937824-rm42b4uhad99duno8mhhm0guculvvma3.apps.googleusercontent.com"
+data-callback="handleGoogleLogin">
+</div>
+
+<div class="g_id_signin"
+data-type="standard"
+data-size="large">
+</div>
+
+</div>
+
+<div class="link" onclick="location.href='register.html'">
+Create Account
+</div>
+
+<div class="link" onclick="location.href='forgot.html'">
+Forgot Password
 </div>
 
 </div>
@@ -113,89 +133,25 @@ OTP will be sent to your email
 
 const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
 
-/* SEND OTP */
+/* LOGIN */
 
-async function sendOTP(){
+async function login(){
 
+let username=document.getElementById("username").value.trim();
 let email=document.getElementById("email").value.trim().toLowerCase();
-let btn=document.getElementById("sendBtn");
-
-if(!email){
-alert("Enter email");
-return;
-}
-
-btn.disabled=true;
-btn.innerText="Sending OTP...";
-
-try{
-
-let res=await fetch(API,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-
-action:"send_reset_otp",
-email:email
-
-})
-
-});
-
-let data=await res.json();
-
-if(data.success){
-
-alert("OTP sent to your email");
-
-}else{
-
-alert(data.message || "Failed to send OTP");
-
-}
-
-}catch(e){
-
-alert("Server error");
-
-}
-
-btn.disabled=false;
-btn.innerText="Send Reset OTP";
-
-}
-
-
-/* RESET PASSWORD */
-
-async function resetPassword(){
-
-let email=document.getElementById("email").value.trim().toLowerCase();
-let otp=document.getElementById("otp").value.trim();
 let password=document.getElementById("password").value.trim();
-let btn=document.getElementById("resetBtn");
 
-if(!email || !otp || !password){
+let btn=document.getElementById("loginBtn");
+
+if(!username || !email || !password){
 
 alert("Fill all fields");
 return;
 
 }
 
-if(password.length<4){
-
-alert("Password must be at least 4 characters");
-return;
-
-}
-
 btn.disabled=true;
-btn.innerText="Resetting...";
+btn.innerText="Logging in...";
 
 try{
 
@@ -209,9 +165,9 @@ headers:{
 
 body:JSON.stringify({
 
-action:"reset_password",
+action:"login",
+username:username,
 email:email,
-otp:otp,
 password:password
 
 })
@@ -220,26 +176,98 @@ password:password
 
 let data=await res.json();
 
-if(data.success){
+if(!data.success){
 
-alert("Password reset successful ✅");
+alert(data.message || "Login failed");
 
-location.href="login.html";
+btn.disabled=false;
+btn.innerText="Login";
+
+return;
+
+}
+
+/* SAVE USER */
+
+localStorage.setItem("user",JSON.stringify(data.user));
+
+alert("Login Success ✅");
+
+location.href="dashboard.html";
+
+}catch(e){
+
+alert("Server Error");
+
+btn.disabled=false;
+btn.innerText="Login";
+
+}
+
+}
+
+/* GOOGLE LOGIN */
+
+async function handleGoogleLogin(response){
+
+let data=parseJwt(response.credential);
+
+try{
+
+let res=await fetch(API,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+action:"google_login",
+email:data.email,
+name:data.name
+
+})
+
+});
+
+let result=await res.json();
+
+if(result.success){
+
+localStorage.setItem("user",JSON.stringify({
+email:data.email,
+name:data.name
+}));
+
+location.href="dashboard.html";
 
 }else{
 
-alert(data.message || "Reset failed");
+alert("Google login failed");
 
 }
 
 }catch{
 
-alert("Server error");
+alert("Google login error");
 
 }
 
-btn.disabled=false;
-btn.innerText="Reset Password";
+}
+
+/* PARSE JWT */
+
+function parseJwt(token){
+
+var base64Url = token.split('.')[1];
+var base64 = base64Url.replace(/-/g,'+').replace(/_/g,'/');
+var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c){
+return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+}).join(''));
+
+return JSON.parse(jsonPayload);
 
 }
 
