@@ -1,40 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Wallet Control</title><style>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Wallet Control - CreatorHub</title>
-
-<style>
+*{
+box-sizing:border-box;
+}
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial,Helvetica,sans-serif;
 background:#020617;
 color:white;
 }
 
-.topbar{
+/* HEADER */
+
+.header{
 display:flex;
 align-items:center;
-padding:14px;
-background:#020617;
-box-shadow:0 5px 20px black;
+padding:16px;
+border-bottom:1px solid #1f2937;
 }
 
 .back{
 font-size:22px;
 cursor:pointer;
-width:40px;
+margin-right:10px;
 }
 
 .title{
-flex:1;
-text-align:center;
-color:#22c55e;
+font-size:20px;
 font-weight:bold;
+color:#22c55e;
 }
+
+/* CONTAINER */
 
 .container{
 max-width:900px;
@@ -42,73 +42,72 @@ margin:auto;
 padding:20px;
 }
 
+/* CARD */
+
 .card{
-background:#111827;
+background:linear-gradient(145deg,#111827,#020617);
+border-radius:16px;
 padding:20px;
-border-radius:15px;
+margin-bottom:20px;
+border:1px solid #1f2937;
+box-shadow:0 10px 25px rgba(0,0,0,0.6);
 }
+
+/* ROW */
 
 .row{
 background:#020617;
-padding:15px;
+padding:16px;
 border-radius:10px;
 margin-top:12px;
+border:1px solid #1f2937;
 }
 
+/* INPUT */
+
 input{
-width:130px;
+width:140px;
 padding:8px;
-border:none;
-border-radius:6px;
+border-radius:8px;
+border:1px solid #1f2937;
 background:#111827;
 color:white;
-margin-top:8px;
+margin-top:6px;
 }
+
+/* BUTTON */
 
 button{
 border:none;
 padding:8px 14px;
 border-radius:8px;
 cursor:pointer;
-color:white;
-margin-left:8px;
+margin-left:10px;
 }
 
 .save{
-background:#22c55e;
+background:linear-gradient(90deg,#22c55e,#4ade80);
+color:black;
 }
 
-</style>
+</style></head><body><div class="header"><div class="back" onclick="location.href='admin.html'">⬅</div><div class="title">💰 Wallet Control Panel</div></div><div class="container"><div class="card"><h2>All User Wallets</h2><div id="walletList">Loading...</div></div></div><script>
 
-</head>
-
-<body>
-
-<div class="topbar">
-<div class="back" onclick="location.href='admin.html'">⬅</div>
-<div class="title">💰 Wallet Control Panel</div>
-</div>
-
-<div class="container">
-<div class="card">
-<h2>All Users Wallet Balance</h2>
-<div id="walletList">Loading...</div>
-</div>
-</div>
-
-<script>
-
-/* ADMIN */
+/* ADMIN EMAIL */
 
 const ADMIN="ayushprajpati6@gmail.com"
 
-const API="https://script.google.com/macros/s/AKfycbzMCnhAdxOSnSl7tO6u3yZZEARctzq9kQIenT-PoO8Y68gN5kXWViEFD01BiRObxOY1/exec"
+/* MAIN BACKEND API */
 
-let user=JSON.parse(localStorage.getItem("user")||"null")
+const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
-if(!user || user.email!==ADMIN){
+/* LOGIN CHECK */
+
+let user=JSON.parse(localStorage.getItem("user")||"{}")
+
+if(!user.email || user.email!==ADMIN){
 
 alert("Admin Only")
+
 location.href="index.html"
 
 }
@@ -131,16 +130,17 @@ return({
 
 }
 
-/* DB */
+/* GET DATABASE */
 
 async function getDB(db){
 
 try{
 
 let r=await fetch(API+"?db="+db+"&t="+Date.now())
-let d=await r.json()
 
-return Array.isArray(d)?d:[]
+let data=await r.json()
+
+return Array.isArray(data)?data:[]
 
 }catch{
 
@@ -150,24 +150,7 @@ return[]
 
 }
 
-async function saveDB(db,data){
-
-await fetch(API,{
-
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-db:db,
-data:data
-})
-
-})
-
-}
-
-/* LOAD */
+/* LOAD WALLETS */
 
 async function loadWallets(){
 
@@ -175,33 +158,31 @@ let box=document.getElementById("walletList")
 
 box.innerHTML="Loading..."
 
-let users=await getDB("users")
+let wallets=await getDB("wallets")
 
-if(users.length===0){
+if(wallets.length===0){
 
-box.innerHTML="No Users Found"
+box.innerHTML="No Wallets Found"
+
 return
 
 }
 
-/* SAFE COPY */
-
-let list=[...users].reverse()
-
 box.innerHTML=""
 
-list.forEach(u=>{
+wallets.reverse().forEach(w=>{
 
-let balance=Number(u.wallet||0)
+let balance=Number(w.balance||0)
 
-let safeId=u.email.replace(/[^a-zA-Z0-9]/g,"_")
+let safeId=w.email.replace(/[^a-zA-Z0-9]/g,"_")
 
 box.innerHTML+=`
 
 <div class="row">
 
-<b>Name:</b> ${escapeHTML(u.name||"User")}<br>
-<b>Email:</b> ${escapeHTML(u.email)}<br><br>
+<b>Email:</b> ${escapeHTML(w.email)}
+
+<br><br>
 
 Balance ₹
 
@@ -213,7 +194,7 @@ id="bal_${safeId}"
 
 <button
 class="save"
-onclick="updateBalance('${u.email}','${safeId}',this)"
+onclick="updateBalance('${w.email}','${safeId}',this)"
 >
 
 Save
@@ -228,11 +209,11 @@ Save
 
 }
 
-/* UPDATE */
+/* UPDATE BALANCE */
 
 async function updateBalance(email,id,btn){
 
-let users=await getDB("users")
+let wallets=await getDB("wallets")
 
 let input=document.getElementById("bal_"+id)
 
@@ -241,6 +222,7 @@ let newAmount=Number(input.value)||0
 if(newAmount<0){
 
 alert("Balance cannot be negative")
+
 return
 
 }
@@ -250,19 +232,28 @@ if(!confirm("Update wallet balance?")) return
 btn.disabled=true
 btn.innerText="Saving..."
 
-users=users.map(u=>{
+wallets=wallets.map(w=>{
 
-if(u.email===email){
+if(w.email===email){
 
-u.wallet=newAmount
+w.balance=newAmount
 
 }
 
-return u
+return w
 
 })
 
-await saveDB("users",users)
+await fetch(API,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+action:"update_wallet",
+wallets:wallets
+})
+})
 
 btn.innerText="Saved"
 
@@ -279,7 +270,5 @@ btn.innerText="Save"
 
 loadWallets()
 
-</script>
-
-</body>
+</script></body>
 </html>
