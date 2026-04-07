@@ -45,11 +45,17 @@ margin:auto;
 padding:20px;
 }
 
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
+margin-bottom:20px;
+}
+
 .card{
 background:#111827;
 padding:20px;
 border-radius:15px;
-margin-bottom:20px;
 }
 
 .big{
@@ -98,9 +104,28 @@ padding:10px;
 
 <div class="container">
 
+<div class="grid">
+
 <div class="card">
-<h2>Owner Profit</h2>
+Total Users
+<div id="users" class="big">0</div>
+</div>
+
+<div class="card">
+Total Books
+<div id="books" class="big">0</div>
+</div>
+
+<div class="card">
+Total Orders
+<div id="orders" class="big">0</div>
+</div>
+
+<div class="card">
+Owner Profit
 ₹ <span id="profit" class="big">0</span>
+</div>
+
 </div>
 
 <div class="card">
@@ -128,9 +153,9 @@ Open Seller Control
 </div>
 
 <div class="card">
-<h2>USER WALLET BALANCE</h2>
+<h2>User Wallet Balance</h2>
 <button class="open" onclick="location.href='wallet-balance.html'">
-Open Wallet Balance Panel
+Open Wallet Panel
 </button>
 </div>
 
@@ -145,38 +170,28 @@ Open User Analytics
 
 <script>
 
-/* ADMIN EMAIL */
+const ADMIN="ayushprajpati6@gmail.com"
 
-const ADMIN="ayushprajpati6@gmail.com";
+const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
-/* APIs */
+const PAYMENT_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
 
-const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
-
-const PAYMENT_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec";
-
-
-/* USER CHECK */
-
-let user=JSON.parse(localStorage.getItem("user")||"{}");
+let user=JSON.parse(localStorage.getItem("user")||"{}")
 
 if(!user || user.email!==ADMIN){
 
-alert("Admin Only");
-location.href="index.html";
+alert("Admin Only")
+location.href="index.html"
 
 }
-
-
-/* DATABASE ROUTER */
 
 function getAPI(db){
 
-if(db==="orders" || db==="subscriptions" || db==="wallets"){
-return PAYMENT_API;
+if(db==="orders"||db==="subscriptions"||db==="wallets"){
+return PAYMENT_API
 }
 
-return PRODUCT_API;
+return PRODUCT_API
 
 }
 
@@ -184,102 +199,103 @@ async function getDB(db){
 
 try{
 
-let r=await fetch(getAPI(db)+"?db="+db+"&t="+Date.now());
+let r=await fetch(getAPI(db)+"?db="+db+"&t="+Date.now())
+let d=await r.json()
 
-let d=await r.json();
+return Array.isArray(d)?d:[]
 
-return Array.isArray(d)?d:[];
+}catch{
 
-}catch(e){
-
-console.log("DB ERROR",e);
-return [];
+return[]
 
 }
 
 }
 
+let chart=null
 
-/* OWNER PROFIT */
+async function loadDashboard(){
 
-let chart=null;
+let users=await getDB("users")
+let products=await getDB("products")
+let orders=await getDB("orders")
+let subs=await getDB("subscriptions")
+let sellers=await getDB("sellers")
 
-async function loadProfit(){
+document.getElementById("users").innerText=users.length
+document.getElementById("books").innerText=products.length
 
-let orders=await getDB("orders");
-let subscriptions=await getDB("subscriptions");
+let paidOrders=orders.filter(o=>o.status==="paid")
 
-let profit=0;
+document.getElementById("orders").innerText=paidOrders.length
 
-/* ADMIN COMMISSION 8% */
+let profit=0
 
-orders.forEach(o=>{
-profit+=Number(o.amount||0)*0.08;
-});
+paidOrders.forEach(o=>{
+profit+=Number(o.amount||0)*0.08
+})
 
-subscriptions.forEach(s=>{
-profit+=Number(s.amount||0);
-});
+subs.forEach(s=>{
+profit+=Number(s.amount||0)
+})
 
-document.getElementById("profit").innerText=Math.floor(profit);
+document.getElementById("profit").innerText=Math.floor(profit)
 
+let chartMap={}
 
-/* CHART DATA */
+paidOrders.forEach(o=>{
 
-let chartData=[];
+let d=o.date||"Unknown"
 
-orders.forEach(o=>{
-chartData.push(Number(o.amount||0)*0.08);
-});
+if(!chartMap[d]) chartMap[d]=0
 
-subscriptions.forEach(s=>{
-chartData.push(Number(s.amount||0));
-});
+chartMap[d]+=Number(o.amount||0)*0.08
 
-if(chart) chart.destroy();
+})
 
-if(chartData.length===0){
-chartData=[0];
-}
+subs.forEach(s=>{
+
+let d=s.date||"Unknown"
+
+if(!chartMap[d]) chartMap[d]=0
+
+chartMap[d]+=Number(s.amount||0)
+
+})
+
+let labels=Object.keys(chartMap)
+let values=Object.values(chartMap)
+
+if(chart) chart.destroy()
 
 chart=new Chart(document.getElementById("chart"),{
 
 type:"line",
 
 data:{
-labels:chartData.map((_,i)=>"Sale "+(i+1)),
+labels:labels,
 datasets:[{
 label:"Owner Profit",
-data:chartData,
+data:values,
 borderColor:"#22c55e",
 backgroundColor:"rgba(34,197,94,.2)",
 tension:.4
 }]
 }
 
-});
+})
 
-}
+let pending=sellers.filter(s=>s.status==="pending")
 
-loadProfit();
-
-
-/* SELLER REQUESTS */
-
-async function loadSellerRequests(){
-
-let sellers=await getDB("sellers");
-
-let box=document.getElementById("sellerList");
-
-box.innerHTML="";
-
-let pending=sellers.filter(s=>s.status==="pending");
+let box=document.getElementById("sellerList")
 
 if(pending.length===0){
-box.innerHTML="No Seller Requests";
-return;
-}
+
+box.innerHTML="No Seller Requests"
+
+}else{
+
+box.innerHTML=""
 
 pending.forEach(s=>{
 
@@ -290,33 +306,16 @@ box.innerHTML+=`
 <b>${escapeHTML(s.name||"User")}</b>
 <br>
 ${escapeHTML(s.email)}
-<br>
-
-<button class="open" onclick="approveSeller('${s.email}')">
-Approve Seller
-</button>
 
 </div>
 
-`;
+`
 
-});
-
-}
-
-loadSellerRequests();
-
-
-/* APPROVE SELLER */
-
-async function approveSeller(email){
-
-alert("Use seller-control panel to approve sellers.");
+})
 
 }
 
-
-/* SECURITY */
+}
 
 function escapeHTML(str){
 
@@ -328,11 +327,13 @@ return({
 '>':'&gt;',
 '"':'&quot;',
 "'":'&#039;'
-})[m];
+})[m]
 
-});
+})
 
 }
+
+loadDashboard()
 
 </script>
 
