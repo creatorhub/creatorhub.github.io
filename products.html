@@ -150,7 +150,7 @@ onclick="location.href='dashboard.html'">
 </h2>
 
 <div id="products" class="products">
-Loading Products...
+Loading products...
 </div>
 
 <footer>
@@ -161,7 +161,7 @@ Digital Products Marketplace
 
 <script>
 
-/* PRODUCT API */
+/* API */
 
 const API =
 "https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
@@ -179,6 +179,26 @@ localStorage.getItem("profile_"+(user?.email||"guest"));
 document.getElementById("profile").src =
 profile ||
 "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+
+/* SAFE HTML */
+
+function escapeHTML(str){
+
+return String(str).replace(/[&<>"']/g,function(m){
+
+return({
+
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+
+})[m]
+
+})
+
+}
 
 /* DATABASE */
 
@@ -240,8 +260,10 @@ document.getElementById("products");
 let products =
 await getDB("products");
 
+/* FIXED FILTER */
+
 products =
-products.filter(p=>p.status==="approved");
+products.filter(p=>p.ai_status==="approved");
 
 if(products.length===0){
 
@@ -265,9 +287,9 @@ src="${driveImage(p.image)}"
 onclick="openProduct('${p.id}')"
 >
 
-<h3>${p.title || "Untitled Ebook"}</h3>
+<h3>${escapeHTML(p.title || "Untitled Ebook")}</h3>
 
-<p>₹ ${p.price || 0}</p>
+<p>₹ ${Number(p.price||0)}</p>
 
 <button
 class="buy"
@@ -332,7 +354,7 @@ e.stopPropagation();
 let cart =
 JSON.parse(localStorage.getItem("cart")||"[]");
 
-if(cart.includes(id)){
+if(cart.indexOf(id)!==-1){
 
 alert("Already in cart");
 return;
