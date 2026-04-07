@@ -6,6 +6,7 @@
 <title>CreatorHub Dashboard</title>
 
 <style>
+
 :root{
 --bg:#020617;
 --text:#ffffff;
@@ -122,6 +123,7 @@ color:white;
 font-weight:bold;
 cursor:pointer;
 }
+
 </style>
 </head>
 
@@ -144,14 +146,39 @@ CreatorHub Dashboard
 </div>
 
 <div class="container">
-<div class="card" onclick="go('products.html')">Browse Products</div>
-<div class="card" onclick="go('library.html')">My Library</div>
-<div class="card" onclick="go('orders.html')">Orders</div>
-<div class="card" onclick="go('wallet.html')">Wallet</div>
-<div class="card" onclick="go('upload.html')">Upload Ebook</div>
-<div class="card" onclick="openSeller()">Become Seller</div>
-<div class="card" onclick="deleteAccount()">Delete My Account</div>
-<div id="adminBox" class="card" style="display:none" onclick="go('admin.html')">Admin Panel</div>
+
+<div class="card" onclick="go('products.html')">
+📚 Browse Products
+</div>
+
+<div class="card" onclick="go('library.html')">
+📖 My Library
+</div>
+
+<div class="card" onclick="go('orders.html')">
+📦 Orders
+</div>
+
+<div class="card" onclick="go('wallet.html')">
+💰 Wallet
+</div>
+
+<div class="card" onclick="go('upload.html')">
+⬆ Upload Ebook
+</div>
+
+<div class="card" onclick="openSeller()">
+🧑‍💻 Become Seller
+</div>
+
+<div class="card" onclick="deleteAccount()">
+⚠ Delete My Account
+</div>
+
+<div id="adminBox" class="card" style="display:none" onclick="go('admin.html')">
+👑 Admin Panel
+</div>
+
 </div>
 
 <div class="logout">
@@ -167,12 +194,18 @@ const API_PAYMENT="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh
 
 const ADMIN="ayushprajpati6@gmail.com"
 
-/* USER */
+/* SAFE USER LOAD */
 
-let user=JSON.parse(localStorage.getItem("user"))
+let user=null
+
+try{
+user=JSON.parse(localStorage.getItem("user"))
+}catch{}
 
 if(!user || !user.email){
+
 location.href="login.html"
+
 }
 
 /* PROFILE */
@@ -187,18 +220,26 @@ localStorage.getItem("profile_"+user.email)||
 /* ADMIN PANEL */
 
 if(user.email===ADMIN){
+
 document.getElementById("adminBox").style.display="block"
+
 }
 
-/* NAV */
+/* NAVIGATION */
 
 function go(page){
+
+if(!page) return
+
 location.href=page
+
 }
 
-/* DB READER */
+/* DATABASE */
 
 async function getDB(db){
+
+try{
 
 let api=(db==="wallets"||db==="orders")
 ?API_PAYMENT
@@ -210,11 +251,19 @@ let data=await res.json()
 
 return Array.isArray(data)?data:[]
 
+}catch{
+
+return[]
+
+}
+
 }
 
 /* BECOME SELLER */
 
 async function openSeller(){
+
+try{
 
 let sellers=await getDB("sellers")
 
@@ -236,19 +285,25 @@ return
 
 location.href="seller-apply.html"
 
+}catch{
+
+alert("Server error")
+
+}
+
 }
 
 /* DELETE ACCOUNT */
 
 function deleteAccount(){
 
-let ok=confirm("⚠️ Account will be disabled.\nContinue?")
+let ok=confirm("⚠️ Your account will be removed from this device.\nContinue?")
 
 if(!ok) return
 
 localStorage.clear()
 
-alert("Account removed from this device")
+alert("Account removed")
 
 location.href="login.html"
 
@@ -257,8 +312,11 @@ location.href="login.html"
 /* LOGOUT */
 
 function logout(){
+
 localStorage.removeItem("user")
+
 location.href="login.html"
+
 }
 
 </script>
