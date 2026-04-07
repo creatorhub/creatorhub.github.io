@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded",loadProducts)
 
 const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
-/* ADMIN EMAIL */
+/* ADMIN */
 
 const ADMIN="ayushprajpati6@gmail.com"
 
@@ -16,7 +16,7 @@ if(!user){
 location.href="login.html"
 }
 
-/* SAFE HTML */
+/* SAFE TEXT */
 
 function escapeHTML(str){
 
@@ -59,9 +59,14 @@ return link
 
 }
 
+
 /* LOAD PRODUCTS */
 
 async function loadProducts(){
+
+const box=document.getElementById("products")
+
+box.innerHTML="Loading..."
 
 try{
 
@@ -82,7 +87,7 @@ showProducts=[...allProducts]
 
 }
 
-/* NORMAL USER */
+/* SELLER */
 
 else{
 
@@ -92,15 +97,12 @@ p=>p.owner===user.email
 
 }
 
-const box=document.getElementById("products")
-
-box.innerHTML=""
-
 /* EMPTY */
 
 if(showProducts.length===0){
 
 box.innerHTML="No Uploaded Products 😄"
+
 return
 
 }
@@ -108,6 +110,8 @@ return
 /* NEWEST FIRST */
 
 showProducts=[...showProducts].reverse()
+
+box.innerHTML=""
 
 showProducts.forEach(p=>{
 
@@ -120,7 +124,7 @@ style="width:100%;height:150px;object-fit:cover">
 
 <h3>${escapeHTML(p.title)}</h3>
 
-₹${p.price}
+₹${Number(p.price||0)}
 
 <br><br>
 
@@ -142,11 +146,12 @@ Delete
 
 console.log(e)
 
-document.getElementById("products").innerHTML="Failed to load products"
+box.innerHTML="Failed to load products"
 
 }
 
 }
+
 
 /* DELETE PRODUCT */
 
@@ -156,41 +161,48 @@ if(!confirm("Delete this product?")) return
 
 try{
 
-let res=await fetch(API+"?db=products&t="+Date.now())
+let res=await fetch(API,{
 
-let products=await res.json()
-
-if(!Array.isArray(products))
-products=[]
-
-products=products.filter(
-p=>String(p.id)!==String(id)
-)
-
-await fetch(API,{
 method:"POST",
+
 headers:{
-"Content-Type":"text/plain"
+"Content-Type":"application/json"
 },
+
 body:JSON.stringify({
-db:"products",
-data:products
+
+action:"delete_product",
+productId:id,
+email:user.email
+
 })
+
 })
+
+let data=await res.json()
+
+if(data.success){
 
 alert("Product Deleted")
 
 loadProducts()
 
+}else{
+
+alert(data.message || "Delete failed")
+
+}
+
 }catch(e){
 
-alert("Delete failed")
+alert("Server error")
 
 }
 
 }
 
-/* EDIT PRODUCT */
+
+/* EDIT */
 
 function editProduct(id){
 
