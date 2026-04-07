@@ -2,12 +2,9 @@
 
 document.addEventListener("DOMContentLoaded", async function(){
 
-/* APIs */
-
 const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
 const PAYMENT_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
-
 
 /* LOGIN CHECK */
 
@@ -26,7 +23,6 @@ return
 
 }
 
-
 /* USER NAME */
 
 const username=document.getElementById("username")
@@ -36,7 +32,6 @@ if(username){
 username.innerText="Welcome "+(user.name || "User")+" 👋"
 
 }
-
 
 /* PROFILE IMAGE */
 
@@ -52,7 +47,6 @@ profile.src=saved
 
 }
 
-
 /* PROFILE UPLOAD */
 
 window.uploadProfile=function(e){
@@ -64,6 +58,15 @@ if(!file) return
 if(!file.type.startsWith("image/")){
 alert("Please upload an image")
 return
+}
+
+/* SIZE LIMIT */
+
+if(file.size > 2*1024*1024){
+
+alert("Image must be under 2MB")
+return
+
 }
 
 const reader=new FileReader()
@@ -85,7 +88,6 @@ reader.readAsDataURL(file)
 
 }
 
-
 /* SAFE NAVIGATION */
 
 window.go=function(page){
@@ -96,7 +98,6 @@ location.href=page
 
 }
 
-
 /* LOAD STATS */
 
 try{
@@ -104,12 +105,9 @@ try{
 /* PRODUCTS */
 
 let pres=await fetch(PRODUCT_API+"?db=products&t="+Date.now())
-
 let products=await pres.json()
 
-if(!Array.isArray(products)){
-products=[]
-}
+if(!Array.isArray(products)) products=[]
 
 let myProducts=products.filter(p=>p.owner===user.email)
 
@@ -119,25 +117,25 @@ if(pc){
 pc.innerText=myProducts.length
 }
 
-
 /* ORDERS */
 
 let ores=await fetch(PAYMENT_API+"?db=orders&t="+Date.now())
-
 let orders=await ores.json()
 
-if(!Array.isArray(orders)){
-orders=[]
-}
+if(!Array.isArray(orders)) orders=[]
 
-let myOrders=orders.filter(o=>o.seller===user.email)
+/* ONLY PAID ORDERS */
+
+let myOrders=orders.filter(o=>
+o.seller===user.email &&
+(o.status==="paid" || o.payment==="paid")
+)
 
 const oc=document.getElementById("orderCount")
 
 if(oc){
 oc.innerText=myOrders.length
 }
-
 
 /* EARNINGS */
 
@@ -155,16 +153,13 @@ if(earn){
 earn.innerText="₹ "+Math.floor(total)
 }
 
-}
-
-catch(e){
+}catch(e){
 
 console.log("Stats Error:",e)
 
 }
 
 })
-
 
 /* LOGOUT */
 
