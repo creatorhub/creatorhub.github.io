@@ -1,26 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Upload Ebook - CreatorHub</title><style>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>Upload Ebook - CreatorHub</title>
-
-<style>
+*{
+box-sizing:border-box;
+}
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial,Helvetica,sans-serif;
 background:#020617;
 color:white;
-padding:20px;
 }
 
-.topbar{
+/* HEADER */
+
+.header{
 display:flex;
 align-items:center;
-margin-bottom:20px;
+padding:16px;
+border-bottom:1px solid #1f2937;
 }
 
 .back{
@@ -29,134 +28,149 @@ cursor:pointer;
 margin-right:10px;
 }
 
-.card{
-background:#111827;
-padding:25px;
-border-radius:14px;
-max-width:600px;
-margin:auto;
-box-shadow:0 10px 30px rgba(0,0,0,.6);
+.title{
+font-size:20px;
+font-weight:bold;
+color:#22c55e;
 }
+
+/* CONTAINER */
+
+.container{
+padding:20px;
+max-width:650px;
+margin:auto;
+}
+
+/* CARD */
+
+.card{
+background:linear-gradient(145deg,#111827,#020617);
+padding:25px;
+border-radius:16px;
+border:1px solid #1f2937;
+box-shadow:0 10px 25px rgba(0,0,0,0.6);
+}
+
+/* INPUT */
 
 input,textarea{
 width:100%;
 padding:14px;
 margin-top:10px;
-border:none;
 border-radius:10px;
-background:#1f2937;
+border:1px solid #1f2937;
+background:#020617;
 color:white;
 }
+
+/* BUTTON */
 
 button{
 width:100%;
 padding:15px;
-margin-top:15px;
-background:#f97316;
+margin-top:16px;
 border:none;
-border-radius:10px;
+border-radius:12px;
 font-weight:bold;
 cursor:pointer;
+background:linear-gradient(90deg,#22c55e,#4ade80);
+color:black;
 }
+
+/* IMAGE */
 
 img{
 width:100%;
 margin-top:12px;
 border-radius:10px;
 display:none;
+border:1px solid #1f2937;
 }
 
+/* PROGRESS */
+
 .progress{
-height:22px;
-background:#1f2937;
-border-radius:12px;
+height:20px;
+background:#020617;
+border-radius:10px;
 margin-top:15px;
 overflow:hidden;
+border:1px solid #1f2937;
 }
 
 .bar{
 height:100%;
 width:0%;
 background:linear-gradient(90deg,#22c55e,#4ade80);
-border-radius:12px;
 transition:.3s;
 }
 
-</style>
-</head>
+label{
+margin-top:12px;
+display:block;
+font-size:14px;
+color:#9ca3af;
+}
 
-<body>
-
-<div class="topbar">
-<div class="back" onclick="history.back()">⬅</div>
-<h2>Upload Ebook</h2>
-</div>
-
-<div class="card">
-
-<input id="title" placeholder="Book Title">
-<input id="author" placeholder="Author Name">
-
-<textarea id="description" placeholder="Book Description"></textarea>
-
-<input id="price" type="number" placeholder="Price ₹">
-
-<p>Front Cover</p>
+</style></head><body><div class="header"><div class="back" onclick="history.back()">⬅</div><div class="title">Upload Ebook</div></div><div class="container"><div class="card"><input id="title" placeholder="Book Title"><input id="author" placeholder="Author Name"><textarea id="description" placeholder="Book Description"></textarea><input id="price" type="number" placeholder="Price ₹"><label>Front Cover</label>
 <input type="file" id="frontCover" accept="image/*">
 <img id="previewFront">
 
-<p>Back Cover</p>
+<label>Back Cover</label>
 <input type="file" id="backCover" accept="image/*">
 <img id="previewBack">
 
-<p>PDF File</p>
+<label>PDF File</label>
 <input type="file" id="pdf" accept="application/pdf">
 
 <div class="progress">
 <div class="bar" id="bar"></div>
-</div>
-
-<button id="uploadBtn" onclick="upload()">
+</div><button id="uploadBtn" onclick="upload()">
 Upload Ebook
-</button>
-
-</div>
-
-<script>
+</button></div></div><script>
 
 const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
-let user = JSON.parse(localStorage.getItem("user") || "{}");
+let user=JSON.parse(localStorage.getItem("user")||"{}")
 
 if(!user.email){
-alert("Login First");
-location.href="login.html";
+
+alert("Login First")
+
+location.href="login.html"
+
 }
 
-/* IMAGE PREVIEW */
+/* PREVIEW */
 
 function preview(input,id){
 
-let file=input.files[0];
-if(!file) return;
+let file=input.files[0]
 
-let reader=new FileReader();
+if(!file) return
+
+let reader=new FileReader()
 
 reader.onload=e=>{
-let img=document.getElementById(id);
-img.src=e.target.result;
-img.style.display="block";
-};
 
-reader.readAsDataURL(file);
+let img=document.getElementById(id)
+
+img.src=e.target.result
+
+img.style.display="block"
+
+}
+
+reader.readAsDataURL(file)
 
 }
 
 document.getElementById("frontCover").onchange=
-function(){ preview(this,"previewFront") }
+function(){preview(this,"previewFront")}
 
 document.getElementById("backCover").onchange=
-function(){ preview(this,"previewBack") }
+function(){preview(this,"previewBack")}
 
 /* BASE64 */
 
@@ -164,14 +178,15 @@ function toBase64(file){
 
 return new Promise((resolve,reject)=>{
 
-let reader=new FileReader();
+let reader=new FileReader()
 
-reader.onload=()=>resolve(reader.result);
-reader.onerror=reject;
+reader.onload=()=>resolve(reader.result)
 
-reader.readAsDataURL(file);
+reader.onerror=reject
 
-});
+reader.readAsDataURL(file)
+
+})
 
 }
 
@@ -180,40 +195,59 @@ reader.readAsDataURL(file);
 async function upload(){
 
 let title=document.getElementById("title").value.trim()
+
 let author=document.getElementById("author").value.trim()
+
 let description=document.getElementById("description").value.trim()
+
 let price=document.getElementById("price").value.trim()
 
 let front=document.getElementById("frontCover").files[0]
+
 let back=document.getElementById("backCover").files[0]
+
 let pdf=document.getElementById("pdf").files[0]
 
 if(!title||!price||!author||!description||!front||!back||!pdf){
+
 alert("Fill All Fields")
+
 return
+
 }
 
-/* SIZE LIMIT */
+/* SIZE CHECK */
 
 if(front.size>2*1024*1024){
+
 alert("Front cover max 2MB")
+
 return
+
 }
 
 if(back.size>2*1024*1024){
+
 alert("Back cover max 2MB")
+
 return
+
 }
 
 if(pdf.size>10*1024*1024){
+
 alert("PDF max 10MB")
+
 return
+
 }
 
 let bar=document.getElementById("bar")
+
 let btn=document.getElementById("uploadBtn")
 
 btn.disabled=true
+
 btn.innerText="Uploading..."
 
 try{
@@ -278,16 +312,16 @@ alert(result.message || "Upload Failed")
 }catch(e){
 
 alert("Upload Error")
+
 console.log(e)
 
 }
 
 btn.disabled=false
+
 btn.innerText="Upload Ebook"
 
 }
 
-</script>
-
-</body>
+</script></body>
 </html>
