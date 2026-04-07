@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>CreatorHub Wallet</title>
-
-<style>
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Wallet</title><style>
 
 body{
 margin:0;
@@ -85,58 +78,36 @@ display:flex;
 justify-content:space-between;
 }
 
-</style>
-
-</head>
-
-<body>
-
-<div class="topbar">
+</style></head><body><div class="topbar">
 <div class="back" onclick="history.back()">⬅</div>
 <div class="pageTitle">Creator Wallet</div>
-</div>
-
-<div class="container">
-
-<div class="card">
+</div><div class="container"><div class="card">
 <h3>Available Balance</h3>
 ₹ <span id="balance" class="balance">0</span>
-</div>
+</div><div class="card"><h3>Withdraw Money</h3><input id="upi" placeholder="Enter UPI ID">
+<input id="amount" type="number" placeholder="Withdraw Amount ₹"><button onclick="withdraw()">Withdraw 🚀</button>
 
-<div class="card">
-
-<h3>Withdraw Money</h3>
-
-<input id="upi" placeholder="Enter UPI ID">
-<input id="amount" type="number" placeholder="Withdraw Amount ₹">
-
-<button onclick="withdraw()">Withdraw 🚀</button>
-
-</div>
-
-<div class="card">
+</div><div class="card">
 <h3>Earnings History</h3>
 <div id="history">Loading...</div>
-</div>
+</div></div><script>
 
-</div>
+/* MAIN BACKEND API */
 
-<script>
+const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
-/* PAYMENT API */
+/* USER */
 
-const API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
+let user=JSON.parse(localStorage.getItem("user")||"{}")
 
-let user=JSON.parse(localStorage.getItem("user")||"null")
-
-if(!user){
+if(!user.email){
 
 alert("Login First")
 location.href="login.html"
 
 }
 
-/* GET DB */
+/* GET DATABASE */
 
 async function getDB(db){
 
@@ -176,7 +147,7 @@ let orders=await getDB("orders")
 let myOrders=orders.filter(o=>
 
 o.seller===user.email &&
-o.status==="paid"
+o.payment==="paid"
 
 )
 
@@ -301,7 +272,5 @@ alert("Server error")
 
 }
 
-</script>
-
-</body>
+</script></body>
 </html>
