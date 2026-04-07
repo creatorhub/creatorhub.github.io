@@ -38,8 +38,6 @@ color:#22c55e;
 font-weight:bold;
 }
 
-/* BOOK PREVIEW */
-
 .bookBox{
 display:flex;
 justify-content:center;
@@ -150,9 +148,7 @@ padding:10px 0;
 
 <div class="container">
 
-<div id="book">
-Loading Ebook...
-</div>
+<div id="book">Loading Ebook...</div>
 
 <div class="reviews">
 
@@ -186,12 +182,24 @@ Submit Review
 
 const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
+const ORDER_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
+
 let params=new URLSearchParams(location.search)
 let id=params.get("id")
 
 let user=JSON.parse(localStorage.getItem("user")||"null")
 
-/* DRIVE IMAGE */
+function escapeHTML(str){
+return String(str).replace(/[&<>"']/g,function(m){
+return({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+})[m]
+})
+}
 
 function driveImage(link){
 
@@ -216,8 +224,6 @@ return link
 
 }
 
-/* DATABASE */
-
 async function getDB(db){
 
 let r=await fetch(API+"?db="+db+"&t="+Date.now())
@@ -227,11 +233,19 @@ return Array.isArray(data)?data:[]
 
 }
 
-/* LOAD BOOK */
+async function getOrders(){
+
+let r=await fetch(ORDER_API+"?db=orders&t="+Date.now())
+let data=await r.json()
+
+return Array.isArray(data)?data:[]
+
+}
 
 async function loadBook(){
 
 let products=await getDB("products")
+let orders=await getOrders()
 
 let book=products.find(p=>String(p.id)===String(id))
 
@@ -242,8 +256,9 @@ return
 
 }
 
-let authorName = book.author || book.owner || "Unknown"
-let sales = Number(book.sales || 0)
+let sales=orders.filter(o=>String(o.productId)===String(id) && o.status==="paid").length
+
+let authorName=escapeHTML(book.author||book.owner||"Unknown")
 
 document.getElementById("book").innerHTML=`
 
@@ -254,12 +269,12 @@ document.getElementById("book").innerHTML=`
 </div>
 
 <div class="book">
-<img src="${driveImage(book.backCover || book.image)}">
+<img src="${driveImage(book.backCover||book.image)}">
 </div>
 
 </div>
 
-<div class="bookTitle">${book.title}</div>
+<div class="bookTitle">${escapeHTML(book.title)}</div>
 
 <div class="price">₹ ${book.price}</div>
 
@@ -275,13 +290,13 @@ Buy Now
 Add To Cart
 </button>
 
-<button class="btn share" onclick="shareBook('${book.title}')">
+<button class="btn share" onclick="shareBook('${escapeHTML(book.title)}')">
 Share
 </button>
 
 <div class="desc">
 <h3>Description</h3>
-${book.description || "No description provided."}
+${escapeHTML(book.description||"No description provided.")}
 </div>
 
 `
@@ -289,8 +304,6 @@ ${book.description || "No description provided."}
 loadReviews()
 
 }
-
-/* REVIEWS */
 
 async function loadReviews(){
 
@@ -325,7 +338,7 @@ html+=`
 
 <div>${stars}</div>
 
-<div>${r.text}</div>
+<div>${escapeHTML(r.text)}</div>
 
 </div>
 
@@ -336,8 +349,6 @@ html+=`
 document.getElementById("reviewList").innerHTML=html
 
 }
-
-/* REVIEW */
 
 async function submitReview(){
 
@@ -353,8 +364,23 @@ let rating=document.getElementById("userRating").value
 let text=document.getElementById("userReview").value.trim()
 
 if(!text){
+
 alert("Write review")
 return
+
+}
+
+let reviews=await getDB("reviews")
+
+let already=reviews.find(r=>
+r.productId==id && r.user===user.email
+)
+
+if(already){
+
+alert("You already reviewed this book")
+return
+
 }
 
 await fetch(API,{
@@ -379,16 +405,12 @@ loadReviews()
 
 }
 
-/* BUY */
-
 function buyBook(id){
 
 localStorage.setItem("buyProduct",id)
 location.href="payment.html"
 
 }
-
-/* CART */
 
 function addCart(id){
 
@@ -406,8 +428,6 @@ localStorage.setItem("cart",JSON.stringify(cart))
 alert("Added to Cart")
 
 }
-
-/* SHARE */
 
 function shareBook(title){
 
