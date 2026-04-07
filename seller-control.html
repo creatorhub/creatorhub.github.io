@@ -1,32 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>Seller Control</title>
-
-<style>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Seller Control Panel</title><style>
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial,Helvetica,sans-serif;
 background:#020617;
 color:white;
 }
 
+/* HEADER */
+
 .topbar{
 display:flex;
 align-items:center;
-padding:14px;
-box-shadow:0 5px 20px black;
+padding:16px;
+border-bottom:1px solid #1f2937;
 }
 
 .back{
 font-size:22px;
 cursor:pointer;
-width:40px;
+margin-right:10px;
 }
 
 .title{
@@ -36,31 +30,67 @@ color:#22c55e;
 font-weight:bold;
 }
 
+/* CONTAINER */
+
 .container{
 max-width:900px;
 margin:auto;
 padding:20px;
 }
 
-.card{
-background:#111827;
-padding:20px;
-border-radius:14px;
-margin-bottom:15px;
+h2{
+margin-bottom:20px;
 }
+
+/* CARD */
+
+.card{
+
+background:linear-gradient(145deg,#111827,#020617);
+
+padding:20px;
+
+border-radius:16px;
+
+border:1px solid #1f2937;
+
+margin-bottom:15px;
+
+box-shadow:0 10px 30px rgba(0,0,0,0.6);
+
+}
+
+/* BUTTON */
 
 button{
+
 border:none;
+
 padding:10px 14px;
+
 border-radius:8px;
-color:white;
+
 cursor:pointer;
+
+color:white;
+
 margin-right:6px;
-margin-top:6px;
+
+margin-top:10px;
+
+font-weight:bold;
+
 }
 
-.approve{background:#22c55e;}
-.reject{background:#ef4444;}
+.approve{
+background:#22c55e;
+}
+
+.reject{
+background:#ef4444;
+}
+
+/* STATUS */
 
 .status-pending{
 color:#f59e0b;
@@ -72,123 +102,122 @@ color:#22c55e;
 font-weight:bold;
 }
 
-</style>
+.status-rejected{
+color:#ef4444;
+font-weight:bold;
+}
 
-</head>
+</style></head><body><div class="topbar"><div class="back" onclick="history.back()">⬅</div><div class="title">Seller Control Panel</div></div><div class="container"><h2>Seller Requests</h2><div id="sellers">
+Loading...
+</div></div><script>
 
-<body>
+const ADMIN="ayushprajpati6@gmail.com"
 
-<div class="topbar">
-<div class="back" onclick="history.back()">⬅</div>
-<div class="title">Seller Control Panel</div>
-</div>
+const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
-<div class="container">
-
-<h2>Seller Requests</h2>
-
-<div id="sellers">Loading...</div>
-
-</div>
-
-<script>
-
-const ADMIN="ayushprajpati6@gmail.com";
-
-const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
-
-let user=JSON.parse(localStorage.getItem("user")||"{}");
+let user=JSON.parse(localStorage.getItem("user")||"{}")
 
 if(!user || user.email!==ADMIN){
-alert("Admin Only");
-location.href="index.html";
-}
 
-/* DATABASE */
+alert("Admin Only")
 
-async function getDB(db){
-
-try{
-
-let r=await fetch(API+"?db="+db+"&t="+Date.now());
-
-let d=await r.json();
-
-return Array.isArray(d)?d:[];
-
-}catch{
-
-return[];
+location.href="index.html"
 
 }
 
-}
-
-async function saveDB(db,data){
-
-await fetch(API,{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-db:db,
-data:data
-})
-});
-
-}
-
-/* ESCAPE HTML */
+/* SAFE TEXT */
 
 function escapeHTML(str){
+
 return String(str).replace(/[&<>"']/g,function(m){
+
 return({
+
 '&':'&amp;',
 '<':'&lt;',
 '>':'&gt;',
 '"':'&quot;',
 "'":'&#039;'
-})[m];
-});
+
+})[m]
+
+})
+
+}
+
+/* GET DB */
+
+async function getDB(db){
+
+try{
+
+let r=await fetch(API+"?db="+db+"&t="+Date.now())
+
+let d=await r.json()
+
+return Array.isArray(d)?d:[]
+
+}catch{
+
+return[]
+
+}
+
 }
 
 /* LOAD SELLERS */
 
 async function loadSellers(){
 
-let box=document.getElementById("sellers");
+let box=document.getElementById("sellers")
 
-let sellers=await getDB("sellers");
+let sellers=await getDB("sellers")
 
 if(!sellers.length){
 
-box.innerHTML="No Seller Requests";
-return;
+box.innerHTML="No Seller Requests"
+
+return
 
 }
 
-box.innerHTML="";
+box.innerHTML=""
 
 sellers.reverse().forEach(s=>{
 
-let status=s.status==="approved"
-? "<span class='status-approved'>Approved</span>"
-: "<span class='status-pending'>Pending</span>";
+let status=""
 
-let buttons="";
+if(s.status==="approved"){
+status="<span class='status-approved'>Approved</span>"
+}
+else if(s.status==="rejected"){
+status="<span class='status-rejected'>Rejected</span>"
+}
+else{
+status="<span class='status-pending'>Pending</span>"
+}
 
-if(s.status!=="approved"){
+let buttons=""
+
+if(s.status==="pending"){
 
 buttons=`
-<button class="approve" onclick="approveSeller('${s.email}')">
+
+<button class="approve"
+onclick="approveSeller('${s.email}')">
+
 Approve
+
 </button>
 
-<button class="reject" onclick="rejectSeller('${s.email}')">
+<button class="reject"
+onclick="rejectSeller('${s.email}')">
+
 Reject
+
 </button>
-`;
+
+`
 
 }
 
@@ -196,113 +225,85 @@ box.innerHTML+=`
 
 <div class="card">
 
-<b>${escapeHTML(s.email)}</b>
+<b>Email:</b> ${escapeHTML(s.email)}
 
 <br><br>
 
-Name : ${escapeHTML(s.name || "-")}
+<b>Name:</b> ${escapeHTML(s.name || "-")}
 
 <br>
 
-Phone : ${escapeHTML(s.phone || "-")}
+<b>Phone:</b> ${escapeHTML(s.phone || "-")}
 
 <br>
 
-UPI : ${escapeHTML(s.upi || "-")}
+<b>UPI:</b> ${escapeHTML(s.upi || "-")}
 
 <br><br>
 
-Status : ${status}
+<b>Status:</b> ${status}
 
-<br><br>
+<br>
 
 ${buttons}
 
 </div>
 
-`;
+`
 
-});
+})
 
 }
 
-/* APPROVE SELLER */
+/* APPROVE */
 
 async function approveSeller(email){
 
-if(!confirm("Approve this seller?")) return;
+if(!confirm("Approve this seller?")) return
 
-let sellers=await getDB("sellers");
-let users=await getDB("users");
+await fetch(API,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+action:"approve_seller",
+email:email
+})
+})
 
-/* UPDATE SELLER TABLE */
+alert("Seller Approved ✅")
 
-sellers=sellers.map(s=>{
-if(s.email===email){
-s.status="approved";
-}
-return s;
-});
-
-/* UPDATE USER TABLE */
-
-let index=users.findIndex(u=>u.email===email);
-
-if(index>-1){
-
-users[index].seller=true;
-users[index].sellerRequest=false;
+loadSellers()
 
 }
 
-/* SAVE */
-
-await saveDB("sellers",sellers);
-await saveDB("users",users);
-
-alert("Seller Approved ✅");
-
-loadSellers();
-
-}
-
-/* REJECT SELLER */
+/* REJECT */
 
 async function rejectSeller(email){
 
-if(!confirm("Reject seller request?")) return;
+if(!confirm("Reject this seller?")) return
 
-let sellers=await getDB("sellers");
-let users=await getDB("users");
+await fetch(API,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+action:"reject_seller",
+email:email,
+admin:ADMIN
+})
+})
 
-/* REMOVE REQUEST */
+alert("Seller Rejected")
 
-sellers=sellers.filter(s=>s.email!==email);
-
-/* UPDATE USER TABLE */
-
-let index=users.findIndex(u=>u.email===email);
-
-if(index>-1){
-
-users[index].sellerRequest=false;
-
-}
-
-await saveDB("sellers",sellers);
-await saveDB("users",users);
-
-alert("Seller Rejected");
-
-loadSellers();
+loadSellers()
 
 }
 
 /* INIT */
 
-loadSellers();
+loadSellers()
 
-</script>
-
-</body>
-</html>
+</script></body></html>
