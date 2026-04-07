@@ -9,7 +9,8 @@ const API =
 
 async function recoverAccount(){
 
-let user = JSON.parse(localStorage.getItem("user") || "null");
+let user =
+JSON.parse(localStorage.getItem("user") || "null");
 
 if(!user || !user.email){
 
@@ -21,83 +22,11 @@ return;
 
 }
 
+if(!confirm("Recover your account?")) return;
+
 try{
 
-/* LOAD USERS */
-
-let res =
-await fetch(API+"?db=users&t="+Date.now());
-
-let users =
-await res.json();
-
-if(!Array.isArray(users)){
-
-alert("Database error");
-
-return;
-
-}
-
-/* FIND USER */
-
-let index =
-users.findIndex(
-u=>u.email===user.email
-);
-
-if(index===-1){
-
-alert("User not found");
-
-return;
-
-}
-
-let account = users[index];
-
-/* CHECK STATUS */
-
-if(!account.deleted){
-
-alert("Account is already active");
-
-return;
-
-}
-
-/* OPTIONAL 7 DAY LIMIT */
-
-if(account.deleteDate){
-
-let deleted =
-new Date(account.deleteDate);
-
-let now =
-new Date();
-
-let diff =
-(now - deleted) / (1000*60*60*24);
-
-if(diff > 7){
-
-alert("Recovery period expired");
-
-return;
-
-}
-
-}
-
-/* RECOVER ACCOUNT */
-
-account.deleted = false;
-
-account.deleteDate = "";
-
-/* SAVE DATABASE */
-
-await fetch(API,{
+let res = await fetch(API,{
 
 method:"POST",
 
@@ -107,18 +36,26 @@ headers:{
 
 body:JSON.stringify({
 
-db:"users",
-data:users
+action:"recover_account",
+email:user.email
 
 })
 
 });
 
+let data = await res.json();
+
+if(data.success){
+
 alert("Account recovered successfully ✅");
 
-/* REDIRECT */
-
 location.href="dashboard.html";
+
+}else{
+
+alert(data.message || "Recovery failed");
+
+}
 
 }catch(e){
 
