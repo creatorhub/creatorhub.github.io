@@ -1,33 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>CreatorHub Premium</title>
-
-<style>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Premium</title><style>
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial,Helvetica,sans-serif;
 background:#020617;
 color:white;
 }
 
+/* HEADER */
+
 .topbar{
 display:flex;
 align-items:center;
-padding:14px;
-background:#020617;
-box-shadow:0 5px 20px black;
+padding:16px;
+border-bottom:1px solid #1f2937;
 }
 
 .back{
 font-size:22px;
 cursor:pointer;
-width:40px;
+margin-right:10px;
 }
 
 .title{
@@ -36,6 +29,8 @@ text-align:center;
 font-weight:bold;
 color:#22c55e;
 }
+
+/* CONTAINER */
 
 .container{
 max-width:1000px;
@@ -49,35 +44,60 @@ color:#22c55e;
 margin-bottom:30px;
 }
 
+/* PLANS */
+
 .plans{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
 gap:20px;
 }
 
+/* CARD */
+
 .card{
-background:#111827;
+
+background:linear-gradient(145deg,#111827,#020617);
+
 padding:30px;
-border-radius:16px;
-box-shadow:0 10px 30px black;
+
+border-radius:18px;
+
+border:1px solid #1f2937;
+
+box-shadow:0 20px 40px rgba(0,0,0,0.7);
+
 }
 
+/* PRICE */
+
 .price{
-font-size:38px;
+font-size:36px;
 color:#22c55e;
 margin:15px 0;
 }
 
+/* BUTTON */
+
 button{
+
 width:100%;
+
 padding:14px;
+
 border:none;
+
 border-radius:10px;
+
 background:linear-gradient(90deg,#22c55e,#4ade80);
-color:white;
+
+color:black;
+
 font-weight:bold;
+
 cursor:pointer;
+
 margin-top:10px;
+
 }
 
 button:disabled{
@@ -85,11 +105,15 @@ opacity:.6;
 cursor:not-allowed;
 }
 
+/* LIST */
+
 ul{
 text-align:left;
 margin-top:10px;
 line-height:1.8;
 }
+
+/* BADGE */
 
 .badge{
 background:#22c55e;
@@ -97,71 +121,34 @@ padding:6px 10px;
 border-radius:6px;
 font-size:13px;
 margin-left:6px;
+display:none;
 }
 
-</style>
+</style></head><body><div class="topbar"><div class="back" onclick="location.href='index.html'">⬅</div><div class="title">CreatorHub Premium
 
-</head>
+<span id="badge" class="badge">ACTIVE</span>
 
-<body>
-
-<div class="topbar">
-<div class="back" onclick="location.href='index.html'">⬅</div>
-<div class="title">
-CreatorHub Premium
-<span id="badge" class="badge" style="display:none">ACTIVE</span>
-</div>
-</div>
-
-<div class="container">
-
-<h1>Unlock Unlimited Ebook Reading</h1>
-
-<div class="plans">
-
-<div class="card">
-<h2>15 Days Plan</h2>
-<div class="price">₹399</div>
-<ul>
+</div></div><div class="container"><h1>Unlock Unlimited Ebook Reading</h1><div class="plans"><div class="card"><h2>15 Days Plan</h2><div class="price">₹399</div><ul>
 <li>Unlimited Ebook Reading</li>
 <li>Premium Books Access</li>
 <li>No Ads Reading</li>
-</ul>
-<button id="btn15" onclick="subscribe('15days',399)">
+</ul><button onclick="subscribe('15days',399)">
 Subscribe Now
-</button>
-</div>
-
-<div class="card">
-<h2>Monthly Plan</h2>
-<div class="price">₹799</div>
-<ul>
+</button></div><div class="card"><h2>Monthly Plan</h2><div class="price">₹799</div><ul>
 <li>Unlimited Ebook Reading</li>
 <li>All Premium Books Free</li>
 <li>Early Access New Books</li>
-</ul>
-<button id="btn30" onclick="subscribe('month',799)">
+</ul><button onclick="subscribe('month',799)">
 Subscribe Now
-</button>
-</div>
-
-<div class="card">
-<h2>Yearly Plan</h2>
-<div class="price">₹3599</div>
-<ul>
+</button></div><div class="card"><h2>Yearly Plan</h2><div class="price">₹3599</div><ul>
 <li>Unlimited Ebook Reading</li>
 <li>All Premium Books Free</li>
 <li>Early Access + No Ads</li>
-</ul>
-<button id="btn365" onclick="subscribe('year',3599)">
+</ul><button onclick="subscribe('year',3599)">
 Subscribe Now
-</button>
-</div>
+</button></div></div></div><script>
 
-</div>
-</div>
-
-<script>
+/* PAYMENT API */
 
 const PAYMENT_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
 
@@ -172,6 +159,7 @@ let user=JSON.parse(localStorage.getItem("user")||"null")
 if(!user){
 
 alert("Login First")
+
 location.href="login.html"
 
 }
@@ -200,16 +188,23 @@ document.getElementById("badge").style.display="inline-block"
 
 /* DISABLE BUTTONS */
 
-document.querySelectorAll("button").forEach(b=>{
-b.disabled=true
-b.innerText="Premium Active"
+document.querySelectorAll("button").forEach(btn=>{
+
+btn.disabled=true
+
+btn.innerText="Premium Active"
+
 })
 
 }
 
 }
 
-}catch{}
+}catch(e){
+
+console.log("Subscription check error")
+
+}
 
 }
 
@@ -234,6 +229,7 @@ headers:{
 body:JSON.stringify({
 
 action:"create_subscription_order",
+
 plan:plan,
 amount:amount,
 email:user.email
@@ -253,7 +249,7 @@ window.location.href=url
 
 }else{
 
-alert(data.message||"Payment initialization failed")
+alert(data.message || "Payment initialization failed")
 
 }
 
@@ -265,7 +261,5 @@ alert("Payment server error")
 
 }
 
-</script>
-
-</body>
+</script></body>
 </html>
