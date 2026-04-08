@@ -40,7 +40,22 @@ font-size:24px;
 color:#22c55e;
 font-weight:bold;
 }
+  
+.profile{
+width:40px;
+height:40px;
+border-radius:50%;
+object-fit:cover;
+cursor:pointer;
+border:2px solid #22c55e;
+margin-left:10px;
+}
 
+.rightBox{
+display:flex;
+align-items:center;
+}
+  
 nav a{
 margin:0 12px;
 text-decoration:none;
@@ -229,6 +244,51 @@ margin-top:20px;
 opacity:.6;
 }
 
+  /* MOBILE */
+
+@media(max-width:768px){
+
+nav{
+display:none;
+}
+
+.hero{
+flex-direction:column;
+text-align:center;
+}
+
+.hero-books img{
+width:110px;
+}
+
+.hero h1{
+font-size:28px;
+}
+
+.search input{
+width:120px;
+}
+
+.book img{
+height:180px;
+}
+
+}
+
+/* TABLET */
+
+@media(max-width:1024px){
+
+.hero{
+flex-direction:column;
+}
+
+.hero-books{
+margin-top:20px;
+}
+
+  }
+  
 </style>
 
 </head>
@@ -237,7 +297,7 @@ opacity:.6;
 
 <header class="navbar">
 
-<div class="menuBtn" onclick="openMenu()">☰</div>
+<img id="profileImg" class="profile" onclick="openMenu()">
 
 <div class="logo">CreatorHub</div>
 
