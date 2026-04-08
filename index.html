@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
@@ -25,14 +24,12 @@ color:white;
 display:flex;
 align-items:center;
 justify-content:space-between;
-padding:15px 20px;
+padding:12px 20px;
 background:#020617;
 box-shadow:0 5px 20px black;
-}
-
-.menuBtn{
-font-size:22px;
-cursor:pointer;
+position:sticky;
+top:0;
+z-index:1000;
 }
 
 .logo{
@@ -40,7 +37,7 @@ font-size:24px;
 color:#22c55e;
 font-weight:bold;
 }
-  
+
 .profile{
 width:40px;
 height:40px;
@@ -48,14 +45,8 @@ border-radius:50%;
 object-fit:cover;
 cursor:pointer;
 border:2px solid #22c55e;
-margin-left:10px;
 }
 
-.rightBox{
-display:flex;
-align-items:center;
-}
-  
 nav a{
 margin:0 12px;
 text-decoration:none;
@@ -73,7 +64,7 @@ border-radius:8px;
 border:none;
 }
 
-/* SIDEBAR MENU */
+/* SIDEBAR */
 
 .side{
 position:fixed;
@@ -84,7 +75,7 @@ height:100%;
 background:#020617;
 padding:20px;
 transform:translateX(-100%);
-transition:.3s;
+transition:.35s;
 z-index:9999;
 box-shadow:5px 0 30px black;
 overflow:auto;
@@ -127,6 +118,7 @@ flex-wrap:wrap;
 padding:60px 30px;
 align-items:center;
 justify-content:space-between;
+animation:fadeUp 1s ease;
 }
 
 .hero-text{
@@ -156,6 +148,12 @@ padding:12px 20px;
 border-radius:8px;
 color:white;
 cursor:pointer;
+transition:.3s;
+}
+
+.btn-green:hover{
+box-shadow:0 0 15px #22c55e;
+transform:scale(1.05);
 }
 
 .btn-dark{
@@ -192,6 +190,12 @@ background:#111827;
 padding:15px;
 border-radius:12px;
 text-align:center;
+transition:transform .3s,box-shadow .3s;
+}
+
+.book:hover{
+transform:translateY(-8px) scale(1.02);
+box-shadow:0 15px 40px rgba(0,0,0,.8);
 }
 
 .book img{
@@ -244,7 +248,7 @@ margin-top:20px;
 opacity:.6;
 }
 
-  /* MOBILE */
+/* MOBILE */
 
 @media(max-width:768px){
 
@@ -252,25 +256,39 @@ nav{
 display:none;
 }
 
-.hero{
-flex-direction:column;
-text-align:center;
+.navbar{
+flex-wrap:wrap;
 }
 
-.hero-books img{
-width:110px;
-}
-
-.hero h1{
-font-size:28px;
+.search{
+width:100%;
+margin-top:10px;
 }
 
 .search input{
-width:120px;
+width:100%;
+}
+
+.hero{
+flex-direction:column;
+text-align:center;
+padding:40px 20px;
+}
+
+.hero-books img{
+width:100px;
+}
+
+.hero h1{
+font-size:26px;
+}
+
+.book-grid{
+grid-template-columns:repeat(2,1fr);
 }
 
 .book img{
-height:180px;
+height:170px;
 }
 
 }
@@ -281,14 +299,33 @@ height:180px;
 
 .hero{
 flex-direction:column;
+text-align:center;
 }
 
 .hero-books{
 margin-top:20px;
 }
 
-  }
-  
+.book-grid{
+grid-template-columns:repeat(3,1fr);
+}
+
+}
+
+@keyframes fadeUp{
+
+0%{
+opacity:0;
+transform:translateY(40px);
+}
+
+100%{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
 </style>
 
 </head>
@@ -443,8 +480,6 @@ Loading ebooks...
 
 <script>
 
-/* MENU */
-
 function openMenu(){
 document.getElementById("menu").classList.add("open")
 document.getElementById("overlay").style.display="block"
@@ -455,11 +490,7 @@ document.getElementById("menu").classList.remove("open")
 document.getElementById("overlay").style.display="none"
 }
 
-/* API */
-
 const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
-
-/* DRIVE IMAGE */
 
 function driveImage(link){
 
@@ -484,12 +515,9 @@ return link
 
 }
 
-/* LOAD BOOKS */
-
 async function loadBooks(){
 
 let res=await fetch(API+"?db=products&t="+Date.now())
-
 let products=await res.json()
 
 if(!Array.isArray(products)) products=[]
@@ -534,14 +562,10 @@ document.getElementById("allBooks").innerHTML=allHTML
 
 loadBooks()
 
-/* BUY */
-
 function buy(id){
 localStorage.setItem("buyProduct",id)
 location.href="payment.html"
 }
-
-/* NAVIGATION */
 
 function goProducts(){
 location.href="products.html"
@@ -563,23 +587,7 @@ location.href="upload.html"
 
 }
 
-/* SEARCH */
-
-document.getElementById("search").addEventListener("keypress",function(e){
-
-if(e.key==="Enter"){
-
-let q=this.value.trim()
-
-if(!q) return
-
-location.href="products.html?search="+encodeURIComponent(q)
-
-}
-
-})
-
 </script>
 
 </body>
-  </html>
+</html>
