@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html>
-
-<head>
+<!DOCTYPE html><html><head>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CreatorHub Dashboard</title>
-
-<style>
+<title>CreatorHub Dashboard</title><style>
 
 :root{
 --bg:#020617;
@@ -21,14 +16,17 @@ background:var(--bg);
 color:var(--text);
 }
 
+/* TOPBAR */
+
 .topbar{
 display:flex;
 align-items:center;
 padding:14px;
 background:var(--bg);
-box-shadow:0 4px 15px rgba(0,0,0,.3);
+box-shadow:0 5px 20px rgba(0,0,0,.4);
 position:sticky;
 top:0;
+z-index:99;
 }
 
 .back{
@@ -42,11 +40,11 @@ flex:1;
 text-align:center;
 font-weight:bold;
 color:var(--accent);
+font-size:18px;
 }
 
 .homeBtn{
-margin-left:10px;
-padding:6px 12px;
+padding:7px 12px;
 border:none;
 border-radius:8px;
 background:#22c55e;
@@ -54,6 +52,8 @@ color:white;
 cursor:pointer;
 font-size:13px;
 }
+
+/* HEADER */
 
 .header{
 display:flex;
@@ -73,6 +73,8 @@ border:2px solid #22c55e;
 cursor:pointer;
 }
 
+/* USER INFO */
+
 .top{
 text-align:center;
 padding:30px;
@@ -89,25 +91,33 @@ font-weight:bold;
 opacity:.9;
 }
 
+/* DASHBOARD GRID */
+
 .container{
 padding:20px;
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
 gap:15px;
+animation:fadeUp .7s ease;
 }
 
 .card{
-background:#111827;
-padding:18px;
+background:var(--card);
+padding:20px;
 border-radius:15px;
 cursor:pointer;
 transition:.3s;
 box-shadow:0 0 20px rgba(0,0,0,.6);
+text-align:center;
+font-size:16px;
 }
 
 .card:hover{
-transform:translateY(-5px);
+transform:translateY(-6px) scale(1.02);
+box-shadow:0 15px 40px rgba(0,0,0,.8);
 }
+
+/* LOGOUT */
 
 .logout{
 margin:20px;
@@ -124,68 +134,61 @@ font-weight:bold;
 cursor:pointer;
 }
 
-</style>
-</head>
+/* MOBILE */
 
-<body>
+@media(max-width:768px){
 
-<div class="topbar">
+.container{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+/* ANIMATION */
+
+@keyframes fadeUp{
+
+0%{
+opacity:0;
+transform:translateY(40px);
+}
+
+100%{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+</style></head><body><div class="topbar">
 <div class="back" onclick="location.href='index.html'">⬅</div>
 <div class="title">CreatorHub</div>
 <button class="homeBtn" onclick="location.href='index.html'">🏠 Home</button>
-</div>
-
-<div class="header">
+</div><div class="header">
 CreatorHub Dashboard
 <img id="profile" class="profile" onclick="go('profile.html')">
-</div>
-
-<div class="top">
+</div><div class="top">
 <div id="name" class="name">User</div>
 <div id="email" class="email">email</div>
-</div>
-
-<div class="container">
-
-<div class="card" onclick="go('products.html')">
-📚 Browse Products
-</div>
-
-<div class="card" onclick="go('library.html')">
-📖 My Library
-</div>
-
-<div class="card" onclick="go('orders.html')">
-📦 Orders
-</div>
-
-<div class="card" onclick="go('wallet.html')">
-💰 Wallet
-</div>
-
-<div class="card" onclick="go('upload.html')">
-⬆ Upload Ebook
-</div>
-
-<div class="card" onclick="openSeller()">
-🧑‍💻 Become Seller
-</div>
-
-<div class="card" onclick="deleteAccount()">
+</div><div class="container"><div class="card" onclick="go('products.html')">
+Browse Products
+</div><div class="card" onclick="go('library.html')">
+My Library
+</div><div class="card" onclick="go('orders.html')">
+Orders
+</div><div class="card" onclick="go('wallet.html')">
+Wallet
+</div><div class="card" onclick="go('upload.html')">
+Upload Ebook
+</div><div class="card" onclick="openSeller()">
+Become Seller
+</div><div class="card" onclick="deleteAccount()">
 ⚠ Delete My Account
-</div>
-
-<div id="adminBox" class="card" style="display:none" onclick="go('admin.html')">
-👑 Admin Panel
-</div>
-
-</div>
-
-<div class="logout">
+</div><div id="adminBox" class="card" style="display:none" onclick="go('admin.html')">
+Admin Panel
+</div></div><div class="logout">
 <button onclick="logout()">Logout</button>
-</div>
-
-<script>
+</div><script>
 
 /* APIs */
 
@@ -194,7 +197,7 @@ const API_PAYMENT="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh
 
 const ADMIN="ayushprajpati6@gmail.com"
 
-/* SAFE USER LOAD */
+/* USER */
 
 let user=null
 
@@ -203,9 +206,7 @@ user=JSON.parse(localStorage.getItem("user"))
 }catch{}
 
 if(!user || !user.email){
-
 location.href="login.html"
-
 }
 
 /* PROFILE */
@@ -220,19 +221,13 @@ localStorage.getItem("profile_"+user.email)||
 /* ADMIN PANEL */
 
 if(user.email===ADMIN){
-
 document.getElementById("adminBox").style.display="block"
-
 }
 
-/* NAVIGATION */
+/* NAV */
 
 function go(page){
-
-if(!page) return
-
 location.href=page
-
 }
 
 /* DATABASE */
@@ -259,11 +254,9 @@ return[]
 
 }
 
-/* BECOME SELLER */
+/* SELLER */
 
 async function openSeller(){
-
-try{
 
 let sellers=await getDB("sellers")
 
@@ -285,15 +278,9 @@ return
 
 location.href="seller-apply.html"
 
-}catch{
-
-alert("Server error")
-
 }
 
-}
-
-/* DELETE ACCOUNT */
+/* DELETE */
 
 function deleteAccount(){
 
@@ -312,14 +299,9 @@ location.href="login.html"
 /* LOGOUT */
 
 function logout(){
-
 localStorage.removeItem("user")
-
 location.href="login.html"
-
 }
 
-</script>
-
-</body>
+</script></body>
 </html>
