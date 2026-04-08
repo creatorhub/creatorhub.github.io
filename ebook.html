@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>Ebook - CreatorHub</title>
-
-<style>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Ebook - CreatorHub</title><style>
 
 body{
 margin:0;
@@ -16,12 +8,17 @@ background:#020617;
 color:white;
 }
 
+/* HEADER */
+
 header{
 display:flex;
 align-items:center;
 padding:14px;
 background:#020617;
 box-shadow:0 5px 20px black;
+position:sticky;
+top:0;
+z-index:99;
 }
 
 .back{
@@ -38,20 +35,36 @@ color:#22c55e;
 font-weight:bold;
 }
 
+/* MAIN CONTAINER */
+
+.container{
+max-width:1000px;
+margin:auto;
+padding:20px;
+animation:fadeUp .7s ease;
+}
+
+/* BOOK PREVIEW */
+
 .bookBox{
 display:flex;
 justify-content:center;
 gap:20px;
 flex-wrap:wrap;
-margin-top:20px;
+margin-top:10px;
 }
 
 .book{
-width:180px;
-height:260px;
+width:200px;
+height:280px;
 border-radius:10px;
 overflow:hidden;
-box-shadow:0 10px 30px black;
+box-shadow:0 15px 35px rgba(0,0,0,.8);
+transition:.3s;
+}
+
+.book:hover{
+transform:scale(1.05);
 }
 
 .book img{
@@ -60,20 +73,16 @@ height:100%;
 object-fit:cover;
 }
 
-.container{
-max-width:900px;
-margin:auto;
-padding:20px;
-}
+/* TEXT */
 
 .bookTitle{
-font-size:26px;
+font-size:28px;
 margin-top:20px;
 font-weight:bold;
 }
 
 .price{
-font-size:22px;
+font-size:24px;
 color:#22c55e;
 margin-top:5px;
 }
@@ -89,6 +98,8 @@ font-size:14px;
 opacity:.7;
 }
 
+/* BUTTONS */
+
 .btn{
 width:100%;
 padding:14px;
@@ -98,6 +109,7 @@ margin-top:12px;
 font-weight:bold;
 cursor:pointer;
 font-size:16px;
+transition:.3s;
 }
 
 .buy{
@@ -105,15 +117,29 @@ background:linear-gradient(90deg,#22c55e,#4ade80);
 color:white;
 }
 
+.buy:hover{
+box-shadow:0 0 20px #22c55e;
+}
+
 .cart{
 background:#2563eb;
 color:white;
+}
+
+.cart:hover{
+background:#1e40af;
 }
 
 .share{
 background:#111827;
 color:white;
 }
+
+.share:hover{
+background:#1f2937;
+}
+
+/* DESCRIPTION */
 
 .desc{
 margin-top:25px;
@@ -122,6 +148,8 @@ padding:18px;
 border-radius:12px;
 line-height:1.6;
 }
+
+/* REVIEWS */
 
 .reviews{
 margin-top:30px;
@@ -135,50 +163,51 @@ border-bottom:1px solid #333;
 padding:10px 0;
 }
 
-</style>
+/* MOBILE */
 
-</head>
+@media(max-width:768px){
 
-<body>
+.book{
+width:150px;
+height:220px;
+}
 
-<header>
+.bookTitle{
+font-size:22px;
+}
+
+}
+
+/* ANIMATION */
+
+@keyframes fadeUp{
+
+0%{
+opacity:0;
+transform:translateY(40px);
+}
+
+100%{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+</style></head><body><header>
 <div class="back" onclick="history.back()">⬅</div>
 <div class="title">Ebook Details</div>
-</header>
-
-<div class="container">
-
-<div id="book">Loading Ebook...</div>
-
-<div class="reviews">
-
-<h3>⭐ Ratings & Reviews</h3>
-
-<div id="ratingBox"></div>
-
-<select id="userRating">
+</header><div class="container"><div id="book">Loading Ebook...</div><div class="reviews"><h3>⭐ Ratings & Reviews</h3><div id="ratingBox"></div><select id="userRating">
 <option value="5">⭐⭐⭐⭐⭐</option>
 <option value="4">⭐⭐⭐⭐</option>
 <option value="3">⭐⭐⭐</option>
 <option value="2">⭐⭐</option>
 <option value="1">⭐</option>
-</select>
-
-<textarea id="userReview"
+</select><textarea id="userReview"
 placeholder="Write review..."
-style="width:100%;padding:10px;margin-top:10px;border-radius:8px;border:none"></textarea>
-
-<button class="btn buy" onclick="submitReview()">
+style="width:100%;padding:10px;margin-top:10px;border-radius:8px;border:none"></textarea><button class="btn buy" onclick="submitReview()">
 Submit Review
-</button>
-
-<div id="reviewList"></div>
-
-</div>
-
-</div>
-
-<script>
+</button><div id="reviewList"></div></div></div><script>
 
 const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
@@ -266,10 +295,6 @@ document.getElementById("book").innerHTML=`
 
 <div class="book">
 <img src="${driveImage(book.image)}">
-</div>
-
-<div class="book">
-<img src="${driveImage(book.backCover||book.image)}">
 </div>
 
 </div>
@@ -370,19 +395,6 @@ return
 
 }
 
-let reviews=await getDB("reviews")
-
-let already=reviews.find(r=>
-r.productId==id && r.user===user.email
-)
-
-if(already){
-
-alert("You already reviewed this book")
-return
-
-}
-
 await fetch(API,{
 method:"POST",
 headers:{
@@ -453,7 +465,5 @@ window.open(
 
 loadBook()
 
-</script>
-
-</body>
+</script></body>
 </html>
