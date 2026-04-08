@@ -14,6 +14,7 @@
 --bg:#020617;
 --text:#ffffff;
 --accent:#22c55e;
+--card:#111827;
 }
 
 body{
@@ -22,6 +23,8 @@ font-family:Arial;
 background:var(--bg);
 color:var(--text);
 }
+
+/* TOPBAR */
 
 .topbar{
 display:flex;
@@ -48,11 +51,14 @@ color:var(--accent);
 font-size:18px;
 }
 
+/* HEADER */
+
 header{
 padding:15px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+flex-wrap:wrap;
 }
 
 .logo{
@@ -70,19 +76,30 @@ object-fit:cover;
 cursor:pointer;
 }
 
+/* GRID */
+
 .products{
 padding:20px;
 display:grid;
 grid-template-columns:
-repeat(auto-fit,minmax(230px,1fr));
+repeat(auto-fit,minmax(220px,1fr));
 gap:20px;
+animation:fadeUp .7s ease;
 }
 
+/* CARD */
+
 .card{
-background:#111827;
+background:var(--card);
 border-radius:15px;
 padding:15px;
 box-shadow:0 0 20px rgba(0,0,0,.5);
+transition:transform .3s, box-shadow .3s;
+}
+
+.card:hover{
+transform:translateY(-8px) scale(1.02);
+box-shadow:0 15px 40px rgba(0,0,0,.8);
 }
 
 .card img{
@@ -92,6 +109,8 @@ object-fit:cover;
 border-radius:12px;
 cursor:pointer;
 }
+
+/* BUTTONS */
 
 .buy{
 background:linear-gradient(90deg,#22c55e,#4ade80);
@@ -103,6 +122,12 @@ border-radius:10px;
 color:white;
 font-weight:bold;
 cursor:pointer;
+transition:.3s;
+}
+
+.buy:hover{
+box-shadow:0 0 15px #22c55e;
+transform:scale(1.05);
 }
 
 .cart{
@@ -114,12 +139,64 @@ padding:12px;
 margin-top:6px;
 border-radius:10px;
 cursor:pointer;
+transition:.3s;
 }
+
+.cart:hover{
+background:#1f2937;
+}
+
+/* FOOTER */
 
 footer{
 text-align:center;
 padding:30px;
 opacity:.7;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.products{
+grid-template-columns:repeat(2,1fr);
+}
+
+.card img{
+height:170px;
+}
+
+header{
+flex-direction:column;
+gap:10px;
+}
+
+}
+
+/* TABLET */
+
+@media(max-width:1024px){
+
+.products{
+grid-template-columns:repeat(3,1fr);
+}
+
+}
+
+/* ANIMATION */
+
+@keyframes fadeUp{
+
+0%{
+opacity:0;
+transform:translateY(40px);
+}
+
+100%{
+opacity:1;
+transform:translateY(0);
+}
+
 }
 
 </style>
@@ -136,7 +213,7 @@ opacity:.7;
 <header>
 
 <div class="logo">
-🔥 CreatorHub Store
+CreatorHub Store
 </div>
 
 <img id="profile"
@@ -146,7 +223,7 @@ onclick="location.href='dashboard.html'">
 </header>
 
 <h2 style="padding:15px">
-📚 All Digital Products
+All Digital Products
 </h2>
 
 <div id="products" class="products">
@@ -171,7 +248,7 @@ const API =
 let user =
 JSON.parse(localStorage.getItem("user")||"null");
 
-/* PROFILE */
+/* PROFILE IMAGE */
 
 let profile =
 localStorage.getItem("profile_"+(user?.email||"guest"));
@@ -187,13 +264,11 @@ function escapeHTML(str){
 return String(str).replace(/[&<>"']/g,function(m){
 
 return({
-
 '&':'&amp;',
 '<':'&lt;',
 '>':'&gt;',
 '"':'&quot;',
 "'":'&#039;'
-
 })[m]
 
 })
@@ -232,17 +307,14 @@ try{
 
 let id="";
 
-if(link.includes("id=")){
+if(link.includes("id="))
 id=link.split("id=")[1].split("&")[0];
-}
 
-else if(link.includes("/file/d/")){
+else if(link.includes("/file/d/"))
 id=link.split("/file/d/")[1].split("/")[0];
-}
 
-if(id){
+if(id)
 return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000";
-}
 
 }catch{}
 
@@ -259,8 +331,6 @@ document.getElementById("products");
 
 let products =
 await getDB("products");
-
-/* FIXED FILTER */
 
 products =
 products.filter(p=>p.ai_status==="approved");
@@ -294,7 +364,7 @@ onclick="openProduct('${p.id}')"
 <button
 class="buy"
 onclick="buyNow(event,'${p.id}')">
-Buy Ebook 🚀
+Buy Ebook
 </button>
 
 <button
@@ -332,15 +402,12 @@ e.stopPropagation();
 if(!user){
 
 alert("Login required");
-
 location.href="login.html";
-
 return;
 
 }
 
 localStorage.setItem("buyProduct",id);
-
 location.href="payment.html";
 
 }
