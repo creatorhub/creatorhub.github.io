@@ -1,108 +1,182 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html lang="en"><head><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact CreatorHub</title><style>
 
-<head>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Contact CreatorHub</title>
+:root{
+--bg:#020617;
+--card:#111827;
+--accent:#22c55e;
+}
 
-<style>
+/* PAGE */
 
 body{
 margin:0;
-font-family:Arial;
-background:#020617;
+font-family:Arial,Helvetica,sans-serif;
+background:var(--bg);
 color:white;
+animation:fadePage .6s ease;
 }
 
 /* HEADER */
+
 header{
 display:flex;
 align-items:center;
 padding:15px;
-background:black;
-box-shadow:0 4px 15px rgba(0,0,0,.5);
+background:#020617;
+border-bottom:1px solid #1f2937;
+position:sticky;
+top:0;
 }
 
 .back{
 font-size:22px;
 cursor:pointer;
 width:40px;
+color:var(--accent);
+transition:.2s;
+}
+
+.back:hover{
+transform:translateX(-5px);
 }
 
 .title{
 flex:1;
 text-align:center;
-color:#22c55e;
+color:var(--accent);
 font-weight:bold;
 }
 
-/* CENTER CARD */
+/* CENTER */
+
 .container{
 display:flex;
 justify-content:center;
 align-items:center;
 height:85vh;
+padding:20px;
 }
+
+/* CARD */
 
 .card{
-width:90%;
+
+width:100%;
 max-width:450px;
-background:#111827;
-padding:25px;
-border-radius:15px;
-box-shadow:0 0 25px black;
+
+background:linear-gradient(145deg,#111827,#020617);
+
+padding:30px;
+
+border-radius:16px;
+
+border:1px solid #1f2937;
+
+box-shadow:0 15px 35px rgba(0,0,0,.6);
+
+animation:fadeUp .6s ease;
+
 }
+
+/* TITLE */
+
+h2{
+margin-top:0;
+color:var(--accent);
+}
+
+/* INPUT */
 
 input,textarea{
+
 width:100%;
-padding:12px;
+
+padding:13px;
+
 margin-top:12px;
+
 background:#020617;
+
 border:none;
+
 color:white;
+
 border-radius:10px;
+
+font-size:14px;
+
 }
+
+textarea{
+min-height:120px;
+resize:vertical;
+}
+
+/* BUTTON */
 
 button{
+
 width:100%;
+
 padding:14px;
-margin-top:15px;
-background:#22c55e;
+
+margin-top:18px;
+
+background:linear-gradient(90deg,#22c55e,#4ade80);
+
 border:none;
-border-radius:10px;
-color:white;
+
+border-radius:12px;
+
+color:black;
+
 font-weight:bold;
+
 cursor:pointer;
+
+transition:.25s;
+
 }
 
-</style>
+button:hover{
+transform:scale(1.03);
+box-shadow:0 0 12px #22c55e;
+}
 
-</head>
+/* ANIMATION */
 
-<body>
+@keyframes fadePage{
 
-<header>
-<div class="back" onclick="history.back()">⬅</div>
-<div class="title">Contact Us</div>
-</header>
+from{
+opacity:0;
+transform:translateY(20px);
+}
 
-<div class="container">
-<div class="card">
+to{
+opacity:1;
+transform:translateY(0);
+}
 
-<h2>Support Request</h2>
+}
 
-<input id="name" placeholder="Your Name">
-<input id="email" placeholder="Your Email">
-<textarea id="msg" placeholder="Write Message"></textarea>
+@keyframes fadeUp{
 
-<button onclick="sendMail()">
-Send Message 📧
-</button>
+from{
+opacity:0;
+transform:translateY(40px);
+}
 
-</div>
-</div>
+to{
+opacity:1;
+transform:translateY(0);
+}
 
-<script>
+}
+
+</style></head><body><header><div class="back" onclick="history.back()">⬅</div><div class="title">Contact CreatorHub</div></header><div class="container"><div class="card"><h2>📩 Support Request</h2><input id="name" placeholder="Your Name"><input id="email" placeholder="Your Email"><textarea id="msg" placeholder="Write your message"></textarea><button onclick="sendMail()">Send Message
+
+</button></div></div><script>
 
 function sendMail(){
 
@@ -110,9 +184,11 @@ let name=document.getElementById("name").value.trim();
 let email=document.getElementById("email").value.trim();
 let msg=document.getElementById("msg").value.trim();
 
-if(!name||!email||!msg){
-alert("Fill All Fields");
+if(!name || !email || !msg){
+
+alert("Please fill all fields");
 return;
+
 }
 
 let subject=encodeURIComponent("CreatorHub Support Request");
@@ -128,8 +204,4 @@ window.location.href=
 
 }
 
-</script>
-
-</body>
-
-</html>
+</script></body></html>
