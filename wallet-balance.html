@@ -1,6 +1,20 @@
-<!DOCTYPE html><html lang="en">
-<head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Wallet Control</title><style>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>CreatorHub Wallet Control</title>
+
+<style>
+
+:root{
+--bg:#020617;
+--card:#111827;
+--accent:#22c55e;
+}
 
 *{
 box-sizing:border-box;
@@ -9,8 +23,9 @@ box-sizing:border-box;
 body{
 margin:0;
 font-family:Arial,Helvetica,sans-serif;
-background:#020617;
+background:var(--bg);
 color:white;
+animation:fadePage .6s ease;
 }
 
 /* HEADER */
@@ -20,18 +35,27 @@ display:flex;
 align-items:center;
 padding:16px;
 border-bottom:1px solid #1f2937;
+background:#020617;
+position:sticky;
+top:0;
+z-index:10;
 }
 
 .back{
 font-size:22px;
 cursor:pointer;
 margin-right:10px;
+transition:.2s;
+}
+
+.back:hover{
+transform:scale(1.1);
 }
 
 .title{
 font-size:20px;
 font-weight:bold;
-color:#22c55e;
+color:var(--accent);
 }
 
 /* CONTAINER */
@@ -51,6 +75,7 @@ padding:20px;
 margin-bottom:20px;
 border:1px solid #1f2937;
 box-shadow:0 10px 25px rgba(0,0,0,0.6);
+animation:fadeUp .6s ease;
 }
 
 /* ROW */
@@ -61,6 +86,23 @@ padding:16px;
 border-radius:10px;
 margin-top:12px;
 border:1px solid #1f2937;
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+transition:.2s;
+}
+
+.row:hover{
+transform:scale(1.01);
+box-shadow:0 0 10px rgba(34,197,94,.3);
+}
+
+/* EMAIL */
+
+.email{
+font-size:14px;
+opacity:.9;
 }
 
 /* INPUT */
@@ -83,6 +125,12 @@ padding:8px 14px;
 border-radius:8px;
 cursor:pointer;
 margin-left:10px;
+font-weight:bold;
+transition:.2s;
+}
+
+button:hover{
+transform:scale(1.05);
 }
 
 .save{
@@ -90,13 +138,64 @@ background:linear-gradient(90deg,#22c55e,#4ade80);
 color:black;
 }
 
-</style></head><body><div class="header"><div class="back" onclick="location.href='admin.html'">⬅</div><div class="title">💰 Wallet Control Panel</div></div><div class="container"><div class="card"><h2>All User Wallets</h2><div id="walletList">Loading...</div></div></div><script>
+/* LOADING */
+
+.loading{
+opacity:.6;
+text-align:center;
+padding:20px;
+}
+
+/* ANIMATION */
+
+@keyframes fadePage{
+from{opacity:0}
+to{opacity:1}
+}
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(30px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+<div class="back" onclick="location.href='admin.html'">⬅</div>
+<div class="title">💰 Wallet Control Panel</div>
+</div>
+
+<div class="container">
+
+<div class="card">
+
+<h2>All User Wallets</h2>
+
+<div id="walletList" class="loading">
+Loading wallets...
+</div>
+
+</div>
+
+</div>
+
+<script>
 
 /* ADMIN EMAIL */
 
 const ADMIN="ayushprajpati6@gmail.com"
 
-/* MAIN BACKEND API */
+/* API */
 
 const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
@@ -162,7 +261,7 @@ let wallets=await getDB("wallets")
 
 if(wallets.length===0){
 
-box.innerHTML="No Wallets Found"
+box.innerHTML="<div class='loading'>No Wallets Found</div>"
 
 return
 
@@ -180,9 +279,11 @@ box.innerHTML+=`
 
 <div class="row">
 
-<b>Email:</b> ${escapeHTML(w.email)}
+<div>
 
-<br><br>
+<div class="email">
+${escapeHTML(w.email)}
+</div>
 
 Balance ₹
 
@@ -192,6 +293,10 @@ value="${balance}"
 id="bal_${safeId}"
 >
 
+</div>
+
+<div>
+
 <button
 class="save"
 onclick="updateBalance('${w.email}','${safeId}',this)"
@@ -200,6 +305,8 @@ onclick="updateBalance('${w.email}','${safeId}',this)"
 Save
 
 </button>
+
+</div>
 
 </div>
 
@@ -255,7 +362,7 @@ wallets:wallets
 })
 })
 
-btn.innerText="Saved"
+btn.innerText="Saved ✅"
 
 setTimeout(()=>{
 
@@ -270,5 +377,7 @@ btn.innerText="Save"
 
 loadWallets()
 
-</script></body>
+</script>
+
+</body>
 </html>
