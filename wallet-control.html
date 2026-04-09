@@ -1,5 +1,14 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Wallet Control</title><style>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>CreatorHub Wallet Control</title>
+
+<style>
 
 :root{
 --bg:#020617;
@@ -7,26 +16,18 @@
 --accent:#22c55e;
 }
 
-*{
-box-sizing:border-box;
-}
-
 body{
 margin:0;
 font-family:Arial,Helvetica,sans-serif;
 background:var(--bg);
 color:white;
-animation:fadePage .6s ease;
 }
-
-/* HEADER */
 
 .header{
 display:flex;
 align-items:center;
 padding:16px;
 border-bottom:1px solid #1f2937;
-background:#020617;
 }
 
 .back{
@@ -41,27 +42,19 @@ font-weight:bold;
 color:var(--accent);
 }
 
-/* CONTAINER */
-
 .container{
 max-width:900px;
 margin:auto;
 padding:20px;
 }
 
-/* CARD */
-
 .card{
 background:linear-gradient(145deg,#111827,#020617);
 border-radius:16px;
 padding:20px;
 margin-bottom:20px;
-box-shadow:0 10px 25px rgba(0,0,0,0.6);
 border:1px solid #1f2937;
-animation:fadeUp .6s ease;
 }
-
-/* ROW */
 
 .row{
 background:#020617;
@@ -70,8 +63,6 @@ border-radius:10px;
 margin-top:12px;
 border:1px solid #1f2937;
 }
-
-/* INPUT */
 
 input{
 width:130px;
@@ -82,54 +73,44 @@ background:#111827;
 color:white;
 }
 
-/* BUTTON */
-
 button{
 border:none;
 padding:8px 14px;
 border-radius:8px;
 cursor:pointer;
-color:white;
 margin-left:8px;
-transition:.2s;
-}
-
-button:hover{
-transform:scale(1.05);
 }
 
 .save{
-background:linear-gradient(90deg,#22c55e,#4ade80);
+background:#22c55e;
 color:black;
 }
 
-.approve{
-background:#2563eb;
-}
+</style>
 
-.reject{
-background:#dc2626;
-}
+</head>
 
-/* ANIMATION */
+<body>
 
-@keyframes fadePage{
-from{opacity:0}
-to{opacity:1}
-}
+<div class="header">
+<div class="back" onclick="history.back()">⬅</div>
+<div class="title">Wallet Control Panel</div>
+</div>
 
-@keyframes fadeUp{
-from{
-opacity:0;
-transform:translateY(30px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
+<div class="container">
 
-</style></head><body><div class="header"><div class="back" onclick="history.back()">⬅</div><div class="title">Wallet Control Panel</div></div><div class="container"><div class="card"><h2>User Wallets</h2><div id="walletList">Loading...</div></div><div class="card"><h2>Withdraw Requests</h2><div id="withdrawList">Loading...</div></div></div><script>
+<div class="card">
+
+<h2>User Wallets</h2>
+
+<div id="walletList">Loading...</div>
+
+</div>
+
+</div>
+
+
+<script>
 
 const ADMIN="ayushprajpati6@gmail.com"
 
@@ -145,7 +126,8 @@ location.href="index.html"
 
 }
 
-/* SAFE HTML */
+
+/* SAFE TEXT */
 
 function escapeHTML(str){
 
@@ -163,7 +145,8 @@ return({
 
 }
 
-/* GET DATABASE */
+
+/* DATABASE */
 
 async function getDB(db){
 
@@ -183,6 +166,7 @@ return[]
 
 }
 
+
 /* LOAD WALLETS */
 
 async function loadWallets(){
@@ -195,7 +179,7 @@ box.innerHTML=""
 
 if(!wallets.length){
 
-box.innerHTML="No Wallets"
+box.innerHTML="No Wallets Found"
 
 return
 
@@ -232,6 +216,7 @@ Save
 
 }
 
+
 /* UPDATE BALANCE */
 
 async function updateBalance(email,id){
@@ -259,12 +244,19 @@ wallet.balance=newAmount
 }
 
 await fetch(API,{
+
 method:"POST",
+
 headers:{"Content-Type":"application/json"},
+
 body:JSON.stringify({
+
 action:"update_wallet",
+
 wallets:wallets
+
 })
+
 })
 
 alert("Wallet Updated")
@@ -273,112 +265,10 @@ loadWallets()
 
 }
 
-/* LOAD WITHDRAW */
-
-async function loadWithdraw(){
-
-let withdraws=await getDB("withdrawals")
-
-let box=document.getElementById("withdrawList")
-
-box.innerHTML=""
-
-if(!withdraws.length){
-
-box.innerHTML="No Requests"
-
-return
-
-}
-
-withdraws.reverse().forEach(w=>{
-
-box.innerHTML+=`
-
-<div class="row">
-
-<b>${escapeHTML(w.email)}</b>
-
-<br>
-
-UPI: ${escapeHTML(w.upi)}
-
-<br>
-
-Amount: ₹${Number(w.amount)||0}
-
-<br>
-
-Status: ${escapeHTML(w.status)}
-
-${w.status==="processing"?`
-
-<button class="approve"
-onclick="approveWithdraw('${w.id}')">
-Approve
-</button>
-
-<button class="reject"
-onclick="rejectWithdraw('${w.id}')">
-Reject
-</button>
-
-`:""}
-
-</div>
-
-`
-
-})
-
-}
-
-/* APPROVE */
-
-async function approveWithdraw(id){
-
-if(!confirm("Approve withdraw request?")) return
-
-await fetch(API,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-action:"approve_withdraw",
-id:id
-})
-})
-
-alert("Withdraw Approved")
-
-loadWithdraw()
-
-}
-
-/* REJECT */
-
-async function rejectWithdraw(id){
-
-if(!confirm("Reject withdraw request?")) return
-
-await fetch(API,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-action:"reject_withdraw",
-id:id
-})
-})
-
-alert("Withdraw Rejected")
-
-loadWithdraw()
-
-}
-
-/* INIT */
 
 loadWallets()
-loadWithdraw()
 
-</script></body>
+</script>
+
+</body>
 </html>
