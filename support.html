@@ -148,12 +148,13 @@ CreatorHub Support
 
 <div class="inputBox">
 
-<input id="msg"
-placeholder="Ask your question..."
-onkeydown="enterSend(event)">
+<textarea id="msg"
+placeholder="Write your message..."
+rows="1"
+onkeydown="enterSend(event)"></textarea>
 
-<button onclick="send()">
-Send
+<button class="sendBtn" onclick="send()">
+➤
 </button>
 
 </div>
