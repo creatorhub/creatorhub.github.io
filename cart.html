@@ -15,12 +15,15 @@ color:white;
 margin:0;
 }
 
+/* NAV */
+
 nav{
 background:black;
 padding:15px;
 display:flex;
 align-items:center;
 justify-content:space-between;
+box-shadow:0 5px 20px rgba(0,0,0,.6);
 }
 
 .left{
@@ -39,9 +42,14 @@ color:#22c55e;
 text-decoration:none;
 }
 
+/* CONTAINER */
+
 .container{
 padding:20px;
+animation:fadeUp .6s ease;
 }
+
+/* CARD */
 
 .card{
 background:#111827;
@@ -49,8 +57,15 @@ display:flex;
 gap:15px;
 margin-bottom:15px;
 padding:15px;
-border-radius:10px;
+border-radius:12px;
 align-items:center;
+box-shadow:0 10px 25px rgba(0,0,0,.6);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-4px);
+box-shadow:0 15px 35px rgba(0,0,0,.8);
 }
 
 .card img{
@@ -64,6 +79,8 @@ border-radius:8px;
 flex:1;
 }
 
+/* BUTTON */
+
 button{
 background:#f97316;
 border:none;
@@ -73,19 +90,72 @@ border-radius:6px;
 color:white;
 }
 
-.total{
-background:#111827;
-padding:15px;
-border-radius:10px;
-margin-top:20px;
-}
-
 .buy{
 background:linear-gradient(90deg,#22c55e,#4ade80);
 width:100%;
 padding:12px;
 margin-top:10px;
 font-weight:bold;
+}
+
+/* TOTAL */
+
+.total{
+background:#111827;
+padding:15px;
+border-radius:12px;
+margin-top:20px;
+}
+
+/* EMPTY */
+
+.empty{
+text-align:center;
+padding:50px;
+opacity:.7;
+}
+
+/* LOADER */
+
+.loader{
+text-align:center;
+padding:40px;
+animation:pulse 1.4s infinite;
+}
+
+@keyframes pulse{
+0%{opacity:.3}
+50%{opacity:1}
+100%{opacity:.3}
+}
+
+/* ANIMATION */
+
+@keyframes fadeUp{
+0%{
+opacity:0;
+transform:translateY(40px);
+}
+100%{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+.card{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.card img{
+width:100%;
+height:200px;
+}
+
 }
 
 </style>
@@ -112,7 +182,9 @@ font-weight:bold;
 
 <h2>Your Cart</h2>
 
-<div id="cart">Loading...</div>
+<div id="cart" class="loader">
+Loading cart...
+</div>
 
 <div id="totalBox" class="total" style="display:none">
 
@@ -134,8 +206,6 @@ const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq
 const PAYMENT_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
 
 let cart = JSON.parse(localStorage.getItem("cart")||"[]")
-
-/* REMOVE DUPLICATES */
 
 cart=[...new Set(cart)]
 
@@ -201,7 +271,7 @@ let total=0
 
 if(cart.length===0){
 
-html="<h3>Cart Empty</h3>"
+html="<div class='empty'>🛒 Your cart is empty</div>"
 document.getElementById("totalBox").style.display="none"
 
 }else{
@@ -211,6 +281,10 @@ cart.forEach((id,i)=>{
 let p = products.find(x=>String(x.id)===String(id))
 
 if(!p) return
+
+/* APPROVED CHECK */
+
+if(p.ai_status && p.ai_status!=="approved") return
 
 total+=Number(p.price)
 
@@ -275,8 +349,6 @@ location.href="login.html"
 return
 
 }
-
-/* MULTI PRODUCT ORDER */
 
 let res=await fetch(PAYMENT_API,{
 
