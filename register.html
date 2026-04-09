@@ -1,15 +1,24 @@
-<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Register</title><style>
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Register</title><style>
+
+:root{
+--bg:#020617;
+--card:#111827;
+--accent:#22c55e;
+}
 
 body{
 margin:0;
 font-family:Arial,Helvetica,sans-serif;
-background:#020617;
+background:var(--bg);
 color:white;
 display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
 padding:20px;
+animation:fadePage .6s ease;
 }
 
 /* CARD */
@@ -18,7 +27,7 @@ padding:20px;
 
 background:linear-gradient(145deg,#111827,#020617);
 
-padding:30px;
+padding:32px;
 
 border-radius:18px;
 
@@ -32,6 +41,12 @@ box-shadow:0 20px 40px rgba(0,0,0,0.7);
 
 position:relative;
 
+transition:.3s;
+
+}
+
+.card:hover{
+box-shadow:0 0 15px rgba(34,197,94,.4);
 }
 
 /* BACK BUTTON */
@@ -48,6 +63,12 @@ font-size:22px;
 
 cursor:pointer;
 
+transition:.2s;
+
+}
+
+.back:hover{
+transform:scale(1.1);
 }
 
 /* TITLE */
@@ -56,7 +77,9 @@ h2{
 
 text-align:center;
 
-color:#22c55e;
+color:var(--accent);
+
+margin-top:0;
 
 }
 
@@ -78,6 +101,16 @@ background:#020617;
 
 color:white;
 
+border:1px solid #1f2937;
+
+transition:.2s;
+
+}
+
+input:focus{
+outline:none;
+border:1px solid #22c55e;
+box-shadow:0 0 8px rgba(34,197,94,.5);
 }
 
 /* BUTTON */
@@ -102,6 +135,13 @@ font-weight:bold;
 
 cursor:pointer;
 
+transition:.2s;
+
+}
+
+button:hover{
+transform:translateY(-2px);
+box-shadow:0 0 10px rgba(34,197,94,.5);
 }
 
 button:disabled{
@@ -116,7 +156,7 @@ cursor:not-allowed;
 
 .link{
 
-margin-top:14px;
+margin-top:16px;
 
 text-align:center;
 
@@ -124,11 +164,30 @@ opacity:.8;
 
 cursor:pointer;
 
+transition:.2s;
+
+}
+
+.link:hover{
+opacity:1;
+}
+
+/* ANIMATION */
+
+@keyframes fadePage{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
 }
 
 </style></head><body><div class="card"><div class="back"
-onclick="location.href='index.html'">⬅
-
+onclick="location.href='index.html'">
+⬅
 </div><h2>🔥 CreatorHub Register</h2><input id="name" placeholder="Full Name"><input id="email" placeholder="Email"><input id="password"
 type="password"
 placeholder="Password">
