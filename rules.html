@@ -1,155 +1,135 @@
-<!DOCTYPE html>
-<html>
-<head>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Rules</title><style>
 
-<meta name="viewport"
-content="width=device-width,initial-scale=1">
-
-<title>Terms & Rules</title>
-
-<style>
-
-body{
-
-margin:0;
-
-font-family:Arial;
-
-background:#020617;
-
-color:white;
-
-line-height:26px;
-
+:root{
+--bg:#020617;
+--card:#111827;
+--accent:#22c55e;
 }
 
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+background:var(--bg);
+color:white;
+line-height:28px;
+animation:fadePage .6s ease;
+}
+
+/* HEADER */
+
 header{
-
 display:flex;
-
-padding:15px;
-
-background:black;
-
+align-items:center;
+padding:16px;
+border-bottom:1px solid #1f2937;
+background:#020617;
+position:sticky;
+top:0;
+z-index:10;
 }
 
 .back{
-
 width:40px;
-
 cursor:pointer;
+font-size:22px;
+transition:.2s;
+}
 
+.back:hover{
+transform:scale(1.1);
 }
 
 .title{
-
 flex:1;
-
 text-align:center;
-
-color:#22c55e;
-
+color:var(--accent);
 font-weight:bold;
-
+font-size:18px;
 }
+
+/* CONTAINER */
 
 .container{
-
-padding:20px;
-
+padding:25px;
 max-width:900px;
-
 margin:auto;
-
 }
+
+/* CARD */
 
 .card{
 
-background:#111827;
+background:linear-gradient(145deg,#111827,#020617);
 
-padding:20px;
+padding:22px;
 
-border-radius:14px;
+border-radius:16px;
 
-margin-bottom:20px;
+margin-bottom:18px;
+
+border:1px solid #1f2937;
+
+box-shadow:0 10px 25px rgba(0,0,0,0.6);
+
+transition:.25s;
 
 }
 
-</style>
+.card:hover{
 
-</head>
+transform:translateY(-4px);
 
-<body>
+box-shadow:0 0 12px rgba(34,197,94,.35);
 
-<header>
+}
 
-<div class="back"
+/* TEXT */
 
-onclick="history.back()">
+h3{
+margin-top:0;
+color:#4ade80;
+}
 
-⬅
+p{
+opacity:.9;
+margin-top:6px;
+}
 
-</div>
+/* ANIMATION */
 
-<div class="title">
+@keyframes fadePage{
 
-Platform Rules
+from{
+opacity:0;
+transform:translateY(20px);
+}
 
-</div>
+to{
+opacity:1;
+transform:translateY(0);
+}
 
-</header>
+}
 
+</style></head><body><header><div class="back" onclick="history.back()">⬅
 
-<div class="container">
+</div><div class="title">Platform Rules
 
-<div class="card">
-
-<h3>Seller Rules</h3>
-
-Only original ebooks must be uploaded.
-
+</div></header><div class="container"><div class="card"><h3>Seller Rules</h3><p>
+Only original ebooks must be uploaded.  
 Copyright infringement may lead to account suspension.
-
-</div>
-
-
-<div class="card">
-
-<h3>Commission Policy</h3>
-
-CreatorHub automatically deducts 20% admin commission from every successful transaction.
-
-</div>
-
-
-<div class="card">
-
-<h3>Wallet Policy</h3>
-
+</p></div><div class="card"><h3>Commission Policy</h3><p>
+CreatorHub automatically deducts <b>20% admin commission</b> from every successful transaction.
+</p></div><div class="card"><h3>Wallet Policy</h3><p>
 Seller earnings are credited instantly after purchase confirmation.
-
-</div>
-
-
-<div class="card">
-
-<h3>Refund Policy</h3>
-
+</p></div><div class="card"><h3>Refund Policy</h3><p>
 Digital products cannot be refunded once downloaded.
-
-</div>
-
-
-<div class="card">
-
-<h3>User Conduct</h3>
-
+</p></div><div class="card"><h3>User Conduct</h3><p>
 Fraud activity or illegal content is strictly prohibited.
-
-</div>
-
-</div>
-
-</body>
-
+</p></div></div></body>
 </html>
