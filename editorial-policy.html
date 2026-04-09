@@ -4,12 +4,21 @@ content="CreatorHub editorial policy explains how guides, blogs and educational 
 
 <style>
 
+:root{
+--bg:#020617;
+--card:#111827;
+--accent:#22c55e;
+}
+
+/* PAGE */
+
 body{
 margin:0;
-font-family:Arial;
-background:#020617;
+font-family:Arial,Helvetica,sans-serif;
+background:var(--bg);
 color:white;
 line-height:28px;
+animation:fadePage .6s ease;
 }
 
 /* HEADER */
@@ -19,22 +28,29 @@ display:flex;
 align-items:center;
 padding:14px;
 background:#020617;
-box-shadow:0 5px 20px black;
+border-bottom:1px solid #1f2937;
 position:sticky;
 top:0;
+z-index:999;
 }
 
 .back{
 font-size:22px;
 width:40px;
 cursor:pointer;
+color:var(--accent);
+transition:.2s;
+}
+
+.back:hover{
+transform:translateX(-5px);
 }
 
 .title{
 flex:1;
 text-align:center;
 font-weight:bold;
-color:#22c55e;
+color:var(--accent);
 }
 
 /* CONTENT */
@@ -42,32 +58,54 @@ color:#22c55e;
 .container{
 max-width:900px;
 margin:auto;
-padding:25px;
+padding:30px 20px;
 }
 
+/* TITLE */
+
 h1{
-color:#22c55e;
+color:var(--accent);
+margin-top:0;
 }
 
 h2{
-margin-top:30px;
+margin-top:0;
 color:#4ade80;
 }
 
+/* CARD */
+
 .card{
-background:#111827;
-padding:20px;
-border-radius:15px;
+
+background:linear-gradient(145deg,#111827,#020617);
+
+padding:22px;
+
+border-radius:16px;
+
 margin-top:18px;
+
+border:1px solid #1f2937;
+
+box-shadow:0 10px 25px rgba(0,0,0,.6);
+
+animation:fadeUp .6s ease;
+
+}
+
+.card:hover{
+transform:translateY(-3px);
+transition:.2s;
 }
 
 /* FOOTER */
 
 footer{
-background:black;
+background:#020617;
 text-align:center;
-padding:25px;
+padding:30px;
 margin-top:40px;
+border-top:1px solid #1f2937;
 }
 
 footer a{
@@ -76,64 +114,87 @@ text-decoration:none;
 margin:0 6px;
 }
 
+footer a:hover{
+text-decoration:underline;
+}
+
+/* ANIMATION */
+
+@keyframes fadePage{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
 </style></head><body><div class="topbar"><div class="back"
-onclick="location.href='index.html'">⬅
-
-</div><div class="title">CreatorHub Editorial Policy
-
-</div></div><div class="container"><h1>Editorial Policy</h1><p>CreatorHub publishes educational blogs, marketplace guides
+onclick="location.href='index.html'">
+⬅
+</div><div class="title">
+CreatorHub Editorial Policy
+</div></div><div class="container"><h1>Editorial Policy</h1><p>
+CreatorHub publishes educational blogs, marketplace guides
 and learning resources focused on digital products,
 online earning and creator education.
-
 Our editorial process ensures content quality,
 accuracy and user safety.
+</p><div class="card"><h2>Content Creation Standards</h2><p>
+All articles are created using original research and
+practical knowledge.CreatorHub does not allow copied or plagiarized content.
 
-</p><div class="card"><h2>Content Creation Standards</h2><p>All articles are created using original research and practical knowledge.
+Topics are selected based on user demand,
+educational value and real creator experience.
 
-We avoid copied or automatically generated content.
+</p></div><div class="card"><h2>Accuracy & Review Process</h2><p>
+Every guide, tutorial and blog article is reviewed
+before publishing.Content is checked for accuracy,
+clarity and beginner friendliness.
 
-Topics are selected based on user demand and educational value.
+Misleading or harmful information
+is not allowed on the platform.
 
-</p></div><div class="card"><h2>Accuracy & Review Process</h2><p>Every guide and blog is reviewed before publishing.
+</p></div><div class="card"><h2>Author Responsibility</h2><p>
+Authors must maintain honesty,
+transparency and factual accuracy.CreatorHub editorial team monitors marketplace related
+information regularly and ensures content reliability.
 
-Information is checked for clarity, usefulness
-and beginner friendliness.
+</p></div><div class="card"><h2>Content Updates</h2><p>
+Digital marketplaces evolve continuously.Older articles may be updated,
+expanded or improved to maintain
+accuracy and relevance for readers.
 
-Misleading or harmful content is rejected.
+</p></div><div class="card"><h2>User Safety Policy</h2><p>
+CreatorHub does not promote illegal activities,
+misleading earning promises or harmful digital practices.Users are encouraged to verify product details
+before purchasing digital products.
 
-</p></div><div class="card"><h2>Author Responsibility</h2><p>Authors are responsible for maintaining honesty
-and transparency.
-
-CreatorHub editorial team monitors marketplace related
-information regularly.
-
-Corrections are updated whenever required.
-
-</p></div><div class="card"><h2>Content Updates</h2><p>Digital marketplaces evolve continuously.
-
-Older articles may be updated or improved
-to maintain accuracy and relevance.
-
-</p></div><div class="card"><h2>User Safety Policy</h2><p>CreatorHub does not promote illegal activities,
-misleading earning promises or harmful digital practices.
-
-Users are encouraged to verify product details
-before purchase.
-
-</p></div><div class="card"><h2>Contact Editorial Team</h2><p>For corrections or feedback:
-
-creatorhubofficial@gmail.com
+</p></div><div class="card"><h2>Contact Editorial Team</h2><p>
+For corrections, feedback or editorial inquiries,
+please contact our team.📧 creatorhubofficial@gmail.com
 
 </p></div></div><footer>© 2026 CreatorHub Marketplace
 
 <br><br>
 
 <a href="index.html">Home</a> |
-
 <a href="guides.html">Guides</a> |
-
 <a href="blog.html">Blog</a> |
-
 <a href="learn.html">Learn</a>
 
-</footer></body></html>
+</footer></body>
+</html>
