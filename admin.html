@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -18,12 +19,17 @@ background:#020617;
 color:white;
 }
 
+/* TOPBAR */
+
 .topbar{
 display:flex;
 align-items:center;
 padding:14px;
 background:#020617;
 box-shadow:0 5px 20px black;
+position:sticky;
+top:0;
+z-index:99;
 }
 
 .back{
@@ -39,11 +45,16 @@ color:#22c55e;
 font-weight:bold;
 }
 
+/* CONTAINER */
+
 .container{
 max-width:1100px;
 margin:auto;
 padding:20px;
+animation:fadeUp .6s ease;
 }
+
+/* GRID */
 
 .grid{
 display:grid;
@@ -52,16 +63,22 @@ gap:15px;
 margin-bottom:20px;
 }
 
+/* CARD */
+
 .card{
 background:#111827;
 padding:20px;
 border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,.5);
 }
 
 .big{
 font-size:30px;
 color:#22c55e;
+margin-top:5px;
 }
+
+/* BUTTON */
 
 button{
 border:none;
@@ -78,17 +95,38 @@ background:#22c55e;
 width:100%;
 }
 
+/* ROW */
+
 .row{
 background:#020617;
 padding:15px;
 border-radius:10px;
 margin-top:10px;
+border:1px solid #1f2937;
 }
+
+/* CHART */
 
 canvas{
 background:#020617;
 border-radius:10px;
 padding:10px;
+}
+
+/* ANIMATION */
+
+@keyframes fadeUp{
+
+0%{
+opacity:0;
+transform:translateY(30px);
+}
+
+100%{
+opacity:1;
+transform:translateY(0);
+}
+
 }
 
 </style>
@@ -128,45 +166,70 @@ Owner Profit
 
 </div>
 
+
 <div class="card">
+
 <h2>Earnings Analytics</h2>
+
 <canvas id="chart"></canvas>
+
 </div>
 
+
 <div class="card">
+
 <h2>Seller Approval Requests</h2>
+
 <div id="sellerList">Loading...</div>
+
 </div>
 
+
 <div class="card">
+
 <h2>Product Control</h2>
+
 <button class="open" onclick="location.href='product-control.html'">
 Open Product Control Panel
 </button>
+
 </div>
 
+
 <div class="card">
+
 <h2>Seller Control</h2>
+
 <button class="open" onclick="location.href='seller-control.html'">
 Open Seller Control
 </button>
+
 </div>
 
+
 <div class="card">
+
 <h2>User Wallet Balance</h2>
+
 <button class="open" onclick="location.href='wallet-balance.html'">
 Open Wallet Panel
 </button>
+
 </div>
 
+
 <div class="card">
+
 <h2>User Activity Analytics</h2>
+
 <button class="open" onclick="location.href='user-analytics.html'">
 Open User Analytics
 </button>
+
 </div>
 
 </div>
+
 
 <script>
 
@@ -176,14 +239,40 @@ const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq
 
 const PAYMENT_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
 
+
+/* ADMIN CHECK */
+
 let user=JSON.parse(localStorage.getItem("user")||"{}")
 
 if(!user || user.email!==ADMIN){
 
 alert("Admin Only")
+
 location.href="index.html"
 
 }
+
+
+/* SAFE HTML */
+
+function escapeHTML(str){
+
+return String(str).replace(/[&<>"']/g,function(m){
+
+return({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+})[m]
+
+})
+
+}
+
+
+/* API ROUTER */
 
 function getAPI(db){
 
@@ -195,11 +284,15 @@ return PRODUCT_API
 
 }
 
+
+/* DATABASE */
+
 async function getDB(db){
 
 try{
 
 let r=await fetch(getAPI(db)+"?db="+db+"&t="+Date.now())
+
 let d=await r.json()
 
 return Array.isArray(d)?d:[]
@@ -212,27 +305,50 @@ return[]
 
 }
 
+
 let chart=null
+
 
 async function loadDashboard(){
 
-let users=await getDB("users")
 let products=await getDB("products")
+
 let orders=await getDB("orders")
+
 let subs=await getDB("subscriptions")
+
 let sellers=await getDB("sellers")
 
-document.getElementById("users").innerText=users.length
+
+/* USERS COUNT */
+
+let uniqueUsers=new Set()
+
+orders.forEach(o=>{
+if(o.buyer) uniqueUsers.add(o.buyer)
+})
+
+document.getElementById("users").innerText=uniqueUsers.size
+
+
+/* BOOKS */
+
 document.getElementById("books").innerText=products.length
 
-let paidOrders=orders.filter(o=>o.status==="paid")
+
+/* PAID ORDERS */
+
+let paidOrders=orders.filter(o=>o.payment==="paid")
 
 document.getElementById("orders").innerText=paidOrders.length
+
+
+/* PROFIT */
 
 let profit=0
 
 paidOrders.forEach(o=>{
-profit+=Number(o.amount||0)*0.08
+profit+=Number(o.amount||0)*0.10
 })
 
 subs.forEach(s=>{
@@ -241,21 +357,24 @@ profit+=Number(s.amount||0)
 
 document.getElementById("profit").innerText=Math.floor(profit)
 
+
+/* CHART DATA */
+
 let chartMap={}
 
 paidOrders.forEach(o=>{
 
-let d=o.date||"Unknown"
+let d=(o.date||"Unknown").slice(0,10)
 
 if(!chartMap[d]) chartMap[d]=0
 
-chartMap[d]+=Number(o.amount||0)*0.08
+chartMap[d]+=Number(o.amount||0)*0.10
 
 })
 
 subs.forEach(s=>{
 
-let d=s.date||"Unknown"
+let d=(s.date||"Unknown").slice(0,10)
 
 if(!chartMap[d]) chartMap[d]=0
 
@@ -264,7 +383,15 @@ chartMap[d]+=Number(s.amount||0)
 })
 
 let labels=Object.keys(chartMap)
+
 let values=Object.values(chartMap)
+
+if(labels.length===0){
+
+labels=["No Data"]
+values=[0]
+
+}
 
 if(chart) chart.destroy()
 
@@ -285,6 +412,9 @@ tension:.4
 
 })
 
+
+/* SELLER REQUESTS */
+
 let pending=sellers.filter(s=>s.status==="pending")
 
 let box=document.getElementById("sellerList")
@@ -304,7 +434,9 @@ box.innerHTML+=`
 <div class="row">
 
 <b>${escapeHTML(s.name||"User")}</b>
+
 <br>
+
 ${escapeHTML(s.email)}
 
 </div>
@@ -314,22 +446,6 @@ ${escapeHTML(s.email)}
 })
 
 }
-
-}
-
-function escapeHTML(str){
-
-return String(str).replace(/[&<>"']/g,function(m){
-
-return({
-'&':'&amp;',
-'<':'&lt;',
-'>':'&gt;',
-'"':'&quot;',
-"'":'&#039;'
-})[m]
-
-})
 
 }
 
