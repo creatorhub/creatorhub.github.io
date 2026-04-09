@@ -1,24 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>Advertising Policy | CreatorHub</title>
-
-<meta name="description"
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Advertising Policy | CreatorHub</title><meta name="description"
 content="CreatorHub advertising policy explains how advertisements, sponsored content and affiliate links are handled transparently and responsibly.">
 
 <style>
 
+:root{
+--bg:#020617;
+--card:#111827;
+--accent:#22c55e;
+}
+
 body{
 margin:0;
-font-family:Arial;
-background:#020617;
+font-family:Arial,Helvetica,sans-serif;
+background:var(--bg);
 color:white;
 line-height:28px;
+animation:fadePage .6s ease;
 }
 
 /* HEADER */
@@ -28,22 +26,29 @@ display:flex;
 align-items:center;
 padding:14px;
 background:#020617;
-box-shadow:0 5px 20px black;
+border-bottom:1px solid #1f2937;
 position:sticky;
 top:0;
+z-index:999;
 }
 
 .back{
 font-size:22px;
 width:40px;
 cursor:pointer;
+color:var(--accent);
+transition:.2s;
+}
+
+.back:hover{
+transform:translateX(-5px);
 }
 
 .title{
 flex:1;
 text-align:center;
 font-weight:bold;
-color:#22c55e;
+color:var(--accent);
 }
 
 /* CONTENT */
@@ -51,32 +56,56 @@ color:#22c55e;
 .container{
 max-width:900px;
 margin:auto;
-padding:25px;
+padding:30px 20px;
 }
 
+/* INTRO */
+
+.intro{
+opacity:.9;
+margin-top:10px;
+}
+
+/* CARD */
+
+.card{
+
+background:linear-gradient(145deg,#111827,#020617);
+
+padding:22px;
+
+border-radius:18px;
+
+margin-top:18px;
+
+border:1px solid #1f2937;
+
+box-shadow:0 15px 35px rgba(0,0,0,.6);
+
+animation:fadeUp .6s ease;
+
+}
+
+/* HEADINGS */
+
 h1{
-color:#22c55e;
+color:var(--accent);
+margin-bottom:10px;
 }
 
 h2{
-margin-top:30px;
+margin-top:0;
 color:#4ade80;
-}
-
-.card{
-background:#111827;
-padding:20px;
-border-radius:15px;
-margin-top:18px;
 }
 
 /* FOOTER */
 
 footer{
-background:black;
+background:#020617;
 text-align:center;
-padding:25px;
+padding:30px;
 margin-top:40px;
+border-top:1px solid #1f2937;
 }
 
 footer a{
@@ -89,135 +118,72 @@ footer a:hover{
 text-decoration:underline;
 }
 
-</style>
+/* ANIMATION */
 
-</head>
+@keyframes fadePage{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
 
-<body>
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
 
-<div class="topbar">
-
-<div class="back"
+</style></head><body><div class="topbar"><div class="back"
 onclick="location.href='index.html'">
 ⬅
-</div>
-
-<div class="title">
+</div><div class="title">
 CreatorHub Advertising Policy
-</div>
-
-</div>
-
-
-<div class="container">
-
-<h1>Advertising Policy</h1>
-
-<p>
+</div></div><div class="container"><h1>Advertising Policy</h1><p class="intro">
 CreatorHub may display advertisements to support platform maintenance,
-hosting costs and content development.
-This page explains how ads and sponsored content are handled.
-</p>
-
-
-<div class="card">
-
-<h2>Third-Party Advertising</h2>
-
-<p>
+hosting costs and content development. This page explains how advertisements,
+sponsored content and affiliate links are handled transparently.
+</p><div class="card"><h2>Third-Party Advertising</h2><p>
 We may use third-party advertising services such as Google AdSense.
-These networks may use cookies to show relevant ads
+These networks may use cookies to show relevant advertisements
 based on user interests and browsing behavior.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<h2>Sponsored Content</h2>
-
-<p>
+</p></div><div class="card"><h2>Sponsored Content</h2><p>
 If CreatorHub publishes sponsored content,
-it will be clearly disclosed within the article.
-We maintain transparency with our users at all times.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<h2>Affiliate Links</h2>
-
-<p>
+it will always be clearly disclosed within the article.
+Transparency with users is a core principle of our platform.
+</p></div><div class="card"><h2>Affiliate Links</h2><p>
 Some articles may contain affiliate links.
 If users purchase through these links,
 CreatorHub may earn a small commission
 without additional cost to the user.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<h2>Ad Placement Standards</h2>
-
-<p>
-Advertisements will not interfere with user experience.
-We avoid misleading placements,
-forced clicks or deceptive ad formatting.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<h2>User Privacy</h2>
-
-<p>
+</p></div><div class="card"><h2>Ad Placement Standards</h2><p>
+Advertisements will never interfere with user experience.
+CreatorHub avoids misleading ad placements,
+forced clicks or deceptive advertisement formatting.
+</p></div><div class="card"><h2>User Privacy</h2><p>
 Advertising partners may collect non-personal data
 according to their own privacy policies.
 Users are encouraged to review our Privacy Policy
-for more details.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<h2>Policy Updates</h2>
-
-<p>
-This advertising policy may be updated
-to reflect regulatory or advertising partner changes.
-Updates will be reflected on this page.
-</p>
-
-</div>
-
-</div>
-
-
-<footer>
-
-© 2026 CreatorHub Marketplace
+for further information.
+</p></div><div class="card"><h2>Policy Updates</h2><p>
+This advertising policy may be updated periodically
+to reflect regulatory requirements or advertising partner changes.
+Updates will always be reflected on this page.
+</p></div></div><footer>© 2026 CreatorHub Marketplace
 
 <br><br>
 
 <a href="index.html">Home</a> |
-
 <a href="privacy.html">Privacy Policy</a> |
-
 <a href="editorial-policy.html">Editorial Policy</a> |
-
 <a href="contact.html">Contact</a>
 
-</footer>
-
-</body>
-
-</html>
+</footer></body></html>
