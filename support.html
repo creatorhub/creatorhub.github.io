@@ -3,7 +3,6 @@
 <head>
 
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>CreatorHub Support</title>
 
 <style>
@@ -19,17 +18,30 @@ margin:0;
 font-family:Arial,Helvetica,sans-serif;
 background:var(--bg);
 color:white;
+height:100vh;
 display:flex;
 flex-direction:column;
-height:100vh;
+overflow:hidden;
 }
 
 /* HEADER */
 
 .header{
-padding:15px;
+display:flex;
+align-items:center;
+padding:12px;
 background:#020617;
 border-bottom:1px solid #1f2937;
+}
+
+.back{
+font-size:22px;
+cursor:pointer;
+width:40px;
+}
+
+.title{
+flex:1;
 text-align:center;
 font-weight:bold;
 color:var(--accent);
@@ -40,7 +52,7 @@ font-size:18px;
 
 .chat{
 flex:1;
-overflow:auto;
+overflow-y:auto;
 padding:15px;
 }
 
@@ -74,9 +86,9 @@ border:1px solid #1f2937;
 
 .inputBox{
 display:flex;
+padding:10px;
 background:#020617;
 border-top:1px solid #1f2937;
-padding:10px;
 }
 
 input{
@@ -100,17 +112,39 @@ cursor:pointer;
 font-weight:bold;
 }
 
+button:hover{
+opacity:.9;
+}
+
 </style>
 
 </head>
 
 <body>
 
+<!-- HEADER -->
+
 <div class="header">
+
+<div class="back" onclick="location.href='index.html'">
+⬅
+</div>
+
+<div class="title">
 CreatorHub Support
 </div>
 
+<div style="width:40px"></div>
+
+</div>
+
+
+<!-- CHAT -->
+
 <div class="chat" id="chat"></div>
+
+
+<!-- INPUT -->
 
 <div class="inputBox">
 
@@ -124,6 +158,7 @@ Send
 
 </div>
 
+
 <script>
 
 /* APIs */
@@ -131,6 +166,7 @@ Send
 const SUPPORT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
 const CHAT_API="https://script.google.com/macros/s/AKfycbzMCnhAdxOSnSl7tO6u3yZZEARctzq9kQIenT-PoO8Y68gN5kXWViEFD01BiRObxOY1/exec"
+
 
 /* ADD MESSAGE */
 
@@ -150,17 +186,17 @@ chat.scrollTop=chat.scrollHeight
 
 }
 
+
 /* ENTER SEND */
 
 function enterSend(e){
 
 if(e.key==="Enter"){
-
 send()
-
 }
 
 }
+
 
 /* SEND MESSAGE */
 
@@ -176,7 +212,7 @@ addMessage(text,"user")
 
 input.value=""
 
-/* loading message */
+/* loading */
 
 let loading=document.createElement("div")
 
@@ -189,8 +225,6 @@ document.getElementById("chat").appendChild(loading)
 let reply=""
 
 try{
-
-/* first api */
 
 let res=await fetch(SUPPORT_API,{
 method:"POST",
@@ -209,7 +243,8 @@ reply=data.reply
 
 }catch{}
 
-/* fallback second api */
+
+/* fallback */
 
 if(!reply){
 
@@ -232,6 +267,7 @@ reply=data.reply
 }catch{}
 
 }
+
 
 loading.remove()
 
