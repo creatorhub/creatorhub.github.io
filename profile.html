@@ -1,10 +1,19 @@
-<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>My Profile</title><style>
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Profile</title><style>
+
+:root{
+--bg:#020617;
+--card:#111827;
+--accent:#22c55e;
+}
 
 body{
 margin:0;
 font-family:Arial,Helvetica,sans-serif;
-background:#020617;
+background:var(--bg);
 color:white;
+animation:fadePage .6s ease;
 }
 
 /* HEADER */
@@ -14,18 +23,26 @@ display:flex;
 align-items:center;
 padding:16px;
 border-bottom:1px solid #1f2937;
+background:#020617;
+position:sticky;
+top:0;
 }
 
 .back{
 font-size:22px;
 cursor:pointer;
 margin-right:10px;
+transition:.2s;
+}
+
+.back:hover{
+transform:scale(1.1);
 }
 
 .title{
 flex:1;
 text-align:center;
-color:#22c55e;
+color:var(--accent);
 font-weight:bold;
 }
 
@@ -34,7 +51,7 @@ font-weight:bold;
 .container{
 max-width:500px;
 margin:auto;
-padding:20px;
+padding:25px;
 }
 
 /* CARD */
@@ -43,7 +60,7 @@ padding:20px;
 
 background:linear-gradient(145deg,#111827,#020617);
 
-padding:25px;
+padding:28px;
 
 border-radius:18px;
 
@@ -53,6 +70,12 @@ box-shadow:0 10px 30px rgba(0,0,0,0.6);
 
 text-align:center;
 
+transition:.3s;
+
+}
+
+.card:hover{
+box-shadow:0 0 12px rgba(34,197,94,.4);
 }
 
 /* IMAGE */
@@ -67,10 +90,18 @@ border-radius:50%;
 
 object-fit:cover;
 
-border:3px solid #22c55e;
+border:3px solid var(--accent);
 
 margin-bottom:15px;
 
+cursor:pointer;
+
+transition:.2s;
+
+}
+
+.profileImg:hover{
+transform:scale(1.05);
 }
 
 /* INPUT */
@@ -91,6 +122,16 @@ background:#020617;
 
 color:white;
 
+border:1px solid #1f2937;
+
+transition:.2s;
+
+}
+
+input:focus{
+outline:none;
+border:1px solid var(--accent);
+box-shadow:0 0 8px rgba(34,197,94,.4);
 }
 
 /* BUTTON */
@@ -101,7 +142,7 @@ width:100%;
 
 padding:14px;
 
-margin-top:15px;
+margin-top:18px;
 
 border:none;
 
@@ -115,21 +156,75 @@ font-weight:bold;
 
 cursor:pointer;
 
+transition:.2s;
+
+}
+
+button:hover{
+transform:translateY(-2px);
+box-shadow:0 0 10px rgba(34,197,94,.5);
+}
+
+/* TOAST */
+
+.toast{
+
+position:fixed;
+
+bottom:20px;
+
+left:50%;
+
+transform:translateX(-50%);
+
+background:#111827;
+
+padding:12px 20px;
+
+border-radius:10px;
+
+border:1px solid var(--accent);
+
+color:var(--accent);
+
+font-weight:bold;
+
+box-shadow:0 0 10px rgba(34,197,94,.4);
+
+animation:fadeToast .4s ease;
+
+}
+
+/* ANIMATION */
+
+@keyframes fadePage{
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+@keyframes fadeToast{
+from{opacity:0;transform:translate(-50%,20px);}
+to{opacity:1;transform:translate(-50%,0);}
 }
 
 </style></head><body><div class="topbar"><div class="back"
-onclick="location.href='dashboard.html'">⬅
-
-</div><div class="title">My Profile
-
+onclick="location.href='dashboard.html'">
+⬅
+</div><div class="title">
+My Profile
 </div></div><div class="container"><div class="card"><img id="profileImg"
 class="profileImg">
+
+<input type="file"
+id="imgUpload"
+style="display:none"
+accept="image/*">
 
 <input id="name"
 placeholder="Your Name">
 
-<button onclick="saveProfile()">Save Profile
-
+<button onclick="saveProfile()">
+Save Profile
 </button></div></div><script>
 
 /* MAIN API */
@@ -143,9 +238,7 @@ let user=
 JSON.parse(localStorage.getItem("user")||"null")
 
 if(!user){
-
 location.href="login.html"
-
 }
 
 /* LOAD DATA */
@@ -153,23 +246,55 @@ location.href="login.html"
 document.getElementById("name").value=
 user.name || ""
 
-document.getElementById("profileImg").src=
+let profileImg=document.getElementById("profileImg")
 
+profileImg.src=
 localStorage.getItem("profile_"+user.email) ||
-
 "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+
+/* IMAGE CLICK */
+
+profileImg.onclick=function(){
+
+document.getElementById("imgUpload").click()
+
+}
+
+/* IMAGE UPLOAD */
+
+document.getElementById("imgUpload").onchange=function(){
+
+let file=this.files[0]
+
+if(!file) return
+
+let reader=new FileReader()
+
+reader.onload=function(e){
+
+profileImg.src=e.target.result
+
+localStorage.setItem(
+"profile_"+user.email,
+e.target.result
+)
+
+}
+
+reader.readAsDataURL(file)
+
+}
 
 /* SAVE PROFILE */
 
 async function saveProfile(){
 
 let newName=
-document.getElementById("name")
-.value.trim()
+document.getElementById("name").value.trim()
 
 if(!newName){
 
-alert("Enter name")
+showToast("Enter name")
 
 return
 
@@ -208,20 +333,39 @@ localStorage.setItem(
 JSON.stringify(user)
 )
 
-alert("Profile updated ✅")
+showToast("Profile updated ✅")
 
 }else{
 
-alert(data.message || "Update failed")
+showToast(data.message || "Update failed")
 
 }
 
 }catch{
 
-alert("Server error")
+showToast("Server error")
 
 }
 
 }
 
-</script></body></html>
+/* TOAST */
+
+function showToast(msg){
+
+let div=document.createElement("div")
+
+div.className="toast"
+
+div.innerText=msg
+
+document.body.appendChild(div)
+
+setTimeout(()=>{
+div.remove()
+},3000)
+
+}
+
+</script></body>
+</html>
