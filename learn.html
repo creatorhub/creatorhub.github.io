@@ -1,25 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>
 Learn Digital Skills Online | CreatorHub Learning Center
-</title>
-
-<meta name="description"
+</title><meta name="description"
 content="Learn how to earn online using ebooks, digital products and passive income strategies with CreatorHub learning center.">
 
 <style>
 
+:root{
+--bg:#020617;
+--card:#111827;
+--accent:#22c55e;
+}
+
 body{
 margin:0;
-font-family:Arial;
-background:#020617;
+font-family:Arial,Helvetica,sans-serif;
+background:var(--bg);
 color:white;
+animation:fadePage .6s ease;
 }
 
 /* HEADER */
@@ -32,22 +30,28 @@ background:#020617;
 box-shadow:0 5px 20px black;
 position:sticky;
 top:0;
+z-index:99;
 }
 
 .back{
 font-size:22px;
 cursor:pointer;
 width:40px;
+transition:.2s;
+}
+
+.back:hover{
+transform:scale(1.1);
 }
 
 .title{
 flex:1;
 text-align:center;
 font-weight:bold;
-color:#22c55e;
+color:var(--accent);
 }
 
-/* CONTENT */
+/* CONTAINER */
 
 .container{
 max-width:950px;
@@ -57,28 +61,82 @@ padding:20px;
 
 h1{
 text-align:center;
-color:#22c55e;
+color:var(--accent);
+margin-bottom:25px;
 }
+
+/* CARD GRID */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+}
+
+/* CARD */
 
 .card{
 
-background:#111827;
-padding:20px;
+background:linear-gradient(145deg,#111827,#020617);
+
+padding:22px;
+
 border-radius:15px;
-margin-top:18px;
+
 line-height:26px;
 
+border:1px solid #1f2937;
+
+box-shadow:0 10px 25px rgba(0,0,0,.6);
+
+transition:.3s;
+
+animation:fadeUp .7s ease;
+
 }
+
+.card:hover{
+
+transform:translateY(-6px);
+
+box-shadow:0 0 15px rgba(34,197,94,.5);
+
+}
+
+.card h2{
+color:#22c55e;
+margin-top:0;
+}
+
+/* BUTTON */
 
 .card a{
 
 display:inline-block;
-margin-top:10px;
-padding:10px 15px;
-background:#22c55e;
+
+margin-top:12px;
+
+padding:10px 16px;
+
+background:linear-gradient(90deg,#22c55e,#4ade80);
+
 border-radius:10px;
-color:white;
+
+color:black;
+
+font-weight:bold;
+
 text-decoration:none;
+
+transition:.2s;
+
+}
+
+.card a:hover{
+
+transform:translateY(-2px);
+
+box-shadow:0 0 12px #22c55e;
 
 }
 
@@ -86,191 +144,90 @@ text-decoration:none;
 
 footer{
 
-background:black;
+background:#020617;
+
 text-align:center;
-padding:25px;
+
+padding:30px;
+
 margin-top:40px;
+
+border-top:1px solid #1f2937;
 
 }
 
 footer a{
 
 color:#22c55e;
+
 text-decoration:none;
+
 margin:0 6px;
 
 }
 
-</style>
+/* ANIMATION */
 
-</head>
+@keyframes fadePage{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
 
-<body>
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
 
-<!-- HEADER -->
+</style></head><body><!-- HEADER --><div class="topbar"><div class="back"
+onclick="location.href='index.html'">⬅
 
-<div class="topbar">
+</div><div class="title">CreatorHub Learning Center
 
-<div class="back"
-onclick="location.href='index.html'">
+</div></div><div class="container"><h1>Learn Digital Skills & Online Earning
 
-⬅
-
-</div>
-
-<div class="title">
-
-CreatorHub Learning Center
-
-</div>
-
-</div>
-
-
-
-<div class="container">
-
-<h1>
-
-Learn Digital Skills & Online Earning
-
-</h1>
-
-
-
-<div class="card">
-
-<h2>📘 Ebook Selling Mastery</h2>
-
-<p>
-
-Learn how creators earn passive income by selling ebooks online.
+</h1><div class="grid"><div class="card"><h2>📘 Ebook Selling Mastery</h2><p>Learn how creators earn passive income by selling ebooks online.
 Understand topic selection, pricing strategy and promotion methods.
 
-</p>
+</p><a href="guide1.html">Start Learning →
 
-<a href="guide1.html">
-
-Start Learning →
-
-</a>
-
-</div>
-
-
-
-<div class="card">
-
-<h2>💻 Digital Product Business</h2>
-
-<p>
-
-Understand how digital marketplaces work and how creators build
+</a></div><div class="card"><h2>💻 Digital Product Business</h2><p>Understand how digital marketplaces work and how creators build
 scalable online businesses without inventory or shipping.
 
-</p>
+</p><a href="guide2.html">Learn More →
 
-<a href="guide2.html">
-
-Learn More →
-
-</a>
-
-</div>
-
-
-
-<div class="card">
-
-<h2>🎓 Student Passive Income Learning</h2>
-
-<p>
-
-Students can build income streams using notes, templates and
+</a></div><div class="card"><h2>🎓 Student Passive Income Learning</h2><p>Students can build income streams using notes, templates and
 skill based ebooks.
 
-</p>
+</p><a href="guide3.html">Explore →
 
-<a href="guide3.html">
-
-Explore →
-
-</a>
-
-</div>
-
-
-
-<div class="card">
-
-<h2>✍ Ebook Creation Training</h2>
-
-<p>
-
-Step by step guide to writing professional ebooks,
+</a></div><div class="card"><h2>✍ Ebook Creation Training</h2><p>Step by step guide to writing professional ebooks,
 designing cover images and publishing online.
 
-</p>
+</p><a href="guide4.html">Open Guide →
 
-<a href="guide4.html">
-
-Open Guide →
-
-</a>
-
-</div>
-
-
-
-<div class="card">
-
-<h2>🚀 CreatorHub Marketplace Learning</h2>
-
-<p>
-
-Understand how buyers purchase ebooks and how sellers earn money
+</a></div><div class="card"><h2>🚀 CreatorHub Marketplace Learning</h2><p>Understand how buyers purchase ebooks and how sellers earn money
 inside CreatorHub ecosystem.
 
-</p>
+</p><a href="guide5.html">Start Now →
 
-<a href="guide5.html">
-
-Start Now →
-
-</a>
-
-</div>
-
-
-
-<div class="card">
-
-<h2>🧠 Blog Learning Articles</h2>
-
-<p>
-
-Explore expert blog articles about online earning,
+</a></div><div class="card"><h2>🧠 Blog Learning Articles</h2><p>Explore expert blog articles about online earning,
 digital marketing and passive income strategies.
 
-</p>
+</p><a href="blog.html">Read Blog →
 
-<a href="blog.html">
-
-Read Blog →
-
-</a>
-
-</div>
-
-
-
-</div>
-
-
-
-<footer>
-
-© 2026 CreatorHub Marketplace
+</a></div></div></div><footer>© 2026 CreatorHub Marketplace
 
 <br><br>
 
@@ -284,9 +241,4 @@ Read Blog →
 
 <a href="support.html">Support</a>
 
-</footer>
-
-
-</body>
-
-</html>
+</footer></body></html>
