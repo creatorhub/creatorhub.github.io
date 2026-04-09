@@ -1,5 +1,13 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Premium</title><style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>CreatorHub Premium</title>
+
+<style>
 
 body{
 margin:0;
@@ -15,6 +23,10 @@ display:flex;
 align-items:center;
 padding:16px;
 border-bottom:1px solid #1f2937;
+position:sticky;
+top:0;
+background:#020617;
+z-index:99;
 }
 
 .back{
@@ -30,6 +42,17 @@ font-weight:bold;
 color:#22c55e;
 }
 
+/* BADGE */
+
+.badge{
+background:#22c55e;
+padding:5px 10px;
+border-radius:6px;
+font-size:12px;
+margin-left:6px;
+display:none;
+}
+
 /* CONTAINER */
 
 .container{
@@ -37,6 +60,7 @@ max-width:1000px;
 margin:auto;
 padding:40px 20px;
 text-align:center;
+animation:fadeUp .6s ease;
 }
 
 h1{
@@ -55,23 +79,23 @@ gap:20px;
 /* CARD */
 
 .card{
-
 background:linear-gradient(145deg,#111827,#020617);
-
 padding:30px;
-
 border-radius:18px;
-
 border:1px solid #1f2937;
-
 box-shadow:0 20px 40px rgba(0,0,0,0.7);
+transition:.3s;
+}
 
+.card:hover{
+transform:translateY(-8px);
+box-shadow:0 25px 50px rgba(0,0,0,.9);
 }
 
 /* PRICE */
 
 .price{
-font-size:36px;
+font-size:38px;
 color:#22c55e;
 margin:15px 0;
 }
@@ -79,25 +103,21 @@ margin:15px 0;
 /* BUTTON */
 
 button{
-
 width:100%;
-
 padding:14px;
-
 border:none;
-
 border-radius:10px;
-
 background:linear-gradient(90deg,#22c55e,#4ade80);
-
 color:black;
-
 font-weight:bold;
-
 cursor:pointer;
+margin-top:12px;
+transition:.3s;
+}
 
-margin-top:10px;
-
+button:hover{
+transform:scale(1.03);
+box-shadow:0 0 20px #22c55e;
 }
 
 button:disabled{
@@ -113,40 +133,130 @@ margin-top:10px;
 line-height:1.8;
 }
 
-/* BADGE */
+/* LOADER */
 
-.badge{
-background:#22c55e;
-padding:6px 10px;
-border-radius:6px;
-font-size:13px;
-margin-left:6px;
-display:none;
+.loader{
+margin-top:20px;
+opacity:.7;
+animation:pulse 1.5s infinite;
 }
 
-</style></head><body><div class="topbar"><div class="back" onclick="location.href='index.html'">⬅</div><div class="title">CreatorHub Premium
+/* ANIMATIONS */
 
+@keyframes fadeUp{
+0%{
+opacity:0;
+transform:translateY(40px);
+}
+100%{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@keyframes pulse{
+0%{opacity:.3}
+50%{opacity:1}
+100%{opacity:.3}
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+.price{
+font-size:32px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="topbar">
+<div class="back" onclick="location.href='index.html'">⬅</div>
+
+<div class="title">
+CreatorHub Premium
 <span id="badge" class="badge">ACTIVE</span>
+</div>
 
-</div></div><div class="container"><h1>Unlock Unlimited Ebook Reading</h1><div class="plans"><div class="card"><h2>15 Days Plan</h2><div class="price">₹399</div><ul>
+</div>
+
+<div class="container">
+
+<h1>Unlock Unlimited Ebook Reading</h1>
+
+<div class="plans">
+
+<div class="card">
+
+<h2>15 Days Plan</h2>
+
+<div class="price">₹399</div>
+
+<ul>
 <li>Unlimited Ebook Reading</li>
 <li>Premium Books Access</li>
 <li>No Ads Reading</li>
-</ul><button onclick="subscribe('15days',399)">
+</ul>
+
+<button onclick="subscribe('15days',399)">
 Subscribe Now
-</button></div><div class="card"><h2>Monthly Plan</h2><div class="price">₹799</div><ul>
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>Monthly Plan</h2>
+
+<div class="price">₹799</div>
+
+<ul>
 <li>Unlimited Ebook Reading</li>
 <li>All Premium Books Free</li>
 <li>Early Access New Books</li>
-</ul><button onclick="subscribe('month',799)">
+</ul>
+
+<button onclick="subscribe('month',799)">
 Subscribe Now
-</button></div><div class="card"><h2>Yearly Plan</h2><div class="price">₹3599</div><ul>
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>Yearly Plan</h2>
+
+<div class="price">₹3599</div>
+
+<ul>
 <li>Unlimited Ebook Reading</li>
 <li>All Premium Books Free</li>
 <li>Early Access + No Ads</li>
-</ul><button onclick="subscribe('year',3599)">
+</ul>
+
+<button onclick="subscribe('year',3599)">
 Subscribe Now
-</button></div></div></div><script>
+</button>
+
+</div>
+
+</div>
+
+<div id="loader" class="loader">
+Checking subscription...
+</div>
+
+</div>
+
+<script>
 
 /* PAYMENT API */
 
@@ -159,12 +269,11 @@ let user=JSON.parse(localStorage.getItem("user")||"null")
 if(!user){
 
 alert("Login First")
-
 location.href="login.html"
 
 }
 
-/* CHECK SUBSCRIPTION */
+/* CHECK SUB */
 
 async function checkSubscription(){
 
@@ -173,6 +282,8 @@ try{
 let res=await fetch(PAYMENT_API+"?db=subscriptions&t="+Date.now())
 
 let subs=await res.json()
+
+document.getElementById("loader").style.display="none"
 
 if(!Array.isArray(subs)) return
 
@@ -186,12 +297,9 @@ if(Date.now()<exp){
 
 document.getElementById("badge").style.display="inline-block"
 
-/* DISABLE BUTTONS */
-
 document.querySelectorAll("button").forEach(btn=>{
 
 btn.disabled=true
-
 btn.innerText="Premium Active"
 
 })
@@ -200,9 +308,9 @@ btn.innerText="Premium Active"
 
 }
 
-}catch(e){
+}catch{
 
-console.log("Subscription check error")
+document.getElementById("loader").innerText="Subscription check failed"
 
 }
 
@@ -229,7 +337,6 @@ headers:{
 body:JSON.stringify({
 
 action:"create_subscription_order",
-
 plan:plan,
 amount:amount,
 email:user.email
@@ -242,8 +349,7 @@ let data=await res.json()
 
 if(data.payment_session_id){
 
-let url=
-"https://sandbox.cashfree.com/pg/view/payment-session-id?payment_session_id="+data.payment_session_id
+let url="https://sandbox.cashfree.com/pg/view/payment-session-id?payment_session_id="+data.payment_session_id
 
 window.location.href=url
 
@@ -261,5 +367,7 @@ alert("Payment server error")
 
 }
 
-</script></body>
+</script>
+
+</body>
 </html>
