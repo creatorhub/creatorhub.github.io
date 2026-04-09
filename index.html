@@ -443,40 +443,7 @@ Loading ebooks...
 
 <!-- FOOTER -->
 
-<footer>
-
-<div class="footer-grid">
-
-<div>
-<h3>CreatorHub</h3>
-<p>The future of digital creators.</p>
-</div>
-
-<div>
-<h4>Marketplace</h4>
-<p>All ebooks</p>
-<p>Categories</p>
-</div>
-
-<div>
-<h4>For Creators</h4>
-<p>Dashboard</p>
-<p>Sell ebooks</p>
-</div>
-
-<div>
-<h4>Legal</h4>
-<p>Privacy Policy</p>
-<p>Terms</p>
-</div>
-
-</div>
-
-<p class="copyright">
-© 2026 CreatorHub Marketplace
-</p>
-
-</footer>
+<div id="footer"></div>
 
 <script>
 
@@ -586,6 +553,14 @@ return
 location.href="upload.html"
 
 }
+
+  /* LOAD FOOTER */
+
+fetch("footer.html")
+.then(res => res.text())
+.then(data => {
+document.getElementById("footer").innerHTML = data
+})
 
 </script>
 
