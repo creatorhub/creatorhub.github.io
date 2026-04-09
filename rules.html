@@ -1,14 +1,11 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Rules</title><style>
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Platform Rules</title><style>
 
 :root{
 --bg:#020617;
 --card:#111827;
 --accent:#22c55e;
-}
-
-*{
-box-sizing:border-box;
 }
 
 body{
@@ -20,8 +17,6 @@ line-height:28px;
 animation:fadePage .6s ease;
 }
 
-/* HEADER */
-
 header{
 display:flex;
 align-items:center;
@@ -30,37 +25,26 @@ border-bottom:1px solid #1f2937;
 background:#020617;
 position:sticky;
 top:0;
-z-index:10;
 }
 
 .back{
-width:40px;
-cursor:pointer;
 font-size:22px;
-transition:.2s;
-}
-
-.back:hover{
-transform:scale(1.1);
+cursor:pointer;
+width:40px;
 }
 
 .title{
 flex:1;
 text-align:center;
-color:var(--accent);
 font-weight:bold;
-font-size:18px;
+color:var(--accent);
 }
-
-/* CONTAINER */
 
 .container{
-padding:25px;
 max-width:900px;
 margin:auto;
+padding:25px;
 }
-
-/* CARD */
 
 .card{
 
@@ -70,66 +54,91 @@ padding:22px;
 
 border-radius:16px;
 
-margin-bottom:18px;
+margin-bottom:20px;
 
 border:1px solid #1f2937;
 
 box-shadow:0 10px 25px rgba(0,0,0,0.6);
 
-transition:.25s;
-
 }
 
-.card:hover{
-
-transform:translateY(-4px);
-
-box-shadow:0 0 12px rgba(34,197,94,.35);
-
-}
-
-/* TEXT */
-
-h3{
-margin-top:0;
+h2{
 color:#4ade80;
+margin-top:0;
 }
-
-p{
-opacity:.9;
-margin-top:6px;
-}
-
-/* ANIMATION */
 
 @keyframes fadePage{
-
-from{
-opacity:0;
-transform:translateY(20px);
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1;transform:translateY(0)}
 }
 
-to{
-opacity:1;
-transform:translateY(0);
-}
+</style></head><body><header><div class="back" onclick="history.back()">⬅</div><div class="title">CreatorHub Platform Rules</div></header><div class="container"><div class="card"><h2>1. Platform Overview</h2><p>CreatorHub is a digital marketplace that allows creators to sell ebooks and digital learning materials to buyers.
 
-}
+The platform connects sellers and buyers while providing payment processing, ebook delivery, and wallet services.
 
-</style></head><body><header><div class="back" onclick="history.back()">⬅
+</p></div><div class="card"><h2>2. Seller Rules</h2><p>Sellers must upload only original or legally licensed ebooks.
 
-</div><div class="title">Platform Rules
+Uploading pirated, copied, or copyrighted material without permission is strictly prohibited.
 
-</div></header><div class="container"><div class="card"><h3>Seller Rules</h3><p>
-Only original ebooks must be uploaded.  
-Copyright infringement may lead to account suspension.
-</p></div><div class="card"><h3>Commission Policy</h3><p>
-CreatorHub automatically deducts <b>20% admin commission</b> from every successful transaction.
-</p></div><div class="card"><h3>Wallet Policy</h3><p>
-Seller earnings are credited instantly after purchase confirmation.
-</p></div><div class="card"><h3>Refund Policy</h3><p>
-Digital products cannot be refunded once downloaded.
-</p></div><div class="card"><h3>User Conduct</h3><p>
-Fraud activity or illegal content is strictly prohibited.
+If copyright violation is detected, CreatorHub may remove the ebook and suspend the seller account permanently.
+
+</p></div><div class="card"><h2>3. Commission Policy</h2><p>CreatorHub automatically deducts <b>10% platform commission</b> from every successful ebook sale.
+
+Example:
+
+If ebook price = ₹100
+
+Seller receives ≈ ₹90
+CreatorHub receives ≈ ₹10
+
+For printed book orders, printing and delivery charges may also be deducted before seller earnings are calculated.
+
+</p></div><div class="card"><h2>4. Printed Book Orders</h2><p>If a buyer chooses a printed book option:
+
+• Printing cost is deducted from the order amount.
+• Delivery cost is added to the buyer payment.
+• The order is automatically sent to the printing service.
+
+Seller earnings are calculated after deducting printing cost and platform commission.
+
+</p></div><div class="card"><h2>5. Wallet System</h2><p>All earnings from ebook sales are automatically credited to the seller wallet.
+
+Wallet balance represents the total amount earned by the seller through product sales.
+
+The platform maintains a secure wallet system for tracking earnings and withdrawals.
+
+</p></div><div class="card"><h2>6. Withdrawal Policy</h2><p>Sellers can withdraw wallet balance to their UPI account.
+
+Withdrawal requests may go through automated security checks to prevent fraud.
+
+Processing time may vary depending on payment system verification.
+
+</p></div><div class="card"><h2>7. Refund Policy</h2><p>Digital products cannot be refunded once delivered.
+
+After an ebook is purchased and unlocked in the user library, the purchase is considered final.
+
+Refunds may only be issued in rare cases such as technical errors or duplicate payments.
+
+</p></div><div class="card"><h2>8. Fraud Protection</h2><p>CreatorHub uses automated monitoring systems to detect suspicious activities such as fake payments, unusual withdrawals, or abuse of the platform.
+
+Accounts involved in fraudulent activity may be suspended or permanently banned.
+
+</p></div><div class="card"><h2>9. User Conduct</h2><p>Users must not engage in illegal activities including:
+
+• Fraudulent payments
+• Hacking attempts
+• Unauthorized distribution of ebooks
+• Uploading harmful or illegal content
+
+Violation of these rules may lead to account suspension.
+
+</p></div><div class="card"><h2>10. Platform Rights</h2><p>CreatorHub reserves the right to modify rules, remove content, suspend accounts, or update policies when necessary to maintain platform security and compliance.
+
+By continuing to use CreatorHub services, users agree to follow all platform rules.
+
+</p></div><div class="card"><h2>11. Contact</h2><p>For any questions regarding platform rules or policies:
+
+Email: ayushprajpati6@gmail.com
+
 </p></div></div></body>
 </html>
