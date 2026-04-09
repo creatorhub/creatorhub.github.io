@@ -1,7 +1,5 @@
-<!DOCTYPE html><html lang="en"><head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CreatorHub Wallet</title><style>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Wallet</title><style>
 
 :root{
 --bg:#020617;
@@ -18,6 +16,7 @@ margin:0;
 font-family:Arial,Helvetica,sans-serif;
 background:var(--bg);
 color:white;
+animation:fadePage .6s ease;
 }
 
 /* HEADER */
@@ -51,7 +50,6 @@ color:var(--accent);
 padding:20px;
 max-width:700px;
 margin:auto;
-animation:fadeUp .7s ease;
 }
 
 /* CARD */
@@ -63,12 +61,13 @@ padding:20px;
 margin-bottom:20px;
 box-shadow:0 10px 25px rgba(0,0,0,0.6);
 border:1px solid #1f2937;
-transition:.3s;
+transition:.35s;
+animation:fadeUp .6s ease;
 }
 
 .card:hover{
-transform:translateY(-4px);
-box-shadow:0 15px 40px rgba(0,0,0,.8);
+transform:translateY(-6px);
+box-shadow:0 20px 45px rgba(0,0,0,.9);
 }
 
 /* BALANCE */
@@ -78,6 +77,7 @@ font-size:36px;
 font-weight:bold;
 margin-top:10px;
 color:var(--accent);
+animation:pulseGlow 2s infinite;
 }
 
 /* INPUT */
@@ -111,7 +111,7 @@ transition:.3s;
 
 button:hover{
 transform:scale(1.03);
-box-shadow:0 0 15px #22c55e;
+box-shadow:0 0 18px #22c55e;
 }
 
 /* HISTORY */
@@ -124,6 +124,43 @@ margin-top:8px;
 display:flex;
 justify-content:space-between;
 border:1px solid #1f2937;
+font-size:14px;
+animation:slideIn .5s ease;
+}
+
+/* ANIMATIONS */
+
+@keyframes fadePage{
+from{opacity:0}
+to{opacity:1}
+}
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@keyframes slideIn{
+from{
+opacity:0;
+transform:translateX(-20px);
+}
+to{
+opacity:1;
+transform:translateX(0);
+}
+}
+
+@keyframes pulseGlow{
+0%{text-shadow:0 0 5px #22c55e}
+50%{text-shadow:0 0 20px #22c55e}
+100%{text-shadow:0 0 5px #22c55e}
 }
 
 /* MOBILE */
@@ -136,32 +173,14 @@ font-size:30px;
 
 }
 
-/* ANIMATION */
-
-@keyframes fadeUp{
-
-0%{
-opacity:0;
-transform:translateY(40px);
-}
-
-100%{
-opacity:1;
-transform:translateY(0);
-}
-
-}
-
 </style></head><body><div class="header">
 <div class="back" onclick="history.back()">⬅</div>
 <div class="title">Creator Wallet</div>
 </div><div class="container"><div class="card"><h3>Available Balance</h3><div class="balance">
 ₹ <span id="balance">0</span>
-</div></div><div class="card"><h3>Withdraw Money</h3><input id="upi" placeholder="Enter UPI ID"><input id="amount" type="number" placeholder="Withdraw Amount ₹"><button onclick="withdraw()">
-Withdraw Money
-</button></div><div class="card"><h3>Earnings History</h3><div id="history">
-Loading...
-</div></div></div><script>
+</div></div><div class="card"><h3>Withdraw Money</h3><input id="upi" placeholder="Enter UPI ID"><input id="amount" type="number" placeholder="Withdraw Amount ₹"><button onclick="withdraw()">Withdraw Money</button>
+
+</div><div class="card"><h3>Earnings History</h3><div id="history">Loading...</div></div></div><script>
 
 /* API */
 
@@ -185,7 +204,6 @@ async function getDB(db){
 try{
 
 let r=await fetch(API+"?db="+db+"&t="+Date.now())
-
 let data=await r.json()
 
 return Array.isArray(data)?data:[]
@@ -228,7 +246,6 @@ let box=document.getElementById("history")
 if(!myOrders.length){
 
 box.innerHTML="No Earnings Yet"
-
 return
 
 }
@@ -237,7 +254,7 @@ box.innerHTML=""
 
 myOrders.reverse().forEach(o=>{
 
-let earn=Math.floor(Number(o.amount||0)*0.8)
+let earn = Number(o.amount || 0)
 
 box.innerHTML+=`
 
@@ -245,7 +262,7 @@ box.innerHTML+=`
 
 <div>₹ ${earn}</div>
 
-<div>Ebook Sale</div>
+<div>${o.type==="printed" ? "Printed Book Sale" : "Ebook Sale"}</div>
 
 </div>
 
@@ -270,7 +287,6 @@ return /^[a-zA-Z0-9.\-_]{2,}@[a-zA-Z]{2,}$/.test(vpa)
 async function withdraw(){
 
 let amount=Number(document.getElementById("amount").value)
-
 let upi=document.getElementById("upi").value.trim()
 
 if(!amount || !upi){
