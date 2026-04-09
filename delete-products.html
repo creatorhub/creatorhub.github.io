@@ -1,119 +1,181 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<meta name="viewport"
+<!DOCTYPE html><html><head><meta name="viewport"
 content="width=device-width,initial-scale=1">
 
-<title>Delete Products</title>
+<title>Delete All Products | CreatorHub</title><style>
 
-<style>
+:root{
+--bg:#020617;
+--card:#111827;
+--accent:#22c55e;
+--danger:#ef4444;
+}
+
+/* PAGE */
 
 body{
-background:#020617;
+background:var(--bg);
 color:white;
-font-family:Arial;
+font-family:Arial,Helvetica,sans-serif;
 padding:20px;
 text-align:center;
+animation:fadePage .6s ease;
 }
 
-.card{
-background:#111827;
-padding:25px;
-border-radius:12px;
-max-width:450px;
-margin:auto;
+/* BACK */
+
+.back{
+background:#1f2937;
+padding:12px 16px;
+border-radius:8px;
+display:inline-block;
+cursor:pointer;
+margin-bottom:20px;
+transition:.2s;
 }
+
+.back:hover{
+background:#374151;
+}
+
+/* CARD */
+
+.card{
+
+background:linear-gradient(145deg,#111827,#020617);
+
+padding:30px;
+
+border-radius:16px;
+
+max-width:450px;
+
+margin:auto;
+
+border:1px solid #1f2937;
+
+box-shadow:0 15px 35px rgba(0,0,0,.6);
+
+animation:fadeUp .6s ease;
+
+}
+
+/* TITLE */
+
+h2{
+margin-top:0;
+color:#f87171;
+}
+
+/* WARNING */
+
+.warning{
+opacity:.85;
+font-size:14px;
+margin-top:10px;
+line-height:22px;
+}
+
+/* BUTTON */
 
 button{
 width:100%;
 padding:15px;
-margin-top:15px;
+margin-top:20px;
 border:none;
-border-radius:10px;
+border-radius:12px;
 font-weight:bold;
 cursor:pointer;
 font-size:16px;
+transition:.2s;
 }
 
+/* DELETE BUTTON */
+
 .delete{
-background:red;
+background:linear-gradient(90deg,#ef4444,#dc2626);
 color:white;
 }
 
-.back{
-background:#2563eb;
-padding:12px;
-margin-bottom:15px;
-border-radius:8px;
-display:inline-block;
-cursor:pointer;
+.delete:hover{
+transform:scale(1.04);
+box-shadow:0 0 15px #ef4444;
 }
 
-</style>
+/* ANIMATION */
 
-</head>
+@keyframes fadePage{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
 
-<body>
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
 
-<div class="back"
-onclick="history.back()">
+</style></head><body><div class="back"
+onclick="history.back()">⬅ Back
 
-⬅ Back
+</div><div class="card"><h2>
+🚨 Delete All Products
+</h2><p class="warning">This action will permanently remove all ebooks from the marketplace.
+Deleted products cannot be recovered.
 
-</div>
-
-<div class="card">
-
-<h2>
-🗑 Delete All Products
-</h2>
-
-<p>
-All uploaded ebooks will be removed permanently.
-</p>
-
-<button
+</p><button
 class="delete"
 onclick="deleteAllProducts()">
 
-Delete All Products 🚨
+Delete All Products Permanently
 
-</button>
-
-</div>
-
-<script>
+</button></div><script>
 
 /* ADMIN */
 
 const ADMIN="ayushprajpati6@gmail.com"
 
-/* PRODUCT API */
+/* API */
 
 const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
-/* USER CHECK */
+/* USER */
 
 let user=JSON.parse(localStorage.getItem("user")||"{}")
 
 if(!user || user.email!==ADMIN){
 
-alert("Admin Only")
+alert("Admin Only Access")
+
 location.href="index.html"
 
 }
 
-/* DELETE PRODUCTS */
+/* DELETE FUNCTION */
 
 async function deleteAllProducts(){
 
-let ok=confirm(
+let confirm1=confirm(
 "⚠️ WARNING\n\nAll ebooks will be permanently deleted.\n\nContinue?"
 )
 
-if(!ok) return
+if(!confirm1) return
+
+let confirm2=confirm(
+"Final confirmation.\n\nThis action cannot be undone."
+)
+
+if(!confirm2) return
 
 try{
 
@@ -131,7 +193,7 @@ let data=await res.json()
 
 if(data.success){
 
-alert("All Products Deleted ✅")
+alert("All Products Deleted Successfully ✅")
 
 location.href="products.html"
 
@@ -149,8 +211,4 @@ alert("Server error")
 
 }
 
-</script>
-
-</body>
-
-</html>
+</script></body></html>
