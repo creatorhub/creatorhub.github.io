@@ -1,5 +1,14 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>Ebook - CreatorHub</title><style>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Ebook - CreatorHub</title>
+
+<style>
 
 body{
 margin:0;
@@ -35,7 +44,7 @@ color:#22c55e;
 font-weight:bold;
 }
 
-/* MAIN CONTAINER */
+/* CONTAINER */
 
 .container{
 max-width:1000px;
@@ -44,14 +53,13 @@ padding:20px;
 animation:fadeUp .7s ease;
 }
 
-/* BOOK PREVIEW */
+/* BOOK */
 
 .bookBox{
 display:flex;
 justify-content:center;
 gap:20px;
 flex-wrap:wrap;
-margin-top:10px;
 }
 
 .book{
@@ -98,7 +106,7 @@ font-size:14px;
 opacity:.7;
 }
 
-/* BUTTONS */
+/* BUTTON */
 
 .btn{
 width:100%;
@@ -110,6 +118,10 @@ font-weight:bold;
 cursor:pointer;
 font-size:16px;
 transition:.3s;
+}
+
+.btn:hover{
+transform:scale(1.03);
 }
 
 .buy{
@@ -163,19 +175,19 @@ border-bottom:1px solid #333;
 padding:10px 0;
 }
 
-/* MOBILE */
+/* LOADER */
 
-@media(max-width:768px){
-
-.book{
-width:150px;
-height:220px;
+.loader{
+text-align:center;
+padding:40px;
+font-size:18px;
+animation:pulse 1.5s infinite;
 }
 
-.bookTitle{
-font-size:22px;
-}
-
+@keyframes pulse{
+0%{opacity:.4}
+50%{opacity:1}
+100%{opacity:.4}
 }
 
 /* ANIMATION */
@@ -194,20 +206,53 @@ transform:translateY(0);
 
 }
 
-</style></head><body><header>
+</style>
+
+</head>
+
+<body>
+
+<header>
+
 <div class="back" onclick="history.back()">⬅</div>
+
 <div class="title">Ebook Details</div>
-</header><div class="container"><div id="book">Loading Ebook...</div><div class="reviews"><h3>⭐ Ratings & Reviews</h3><div id="ratingBox"></div><select id="userRating">
+
+</header>
+
+<div class="container">
+
+<div id="book" class="loader">Loading Ebook...</div>
+
+<div class="reviews">
+
+<h3>⭐ Ratings & Reviews</h3>
+
+<div id="ratingBox"></div>
+
+<select id="userRating">
 <option value="5">⭐⭐⭐⭐⭐</option>
 <option value="4">⭐⭐⭐⭐</option>
 <option value="3">⭐⭐⭐</option>
 <option value="2">⭐⭐</option>
 <option value="1">⭐</option>
-</select><textarea id="userReview"
+</select>
+
+<textarea id="userReview"
 placeholder="Write review..."
-style="width:100%;padding:10px;margin-top:10px;border-radius:8px;border:none"></textarea><button class="btn buy" onclick="submitReview()">
+style="width:100%;padding:10px;margin-top:10px;border-radius:8px;border:none"></textarea>
+
+<button class="btn buy" onclick="submitReview()">
 Submit Review
-</button><div id="reviewList"></div></div></div><script>
+</button>
+
+<div id="reviewList"></div>
+
+</div>
+
+</div>
+
+<script>
 
 const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
@@ -285,7 +330,18 @@ return
 
 }
 
-let sales=orders.filter(o=>String(o.productId)===String(id) && o.status==="paid").length
+/* AI APPROVED CHECK */
+
+if(book.ai_status && book.ai_status!=="approved"){
+
+document.getElementById("book").innerHTML="Book not available"
+return
+
+}
+
+/* SALES FIX */
+
+let sales=orders.filter(o=>String(o.productId)===String(id) && o.payment==="paid").length
 
 let authorName=escapeHTML(book.author||book.owner||"Unknown")
 
@@ -395,6 +451,21 @@ return
 
 }
 
+/* DUPLICATE REVIEW BLOCK */
+
+let reviews=await getDB("reviews")
+
+let already=reviews.find(r=>
+r.productId==id && r.user===user.email
+)
+
+if(already){
+
+alert("You already reviewed this book")
+return
+
+}
+
 await fetch(API,{
 method:"POST",
 headers:{
@@ -465,5 +536,7 @@ window.open(
 
 loadBook()
 
-</script></body>
+</script>
+
+</body>
 </html>
