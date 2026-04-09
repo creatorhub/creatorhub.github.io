@@ -1,159 +1,159 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Privacy Policy - CreatorHub</title>
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Privacy Policy - CreatorHub</title><style>
 
-<style>
+:root{
+--bg:#020617;
+--card:#111827;
+--accent:#22c55e;
+--text:#ffffff;
+}
 
 body{
 margin:0;
-font-family:Arial;
-background:#020617;
-color:white;
+font-family:Arial,Helvetica,sans-serif;
+background:var(--bg);
+color:var(--text);
 line-height:26px;
+animation:fadePage .6s ease;
 }
+
+/* HEADER */
 
 header{
 display:flex;
 align-items:center;
 padding:15px;
-background:black;
+background:#020617;
+border-bottom:1px solid #1f2937;
+position:sticky;
+top:0;
+z-index:99;
 }
 
 .back{
 font-size:22px;
 cursor:pointer;
 width:40px;
+transition:.2s;
+}
+
+.back:hover{
+transform:scale(1.1);
 }
 
 .title{
 flex:1;
 text-align:center;
-color:#22c55e;
+color:var(--accent);
 font-weight:bold;
 }
 
+/* CONTAINER */
+
 .container{
-padding:20px;
+padding:25px;
 max-width:900px;
 margin:auto;
 }
 
+/* SECTION CARD */
+
 .section{
-background:#111827;
-padding:20px;
+background:linear-gradient(145deg,#111827,#020617);
+padding:22px;
 border-radius:14px;
-margin-bottom:20px;
+margin-bottom:18px;
+border:1px solid #1f2937;
+box-shadow:0 10px 25px rgba(0,0,0,.6);
+transition:.3s;
+animation:fadeUp .6s ease;
 }
+
+.section:hover{
+transform:translateY(-4px);
+box-shadow:0 0 12px rgba(34,197,94,.4);
+}
+
+.section h3{
+color:var(--accent);
+margin-top:0;
+}
+
+/* LIST */
+
+ul{
+padding-left:18px;
+margin-top:10px;
+}
+
+li{
+margin-top:5px;
+}
+
+/* FOOTER */
 
 footer{
-background:black;
+background:#020617;
+border-top:1px solid #1f2937;
 text-align:center;
-padding:20px;
+padding:25px;
+opacity:.8;
+margin-top:40px;
 }
 
-</style>
-</head>
+/* ANIMATIONS */
 
-<body>
+@keyframes fadePage{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
 
-<header>
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(30px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
 
-<div class="back"
+</style></head><body><header><div class="back"
 onclick="history.back()">
-
 ⬅
-
-</div>
-
-<div class="title">
-
-Privacy Policy
-
-</div>
-
-</header>
-
-<div class="container">
-
-<div class="section">
-
-<h3>Information We Collect</h3>
-
+</div><div class="title">
+CreatorHub Privacy Policy
+</div></header><div class="container"><div class="section"><h3>Information We Collect</h3><p>
 CreatorHub collects limited personal data required for platform operation such as email address, uploaded profile image and transaction activity.
-
+</p><p>
 We do not collect unnecessary sensitive personal information.
-
-</div>
-
-
-<div class="section">
-
-<h3>How We Use Information</h3>
-
-We use user data to:
-
-• Maintain account login  
-• Process ebook purchases  
-• Deliver digital downloads  
-• Maintain wallet balances  
-• Provide customer support.
-
-</div>
-
-
-<div class="section">
-
-<h3>Data Protection</h3>
-
+</p></div><div class="section"><h3>How We Use Information</h3><p>We use user data to:</p><ul>
+<li>Maintain account login</li>
+<li>Process ebook purchases</li>
+<li>Deliver digital downloads</li>
+<li>Maintain wallet balances</li>
+<li>Provide customer support</li>
+</ul></div><div class="section"><h3>Data Protection</h3><p>
 All platform data is securely stored using cloud storage infrastructure. Access is restricted to authorized platform processes only.
-
-</div>
-
-
-<div class="section">
-
-<h3>Cookies</h3>
-
+</p></div><div class="section"><h3>Cookies</h3><p>
 CreatorHub may store browser session data to improve login experience and faster navigation.
-
-</div>
-
-
-<div class="section">
-
-<h3>Third Party Services</h3>
-
-We may use trusted third-party services such as Google Drive or analytics tools for storage and performance monitoring.
-
-</div>
-
-
-<div class="section">
-
-<h3>User Rights</h3>
-
+</p></div><div class="section"><h3>Third Party Services</h3><p>
+We may use trusted third-party services such as Google Drive, payment gateways, or analytics tools for storage and performance monitoring.
+</p></div><div class="section"><h3>User Rights</h3><p>
 Users may request account removal or data deletion by contacting support.
+</p></div><div class="section"><h3>Policy Updates</h3><p>
+CreatorHub may update policies anytime to improve compliance, security, or platform performance.
+</p></div></div><footer>© 2026 CreatorHub Marketplace
+<br>
+Digital Products Platform
 
-</div>
-
-
-<div class="section">
-
-<h3>Policy Updates</h3>
-
-CreatorHub may update policies anytime to improve compliance or platform security.
-
-</div>
-
-</div>
-
-<footer>
-
-© CreatorHub Marketplace 2026
-
-</footer>
-
-</body>
+</footer></body>
 </html>
