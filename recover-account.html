@@ -1,20 +1,100 @@
-<button onclick="recoverAccount()">
+<button id="recoverBtn" onclick="recoverAccount()" class="recoverBtn">
 Recover My Account
-</button>
+</button><style>
 
-<script>
+.recoverBtn{
+
+padding:14px 20px;
+
+border:none;
+
+border-radius:12px;
+
+background:linear-gradient(90deg,#22c55e,#4ade80);
+
+color:black;
+
+font-weight:bold;
+
+cursor:pointer;
+
+transition:.2s;
+
+}
+
+.recoverBtn:hover{
+
+transform:translateY(-2px);
+
+box-shadow:0 0 10px rgba(34,197,94,.5);
+
+}
+
+.recoverBtn:disabled{
+
+opacity:.6;
+
+cursor:not-allowed;
+
+}
+
+.toast{
+
+position:fixed;
+
+bottom:20px;
+
+left:50%;
+
+transform:translateX(-50%);
+
+background:#111827;
+
+padding:12px 20px;
+
+border-radius:10px;
+
+border:1px solid #22c55e;
+
+color:#22c55e;
+
+font-weight:bold;
+
+box-shadow:0 0 10px rgba(34,197,94,.4);
+
+animation:fadeToast .4s ease;
+
+}
+
+@keyframes fadeToast{
+
+from{
+opacity:0;
+transform:translate(-50%,20px);
+}
+
+to{
+opacity:1;
+transform:translate(-50%,0);
+}
+
+}
+
+</style><script>
 
 const API =
 "https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
 
 async function recoverAccount(){
 
-let user =
+let btn=document.getElementById("recoverBtn");
+
+let user=
 JSON.parse(localStorage.getItem("user") || "null");
 
 if(!user || !user.email){
 
-alert("Login required");
+showToast("Login required");
 
 location.href="login.html";
 
@@ -23,6 +103,9 @@ return;
 }
 
 if(!confirm("Recover your account?")) return;
+
+btn.disabled=true;
+btn.innerText="Recovering...";
 
 try{
 
@@ -47,13 +130,20 @@ let data = await res.json();
 
 if(data.success){
 
-alert("Account recovered successfully ✅");
+showToast("Account recovered successfully ✅");
+
+setTimeout(()=>{
 
 location.href="dashboard.html";
 
+},1500);
+
 }else{
 
-alert(data.message || "Recovery failed");
+showToast(data.message || "Recovery failed");
+
+btn.disabled=false;
+btn.innerText="Recover My Account";
 
 }
 
@@ -61,10 +151,33 @@ alert(data.message || "Recovery failed");
 
 console.log(e);
 
-alert("Server error ❌");
+showToast("Server error ❌");
+
+btn.disabled=false;
+btn.innerText="Recover My Account";
 
 }
 
 }
 
-</script>
+/* TOAST MESSAGE */
+
+function showToast(msg){
+
+let div=document.createElement("div");
+
+div.className="toast";
+
+div.innerText=msg;
+
+document.body.appendChild(div);
+
+setTimeout(()=>{
+
+div.remove();
+
+},3000);
+
+}
+
+           </script>
