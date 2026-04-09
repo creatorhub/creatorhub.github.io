@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>CreatorHub Reader</title>
-
-<style>
+<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Reader</title><style>
 
 body{
 margin:0;
@@ -17,11 +8,14 @@ font-family:Arial;
 overflow:hidden;
 }
 
+/* TOPBAR */
+
 .topbar{
 background:#111827;
 padding:12px;
 display:flex;
 align-items:center;
+box-shadow:0 5px 20px black;
 }
 
 .back{
@@ -36,11 +30,32 @@ color:#22c55e;
 font-weight:bold;
 }
 
+/* LOADING */
+
+.loading{
+display:flex;
+justify-content:center;
+align-items:center;
+height:80vh;
+font-size:20px;
+animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+0%{opacity:.4}
+50%{opacity:1}
+100%{opacity:.4}
+}
+
+/* READER */
+
 .reader{
 width:100%;
 height:calc(100vh - 50px);
 position:relative;
 }
+
+/* PDF */
 
 iframe{
 width:100%;
@@ -48,16 +63,34 @@ height:100%;
 border:none;
 }
 
+/* WATERMARK */
+
 .watermark{
 position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-font-size:40px;
-opacity:0.1;
+top:0;
+left:0;
+width:100%;
+height:100%;
 pointer-events:none;
-white-space:nowrap;
+opacity:.12;
+font-size:38px;
+display:flex;
+align-items:center;
+justify-content:center;
+animation:moveWatermark 18s linear infinite;
 }
+
+@keyframes moveWatermark{
+
+0%{transform:translate(-20%,-20%)}
+
+50%{transform:translate(20%,20%)}
+
+100%{transform:translate(-20%,-20%)}
+
+}
+
+/* BLOCK MESSAGE */
 
 .block{
 display:flex;
@@ -68,33 +101,35 @@ font-size:22px;
 opacity:.7;
 }
 
-</style>
+/* SCREEN OVERLAY */
 
-</head>
+.overlay{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+background:repeating-linear-gradient(
+45deg,
+rgba(255,255,255,0.02),
+rgba(255,255,255,0.02) 2px,
+transparent 2px,
+transparent 6px
+);
+}
 
-<body>
-
-<div class="topbar">
-
-<div class="back" onclick="history.back()">⬅</div>
-
-<div class="title">
+</style></head><body><div class="topbar"><div class="back" onclick="history.back()">⬅</div><div class="title">
 Secure Ebook Reader
-</div>
-
-</div>
-
-<div id="viewer"></div>
-
-<script>
+</div></div><div id="viewer" class="loading">
+Loading Ebook...
+</div><script>
 
 /* APIs */
 
 const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
 const PAYMENT_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
-
-/* ADMIN */
 
 const ADMIN="ayushprajpati6@gmail.com"
 
@@ -156,8 +191,6 @@ let products=await getDB(PRODUCT_API,"products")
 
 let orders=await getDB(PAYMENT_API,"orders")
 
-let subs=await getDB(PAYMENT_API,"subscriptions")
-
 let product=products.find(p=>String(p.id)===String(id))
 
 if(!product){
@@ -180,28 +213,11 @@ o.buyer===user.email &&
 
 let owner=product.owner===user.email
 
-let premium=subs.find(s=>s.email===user.email)
-
-let isPremium=false
-
-if(premium){
-
-let exp=new Date(premium.expiry)
-
-if(Date.now()<exp){
-
-isPremium=true
-
-}
-
-}
-
 let allow=false
 
 if(user.email===ADMIN) allow=true
 else if(owner) allow=true
 else if(purchased) allow=true
-else if(isPremium) allow=true
 
 if(!allow){
 
@@ -229,6 +245,8 @@ document.getElementById("viewer").innerHTML=
 ${user.email}
 </div>
 
+<div class="overlay"></div>
+
 </div>
 
 `
@@ -249,17 +267,15 @@ document.addEventListener("copy",e=>e.preventDefault())
 
 document.addEventListener("keydown",function(e){
 
-if(e.ctrlKey && e.key==="p"){
+if(e.ctrlKey && (e.key==="p" || e.key==="s")){
 
 e.preventDefault()
 
-alert("Printing disabled")
+alert("Action blocked")
 
 }
 
 })
 
-</script>
-
-</body>
+</script></body>
 </html>
