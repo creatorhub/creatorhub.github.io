@@ -1,19 +1,18 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Guides</title><style>
 
-<head>
-
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>CreatorHub Guides</title>
-
-<style>
+:root{
+--bg:#020617;
+--card:#111827;
+--accent:#22c55e;
+}
 
 body{
 margin:0;
-font-family:Arial;
-background:#020617;
+font-family:Arial,Helvetica,sans-serif;
+background:var(--bg);
 color:white;
+animation:fadePage .6s ease;
 }
 
 /* TOPBAR */
@@ -26,196 +25,192 @@ background:#020617;
 box-shadow:0 5px 20px black;
 position:sticky;
 top:0;
+z-index:99;
 }
 
 .back{
 font-size:22px;
 cursor:pointer;
 width:40px;
+transition:.2s;
+}
+
+.back:hover{
+transform:scale(1.1);
 }
 
 .title{
 flex:1;
 text-align:center;
 font-weight:bold;
-color:#22c55e;
+color:var(--accent);
 }
 
-/* CONTENT */
+/* CONTAINER */
 
 .container{
-max-width:900px;
+max-width:950px;
 margin:auto;
 padding:20px;
 }
 
-.card{
-background:#111827;
-padding:20px;
-border-radius:15px;
-margin-bottom:18px;
-line-height:26px;
-}
-
 h1{
 text-align:center;
-color:#22c55e;
-margin-bottom:25px;
+color:var(--accent);
+margin-bottom:30px;
 }
 
-h2{
-color:#22c55e;
+/* CARD */
+
+.card{
+
+background:linear-gradient(145deg,#111827,#020617);
+
+padding:22px;
+
+border-radius:15px;
+
+margin-bottom:20px;
+
+line-height:26px;
+
+border:1px solid #1f2937;
+
+box-shadow:0 10px 25px rgba(0,0,0,.6);
+
+transition:.3s;
+
+animation:fadeUp .7s ease;
+
+}
+
+.card:hover{
+
+transform:translateY(-6px);
+
+box-shadow:0 0 15px rgba(34,197,94,.5);
+
+}
+
+.card h2{
+color:var(--accent);
 margin-top:0;
 }
 
 /* FOOTER */
 
 footer{
-background:black;
-padding:35px;
+
+background:#020617;
+
+padding:40px;
+
 text-align:center;
+
 line-height:26px;
-margin-top:30px;
+
+margin-top:40px;
+
+border-top:1px solid #1f2937;
+
+}
+
+footer h2{
+color:#22c55e;
 }
 
 footer a{
+
 color:#22c55e;
+
 text-decoration:none;
-margin:0 6px;
+
+margin:0 8px;
+
 }
 
 footer a:hover{
+
 text-decoration:underline;
+
 }
 
-</style>
+/* ANIMATION */
 
-</head>
+@keyframes fadePage{
 
-<body>
+from{
+opacity:0;
+transform:translateY(20px);
+}
 
-<!-- TOP BAR -->
+to{
+opacity:1;
+transform:translateY(0);
+}
 
-<div class="topbar">
+}
 
-<div class="back"
+@keyframes fadeUp{
+
+from{
+opacity:0;
+transform:translateY(40px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+</style></head><body><!-- TOP BAR --><div class="topbar"><div class="back"
 onclick="location.href='index.html'">
-
 ⬅
-
-</div>
-
-<div class="title">
-
+</div><div class="title">
 CreatorHub Guides
-
-</div>
-
-</div>
-
-
-<div class="container">
-
-<h1>Learn How To Earn With CreatorHub</h1>
-
-<div class="card">
-
-<h2>How To Sell Ebook Online</h2>
-
-<p>
+</div></div><div class="container"><h1>Learn How To Earn With CreatorHub</h1><div class="card"><h2>How To Sell Ebook Online</h2><p>
 Selling ebooks online allows creators to build passive income.
 CreatorHub provides a secure marketplace where sellers upload
 their digital products and earn from every purchase.
-
-Choose trending topics, create professional 16:9 cover images,
+</p><p>
+Choose trending topics, create professional cover images,
 write clear descriptions and promote your ebook on social media.
 Consistency and quality help increase conversions and long-term revenue.
-</p>
-
-</div>
-
-<div class="card">
-
-<h2>How CreatorHub Works</h2>
-
-<p>
+</p></div><div class="card"><h2>How CreatorHub Works</h2><p>
 CreatorHub connects sellers and buyers in a secure digital system.
 Sellers upload ebooks, admin approves them and buyers can
 purchase instantly.
-
+</p><p>
 Once payment is completed, the buyer receives digital access.
 This system allows creators to monetize knowledge efficiently.
-</p>
-
-</div>
-
-<div class="card">
-
-<h2>Passive Income From Digital Products</h2>
-
-<p>
+</p></div><div class="card"><h2>Passive Income From Digital Products</h2><p>
 Digital products require no shipping, no inventory and no
 repeated production cost.
-
+</p><p>
 Once uploaded, your ebook can be sold unlimited times.
 With proper marketing and SEO, you can generate
 consistent income monthly.
-</p>
-
-</div>
-
-<div class="card">
-
-<h2>Marketing Tips For Ebook Sellers</h2>
-
-<p>
+</p></div><div class="card"><h2>Marketing Tips For Ebook Sellers</h2><p>
 Promote your ebook using WhatsApp, Facebook groups,
 Instagram bio link and Telegram communities.
-
+</p><p>
 Use strong titles, premium cover designs and attractive
 pricing strategy to increase trust and sales.
-</p>
-
-</div>
-
-<div class="card">
-
-<h2>Why Digital Products Are Powerful</h2>
-
-<p>
+</p></div><div class="card"><h2>Why Digital Products Are Powerful</h2><p>
 Digital products offer high profit margins and scalability.
 Unlike physical goods, there is no manufacturing cost.
-
+</p><p>
 Creators can focus on building authority, audience trust
 and high-quality content to grow long-term wealth.
-</p>
-
-</div>
-
-<div class="card">
-
-<h2>How To Start Today</h2>
-
-<p>
+</p></div><div class="card"><h2>How To Start Today</h2><p>
 Create your account, apply as seller, upload your ebook
-with a professional 16:9 cover image and promote your link.
-
+with a professional cover image and promote your link.
+</p><p>
 Take consistent action and improve every week.
 Digital success rewards discipline and persistence.
-</p>
-
-</div>
-
-</div>
-
-
-<!-- ✅ ONLY FOOTER ADDED -->
-
-<footer>
-
-<h2>CreatorHub Guides</h2>
-
-<a href="guide1.html">Guide 1</a> |
+</p></div></div><footer><h2>CreatorHub Guides</h2><a href="guide1.html">Guide 1</a> |
 
 <a href="guide2.html">Guide 2</a> |
 
@@ -229,8 +224,4 @@ Digital success rewards discipline and persistence.
 
 © 2026 CreatorHub Marketplace
 
-</footer>
-
-</body>
-
-</html>
+</footer></body></html>
