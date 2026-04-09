@@ -1,267 +1,186 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Terms & Conditions - CreatorHub</title><style>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+:root{
+--bg:#020617;
+--card:#111827;
+--accent:#22c55e;
+--accent2:#4ade80;
+}
 
-<title>Terms & Conditions</title>
-
-<style>
+*{
+box-sizing:border-box;
+}
 
 body{
-
 margin:0;
-font-family:Arial;
-background:#020617;
+font-family:Arial,Helvetica,sans-serif;
+background:var(--bg);
 color:white;
-
+animation:fadePage .6s ease;
 }
 
 /* HEADER */
 
 .topbar{
-
 display:flex;
 align-items:center;
-
 padding:15px;
-
 background:#020617;
-
 box-shadow:0 5px 20px black;
-
 position:sticky;
-
 top:0;
-
+z-index:10;
 }
 
 .back{
-
 font-size:22px;
-
 cursor:pointer;
-
 width:40px;
+transition:.2s;
+}
 
+.back:hover{
+transform:scale(1.1);
 }
 
 .title{
-
 flex:1;
-
 text-align:center;
-
-color:#22c55e;
-
+color:var(--accent);
 font-weight:bold;
-
+font-size:18px;
 }
 
-
-/* FULL PAGE */
+/* CONTAINER */
 
 .container{
-
 max-width:1100px;
-
 margin:auto;
-
-padding:30px;
-
+padding:30px 20px;
 min-height:100vh;
-
 }
 
 /* CARD */
 
 .card{
-
-background:#111827;
-
+background:linear-gradient(145deg,#111827,#020617);
 padding:40px;
-
-border-radius:15px;
-
-box-shadow:0 10px 30px black;
-
+border-radius:16px;
+border:1px solid #1f2937;
+box-shadow:0 10px 30px rgba(0,0,0,0.6);
+animation:fadeUp .6s ease;
 }
 
 /* TEXT */
 
 h1{
-
-color:#22c55e;
-
+color:var(--accent);
 margin-top:0;
-
+margin-bottom:20px;
 }
 
 h2{
-
-color:#4ade80;
-
-margin-top:25px;
-
+color:var(--accent2);
+margin-top:30px;
+margin-bottom:10px;
+border-left:4px solid var(--accent);
+padding-left:10px;
 }
 
 p{
-
 opacity:.9;
-
 line-height:1.9;
-
+font-size:15px;
 }
 
-</style>
+/* DIVIDER */
 
-</head>
+.section{
+margin-bottom:20px;
+padding-bottom:10px;
+border-bottom:1px solid #1f2937;
+}
 
-<body>
+/* ANIMATIONS */
 
+@keyframes fadePage{
+from{opacity:0}
+to{opacity:1}
+}
 
-<div class="topbar">
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(30px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
 
-<div class="back"
-
-onclick="history.back()">
-
-⬅
-
-</div>
-
-<div class="title">
-
-Terms & Conditions
-
-</div>
-
-</div>
-
-
-<div class="container">
-
-<div class="card">
-
-
-<h1>CreatorHub Marketplace Terms & Conditions</h1>
-
-
+</style></head><body><div class="topbar">
+<div class="back" onclick="history.back()">⬅</div>
+<div class="title">Terms & Conditions</div>
+</div><div class="container"><div class="card"><h1>CreatorHub Marketplace Terms & Conditions</h1><div class="section">
 <h2>Platform Agreement</h2>
-
 <p>
-
 CreatorHub is a digital ebook marketplace connecting buyers and sellers.
-
 By using this website you agree to follow all rules and policies mentioned here.
-
 </p>
-
-
+</div><div class="section">
 <h2>Digital Products</h2>
-
 <p>
-
 All ebooks are uploaded by independent creators.
-
 CreatorHub does not claim ownership of uploaded content.
-
 Users must verify product details before purchase.
-
 </p>
-
-
+</div><div class="section">
 <h2>Payments</h2>
-
 <p>
-
-All ebook purchases are final.
-
-Due to digital delivery refunds are not provided after access.
-
+All ebook purchases are final. Due to digital delivery refunds are not provided after access.
 </p>
-
-
+</div><div class="section">
 <h2>Seller Responsibility</h2>
-
 <p>
-
 Sellers must upload original or licensed content.
-
 Copyright violation or fake products may result in permanent ban.
-
 </p>
-
-
+</div><div class="section">
 <h2>Buyer Responsibility</h2>
-
 <p>
-
 Buyers cannot redistribute ebooks publicly.
-
 Sharing purchased ebooks commercially is prohibited.
-
 </p>
-
-
+</div><div class="section">
 <h2>Withdraw Policy</h2>
-
 <p>
-
 Seller withdrawals may take upto 24-72 hours.
-
 Fraud checks may delay payments.
-
 </p>
-
-
+</div><div class="section">
 <h2>Account Suspension</h2>
-
 <p>
-
 Fake payments, hacking attempts or rule violation may suspend accounts.
-
 </p>
-
-
+</div><div class="section">
 <h2>Limitation Of Liability</h2>
-
 <p>
-
 CreatorHub acts only as a platform.
-
 We are not responsible for ebook claims or seller promises.
-
 </p>
-
-
+</div><div class="section">
 <h2>Changes</h2>
-
 <p>
-
 Terms may update anytime.
-
 Continued use means acceptance.
-
 </p>
-
-
+</div><div class="section">
 <h2>Contact</h2>
-
 <p>
-
-Email :
-
-ayushprajpati6@gmail.com
-
+Email : ayushprajpati6@gmail.com
 </p>
-
-
-</div>
-
-</div>
-
-</body>
-
+</div></div></div></body>
 </html>
