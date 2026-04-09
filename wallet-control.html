@@ -1,6 +1,11 @@
-<!DOCTYPE html><html lang="en">
-<head><meta charset="UTF-8">
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Wallet Control</title><style>
+
+:root{
+--bg:#020617;
+--card:#111827;
+--accent:#22c55e;
+}
 
 *{
 box-sizing:border-box;
@@ -9,8 +14,9 @@ box-sizing:border-box;
 body{
 margin:0;
 font-family:Arial,Helvetica,sans-serif;
-background:#020617;
+background:var(--bg);
 color:white;
+animation:fadePage .6s ease;
 }
 
 /* HEADER */
@@ -20,6 +26,7 @@ display:flex;
 align-items:center;
 padding:16px;
 border-bottom:1px solid #1f2937;
+background:#020617;
 }
 
 .back{
@@ -31,7 +38,7 @@ margin-right:10px;
 .title{
 font-size:20px;
 font-weight:bold;
-color:#22c55e;
+color:var(--accent);
 }
 
 /* CONTAINER */
@@ -45,71 +52,50 @@ padding:20px;
 /* CARD */
 
 .card{
-
 background:linear-gradient(145deg,#111827,#020617);
-
 border-radius:16px;
-
 padding:20px;
-
 margin-bottom:20px;
-
 box-shadow:0 10px 25px rgba(0,0,0,0.6);
-
 border:1px solid #1f2937;
-
+animation:fadeUp .6s ease;
 }
 
 /* ROW */
 
 .row{
-
 background:#020617;
-
 padding:15px;
-
 border-radius:10px;
-
 margin-top:12px;
-
 border:1px solid #1f2937;
-
 }
 
 /* INPUT */
 
 input{
-
 width:130px;
-
 padding:8px;
-
 border-radius:8px;
-
 border:1px solid #1f2937;
-
 background:#111827;
-
 color:white;
-
 }
 
 /* BUTTON */
 
 button{
-
 border:none;
-
 padding:8px 14px;
-
 border-radius:8px;
-
 cursor:pointer;
-
 color:white;
-
 margin-left:8px;
+transition:.2s;
+}
 
+button:hover{
+transform:scale(1.05);
 }
 
 .save{
@@ -125,11 +111,27 @@ background:#2563eb;
 background:#dc2626;
 }
 
+/* ANIMATION */
+
+@keyframes fadePage{
+from{opacity:0}
+to{opacity:1}
+}
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(30px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
 </style></head><body><div class="header"><div class="back" onclick="history.back()">⬅</div><div class="title">Wallet Control Panel</div></div><div class="container"><div class="card"><h2>User Wallets</h2><div id="walletList">Loading...</div></div><div class="card"><h2>Withdraw Requests</h2><div id="withdrawList">Loading...</div></div></div><script>
 
 const ADMIN="ayushprajpati6@gmail.com"
-
-/* MAIN API */
 
 const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
@@ -242,14 +244,6 @@ let input=document.getElementById("bal_"+id)
 
 let newAmount=Number(input.value)||0
 
-if(newAmount<0){
-
-alert("Balance cannot be negative")
-
-return
-
-}
-
 let wallet=wallets.find(w=>w.email===email)
 
 if(!wallet){
@@ -313,7 +307,7 @@ UPI: ${escapeHTML(w.upi)}
 
 Amount: ₹${Number(w.amount)||0}
 
-<br><br>
+<br>
 
 Status: ${escapeHTML(w.status)}
 
@@ -343,9 +337,9 @@ Reject
 
 async function approveWithdraw(id){
 
-if(!confirm("Approve this withdraw request?")) return
+if(!confirm("Approve withdraw request?")) return
 
-let res=await fetch(API,{
+await fetch(API,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
@@ -354,17 +348,7 @@ id:id
 })
 })
 
-let data=await res.json()
-
-if(data.success){
-
 alert("Withdraw Approved")
-
-}else{
-
-alert(data.message||"Error")
-
-}
 
 loadWithdraw()
 
@@ -376,43 +360,16 @@ async function rejectWithdraw(id){
 
 if(!confirm("Reject withdraw request?")) return
 
-let withdraws=await getDB("withdrawals")
-
-let wallets=await getDB("wallets")
-
-let w=withdraws.find(x=>x.id===id)
-
-if(!w) return
-
-w.status="rejected"
-
-let userWallet=wallets.find(x=>x.email===w.email)
-
-if(userWallet){
-
-userWallet.balance+=Number(w.amount)
-
-}
-
 await fetch(API,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
-action:"update_wallet",
-wallets:wallets
+action:"reject_withdraw",
+id:id
 })
 })
 
-await fetch(API,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-action:"update_withdrawals",
-withdrawals:withdraws
-})
-})
-
-alert("Withdraw Rejected & Refunded")
+alert("Withdraw Rejected")
 
 loadWithdraw()
 
@@ -421,7 +378,6 @@ loadWithdraw()
 /* INIT */
 
 loadWallets()
-
 loadWithdraw()
 
 </script></body>
