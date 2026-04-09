@@ -1,5 +1,13 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>Payment Success</title><style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Payment Success</title>
+
+<style>
 
 body{
 margin:0;
@@ -16,117 +24,133 @@ padding:20px;
 /* CARD */
 
 .card{
-
 background:linear-gradient(145deg,#111827,#020617);
-
 padding:35px;
-
 border-radius:18px;
-
 max-width:420px;
-
 width:100%;
-
 text-align:center;
-
 border:1px solid #1f2937;
-
 box-shadow:0 20px 40px rgba(0,0,0,0.7);
-
+animation:fadeUp .6s ease;
 }
 
 /* TITLE */
 
 h1{
-
 color:#22c55e;
-
 margin-bottom:10px;
-
 }
 
 /* STATUS */
 
 #status{
-
 opacity:.8;
-
 font-size:14px;
-
 }
 
 /* BUTTON */
 
 button{
-
 margin-top:22px;
-
 width:100%;
-
 padding:14px;
-
 border:none;
-
 border-radius:10px;
-
 background:linear-gradient(90deg,#22c55e,#4ade80);
-
 color:black;
-
 font-weight:bold;
-
 cursor:pointer;
-
 display:none;
+transition:.3s;
+}
 
+button:hover{
+transform:scale(1.03);
+box-shadow:0 0 15px #22c55e;
 }
 
 /* LOADER */
 
 .loader{
-
 margin-top:25px;
-
 font-size:14px;
-
 animation:pulse 1.2s infinite;
-
 }
 
-@keyframes pulse{
+/* PROGRESS */
 
+.progress{
+margin-top:10px;
+font-size:12px;
+opacity:.7;
+}
+
+/* ANIMATIONS */
+
+@keyframes pulse{
 0%{opacity:.3}
 50%{opacity:1}
 100%{opacity:.3}
-
 }
 
-</style></head><body><div class="card"><h1 id="title">Payment Successful 🎉</h1><p id="status">
+@keyframes fadeUp{
+0%{
+opacity:0;
+transform:translateY(40px);
+}
+100%{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h1 id="title">Payment Successful 🎉</h1>
+
+<p id="status">
 Verifying payment and unlocking your ebook...
-</p><div id="loader" class="loader">
+</p>
+
+<div id="loader" class="loader">
 ⏳ Please wait...
-</div><button id="libraryBtn" onclick="goLibrary()">
+</div>
+
+<div id="progress" class="progress">
+Attempt 1 / 10
+</div>
+
+<button id="libraryBtn" onclick="goLibrary()">
 Go To My Library
-</button></div><script>
+</button>
+
+</div>
+
+<script>
 
 /* PAYMENT API */
 
-const PAYMENT_API=
+const PAYMENT_API =
 "https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
 
-/* USER CHECK */
+/* USER */
 
-let user=JSON.parse(localStorage.getItem("user")||"null")
+let user = JSON.parse(localStorage.getItem("user")||"null")
 
 if(!user){
 
 alert("Login required")
-
 location.href="login.html"
 
 }
 
-/* GET ORDER ID */
+/* ORDER ID */
 
 function getOrderId(){
 
@@ -143,10 +167,9 @@ params.get("order-id")
 
 let orderId=getOrderId()
 
-/* RETRY SYSTEM */
+/* RETRY */
 
 let retry=0
-
 const maxRetry=10
 
 /* VERIFY PAYMENT */
@@ -166,7 +189,7 @@ return
 
 }
 
-/* STOP AFTER LIMIT */
+/* LIMIT */
 
 if(retry>=maxRetry){
 
@@ -183,6 +206,9 @@ return
 
 }
 
+document.getElementById("progress").innerText =
+"Attempt "+(retry+1)+" / "+maxRetry
+
 try{
 
 let res=await fetch(PAYMENT_API,{
@@ -194,10 +220,8 @@ headers:{
 },
 
 body:JSON.stringify({
-
 action:"verify",
 orderId:orderId
-
 })
 
 })
@@ -208,16 +232,24 @@ let data=await res.json()
 
 if(data.success){
 
-document.getElementById("status").innerText=
+document.getElementById("status").innerText =
 "Ebook unlocked successfully!"
 
 document.getElementById("loader").style.display="none"
+
+document.getElementById("progress").style.display="none"
 
 document.getElementById("libraryBtn").style.display="block"
 
 /* CLEAR CART */
 
 localStorage.removeItem("buyProduct")
+
+/* AUTO REDIRECT */
+
+setTimeout(()=>{
+goLibrary()
+},4000)
 
 }
 
@@ -237,7 +269,7 @@ catch(e){
 
 retry++
 
-document.getElementById("status").innerText=
+document.getElementById("status").innerText =
 "Verification error. Retrying..."
 
 setTimeout(verifyPayment,3000)
@@ -248,13 +280,13 @@ setTimeout(verifyPayment,3000)
 
 verifyPayment()
 
-/* LIBRARY */
-
 function goLibrary(){
 
 location.href="library.html"
 
 }
 
-</script></body>
+</script>
+
+</body>
 </html>
