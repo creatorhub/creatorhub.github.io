@@ -6,7 +6,8 @@ const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq
 
 const PAYMENT_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
 
-/* LOGIN CHECK */
+
+/* ================= LOGIN CHECK ================= */
 
 let user=null
 
@@ -23,7 +24,8 @@ return
 
 }
 
-/* USER NAME */
+
+/* ================= USER NAME ================= */
 
 const username=document.getElementById("username")
 
@@ -33,7 +35,8 @@ username.innerText="Welcome "+(user.name || "User")+" 👋"
 
 }
 
-/* PROFILE IMAGE */
+
+/* ================= PROFILE IMAGE ================= */
 
 const profile=document.getElementById("profileImg")
 
@@ -41,13 +44,12 @@ if(profile){
 
 const saved=localStorage.getItem("profile_"+user.email)
 
-if(saved){
-profile.src=saved
-}
+profile.src = saved || "https://cdn-icons-png.flaticon.com/512/149/149071.png"
 
 }
 
-/* PROFILE UPLOAD */
+
+/* ================= PROFILE UPLOAD ================= */
 
 window.uploadProfile=function(e){
 
@@ -88,7 +90,8 @@ reader.readAsDataURL(file)
 
 }
 
-/* SAFE NAVIGATION */
+
+/* ================= SAFE NAVIGATION ================= */
 
 window.go=function(page){
 
@@ -98,13 +101,15 @@ location.href=page
 
 }
 
-/* LOAD STATS */
+
+/* ================= LOAD STATS ================= */
 
 try{
 
 /* PRODUCTS */
 
 let pres=await fetch(PRODUCT_API+"?db=products&t="+Date.now())
+
 let products=await pres.json()
 
 if(!Array.isArray(products)) products=[]
@@ -117,12 +122,15 @@ if(pc){
 pc.innerText=myProducts.length
 }
 
+
 /* ORDERS */
 
 let ores=await fetch(PAYMENT_API+"?db=orders&t="+Date.now())
+
 let orders=await ores.json()
 
 if(!Array.isArray(orders)) orders=[]
+
 
 /* ONLY PAID ORDERS */
 
@@ -137,13 +145,16 @@ if(oc){
 oc.innerText=myOrders.length
 }
 
-/* EARNINGS */
+
+/* ================= EARNINGS ================= */
 
 let total=0
 
 myOrders.forEach(o=>{
 
-total += Number(o.amount || 0) * 0.92
+/* SELLER GETS 90% */
+
+total += Number(o.amount || 0) * 0.90
 
 })
 
@@ -161,7 +172,8 @@ console.log("Stats Error:",e)
 
 })
 
-/* LOGOUT */
+
+/* ================= LOGOUT ================= */
 
 function logout(){
 
@@ -171,4 +183,4 @@ location.href="login.html"
 
 }
 
-</script>
+ </script>
