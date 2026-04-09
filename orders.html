@@ -17,12 +17,17 @@ background:#020617;
 color:white;
 }
 
+/* HEADER */
+
 .topbar{
 display:flex;
 align-items:center;
 padding:15px;
 background:#020617;
 box-shadow:0 5px 20px black;
+position:sticky;
+top:0;
+z-index:99;
 }
 
 .back{
@@ -38,11 +43,16 @@ color:#22c55e;
 font-weight:bold;
 }
 
+/* CONTAINER */
+
 .container{
 max-width:900px;
 margin:auto;
 padding:20px;
+animation:fadeUp .6s ease;
 }
+
+/* CARD */
 
 .card{
 background:#111827;
@@ -52,6 +62,13 @@ margin-bottom:15px;
 display:flex;
 gap:15px;
 align-items:center;
+box-shadow:0 10px 25px rgba(0,0,0,.5);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 15px 35px rgba(0,0,0,.8);
 }
 
 .cover{
@@ -65,12 +82,15 @@ border-radius:8px;
 flex:1;
 }
 
+/* STATUS */
+
 .status{
-padding:5px 10px;
+padding:6px 12px;
 border-radius:8px;
 font-size:13px;
 display:inline-block;
 margin-top:6px;
+font-weight:bold;
 }
 
 .placed{background:#f59e0b}
@@ -79,10 +99,59 @@ margin-top:6px;
 .delivery{background:#10b981}
 .delivered{background:#22c55e}
 
+/* EMPTY */
+
 .empty{
 text-align:center;
 padding:60px;
 opacity:.7;
+}
+
+/* LOADER */
+
+.loader{
+text-align:center;
+padding:40px;
+font-size:18px;
+animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+0%{opacity:.4}
+50%{opacity:1}
+100%{opacity:.4}
+}
+
+/* PAGE ANIMATION */
+
+@keyframes fadeUp{
+
+0%{
+opacity:0;
+transform:translateY(40px);
+}
+
+100%{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+.card{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.cover{
+width:100%;
+height:200px;
+}
+
 }
 
 </style>
@@ -92,12 +161,19 @@ opacity:.7;
 <body>
 
 <div class="topbar">
+
 <div class="back" onclick="history.back()">⬅</div>
+
 <div class="title">My Orders</div>
+
 </div>
 
 <div class="container">
-<div id="orders">Loading orders...</div>
+
+<div id="orders" class="loader">
+Loading orders...
+</div>
+
 </div>
 
 <script>
@@ -108,7 +184,6 @@ const ORDER_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1E
 
 const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
-
 /* USER */
 
 let user=JSON.parse(localStorage.getItem("user")||"{}")
@@ -116,10 +191,10 @@ let user=JSON.parse(localStorage.getItem("user")||"{}")
 if(!user.email){
 
 alert("Login first")
+
 location.href="login.html"
 
 }
-
 
 /* SAFE TEXT */
 
@@ -138,7 +213,6 @@ return({
 })
 
 }
-
 
 /* DRIVE IMAGE */
 
@@ -168,7 +242,6 @@ return link
 
 }
 
-
 /* GET DB */
 
 async function getDB(api,db){
@@ -181,21 +254,17 @@ return Array.isArray(data)?data:[]
 
 }
 
-
 /* LOAD ORDERS */
 
 async function loadOrders(){
 
 let box=document.getElementById("orders")
 
-box.innerHTML="Loading..."
-
 try{
 
 let orders=await getDB(ORDER_API,"orders")
 
 let products=await getDB(PRODUCT_API,"products")
-
 
 /* USER ORDERS */
 
@@ -208,6 +277,7 @@ myOrders.reverse()
 if(myOrders.length===0){
 
 box.innerHTML="<div class='empty'>No orders yet 📦</div>"
+
 return
 
 }
@@ -219,6 +289,11 @@ myOrders.forEach(o=>{
 let product=products.find(
 p=>String(p.id)===String(o.productId)
 )
+
+/* APPROVED CHECK */
+
+if(product && product.ai_status && product.ai_status!=="approved")
+return
 
 let title=product?product.title:"Unknown Product"
 
@@ -277,7 +352,6 @@ box.innerHTML="Failed to load orders ❌"
 }
 
 }
-
 
 /* INIT */
 
