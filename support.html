@@ -1,6 +1,12 @@
-<!DOCTYPE html><html>
-<head><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CreatorHub AI Support</title><style>
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>CreatorHub Support</title>
+
+<style>
 
 :root{
 --bg:#020617;
@@ -16,7 +22,6 @@ color:white;
 display:flex;
 flex-direction:column;
 height:100vh;
-animation:fadePage .5s ease;
 }
 
 /* HEADER */
@@ -31,13 +36,12 @@ color:var(--accent);
 font-size:18px;
 }
 
-/* CHAT AREA */
+/* CHAT */
 
 .chat{
 flex:1;
 overflow:auto;
 padding:15px;
-scroll-behavior:smooth;
 }
 
 /* MESSAGE */
@@ -49,7 +53,6 @@ max-width:75%;
 border-radius:12px;
 font-size:14px;
 line-height:1.5;
-animation:msgFade .3s ease;
 }
 
 /* USER */
@@ -59,11 +62,11 @@ margin-left:auto;
 background:#2563eb;
 }
 
-/* AI */
+/* BOT */
 
-.ai{
+.bot{
 background:#111827;
-color:var(--accent);
+color:#22c55e;
 border:1px solid #1f2937;
 }
 
@@ -95,46 +98,39 @@ color:black;
 border-radius:8px;
 cursor:pointer;
 font-weight:bold;
-transition:.2s;
 }
 
-button:hover{
-transform:scale(1.05);
-}
+</style>
 
-/* TYPING */
+</head>
 
-.typing{
-opacity:.6;
-font-size:13px;
-margin-top:5px;
-}
+<body>
 
-/* ANIMATIONS */
+<div class="header">
+CreatorHub Support
+</div>
 
-@keyframes fadePage{
-from{opacity:0}
-to{opacity:1}
-}
+<div class="chat" id="chat"></div>
 
-@keyframes msgFade{
-from{
-opacity:0;
-transform:translateY(10px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
+<div class="inputBox">
 
-</style></head><body><div class="header">
-CreatorHub AI Support
-</div><div class="chat" id="chat"></div><div class="inputBox"><input id="msg" placeholder="Ask anything..." onkeydown="enterSend(event)"><button onclick="send()">Send</button>
+<input id="msg"
+placeholder="Ask your question..."
+onkeydown="enterSend(event)">
 
-</div><script>
+<button onclick="send()">
+Send
+</button>
 
-const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
+</div>
+
+<script>
+
+/* APIs */
+
+const SUPPORT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
+
+const CHAT_API="https://script.google.com/macros/s/AKfycbzMCnhAdxOSnSl7tO6u3yZZEARctzq9kQIenT-PoO8Y68gN5kXWViEFD01BiRObxOY1/exec"
 
 /* ADD MESSAGE */
 
@@ -154,7 +150,7 @@ chat.scrollTop=chat.scrollHeight
 
 }
 
-/* ENTER KEY SEND */
+/* ENTER SEND */
 
 function enterSend(e){
 
@@ -180,15 +176,23 @@ addMessage(text,"user")
 
 input.value=""
 
-let typing=document.createElement("div")
+/* loading message */
 
-typing.className="msg ai typing"
+let loading=document.createElement("div")
 
-typing.innerText="AI is typing..."
+loading.className="msg bot"
 
-document.getElementById("chat").appendChild(typing)
+loading.innerText="Please wait..."
 
-let res=await fetch(API,{
+document.getElementById("chat").appendChild(loading)
+
+let reply=""
+
+try{
+
+/* first api */
+
+let res=await fetch(SUPPORT_API,{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
@@ -201,11 +205,41 @@ message:text
 
 let data=await res.json()
 
-typing.remove()
+reply=data.reply
 
-addMessage(data.reply || "No response","ai")
+}catch{}
+
+/* fallback second api */
+
+if(!reply){
+
+try{
+
+let res=await fetch(CHAT_API,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+message:text
+})
+})
+
+let data=await res.json()
+
+reply=data.reply
+
+}catch{}
 
 }
 
-</script></body>
+loading.remove()
+
+addMessage(reply || "Support team will respond soon.","bot")
+
+}
+
+</script>
+
+</body>
 </html>
