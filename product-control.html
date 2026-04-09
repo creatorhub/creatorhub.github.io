@@ -1,40 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Product Control</title><style>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>Product Control</title>
-
-<style>
+:root{
+--bg:#020617;
+--card:#111827;
+--accent:#22c55e;
+}
 
 body{
 margin:0;
-font-family:Arial;
-background:#020617;
+font-family:Arial,Helvetica,sans-serif;
+background:var(--bg);
 color:white;
+animation:fadePage .6s ease;
 }
+
+/* HEADER */
 
 .topbar{
 display:flex;
 align-items:center;
 padding:14px;
-box-shadow:0 5px 20px black;
+box-shadow:0 5px 20px rgba(0,0,0,.6);
 }
 
 .back{
 font-size:22px;
 cursor:pointer;
 width:40px;
+transition:.2s;
+}
+
+.back:hover{
+transform:scale(1.1);
 }
 
 .title{
 flex:1;
 text-align:center;
-color:#22c55e;
+color:var(--accent);
 font-weight:bold;
 }
+
+/* CONTAINER */
 
 .container{
 max-width:1000px;
@@ -42,18 +51,45 @@ margin:auto;
 padding:20px;
 }
 
+/* CARD */
+
 .card{
-background:#111827;
+background:var(--card);
 padding:20px;
 border-radius:14px;
+box-shadow:0 10px 30px rgba(0,0,0,.6);
 }
+
+/* SEARCH */
+
+.search{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#020617;
+color:white;
+margin-bottom:15px;
+border:1px solid #1f2937;
+}
+
+/* ROW */
 
 .row{
 background:#020617;
 padding:15px;
 border-radius:10px;
 margin-top:12px;
+border:1px solid #1f2937;
+transition:.2s;
 }
+
+.row:hover{
+transform:translateY(-2px);
+box-shadow:0 0 10px rgba(0,0,0,.6);
+}
+
+/* BUTTON */
 
 button{
 border:none;
@@ -62,10 +98,26 @@ border-radius:8px;
 cursor:pointer;
 color:white;
 margin:5px;
+transition:.2s;
 }
 
-.edit{background:orange;}
-.delete{background:red;}
+.edit{
+background:orange;
+}
+
+.edit:hover{
+transform:scale(1.05);
+}
+
+.delete{
+background:#ef4444;
+}
+
+.delete:hover{
+transform:scale(1.05);
+}
+
+/* EDIT MODAL */
 
 #editBox{
 display:none;
@@ -77,6 +129,7 @@ height:100%;
 background:rgba(0,0,0,.8);
 overflow:auto;
 z-index:99999;
+animation:fadePage .4s ease;
 }
 
 .editContent{
@@ -85,6 +138,8 @@ max-width:520px;
 margin:40px auto;
 padding:20px;
 border-radius:12px;
+border:1px solid #1f2937;
+animation:modalUp .4s ease;
 }
 
 input,textarea{
@@ -95,6 +150,7 @@ border:none;
 border-radius:8px;
 background:#020617;
 color:white;
+border:1px solid #1f2937;
 }
 
 textarea{
@@ -102,43 +158,59 @@ min-height:120px;
 resize:vertical;
 }
 
-</style>
-</head>
+/* TOAST */
 
-<body>
+.toast{
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+background:#111827;
+padding:12px 20px;
+border-radius:10px;
+border:1px solid var(--accent);
+color:var(--accent);
+font-weight:bold;
+box-shadow:0 0 10px rgba(34,197,94,.4);
+}
 
-<div class="topbar">
+/* ANIMATION */
+
+@keyframes fadePage{
+from{opacity:0}
+to{opacity:1}
+}
+
+@keyframes modalUp{
+from{
+opacity:0;
+transform:translateY(30px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+</style></head><body><div class="topbar">
 <div class="back" onclick="history.back()">⬅</div>
-<div class="title">Product Control</div>
-</div>
+<div class="title">Product Control Panel</div>
+</div><div class="container">
+<div class="card"><h2>All Products</h2><input id="search"
+class="search"
+placeholder="Search products..."
+oninput="searchProducts()">
 
-<div class="container">
-<div class="card">
-
-<h2>All Products</h2>
-
-<div id="products">Loading...</div>
-
-</div>
-</div>
-
-<div id="editBox">
-<div class="editContent">
-
-<h2>Edit Ebook</h2>
-
-<input id="eTitle" placeholder="Title">
+<div id="products">Loading...</div></div>
+</div><div id="editBox">
+<div class="editContent"><h2>Edit Ebook</h2><input id="eTitle" placeholder="Title">
 <input id="ePrice" type="number" placeholder="Price">
 <input id="eSeller" placeholder="Seller Email">
-<textarea id="eDesc" placeholder="Description"></textarea>
-
-<button class="edit" onclick="saveEdit()">Save</button>
+<textarea id="eDesc" placeholder="Description"></textarea><button class="edit" onclick="saveEdit()">Save</button>
 <button onclick="closeEdit()">Cancel</button>
 
 </div>
-</div>
-
-<script>
+</div><script>
 
 const ADMIN="ayushprajpati6@gmail.com"
 
@@ -147,23 +219,15 @@ const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5
 let user=JSON.parse(localStorage.getItem("user")||"{}")
 
 if(!user || user.email!==ADMIN){
-
 alert("Admin Only")
-
 location.href="index.html"
-
 }
 
 let products=[]
 let editID=null
 
-
-/* SAFE HTML */
-
 function escapeHTML(str){
-
 return String(str).replace(/[&<>"']/g,function(m){
-
 return({
 '&':'&amp;',
 '<':'&lt;',
@@ -171,54 +235,39 @@ return({
 '"':'&quot;',
 "'":'&#039;'
 })[m]
-
 })
-
 }
-
-
-/* GET PRODUCTS */
 
 async function getProducts(){
-
 try{
-
 let r=await fetch(API+"?db=products&t="+Date.now())
-
 let data=await r.json()
-
 return Array.isArray(data)?data:[]
-
-}catch(e){
-
-console.log(e)
-
+}catch{
 return[]
-
 }
-
 }
-
-
-/* LOAD PRODUCTS */
 
 async function loadProducts(){
 
 products=await getProducts()
 
+renderProducts(products)
+
+}
+
+function renderProducts(list){
+
 let box=document.getElementById("products")
 
-if(products.length===0){
-
+if(list.length===0){
 box.innerHTML="No Products Found"
-
 return
-
 }
 
 let html=""
 
-products.slice().reverse().forEach(p=>{
+list.slice().reverse().forEach(p=>{
 
 html+=`
 
@@ -230,13 +279,9 @@ Price : ₹${Number(p.price)||0}<br>
 
 Seller : ${escapeHTML(p.owner || "-")}<br>
 
-<button class="edit" onclick="openEdit('${p.id}')">
-Edit
-</button>
+<button class="edit" onclick="openEdit('${p.id}')">Edit</button>
 
-<button class="delete" onclick="deleteProduct('${p.id}')">
-Delete
-</button>
+<button class="delete" onclick="deleteProduct('${p.id}')">Delete</button>
 
 </div>
 
@@ -248,8 +293,19 @@ box.innerHTML=html
 
 }
 
+function searchProducts(){
 
-/* OPEN EDIT */
+let q=document.getElementById("search").value.toLowerCase()
+
+let filtered=products.filter(p=>
+
+String(p.title||"").toLowerCase().includes(q)
+
+)
+
+renderProducts(filtered)
+
+}
 
 function openEdit(id){
 
@@ -260,28 +316,19 @@ let p=products.find(x=>String(x.id)===String(id))
 if(!p) return
 
 document.getElementById("eTitle").value=p.title||""
-
 document.getElementById("ePrice").value=p.price||0
-
 document.getElementById("eSeller").value=p.owner||""
-
 document.getElementById("eDesc").value=p.description||""
 
 document.getElementById("editBox").style.display="block"
 
 }
 
-
-/* CLOSE EDIT */
-
 function closeEdit(){
 
 document.getElementById("editBox").style.display="none"
 
 }
-
-
-/* SAVE EDIT */
 
 async function saveEdit(){
 
@@ -294,55 +341,40 @@ let owner=document.getElementById("eSeller").value.trim()
 let description=document.getElementById("eDesc").value.trim()
 
 if(!title){
-
-alert("Enter title")
-
+showToast("Enter title")
 return
-
 }
 
 if(!owner.includes("@")){
-
-alert("Enter valid seller email")
-
+showToast("Enter valid email")
 return
-
 }
 
 if(price<0){
-
-alert("Invalid price")
-
+showToast("Invalid price")
 return
-
 }
 
 let res=await fetch(API,{
-
 method:"POST",
-
 headers:{
 "Content-Type":"application/json"
 },
-
 body:JSON.stringify({
-
 action:"editProduct",
 id:editID,
 title:title,
 price:price,
 owner:owner,
 description:description
-
 })
-
 })
 
 let data=await res.json()
 
 if(data.success){
 
-alert("Product Updated ✅")
+showToast("Product Updated ✅")
 
 closeEdit()
 
@@ -350,58 +382,60 @@ loadProducts()
 
 }else{
 
-alert(data.message || "Update Failed")
+showToast(data.message || "Update Failed")
 
 }
 
 }
-
-
-/* DELETE PRODUCT */
 
 async function deleteProduct(id){
 
 if(!confirm("Delete this ebook?")) return
 
 let res=await fetch(API,{
-
 method:"POST",
-
 headers:{
 "Content-Type":"application/json"
 },
-
 body:JSON.stringify({
-
 action:"deleteProduct",
 id:id
-
 })
-
 })
 
 let data=await res.json()
 
 if(data.success){
 
-alert("Product Deleted 🗑")
+showToast("Product Deleted 🗑")
 
 loadProducts()
 
 }else{
 
-alert(data.message || "Delete Failed")
+showToast("Delete Failed")
 
 }
 
 }
 
+function showToast(msg){
 
-/* INIT */
+let div=document.createElement("div")
+
+div.className="toast"
+
+div.innerText=msg
+
+document.body.appendChild(div)
+
+setTimeout(()=>{
+div.remove()
+},3000)
+
+}
 
 loadProducts()
 
-</script>
-
-</body>
+</script></body>
 </html>
