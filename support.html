@@ -329,7 +329,7 @@ body:JSON.stringify({action:"support",message:text})
 })
 
 let data=await res.json()
-reply=data.reply
+reply=data.reply || data.message || data.text
 
 }catch{}
 
@@ -344,7 +344,7 @@ body:JSON.stringify({message:text})
 })
 
 let data=await res.json()
-reply=data.reply
+reply=data.reply || data.message || data.text
 
 }catch{}
 
@@ -352,7 +352,7 @@ reply=data.reply
 
 loading.remove()
 
-addMessage(reply || "Support team will respond soon.","bot")
+addMessage(reply || "Sorry, I couldn't understand your question.","bot")
 
 }
 
