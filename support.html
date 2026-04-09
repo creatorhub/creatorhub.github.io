@@ -1,50 +1,78 @@
 <!DOCTYPE html><html>
 <head><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CreatorHub Support</title><style>
+<title>CreatorHub AI Support</title><style>
+
+:root{
+--bg:#020617;
+--card:#111827;
+--accent:#22c55e;
+}
 
 body{
 margin:0;
-font-family:Arial;
-background:#020617;
+font-family:Arial,Helvetica,sans-serif;
+background:var(--bg);
 color:white;
 display:flex;
 flex-direction:column;
 height:100vh;
+animation:fadePage .5s ease;
 }
+
+/* HEADER */
 
 .header{
 padding:15px;
-background:#0f172a;
-font-weight:bold;
+background:#020617;
+border-bottom:1px solid #1f2937;
 text-align:center;
+font-weight:bold;
+color:var(--accent);
+font-size:18px;
 }
+
+/* CHAT AREA */
 
 .chat{
 flex:1;
 overflow:auto;
 padding:15px;
+scroll-behavior:smooth;
 }
+
+/* MESSAGE */
 
 .msg{
 margin:10px 0;
-padding:10px;
-max-width:80%;
-border-radius:10px;
+padding:12px;
+max-width:75%;
+border-radius:12px;
+font-size:14px;
+line-height:1.5;
+animation:msgFade .3s ease;
 }
+
+/* USER */
 
 .user{
 margin-left:auto;
 background:#2563eb;
 }
 
+/* AI */
+
 .ai{
 background:#111827;
-color:#22c55e;
+color:var(--accent);
+border:1px solid #1f2937;
 }
+
+/* INPUT */
 
 .inputBox{
 display:flex;
-background:#0f172a;
+background:#020617;
+border-top:1px solid #1f2937;
 padding:10px;
 }
 
@@ -55,23 +83,60 @@ border:none;
 border-radius:8px;
 background:#1f2937;
 color:white;
+outline:none;
 }
 
 button{
 margin-left:10px;
 padding:12px 18px;
 border:none;
-background:#22c55e;
-color:white;
+background:linear-gradient(90deg,#22c55e,#4ade80);
+color:black;
 border-radius:8px;
 cursor:pointer;
+font-weight:bold;
+transition:.2s;
 }
 
-</style></head><body><div class="header">CreatorHub AI Support</div><div class="chat" id="chat"></div><div class="inputBox"><input id="msg" placeholder="Ask anything..."><button onclick="send()">Send</button>
+button:hover{
+transform:scale(1.05);
+}
+
+/* TYPING */
+
+.typing{
+opacity:.6;
+font-size:13px;
+margin-top:5px;
+}
+
+/* ANIMATIONS */
+
+@keyframes fadePage{
+from{opacity:0}
+to{opacity:1}
+}
+
+@keyframes msgFade{
+from{
+opacity:0;
+transform:translateY(10px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+</style></head><body><div class="header">
+CreatorHub AI Support
+</div><div class="chat" id="chat"></div><div class="inputBox"><input id="msg" placeholder="Ask anything..." onkeydown="enterSend(event)"><button onclick="send()">Send</button>
 
 </div><script>
 
 const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
+
+/* ADD MESSAGE */
 
 function addMessage(text,type){
 
@@ -89,6 +154,20 @@ chat.scrollTop=chat.scrollHeight
 
 }
 
+/* ENTER KEY SEND */
+
+function enterSend(e){
+
+if(e.key==="Enter"){
+
+send()
+
+}
+
+}
+
+/* SEND MESSAGE */
+
 async function send(){
 
 let input=document.getElementById("msg")
@@ -100,6 +179,14 @@ if(!text) return
 addMessage(text,"user")
 
 input.value=""
+
+let typing=document.createElement("div")
+
+typing.className="msg ai typing"
+
+typing.innerText="AI is typing..."
+
+document.getElementById("chat").appendChild(typing)
 
 let res=await fetch(API,{
 method:"POST",
@@ -114,7 +201,9 @@ message:text
 
 let data=await res.json()
 
-addMessage(data.reply,"ai")
+typing.remove()
+
+addMessage(data.reply || "No response","ai")
 
 }
 
