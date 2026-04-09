@@ -273,6 +273,70 @@ document.addEventListener("contextmenu",e=>e.preventDefault())
 
 document.addEventListener("copy",e=>e.preventDefault())
 
+  /* ================= VOICE READER ================= */
+
+function startVoice(){
+
+let text=document.body.innerText
+
+let speech=new SpeechSynthesisUtterance(text)
+
+speech.lang="en-US"
+
+speech.rate=1
+
+speech.pitch=1
+
+speechSynthesis.speak(speech)
+
+}
+
+function stopVoice(){
+
+speechSynthesis.cancel()
+
+}
+
+
+/* ================= TRANSLATE ================= */
+
+async function translateBook(){
+
+alert("Translation starting...")
+
+let text=document.body.innerText
+
+let res=await fetch(PRODUCT_API,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+action:"translate",
+text:text
+
+})
+
+})
+
+let data=await res.json()
+
+if(data.translated){
+
+document.body.innerText=data.translated
+
+}else{
+
+alert("Translation failed")
+
+}
+
+}
+  
 /* BLOCK PRINT */
 
 document.addEventListener("keydown",function(e){
