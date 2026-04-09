@@ -1,6 +1,14 @@
-<!DOCTYPE html><html lang="en">
-<head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>Upload Ebook - CreatorHub</title><style>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Upload Ebook - CreatorHub</title>
+
+<style>
 
 *{
 box-sizing:border-box;
@@ -20,6 +28,10 @@ display:flex;
 align-items:center;
 padding:16px;
 border-bottom:1px solid #1f2937;
+position:sticky;
+top:0;
+background:#020617;
+z-index:99;
 }
 
 .back{
@@ -40,6 +52,7 @@ color:#22c55e;
 padding:20px;
 max-width:650px;
 margin:auto;
+animation:fadeUp .6s ease;
 }
 
 /* CARD */
@@ -64,6 +77,10 @@ background:#020617;
 color:white;
 }
 
+textarea{
+min-height:80px;
+}
+
 /* BUTTON */
 
 button{
@@ -76,6 +93,12 @@ font-weight:bold;
 cursor:pointer;
 background:linear-gradient(90deg,#22c55e,#4ade80);
 color:black;
+transition:.3s;
+}
+
+button:hover{
+transform:scale(1.02);
+box-shadow:0 0 15px #22c55e;
 }
 
 /* IMAGE */
@@ -103,8 +126,10 @@ border:1px solid #1f2937;
 height:100%;
 width:0%;
 background:linear-gradient(90deg,#22c55e,#4ade80);
-transition:.3s;
+transition:.4s;
 }
+
+/* LABEL */
 
 label{
 margin-top:12px;
@@ -113,22 +138,75 @@ font-size:14px;
 color:#9ca3af;
 }
 
-</style></head><body><div class="header"><div class="back" onclick="history.back()">⬅</div><div class="title">Upload Ebook</div></div><div class="container"><div class="card"><input id="title" placeholder="Book Title"><input id="author" placeholder="Author Name"><textarea id="description" placeholder="Book Description"></textarea><input id="price" type="number" placeholder="Price ₹"><label>Front Cover</label>
+/* ANIMATION */
+
+@keyframes fadeUp{
+
+0%{
+opacity:0;
+transform:translateY(30px);
+}
+
+100%{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+<div class="back" onclick="history.back()">⬅</div>
+<div class="title">Upload Ebook</div>
+</div>
+
+<div class="container">
+
+<div class="card">
+
+<input id="title" placeholder="Book Title">
+
+<input id="author" placeholder="Author Name">
+
+<textarea id="description" placeholder="Book Description"></textarea>
+
+<input id="price" type="number" placeholder="Price ₹">
+
+
+<label>Front Cover</label>
 <input type="file" id="frontCover" accept="image/*">
 <img id="previewFront">
+
 
 <label>Back Cover</label>
 <input type="file" id="backCover" accept="image/*">
 <img id="previewBack">
 
+
 <label>PDF File</label>
 <input type="file" id="pdf" accept="application/pdf">
 
+
 <div class="progress">
 <div class="bar" id="bar"></div>
-</div><button id="uploadBtn" onclick="upload()">
+</div>
+
+
+<button id="uploadBtn" onclick="upload()">
 Upload Ebook
-</button></div></div><script>
+</button>
+
+</div>
+
+</div>
+
+
+<script>
 
 const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
@@ -141,6 +219,7 @@ alert("Login First")
 location.href="login.html"
 
 }
+
 
 /* PREVIEW */
 
@@ -172,6 +251,7 @@ function(){preview(this,"previewFront")}
 document.getElementById("backCover").onchange=
 function(){preview(this,"previewBack")}
 
+
 /* BASE64 */
 
 function toBase64(file){
@@ -189,6 +269,7 @@ reader.readAsDataURL(file)
 })
 
 }
+
 
 /* UPLOAD */
 
@@ -216,6 +297,7 @@ return
 
 }
 
+
 /* SIZE CHECK */
 
 if(front.size>2*1024*1024){
@@ -242,6 +324,7 @@ return
 
 }
 
+
 let bar=document.getElementById("bar")
 
 let btn=document.getElementById("uploadBtn")
@@ -249,6 +332,7 @@ let btn=document.getElementById("uploadBtn")
 btn.disabled=true
 
 btn.innerText="Uploading..."
+
 
 try{
 
@@ -265,6 +349,7 @@ bar.style.width="60%"
 let pdf64=await toBase64(pdf)
 
 bar.style.width="80%"
+
 
 let res=await fetch(PRODUCT_API,{
 
@@ -287,7 +372,9 @@ owner:user.email,
 
 image:front64,
 backCover:back64,
-pdf:pdf64
+pdf:pdf64,
+
+ai_status:"pending"
 
 })
 
@@ -296,6 +383,7 @@ pdf:pdf64
 let result=await res.json()
 
 bar.style.width="100%"
+
 
 if(result.success){
 
@@ -323,5 +411,7 @@ btn.innerText="Upload Ebook"
 
 }
 
-</script></body>
-</html>
+</script>
+
+</body>
+  </html>
