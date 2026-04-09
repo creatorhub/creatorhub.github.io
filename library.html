@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -10,18 +11,10 @@
 <style>
 
 :root{
---bg:#ffffff;
---text:#111827;
---card:#f3f4f6;
---accent:#22c55e;
-}
-
-@media(prefers-color-scheme:dark){
-:root{
 --bg:#020617;
 --text:#ffffff;
 --card:#111827;
-}
+--accent:#22c55e;
 }
 
 body{
@@ -30,6 +23,8 @@ font-family:Arial;
 background:var(--bg);
 color:var(--text);
 }
+
+/* HEADER */
 
 .topbar{
 display:flex;
@@ -63,21 +58,34 @@ color:white;
 text-decoration:none;
 }
 
+/* CONTAINER */
+
 .container{
-padding:18px;
+padding:20px;
+animation:fadeUp .7s ease;
 }
+
+/* GRID */
 
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:18px;
+gap:20px;
 }
+
+/* CARD */
 
 .card{
 background:var(--card);
 border-radius:14px;
 padding:14px;
-box-shadow:0 10px 25px rgba(0,0,0,.3);
+box-shadow:0 10px 25px rgba(0,0,0,.5);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-6px);
+box-shadow:0 15px 40px rgba(0,0,0,.8);
 }
 
 .card img{
@@ -86,6 +94,8 @@ height:210px;
 object-fit:cover;
 border-radius:12px;
 }
+
+/* TEXT */
 
 .bookTitle{
 font-size:17px;
@@ -97,6 +107,8 @@ font-weight:bold;
 color:#22c55e;
 margin-top:6px;
 }
+
+/* BUTTON */
 
 .read{
 background:linear-gradient(90deg,#22c55e,#4ade80);
@@ -122,11 +134,44 @@ font-weight:bold;
 cursor:pointer;
 }
 
+/* EMPTY */
+
 .empty{
 text-align:center;
 opacity:.7;
 margin-top:50px;
 font-size:18px;
+}
+
+/* LOADER */
+
+.loader{
+text-align:center;
+padding:40px;
+font-size:18px;
+animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+0%{opacity:.4}
+50%{opacity:1}
+100%{opacity:.4}
+}
+
+/* PAGE ANIMATION */
+
+@keyframes fadeUp{
+
+0%{
+opacity:0;
+transform:translateY(40px);
+}
+
+100%{
+opacity:1;
+transform:translateY(0);
+}
+
 }
 
 </style>
@@ -136,15 +181,23 @@ font-size:18px;
 <body>
 
 <div class="topbar">
+
 <div class="back" onclick="history.back()">⬅</div>
+
 <div class="title">My Library</div>
-<a class="dashboard" href="dashboard.html">Dashboard</a>
+
+<a class="dashboard" href="dashboard.html">
+Dashboard
+</a>
+
 </div>
 
 <div class="container">
-<div id="library" class="grid">
+
+<div id="library" class="grid loader">
 Loading Library...
 </div>
+
 </div>
 
 <script>
@@ -160,11 +213,30 @@ let user=JSON.parse(localStorage.getItem("user")||"null")
 if(!user){
 
 alert("Login first")
+
 location.href="login.html"
 
 }
 
 let isAdmin=user.email===ADMIN
+
+function escapeHTML(str){
+
+return String(str).replace(/[&<>"']/g,function(m){
+
+return({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+})[m]
+
+})
+
+}
+
+/* DRIVE IMAGE */
 
 function driveId(link){
 
@@ -191,6 +263,8 @@ return "https://picsum.photos/400"
 
 }
 
+/* GET DATABASE */
+
 async function getDB(api,db){
 
 try{
@@ -209,31 +283,19 @@ return[]
 
 }
 
+/* LOAD LIBRARY */
+
 async function loadLibrary(){
 
 let products=await getDB(PRODUCT_API,"products")
 
 let orders=await getDB(PAYMENT_API,"orders")
 
-let subs=await getDB(PAYMENT_API,"subscriptions")
-
 let box=document.getElementById("library")
 
-let premium=subs.find(s=>s.email===user.email)
+box.innerHTML=""
 
-let isPremium=false
-
-if(premium){
-
-let exp=new Date(premium.expiry)
-
-if(Date.now()<exp){
-
-isPremium=true
-
-}
-
-}
+/* MY ORDERS */
 
 let myOrders=orders.filter(o=>
 
@@ -244,9 +306,12 @@ o.buyer===user.email &&
 
 let ownedProducts=myOrders.map(o=>String(o.productId))
 
-box.innerHTML=""
-
 products.forEach(product=>{
+
+/* APPROVED CHECK */
+
+if(product.ai_status && product.ai_status!=="approved")
+return
 
 let purchased=ownedProducts.includes(String(product.id))
 
@@ -258,7 +323,6 @@ let allow=false
 
 if(isAdmin) allow=true
 else if(owner) allow=true
-else if(isPremium) allow=true
 else if(purchased) allow=true
 
 let buttons=""
@@ -267,8 +331,11 @@ if(allow){
 
 buttons=`
 
-<button class="read" onclick="openReader('${product.id}')">
+<button class="read"
+onclick="openReader('${product.id}')">
+
 Read Ebook
+
 </button>
 
 `
@@ -277,8 +344,11 @@ Read Ebook
 
 buttons=`
 
-<button class="buy" onclick="buyBook('${product.id}')">
+<button class="buy"
+onclick="buyBook('${product.id}')">
+
 Buy Ebook ₹${product.price}
+
 </button>
 
 `
@@ -292,7 +362,7 @@ box.innerHTML+=`
 <img src="${image}">
 
 <div class="bookTitle">
-${product.title||"Untitled"}
+${escapeHTML(product.title||"Untitled")}
 </div>
 
 <div class="price">
@@ -309,7 +379,7 @@ ${buttons}
 
 if(box.innerHTML===""){
 
-box.innerHTML="<div class='empty'>No ebooks found</div>"
+box.innerHTML="<div class='empty'>No ebooks in your library</div>"
 
 }
 
