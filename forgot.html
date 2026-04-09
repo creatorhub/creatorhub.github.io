@@ -1,32 +1,51 @@
-<!DOCTYPE html>
-<html>
-<head>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Reset Password</title><style>
 
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CreatorHub Reset Password</title>
+:root{
+--bg:#020617;
+--card:#111827;
+--accent:#22c55e;
+}
 
-<style>
+/* PAGE */
 
 body{
 margin:0;
-font-family:Arial;
-background:#020617;
+font-family:Arial,Helvetica,sans-serif;
+background:var(--bg);
 color:white;
 display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
+animation:fadePage .6s ease;
 }
 
+/* CARD */
+
 .card{
-background:#111827;
+
+background:linear-gradient(145deg,#111827,#020617);
+
 padding:30px;
+
 border-radius:18px;
+
 width:90%;
+
 max-width:420px;
-box-shadow:0 10px 30px black;
+
+border:1px solid #1f2937;
+
+box-shadow:0 20px 40px rgba(0,0,0,.7);
+
 position:relative;
+
+animation:fadeUp .6s ease;
+
 }
+
+/* BACK BUTTON */
 
 .back{
 position:absolute;
@@ -34,39 +53,88 @@ top:15px;
 left:15px;
 font-size:22px;
 cursor:pointer;
+color:var(--accent);
+transition:.2s;
 }
+
+.back:hover{
+transform:translateX(-4px);
+}
+
+/* TITLE */
 
 h2{
 text-align:center;
-color:#22c55e;
+color:var(--accent);
+margin-top:0;
 }
+
+/* INPUT */
 
 input{
+
 width:100%;
+
 padding:14px;
+
 margin-top:14px;
+
 border:none;
+
 border-radius:12px;
+
 background:#020617;
+
 color:white;
+
+outline:none;
+
+border:1px solid #1f2937;
+
+transition:.2s;
+
 }
 
+input:focus{
+border-color:var(--accent);
+}
+
+/* BUTTON */
+
 button{
+
 width:100%;
+
 padding:14px;
+
 margin-top:18px;
+
 border:none;
+
 border-radius:12px;
+
 background:linear-gradient(90deg,#22c55e,#4ade80);
-color:white;
+
+color:black;
+
 font-weight:bold;
+
 cursor:pointer;
+
+transition:.2s;
+
+}
+
+button:hover{
+transform:scale(1.03);
 }
 
 button:disabled{
 opacity:.6;
 cursor:not-allowed;
 }
+
+/* LINK */
 
 .link{
 margin-top:12px;
@@ -75,39 +143,37 @@ opacity:.7;
 cursor:pointer;
 }
 
-</style>
+/* ANIMATIONS */
 
-</head>
+@keyframes fadePage{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
 
-<body>
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
 
-<div class="card">
-
-<div class="back" onclick="location.href='login.html'">⬅</div>
-
-<h2>🔑 Reset Password</h2>
-
-<input id="email" placeholder="Enter Registered Email">
-
-<button id="otpBtn" onclick="sendOTP()">
+</style></head><body><div class="card"><div class="back" onclick="location.href='login.html'">⬅</div><h2>🔑 Reset Password</h2><input id="email" placeholder="Enter Registered Email"><button id="otpBtn" onclick="sendOTP()">
 Send OTP
-</button>
-
-<input id="otp" placeholder="Enter OTP">
-
-<input id="newPassword" type="password" placeholder="Enter New Password">
-
-<button onclick="resetPassword()">
+</button><input id="otp" placeholder="Enter OTP"><input id="newPassword" type="password" placeholder="Enter New Password"><button id="resetBtn" onclick="resetPassword()">
 Update Password 🚀
-</button>
-
-<div class="link" onclick="location.href='login.html'">
+</button><div class="link" onclick="location.href='login.html'">
 Back to Login
-</div>
-
-</div>
-
-<script>
+</div></div><script>
 
 const API="https://script.google.com/macros/s/AKfycbzMCnhAdxOSnSl7tO6u3yZZEARctzq9kQIenT-PoO8Y68gN5kXWViEFD01BiRObxOY1/exec";
 
@@ -124,7 +190,7 @@ return;
 }
 
 btn.disabled=true;
-btn.innerText="Sending...";
+btn.innerText="Sending OTP...";
 
 try{
 
@@ -149,7 +215,7 @@ alert(data.message || "Failed to send OTP");
 
 }catch(e){
 
-alert("Server Error");
+alert("Server Error ❌");
 
 }
 
@@ -167,19 +233,20 @@ let email=document.getElementById("email").value.trim().toLowerCase();
 let otp=document.getElementById("otp").value.trim();
 let password=document.getElementById("newPassword").value.trim();
 
-if(!email || !otp || !password){
+let btn=document.getElementById("resetBtn");
 
+if(!email || !otp || !password){
 alert("Fill all fields");
 return;
-
 }
 
 if(password.length<4){
-
 alert("Password must be at least 4 characters");
 return;
-
 }
+
+btn.disabled=true;
+btn.innerText="Updating...";
 
 try{
 
@@ -216,9 +283,10 @@ alert("Server Error ❌");
 
 }
 
+btn.disabled=false;
+btn.innerText="Update Password 🚀";
+
 }
 
-</script>
-
-</body>
+</script></body>
 </html>
