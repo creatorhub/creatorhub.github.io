@@ -1,143 +1,238 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Reviews</title><style>
 
-<head>
-
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>Reviews</title>
-
-<style>
+:root{
+--bg:#020617;
+--card:#111827;
+--accent:#22c55e;
+}
 
 body{
 margin:0;
-font-family:Arial;
-background:#111;
+font-family:Arial,Helvetica,sans-serif;
+background:var(--bg);
 color:white;
+animation:fadePage .6s ease;
 }
+
+/* HEADER */
 
 .header{
 display:flex;
 align-items:center;
 justify-content:space-between;
-background:#000;
-padding:12px;
+padding:15px;
+border-bottom:1px solid #1f2937;
+background:#020617;
+position:sticky;
+top:0;
 }
 
 .backBtn{
-background:#2563eb;
+background:#1f2937;
 border:none;
 color:white;
 padding:8px 12px;
 border-radius:8px;
 cursor:pointer;
+transition:.2s;
+}
+
+.backBtn:hover{
+background:#374151;
 }
 
 .dashBtn{
-background:#f59e0b;
+background:linear-gradient(90deg,#22c55e,#4ade80);
 padding:8px 14px;
 border-radius:8px;
-color:white;
+color:black;
 text-decoration:none;
+font-weight:bold;
 }
+
+/* CONTAINER */
 
 .container{
-padding:20px;
+padding:25px;
+max-width:700px;
+margin:auto;
 }
+
+/* CARD */
 
 .card{
-background:#1f2937;
-padding:20px;
-border-radius:12px;
+
+background:linear-gradient(145deg,#111827,#020617);
+
+padding:22px;
+
+border-radius:16px;
+
+border:1px solid #1f2937;
+
+box-shadow:0 10px 25px rgba(0,0,0,0.6);
+
+transition:.2s;
+
 }
 
+.card:hover{
+
+box-shadow:0 0 10px rgba(34,197,94,.4);
+
+}
+
+/* INPUT */
+
 textarea{
+
 width:100%;
+
 height:120px;
+
 border:none;
-border-radius:10px;
-margin-top:10px;
-padding:10px;
+
+border-radius:12px;
+
+margin-top:12px;
+
+padding:12px;
+
+background:#020617;
+
+color:white;
+
+border:1px solid #1f2937;
+
 }
 
 select{
+
 width:100%;
-padding:10px;
-margin-top:10px;
-border-radius:8px;
+
+padding:12px;
+
+margin-top:12px;
+
+border-radius:10px;
+
 border:none;
+
+background:#020617;
+
+color:white;
+
+border:1px solid #1f2937;
+
 }
+
+/* BUTTON */
 
 .submitBtn{
+
 width:100%;
+
 padding:14px;
-margin-top:10px;
+
+margin-top:12px;
+
 border:none;
-background:orange;
-border-radius:10px;
+
+background:linear-gradient(90deg,#22c55e,#4ade80);
+
+border-radius:12px;
+
 cursor:pointer;
+
+font-weight:bold;
+
+color:black;
+
+transition:.2s;
+
 }
+
+.submitBtn:hover{
+
+transform:translateY(-2px);
+
+box-shadow:0 0 10px rgba(34,197,94,.5);
+
+}
+
+/* REVIEWS */
 
 .review{
-background:#111;
-padding:12px;
-border-radius:8px;
-margin-top:10px;
+
+background:#020617;
+
+padding:14px;
+
+border-radius:10px;
+
+margin-top:12px;
+
 line-height:22px;
+
+border:1px solid #1f2937;
+
+animation:fadeUp .4s ease;
+
 }
 
-</style>
+/* ANIMATIONS */
 
-</head>
+@keyframes fadePage{
 
-<body>
+from{
+opacity:0;
+transform:translateY(20px);
+}
 
-<div class="header">
+to{
+opacity:1;
+transform:translateY(0);
+}
 
-<button class="backBtn" onclick="history.back()">⬅</button>
+}
 
-⭐ Reviews
+@keyframes fadeUp{
+
+from{
+opacity:0;
+transform:translateY(10px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+</style></head><body><div class="header"><button class="backBtn" onclick="history.back()">⬅</button>
+
+<b>⭐ Reviews</b>
 
 <a href="dashboard.html" class="dashBtn">
 Dashboard
-</a>
-
-</div>
-
-<div class="container">
-
-<div class="card">
-
-<h2>Leave Review ⭐</h2>
-
-<select id="rating">
+</a></div><div class="container"><div class="card"><h2>Leave Review ⭐</h2><select id="rating">
 <option value="5">⭐⭐⭐⭐⭐</option>
 <option value="4">⭐⭐⭐⭐</option>
 <option value="3">⭐⭐⭐</option>
 <option value="2">⭐⭐</option>
 <option value="1">⭐</option>
-</select>
-
-<textarea id="reviewText"
-placeholder="Write Review"></textarea>
-
-<button class="submitBtn"
+</select><textarea id="reviewText"
+placeholder="Write your review..."></textarea><button class="submitBtn"
 id="submitBtn"
 onclick="submitReview()">
 Submit Review
 </button>
 
-<h3>My Reviews</h3>
-
-<div id="reviewList">
+<h3>My Reviews</h3><div id="reviewList">
 Loading...
-</div>
-
-</div>
-
-</div>
-
-<script>
+</div></div></div><script>
 
 const API =
 "https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
@@ -240,7 +335,7 @@ orders.find(o=>
 
 o.buyer===user.email &&
 String(o.productId)===String(reviewProduct) &&
-o.status==="paid"
+o.payment==="paid"
 
 );
 
@@ -368,7 +463,5 @@ ${r.date}
 
 loadReviews();
 
-</script>
-
-</body>
+</script></body>
 </html>
