@@ -9,11 +9,18 @@
 
 <style>
 
+:root{
+--bg:#020617;
+--card:#111827;
+--accent:#22c55e;
+}
+
 body{
 margin:0;
 font-family:Arial;
-background:#020617;
+background:var(--bg);
 color:white;
+animation:fadePage .6s ease;
 }
 
 .topbar{
@@ -33,7 +40,7 @@ width:40px;
 flex:1;
 text-align:center;
 font-weight:bold;
-color:#22c55e;
+color:var(--accent);
 }
 
 .container{
@@ -43,13 +50,14 @@ justify-content:center;
 }
 
 .card{
-background:#111827;
+background:var(--card);
 padding:22px;
 border-radius:16px;
 max-width:520px;
 width:100%;
 text-align:center;
-box-shadow:0 10px 25px rgba(0,0,0,.5);
+box-shadow:0 10px 25px rgba(0,0,0,.6);
+animation:fadeUp .6s ease;
 }
 
 .card img{
@@ -57,8 +65,7 @@ width:260px;
 height:260px;
 object-fit:cover;
 border-radius:12px;
-display:block;
-margin:0 auto 15px auto;
+margin-bottom:15px;
 }
 
 input,textarea{
@@ -69,6 +76,7 @@ border:none;
 border-radius:8px;
 background:#020617;
 color:white;
+border:1px solid #1f2937;
 }
 
 textarea{
@@ -86,11 +94,35 @@ cursor:pointer;
 background:linear-gradient(90deg,#22c55e,#4ade80);
 color:white;
 font-size:16px;
+transition:.3s;
+}
+
+button:hover{
+transform:scale(1.03);
+box-shadow:0 0 20px #22c55e;
 }
 
 button:disabled{
 opacity:0.6;
 cursor:not-allowed;
+}
+
+/* animation */
+
+@keyframes fadePage{
+from{opacity:0}
+to{opacity:1}
+}
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
 }
 
 </style>
@@ -114,8 +146,6 @@ cursor:not-allowed;
 
 <h2 id="price"></h2>
 
-<!-- ADDRESS FORM -->
-
 <input id="name" placeholder="Full Name">
 
 <input id="phone" placeholder="Phone Number">
@@ -125,7 +155,7 @@ cursor:not-allowed;
 <input id="pincode" placeholder="Pincode">
 
 <button id="buyBtn" disabled onclick="buyNow()">
-Loading...
+Loading Product...
 </button>
 
 </div>
@@ -133,14 +163,11 @@ Loading...
 
 <script>
 
-/* APIs */
-
 const PRODUCT_API =
 "https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
 const PAYMENT_API =
 "https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
-
 
 /* USER */
 
@@ -153,7 +180,6 @@ location.href="login.html"
 
 }
 
-
 /* PRODUCT ID */
 
 let buyId = localStorage.getItem("buyProduct")
@@ -164,9 +190,6 @@ alert("Product Missing")
 location.href="index.html"
 
 }
-
-
-/* DRIVE IMAGE */
 
 function driveImage(link){
 
@@ -194,11 +217,7 @@ return link
 
 }
 
-
-/* PRODUCT */
-
 let product=null
-
 
 async function loadProduct(){
 
@@ -208,23 +227,13 @@ let res = await fetch(PRODUCT_API+"?db=products&t="+Date.now())
 
 let products = await res.json()
 
-if(!Array.isArray(products)){
-products=[]
-}
+if(!Array.isArray(products)) products=[]
 
 product = products.find(p => String(p.id) === String(buyId))
 
 if(!product){
 
 alert("Product not found")
-location.href="index.html"
-return
-
-}
-
-if(product.ai_status !== "approved"){
-
-alert("Product unavailable")
 location.href="index.html"
 return
 
@@ -242,11 +251,10 @@ driveImage(product.image)
 let btn=document.getElementById("buyBtn")
 
 btn.disabled=false
-btn.innerText="Buy Now"
+btn.innerText="Pay & Buy"
 
 }catch(e){
 
-console.log(e)
 alert("Failed to load product")
 
 }
@@ -254,9 +262,6 @@ alert("Failed to load product")
 }
 
 loadProduct()
-
-
-/* BUY */
 
 async function buyNow(){
 
@@ -270,7 +275,6 @@ let pincode=document.getElementById("pincode").value.trim()
 if(!name || !phone || !address || !pincode){
 
 alert("Fill address details")
-
 return
 
 }
@@ -278,7 +282,6 @@ return
 if(!/^[0-9]{10}$/.test(phone)){
 
 alert("Invalid phone number")
-
 return
 
 }
@@ -286,7 +289,6 @@ return
 if(!/^[0-9]{6}$/.test(pincode)){
 
 alert("Invalid pincode")
-
 return
 
 }
@@ -310,7 +312,7 @@ body:JSON.stringify({
 
 action:"create_order",
 productId:product.id,
-type:"printed",
+type:"ebook",
 buyer:user.email,
 
 name:name,
@@ -324,30 +326,26 @@ pincode:pincode
 
 let data = await res.json()
 
-if(data.success && data.payment_session_id){
+if(data.success){
 
-let paymentURL =
-"https://sandbox.cashfree.com/pg/view/payment-session-id?payment_session_id="
-+data.payment_session_id
+alert("Order Created")
 
-window.location.href = paymentURL
+location.href="success.html?order="+data.order_id
 
 }else{
 
-alert(data.message || "Payment initialization failed")
+alert(data.message || "Payment failed")
 
-btn.innerText="Buy Now"
+btn.innerText="Pay & Buy"
 btn.disabled=false
 
 }
 
-}catch(err){
-
-console.log(err)
+}catch{
 
 alert("Payment server error")
 
-btn.innerText="Buy Now"
+btn.innerText="Pay & Buy"
 btn.disabled=false
 
 }
