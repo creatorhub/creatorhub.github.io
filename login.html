@@ -4,7 +4,6 @@
 <head>
 
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>CreatorHub Login</title>
 
 <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -99,7 +98,6 @@ color:#22c55e;
 <h2>CreatorHub Login</h2>
 
 <input id="email" placeholder="Email">
-
 <input id="password" type="password" placeholder="Password">
 
 <button onclick="login()">Login</button>
@@ -122,8 +120,8 @@ data-size="large">
 Create Account
 </div>
 
-<div class="link" onclick="location.href='forgot.html'">
-Forgot Password
+<div class="link" onclick="sendRecoveryOTP()">
+Forgot Password / Recover Account
 </div>
 
 </div>
@@ -144,19 +142,21 @@ alert("Fill all fields");
 return;
 }
 
+try{
+
+let form=new FormData();
+
+form.append("action","login");
+form.append("email",email);
+form.append("password",password);
+
 let res=await fetch(API,{
 method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-action:"login",
-email:email,
-password:password
-})
+body:form
 });
 
-let data=await res.json();
+let text=await res.text();
+let data=JSON.parse(text);
 
 if(!data.success){
 alert(data.message || "Login failed");
@@ -169,7 +169,15 @@ alert("Login Success ✅");
 
 location.href="dashboard.html";
 
+}catch(e){
+
+console.error(e);
+alert("Server error");
+
 }
+
+}
+
 
 /* GOOGLE LOGIN */
 
@@ -186,7 +194,70 @@ location.href="dashboard.html";
 
 }
 
-/* JWT */
+
+/* ACCOUNT RECOVERY */
+
+async function sendRecoveryOTP(){
+
+let email=prompt("Enter your registered email");
+
+if(!email) return;
+
+try{
+
+let form=new FormData();
+
+form.append("action","send_otp");
+form.append("email",email);
+
+let res=await fetch(API,{
+method:"POST",
+body:form
+});
+
+let data=await res.json();
+
+if(!data.success){
+alert("Failed to send OTP");
+return;
+}
+
+let otp=prompt("Enter OTP sent to your email");
+
+let verify=new FormData();
+
+verify.append("action","verify_otp");
+verify.append("email",email);
+verify.append("otp",otp);
+
+let vres=await fetch(API,{
+method:"POST",
+body:verify
+});
+
+let vdata=await vres.json();
+
+if(vdata.success){
+
+alert("Account verified. You can now login.");
+
+}else{
+
+alert("Invalid OTP");
+
+}
+
+}catch(e){
+
+console.error(e);
+alert("Recovery failed");
+
+}
+
+}
+
+
+/* JWT PARSER */
 
 function parseJwt(token){
 
