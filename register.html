@@ -1,5 +1,14 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Register</title><style>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>CreatorHub Register</title>
+
+<style>
 
 :root{
 --bg:#020617;
@@ -79,13 +88,33 @@ opacity:.8;
 cursor:pointer;
 }
 
-</style></head><body><div class="card"><div class="back" onclick="location.href='index.html'">⬅</div><h2>CreatorHub Register</h2><input id="name" placeholder="Full Name">
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<div class="back" onclick="location.href='index.html'">⬅</div>
+
+<h2>CreatorHub Register</h2>
+
+<input id="name" placeholder="Full Name">
 <input id="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password"><button id="registerBtn" onclick="registerUser()">
+<input id="password" type="password" placeholder="Password">
+
+<button id="registerBtn" onclick="registerUser()">
 Create Account
-</button><div class="link" onclick="location.href='login.html'">
+</button>
+
+<div class="link" onclick="location.href='login.html'">
 Already have account? Login
-</div></div><script>
+</div>
+
+</div>
+
+<script>
 
 const API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec"
 
@@ -109,6 +138,7 @@ try{
 
 let res=await fetch(API,{
 method:"POST",
+redirect:"follow",
 headers:{
 "Content-Type":"application/json"
 },
@@ -120,13 +150,24 @@ password:password
 })
 })
 
-let data=await res.json()
+let text=await res.text()
 
-console.log(data)
+console.log("API:",text)
+
+let data
+
+try{
+data=JSON.parse(text)
+}catch{
+alert("Invalid server response")
+btn.disabled=false
+btn.innerText="Create Account"
+return
+}
 
 if(data.success){
 
-alert("Account Created Successfully")
+alert("Account Created Successfully ✅")
 
 location.href="login.html"
 
@@ -143,7 +184,7 @@ btn.innerText="Create Account"
 
 console.error(e)
 
-alert("Server error")
+alert("Server error ❌")
 
 btn.disabled=false
 btn.innerText="Create Account"
@@ -152,4 +193,7 @@ btn.innerText="Create Account"
 
 }
 
-</script></body></html>
+</script>
+
+</body>
+</html>
