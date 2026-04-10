@@ -86,13 +86,6 @@ font-size:14px;
 color:#22c55e;
 }
 
-.recovery{
-margin-top:10px;
-font-size:13px;
-opacity:.7;
-text-align:center;
-}
-
 </style>
 
 </head>
@@ -105,13 +98,11 @@ text-align:center;
 
 <h2>CreatorHub Login</h2>
 
-<input id="username" placeholder="Username">
-
 <input id="email" placeholder="Email">
 
 <input id="password" type="password" placeholder="Password">
 
-<button id="loginBtn" onclick="login()">Login</button>
+<button onclick="login()">Login</button>
 
 <div class="google">
 
@@ -135,29 +126,20 @@ Create Account
 Forgot Password
 </div>
 
-<div class="link" onclick="recoverUsername()">
-Recover Username
-</div>
-
-<div class="recovery">
-If you forgot your username, recover using email
-</div>
-
 </div>
 
 <script>
 
-const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
+const API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec";
 
 /* LOGIN */
 
 async function login(){
 
-let username=document.getElementById("username").value.trim();
 let email=document.getElementById("email").value.trim().toLowerCase();
 let password=document.getElementById("password").value.trim();
 
-if(!username || !email || !password){
+if(!email || !password){
 alert("Fill all fields");
 return;
 }
@@ -169,7 +151,6 @@ headers:{
 },
 body:JSON.stringify({
 action:"login",
-username:username,
 email:email,
 password:password
 })
@@ -196,55 +177,12 @@ async function handleGoogleLogin(response){
 
 let data=parseJwt(response.credential);
 
-await fetch(API,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-action:"google_login",
-email:data.email,
-name:data.name
-})
-});
-
 localStorage.setItem("user",JSON.stringify({
 email:data.email,
 name:data.name
 }));
 
 location.href="dashboard.html";
-
-}
-
-/* RECOVER USERNAME */
-
-async function recoverUsername(){
-
-let email=prompt("Enter your registered email");
-
-if(!email) return;
-
-let res=await fetch(API,{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-action:"recover_username",
-email:email
-})
-});
-
-let data=await res.json();
-
-if(data.success){
-
-alert("Your username: "+data.username);
-
-}else{
-
-alert("Account not found");
-
-}
 
 }
 
