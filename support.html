@@ -13,8 +13,6 @@
 --accent:#22c55e;
 }
 
-/* BODY */
-
 body{
 margin:0;
 font-family:Arial,Helvetica,sans-serif;
@@ -23,14 +21,6 @@ color:white;
 height:100dvh;
 display:flex;
 flex-direction:column;
-animation:fadePage .4s ease;
-}
-
-/* PAGE ANIMATION */
-
-@keyframes fadePage{
-from{opacity:0;transform:translateY(20px);}
-to{opacity:1;transform:translateY(0);}
 }
 
 /* HEADER */
@@ -41,7 +31,6 @@ align-items:center;
 padding:14px;
 background:#020617;
 border-bottom:1px solid #1f2937;
-flex-shrink:0;
 }
 
 .back{
@@ -58,11 +47,10 @@ color:var(--accent);
 font-size:18px;
 }
 
-/* CHAT AREA */
+/* CHAT */
 
 .chat{
 flex:1;
-min-height:0;
 overflow-y:auto;
 padding:15px;
 display:flex;
@@ -84,7 +72,7 @@ margin:0 0 6px;
 color:#22c55e;
 }
 
-/* QUICK BUTTONS */
+/* QUICK */
 
 .quick{
 display:flex;
@@ -101,13 +89,11 @@ border-radius:8px;
 color:white;
 cursor:pointer;
 font-size:13px;
-transition:.2s;
 }
 
 .quick button:hover{
 background:#22c55e;
 color:black;
-transform:scale(1.05);
 }
 
 /* MESSAGE */
@@ -120,73 +106,28 @@ border-radius:14px;
 font-size:14px;
 line-height:1.5;
 word-wrap:break-word;
-animation:msgSlide .25s ease;
 }
-
-/* MESSAGE ANIMATION */
-
-@keyframes msgSlide{
-from{opacity:0;transform:translateY(10px) scale(.95);}
-to{opacity:1;transform:translateY(0) scale(1);}
-}
-
-/* USER */
 
 .user{
 margin-left:auto;
 background:linear-gradient(90deg,#2563eb,#3b82f6);
-border-bottom-right-radius:4px;
-box-shadow:0 3px 10px rgba(0,0,0,.4);
 }
 
-/* BOT */
-
 .bot{
-margin-right:auto;
 background:#111827;
 border:1px solid #1f2937;
 color:#22c55e;
-border-bottom-left-radius:4px;
-box-shadow:0 3px 10px rgba(0,0,0,.4);
 }
 
-/* TYPING DOTS */
-
-.typing{
-display:flex;
-gap:5px;
-}
-
-.typing span{
-width:6px;
-height:6px;
-background:#22c55e;
-border-radius:50%;
-animation:typing 1s infinite;
-}
-
-.typing span:nth-child(2){animation-delay:.2s;}
-.typing span:nth-child(3){animation-delay:.4s;}
-
-@keyframes typing{
-0%,80%,100%{opacity:.2;transform:translateY(0);}
-40%{opacity:1;transform:translateY(-4px);}
-}
-
-/* INPUT AREA */
+/* INPUT */
 
 .inputBox{
 display:flex;
-align-items:flex-end;
 padding:10px;
 background:#020617;
 border-top:1px solid #1f2937;
 gap:10px;
-position:sticky;
-bottom:0;
 }
-
-/* TEXTAREA */
 
 textarea{
 flex:1;
@@ -199,27 +140,18 @@ background:#1f2937;
 color:white;
 outline:none;
 font-size:14px;
-line-height:1.4;
 }
-
-/* SEND BUTTON */
 
 .sendBtn{
 width:45px;
 height:45px;
 border:none;
 border-radius:10px;
-background:linear-gradient(90deg,#22c55e,#4ade80);
+background:#22c55e;
 color:black;
 font-size:18px;
 cursor:pointer;
 font-weight:bold;
-transition:.25s;
-}
-
-.sendBtn:hover{
-transform:scale(1.1);
-box-shadow:0 0 15px #22c55e;
 }
 
 </style>
@@ -237,7 +169,6 @@ box-shadow:0 0 15px #22c55e;
 <div class="chat" id="chat">
 
 <div class="welcome">
-
 <h3>How can we help you?</h3>
 <p>Ask anything related to CreatorHub marketplace.</p>
 
@@ -265,8 +196,12 @@ onkeydown="enterSend(event)"></textarea>
 
 <script>
 
-const SUPPORT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
-const CHAT_API="https://script.google.com/macros/s/AKfycbzMCnhAdxOSnSl7tO6u3yZZEARctzq9kQIenT-PoO8Y68gN5kXWViEFD01BiRObxOY1/exec"
+/* APIs */
+
+const SUPPORT_API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec"
+
+const CHAT_API="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
+
 
 function quick(q){
 document.getElementById("msg").value=q
@@ -282,6 +217,7 @@ div.className="msg "+type
 div.innerText=text
 
 chat.appendChild(div)
+
 chat.scrollTop=chat.scrollHeight
 
 }
@@ -293,16 +229,10 @@ send()
 }
 }
 
-const textarea=document.getElementById("msg")
-
-textarea.addEventListener("input",()=>{
-textarea.style.height="auto"
-textarea.style.height=textarea.scrollHeight+"px"
-})
-
 async function send(){
 
 let input=document.getElementById("msg")
+
 let text=input.value.trim()
 
 if(!text) return
@@ -310,28 +240,39 @@ if(!text) return
 addMessage(text,"user")
 
 input.value=""
-textarea.style.height="auto"
+
+/* loading */
 
 let loading=document.createElement("div")
+
 loading.className="msg bot"
-loading.innerHTML=`<div class="typing"><span></span><span></span><span></span></div>`
+
+loading.innerText="Typing..."
 
 document.getElementById("chat").appendChild(loading)
 
 let reply=""
+
+/* SUPPORT AI */
 
 try{
 
 let res=await fetch(SUPPORT_API,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({action:"support",message:text})
+body:JSON.stringify({
+action:"support",
+message:text
+})
 })
 
 let data=await res.json()
-reply=data.reply || data.message || data.text
 
-}catch{}
+reply=data.reply
+
+}catch(e){}
+
+/* FALLBACK */
 
 if(!reply){
 
@@ -340,23 +281,26 @@ try{
 let res=await fetch(CHAT_API,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({message:text})
+body:JSON.stringify({
+message:text
+})
 })
 
 let data=await res.json()
-reply=data.reply || data.message || data.text
 
-}catch{}
+reply=data.reply
+
+}catch(e){}
 
 }
 
 loading.remove()
 
-addMessage(reply || "Sorry, I couldn't understand your question.","bot")
+addMessage(reply || "Support system is busy. Please try again.","bot")
 
 }
 
 </script>
 
 </body>
-  </html>
+</html>
