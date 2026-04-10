@@ -141,6 +141,7 @@ try{
 
 const res=await fetch(API,{
 method:"POST",
+mode:"cors",
 headers:{
 "Content-Type":"application/json"
 },
@@ -152,18 +153,26 @@ password:password
 })
 })
 
-const data=await res.json()
+const text=await res.text()
+
+console.log("API RESPONSE:",text)
+
+let data
+
+try{
+data=JSON.parse(text)
+}catch{
+throw new Error("Invalid JSON response")
+}
 
 if(data.success){
-
-/* SAVE USER */
 
 localStorage.setItem("user",JSON.stringify({
 name:name,
 email:email
 }))
 
-alert("Account Created Successfully ✅")
+alert("Account Created Successfully")
 
 location.href="login.html"
 
@@ -178,9 +187,9 @@ btn.innerText="Create Account"
 
 }catch(err){
 
-console.log(err)
+console.error("Register Error:",err)
 
-alert("Server error ❌")
+alert("Server error")
 
 btn.disabled=false
 btn.innerText="Create Account"
@@ -192,4 +201,4 @@ btn.innerText="Create Account"
 </script>
 
 </body>
-  </html>
+</html>
