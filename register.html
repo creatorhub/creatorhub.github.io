@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
@@ -28,8 +27,6 @@ height:100vh;
 padding:20px;
 }
 
-/* CARD */
-
 .card{
 background:#111827;
 padding:32px;
@@ -41,8 +38,6 @@ box-shadow:0 20px 40px rgba(0,0,0,0.7);
 position:relative;
 }
 
-/* BACK */
-
 .back{
 position:absolute;
 top:15px;
@@ -51,15 +46,11 @@ font-size:22px;
 cursor:pointer;
 }
 
-/* TITLE */
-
 h2{
 text-align:center;
 color:#22c55e;
 margin-top:0;
 }
-
-/* INPUT */
 
 input{
 width:100%;
@@ -71,8 +62,6 @@ background:#020617;
 color:white;
 border:1px solid #1f2937;
 }
-
-/* BUTTON */
 
 button{
 width:100%;
@@ -90,8 +79,6 @@ button:disabled{
 opacity:.6;
 cursor:not-allowed;
 }
-
-/* LINK */
 
 .link{
 margin-top:16px;
@@ -113,9 +100,7 @@ cursor:pointer;
 <h2>CreatorHub Register</h2>
 
 <input id="name" placeholder="Full Name">
-
 <input id="email" placeholder="Email">
-
 <input id="password" type="password" placeholder="Password">
 
 <button id="registerBtn" onclick="registerUser()">
@@ -130,7 +115,7 @@ Already have account? Login
 
 <script>
 
-/* CORRECT API */
+/* BACKEND API */
 
 const API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec"
 
@@ -138,90 +123,64 @@ const API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrV
 
 async function registerUser(){
 
-let btn=document.getElementById("registerBtn")
+const btn=document.getElementById("registerBtn")
 
-let name=document.getElementById("name").value.trim()
-
-let email=document.getElementById("email").value.trim().toLowerCase()
-
-let password=document.getElementById("password").value.trim()
+const name=document.getElementById("name").value.trim()
+const email=document.getElementById("email").value.trim().toLowerCase()
+const password=document.getElementById("password").value.trim()
 
 if(!name || !email || !password){
-
 alert("Fill all fields")
-
 return
-
 }
 
 btn.disabled=true
-
 btn.innerText="Creating Account..."
 
 try{
 
-let res=await fetch(API,{
-
+const res=await fetch(API,{
 method:"POST",
-
 headers:{
 "Content-Type":"application/json"
 },
-
 body:JSON.stringify({
-
 action:"register",
-
 name:name,
-
 email:email,
-
 password:password
-
+})
 })
 
-})
+const data=await res.json()
 
-let data=await res.json()
+if(data.success){
 
-if(!data.success){
-
-alert(data.message || "Register failed")
-
-btn.disabled=false
-
-btn.innerText="Create Account"
-
-return
-
-}
-
-/* AUTO LOGIN */
-
-localStorage.setItem("user",
-
-JSON.stringify({
-
-email:email,
-
-name:name
-
-})
-
-)
+localStorage.setItem("user",JSON.stringify(data.user || {
+name:name,
+email:email
+}))
 
 alert("Account Created Successfully")
 
 location.href="dashboard.html"
 
+}else{
+
+alert(data.message || "Register failed")
+
+btn.disabled=false
+btn.innerText="Create Account"
+
 }
 
-catch(e){
+}catch(err){
+
+console.error(err)
 
 alert("Server error")
 
 btn.disabled=false
-
 btn.innerText="Create Account"
 
 }
