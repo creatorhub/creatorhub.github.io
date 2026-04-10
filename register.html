@@ -135,7 +135,7 @@ return
 }
 
 btn.disabled=true
-btn.innerText="Creating Account..."
+btn.innerText="Creating..."
 
 try{
 
@@ -156,14 +156,16 @@ const data=await res.json()
 
 if(data.success){
 
-localStorage.setItem("user",JSON.stringify(data.user || {
+/* SAVE USER */
+
+localStorage.setItem("user",JSON.stringify({
 name:name,
 email:email
 }))
 
-alert("Account Created Successfully")
+alert("Account Created Successfully ✅")
 
-location.href="dashboard.html"
+location.href="login.html"
 
 }else{
 
@@ -176,9 +178,9 @@ btn.innerText="Create Account"
 
 }catch(err){
 
-console.error(err)
+console.log(err)
 
-alert("Server error")
+alert("Server error ❌")
 
 btn.disabled=false
 btn.innerText="Create Account"
@@ -190,4 +192,4 @@ btn.innerText="Create Account"
 </script>
 
 </body>
-</html>
+  </html>
