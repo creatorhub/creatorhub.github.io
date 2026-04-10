@@ -136,34 +136,23 @@ btn.innerText="Creating..."
 
 try{
 
+let formData=new FormData()
+
+formData.append("action","register")
+formData.append("name",name)
+formData.append("email",email)
+formData.append("password",password)
+
 let res=await fetch(API,{
 method:"POST",
-redirect:"follow",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-action:"register",
-name:name,
-email:email,
-password:password
-})
+body:formData
 })
 
 let text=await res.text()
 
-console.log("API:",text)
+console.log("API RESPONSE:",text)
 
-let data
-
-try{
-data=JSON.parse(text)
-}catch{
-alert("Invalid server response")
-btn.disabled=false
-btn.innerText="Create Account"
-return
-}
+let data=JSON.parse(text)
 
 if(data.success){
 
@@ -180,9 +169,9 @@ btn.innerText="Create Account"
 
 }
 
-}catch(e){
+}catch(err){
 
-console.error(e)
+console.error(err)
 
 alert("Server error ❌")
 
