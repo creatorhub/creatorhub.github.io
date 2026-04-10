@@ -119,6 +119,34 @@ border:1px solid #1f2937;
 color:#22c55e;
 }
 
+/* TYPING */
+
+.typing{
+display:flex;
+gap:4px;
+}
+
+.typing span{
+width:6px;
+height:6px;
+background:#22c55e;
+border-radius:50%;
+animation:typing 1s infinite;
+}
+
+.typing span:nth-child(2){
+animation-delay:.2s;
+}
+
+.typing span:nth-child(3){
+animation-delay:.4s;
+}
+
+@keyframes typing{
+0%,80%,100%{opacity:.2;transform:translateY(0);}
+40%{opacity:1;transform:translateY(-4px);}
+}
+
 /* INPUT */
 
 .inputBox{
@@ -196,17 +224,18 @@ onkeydown="enterSend(event)"></textarea>
 
 <script>
 
-/* APIs */
+/* SUPPORT API */
 
 const SUPPORT_API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec"
 
-const CHAT_API="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
-
+/* QUICK BUTTON */
 
 function quick(q){
 document.getElementById("msg").value=q
 send()
 }
+
+/* ADD MESSAGE */
 
 function addMessage(text,type){
 
@@ -222,12 +251,33 @@ chat.scrollTop=chat.scrollHeight
 
 }
 
+/* ENTER SEND */
+
 function enterSend(e){
+
 if(e.key==="Enter" && !e.shiftKey){
+
 e.preventDefault()
+
 send()
+
 }
+
 }
+
+/* AUTO RESIZE */
+
+const textarea=document.getElementById("msg")
+
+textarea.addEventListener("input",()=>{
+
+textarea.style.height="auto"
+
+textarea.style.height=textarea.scrollHeight+"px"
+
+})
+
+/* SEND MESSAGE */
 
 async function send(){
 
@@ -241,19 +291,23 @@ addMessage(text,"user")
 
 input.value=""
 
-/* loading */
+textarea.style.height="auto"
+
+/* typing */
 
 let loading=document.createElement("div")
 
 loading.className="msg bot"
 
-loading.innerText="Typing..."
+loading.innerHTML=`<div class="typing">
+<span></span>
+<span></span>
+<span></span>
+</div>`
 
 document.getElementById("chat").appendChild(loading)
 
 let reply=""
-
-/* SUPPORT AI */
 
 try{
 
@@ -268,31 +322,9 @@ message:text
 
 let data=await res.json()
 
-reply=data.reply
+reply=data.reply || data.message || data.text
 
 }catch(e){}
-
-/* FALLBACK */
-
-if(!reply){
-
-try{
-
-let res=await fetch(CHAT_API,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-message:text
-})
-})
-
-let data=await res.json()
-
-reply=data.reply
-
-}catch(e){}
-
-}
 
 loading.remove()
 
