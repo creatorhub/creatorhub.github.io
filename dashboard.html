@@ -318,22 +318,6 @@ location.href="seller-apply.html"
 
 }
 
-/* DELETE */
-
-function deleteAccount(){
-
-let ok=confirm("⚠️ Your account will be removed from this device.\nContinue?")
-
-if(!ok) return
-
-localStorage.clear()
-
-alert("Account removed")
-
-location.href="login.html"
-
-}
-
 /* LOGOUT */
 
 function logout(){
