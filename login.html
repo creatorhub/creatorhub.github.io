@@ -163,8 +163,14 @@ let text=await res.text();
 let data=JSON.parse(text);
 
 if(!data.success){
-alert(data.message || "Login failed");
-return;
+
+if(data.message=="Account deleted"){
+alert("Your account is deleted. You can recover it within 90 days.")
+}else{
+alert(data.message || "Login failed")
+}
+
+return
 }
 
 localStorage.setItem("user",JSON.stringify(data.user));
