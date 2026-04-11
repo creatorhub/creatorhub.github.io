@@ -275,24 +275,46 @@ let reply=""
 
 try{
 
-let res=await fetch(SUPPORT_API,{
-method:"POST",
-mode:"cors",
-redirect:"follow",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-action:"support",
-message:text
-})
-})
-  
+async function send(){
+
+let input=document.getElementById("msg")
+
+let text=input.value.trim()
+
+if(!text) return
+
+addMessage(text,"user")
+
+input.value=""
+textarea.style.height="auto"
+
+/* typing */
+
+let loading=document.createElement("div")
+
+loading.className="msg bot"
+
+loading.innerHTML=`<div class="typing">
+<span></span>
+<span></span>
+<span></span>
+</div>`
+
+document.getElementById("chat").appendChild(loading)
+
+let reply=""
+
+try{
+
+let res=await fetch(
+SUPPORT_API+"?action=support&message="+encodeURIComponent(text)
+)
+
 let data=await res.json()
 
-reply=data.reply || data.message || "No response from support"
+reply=data.reply || "No response"
 
-}catch(e){
+}catch(err){
 
 reply="Support system is busy. Please try again."
 
