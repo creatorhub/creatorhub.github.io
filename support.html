@@ -277,6 +277,8 @@ try{
 
 let res=await fetch(SUPPORT_API,{
 method:"POST",
+mode:"cors",
+redirect:"follow",
 headers:{
 "Content-Type":"application/json"
 },
@@ -285,7 +287,7 @@ action:"support",
 message:text
 })
 })
-
+  
 let data=await res.json()
 
 reply=data.reply || data.message || "No response from support"
