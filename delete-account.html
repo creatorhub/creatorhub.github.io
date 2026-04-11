@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>Delete Account</title>
-
-<style>
+<!DOCTYPE html><html>
+<head><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Delete Account</title><style>
 
 body{
 margin:0;
@@ -22,32 +15,29 @@ height:100vh;
 
 .card{
 background:#111827;
-padding:35px;
-border-radius:18px;
+padding:30px;
+border-radius:16px;
 width:90%;
-max-width:500px;
+max-width:420px;
+text-align:center;
 }
 
 h2{
 color:#ef4444;
-text-align:center;
 }
 
 p{
 opacity:.9;
+font-size:14px;
 line-height:1.6;
-}
-
-ul{
-margin-top:10px;
 }
 
 button{
 width:100%;
 padding:14px;
-margin-top:20px;
+margin-top:14px;
 border:none;
-border-radius:12px;
+border-radius:10px;
 font-weight:bold;
 cursor:pointer;
 }
@@ -58,90 +48,51 @@ color:white;
 }
 
 .cancel{
-background:#22c55e;
-color:black;
+background:#1f2937;
+color:white;
 }
 
-</style>
-
-</head>
-
-<body>
-
-<div class="card">
-
-<h2>Delete Account</h2>
-
-<p>
-Deleting your CreatorHub account will start the deletion process.
-</p>
-
-<ul>
-
-<li>You will be logged out immediately.</li>
-
-<li>You cannot login again.</li>
-
-<li>Your account will remain recoverable for 90 days.</li>
-
-<li>After 90 days your account will be permanently deleted.</li>
-
-<li>All uploaded content may be removed permanently.</li>
-
-</ul>
-
-<button class="delete" onclick="deleteAccount()">
+</style></head><body><div class="card"><h2>Delete Account</h2><p>
+Deleting your account will disable login immediately.
+<br><br>
+Your data will be permanently deleted after <b>90 days</b>.
+<br><br>
+You can recover your account before permanent deletion.
+</p><button class="delete" onclick="deleteAccount()">
 Delete My Account
-</button>
-
-<button class="cancel" onclick="location.href='dashboard.html'">
+</button><button class="cancel" onclick="location.href='dashboard.html'">
 Cancel
-</button>
-
-</div>
-
-<script>
+</button></div><script>
 
 const API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec"
 
-async function deleteAccount(){
-
 let user=JSON.parse(localStorage.getItem("user"))
 
-if(!user){
+async function deleteAccount(){
 
-alert("Login required")
+let confirmDelete=confirm("Are you sure you want to delete your account?")
 
-location.href="login.html"
+if(!confirmDelete) return
 
-return
+let form=new FormData()
 
-}
-
-if(!confirm("Are you sure you want to delete your account?")){
-return
-}
+form.append("action","delete_account")
+form.append("email",user.email)
 
 let res=await fetch(API,{
 method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-action:"delete_account",
-email:user.email
-})
+body:form
 })
 
 let data=await res.json()
 
 if(data.success){
 
-localStorage.removeItem("user")
+alert("Account scheduled for deletion")
 
-alert("Account deleted. You have 90 days to recover it.")
+localStorage.clear()
 
-location.href="index.html"
+location.href="login.html"
 
 }else{
 
@@ -151,7 +102,5 @@ alert("Failed to delete account")
 
 }
 
-</script>
-
-</body>
+</script></body>
 </html>
