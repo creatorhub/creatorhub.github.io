@@ -4,7 +4,7 @@
 <head>
 
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Forgot Password</title>
+<title>Reset Password</title>
 
 <style>
 
@@ -62,9 +62,9 @@ cursor:pointer;
 
 <div class="card">
 
-<h2>Password Recovery</h2>
+<h2>Reset Password</h2>
 
-<input id="email" placeholder="Enter your email">
+<input id="email" placeholder="Email">
 
 <button onclick="sendOTP()">Send OTP</button>
 
@@ -72,11 +72,17 @@ cursor:pointer;
 
 <button onclick="verifyOTP()">Verify OTP</button>
 
+<input id="newpass" type="password" placeholder="New Password">
+
+<button onclick="resetPass()">Reset Password</button>
+
 </div>
 
 <script>
 
 const API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec"
+
+/* SEND OTP */
 
 async function sendOTP(){
 
@@ -99,6 +105,8 @@ alert("Failed")
 
 }
 
+/* VERIFY OTP */
+
 async function verifyOTP(){
 
 let email=document.getElementById("email").value
@@ -116,13 +124,42 @@ let data=await res.json()
 
 if(data.success){
 
-alert("OTP verified. You can login now.")
+alert("OTP verified")
+
+}else{
+
+alert("Invalid OTP")
+
+}
+
+}
+
+/* RESET PASSWORD */
+
+async function resetPass(){
+
+let email=document.getElementById("email").value
+let pass=document.getElementById("newpass").value
+
+let form=new FormData()
+
+form.append("action","reset_password")
+form.append("email",email)
+form.append("password",pass)
+
+let res=await fetch(API,{method:"POST",body:form})
+
+let data=await res.json()
+
+if(data.success){
+
+alert("Password updated")
 
 location.href="login.html"
 
 }else{
 
-alert("Invalid OTP")
+alert("Failed")
 
 }
 
