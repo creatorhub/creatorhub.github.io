@@ -14,7 +14,7 @@
 
 body{
 margin:0;
-font-family:Arial,Helvetica,sans-serif;
+font-family:Arial;
 background:#020617;
 color:white;
 }
@@ -27,12 +27,6 @@ border-bottom:1px solid #1f2937;
 position:sticky;
 top:0;
 background:#020617;
-}
-
-.back{
-font-size:22px;
-cursor:pointer;
-margin-right:10px;
 }
 
 .title{
@@ -114,7 +108,6 @@ color:#9ca3af;
 <body>
 
 <div class="header">
-<div class="back" onclick="history.back()">⬅</div>
 <div class="title">Upload Ebook</div>
 </div>
 
@@ -122,17 +115,16 @@ color:#9ca3af;
 <div class="card">
 
 <input id="title" placeholder="Book Title">
-
 <input id="author" placeholder="Author Name">
 
-<button type="button" onclick="aiHelp()">AI Suggest Title & Description</button>
+<button onclick="aiHelp()">AI Suggest Description</button>
 
 <textarea id="description" placeholder="Book Description"></textarea>
 
 <input id="price" type="number" placeholder="Price ₹">
 
 <label>Total Pages</label>
-<input id="pages" placeholder="Auto detected from PDF" readonly>
+<input id="pages" readonly>
 
 <label>Front Cover</label>
 <input type="file" id="frontCover" accept="image/*">
@@ -199,7 +191,6 @@ let reader=new FileReader()
 reader.onload=async function(){
 
 let typedarray=new Uint8Array(reader.result)
-
 let pdfDoc=await pdfjsLib.getDocument(typedarray).promise
 
 pages.value=pdfDoc.numPages
@@ -214,16 +205,32 @@ reader.readAsArrayBuffer(file)
 
 function aiHelp(){
 
-let title=document.getElementById("title").value
+let titleVal=title.value
 
-if(!title){
-alert("Enter topic in title first")
+if(!titleVal){
+alert("Enter title first")
 return
 }
 
-let suggestion="Learn "+title+" step by step with practical examples."
+description.value="Learn "+titleVal+" step by step with examples."
 
-document.getElementById("description").value=suggestion
+}
+
+/* BASE64 */
+
+function toBase64(file){
+
+return new Promise((resolve,reject)=>{
+
+let reader=new FileReader()
+
+reader.onload=()=>resolve(reader.result.split(",")[1])
+
+reader.onerror=reject
+
+reader.readAsDataURL(file)
+
+})
 
 }
 
@@ -246,21 +253,6 @@ alert("Please fill all fields")
 return
 }
 
-if(front.size>5*1024*1024){
-alert("Front cover must be below 5MB")
-return
-}
-
-if(back.size>5*1024*1024){
-alert("Back cover must be below 5MB")
-return
-}
-
-if(pdfFile.size>25*1024*1024){
-alert("PDF must be below 100MB")
-return
-}
-
 let bar=document.getElementById("bar")
 let btn=document.getElementById("uploadBtn")
 
@@ -269,25 +261,40 @@ btn.innerText="Uploading..."
 
 try{
 
+bar.style.width="20%"
+
+let front64=await toBase64(front)
+
 bar.style.width="40%"
 
-let form=new FormData()
+let back64=await toBase64(back)
 
-form.append("action","uploadEbook")
-form.append("title",titleVal)
-form.append("author",authorVal)
-form.append("description",descVal)
-form.append("price",priceVal)
-form.append("pages",pagesVal)
-form.append("email",user.email)
+bar.style.width="60%"
 
-form.append("front_cover",front)
-form.append("back_cover",back)
-form.append("pdf",pdfFile)
+let pdf64=await toBase64(pdfFile)
+
+bar.style.width="80%"
 
 let res=await fetch(API,{
 method:"POST",
-body:form
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+
+action:"uploadEbook",
+title:titleVal,
+author:authorVal,
+description:descVal,
+price:priceVal,
+pages:pagesVal,
+email:user.email,
+
+front_cover:front64,
+back_cover:back64,
+pdf:pdf64
+
+})
 })
 
 let data=await res.json()
@@ -296,23 +303,19 @@ bar.style.width="100%"
 
 if(data.success){
 
-if(data.status=="published"){
-alert("✅ Ebook uploaded and published successfully")
-}else{
-alert("📄 Ebook uploaded. Waiting for AI review")
-}
+alert("✅ Ebook Uploaded Successfully")
 
 location.reload()
 
 }else{
 
-alert(data.message || "Upload failed")
+alert(data.message)
 
 }
 
 }catch(e){
 
-alert("Upload error")
+alert("Upload Error")
 console.log(e)
 
 }
@@ -325,4 +328,4 @@ btn.innerText="Upload Ebook"
 </script>
 
 </body>
-</html>
+  </html>
