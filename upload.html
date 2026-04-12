@@ -248,21 +248,20 @@ alert("Please fill all fields")
 return
 }
 
-if(front.size>2*1024*1024){
-alert("Front cover must be below 2MB")
+if(front.size>5*1024*1024){
+alert("Front cover must be below 5MB")
 return
 }
-
-if(back.size>2*1024*1024){
-alert("Back cover must be below 2MB")
+  
+if(back.size>5*1024*1024){
+alert("Back cover must be below 5MB")
 return
 }
-
-if(pdf.size>10*1024*1024){
-alert("PDF must be below 10MB")
+  
+if(pdf.size>100*1024*1024){
+alert("PDF must be below 100MB")
 return
 }
-
 let bar=document.getElementById("bar")
 let btn=document.getElementById("uploadBtn")
 
@@ -282,13 +281,26 @@ let pdf64=await toBase64(pdf)
 
 bar.style.width="80%"
 
+let form=new FormData()
+
+form.append("action","uploadEbook")
+form.append("title",title)
+form.append("author",author)
+form.append("description",description)
+form.append("price",price)
+form.append("pages",pages)
+form.append("email",user.email)
+
+form.append("front_cover",front)
+form.append("back_cover",back)
+form.append("pdf",pdf)
+
 let res=await fetch(API,{
 method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
+body:form
+})
 
+let data=await res.json()
 action:"uploadEbook",
 
 title:title,
