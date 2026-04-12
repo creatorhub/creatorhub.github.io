@@ -183,6 +183,11 @@ font-weight:bold;
 <p>Ask anything related to CreatorHub marketplace.</p><div class="quick">
 <button onclick="quick('How to upload ebook?')">Upload ebook</button>
 <button onclick="quick('How to withdraw earnings?')">Withdraw</button>
+<button onclick="quick('Login problem')">Login Issue</button>
+<button onclick="quick('Forgot password help')">Reset Password</button>
+<button onclick="quick('Recover deleted account')">Recover Account</button>
+<button onclick="quick('Order not showing')">Order Issue</button>
+<button onclick="quick('Payment problem')">Payment Issue</button>
 <button onclick="quick('Seller approval time')">Seller approval</button>
 <button onclick="quick('Payment issue')">Payment issue</button>
 <button onclick="quick('How to reset password?')">Reset password</button>
@@ -198,6 +203,8 @@ onkeydown="enterSend(event)"></textarea><button class="sendBtn" onclick="send()"
 
 const SUPPORT_API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec"
 
+  let chatHistory = []
+  
 /* QUICK */
 
 function quick(q){
@@ -250,6 +257,11 @@ if(!text) return
 
 addMessage(text,"user")
 
+chatHistory.push({
+role:"user",
+content:text
+})
+  
 input.value=""
 textarea.style.height="auto"
 
@@ -286,6 +298,13 @@ reply="Support system is busy. Please try again."
 
 loading.remove()
 
+addMessage(text,"user")
+  
+chatHistory.push({
+role:"assistant",
+content:reply
+})
+  
 addMessage(reply,"bot")
 
 }
