@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>Upload Ebook - CreatorHub</title>
 
 <style>
 
-*{
-box-sizing:border-box;
-}
+*{box-sizing:border-box;}
 
 body{
 margin:0;
@@ -52,17 +48,15 @@ color:#22c55e;
 padding:20px;
 max-width:650px;
 margin:auto;
-animation:fadeUp .6s ease;
 }
 
 /* CARD */
 
 .card{
-background:linear-gradient(145deg,#111827,#020617);
+background:#111827;
 padding:25px;
 border-radius:16px;
 border:1px solid #1f2937;
-box-shadow:0 10px 25px rgba(0,0,0,0.6);
 }
 
 /* INPUT */
@@ -77,9 +71,7 @@ background:#020617;
 color:white;
 }
 
-textarea{
-min-height:80px;
-}
+textarea{min-height:80px;}
 
 /* BUTTON */
 
@@ -93,12 +85,6 @@ font-weight:bold;
 cursor:pointer;
 background:linear-gradient(90deg,#22c55e,#4ade80);
 color:black;
-transition:.3s;
-}
-
-button:hover{
-transform:scale(1.02);
-box-shadow:0 0 15px #22c55e;
 }
 
 /* IMAGE */
@@ -108,13 +94,12 @@ width:100%;
 margin-top:12px;
 border-radius:10px;
 display:none;
-border:1px solid #1f2937;
 }
 
 /* PROGRESS */
 
 .progress{
-height:20px;
+height:18px;
 background:#020617;
 border-radius:10px;
 margin-top:15px;
@@ -125,37 +110,18 @@ border:1px solid #1f2937;
 .bar{
 height:100%;
 width:0%;
-background:linear-gradient(90deg,#22c55e,#4ade80);
+background:#22c55e;
 transition:.4s;
 }
 
-/* LABEL */
-
 label{
-margin-top:12px;
+margin-top:14px;
 display:block;
 font-size:14px;
 color:#9ca3af;
 }
 
-/* ANIMATION */
-
-@keyframes fadeUp{
-
-0%{
-opacity:0;
-transform:translateY(30px);
-}
-
-100%{
-opacity:1;
-transform:translateY(0);
-}
-
-}
-
 </style>
-
 </head>
 
 <body>
@@ -177,162 +143,115 @@ transform:translateY(0);
 
 <input id="price" type="number" placeholder="Price ₹">
 
-
 <label>Front Cover</label>
 <input type="file" id="frontCover" accept="image/*">
 <img id="previewFront">
-
 
 <label>Back Cover</label>
 <input type="file" id="backCover" accept="image/*">
 <img id="previewBack">
 
-
 <label>PDF File</label>
 <input type="file" id="pdf" accept="application/pdf">
-
 
 <div class="progress">
 <div class="bar" id="bar"></div>
 </div>
 
-
-<button id="uploadBtn" onclick="upload()">
-Upload Ebook
-</button>
+<button id="uploadBtn" onclick="upload()">Upload Ebook</button>
 
 </div>
-
 </div>
-
 
 <script>
 
-const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
+const API="YOUR_APPS_SCRIPT_URL_HERE"
 
 let user=JSON.parse(localStorage.getItem("user")||"{}")
 
 if(!user.email){
-
-alert("Login First")
-
+alert("Login required")
 location.href="login.html"
-
 }
 
+/* IMAGE PREVIEW */
 
-/* PREVIEW */
+function preview(fileInput,imgId){
 
-function preview(input,id){
-
-let file=input.files[0]
-
+let file=fileInput.files[0]
 if(!file) return
 
 let reader=new FileReader()
 
 reader.onload=e=>{
-
-let img=document.getElementById(id)
-
+let img=document.getElementById(imgId)
 img.src=e.target.result
-
 img.style.display="block"
-
 }
 
 reader.readAsDataURL(file)
 
 }
 
-document.getElementById("frontCover").onchange=
-function(){preview(this,"previewFront")}
+document.getElementById("frontCover").onchange=function(){
+preview(this,"previewFront")
+}
 
-document.getElementById("backCover").onchange=
-function(){preview(this,"previewBack")}
+document.getElementById("backCover").onchange=function(){
+preview(this,"previewBack")
+}
 
-
-/* BASE64 */
+/* FILE TO BASE64 */
 
 function toBase64(file){
-
 return new Promise((resolve,reject)=>{
-
 let reader=new FileReader()
-
 reader.onload=()=>resolve(reader.result)
-
 reader.onerror=reject
-
 reader.readAsDataURL(file)
-
 })
-
 }
 
-
-/* UPLOAD */
+/* UPLOAD FUNCTION */
 
 async function upload(){
 
 let title=document.getElementById("title").value.trim()
-
 let author=document.getElementById("author").value.trim()
-
 let description=document.getElementById("description").value.trim()
-
-let price=document.getElementById("price").value.trim()
+let price=document.getElementById("price").value
 
 let front=document.getElementById("frontCover").files[0]
-
 let back=document.getElementById("backCover").files[0]
-
 let pdf=document.getElementById("pdf").files[0]
 
-if(!title||!price||!author||!description||!front||!back||!pdf){
-
-alert("Fill All Fields")
-
+if(!title||!author||!description||!price||!front||!back||!pdf){
+alert("Please fill all fields")
 return
-
 }
-
 
 /* SIZE CHECK */
 
 if(front.size>2*1024*1024){
-
-alert("Front cover max 2MB")
-
+alert("Front cover must be below 2MB")
 return
-
 }
 
 if(back.size>2*1024*1024){
-
-alert("Back cover max 2MB")
-
+alert("Back cover must be below 2MB")
 return
-
 }
 
 if(pdf.size>10*1024*1024){
-
-alert("PDF max 10MB")
-
+alert("PDF must be below 10MB")
 return
-
 }
 
-
 let bar=document.getElementById("bar")
-
 let btn=document.getElementById("uploadBtn")
 
 btn.disabled=true
-
 btn.innerText="Uploading..."
-
 
 try{
 
@@ -350,63 +269,43 @@ let pdf64=await toBase64(pdf)
 
 bar.style.width="80%"
 
-
-let res=await fetch(PRODUCT_API,{
-
+let res=await fetch(API,{
 method:"POST",
-
 headers:{
-"Content-Type":"text/plain"
+"Content-Type":"application/json"
 },
-
 body:JSON.stringify({
-
-action:"uploadFile",
-
+action:"upload_ebook",
 title:title,
 author:author,
 description:description,
 price:Number(price),
-
-owner:user.email,
-
-image:front64,
-backCover:back64,
-pdf:pdf64,
-
-ai_status:"pending"
-
+email:user.email,
+front_cover:front64,
+back_cover:back64,
+file:pdf64
+})
 })
 
-})
-
-let result=await res.json()
+let data=await res.json()
 
 bar.style.width="100%"
 
-
-if(result.success){
-
-alert("Ebook Uploaded Successfully ✅")
-
+if(data.success){
+alert("Ebook uploaded successfully")
 location.reload()
-
 }else{
-
-alert(result.message || "Upload Failed")
-
+alert(data.message || "Upload failed")
 }
 
 }catch(e){
 
-alert("Upload Error")
-
+alert("Upload error")
 console.log(e)
 
 }
 
 btn.disabled=false
-
 btn.innerText="Upload Ebook"
 
 }
@@ -414,4 +313,4 @@ btn.innerText="Upload Ebook"
 </script>
 
 </body>
-  </html>
+</html>
