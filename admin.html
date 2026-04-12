@@ -51,7 +51,6 @@ font-weight:bold;
 max-width:1100px;
 margin:auto;
 padding:20px;
-animation:fadeUp .6s ease;
 }
 
 /* GRID */
@@ -105,28 +104,10 @@ margin-top:10px;
 border:1px solid #1f2937;
 }
 
-/* CHART */
-
 canvas{
 background:#020617;
 border-radius:10px;
 padding:10px;
-}
-
-/* ANIMATION */
-
-@keyframes fadeUp{
-
-0%{
-opacity:0;
-transform:translateY(30px);
-}
-
-100%{
-opacity:1;
-transform:translateY(0);
-}
-
 }
 
 </style>
@@ -166,7 +147,6 @@ Owner Profit
 
 </div>
 
-
 <div class="card">
 
 <h2>Earnings Analytics</h2>
@@ -175,7 +155,6 @@ Owner Profit
 
 </div>
 
-
 <div class="card">
 
 <h2>Seller Approval Requests</h2>
@@ -183,7 +162,6 @@ Owner Profit
 <div id="sellerList">Loading...</div>
 
 </div>
-
 
 <div class="card">
 
@@ -195,7 +173,6 @@ Open Product Control Panel
 
 </div>
 
-
 <div class="card">
 
 <h2>Seller Control</h2>
@@ -206,7 +183,6 @@ Open Seller Control
 
 </div>
 
-
 <div class="card">
 
 <h2>User Wallet Balance</h2>
@@ -216,7 +192,6 @@ Open Wallet Panel
 </button>
 
 </div>
-
 
 <div class="card">
 
@@ -230,10 +205,11 @@ Open User Analytics
 
 </div>
 
-
 <script>
 
 const ADMIN="ayushprajpati6@gmail.com"
+
+/* APIs */
 
 const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
@@ -249,25 +225,6 @@ if(!user || user.email!==ADMIN){
 alert("Admin Only")
 
 location.href="index.html"
-
-}
-
-
-/* SAFE HTML */
-
-function escapeHTML(str){
-
-return String(str).replace(/[&<>"']/g,function(m){
-
-return({
-'&':'&amp;',
-'<':'&lt;',
-'>':'&gt;',
-'"':'&quot;',
-"'":'&#039;'
-})[m]
-
-})
 
 }
 
@@ -305,9 +262,7 @@ return[]
 
 }
 
-
 let chart=null
-
 
 async function loadDashboard(){
 
@@ -320,15 +275,15 @@ let subs=await getDB("subscriptions")
 let sellers=await getDB("sellers")
 
 
-/* USERS COUNT */
+/* USERS */
 
-let uniqueUsers=new Set()
+let users=new Set()
 
 orders.forEach(o=>{
-if(o.buyer) uniqueUsers.add(o.buyer)
+if(o.buyer) users.add(o.buyer)
 })
 
-document.getElementById("users").innerText=uniqueUsers.size
+document.getElementById("users").innerText=users.size
 
 
 /* BOOKS */
@@ -336,7 +291,7 @@ document.getElementById("users").innerText=uniqueUsers.size
 document.getElementById("books").innerText=products.length
 
 
-/* PAID ORDERS */
+/* ORDERS */
 
 let paidOrders=orders.filter(o=>o.payment==="paid")
 
@@ -358,7 +313,7 @@ profit+=Number(s.amount||0)
 document.getElementById("profit").innerText=Math.floor(profit)
 
 
-/* CHART DATA */
+/* CHART */
 
 let chartMap={}
 
@@ -372,26 +327,9 @@ chartMap[d]+=Number(o.amount||0)*0.10
 
 })
 
-subs.forEach(s=>{
-
-let d=(s.date||"Unknown").slice(0,10)
-
-if(!chartMap[d]) chartMap[d]=0
-
-chartMap[d]+=Number(s.amount||0)
-
-})
-
 let labels=Object.keys(chartMap)
 
 let values=Object.values(chartMap)
-
-if(labels.length===0){
-
-labels=["No Data"]
-values=[0]
-
-}
 
 if(chart) chart.destroy()
 
@@ -433,11 +371,11 @@ box.innerHTML+=`
 
 <div class="row">
 
-<b>${escapeHTML(s.name||"User")}</b>
+<b>${s.name||"User"}</b>
 
 <br>
 
-${escapeHTML(s.email)}
+${s.email}
 
 </div>
 
