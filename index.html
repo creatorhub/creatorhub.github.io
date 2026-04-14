@@ -1,423 +1,469 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>CreatorHub</title>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<style>
-
-/* ⚠️ DESIGN SAME (NO CHANGE) */
-
-body{
-margin:0;
-font-family:Arial;
-background:#020617;
-color:white;
-}
-
-.navbar{
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:12px 20px;
-background:#020617;
-box-shadow:0 5px 20px black;
-position:sticky;
-top:0;
-z-index:1000;
-}
-
-.logo{
-font-size:24px;
-color:#22c55e;
-font-weight:bold;
-}
-
-.profile{
-width:40px;
-height:40px;
-border-radius:50%;
-object-fit:cover;
-cursor:pointer;
-border:2px solid #22c55e;
-}
-
-nav a{
-margin:0 12px;
-text-decoration:none;
-color:white;
-opacity:.8;
-}
-
-nav a:hover{
-opacity:1;
-}
-
-.search input{
-padding:8px 10px;
-border-radius:8px;
-border:none;
-}
-
-.side{
-position:fixed;
-top:0;
-left:0;
-width:260px;
-height:100%;
-background:#020617;
-padding:20px;
-transform:translateX(-100%);
-transition:.35s;
-z-index:9999;
-box-shadow:5px 0 30px black;
-overflow:auto;
-}
-
-.side.open{
-transform:translateX(0);
-}
-
-.side a{
-display:block;
-background:#111827;
-padding:14px;
-margin-top:12px;
-border-radius:12px;
-text-decoration:none;
-color:white;
-}
-
-.side a:hover{
-background:#1f2937;
-}
-
-#overlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.6);
-display:none;
-z-index:9998;
-}
-
-.hero{
-display:flex;
-flex-wrap:wrap;
-padding:60px 30px;
-align-items:center;
-justify-content:space-between;
-animation:fadeUp 1s ease;
-}
-
-.hero-text{
-max-width:520px;
-}
-
-.hero h1{
-font-size:42px;
-}
-
-.hero span{
-color:#22c55e;
-}
-
-.hero p{
-opacity:.8;
-}
-
-.hero-buttons{
-margin-top:20px;
-}
-
-.btn-green{
-background:#22c55e;
-border:none;
-padding:12px 20px;
-border-radius:8px;
-color:white;
-cursor:pointer;
-transition:.3s;
-}
-
-.btn-green:hover{
-box-shadow:0 0 15px #22c55e;
-transform:scale(1.05);
-}
-
-.btn-dark{
-background:#111827;
-border:none;
-padding:12px 20px;
-border-radius:8px;
-color:white;
-cursor:pointer;
-margin-left:10px;
-}
-
-.hero-books img{
-width:150px;
-margin:10px;
-border-radius:12px;
-box-shadow:0 5px 20px black;
-}
-
-.books{
-padding:50px 25px;
-}
-
-.book-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:20px;
-}
-
-.book{
-background:#111827;
-padding:15px;
-border-radius:12px;
-text-align:center;
-transition:transform .3s,box-shadow .3s;
-}
-
-.book:hover{
-transform:translateY(-8px) scale(1.02);
-box-shadow:0 15px 40px rgba(0,0,0,.8);
-}
-
-.book img{
-width:100%;
-height:220px;
-object-fit:cover;
-border-radius:10px;
-}
-
-.book button{
-background:#22c55e;
-border:none;
-padding:10px;
-border-radius:8px;
-color:white;
-margin-top:10px;
-cursor:pointer;
-width:100%;
-}
-
-.cta{
-text-align:center;
-padding:70px 20px;
-background:#111827;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<header class="navbar">
-
-<img id="profileImg" class="profile" onclick="openMenu()">
-
-<div class="logo">CreatorHub</div>
-
-<nav>
-<a href="index.html">Home</a>
-<a href="products.html">Marketplace</a>
-<a href="upload.html">Sell eBook</a>
-<a href="dashboard.html">Dashboard</a>
-</nav>
-
-<div class="search">
-<input id="search" placeholder="Search ebooks...">
-</div>
-
-</header>
-
-<div id="menu" class="side">
-
-<a href="index.html">Home</a>
+<!DOCTYPE html>  <html lang="en">  
+<head>  <meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>CreatorHub</title>  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">  <style>  
+  
+body{  
+margin:0;  
+font-family:Arial;  
+background:#020617;  
+color:white;  
+}  
+  
+/* NAVBAR */  
+  
+.navbar{  
+display:flex;  
+align-items:center;  
+justify-content:space-between;  
+padding:12px 20px;  
+background:#020617;  
+box-shadow:0 5px 20px black;  
+position:sticky;  
+top:0;  
+z-index:1000;  
+}  
+  
+.logo{  
+font-size:24px;  
+color:#22c55e;  
+font-weight:bold;  
+}  
+  
+.profile{  
+width:40px;  
+height:40px;  
+border-radius:50%;  
+object-fit:cover;  
+cursor:pointer;  
+border:2px solid #22c55e;  
+}  
+  
+nav a{  
+margin:0 12px;  
+text-decoration:none;  
+color:white;  
+opacity:.8;  
+}  
+  
+nav a:hover{  
+opacity:1;  
+}  
+  
+.search input{  
+padding:8px 10px;  
+border-radius:8px;  
+border:none;  
+}  
+  
+/* SIDEBAR */  
+  
+.side{  
+position:fixed;  
+top:0;  
+left:0;  
+width:260px;  
+height:100%;  
+background:#020617;  
+padding:20px;  
+transform:translateX(-100%);  
+transition:.35s;  
+z-index:9999;  
+box-shadow:5px 0 30px black;  
+overflow:auto;  
+}  
+  
+.side.open{  
+transform:translateX(0);  
+}  
+  
+.side a{  
+display:block;  
+background:#111827;  
+padding:14px;  
+margin-top:12px;  
+border-radius:12px;  
+text-decoration:none;  
+color:white;  
+}  
+  
+.side a:hover{  
+background:#1f2937;  
+}  
+  
+#overlay{  
+position:fixed;  
+top:0;  
+left:0;  
+width:100%;  
+height:100%;  
+background:rgba(0,0,0,.6);  
+display:none;  
+z-index:9998;  
+}  
+  
+/* HERO */  
+  
+.hero{  
+display:flex;  
+flex-wrap:wrap;  
+padding:60px 30px;  
+align-items:center;  
+justify-content:space-between;  
+animation:fadeUp 1s ease;  
+}  
+  
+.hero-text{  
+max-width:520px;  
+}  
+  
+.hero h1{  
+font-size:42px;  
+}  
+  
+.hero span{  
+color:#22c55e;  
+}  
+  
+.hero p{  
+opacity:.8;  
+}  
+  
+.hero-buttons{  
+margin-top:20px;  
+}  
+  
+.btn-green{  
+background:#22c55e;  
+border:none;  
+padding:12px 20px;  
+border-radius:8px;  
+color:white;  
+cursor:pointer;  
+transition:.3s;  
+}  
+  
+.btn-green:hover{  
+box-shadow:0 0 15px #22c55e;  
+transform:scale(1.05);  
+}  
+  
+.btn-dark{  
+background:#111827;  
+border:none;  
+padding:12px 20px;  
+border-radius:8px;  
+color:white;  
+cursor:pointer;  
+margin-left:10px;  
+}  
+  
+.hero-books img{  
+width:150px;  
+margin:10px;  
+border-radius:12px;  
+box-shadow:0 5px 20px black;  
+}  
+  
+/* BOOK GRID */  
+  
+.books{  
+padding:50px 25px;  
+}  
+  
+.book-grid{  
+display:grid;  
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));  
+gap:20px;  
+}  
+  
+.book{  
+background:#111827;  
+padding:15px;  
+border-radius:12px;  
+text-align:center;  
+transition:transform .3s,box-shadow .3s;  
+}  
+  
+.book:hover{  
+transform:translateY(-8px) scale(1.02);  
+box-shadow:0 15px 40px rgba(0,0,0,.8);  
+}  
+  
+.book img{  
+width:100%;  
+height:220px;  
+object-fit:cover;  
+border-radius:10px;  
+}  
+  
+.book button{  
+background:#22c55e;  
+border:none;  
+padding:10px;  
+border-radius:8px;  
+color:white;  
+margin-top:10px;  
+cursor:pointer;  
+width:100%;  
+}  
+  
+/* CTA */  
+  
+.cta{  
+text-align:center;  
+padding:70px 20px;  
+background:#111827;  
+}  
+  
+/* FOOTER */  
+  
+footer{  
+background:black;  
+padding:40px 20px;  
+margin-top:50px;  
+}  
+  
+.footer-grid{  
+display:grid;  
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));  
+gap:20px;  
+}  
+  
+footer h3{  
+color:#22c55e;  
+}  
+  
+.copyright{  
+text-align:center;  
+margin-top:20px;  
+opacity:.6;  
+}  
+  
+/* MOBILE */  
+  
+@media(max-width:768px){  
+  
+nav{  
+display:none;  
+}  
+  
+.navbar{  
+flex-wrap:wrap;  
+}  
+  
+.search{  
+width:100%;  
+margin-top:10px;  
+}  
+  
+.search input{  
+width:100%;  
+}  
+  
+.hero{  
+flex-direction:column;  
+text-align:center;  
+padding:40px 20px;  
+}  
+  
+.hero-books img{  
+width:100px;  
+}  
+  
+.hero h1{  
+font-size:26px;  
+}  
+  
+.book-grid{  
+grid-template-columns:repeat(2,1fr);  
+}  
+  
+.book img{  
+height:170px;  
+}  
+  
+}  
+  
+/* TABLET */  
+  
+@media(max-width:1024px){  
+  
+.hero{  
+flex-direction:column;  
+text-align:center;  
+}  
+  
+.hero-books{  
+margin-top:20px;  
+}  
+  
+.book-grid{  
+grid-template-columns:repeat(3,1fr);  
+}  
+  
+}  
+  
+@keyframes fadeUp{  
+  
+0%{  
+opacity:0;  
+transform:translateY(40px);  
+}  
+  
+100%{  
+opacity:1;  
+transform:translateY(0);  
+}  
+  
+}  
+  
+</style>  </head>  <body>  <header class="navbar">  <img id="profileImg" class="profile" onclick="openMenu()">  <div class="logo">CreatorHub</div>  <nav>  
+<a href="index.html">Home</a>  
+<a href="products.html">Marketplace</a>  
+<a href="upload.html">Sell eBook</a>  
+<a href="dashboard.html">Dashboard</a>  
+</nav>  <div class="search">  
+<input id="search" placeholder="Search ebooks...">  
+</div>  </header>  <!-- SIDEBAR -->  <div id="menu" class="side">  <a href="index.html">Home</a>
 <a href="products.html">Browse Ebooks</a>
 <a href="library.html">My Library</a>
 <a href="orders.html">Orders</a>
 <a href="wallet.html">Wallet</a>
 <a href="upload.html">Upload Ebook</a>
 <a href="dashboard.html">Dashboard</a>
+<a href="subscription.html">Premium</a>
+<a href="trending.html">Trending Books</a>
+<a href="topselling.html">Top Selling</a>
+<a href="cart.html">Cart</a>
 
-</div>
+</div>  <div id="overlay" onclick="closeMenu()"></div>  <!-- HERO -->  <section class="hero">  <div class="hero-text">  <h1>Discover, Buy & Sell eBooks <br> on <span>CreatorHub</span></h1>  <p>Explore thousands of digital books from talented creators.</p>  <div class="hero-buttons">  <button class="btn-green" onclick="goProducts()">Browse Ebooks</button>
 
-<div id="overlay" onclick="closeMenu()"></div>
-
-<section class="hero">
-
-<div class="hero-text">
-
-<h1>Discover, Buy & Sell eBooks <br> on <span>CreatorHub</span></h1>
-
-<p>Explore thousands of digital books from talented creators.</p>
-
-<div class="hero-buttons">
-
-<button class="btn-green" onclick="goProducts()">Browse Ebooks</button>
 <button class="btn-dark" onclick="goUpload()">Sell Your eBook</button>
 
-</div>
+</div>  </div>  <div class="hero-books">  <img src="https://covers.openlibrary.org/b/id/10521270-L.jpg">  
+<img src="https://covers.openlibrary.org/b/id/10521269-L.jpg">  
+<img src="https://covers.openlibrary.org/b/id/10521268-L.jpg">  </div>  </section>  <!-- TRENDING -->  <section class="books">  <h2>Trending eBooks</h2>  <div id="trendingBooks" class="book-grid">  Loading books...
 
-</div>
+</div>  </section>  <!-- ALL BOOKS -->  <section class="books">  <h2>All eBooks</h2>  <div id="allBooks" class="book-grid">  Loading ebooks...
 
-</section>
+</div>  </section>  <!-- CTA -->  <section class="cta">  <h2>Start Selling Your eBooks Today</h2>  <p>Upload your ebook once and earn from every sale.</p>  <button onclick="goUpload()">Upload Your eBook</button>
 
-<section class="books">
-
-<h2>All eBooks</h2>
-
-<div id="allBooks" class="book-grid">
-Loading ebooks...
-</div>
-
-</section>
-
-<div id="footer"></div>
-
-<script>
-
-/* MENU */
-
-function openMenu(){
-menu.classList.add("open")
-overlay.style.display="block"
-}
-
-function closeMenu(){
-menu.classList.remove("open")
-overlay.style.display="none"
-}
-
-/* 🔥 2 API */
-
-const BOOK_API="PUT_FIRST_SCRIPT_URL"
-const PAYMENT_API="PUT_SECOND_SCRIPT_URL"
-
-/* PROFILE */
-
-let user=JSON.parse(localStorage.getItem("user")||"{}")
-
-profileImg.src="https://ui-avatars.com/api/?name="+(user.email||"Guest")
-
-/* IMAGE */
-
-function driveImage(link){
-
-if(!link) return "https://picsum.photos/400"
-
-try{
-let id=link.split("/file/d/")[1]?.split("/")[0]
-if(id) return "https://drive.google.com/thumbnail?id="+id
-}catch{}
-
-return link
-
-}
-
-/* LOAD BOOKS */
-
-async function loadBooks(){
-
-let res=await fetch(BOOK_API+"?db=products")
-let products=await res.json()
-
-products=products.filter(p=>p.status==="published")
-
-let html=""
-
-products.forEach(p=>{
-
-html+=`
-<div class="book">
-<img src="${driveImage(p.front_cover)}">
-<h3>${p.title}</h3>
-<p>₹${p.price}</p>
-<button onclick="buy('${p.id}')">Buy Now</button>
-</div>
-`
-
-})
-
-allBooks.innerHTML=html
-
-}
-
-loadBooks()
-
-/* BUY */
-
-async function buy(id){
-
-let user=JSON.parse(localStorage.getItem("user")||"null")
-
-if(!user){
-alert("Login required")
-location.href="login.html"
-return
-}
-
-let res=await fetch(PAYMENT_API,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-action:"create_order",
-productId:id,
-buyer:user.email
-})
-})
-
-let data=await res.json()
-
-if(!data.success){
-alert("Order failed")
-return
-}
-
-location.href="https://sandbox.cashfree.com/pg/view/"+data.payment_session_id
-
-}
-
-/* NAV */
-
-function goProducts(){
-location.href="products.html"
-}
-
-function goUpload(){
-
-let user=JSON.parse(localStorage.getItem("user")||"null")
-
-if(!user){
-alert("Login required")
-location.href="login.html"
-return
-}
-
-location.href="upload.html"
-
-}
-
-/* FOOTER */
-
-fetch("footer.html")
-.then(res=>res.text())
-.then(data=>{
-footer.innerHTML=data
-})
-
-</script>
-
-</body>
+</section>  <!-- FOOTER -->  <div id="footer"></div>  <script>  
+  
+function openMenu(){  
+document.getElementById("menu").classList.add("open")  
+document.getElementById("overlay").style.display="block"  
+}  
+  
+function closeMenu(){  
+document.getElementById("menu").classList.remove("open")  
+document.getElementById("overlay").style.display="none"  
+}  
+  
+const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"  
+  
+function driveImage(link){  
+  
+if(!link) return "https://picsum.photos/400"  
+  
+try{  
+  
+let id=""  
+  
+if(link.includes("id="))  
+id=link.split("id=")[1].split("&")[0]  
+  
+if(link.includes("/file/d/"))  
+id=link.split("/file/d/")[1].split("/")[0]  
+  
+if(id)  
+return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000"  
+  
+}catch{}  
+  
+return link  
+  
+}  
+  
+async function loadBooks(){  
+  
+let res=await fetch(API+"?db=products&t="+Date.now())  
+let products=await res.json()  
+  
+if(!Array.isArray(products)) products=[]  
+  
+products=products.filter(p=>p.status==="approved")  
+  
+let trendingHTML=""  
+  
+products.slice(0,6).forEach(p=>{  
+  
+trendingHTML+=`  
+<div class="book">  
+<img src="${driveImage(p.image)}">  
+<h3>${p.title}</h3>  
+<p>₹${p.price}</p>  
+<button onclick="buy('${p.id}')">Buy Now</button>  
+</div>  
+`  
+  
+})  
+  
+document.getElementById("trendingBooks").innerHTML=trendingHTML  
+  
+let allHTML=""  
+  
+products.reverse().forEach(p=>{  
+  
+allHTML+=`  
+<div class="book">  
+<img src="${driveImage(p.image)}">  
+<h3>${p.title}</h3>  
+<p>₹${p.price}</p>  
+<button onclick="buy('${p.id}')">Buy Now</button>  
+</div>  
+`  
+  
+})  
+  
+document.getElementById("allBooks").innerHTML=allHTML  
+  
+}  
+  
+loadBooks()  
+  
+function buy(id){  
+localStorage.setItem("buyProduct",id)  
+location.href="payment.html"  
+}  
+  
+function goProducts(){  
+location.href="products.html"  
+}  
+  
+function goUpload(){  
+  
+let user=JSON.parse(localStorage.getItem("user")||"null")  
+  
+if(!user){  
+  
+alert("Login required")  
+location.href="login.html"  
+return  
+  
+}  
+  
+location.href="upload.html"  
+  
+}  
+  
+  /* LOAD FOOTER */  
+  
+fetch("footer.html")  
+.then(res => res.text())  
+.then(data => {  
+document.getElementById("footer").innerHTML = data  
+})  
+  
+</script>  </body>  
 </html>
