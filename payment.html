@@ -330,7 +330,25 @@ if(data.success){
 
 alert("Order Created")
 
-location.href="success.html?order="+data.order_id
+if(data.success && data.payment_session_id){
+
+let cashfree = Cashfree({
+mode:"sandbox"
+})
+
+cashfree.checkout({
+paymentSessionId: data.payment_session_id,
+redirectTarget: "_self"
+})
+
+}else{
+
+alert(data.message || "Payment failed")
+
+btn.innerText="Pay & Buy"
+btn.disabled=false
+
+}
 
 }else{
 
