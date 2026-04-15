@@ -200,7 +200,9 @@ async function loadReader(){
 let products=await getDB(PRODUCT_API,"products")
 
 let orders=await getDB(PAYMENT_API,"orders")
-
+  
+let subs=await getDB(PAYMENT_API,"subscriptions")
+  
 let product=products.find(p=>String(p.id)===String(id))
 
 if(!product){
@@ -223,10 +225,16 @@ o.buyer===user.email &&
 
 let owner=product.owner===user.email
 
+let sub=subs.find(s =>
+s.email===user.email &&
+new Date(s.expiry) > new Date()
+)
+
 let allow=false
 
 if(user.email===ADMIN) allow=true
 else if(owner) allow=true
+else if(sub) allow=true
 else if(purchased) allow=true
 
 if(!allow){
