@@ -360,7 +360,8 @@ document.getElementById("menu").classList.remove("open")
 document.getElementById("overlay").style.display="none"  
 }  
   
-const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"  
+const BOOK_API = "👉 yaha ebook backend URL"
+const PAYMENT_API = "👉 yaha payment backend URL"
   
 function driveImage(link){  
   
@@ -387,12 +388,12 @@ return link
   
 async function loadBooks(){  
   
-let res=await fetch(API+"?db=products&t="+Date.now())  
+let res=await fetch(BOOK_API+"?db=products&t="+Date.now())
 let products=await res.json()  
   
 if(!Array.isArray(products)) products=[]  
   
-products=products.filter(p=>p.status==="approved")  
+products=products.filter(p=>p.status==="published")
   
 let trendingHTML=""  
   
@@ -400,7 +401,7 @@ products.slice(0,6).forEach(p=>{
   
 trendingHTML+=`  
 <div class="book">  
-<img src="${driveImage(p.image)}">  
+<img src="${driveImage(p.front_cover)}">
 <h3>${p.title}</h3>  
 <p>₹${p.price}</p>  
 <button onclick="buy('${p.id}')">Buy Now</button>  
@@ -417,7 +418,7 @@ products.reverse().forEach(p=>{
   
 allHTML+=`  
 <div class="book">  
-<img src="${driveImage(p.image)}">  
+<img src="${driveImage(p.front_cover)}">
 <h3>${p.title}</h3>  
 <p>₹${p.price}</p>  
 <button onclick="buy('${p.id}')">Buy Now</button>  
