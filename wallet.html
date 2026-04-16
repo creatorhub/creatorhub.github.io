@@ -254,7 +254,7 @@ box.innerHTML=""
 
 myOrders.reverse().forEach(o=>{
 
-let earn = Number(o.amount || 0)
+let earn = o.amount - (o.amount * 0.10)
 
 box.innerHTML+=`
 
@@ -286,69 +286,50 @@ return /^[a-zA-Z0-9.\-_]{2,}@[a-zA-Z]{2,}$/.test(vpa)
 
 async function withdraw(){
 
-let amount=Number(document.getElementById("amount").value)
+let amount = Number(document.getElementById("amount").value)
 
-if(!amount || !upi){
-
-alert("Fill all details")
+if(!amount){
+alert("Enter amount")
 return
-
 }
 
-alert("Invalid UPI")
-return
-
-}
-
-if(amount<100){
-
+if(amount < 100){
 alert("Minimum withdraw ₹100")
 return
-
 }
 
-if(amount>currentBalance){
-
+if(amount > currentBalance){
 alert("Insufficient balance")
 return
-
 }
 
 if(!confirm("Confirm withdraw request?")) return
 
 try{
 
-let res=await fetch(API,{
-
+let res = await fetch(API,{
 method:"POST",
-
 headers:{
 "Content-Type":"application/json"
 },
-
 body:JSON.stringify({
 action:"withdraw",
 email:user.email,
 amount:amount
 })
+})
 
-let data=await res.json()
+let data = await res.json()
 
 if(data.success){
-
-alert("Withdraw request sent")
+alert("Withdraw successful")
 location.reload()
-
 }else{
-
 alert(data.message || "Withdraw failed")
-
 }
 
 }catch{
-
 alert("Server error")
-
 }
 
 }
