@@ -180,8 +180,8 @@ Loading orders...
 
 /* APIs */
 
-const ORDER_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
-
+const ORDER_API="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
+  
 const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
 /* USER */
@@ -269,7 +269,9 @@ let products=await getDB(PRODUCT_API,"products")
 /* USER ORDERS */
 
 let myOrders=orders.filter(
-o=>o.buyer===user.email
+let myOrders = orders.filter(o=>
+o.buyer===user.email &&
+(o.payment==="paid" || o.status==="paid")
 )
 
 myOrders.reverse()
