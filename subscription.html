@@ -260,8 +260,8 @@ Checking subscription...
 
 /* PAYMENT API */
 
-const PAYMENT_API="https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
-
+const PAYMENT API="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
+  
 /* USER */
 
 let user=JSON.parse(localStorage.getItem("user")||"null")
@@ -349,9 +349,14 @@ let data=await res.json()
 
 if(data.payment_session_id){
 
-let url="https://sandbox.cashfree.com/pg/view/payment-session-id?payment_session_id="+data.payment_session_id
+let cashfree = Cashfree({
+mode:"sandbox"
+})
 
-window.location.href=url
+cashfree.checkout({
+paymentSessionId: data.payment_session_id,
+redirectTarget: "_self"
+})
 
 }else{
 
