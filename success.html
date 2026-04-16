@@ -136,9 +136,8 @@ Go To My Library
 
 /* PAYMENT API */
 
-const PAYMENT_API =
-"https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec"
-
+const PAYMENT_API = "https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
+  
 /* USER */
 
 let user = JSON.parse(localStorage.getItem("user")||"null")
@@ -186,6 +185,31 @@ document.getElementById("status").innerText=
 document.getElementById("loader").style.display="none"
 
 return
+
+<script>
+const API="YOUR_PAYMENT_API"
+
+let params=new URLSearchParams(location.search)
+let order=params.get("order")
+
+if(order){
+
+fetch(API,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+action:"verify",
+orderId:order
+})
+})
+.then(res=>res.json())
+.then(data=>{
+console.log("verified",data)
+})
+}
+</script>
 
 }
 
