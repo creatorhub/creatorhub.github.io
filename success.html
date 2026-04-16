@@ -21,8 +21,6 @@ height:100vh;
 padding:20px;
 }
 
-/* CARD */
-
 .card{
 background:linear-gradient(145deg,#111827,#020617);
 padding:35px;
@@ -35,21 +33,15 @@ box-shadow:0 20px 40px rgba(0,0,0,0.7);
 animation:fadeUp .6s ease;
 }
 
-/* TITLE */
-
 h1{
 color:#22c55e;
 margin-bottom:10px;
 }
 
-/* STATUS */
-
 #status{
 opacity:.8;
 font-size:14px;
 }
-
-/* BUTTON */
 
 button{
 margin-top:22px;
@@ -70,23 +62,17 @@ transform:scale(1.03);
 box-shadow:0 0 15px #22c55e;
 }
 
-/* LOADER */
-
 .loader{
 margin-top:25px;
 font-size:14px;
 animation:pulse 1.2s infinite;
 }
 
-/* PROGRESS */
-
 .progress{
 margin-top:10px;
 font-size:12px;
 opacity:.7;
 }
-
-/* ANIMATIONS */
 
 @keyframes pulse{
 0%{opacity:.3}
@@ -95,14 +81,8 @@ opacity:.7;
 }
 
 @keyframes fadeUp{
-0%{
-opacity:0;
-transform:translateY(40px);
-}
-100%{
-opacity:1;
-transform:translateY(0);
-}
+0%{opacity:0;transform:translateY(40px);}
+100%{opacity:1;transform:translateY(0);}
 }
 
 </style>
@@ -134,125 +114,73 @@ Go To My Library
 
 <script>
 
-/* PAYMENT API */
-
 const PAYMENT_API = "https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
-  
+
 /* USER */
 
 let user = JSON.parse(localStorage.getItem("user")||"null")
 
 if(!user){
-
 alert("Login required")
 location.href="login.html"
-
 }
 
-/* ORDER ID */
+/* GET ORDER ID */
 
 function getOrderId(){
-
-let params=new URLSearchParams(window.location.search)
-
-return(
-params.get("order_id")||
-params.get("orderId")||
-params.get("cf_order_id")||
-params.get("order-id")
+let params = new URLSearchParams(window.location.search)
+return (
+params.get("order_id") ||
+params.get("orderId") ||
+params.get("cf_order_id") ||
+params.get("order-id") ||
+params.get("order")
 )
-
 }
 
-let orderId=getOrderId()
+let orderId = getOrderId()
 
-/* RETRY */
-
-let retry=0
-const maxRetry=10
-
-/* VERIFY PAYMENT */
+let retry = 0
+const maxRetry = 10
 
 async function verifyPayment(){
 
 if(!orderId){
 
 document.getElementById("title").innerText="Order Error"
-
-document.getElementById("status").innerText=
-"Order ID not found"
-
+document.getElementById("status").innerText="Order ID not found"
 document.getElementById("loader").style.display="none"
 
 return
-
-<script>
-const API="YOUR_PAYMENT_API"
-
-let params=new URLSearchParams(location.search)
-let order=params.get("order")
-
-if(order){
-
-fetch(API,{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-action:"verify",
-orderId:order
-})
-})
-.then(res=>res.json())
-.then(data=>{
-console.log("verified",data)
-})
-}
-</script>
-
 }
 
-/* LIMIT */
-
-if(retry>=maxRetry){
+if(retry >= maxRetry){
 
 document.getElementById("title").innerText="Verification Timeout"
-
-document.getElementById("status").innerText=
-"Payment verification failed. Contact support."
-
+document.getElementById("status").innerText="Payment verification failed"
 document.getElementById("loader").style.display="none"
-
 document.getElementById("libraryBtn").style.display="block"
 
 return
-
 }
 
 document.getElementById("progress").innerText =
-"Attempt "+(retry+1)+" / "+maxRetry
+"Attempt " + (retry+1) + " / " + maxRetry
 
 try{
 
-let res=await fetch(PAYMENT_API,{
-
+let res = await fetch(PAYMENT_API,{
 method:"POST",
-
 headers:{
 "Content-Type":"application/json"
 },
-
 body:JSON.stringify({
 action:"verify",
 orderId:orderId
 })
-
 })
 
-let data=await res.json()
-
-/* SUCCESS */
+let data = await res.json()
 
 if(data.success){
 
@@ -260,42 +188,27 @@ document.getElementById("status").innerText =
 "Ebook unlocked successfully!"
 
 document.getElementById("loader").style.display="none"
-
 document.getElementById("progress").style.display="none"
-
 document.getElementById("libraryBtn").style.display="block"
-
-/* CLEAR CART */
 
 localStorage.removeItem("buyProduct")
 
-/* AUTO REDIRECT */
-
 setTimeout(()=>{
 goLibrary()
-},4000)
+},3000)
 
-}
-
-/* RETRY */
-
-else{
+}else{
 
 retry++
-
 setTimeout(verifyPayment,3000)
 
 }
 
-}
-
-catch(e){
+}catch(e){
 
 retry++
-
 document.getElementById("status").innerText =
-"Verification error. Retrying..."
-
+"Retrying verification..."
 setTimeout(verifyPayment,3000)
 
 }
@@ -305,9 +218,7 @@ setTimeout(verifyPayment,3000)
 verifyPayment()
 
 function goLibrary(){
-
 location.href="library.html"
-
 }
 
 </script>
