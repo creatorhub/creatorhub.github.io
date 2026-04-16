@@ -181,7 +181,7 @@ Loading orders...
 /* APIs */
 
 const ORDER_API="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
-  
+
 const PRODUCT_API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
 
 /* USER */
@@ -191,7 +191,6 @@ let user=JSON.parse(localStorage.getItem("user")||"{}")
 if(!user.email){
 
 alert("Login first")
-
 location.href="login.html"
 
 }
@@ -199,9 +198,7 @@ location.href="login.html"
 /* SAFE TEXT */
 
 function escapeHTML(str){
-
 return String(str).replace(/[&<>"']/g,function(m){
-
 return({
 '&':'&amp;',
 '<':'&lt;',
@@ -209,9 +206,7 @@ return({
 '"':'&quot;',
 "'":'&#039;'
 })[m]
-
 })
-
 }
 
 /* DRIVE IMAGE */
@@ -247,7 +242,6 @@ return link
 async function getDB(api,db){
 
 let res=await fetch(api+"?db="+db+"&t="+Date.now())
-
 let data=await res.json()
 
 return Array.isArray(data)?data:[]
@@ -263,12 +257,10 @@ let box=document.getElementById("orders")
 try{
 
 let orders=await getDB(ORDER_API,"orders")
-
 let products=await getDB(PRODUCT_API,"products")
 
-/* USER ORDERS */
+/* ONLY PAID ORDERS */
 
-let myOrders=orders.filter(
 let myOrders = orders.filter(o=>
 o.buyer===user.email &&
 (o.payment==="paid" || o.status==="paid")
@@ -279,7 +271,6 @@ myOrders.reverse()
 if(myOrders.length===0){
 
 box.innerHTML="<div class='empty'>No orders yet 📦</div>"
-
 return
 
 }
@@ -298,7 +289,6 @@ if(product && product.ai_status && product.ai_status!=="approved")
 return
 
 let title=product?product.title:"Unknown Product"
-
 let image=product?product.image:""
 
 let status=o.status || "Order Placed"
@@ -309,6 +299,10 @@ if(status==="Printing") statusClass="printing"
 if(status==="Shipped") statusClass="shipped"
 if(status==="Out for Delivery") statusClass="delivery"
 if(status==="Delivered") statusClass="delivered"
+
+/* DATE FIX */
+
+let date = o.date ? new Date(o.date).toLocaleDateString() : ""
 
 box.innerHTML+=`
 
@@ -331,7 +325,7 @@ src="${driveImage(image)}">
 
 <br>
 
-<b>Date:</b> ${escapeHTML(o.date || "")}
+<b>Date:</b> ${date}
 
 <br><br>
 
