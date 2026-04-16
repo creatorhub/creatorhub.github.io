@@ -178,14 +178,14 @@ font-size:30px;
 <div class="title">Creator Wallet</div>
 </div><div class="container"><div class="card"><h3>Available Balance</h3><div class="balance">
 ₹ <span id="balance">0</span>
-</div></div><div class="card"><h3>Withdraw Money</h3><input id="upi" placeholder="Enter UPI ID"><input id="amount" type="number" placeholder="Withdraw Amount ₹"><button onclick="withdraw()">Withdraw Money</button>
+</div></div><div class="card"><h3>Withdraw Money</h3><input id="amount" type="number" placeholder="Withdraw Amount ₹"><button onclick="withdraw()">Withdraw Money</button>
 
 </div><div class="card"><h3>Earnings History</h3><div id="history">Loading...</div></div></div><script>
 
 /* API */
 
-const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
-
+const API="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
+  
 /* USER */
 
 let user=JSON.parse(localStorage.getItem("user")||"{}")
@@ -287,7 +287,6 @@ return /^[a-zA-Z0-9.\-_]{2,}@[a-zA-Z]{2,}$/.test(vpa)
 async function withdraw(){
 
 let amount=Number(document.getElementById("amount").value)
-let upi=document.getElementById("upi").value.trim()
 
 if(!amount || !upi){
 
@@ -295,8 +294,6 @@ alert("Fill all details")
 return
 
 }
-
-if(!validUPI(upi)){
 
 alert("Invalid UPI")
 return
@@ -330,14 +327,9 @@ headers:{
 },
 
 body:JSON.stringify({
-
 action:"withdraw",
 email:user.email,
-amount:amount,
-upi:upi
-
-})
-
+amount:amount
 })
 
 let data=await res.json()
