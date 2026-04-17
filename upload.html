@@ -4,19 +4,27 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Upload Ebook - CreatorHub</title>
+
+<title>Upload Ebook</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
 <style>
 
-*{box-sizing:border-box;}
+:root{
+--bg:#020617;
+--card:#111827;
+--accent:#22c55e;
+}
+
+*{box-sizing:border-box}
 
 body{
 margin:0;
 font-family:Arial;
-background:#020617;
+background:var(--bg);
 color:white;
+animation:fadePage .5s ease;
 }
 
 /* HEADER */
@@ -29,18 +37,24 @@ border-bottom:1px solid #1f2937;
 position:sticky;
 top:0;
 background:#020617;
+z-index:10;
 }
 
 .back{
 font-size:22px;
 cursor:pointer;
 margin-right:10px;
+transition:.2s;
+}
+
+.back:hover{
+transform:scale(1.2);
 }
 
 .title{
 font-size:20px;
 font-weight:bold;
-color:#22c55e;
+color:var(--accent);
 }
 
 /* CONTAINER */
@@ -51,12 +65,18 @@ max-width:650px;
 margin:auto;
 }
 
+/* CARD */
+
 .card{
-background:#111827;
+background:linear-gradient(145deg,#111827,#020617);
 padding:25px;
 border-radius:16px;
 border:1px solid #1f2937;
+box-shadow:0 10px 25px rgba(0,0,0,.6);
+animation:fadeUp .6s ease;
 }
+
+/* INPUT */
 
 input,textarea{
 width:100%;
@@ -68,9 +88,9 @@ background:#020617;
 color:white;
 }
 
-textarea{
-min-height:80px;
-}
+textarea{min-height:90px}
+
+/* BUTTON */
 
 button{
 width:100%;
@@ -82,7 +102,20 @@ font-weight:bold;
 cursor:pointer;
 background:linear-gradient(90deg,#22c55e,#4ade80);
 color:black;
+transition:.3s;
 }
+
+button:hover{
+transform:scale(1.03);
+box-shadow:0 0 15px #22c55e;
+}
+
+button:disabled{
+opacity:.6;
+cursor:not-allowed;
+}
+
+/* IMAGE */
 
 img{
 width:100%;
@@ -90,6 +123,8 @@ margin-top:12px;
 border-radius:10px;
 display:none;
 }
+
+/* PROGRESS */
 
 .progress{
 height:18px;
@@ -107,25 +142,34 @@ background:#22c55e;
 transition:.4s;
 }
 
-label{
-margin-top:14px;
-display:block;
-font-size:14px;
-color:#9ca3af;
+/* LOADER */
+
+.loading{
+text-align:center;
+margin-top:10px;
+opacity:.7;
+}
+
+/* ANIMATION */
+
+@keyframes fadePage{
+from{opacity:0}
+to{opacity:1}
+}
+
+@keyframes fadeUp{
+from{opacity:0;transform:translateY(40px)}
+to{opacity:1;transform:translateY(0)}
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="header">
-
 <div class="back" onclick="history.back()">⬅</div>
-
 <div class="title">Upload Ebook</div>
-
 </div>
 
 <div class="container">
@@ -160,7 +204,11 @@ color:#9ca3af;
 <div class="bar" id="bar"></div>
 </div>
 
-<button id="uploadBtn" onclick="upload()">Upload Ebook</button>
+<div id="status" class="loading"></div>
+
+<button id="uploadBtn" onclick="upload()">
+Upload Ebook
+</button>
 
 </div>
 
@@ -168,52 +216,75 @@ color:#9ca3af;
 
 <script>
 
+/* ================= API ================= */
+
 const API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec"
+
+/* ================= USER ================= */
 
 let user=JSON.parse(localStorage.getItem("user")||"{}")
 
 if(!user.email){
-
 alert("Login required")
-
 location.href="login.html"
+}
+
+/* ================= SELLER CHECK ================= */
+
+async function checkSeller(){
+
+try{
+
+let res = await fetch(API+"?db=sellers&t="+Date.now())
+let sellers = await res.json()
+
+let s = sellers.find(x=>x.email===user.email)
+
+if(!s || s.status!=="approved"){
+
+document.getElementById("uploadBtn").disabled=true
+document.getElementById("uploadBtn").innerText="Seller Approval Required"
+
+document.getElementById("status").innerText="⚠️ Apply for seller first"
 
 }
 
-/* IMAGE PREVIEW */
+}catch{
+
+document.getElementById("status").innerText="Server error"
+
+}
+
+}
+
+checkSeller()
+
+/* ================= PREVIEW ================= */
 
 function preview(fileInput,imgId){
 
 let file=fileInput.files[0]
-
 if(!file) return
 
 let reader=new FileReader()
 
 reader.onload=e=>{
-
 let img=document.getElementById(imgId)
-
 img.src=e.target.result
-
 img.style.display="block"
-
 }
 
 reader.readAsDataURL(file)
-
 }
 
 frontCover.onchange=()=>preview(frontCover,"previewFront")
-
 backCover.onchange=()=>preview(backCover,"previewBack")
 
-/* PDF PAGE DETECT */
+/* ================= PDF PAGE ================= */
 
 pdf.addEventListener("change",async function(){
 
 let file=this.files[0]
-
 if(!file) return
 
 let reader=new FileReader()
@@ -221,7 +292,6 @@ let reader=new FileReader()
 reader.onload=async function(){
 
 let typedarray=new Uint8Array(reader.result)
-
 let pdfDoc=await pdfjsLib.getDocument(typedarray).promise
 
 pages.value=pdfDoc.numPages
@@ -232,154 +302,93 @@ reader.readAsArrayBuffer(file)
 
 })
 
-/* AI DESCRIPTION */
+/* ================= AI HELP ================= */
 
 function aiHelp(){
 
-let titleVal=title.value
-
-if(!titleVal){
-
+if(!title.value){
 alert("Enter title first")
-
 return
+}
+
+description.value="Learn "+title.value+" with easy step by step guide."
 
 }
 
-description.value="Learn "+titleVal+" step by step with practical examples."
-
-}
-
-/* BASE64 */
+/* ================= BASE64 ================= */
 
 function toBase64(file){
 
 return new Promise((resolve,reject)=>{
-
 let reader=new FileReader()
-
 reader.onload=()=>resolve(reader.result.split(",")[1])
-
 reader.onerror=reject
-
 reader.readAsDataURL(file)
-
 })
 
 }
 
-/* UPLOAD */
+/* ================= UPLOAD ================= */
 
 async function upload(){
 
+let btn=document.getElementById("uploadBtn")
+let bar=document.getElementById("bar")
+let status=document.getElementById("status")
+
 let titleVal=title.value.trim()
-
 let authorVal=author.value.trim()
-
 let descVal=description.value.trim()
-
 let priceVal=price.value
 
-let pagesVal=pages.value
-
 let front=frontCover.files[0]
-
 let back=backCover.files[0]
-
 let pdfFile=pdf.files[0]
 
 if(!titleVal||!authorVal||!descVal||!priceVal||!front||!back||!pdfFile){
 
-alert("Please fill all fields")
-
+alert("Fill all fields")
 return
 
 }
-
-/* SIZE CHECK */
-
-if(front.size>10*1024*1024){
-
-alert("Front cover max 10MB")
-
-return
-
-}
-
-if(back.size>10*1024*1024){
-
-alert("Back cover max 10MB")
-
-return
-
-}
-
-if(pdfFile.size>25*1024*1024){
-
-alert("PDF max 25MB")
-
-return
-
-}
-
-let bar=document.getElementById("bar")
-
-let btn=document.getElementById("uploadBtn")
 
 btn.disabled=true
-
 btn.innerText="Uploading..."
+status.innerText="Processing..."
 
 try{
 
 bar.style.width="20%"
-
 let front64=await toBase64(front)
 
 bar.style.width="40%"
-
 let back64=await toBase64(back)
 
 bar.style.width="60%"
-
 let pdf64=await toBase64(pdfFile)
 
 bar.style.width="80%"
 
 let res=await fetch(API,{
-
 method:"POST",
-
-headers:{
-
-"Content-Type":"application/json"
-
-},
-
+headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
 
 action:"uploadEbook",
 
 title:titleVal,
-
 author:authorVal,
-
 description:descVal,
-
 price:Number(priceVal),
 
-pages:pagesVal,
-
+pages:pages.value,
 email:user.email,
 
 front_cover:front64,
-
 back_cover:back64,
-
 pdf:pdf64
 
 })
-
 })
 
 let data=await res.json()
@@ -388,26 +397,26 @@ bar.style.width="100%"
 
 if(data.success){
 
-alert("✅ Ebook Uploaded Successfully")
+status.innerText="✅ Upload Successful"
+alert("Ebook uploaded")
 
 location.reload()
 
 }else{
 
+status.innerText="❌ "+data.message
 alert(data.message)
 
 }
 
 }catch(e){
 
-alert("Upload Error")
-
-console.log(e)
+status.innerText="Server Error"
+alert("Upload failed")
 
 }
 
 btn.disabled=false
-
 btn.innerText="Upload Ebook"
 
 }
@@ -415,4 +424,4 @@ btn.innerText="Upload Ebook"
 </script>
 
 </body>
-</html>
+  </html>
