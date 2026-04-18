@@ -4,7 +4,7 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Become Seller</title>
+<title>Become Seller - CreatorHub</title>
 
 <style>
 
@@ -74,7 +74,7 @@ cursor:pointer;
 /* STATUS */
 .status{
 margin-top:15px;
-padding:10px;
+padding:12px;
 border-radius:8px;
 text-align:center;
 font-weight:bold;
@@ -85,6 +85,7 @@ font-weight:bold;
 .rejected{background:#7f1d1d}
 
 </style>
+
 </head>
 
 <body>
@@ -96,7 +97,7 @@ font-weight:bold;
 
 <div class="container">
 
-<div class="card" id="card">
+<div class="card">
 
 <h3>Apply Seller</h3>
 
@@ -104,7 +105,7 @@ font-weight:bold;
 <input id="phone" placeholder="Phone Number">
 <input id="upi" placeholder="UPI ID">
 
-<button id="btn" onclick="apply()">Apply</button>
+<button id="btn" onclick="applySeller()">Apply Now</button>
 
 <div id="status"></div>
 
@@ -116,44 +117,50 @@ font-weight:bold;
 
 const API="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
 
-/* USER */
+/* USER CHECK */
 let user = JSON.parse(localStorage.getItem("user")||"{}")
 
 if(!user.email){
-alert("Login first")
+alert("Login required")
 location.href="login.html"
 }
 
 /* ================= CHECK SELLER ================= */
 
-async function check(){
+async function checkSeller(){
 
 try{
 
-let res = await fetch(API+"?db=sellers")
+let res = await fetch(API + "?db=sellers")
 let text = await res.text()
 
-let data = JSON.parse(text)
+let sellers = JSON.parse(text)
 
-let s = data.find(x=>x.email===user.email)
+let s = sellers.find(x=>x.email===user.email)
 
-let box=document.getElementById("status")
-let btn=document.getElementById("btn")
+let statusBox = document.getElementById("status")
+let btn = document.getElementById("btn")
 
-if(!s) return
+if(!s){
+statusBox.innerHTML=""
+return
+}
 
+/* APPROVED */
 if(s.status==="approved"){
-box.innerHTML='<div class="status approved">✅ Approved</div>'
+statusBox.innerHTML = '<div class="status approved">✅ You are an approved seller</div>'
 btn.style.display="none"
 }
 
+/* PENDING */
 else if(s.status==="pending"){
-box.innerHTML='<div class="status pending">⏳ Pending Approval</div>'
+statusBox.innerHTML = '<div class="status pending">⏳ Your request is under review</div>'
 btn.style.display="none"
 }
 
-else if(s.status==="rejected"){
-box.innerHTML='<div class="status rejected">❌ Rejected (You can reapply)</div>'
+/* REJECTED */
+else{
+statusBox.innerHTML = '<div class="status rejected">❌ Rejected (You can reapply)</div>'
 btn.style.display="block"
 }
 
@@ -163,7 +170,7 @@ console.log("Check error:",e)
 
 }
 
-check()
+checkSeller()
 
 /* ================= VALIDATION ================= */
 
@@ -171,26 +178,26 @@ function validUPI(vpa){
 return /^[a-zA-Z0-9.\-_]{2,}@[a-zA-Z]{2,}$/.test(vpa)
 }
 
-/* ================= APPLY ================= */
+/* ================= APPLY SELLER ================= */
 
-async function apply(){
+async function applySeller(){
 
 let name=document.getElementById("name").value.trim()
 let phone=document.getElementById("phone").value.trim()
 let upi=document.getElementById("upi").value.trim()
 
 if(!name || !phone || !upi){
-alert("Fill all fields")
+alert("Please fill all fields")
 return
 }
 
 if(!/^[0-9]{10}$/.test(phone)){
-alert("Invalid phone")
+alert("Enter valid phone number")
 return
 }
 
 if(!validUPI(upi)){
-alert("Invalid UPI")
+alert("Enter valid UPI ID")
 return
 }
 
@@ -201,7 +208,7 @@ btn.innerText="Submitting..."
 
 try{
 
-let res=await fetch(API,{
+let res = await fetch(API,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
@@ -218,9 +225,8 @@ console.log("RAW:",text)
 
 let data = JSON.parse(text)
 
-/* SUCCESS */
 if(data.success){
-alert("✅ Applied successfully")
+alert("✅ आवेदन सफल हुआ")
 location.reload()
 }else{
 alert(data.message || "Failed")
@@ -232,7 +238,7 @@ console.log(e)
 }
 
 btn.disabled=false
-btn.innerText="Apply"
+btn.innerText="Apply Now"
 
 }
 
