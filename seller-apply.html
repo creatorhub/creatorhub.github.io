@@ -1,155 +1,272 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Apply as Seller</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Become Seller | CreatorHub</title>
+
+<style>
+
+/* BACKGROUND */
 body{
-    margin:0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg,#1e1e2f,#3a3a6a);
-    color:white;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    height:100vh;
+margin:0;
+font-family: 'Segoe UI', sans-serif;
+background: linear-gradient(135deg,#020617,#0f172a);
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+height:100vh;
+overflow:hidden;
 }
 
 /* CARD */
 .container{
-    background:#2a2a4a;
-    padding:30px;
-    border-radius:20px;
-    width:350px;
-    box-shadow:0 10px 40px rgba(0,0,0,0.4);
-    animation:fadeIn 0.8s ease;
+width:380px;
+background:rgba(17,24,39,0.9);
+border-radius:20px;
+padding:30px;
+border:1px solid #1f2937;
+backdrop-filter:blur(12px);
+box-shadow:0 20px 60px rgba(0,0,0,0.5);
+animation:fadeUp .7s ease;
 }
 
-/* BACK BUTTON */
+/* HEADER */
+.header{
+display:flex;
+align-items:center;
+margin-bottom:20px;
+}
+
 .back{
-    cursor:pointer;
-    font-size:20px;
-    margin-bottom:10px;
-    display:inline-block;
-    transition:0.3s;
+cursor:pointer;
+font-size:22px;
+margin-right:10px;
+transition:.3s;
 }
 .back:hover{
-    transform:translateX(-5px);
+transform:translateX(-5px);
 }
 
-/* INPUTS */
-input{
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    border:none;
-    border-radius:10px;
-    outline:none;
-    background:#1c1c35;
-    color:white;
-    transition:0.3s;
+.title{
+font-size:20px;
+font-weight:bold;
+color:#22c55e;
 }
+
+/* INPUT */
+input{
+width:100%;
+padding:14px;
+margin-top:12px;
+border-radius:12px;
+border:1px solid #1f2937;
+background:#020617;
+color:white;
+transition:.3s;
+}
+
 input:focus{
-    background:#292952;
+outline:none;
+border-color:#22c55e;
+box-shadow:0 0 8px #22c55e;
 }
 
 /* BUTTON */
 button{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    background:linear-gradient(45deg,#ff7a18,#ffb347);
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-    transition:0.3s;
+width:100%;
+padding:14px;
+margin-top:18px;
+border:none;
+border-radius:12px;
+font-weight:bold;
+cursor:pointer;
+background:linear-gradient(90deg,#22c55e,#4ade80);
+color:black;
+transition:.3s;
 }
+
 button:hover{
-    transform:scale(1.05);
+transform:scale(1.05);
+box-shadow:0 0 15px #22c55e;
 }
 
 /* LOADER */
 .loader{
-    display:none;
-    text-align:center;
-    margin-top:10px;
+display:none;
+text-align:center;
+margin-top:12px;
 }
 
-/* SUCCESS */
-.success{
-    display:none;
-    text-align:center;
-    margin-top:10px;
-    color:#4caf50;
+/* STATUS */
+.status{
+margin-top:15px;
+padding:12px;
+border-radius:10px;
+text-align:center;
+display:none;
 }
+
+.approved{background:#065f46;}
+.pending{background:#78350f;}
+.rejected{background:#7f1d1d;}
 
 /* ANIMATION */
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(30px);}
-    to{opacity:1; transform:translateY(0);}
+@keyframes fadeUp{
+0%{opacity:0;transform:translateY(40px);}
+100%{opacity:1;transform:translateY(0);}
 }
-</style></head><body><div class="container"><div class="back" onclick="goBack()">⬅ Back</div>
 
-<h2>Apply as Seller</h2>
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+<div class="back" onclick="history.back()">⬅</div>
+<div class="title">Become Seller</div>
+</div>
 
 <input id="name" placeholder="Full Name">
-<input id="email" placeholder="Email">
-<input id="phone" placeholder="Phone">
+<input id="phone" placeholder="Phone Number">
 <input id="upi" placeholder="UPI ID">
 
-<button onclick="applySeller()">Apply Now</button>
+<button id="btn" onclick="applySeller()">Apply Now 🚀</button>
 
 <div class="loader" id="loader">⏳ Processing...</div>
-<div class="success" id="success">✅ Application Submitted!</div>
 
-</div><script>
+<div id="statusBox" class="status"></div>
 
-const API ="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
+</div>
 
-function goBack(){
-    window.history.back();
+<script>
+
+const API="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
+
+/* USER CHECK */
+let user = JSON.parse(localStorage.getItem("user")||"{}")
+
+if(!user.email){
+alert("Login required")
+location.href="login.html"
 }
 
+/* CHECK STATUS */
+async function checkStatus(){
+
+try{
+
+let res = await fetch(API+"?db=sellers")
+let data = await res.json()
+
+let s = data.find(x=>x.email===user.email)
+
+if(!s) return
+
+let box = document.getElementById("statusBox")
+box.style.display="block"
+
+if(s.status==="approved"){
+box.className="status approved"
+box.innerText="✅ Approved Seller"
+btn.style.display="none"
+}
+
+else if(s.status==="pending"){
+box.className="status pending"
+box.innerText="⏳ Pending Approval"
+btn.style.display="none"
+}
+
+else{
+box.className="status rejected"
+box.innerText="❌ Rejected (Apply again)"
+}
+
+}catch(e){
+console.log(e)
+}
+
+}
+
+checkStatus()
+
+/* APPLY SELLER */
 async function applySeller(){
 
-    const data = {
-        action:"apply_seller",
-        name:document.getElementById("name").value,
-        email:document.getElementById("email").value,
-        phone:document.getElementById("phone").value,
-        upi:document.getElementById("upi").value
-    }
+let name=document.getElementById("name").value.trim()
+let phone=document.getElementById("phone").value.trim()
+let upi=document.getElementById("upi").value.trim()
 
-    if(!data.name || !data.email){
-        alert("Please fill all required fields");
-        return;
-    }
+if(!name || !phone || !upi){
+alert("Fill all fields")
+return
+}
 
-    document.getElementById("loader").style.display="block";
-    document.getElementById("success").style.display="none";
+/* PHONE VALIDATION */
+if(!/^[0-9]{10}$/.test(phone)){
+alert("Invalid phone number")
+return
+}
 
-    try{
+/* UPI VALIDATION */
+if(!/^[a-zA-Z0-9.\-_]{2,}@[a-zA-Z]{2,}$/.test(upi)){
+alert("Invalid UPI ID")
+return
+}
 
-        const res = await fetch(API,{
-            method:"POST",
-            body:JSON.stringify(data)
-        })
+let btn=document.getElementById("btn")
+let loader=document.getElementById("loader")
 
-        const result = await res.json();
+btn.disabled=true
+btn.innerText="Submitting..."
+loader.style.display="block"
 
-        document.getElementById("loader").style.display="none";
+try{
 
-        if(result.success){
-            document.getElementById("success").style.display="block";
-        }else{
-            alert(result.message || "Error");
-        }
+let res = await fetch(API,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+action:"apply_seller",
+email:user.email,
+name:name,
+phone:phone,
+upi:upi
+})
+})
 
-    }catch(err){
-        document.getElementById("loader").style.display="none";
-        alert("Network Error");
-    }
+let text = await res.text()
+console.log("RAW:",text)
+
+let data = JSON.parse(text)
+
+loader.style.display="none"
+
+if(data.success){
+alert("✅ Applied Successfully")
+location.reload()
+}else{
+alert(data.message || "Failed")
+}
+
+}catch(e){
+loader.style.display="none"
+alert("Server error")
+console.log(e)
+}
+
+btn.disabled=false
+btn.innerText="Apply Now 🚀"
 
 }
-</script></body>
+
+</script>
+
+</body>
 </html>
