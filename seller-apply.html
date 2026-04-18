@@ -190,6 +190,26 @@ let user=JSON.parse(localStorage.getItem("user")||"null")
 
 if(!user || !user.email){
 
+async function checkSeller(){
+
+let res = await fetch(API+"?db=sellers")
+
+let sellers = await res.json()
+
+let s = sellers.find(x => x.email === user.email)
+
+if(!s || s.status !== "approved"){
+
+document.getElementById("uploadBtn").style.display="none"
+
+alert("You are not an approved seller")
+
+}
+
+}
+
+checkSeller()
+
 location.href="login.html"
 
 }
