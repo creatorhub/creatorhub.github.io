@@ -4,108 +4,84 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Become Seller | CreatorHub</title>
+<title>Become Seller</title>
 
 <style>
 
-/* ===== GLOBAL ===== */
 body{
 margin:0;
 font-family:Arial;
-background:linear-gradient(135deg,#020617,#0f172a);
+background:#020617;
 color:white;
 }
 
-/* ===== HEADER ===== */
+/* HEADER */
 .header{
 display:flex;
 align-items:center;
-padding:16px;
+padding:15px;
 border-bottom:1px solid #1f2937;
-background:#020617;
-position:sticky;
-top:0;
 }
 
 .back{
-font-size:22px;
+font-size:20px;
 cursor:pointer;
 margin-right:10px;
-transition:.3s;
-}
-.back:hover{
-transform:translateX(-5px);
 }
 
 .title{
-font-size:18px;
-font-weight:bold;
 color:#22c55e;
+font-weight:bold;
 }
 
-/* ===== CONTAINER ===== */
+/* CARD */
 .container{
 max-width:500px;
 margin:auto;
 padding:20px;
 }
 
-/* ===== CARD ===== */
 .card{
 background:#111827;
-padding:25px;
-border-radius:16px;
+padding:20px;
+border-radius:12px;
 border:1px solid #1f2937;
-animation:fade .5s ease;
 }
 
-/* ===== INPUT ===== */
+/* INPUT */
 input{
 width:100%;
-padding:14px;
-margin-top:12px;
-border-radius:10px;
+padding:12px;
+margin-top:10px;
+border-radius:8px;
 border:1px solid #1f2937;
 background:#020617;
 color:white;
 }
 
-/* ===== BUTTON ===== */
+/* BUTTON */
 button{
 width:100%;
 padding:14px;
-margin-top:16px;
+margin-top:15px;
 border:none;
-border-radius:12px;
+border-radius:10px;
+background:#22c55e;
 font-weight:bold;
 cursor:pointer;
-background:linear-gradient(90deg,#22c55e,#4ade80);
-color:black;
-transition:.3s;
 }
 
-button:hover{
-transform:scale(1.03);
-}
-
-/* ===== STATUS ===== */
+/* STATUS */
 .status{
 margin-top:15px;
-padding:12px;
-border-radius:10px;
+padding:10px;
+border-radius:8px;
 text-align:center;
-font-weight:bold;
 }
 
 .approved{background:#065f46}
 .pending{background:#78350f}
 .rejected{background:#7f1d1d}
-
-/* ===== ANIMATION ===== */
-@keyframes fade{
-from{opacity:0;transform:translateY(20px)}
-to{opacity:1;transform:translateY(0)}
-}
 
 </style>
 </head>
@@ -121,17 +97,15 @@ to{opacity:1;transform:translateY(0)}
 
 <div class="card" id="card">
 
-<h2>Apply For Seller Account 🚀</h2>
-
-<p>Sell your ebooks and earn money instantly.</p>
+<h3>Apply Seller</h3>
 
 <input id="name" placeholder="Full Name">
 <input id="phone" placeholder="Phone Number">
-<input id="upi" placeholder="UPI ID (receive payments)">
+<input id="upi" placeholder="UPI ID">
 
-<button id="applyBtn" onclick="applySeller()">Apply Now</button>
+<button id="btn" onclick="apply()">Apply</button>
 
-<div id="statusBox"></div>
+<div id="status"></div>
 
 </div>
 
@@ -139,45 +113,42 @@ to{opacity:1;transform:translateY(0)}
 
 <script>
 
-/* ===== API ===== */
 const API="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
 
-/* ===== USER ===== */
+/* USER */
 let user = JSON.parse(localStorage.getItem("user")||"{}")
 
 if(!user.email){
-alert("Login required")
+alert("Login first")
 location.href="login.html"
 }
 
-/* ===== CHECK SELLER STATUS ===== */
-async function checkSeller(){
+/* CHECK SELLER */
+async function check(){
 
 try{
 
 let res = await fetch(API+"?db=sellers")
-let sellers = await res.json()
+let data = await res.json()
 
-let s = sellers.find(x => x.email === user.email)
+let s = data.find(x=>x.email===user.email)
 
-let box = document.getElementById("statusBox")
+if(!s) return
 
-if(!s){
-return
-}
+let box=document.getElementById("status")
 
 if(s.status==="approved"){
-box.innerHTML=`<div class="status approved">✅ Approved Seller</div>`
-document.getElementById("applyBtn").style.display="none"
+box.innerHTML='<div class="status approved">Approved</div>'
+btn.style.display="none"
 }
 
 else if(s.status==="pending"){
-box.innerHTML=`<div class="status pending">⏳ Pending Approval</div>`
-document.getElementById("applyBtn").style.display="none"
+box.innerHTML='<div class="status pending">Pending</div>'
+btn.style.display="none"
 }
 
 else{
-box.innerHTML=`<div class="status rejected">❌ Rejected (You can reapply)</div>`
+box.innerHTML='<div class="status rejected">Rejected</div>'
 }
 
 }catch(e){
@@ -186,17 +157,10 @@ console.log(e)
 
 }
 
-checkSeller()
+check()
 
-/* ===== VALIDATE ===== */
-function validUPI(vpa){
-return /^[a-zA-Z0-9.\-_]{2,}@[a-zA-Z]{2,}$/.test(vpa)
-}
-
-/* ===== APPLY SELLER ===== */
-async function applySeller(){
-
-let btn=document.getElementById("applyBtn")
+/* APPLY */
+async function apply(){
 
 let name=document.getElementById("name").value.trim()
 let phone=document.getElementById("phone").value.trim()
@@ -207,16 +171,7 @@ alert("Fill all fields")
 return
 }
 
-if(!/^[0-9]{10}$/.test(phone)){
-alert("Enter valid phone number")
-return
-}
-
-if(!validUPI(upi)){
-alert("Invalid UPI ID")
-return
-}
-
+let btn=document.getElementById("btn")
 btn.disabled=true
 btn.innerText="Submitting..."
 
@@ -224,9 +179,7 @@ try{
 
 let res=await fetch(API,{
 method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
+headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
 action:"apply_seller",
 email:user.email,
@@ -236,13 +189,17 @@ upi:upi
 })
 })
 
-let data=await res.json()
+/* DEBUG */
+let text = await res.text()
+console.log("RAW:",text)
+
+let data = JSON.parse(text)
 
 if(data.success){
-alert("✅ Application submitted")
+alert("Applied successfully")
 location.reload()
 }else{
-alert(data.message || "Application failed")
+alert(data.message || "Failed")
 }
 
 }catch(e){
@@ -251,7 +208,7 @@ console.log(e)
 }
 
 btn.disabled=false
-btn.innerText="Apply Now"
+btn.innerText="Apply"
 
 }
 
