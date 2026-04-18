@@ -4,60 +4,62 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Become Seller - CreatorHub</title>
+<title>Become Seller | CreatorHub</title>
 
 <style>
 
-:root{
---bg:#020617;
---card:#111827;
---accent:#22c55e;
-}
-
+/* ===== GLOBAL ===== */
 body{
 margin:0;
 font-family:Arial;
-background:var(--bg);
+background:linear-gradient(135deg,#020617,#0f172a);
 color:white;
 }
 
-/* HEADER */
-.topbar{
+/* ===== HEADER ===== */
+.header{
 display:flex;
 align-items:center;
 padding:16px;
 border-bottom:1px solid #1f2937;
 background:#020617;
+position:sticky;
+top:0;
 }
 
 .back{
 font-size:22px;
 cursor:pointer;
 margin-right:10px;
+transition:.3s;
+}
+.back:hover{
+transform:translateX(-5px);
 }
 
 .title{
-flex:1;
-text-align:center;
-color:var(--accent);
+font-size:18px;
 font-weight:bold;
+color:#22c55e;
 }
 
-/* CARD */
+/* ===== CONTAINER ===== */
 .container{
 max-width:500px;
 margin:auto;
 padding:20px;
 }
 
+/* ===== CARD ===== */
 .card{
 background:#111827;
 padding:25px;
 border-radius:16px;
 border:1px solid #1f2937;
+animation:fade .5s ease;
 }
 
-/* INPUT */
+/* ===== INPUT ===== */
 input{
 width:100%;
 padding:14px;
@@ -68,36 +70,49 @@ background:#020617;
 color:white;
 }
 
-/* BUTTON */
+/* ===== BUTTON ===== */
 button{
 width:100%;
 padding:14px;
-margin-top:18px;
+margin-top:16px;
 border:none;
 border-radius:12px;
 font-weight:bold;
 cursor:pointer;
 background:linear-gradient(90deg,#22c55e,#4ade80);
 color:black;
+transition:.3s;
 }
 
+button:hover{
+transform:scale(1.03);
+}
+
+/* ===== STATUS ===== */
 .status{
 margin-top:15px;
 padding:12px;
 border-radius:10px;
 text-align:center;
+font-weight:bold;
 }
 
 .approved{background:#065f46}
 .pending{background:#78350f}
 .rejected{background:#7f1d1d}
 
+/* ===== ANIMATION ===== */
+@keyframes fade{
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1;transform:translateY(0)}
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="topbar">
+<div class="header">
 <div class="back" onclick="history.back()">⬅</div>
 <div class="title">Become Seller</div>
 </div>
@@ -106,13 +121,13 @@ text-align:center;
 
 <div class="card" id="card">
 
-<h2>Apply For Seller Account</h2>
+<h2>Apply For Seller Account 🚀</h2>
 
-<p>Earn money by selling ebooks 🚀</p>
+<p>Sell your ebooks and earn money instantly.</p>
 
 <input id="name" placeholder="Full Name">
 <input id="phone" placeholder="Phone Number">
-<input id="upi" placeholder="UPI ID">
+<input id="upi" placeholder="UPI ID (receive payments)">
 
 <button id="applyBtn" onclick="applySeller()">Apply Now</button>
 
@@ -124,18 +139,18 @@ text-align:center;
 
 <script>
 
-/* API */
+/* ===== API ===== */
 const API="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
 
-/* USER */
-let user = JSON.parse(localStorage.getItem("user") || "{}")
+/* ===== USER ===== */
+let user = JSON.parse(localStorage.getItem("user")||"{}")
 
 if(!user.email){
 alert("Login required")
 location.href="login.html"
 }
 
-/* CHECK SELLER STATUS */
+/* ===== CHECK SELLER STATUS ===== */
 async function checkSeller(){
 
 try{
@@ -145,22 +160,24 @@ let sellers = await res.json()
 
 let s = sellers.find(x => x.email === user.email)
 
-if(!s) return
-
 let box = document.getElementById("statusBox")
 
+if(!s){
+return
+}
+
 if(s.status==="approved"){
-box.innerHTML = `<div class="status approved">✅ Approved Seller</div>`
+box.innerHTML=`<div class="status approved">✅ Approved Seller</div>`
 document.getElementById("applyBtn").style.display="none"
 }
 
 else if(s.status==="pending"){
-box.innerHTML = `<div class="status pending">⏳ Pending Approval</div>`
+box.innerHTML=`<div class="status pending">⏳ Pending Approval</div>`
 document.getElementById("applyBtn").style.display="none"
 }
 
 else{
-box.innerHTML = `<div class="status rejected">❌ Rejected</div>`
+box.innerHTML=`<div class="status rejected">❌ Rejected (You can reapply)</div>`
 }
 
 }catch(e){
@@ -171,19 +188,19 @@ console.log(e)
 
 checkSeller()
 
-/* VALIDATE UPI */
+/* ===== VALIDATE ===== */
 function validUPI(vpa){
 return /^[a-zA-Z0-9.\-_]{2,}@[a-zA-Z]{2,}$/.test(vpa)
 }
 
-/* APPLY */
+/* ===== APPLY SELLER ===== */
 async function applySeller(){
 
-let btn = document.getElementById("applyBtn")
+let btn=document.getElementById("applyBtn")
 
-let name = nameInput.value.trim()
-let phone = phoneInput.value.trim()
-let upi = upiInput.value.trim()
+let name=document.getElementById("name").value.trim()
+let phone=document.getElementById("phone").value.trim()
+let upi=document.getElementById("upi").value.trim()
 
 if(!name || !phone || !upi){
 alert("Fill all fields")
@@ -191,23 +208,25 @@ return
 }
 
 if(!/^[0-9]{10}$/.test(phone)){
-alert("Invalid phone")
+alert("Enter valid phone number")
 return
 }
 
 if(!validUPI(upi)){
-alert("Invalid UPI")
+alert("Invalid UPI ID")
 return
 }
 
-btn.disabled = true
-btn.innerText = "Submitting..."
+btn.disabled=true
+btn.innerText="Submitting..."
 
 try{
 
-let res = await fetch(API,{
+let res=await fetch(API,{
 method:"POST",
-headers:{"Content-Type":"application/json"},
+headers:{
+"Content-Type":"application/json"
+},
 body:JSON.stringify({
 action:"apply_seller",
 email:user.email,
@@ -217,13 +236,13 @@ upi:upi
 })
 })
 
-let data = await res.json()
+let data=await res.json()
 
 if(data.success){
-alert("✅ Applied successfully")
+alert("✅ Application submitted")
 location.reload()
 }else{
-alert(data.message || "Failed")
+alert(data.message || "Application failed")
 }
 
 }catch(e){
@@ -235,11 +254,6 @@ btn.disabled=false
 btn.innerText="Apply Now"
 
 }
-
-/* FIX INPUT IDS */
-const nameInput=document.getElementById("name")
-const phoneInput=document.getElementById("phone")
-const upiInput=document.getElementById("upi")
 
 </script>
 
