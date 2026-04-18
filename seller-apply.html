@@ -77,6 +77,7 @@ margin-top:15px;
 padding:10px;
 border-radius:8px;
 text-align:center;
+font-weight:bold;
 }
 
 .approved{background:#065f46}
@@ -123,43 +124,55 @@ alert("Login first")
 location.href="login.html"
 }
 
-/* CHECK SELLER */
+/* ================= CHECK SELLER ================= */
+
 async function check(){
 
 try{
 
 let res = await fetch(API+"?db=sellers")
-let data = await res.json()
+let text = await res.text()
+
+let data = JSON.parse(text)
 
 let s = data.find(x=>x.email===user.email)
 
+let box=document.getElementById("status")
+let btn=document.getElementById("btn")
+
 if(!s) return
 
-let box=document.getElementById("status")
-
 if(s.status==="approved"){
-box.innerHTML='<div class="status approved">Approved</div>'
+box.innerHTML='<div class="status approved">✅ Approved</div>'
 btn.style.display="none"
 }
 
 else if(s.status==="pending"){
-box.innerHTML='<div class="status pending">Pending</div>'
+box.innerHTML='<div class="status pending">⏳ Pending Approval</div>'
 btn.style.display="none"
 }
 
-else{
-box.innerHTML='<div class="status rejected">Rejected</div>'
+else if(s.status==="rejected"){
+box.innerHTML='<div class="status rejected">❌ Rejected (You can reapply)</div>'
+btn.style.display="block"
 }
 
 }catch(e){
-console.log(e)
+console.log("Check error:",e)
 }
 
 }
 
 check()
 
-/* APPLY */
+/* ================= VALIDATION ================= */
+
+function validUPI(vpa){
+return /^[a-zA-Z0-9.\-_]{2,}@[a-zA-Z]{2,}$/.test(vpa)
+}
+
+/* ================= APPLY ================= */
+
 async function apply(){
 
 let name=document.getElementById("name").value.trim()
@@ -171,7 +184,18 @@ alert("Fill all fields")
 return
 }
 
+if(!/^[0-9]{10}$/.test(phone)){
+alert("Invalid phone")
+return
+}
+
+if(!validUPI(upi)){
+alert("Invalid UPI")
+return
+}
+
 let btn=document.getElementById("btn")
+
 btn.disabled=true
 btn.innerText="Submitting..."
 
@@ -189,21 +213,21 @@ upi:upi
 })
 })
 
-/* DEBUG */
 let text = await res.text()
 console.log("RAW:",text)
 
 let data = JSON.parse(text)
 
+/* SUCCESS */
 if(data.success){
-alert("Applied successfully")
+alert("✅ Applied successfully")
 location.reload()
 }else{
 alert(data.message || "Failed")
 }
 
 }catch(e){
-alert("Server error")
+alert("❌ Server error")
 console.log(e)
 }
 
