@@ -10,134 +10,77 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
 <style>
-
-/* GLOBAL */
 body{
 margin:0;
-font-family:Arial, sans-serif;
-background:linear-gradient(135deg,#020617,#0f172a);
+font-family:Arial;
+background:#020617;
 color:white;
 }
 
-/* HEADER */
 .header{
 display:flex;
-align-items:center;
 padding:16px;
 border-bottom:1px solid #1f2937;
-position:sticky;
-top:0;
-background:#020617;
-z-index:10;
 }
 
 .back{
 font-size:22px;
 cursor:pointer;
 margin-right:10px;
-transition:.3s;
-}
-
-.back:hover{
-transform:translateX(-5px);
 }
 
 .title{
-font-size:20px;
-font-weight:bold;
 color:#22c55e;
+font-weight:bold;
 }
 
-/* CARD */
 .container{
 max-width:700px;
 margin:auto;
 padding:20px;
+display:none; /* IMPORTANT */
 }
 
 .card{
-background:rgba(17,24,39,0.9);
-padding:25px;
-border-radius:18px;
-border:1px solid #1f2937;
-backdrop-filter:blur(10px);
-animation:fadeUp .6s ease;
+background:#111827;
+padding:20px;
+border-radius:15px;
 }
 
-/* INPUTS */
 input,textarea{
 width:100%;
-padding:14px;
+padding:12px;
 margin-top:10px;
-border-radius:10px;
-border:1px solid #1f2937;
 background:#020617;
 color:white;
-transition:.3s;
+border:1px solid #1f2937;
+border-radius:8px;
 }
 
-input:focus,textarea:focus{
-border-color:#22c55e;
-outline:none;
-}
-
-/* BUTTON */
 button{
 width:100%;
-padding:15px;
-margin-top:16px;
+padding:14px;
+margin-top:15px;
+background:#22c55e;
 border:none;
-border-radius:12px;
+border-radius:10px;
 font-weight:bold;
 cursor:pointer;
-background:linear-gradient(90deg,#22c55e,#4ade80);
-color:black;
-transition:.3s;
 }
 
-button:hover{
-transform:scale(1.03);
-box-shadow:0 0 15px #22c55e;
-}
-
-/* IMAGE */
-img{
-width:100%;
-margin-top:12px;
-border-radius:10px;
-display:none;
-}
-
-/* PROGRESS */
 .progress{
-height:18px;
+height:15px;
 background:#020617;
+margin-top:10px;
 border-radius:10px;
-margin-top:15px;
 overflow:hidden;
-border:1px solid #1f2937;
 }
 
 .bar{
 height:100%;
 width:0%;
 background:#22c55e;
-transition:.4s;
 }
-
-/* ANIMATION */
-@keyframes fadeUp{
-0%{opacity:0;transform:translateY(40px);}
-100%{opacity:1;transform:translateY(0);}
-}
-
-label{
-margin-top:14px;
-display:block;
-font-size:14px;
-color:#9ca3af;
-}
-
 </style>
 
 </head>
@@ -154,33 +97,18 @@ color:#9ca3af;
 <div class="card">
 
 <input id="title" placeholder="Book Title">
-<input id="author" placeholder="Author Name">
-
-<button onclick="aiHelp()">✨ AI Suggest</button>
-
 <textarea id="description" placeholder="Description"></textarea>
+<input id="price" type="number" placeholder="Price">
 
-<input id="price" type="number" placeholder="Price ₹">
-
-<label>Pages</label>
-<input id="pages" readonly>
-
-<label>Front Cover</label>
-<input type="file" id="front" accept="image/*">
-<img id="frontPreview">
-
-<label>Back Cover</label>
-<input type="file" id="back" accept="image/*">
-<img id="backPreview">
-
-<label>PDF File</label>
-<input type="file" id="pdf" accept="application/pdf">
+<input type="file" id="front">
+<input type="file" id="back">
+<input type="file" id="pdf">
 
 <div class="progress">
 <div class="bar" id="bar"></div>
 </div>
 
-<button id="uploadBtn" onclick="upload()">Upload Ebook</button>
+<button onclick="upload()">Upload Ebook</button>
 
 </div>
 
@@ -190,7 +118,6 @@ color:#9ca3af;
 
 const API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec"
 
-/* USER CHECK */
 let user = JSON.parse(localStorage.getItem("user")||"{}")
 
 if(!user.email){
@@ -198,52 +125,30 @@ alert("Login required")
 location.href="login.html"
 }
 
-/* PREVIEW */
-function preview(input,id){
-let file=input.files[0]
-if(!file) return
+/* ✅ SELLER CHECK */
+async function checkSeller(){
 
-let reader=new FileReader()
-reader.onload=e=>{
-let img=document.getElementById(id)
-img.src=e.target.result
-img.style.display="block"
-}
-reader.readAsDataURL(file)
-}
-
-front.onchange=()=>preview(front,"frontPreview")
-back.onchange=()=>preview(back,"backPreview")
-
-/* PDF PAGES */
-pdf.addEventListener("change",async function(){
-
-let file=this.files[0]
-if(!file) return
-
-let reader=new FileReader()
-
-reader.onload=async function(){
-let typed=new Uint8Array(reader.result)
-let pdfDoc=await pdfjsLib.getDocument(typed).promise
-pages.value=pdfDoc.numPages
-}
-
-reader.readAsArrayBuffer(file)
-
+let res = await fetch(API,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+action:"seller_status",
+email:user.email
+})
 })
 
-/* AI HELP */
-function aiHelp(){
+let data = await res.json()
 
-let t=title.value
-
-if(!t){
-alert("Enter title first")
+if(data.status==="approved"){
+document.querySelector(".container").style.display="block"
 return
 }
 
-description.value="Learn "+t+" step by step with practical examples."
+document.body.innerHTML=`<h2 style="text-align:center;margin-top:50px;">
+${data.status==="pending"?"⏳ Approval Pending":"🚫 Apply as Seller"}
+</h2>`
 }
 
 /* BASE64 */
@@ -271,10 +176,6 @@ return
 }
 
 let bar=document.getElementById("bar")
-let btn=document.getElementById("uploadBtn")
-
-btn.disabled=true
-btn.innerText="Uploading..."
 
 try{
 
@@ -302,7 +203,6 @@ action:"uploadEbook",
 title:t,
 description:d,
 price:Number(p),
-pages:pages.value,
 email:user.email,
 front_cover:f64,
 back_cover:b64,
@@ -312,24 +212,26 @@ pdf:pdf64
 
 let data=await res.json()
 
+console.log("SERVER RESPONSE:",data) /* DEBUG */
+
 bar.style.width="100%"
 
 if(data.success){
 alert("✅ Upload Success")
 location.reload()
 }else{
-alert(data.message)
+alert("❌ "+data.message)
 }
 
 }catch(e){
-alert("Upload failed")
 console.log(e)
+alert("Upload error")
 }
 
-btn.disabled=false
-btn.innerText="Upload Ebook"
-
 }
+
+/* RUN */
+checkSeller()
 
 </script>
 
