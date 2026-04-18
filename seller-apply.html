@@ -1,5 +1,12 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>Become Seller - CreatorHub</title><style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Become Seller - CreatorHub</title>
+
+<style>
 
 :root{
 --bg:#020617;
@@ -7,40 +14,26 @@
 --accent:#22c55e;
 }
 
-*{
-box-sizing:border-box;
-}
-
 body{
 margin:0;
-font-family:Arial,Helvetica,sans-serif;
+font-family:Arial;
 background:var(--bg);
 color:white;
-animation:fadePage .6s ease;
 }
 
 /* HEADER */
-
 .topbar{
 display:flex;
 align-items:center;
 padding:16px;
 border-bottom:1px solid #1f2937;
 background:#020617;
-position:sticky;
-top:0;
-z-index:10;
 }
 
 .back{
 font-size:22px;
 cursor:pointer;
 margin-right:10px;
-transition:.2s;
-}
-
-.back:hover{
-transform:scale(1.1);
 }
 
 .title{
@@ -48,275 +41,207 @@ flex:1;
 text-align:center;
 color:var(--accent);
 font-weight:bold;
-font-size:18px;
-}
-
-/* CONTAINER */
-
-.container{
-max-width:520px;
-margin:auto;
-padding:30px 20px;
 }
 
 /* CARD */
+.container{
+max-width:500px;
+margin:auto;
+padding:20px;
+}
 
 .card{
-
-background:linear-gradient(145deg,#111827,#020617);
-
-padding:28px;
-
-border-radius:18px;
-
+background:#111827;
+padding:25px;
+border-radius:16px;
 border:1px solid #1f2937;
-
-box-shadow:0 10px 30px rgba(0,0,0,0.6);
-
-transition:.3s;
-
-}
-
-.card:hover{
-box-shadow:0 0 15px rgba(34,197,94,.4);
-}
-
-/* TEXT */
-
-h2{
-margin-top:0;
-}
-
-.note{
-opacity:.8;
-font-size:14px;
-margin-top:8px;
-line-height:22px;
 }
 
 /* INPUT */
-
 input{
-
 width:100%;
-
 padding:14px;
-
-margin-top:14px;
-
-border:none;
-
-border-radius:12px;
-
-background:#020617;
-
-color:white;
-
+margin-top:12px;
+border-radius:10px;
 border:1px solid #1f2937;
-
-transition:.2s;
-
-}
-
-input:focus{
-outline:none;
-border:1px solid #22c55e;
-box-shadow:0 0 6px rgba(34,197,94,.4);
+background:#020617;
+color:white;
 }
 
 /* BUTTON */
-
 button{
-
 width:100%;
-
 padding:14px;
-
-margin-top:20px;
-
+margin-top:18px;
 border:none;
-
 border-radius:12px;
-
-background:linear-gradient(90deg,#22c55e,#4ade80);
-
-color:black;
-
 font-weight:bold;
-
 cursor:pointer;
-
-transition:.2s;
-
+background:linear-gradient(90deg,#22c55e,#4ade80);
+color:black;
 }
 
-button:hover{
-transform:translateY(-2px);
-box-shadow:0 0 10px rgba(34,197,94,.5);
+.status{
+margin-top:15px;
+padding:12px;
+border-radius:10px;
+text-align:center;
 }
 
-button:disabled{
-opacity:.6;
-cursor:not-allowed;
-}
+.approved{background:#065f46}
+.pending{background:#78350f}
+.rejected{background:#7f1d1d}
 
-/* ANIMATION */
+</style>
+</head>
 
-@keyframes fadePage{
-from{
-opacity:0;
-transform:translateY(20px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
+<body>
 
-</style></head><body><div class="topbar"><div class="back" onclick="location.href='dashboard.html'">⬅</div><div class="title">Become Seller</div></div><div class="container"><div class="card"><h2>Apply For Seller Account</h2><p class="note">
-Upload ebooks and earn <b>90% profit</b>.<br>
-Admin approval required.
-</p><input id="name" placeholder="Full Name"><input id="phone" placeholder="Phone Number"><input id="upi" placeholder="UPI ID (for payment receive)"><button id="applyBtn" onclick="applySeller()">Apply Now 🚀
+<div class="topbar">
+<div class="back" onclick="history.back()">⬅</div>
+<div class="title">Become Seller</div>
+</div>
 
-</button></div></div><script>
+<div class="container">
 
-/* SELLER API */
+<div class="card" id="card">
 
+<h2>Apply For Seller Account</h2>
+
+<p>Earn money by selling ebooks 🚀</p>
+
+<input id="name" placeholder="Full Name">
+<input id="phone" placeholder="Phone Number">
+<input id="upi" placeholder="UPI ID">
+
+<button id="applyBtn" onclick="applySeller()">Apply Now</button>
+
+<div id="statusBox"></div>
+
+</div>
+
+</div>
+
+<script>
+
+/* API */
 const API="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
-  
+
 /* USER */
+let user = JSON.parse(localStorage.getItem("user") || "{}")
 
-let user=JSON.parse(localStorage.getItem("user")||"null")
+if(!user.email){
+alert("Login required")
+location.href="login.html"
+}
 
-if(!user || !user.email){
-
+/* CHECK SELLER STATUS */
 async function checkSeller(){
 
-let res = await fetch(API+"?db=sellers")
+try{
 
+let res = await fetch(API+"?db=sellers")
 let sellers = await res.json()
 
 let s = sellers.find(x => x.email === user.email)
 
-if(!s || s.status !== "approved"){
+if(!s) return
 
-document.getElementById("uploadBtn").style.display="none"
+let box = document.getElementById("statusBox")
 
-alert("You are not an approved seller")
+if(s.status==="approved"){
+box.innerHTML = `<div class="status approved">✅ Approved Seller</div>`
+document.getElementById("applyBtn").style.display="none"
+}
 
+else if(s.status==="pending"){
+box.innerHTML = `<div class="status pending">⏳ Pending Approval</div>`
+document.getElementById("applyBtn").style.display="none"
+}
+
+else{
+box.innerHTML = `<div class="status rejected">❌ Rejected</div>`
+}
+
+}catch(e){
+console.log(e)
 }
 
 }
 
 checkSeller()
 
-location.href="login.html"
-
-}
-
 /* VALIDATE UPI */
-
 function validUPI(vpa){
-
 return /^[a-zA-Z0-9.\-_]{2,}@[a-zA-Z]{2,}$/.test(vpa)
-
 }
 
-/* APPLY SELLER */
-
+/* APPLY */
 async function applySeller(){
 
-let btn=document.getElementById("applyBtn")
+let btn = document.getElementById("applyBtn")
 
-let name=document.getElementById("name").value.trim()
-
-let phone=document.getElementById("phone").value.trim()
-
-let upi=document.getElementById("upi").value.trim()
+let name = nameInput.value.trim()
+let phone = phoneInput.value.trim()
+let upi = upiInput.value.trim()
 
 if(!name || !phone || !upi){
-
 alert("Fill all fields")
-
 return
-
 }
 
 if(!/^[0-9]{10}$/.test(phone)){
-
-alert("Enter valid phone number")
-
+alert("Invalid phone")
 return
-
 }
 
 if(!validUPI(upi)){
-
-alert("Invalid UPI ID")
-
+alert("Invalid UPI")
 return
-
 }
 
-btn.disabled=true
-
-btn.innerText="Submitting..."
+btn.disabled = true
+btn.innerText = "Submitting..."
 
 try{
 
-let res=await fetch(API,{
-
+let res = await fetch(API,{
 method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
+headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
-
 action:"apply_seller",
-
 email:user.email,
-
 name:name,
-
 phone:phone,
-
 upi:upi
-
+})
 })
 
-})
-
-let data=await res.json()
+let data = await res.json()
 
 if(data.success){
-
-alert("Application submitted successfully ✅")
-
-location.href="dashboard.html"
-
+alert("✅ Applied successfully")
+location.reload()
 }else{
-
-alert(data.message || "Application failed")
-
-btn.disabled=false
-
-btn.innerText="Apply Now"
-
+alert(data.message || "Failed")
 }
 
 }catch(e){
-
 alert("Server error")
+console.log(e)
+}
 
 btn.disabled=false
-
 btn.innerText="Apply Now"
 
 }
 
-}
+/* FIX INPUT IDS */
+const nameInput=document.getElementById("name")
+const phoneInput=document.getElementById("phone")
+const upiInput=document.getElementById("upi")
 
-</script></body>
+</script>
+
+</body>
 </html>
