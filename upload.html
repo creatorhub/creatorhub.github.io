@@ -3,32 +3,23 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Upload Ebook</title>
+<title>Upload Ebook | CreatorHub</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
 <style>
 
-:root{
---bg:#020617;
---card:#111827;
---accent:#22c55e;
-}
-
-*{box-sizing:border-box}
-
+/* GLOBAL */
 body{
 margin:0;
-font-family:Arial;
-background:var(--bg);
+font-family:Arial, sans-serif;
+background:linear-gradient(135deg,#020617,#0f172a);
 color:white;
-animation:fadePage .5s ease;
 }
 
 /* HEADER */
-
 .header{
 display:flex;
 align-items:center;
@@ -44,40 +35,36 @@ z-index:10;
 font-size:22px;
 cursor:pointer;
 margin-right:10px;
-transition:.2s;
+transition:.3s;
 }
 
 .back:hover{
-transform:scale(1.2);
+transform:translateX(-5px);
 }
 
 .title{
 font-size:20px;
 font-weight:bold;
-color:var(--accent);
-}
-
-/* CONTAINER */
-
-.container{
-padding:20px;
-max-width:650px;
-margin:auto;
+color:#22c55e;
 }
 
 /* CARD */
+.container{
+max-width:700px;
+margin:auto;
+padding:20px;
+}
 
 .card{
-background:linear-gradient(145deg,#111827,#020617);
+background:rgba(17,24,39,0.9);
 padding:25px;
-border-radius:16px;
+border-radius:18px;
 border:1px solid #1f2937;
-box-shadow:0 10px 25px rgba(0,0,0,.6);
+backdrop-filter:blur(10px);
 animation:fadeUp .6s ease;
 }
 
-/* INPUT */
-
+/* INPUTS */
 input,textarea{
 width:100%;
 padding:14px;
@@ -86,12 +73,15 @@ border-radius:10px;
 border:1px solid #1f2937;
 background:#020617;
 color:white;
+transition:.3s;
 }
 
-textarea{min-height:90px}
+input:focus,textarea:focus{
+border-color:#22c55e;
+outline:none;
+}
 
 /* BUTTON */
-
 button{
 width:100%;
 padding:15px;
@@ -110,13 +100,7 @@ transform:scale(1.03);
 box-shadow:0 0 15px #22c55e;
 }
 
-button:disabled{
-opacity:.6;
-cursor:not-allowed;
-}
-
 /* IMAGE */
-
 img{
 width:100%;
 margin-top:12px;
@@ -125,7 +109,6 @@ display:none;
 }
 
 /* PROGRESS */
-
 .progress{
 height:18px;
 background:#020617;
@@ -142,27 +125,21 @@ background:#22c55e;
 transition:.4s;
 }
 
-/* LOADER */
-
-.loading{
-text-align:center;
-margin-top:10px;
-opacity:.7;
-}
-
 /* ANIMATION */
-
-@keyframes fadePage{
-from{opacity:0}
-to{opacity:1}
+@keyframes fadeUp{
+0%{opacity:0;transform:translateY(40px);}
+100%{opacity:1;transform:translateY(0);}
 }
 
-@keyframes fadeUp{
-from{opacity:0;transform:translateY(40px)}
-to{opacity:1;transform:translateY(0)}
+label{
+margin-top:14px;
+display:block;
+font-size:14px;
+color:#9ca3af;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -177,25 +154,24 @@ to{opacity:1;transform:translateY(0)}
 <div class="card">
 
 <input id="title" placeholder="Book Title">
-
 <input id="author" placeholder="Author Name">
 
-<button onclick="aiHelp()">AI Suggest Description</button>
+<button onclick="aiHelp()">✨ AI Suggest</button>
 
-<textarea id="description" placeholder="Book Description"></textarea>
+<textarea id="description" placeholder="Description"></textarea>
 
 <input id="price" type="number" placeholder="Price ₹">
 
-<label>Total Pages</label>
+<label>Pages</label>
 <input id="pages" readonly>
 
 <label>Front Cover</label>
-<input type="file" id="frontCover" accept="image/*">
-<img id="previewFront">
+<input type="file" id="front" accept="image/*">
+<img id="frontPreview">
 
 <label>Back Cover</label>
-<input type="file" id="backCover" accept="image/*">
-<img id="previewBack">
+<input type="file" id="back" accept="image/*">
+<img id="backPreview">
 
 <label>PDF File</label>
 <input type="file" id="pdf" accept="application/pdf">
@@ -204,11 +180,7 @@ to{opacity:1;transform:translateY(0)}
 <div class="bar" id="bar"></div>
 </div>
 
-<div id="status" class="loading"></div>
-
-<button id="uploadBtn" onclick="upload()">
-Upload Ebook
-</button>
+<button id="uploadBtn" onclick="upload()">Upload Ebook</button>
 
 </div>
 
@@ -216,72 +188,34 @@ Upload Ebook
 
 <script>
 
-/* ================= API ================= */
+const API="YOUR_BACKEND_URL_HERE"
 
-const API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec"
-
-/* ================= USER ================= */
-
-let user=JSON.parse(localStorage.getItem("user")||"{}")
+/* USER CHECK */
+let user = JSON.parse(localStorage.getItem("user")||"{}")
 
 if(!user.email){
 alert("Login required")
 location.href="login.html"
 }
 
-/* ================= SELLER CHECK ================= */
-
-async function checkSeller(){
-
-try{
-
-let res = await fetch(API+"?db=sellers&t="+Date.now())
-let sellers = await res.json()
-
-let s = sellers.find(x=>x.email===user.email)
-
-if(!s || s.status!=="approved"){
-
-document.getElementById("uploadBtn").disabled=true
-document.getElementById("uploadBtn").innerText="Seller Approval Required"
-
-document.getElementById("status").innerText="⚠️ Apply for seller first"
-
-}
-
-}catch{
-
-document.getElementById("status").innerText="Server error"
-
-}
-
-}
-
-checkSeller()
-
-/* ================= PREVIEW ================= */
-
-function preview(fileInput,imgId){
-
-let file=fileInput.files[0]
+/* PREVIEW */
+function preview(input,id){
+let file=input.files[0]
 if(!file) return
 
 let reader=new FileReader()
-
 reader.onload=e=>{
-let img=document.getElementById(imgId)
+let img=document.getElementById(id)
 img.src=e.target.result
 img.style.display="block"
 }
-
 reader.readAsDataURL(file)
 }
 
-frontCover.onchange=()=>preview(frontCover,"previewFront")
-backCover.onchange=()=>preview(backCover,"previewBack")
+front.onchange=()=>preview(front,"frontPreview")
+back.onchange=()=>preview(back,"backPreview")
 
-/* ================= PDF PAGE ================= */
-
+/* PDF PAGES */
 pdf.addEventListener("change",async function(){
 
 let file=this.files[0]
@@ -290,104 +224,89 @@ if(!file) return
 let reader=new FileReader()
 
 reader.onload=async function(){
-
-let typedarray=new Uint8Array(reader.result)
-let pdfDoc=await pdfjsLib.getDocument(typedarray).promise
-
+let typed=new Uint8Array(reader.result)
+let pdfDoc=await pdfjsLib.getDocument(typed).promise
 pages.value=pdfDoc.numPages
-
 }
 
 reader.readAsArrayBuffer(file)
 
 })
 
-/* ================= AI HELP ================= */
-
+/* AI HELP */
 function aiHelp(){
 
-if(!title.value){
+let t=title.value
+
+if(!t){
 alert("Enter title first")
 return
 }
 
-description.value="Learn "+title.value+" with easy step by step guide."
-
+description.value="Learn "+t+" step by step with practical examples."
 }
 
-/* ================= BASE64 ================= */
-
+/* BASE64 */
 function toBase64(file){
-
-return new Promise((resolve,reject)=>{
+return new Promise((resolve)=>{
 let reader=new FileReader()
-reader.onload=()=>resolve(reader.result.split(",")[1])
-reader.onerror=reject
+reader.onload=()=>resolve(reader.result)
 reader.readAsDataURL(file)
 })
-
 }
 
-/* ================= UPLOAD ================= */
-
+/* UPLOAD */
 async function upload(){
 
-let btn=document.getElementById("uploadBtn")
-let bar=document.getElementById("bar")
-let status=document.getElementById("status")
-
-let titleVal=title.value.trim()
-let authorVal=author.value.trim()
-let descVal=description.value.trim()
-let priceVal=price.value
-
-let front=frontCover.files[0]
-let back=backCover.files[0]
+let t=title.value.trim()
+let d=description.value.trim()
+let p=price.value
+let f=front.files[0]
+let b=back.files[0]
 let pdfFile=pdf.files[0]
 
-if(!titleVal||!authorVal||!descVal||!priceVal||!front||!back||!pdfFile){
-
+if(!t||!d||!p||!f||!b||!pdfFile){
 alert("Fill all fields")
 return
-
 }
+
+let bar=document.getElementById("bar")
+let btn=document.getElementById("uploadBtn")
 
 btn.disabled=true
 btn.innerText="Uploading..."
-status.innerText="Processing..."
 
 try{
 
 bar.style.width="20%"
-let front64=await toBase64(front)
+
+let f64=await toBase64(f)
 
 bar.style.width="40%"
-let back64=await toBase64(back)
+
+let b64=await toBase64(b)
 
 bar.style.width="60%"
+
 let pdf64=await toBase64(pdfFile)
 
 bar.style.width="80%"
 
 let res=await fetch(API,{
 method:"POST",
-headers:{"Content-Type":"application/json"},
+headers:{
+"Content-Type":"application/json"
+},
 body:JSON.stringify({
-
 action:"uploadEbook",
-
-title:titleVal,
-author:authorVal,
-description:descVal,
-price:Number(priceVal),
-
+title:t,
+description:d,
+price:Number(p),
 pages:pages.value,
 email:user.email,
-
-front_cover:front64,
-back_cover:back64,
+front_cover:f64,
+back_cover:b64,
 pdf:pdf64
-
 })
 })
 
@@ -396,24 +315,15 @@ let data=await res.json()
 bar.style.width="100%"
 
 if(data.success){
-
-status.innerText="✅ Upload Successful"
-alert("Ebook uploaded")
-
+alert("✅ Upload Success")
 location.reload()
-
 }else{
-
-status.innerText="❌ "+data.message
 alert(data.message)
-
 }
 
 }catch(e){
-
-status.innerText="Server Error"
 alert("Upload failed")
-
+console.log(e)
 }
 
 btn.disabled=false
@@ -424,4 +334,4 @@ btn.innerText="Upload Ebook"
 </script>
 
 </body>
-  </html>
+</html>
