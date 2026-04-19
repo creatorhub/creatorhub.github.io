@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +7,8 @@
 
 <style>
 body{
-font-family: Arial;
 margin:0;
+font-family:Arial;
 background:#0f172a;
 color:white;
 }
@@ -38,12 +38,12 @@ padding:12px;
 margin:8px 0;
 border-radius:8px;
 border:none;
-outline:none;
 }
 
 button{
 width:100%;
 padding:12px;
+margin-top:10px;
 border:none;
 border-radius:8px;
 background:#22c55e;
@@ -54,11 +54,15 @@ cursor:pointer;
 
 .ai-btn{
 background:#3b82f6;
-margin-bottom:10px;
 }
 
 .hidden{
 display:none;
+}
+
+.loader{
+text-align:center;
+margin-top:20px;
 }
 
 </style>
@@ -73,9 +77,11 @@ display:none;
 
 <div class="container">
 
+<div id="loading" class="loader">Checking seller status...</div>
+
 <div id="notSeller" class="hidden">
 <h3>Seller Required</h3>
-<p>You must apply and get approved to upload ebooks.</p>
+<p>You must be an approved seller to upload ebooks.</p>
 <button onclick="goApply()">Apply as Seller</button>
 </div>
 
@@ -95,8 +101,13 @@ display:none;
 <option value="6x9">6x9</option>
 </select>
 
+<label>Upload PDF</label>
 <input type="file" id="pdf" accept="application/pdf">
+
+<label>Front Cover</label>
 <input type="file" id="front" accept="image/*">
+
+<label>Back Cover</label>
 <input type="file" id="back" accept="image/*">
 
 <button onclick="upload()">Upload Ebook</button>
@@ -109,7 +120,7 @@ display:none;
 
 /* ================= CONFIG ================= */
 
-const API_URL = "YOUR_DEPLOYED_SCRIPT_URL";
+const API_URL = "https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec";
 
 /* ================= NAV ================= */
 
@@ -123,31 +134,44 @@ window.location.href = "apply.html";
 
 /* ================= USER ================= */
 
-const user = JSON.parse(localStorage.getItem("user"));
+let user = JSON.parse(localStorage.getItem("user"));
 
 if(!user){
 alert("Login required");
-location.href = "login.html";
+location.href="login.html";
 }
 
 /* ================= SELLER CHECK ================= */
 
 async function checkSeller(){
 
+try{
+
 let res = await fetch(API_URL,{
 method:"POST",
 body:JSON.stringify({
-action:"getSellerStatus",
+action:"seller_status",
 email:user.email
 })
 })
 
 let data = await res.json()
 
+document.getElementById("loading").style.display="none"
+
 if(data.status === "approved"){
 document.getElementById("uploadForm").classList.remove("hidden")
-}else{
+}
+else if(data.status === "pending"){
 document.getElementById("notSeller").classList.remove("hidden")
+alert("Your seller request is under review")
+}
+else{
+document.getElementById("notSeller").classList.remove("hidden")
+}
+
+}catch(e){
+alert("Server error")
 }
 
 }
@@ -179,7 +203,7 @@ return
 let res = await fetch(API_URL,{
 method:"POST",
 body:JSON.stringify({
-action:"aiHelp",
+action:"ai_help",
 text:text
 })
 })
@@ -195,8 +219,8 @@ if(data.description) document.getElementById("description").value = data.descrip
 
 async function upload(){
 
-let title = document.getElementById("title").value
-let description = document.getElementById("description").value
+let title = document.getElementById("title").value.trim()
+let description = document.getElementById("description").value.trim()
 let price = document.getElementById("price").value
 let size = document.getElementById("size").value
 
@@ -204,14 +228,35 @@ let pdf = document.getElementById("pdf").files[0]
 let front = document.getElementById("front").files[0]
 let back = document.getElementById("back").files[0]
 
-if(!title || !description || !price || !pdf || !front || !back){
-alert("Fill all fields")
+/* VALIDATION */
+
+if(!title || title.length < 3){
+alert("Enter valid title")
 return
 }
+
+if(!description || description.length < 20){
+alert("Description too short")
+return
+}
+
+if(!price || price <= 0){
+alert("Invalid price")
+return
+}
+
+if(!pdf || !front || !back){
+alert("Upload all files")
+return
+}
+
+/* CONVERT */
 
 let pdfBase64 = await toBase64(pdf)
 let frontBase64 = await toBase64(front)
 let backBase64 = await toBase64(back)
+
+/* SEND */
 
 let res = await fetch(API_URL,{
 method:"POST",
@@ -231,10 +276,10 @@ back_cover:backBase64
 let data = await res.json()
 
 if(data.success){
-alert("Uploaded successfully!")
+alert("✅ Uploaded! Waiting for approval")
 location.href="dashboard.html"
 }else{
-alert(data.message)
+alert("❌ " + data.message)
 }
 
 }
