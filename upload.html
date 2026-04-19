@@ -1,112 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Upload Ebook | CreatorHub</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<title>Upload Ebook</title>
 
 <style>
 body{
+font-family: Arial;
 margin:0;
-font-family:Arial;
-background:#020617;
+background:#0f172a;
 color:white;
 }
 
 .header{
 display:flex;
-padding:16px;
-border-bottom:1px solid #1f2937;
+align-items:center;
+padding:15px;
+background:#1e293b;
 }
 
 .back{
 font-size:22px;
 cursor:pointer;
-margin-right:10px;
-}
-
-.title{
-color:#22c55e;
-font-weight:bold;
+margin-right:15px;
 }
 
 .container{
-max-width:700px;
+padding:20px;
+max-width:500px;
 margin:auto;
-padding:20px;
-display:none; /* IMPORTANT */
 }
 
-.card{
-background:#111827;
-padding:20px;
-border-radius:15px;
-}
-
-input,textarea{
+input,textarea,select{
 width:100%;
 padding:12px;
-margin-top:10px;
-background:#020617;
-color:white;
-border:1px solid #1f2937;
+margin:8px 0;
 border-radius:8px;
+border:none;
+outline:none;
 }
 
 button{
 width:100%;
-padding:14px;
-margin-top:15px;
-background:#22c55e;
+padding:12px;
 border:none;
-border-radius:10px;
-font-weight:bold;
+border-radius:8px;
+background:#22c55e;
+color:white;
+font-size:16px;
 cursor:pointer;
 }
 
-.progress{
-height:15px;
-background:#020617;
-margin-top:10px;
-border-radius:10px;
-overflow:hidden;
+.ai-btn{
+background:#3b82f6;
+margin-bottom:10px;
 }
 
-.bar{
-height:100%;
-width:0%;
-background:#22c55e;
+.hidden{
+display:none;
 }
+
 </style>
-
 </head>
 
 <body>
 
 <div class="header">
-<div class="back" onclick="history.back()">⬅</div>
-<div class="title">Upload Ebook</div>
+<div class="back" onclick="goBack()">⬅</div>
+<h3>Upload Ebook</h3>
 </div>
 
 <div class="container">
 
-<div class="card">
+<div id="notSeller" class="hidden">
+<h3>Seller Required</h3>
+<p>You must apply and get approved to upload ebooks.</p>
+<button onclick="goApply()">Apply as Seller</button>
+</div>
 
-<input id="title" placeholder="Book Title">
+<div id="uploadForm" class="hidden">
+
+<button class="ai-btn" onclick="aiHelp()">✨ AI Help</button>
+
+<input id="title" placeholder="Ebook Title">
+
 <textarea id="description" placeholder="Description"></textarea>
+
 <input id="price" type="number" placeholder="Price">
 
-<input type="file" id="front">
-<input type="file" id="back">
-<input type="file" id="pdf">
+<select id="size">
+<option value="A4">A4</option>
+<option value="A5">A5</option>
+<option value="6x9">6x9</option>
+</select>
 
-<div class="progress">
-<div class="bar" id="bar"></div>
-</div>
+<input type="file" id="pdf" accept="application/pdf">
+<input type="file" id="front" accept="image/*">
+<input type="file" id="back" accept="image/*">
 
 <button onclick="upload()">Upload Ebook</button>
 
@@ -116,122 +107,137 @@ background:#22c55e;
 
 <script>
 
-const API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec"
+/* ================= CONFIG ================= */
 
-let user = JSON.parse(localStorage.getItem("user")||"{}")
+const API_URL = "YOUR_DEPLOYED_SCRIPT_URL";
 
-if(!user.email){
-alert("Login required")
-location.href="login.html"
+/* ================= NAV ================= */
+
+function goBack(){
+window.history.back();
 }
 
-/* ✅ SELLER CHECK */
+function goApply(){
+window.location.href = "apply.html";
+}
+
+/* ================= USER ================= */
+
+const user = JSON.parse(localStorage.getItem("user"));
+
+if(!user){
+alert("Login required");
+location.href = "login.html";
+}
+
+/* ================= SELLER CHECK ================= */
+
 async function checkSeller(){
 
-let res = await fetch(API,{
+let res = await fetch(API_URL,{
 method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
 body:JSON.stringify({
-action:"seller_status",
+action:"getSellerStatus",
 email:user.email
 })
 })
 
 let data = await res.json()
 
-if(data.status==="approved"){
-document.querySelector(".container").style.display="block"
-return
+if(data.status === "approved"){
+document.getElementById("uploadForm").classList.remove("hidden")
+}else{
+document.getElementById("notSeller").classList.remove("hidden")
 }
 
-document.body.innerHTML=`<h2 style="text-align:center;margin-top:50px;">
-${data.status==="pending"?"⏳ Approval Pending":"🚫 Apply as Seller"}
-</h2>`
 }
 
-/* BASE64 */
+checkSeller()
+
+/* ================= FILE → BASE64 ================= */
+
 function toBase64(file){
-return new Promise((resolve)=>{
-let reader=new FileReader()
-reader.onload=()=>resolve(reader.result)
+return new Promise((resolve,reject)=>{
+let reader = new FileReader()
 reader.readAsDataURL(file)
+reader.onload = ()=>resolve(reader.result)
+reader.onerror = reject
 })
 }
 
-/* UPLOAD */
+/* ================= AI HELP ================= */
+
+async function aiHelp(){
+
+let text = document.getElementById("description").value
+
+if(!text){
+alert("Write something first")
+return
+}
+
+let res = await fetch(API_URL,{
+method:"POST",
+body:JSON.stringify({
+action:"aiHelp",
+text:text
+})
+})
+
+let data = await res.json()
+
+if(data.title) document.getElementById("title").value = data.title
+if(data.description) document.getElementById("description").value = data.description
+
+}
+
+/* ================= UPLOAD ================= */
+
 async function upload(){
 
-let t=title.value.trim()
-let d=description.value.trim()
-let p=price.value
-let f=front.files[0]
-let b=back.files[0]
-let pdfFile=pdf.files[0]
+let title = document.getElementById("title").value
+let description = document.getElementById("description").value
+let price = document.getElementById("price").value
+let size = document.getElementById("size").value
 
-if(!t||!d||!p||!f||!b||!pdfFile){
+let pdf = document.getElementById("pdf").files[0]
+let front = document.getElementById("front").files[0]
+let back = document.getElementById("back").files[0]
+
+if(!title || !description || !price || !pdf || !front || !back){
 alert("Fill all fields")
 return
 }
 
-let bar=document.getElementById("bar")
+let pdfBase64 = await toBase64(pdf)
+let frontBase64 = await toBase64(front)
+let backBase64 = await toBase64(back)
 
-try{
-
-bar.style.width="20%"
-
-let f64=await toBase64(f)
-
-bar.style.width="40%"
-
-let b64=await toBase64(b)
-
-bar.style.width="60%"
-
-let pdf64=await toBase64(pdfFile)
-
-bar.style.width="80%"
-
-let res=await fetch(API,{
+let res = await fetch(API_URL,{
 method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
 body:JSON.stringify({
 action:"uploadEbook",
-title:t,
-description:d,
-price:Number(p),
 email:user.email,
-front_cover:f64,
-back_cover:b64,
-pdf:pdf64
+title:title,
+description:description,
+price:price,
+size:size,
+pdf:pdfBase64,
+front_cover:frontBase64,
+back_cover:backBase64
 })
 })
 
-let data=await res.json()
-
-console.log("SERVER RESPONSE:",data) /* DEBUG */
-
-bar.style.width="100%"
+let data = await res.json()
 
 if(data.success){
-alert("✅ Upload Success")
-location.reload()
+alert("Uploaded successfully!")
+location.href="dashboard.html"
 }else{
-alert("❌ "+data.message)
-}
-
-}catch(e){
-console.log(e)
-alert("Upload error")
+alert(data.message)
 }
 
 }
-
-/* RUN */
-checkSeller()
 
 </script>
 
