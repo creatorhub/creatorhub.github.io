@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Become a Seller</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -22,7 +21,6 @@ align-items:center;
 justify-content:center;
 }
 
-/* CARD */
 .container{
 width:350px;
 padding:30px;
@@ -44,7 +42,6 @@ text-align:center;
 margin-bottom:20px;
 }
 
-/* INPUTS */
 .input{
 width:100%;
 margin-bottom:15px;
@@ -67,7 +64,6 @@ background: rgba(255,255,255,0.3);
 transform:scale(1.02);
 }
 
-/* BUTTON */
 button{
 width:100%;
 padding:12px;
@@ -85,7 +81,6 @@ transform:scale(1.05);
 background:#00e6b8;
 }
 
-/* STATUS */
 .status{
 margin-top:15px;
 text-align:center;
@@ -111,7 +106,6 @@ animation:spin 1s linear infinite;
 0%{transform:rotate(0);}
 100%{transform:rotate(360deg);}
 }
-
 </style>
 </head>
 
@@ -125,11 +119,7 @@ animation:spin 1s linear infinite;
 </div>
 
 <div class="input">
-<input type="email" id="email" placeholder="Email">
-</div>
-
-<div class="input">
-<input type="text" id="phone" placeholder="Phone">
+<input type="text" id="phone" placeholder="Phone Number">
 </div>
 
 <div class="input">
@@ -139,7 +129,6 @@ animation:spin 1s linear infinite;
 <button onclick="applySeller()">Apply Now</button>
 
 <div class="loader" id="loader"></div>
-
 <div class="status" id="status"></div>
 
 </div>
@@ -147,22 +136,32 @@ animation:spin 1s linear infinite;
 <script>
 
 /* ================= CONFIG ================= */
-  
-const API="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
+
+const API = "https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
+
+/* ================= APPLY ================= */
 
 async function applySeller(){
 
 const name = document.getElementById("name").value.trim();
-const email = document.getElementById("email").value.trim();
 const phone = document.getElementById("phone").value.trim();
 const upi = document.getElementById("upi").value.trim();
+
+/* 🔥 email from login */
+const email = localStorage.getItem("user_email");
 
 const statusDiv = document.getElementById("status");
 const loader = document.getElementById("loader");
 
 /* VALIDATION */
-if(!name || !email || !phone || !upi){
+if(!name || !phone || !upi){
 statusDiv.innerHTML = "⚠️ Please fill all fields";
+statusDiv.className = "status rejected";
+return;
+}
+
+if(!email){
+statusDiv.innerHTML = "⚠️ Please login first";
 statusDiv.className = "status rejected";
 return;
 }
@@ -173,7 +172,7 @@ statusDiv.innerHTML = "";
 
 try{
 
-const res = await fetch(API_URL,{
+const res = await fetch(API,{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
@@ -194,14 +193,12 @@ loader.style.display = "none";
 /* RESPONSE */
 if(data.success){
 
-let status = data.status;
-
-if(status==="approved"){
+if(data.status === "approved"){
 statusDiv.innerHTML = "✅ Approved! You can start selling";
 statusDiv.className = "status success";
 }
-else if(status==="pending"){
-statusDiv.innerHTML = "⏳ Pending review by AI";
+else if(data.status === "pending"){
+statusDiv.innerHTML = "⏳ Pending review";
 statusDiv.className = "status pending";
 }
 else{
@@ -210,7 +207,7 @@ statusDiv.className = "status rejected";
 }
 
 }else{
-statusDiv.innerHTML = "❌ Error occurred";
+statusDiv.innerHTML = "❌ Server error";
 statusDiv.className = "status rejected";
 }
 
@@ -220,6 +217,17 @@ loader.style.display = "none";
 statusDiv.innerHTML = "⚠️ Network error";
 statusDiv.className = "status rejected";
 
+}
+
+}
+
+/* ================= OPTIONAL AUTO-FILL ================= */
+
+window.onload = () => {
+
+const savedName = localStorage.getItem("user_name");
+if(savedName){
+document.getElementById("name").value = savedName;
 }
 
 }
