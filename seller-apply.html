@@ -33,11 +33,6 @@ color:#fff;
 background: rgba(255,255,255,0.2);
 padding:8px 12px;
 border-radius:50%;
-transition:0.3s;
-}
-
-.back-btn:hover{
-background: rgba(255,255,255,0.4);
 }
 
 /* CARD */
@@ -47,14 +42,7 @@ padding:30px;
 border-radius:20px;
 background: rgba(255,255,255,0.1);
 backdrop-filter: blur(15px);
-box-shadow: 0 10px 40px rgba(0,0,0,0.2);
 color:#fff;
-animation:fadeIn 1s ease;
-}
-
-@keyframes fadeIn{
-from{opacity:0; transform:translateY(20px);}
-to{opacity:1; transform:translateY(0);}
 }
 
 h2{
@@ -63,7 +51,6 @@ margin-bottom:20px;
 }
 
 .input{
-width:100%;
 margin-bottom:15px;
 }
 
@@ -72,16 +59,8 @@ width:100%;
 padding:12px;
 border:none;
 border-radius:10px;
-outline:none;
 background: rgba(255,255,255,0.2);
 color:#fff;
-font-size:14px;
-transition:0.3s;
-}
-
-.input input:focus{
-background: rgba(255,255,255,0.3);
-transform:scale(1.02);
 }
 
 button{
@@ -93,12 +72,6 @@ background:#00ffcc;
 color:#000;
 font-weight:bold;
 cursor:pointer;
-transition:0.3s;
-}
-
-button:hover{
-transform:scale(1.05);
-background:#00e6b8;
 }
 
 .status{
@@ -165,7 +138,7 @@ const API = "https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3Q
 /* ================= BACK ================= */
 
 function goHome(){
-window.location.href = "index.html"; // 🔥 apna home page change kar sakte ho
+window.location.href = "index.html";
 }
 
 /* ================= APPLY ================= */
@@ -176,7 +149,7 @@ const name = document.getElementById("name").value.trim();
 const phone = document.getElementById("phone").value.trim();
 const upi = document.getElementById("upi").value.trim();
 
-/* 🔥 USER FROM LOCAL STORAGE */
+/* 🔥 GET USER DATA */
 const user = JSON.parse(localStorage.getItem("user") || "{}");
 const email = user.email;
 
@@ -185,13 +158,13 @@ const loader = document.getElementById("loader");
 
 /* VALIDATION */
 if(!name || !phone || !upi){
-statusDiv.innerHTML = "⚠️ Please fill all fields";
+statusDiv.innerHTML = "⚠️ Fill all fields";
 statusDiv.className = "status rejected";
 return;
 }
 
 if(!email){
-statusDiv.innerHTML = "⚠️ Please login first";
+statusDiv.innerHTML = "⚠️ Login first";
 statusDiv.className = "status rejected";
 return;
 }
@@ -202,20 +175,10 @@ statusDiv.innerHTML = "";
 
 try{
 
-const res = await fetch(API,{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body: JSON.stringify({
-action:"apply_seller",
-name:name,
-email:email,
-phone:phone,
-upi:upi
-})
-});
+/* 🔥 GET REQUEST (NO NETWORK ERROR) */
+const url = `${API}?action=apply_seller&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&upi=${encodeURIComponent(upi)}`;
 
+const res = await fetch(url);
 const data = await res.json();
 
 loader.style.display = "none";
@@ -224,20 +187,20 @@ loader.style.display = "none";
 if(data.success){
 
 if(data.status === "approved"){
-statusDiv.innerHTML = "✅ Approved! You can start selling";
+statusDiv.innerHTML = "✅ Approved!";
 statusDiv.className = "status success";
 }
 else if(data.status === "pending"){
-statusDiv.innerHTML = "⏳ Pending review";
+statusDiv.innerHTML = "⏳ Pending";
 statusDiv.className = "status pending";
 }
 else{
-statusDiv.innerHTML = "❌ Rejected. Try again later";
+statusDiv.innerHTML = "❌ Rejected";
 statusDiv.className = "status rejected";
 }
 
 }else{
-statusDiv.innerHTML = "❌ Server error";
+statusDiv.innerHTML = "❌ Error";
 statusDiv.className = "status rejected";
 }
 
