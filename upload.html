@@ -64,7 +64,6 @@ display:none;
 text-align:center;
 margin-top:20px;
 }
-
 </style>
 </head>
 
@@ -118,9 +117,11 @@ margin-top:20px;
 
 <script>
 
-/* ================= CONFIG ================= */
+/* ================= API URLs ================= */
 
-const API_URL = "https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec";
+const SELLER_API = "https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec";
+
+const UPLOAD_API = "https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec";
 
 /* ================= NAV ================= */
 
@@ -129,7 +130,7 @@ window.history.back();
 }
 
 function goApply(){
-window.location.href = "apply.html";
+window.location.href="apply.html";
 }
 
 /* ================= USER ================= */
@@ -147,7 +148,7 @@ async function checkSeller(){
 
 try{
 
-let res = await fetch(API_URL,{
+let res = await fetch(SELLER_API,{
 method:"POST",
 body:JSON.stringify({
 action:"seller_status",
@@ -161,12 +162,10 @@ document.getElementById("loading").style.display="none"
 
 if(data.status === "approved"){
 document.getElementById("uploadForm").classList.remove("hidden")
-}
-else if(data.status === "pending"){
+}else if(data.status === "pending"){
 document.getElementById("notSeller").classList.remove("hidden")
 alert("Your seller request is under review")
-}
-else{
+}else{
 document.getElementById("notSeller").classList.remove("hidden")
 }
 
@@ -200,7 +199,7 @@ alert("Write something first")
 return
 }
 
-let res = await fetch(API_URL,{
+let res = await fetch(UPLOAD_API,{
 method:"POST",
 body:JSON.stringify({
 action:"ai_help",
@@ -258,7 +257,7 @@ let backBase64 = await toBase64(back)
 
 /* SEND */
 
-let res = await fetch(API_URL,{
+let res = await fetch(UPLOAD_API,{
 method:"POST",
 body:JSON.stringify({
 action:"uploadEbook",
