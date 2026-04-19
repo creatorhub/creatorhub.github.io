@@ -19,8 +19,28 @@ background: linear-gradient(135deg,#6a11cb,#2575fc);
 display:flex;
 align-items:center;
 justify-content:center;
+position:relative;
 }
 
+/* BACK BUTTON */
+.back-btn{
+position:absolute;
+top:20px;
+left:20px;
+font-size:22px;
+cursor:pointer;
+color:#fff;
+background: rgba(255,255,255,0.2);
+padding:8px 12px;
+border-radius:50%;
+transition:0.3s;
+}
+
+.back-btn:hover{
+background: rgba(255,255,255,0.4);
+}
+
+/* CARD */
 .container{
 width:350px;
 padding:30px;
@@ -111,6 +131,9 @@ animation:spin 1s linear infinite;
 
 <body>
 
+<!-- BACK BUTTON -->
+<div class="back-btn" onclick="goHome()">←</div>
+
 <div class="container">
 <h2>Become a Seller</h2>
 
@@ -139,6 +162,12 @@ animation:spin 1s linear infinite;
 
 const API = "https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
 
+/* ================= BACK ================= */
+
+function goHome(){
+window.location.href = "index.html"; // 🔥 apna home page change kar sakte ho
+}
+
 /* ================= APPLY ================= */
 
 async function applySeller(){
@@ -147,8 +176,9 @@ const name = document.getElementById("name").value.trim();
 const phone = document.getElementById("phone").value.trim();
 const upi = document.getElementById("upi").value.trim();
 
-/* 🔥 email from login */
-const email = localStorage.getItem("user_email");
+/* 🔥 USER FROM LOCAL STORAGE */
+const user = JSON.parse(localStorage.getItem("user") || "{}");
+const email = user.email;
 
 const statusDiv = document.getElementById("status");
 const loader = document.getElementById("loader");
@@ -221,13 +251,14 @@ statusDiv.className = "status rejected";
 
 }
 
-/* ================= OPTIONAL AUTO-FILL ================= */
+/* ================= AUTO FILL ================= */
 
 window.onload = () => {
 
-const savedName = localStorage.getItem("user_name");
-if(savedName){
-document.getElementById("name").value = savedName;
+const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+if(user.name){
+document.getElementById("name").value = user.name;
 }
 
 }
