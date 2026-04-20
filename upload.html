@@ -89,9 +89,7 @@ margin-top:20px;
 <button class="ai-btn" onclick="aiHelp()">✨ AI Help</button>
 
 <input id="title" placeholder="Ebook Title">
-
 <textarea id="description" placeholder="Description"></textarea>
-
 <input id="price" type="number" placeholder="Price">
 
 <select id="size">
@@ -109,7 +107,7 @@ margin-top:20px;
 <label>Back Cover</label>
 <input type="file" id="back" accept="image/*">
 
-<button onclick="upload()">Upload Ebook</button>
+<button id="uploadBtn" onclick="upload()">Upload Ebook</button>
 
 </div>
 
@@ -117,10 +115,9 @@ margin-top:20px;
 
 <script>
 
-/* ================= API URLs ================= */
+/* ================= API ================= */
 
 const SELLER_API = "https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec";
-
 const UPLOAD_API = "https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec";
 
 /* ================= NAV ================= */
@@ -137,7 +134,7 @@ window.location.href="apply.html";
 
 let user = JSON.parse(localStorage.getItem("user"));
 
-if(!user){
+if(!user || !user.email){
 alert("Login required");
 location.href="login.html";
 }
@@ -150,6 +147,9 @@ try{
 
 let res = await fetch(SELLER_API,{
 method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
 body:JSON.stringify({
 action:"seller_status",
 email:user.email
@@ -160,7 +160,7 @@ let data = await res.json()
 
 document.getElementById("loading").style.display="none"
 
-if(data.status === "approved"){
+if((data.status || "").toLowerCase() === "approved"){
 document.getElementById("uploadForm").classList.remove("hidden")
 }else if(data.status === "pending"){
 document.getElementById("notSeller").classList.remove("hidden")
@@ -177,7 +177,7 @@ alert("Server error")
 
 checkSeller()
 
-/* ================= FILE → BASE64 ================= */
+/* ================= BASE64 ================= */
 
 function toBase64(file){
 return new Promise((resolve,reject)=>{
@@ -201,6 +201,9 @@ return
 
 let res = await fetch(UPLOAD_API,{
 method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
 body:JSON.stringify({
 action:"ai_help",
 text:text
@@ -218,6 +221,12 @@ if(data.description) document.getElementById("description").value = data.descrip
 
 async function upload(){
 
+let btn = document.getElementById("uploadBtn")
+btn.disabled = true
+btn.innerText = "Uploading..."
+
+try{
+
 let title = document.getElementById("title").value.trim()
 let description = document.getElementById("description").value.trim()
 let price = document.getElementById("price").value
@@ -229,25 +238,10 @@ let back = document.getElementById("back").files[0]
 
 /* VALIDATION */
 
-if(!title || title.length < 3){
-alert("Enter valid title")
-return
-}
-
-if(!description || description.length < 20){
-alert("Description too short")
-return
-}
-
-if(!price || price <= 0){
-alert("Invalid price")
-return
-}
-
-if(!pdf || !front || !back){
-alert("Upload all files")
-return
-}
+if(!title || title.length < 3) throw "Enter valid title"
+if(!description || description.length < 20) throw "Description too short"
+if(!price || price <= 0) throw "Invalid price"
+if(!pdf || !front || !back) throw "Upload all files"
 
 /* CONVERT */
 
@@ -259,6 +253,9 @@ let backBase64 = await toBase64(back)
 
 let res = await fetch(UPLOAD_API,{
 method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
 body:JSON.stringify({
 action:"uploadEbook",
 email:user.email,
@@ -278,8 +275,17 @@ if(data.success){
 alert("✅ Uploaded! Waiting for approval")
 location.href="dashboard.html"
 }else{
-alert("❌ " + data.message)
+throw data.message
 }
+
+}catch(err){
+alert("❌ " + err)
+}
+
+/* RESET BUTTON */
+
+btn.disabled = false
+btn.innerText = "Upload Ebook"
 
 }
 
