@@ -38,6 +38,7 @@ padding:12px;
 margin:8px 0;
 border-radius:8px;
 border:none;
+outline:none;
 }
 
 button{
@@ -76,7 +77,9 @@ margin-top:20px;
 
 <div class="container">
 
-<div id="loading" class="loader">Checking seller status...</div>
+<div id="loading" class="loader">
+Checking seller status...
+</div>
 
 <div id="notSeller" class="hidden">
 <h3>Seller Required</h3>
@@ -86,11 +89,28 @@ margin-top:20px;
 
 <div id="uploadForm" class="hidden">
 
-<button class="ai-btn" onclick="aiHelp()">✨ AI Help</button>
+<button class="ai-btn" onclick="aiHelp()">
+✨ Auto Fill With AI
+</button>
 
 <input id="title" placeholder="Ebook Title">
-<textarea id="description" placeholder="Description"></textarea>
-<input id="price" type="number" placeholder="Price">
+
+<textarea 
+id="description" 
+placeholder="Description">
+</textarea>
+
+<input id="category" placeholder="Category">
+
+<input 
+id="pages" 
+type="number" 
+placeholder="Page Count">
+
+<input 
+id="price" 
+type="number" 
+placeholder="Price">
 
 <select id="size">
 <option value="A4">A4</option>
@@ -99,15 +119,28 @@ margin-top:20px;
 </select>
 
 <label>Upload PDF</label>
-<input type="file" id="pdf" accept="application/pdf">
+<input 
+type="file" 
+id="pdf" 
+accept="application/pdf">
 
 <label>Front Cover</label>
-<input type="file" id="front" accept="image/*">
+<input 
+type="file" 
+id="front" 
+accept="image/*">
 
 <label>Back Cover</label>
-<input type="file" id="back" accept="image/*">
+<input 
+type="file" 
+id="back" 
+accept="image/*">
 
-<button id="uploadBtn" onclick="upload()">Upload Ebook</button>
+<button 
+id="uploadBtn" 
+onclick="upload()">
+Upload Ebook
+</button>
 
 </div>
 
@@ -117,8 +150,15 @@ margin-top:20px;
 
 /* ================= API ================= */
 
-const SELLER_API = "https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec";
-const UPLOAD_API = "https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec";
+const SELLER_API =
+"https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec";
+
+const GEMINI_API =
+"https://script.google.com/macros/s/AKfycbxOofkiVgf-0yh_v-I7cXCdxqmyauk6XEOX7pQ04zOkZ6n0oEdSNm6jwmc4HaEcqEEfnw/exec";
+
+const UPLOAD_API =
+"https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
+
 
 /* ================= NAV ================= */
 
@@ -130,14 +170,19 @@ function goApply(){
 window.location.href="apply.html";
 }
 
+
 /* ================= USER ================= */
 
-let user = JSON.parse(localStorage.getItem("user"));
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
 
 if(!user || !user.email){
 alert("Login required");
 location.href="login.html";
 }
+
 
 /* ================= SELLER CHECK ================= */
 
@@ -145,7 +190,8 @@ async function checkSeller(){
 
 try{
 
-let res = await fetch(SELLER_API,{
+let res = await fetch(
+SELLER_API,{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
@@ -154,111 +200,243 @@ body:JSON.stringify({
 action:"seller_status",
 email:user.email
 })
-})
+});
 
-let data = await res.json()
+let data = await res.json();
 
-document.getElementById("loading").style.display="none"
+document
+.getElementById("loading")
+.style.display="none";
 
-if((data.status || "").toLowerCase() === "approved"){
-document.getElementById("uploadForm").classList.remove("hidden")
-}else{
-document.getElementById("notSeller").classList.remove("hidden")
+if(
+(data.status || "")
+.toLowerCase() === "approved"
+){
+document
+.getElementById("uploadForm")
+.classList.remove("hidden");
+}
+else{
+document
+.getElementById("notSeller")
+.classList.remove("hidden");
 
-if(data.status === "pending"){
-alert("Your seller request is under review")
+if(data.status==="pending"){
+alert(
+"Your seller request is under review"
+);
 }
 }
 
 }catch(e){
-alert("Server error")
+alert("Seller server error");
 }
 
 }
 
-checkSeller()
+checkSeller();
+
 
 /* ================= BASE64 ================= */
 
 function toBase64(file){
-return new Promise((resolve,reject)=>{
-let reader = new FileReader()
-reader.readAsDataURL(file)
-reader.onload = ()=>resolve(reader.result)
-reader.onerror = reject
-})
+
+return new Promise(
+(resolve,reject)=>{
+
+let reader =
+new FileReader();
+
+reader.readAsDataURL(file);
+
+reader.onload =
+()=>resolve(reader.result);
+
+reader.onerror = reject;
+
+});
 }
 
-/* ================= AI HELP ================= */
+
+/* ================= AI AUTO FILL ================= */
 
 async function aiHelp(){
 
-let text = document.getElementById("description").value
+let pdf =
+document.getElementById("pdf")
+.files[0];
 
-if(!text){
-alert("Write description first")
-return
+if(!pdf){
+alert("Upload PDF first");
+return;
 }
 
-let res = await fetch(UPLOAD_API,{
+try{
+
+let pdfBase64 =
+await toBase64(pdf);
+
+let res =
+await fetch(
+GEMINI_API,{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
 },
 body:JSON.stringify({
-action:"ai_help",
-text:text
+pdfText:pdfBase64
 })
-})
+});
 
-let data = await res.json()
+let data =
+await res.json();
 
-if(data.title) document.getElementById("title").value = data.title
-if(data.description) document.getElementById("description").value = data.description
+if(
+data.status !== "approved"
+){
+alert(
+data.message ||
+"AI rejected file"
+);
+return;
+}
+
+document
+.getElementById("title")
+.value =
+data.title || "";
+
+document
+.getElementById("description")
+.value =
+data.description || "";
+
+document
+.getElementById("category")
+.value =
+data.category || "";
+
+document
+.getElementById("pages")
+.value =
+data.pages || "";
+
+alert(
+"✅ AI autofill completed"
+);
+
+}catch(e){
+alert("AI error");
+}
 
 }
+
 
 /* ================= UPLOAD ================= */
 
 async function upload(){
 
-let btn = document.getElementById("uploadBtn")
-btn.disabled = true
-btn.innerText = "Uploading..."
+let btn =
+document.getElementById(
+"uploadBtn"
+);
+
+btn.disabled=true;
+btn.innerText="Uploading...";
 
 try{
 
-let title = document.getElementById("title").value.trim()
-let description = document.getElementById("description").value.trim()
-let price = Number(document.getElementById("price").value)
-let size = document.getElementById("size").value
+let title =
+document.getElementById(
+"title"
+).value.trim();
 
-let pdf = document.getElementById("pdf").files[0]
-let front = document.getElementById("front").files[0]
-let back = document.getElementById("back").files[0]
+let description =
+document.getElementById(
+"description"
+).value.trim();
 
-/* VALIDATION */
+let category =
+document.getElementById(
+"category"
+).value.trim();
 
-if(!title || title.length < 3) throw "Enter valid title"
-if(!description || description.length < 20) throw "Description too short"
-if(!price || price <= 0) throw "Invalid price"
-if(!pdf || !front || !back) throw "Upload all files"
+let pages =
+Number(
+document.getElementById(
+"pages"
+).value
+);
 
-/* FILE SIZE */
+let price =
+Number(
+document.getElementById(
+"price"
+).value
+);
 
-if(pdf.size > 10 * 1024 * 1024){
-throw "PDF too large (Max 10MB)"
+let pdf =
+document.getElementById(
+"pdf"
+).files[0];
+
+let front =
+document.getElementById(
+"front"
+).files[0];
+
+let back =
+document.getElementById(
+"back"
+).files[0];
+
+
+/* validation */
+
+if(!title)
+throw "Enter title";
+
+if(!description)
+throw "Enter description";
+
+if(!category)
+throw "Enter category";
+
+if(!pages || pages<=0)
+throw "Enter valid pages";
+
+if(!price || price<=0)
+throw "Enter valid price";
+
+if(!pdf || !front || !back)
+throw "Upload all files";
+
+
+if(
+pdf.size >
+10 * 1024 * 1024
+){
+throw "PDF max size is 10MB";
 }
 
-/* CONVERT */
 
-let pdfBase64 = await toBase64(pdf)
-let frontBase64 = await toBase64(front)
-let backBase64 = await toBase64(back)
+/* convert */
 
-/* SEND */
+let pdfBase64 =
+await toBase64(pdf);
 
-let res = await fetch(UPLOAD_API,{
+let frontBase64 =
+await toBase64(front);
+
+let backBase64 =
+await toBase64(back);
+
+
+/* upload */
+
+let res =
+await fetch(
+UPLOAD_API,{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
@@ -268,31 +446,45 @@ action:"uploadEbook",
 email:user.email,
 title:title,
 description:description,
+category:category,
+pages:pages,
 price:price,
-size:size,
 pdf:pdfBase64,
 front_cover:frontBase64,
 back_cover:backBase64
 })
-})
+});
 
-let data = await res.json()
+let data =
+await res.json();
 
 if(data.success){
-alert("✅ Uploaded! Waiting for approval")
-location.href="dashboard.html"
+
+alert(
+"✅ Ebook uploaded successfully"
+);
+
+location.href=
+"dashboard.html";
+
 }else{
-throw data.message || "Upload failed"
+throw (
+data.message ||
+"Upload failed"
+);
 }
 
 }catch(err){
-alert("❌ " + err)
+
+alert(
+"❌ " + err
+);
+
 }
 
-/* RESET */
-
-btn.disabled = false
-btn.innerText = "Upload Ebook"
+btn.disabled=false;
+btn.innerText=
+"Upload Ebook";
 
 }
 
