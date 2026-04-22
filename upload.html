@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Upload Ebook</title>
 
 <style>
@@ -27,17 +27,17 @@ margin-right:15px;
 }
 
 .container{
-padding:20px;
 max-width:500px;
 margin:auto;
+padding:20px;
 }
 
 input,textarea,select{
 width:100%;
 padding:12px;
 margin:8px 0;
-border-radius:8px;
 border:none;
+border-radius:8px;
 outline:none;
 }
 
@@ -57,17 +57,13 @@ cursor:pointer;
 background:#3b82f6;
 }
 
-.hidden{
-display:none;
-}
-
-.loader{
+.loading{
 text-align:center;
-margin-top:20px;
+margin-top:10px;
+display:none;
 }
 </style>
 </head>
-
 <body>
 
 <div class="header">
@@ -77,38 +73,27 @@ margin-top:20px;
 
 <div class="container">
 
-<div id="loading" class="loader">
-Checking seller status...
-</div>
-
-<div id="notSeller" class="hidden">
-<h3>Seller Required</h3>
-<p>You must be an approved seller to upload ebooks.</p>
-<button onclick="goApply()">Apply as Seller</button>
-</div>
-
-<div id="uploadForm" class="hidden">
-
 <button class="ai-btn" onclick="aiHelp()">
 ✨ Auto Fill With AI
 </button>
 
+<div class="loading" id="aiLoading">
+Analyzing PDF with AI...
+</div>
+
 <input id="title" placeholder="Ebook Title">
 
-<textarea
-id="description"
-placeholder="Description">
-</textarea>
+<textarea id="description"
+placeholder="Description"></textarea>
 
-<input id="category" placeholder="Category">
+<input id="category"
+placeholder="Category">
 
-<input
-id="pages"
+<input id="pages"
 type="number"
 placeholder="Page Count">
 
-<input
-id="price"
+<input id="price"
 type="number"
 placeholder="Price">
 
@@ -119,39 +104,30 @@ placeholder="Price">
 </select>
 
 <label>Upload PDF</label>
-<input
-type="file"
+<input type="file"
 id="pdf"
 accept="application/pdf">
 
 <label>Front Cover</label>
-<input
-type="file"
+<input type="file"
 id="front"
 accept="image/*">
 
 <label>Back Cover</label>
-<input
-type="file"
+<input type="file"
 id="back"
 accept="image/*">
 
-<button
-id="uploadBtn"
-onclick="upload()">
+<button id="uploadBtn"
+onclick="uploadEbook()">
 Upload Ebook
 </button>
-
-</div>
 
 </div>
 
 <script>
 
 /* APIs */
-
-const SELLER_API =
-"https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec";
 
 const GEMINI_API =
 "https://script.google.com/macros/s/AKfycbxOofkiVgf-0yh_v-I7cXCdxqmyauk6XEOX7pQ04zOkZ6n0oEdSNm6jwmc4HaEcqEEfnw/exec";
@@ -160,7 +136,7 @@ const UPLOAD_API =
 "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
 
 
-/* USER */
+/* login check */
 
 let user =
 JSON.parse(
@@ -168,107 +144,38 @@ localStorage.getItem("user")
 );
 
 if(!user || !user.email){
-alert("Login required");
+alert("Please login first");
 location.href="login.html";
 }
 
 
-/* NAV */
+/* navigation */
 
 function goBack(){
 window.history.back();
 }
 
-function goApply(){
-window.location.href="apply.html";
-}
 
-
-/* BASE64 */
+/* convert file */
 
 function toBase64(file){
 return new Promise((resolve,reject)=>{
 
-let reader = new FileReader();
+let reader =
+new FileReader();
 
 reader.readAsDataURL(file);
 
-reader.onload = ()=>{
-resolve(reader.result);
-};
+reader.onload=
+()=>resolve(reader.result);
 
-reader.onerror = reject;
+reader.onerror=reject;
 
 });
 }
 
 
-/* SELLER CHECK */
-
-async function checkSeller(){
-
-try{
-
-console.log("Checking seller for:", user.email);
-
-let res = await fetch(SELLER_API,{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-action:"seller_status",
-email:user.email
-})
-});
-
-let data = await res.json();
-
-console.log("Seller response:", data);
-
-document.getElementById("loading")
-.style.display="none";
-
-if(
-data.success &&
-(data.status || "")
-.toLowerCase() === "approved"
-){
-document.getElementById("uploadForm")
-.classList.remove("hidden");
-}
-else{
-
-document.getElementById("notSeller")
-.classList.remove("hidden");
-
-if(data.status==="pending"){
-alert("Your seller request is pending approval");
-}
-
-if(data.status==="not_applied"){
-alert("Apply for seller account first");
-}
-}
-
-}catch(e){
-
-console.log("Seller error:", e);
-
-document.getElementById("loading")
-.style.display="none";
-
-alert(
-"Seller server error: " + e.message
-);
-
-}
-}
-
-checkSeller();
-
-
-/* AI HELP */
+/* AI AUTO FILL */
 
 async function aiHelp(){
 
@@ -282,6 +189,10 @@ if(!pdf){
 alert("Upload PDF first");
 return;
 }
+
+document
+.getElementById("aiLoading")
+.style.display="block";
 
 let pdfBase64 =
 await toBase64(pdf);
@@ -300,47 +211,63 @@ pdfText:pdfBase64
 let data =
 await res.json();
 
+document
+.getElementById("aiLoading")
+.style.display="none";
+
 console.log(data);
 
-if(
-data.status !== "approved"
-){
+if(data.status !== "approved"){
 alert(
 data.message ||
-"AI rejected file"
+"AI rejected this ebook"
 );
 return;
 }
 
-document.getElementById("title").value =
+document
+.getElementById("title")
+.value =
 data.title || "";
 
-document.getElementById("description").value =
+document
+.getElementById("description")
+.value =
 data.description || "";
 
-document.getElementById("category").value =
+document
+.getElementById("category")
+.value =
 data.category || "";
 
-document.getElementById("pages").value =
+document
+.getElementById("pages")
+.value =
 data.pages || "";
 
-alert("AI autofill completed");
+alert(
+"✅ AI auto-filled details"
+);
 
 }catch(e){
+
+document
+.getElementById("aiLoading")
+.style.display="none";
 
 console.log(e);
 
 alert(
-"AI error: " + e.message
+"AI Error: " + e.message
 );
 
 }
 }
 
 
-/* UPLOAD */
+/* FINAL UPLOAD */
 
-async function upload(){
+async function uploadEbook(){
 
 let btn =
 document.getElementById(
@@ -394,14 +321,14 @@ document.getElementById("back")
 if(!title) throw "Enter title";
 if(!description) throw "Enter description";
 if(!category) throw "Enter category";
-if(!pages || pages<=0) throw "Enter valid pages";
-if(!price || price<=0) throw "Enter valid price";
-if(!pdf || !front || !back) throw "Upload all files";
+if(!pages || pages<=0)
+throw "Invalid page count";
+if(!price || price<=0)
+throw "Invalid price";
+if(!pdf || !front || !back)
+throw "Upload all required files";
 
-if(
-pdf.size >
-10 * 1024 * 1024
-){
+if(pdf.size > 10*1024*1024){
 throw "PDF max size is 10MB";
 }
 
@@ -455,7 +382,7 @@ location.href=
 "dashboard.html";
 
 }else{
-throw (
+throw(
 data.message ||
 "Upload failed"
 );
@@ -478,6 +405,5 @@ btn.innerText=
 }
 
 </script>
-
 </body>
 </html>
