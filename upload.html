@@ -95,21 +95,21 @@ Checking seller status...
 
 <input id="title" placeholder="Ebook Title">
 
-<textarea 
-id="description" 
+<textarea
+id="description"
 placeholder="Description">
 </textarea>
 
 <input id="category" placeholder="Category">
 
-<input 
-id="pages" 
-type="number" 
+<input
+id="pages"
+type="number"
 placeholder="Page Count">
 
-<input 
-id="price" 
-type="number" 
+<input
+id="price"
+type="number"
 placeholder="Price">
 
 <select id="size">
@@ -119,25 +119,25 @@ placeholder="Price">
 </select>
 
 <label>Upload PDF</label>
-<input 
-type="file" 
-id="pdf" 
+<input
+type="file"
+id="pdf"
 accept="application/pdf">
 
 <label>Front Cover</label>
-<input 
-type="file" 
-id="front" 
+<input
+type="file"
+id="front"
 accept="image/*">
 
 <label>Back Cover</label>
-<input 
-type="file" 
-id="back" 
+<input
+type="file"
+id="back"
 accept="image/*">
 
-<button 
-id="uploadBtn" 
+<button
+id="uploadBtn"
 onclick="upload()">
 Upload Ebook
 </button>
@@ -148,7 +148,7 @@ Upload Ebook
 
 <script>
 
-/* ================= API ================= */
+/* APIs */
 
 const SELLER_API =
 "https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec";
@@ -160,18 +160,7 @@ const UPLOAD_API =
 "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
 
 
-/* ================= NAV ================= */
-
-function goBack(){
-window.history.back();
-}
-
-function goApply(){
-window.location.href="apply.html";
-}
-
-
-/* ================= USER ================= */
+/* USER */
 
 let user =
 JSON.parse(
@@ -184,14 +173,45 @@ location.href="login.html";
 }
 
 
-/* ================= SELLER CHECK ================= */
+/* NAV */
+
+function goBack(){
+window.history.back();
+}
+
+function goApply(){
+window.location.href="apply.html";
+}
+
+
+/* BASE64 */
+
+function toBase64(file){
+return new Promise((resolve,reject)=>{
+
+let reader = new FileReader();
+
+reader.readAsDataURL(file);
+
+reader.onload = ()=>{
+resolve(reader.result);
+};
+
+reader.onerror = reject;
+
+});
+}
+
+
+/* SELLER CHECK */
 
 async function checkSeller(){
 
 try{
 
-let res = await fetch(
-SELLER_API,{
+console.log("Checking seller for:", user.email);
+
+let res = await fetch(SELLER_API,{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
@@ -204,63 +224,55 @@ email:user.email
 
 let data = await res.json();
 
-document
-.getElementById("loading")
+console.log("Seller response:", data);
+
+document.getElementById("loading")
 .style.display="none";
 
 if(
+data.success &&
 (data.status || "")
 .toLowerCase() === "approved"
 ){
-document
-.getElementById("uploadForm")
+document.getElementById("uploadForm")
 .classList.remove("hidden");
 }
 else{
-document
-.getElementById("notSeller")
+
+document.getElementById("notSeller")
 .classList.remove("hidden");
 
 if(data.status==="pending"){
-alert(
-"Your seller request is under review"
-);
+alert("Your seller request is pending approval");
+}
+
+if(data.status==="not_applied"){
+alert("Apply for seller account first");
 }
 }
 
 }catch(e){
-alert("Seller server error");
-}
 
+console.log("Seller error:", e);
+
+document.getElementById("loading")
+.style.display="none";
+
+alert(
+"Seller server error: " + e.message
+);
+
+}
 }
 
 checkSeller();
 
 
-/* ================= BASE64 ================= */
-
-function toBase64(file){
-
-return new Promise(
-(resolve,reject)=>{
-
-let reader =
-new FileReader();
-
-reader.readAsDataURL(file);
-
-reader.onload =
-()=>resolve(reader.result);
-
-reader.onerror = reject;
-
-});
-}
-
-
-/* ================= AI AUTO FILL ================= */
+/* AI HELP */
 
 async function aiHelp(){
+
+try{
 
 let pdf =
 document.getElementById("pdf")
@@ -271,14 +283,11 @@ alert("Upload PDF first");
 return;
 }
 
-try{
-
 let pdfBase64 =
 await toBase64(pdf);
 
 let res =
-await fetch(
-GEMINI_API,{
+await fetch(GEMINI_API,{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
@@ -291,6 +300,8 @@ pdfText:pdfBase64
 let data =
 await res.json();
 
+console.log(data);
+
 if(
 data.status !== "approved"
 ){
@@ -301,38 +312,33 @@ data.message ||
 return;
 }
 
-document
-.getElementById("title")
-.value =
+document.getElementById("title").value =
 data.title || "";
 
-document
-.getElementById("description")
-.value =
+document.getElementById("description").value =
 data.description || "";
 
-document
-.getElementById("category")
-.value =
+document.getElementById("category").value =
 data.category || "";
 
-document
-.getElementById("pages")
-.value =
+document.getElementById("pages").value =
 data.pages || "";
 
-alert(
-"✅ AI autofill completed"
-);
+alert("AI autofill completed");
 
 }catch(e){
-alert("AI error");
-}
+
+console.log(e);
+
+alert(
+"AI error: " + e.message
+);
 
 }
+}
 
 
-/* ================= UPLOAD ================= */
+/* UPLOAD */
 
 async function upload(){
 
@@ -347,70 +353,50 @@ btn.innerText="Uploading...";
 try{
 
 let title =
-document.getElementById(
-"title"
-).value.trim();
+document.getElementById("title")
+.value.trim();
 
 let description =
-document.getElementById(
-"description"
-).value.trim();
+document.getElementById("description")
+.value.trim();
 
 let category =
-document.getElementById(
-"category"
-).value.trim();
+document.getElementById("category")
+.value.trim();
 
 let pages =
 Number(
-document.getElementById(
-"pages"
-).value
+document.getElementById("pages")
+.value
 );
 
 let price =
 Number(
-document.getElementById(
-"price"
-).value
+document.getElementById("price")
+.value
 );
 
 let pdf =
-document.getElementById(
-"pdf"
-).files[0];
+document.getElementById("pdf")
+.files[0];
 
 let front =
-document.getElementById(
-"front"
-).files[0];
+document.getElementById("front")
+.files[0];
 
 let back =
-document.getElementById(
-"back"
-).files[0];
+document.getElementById("back")
+.files[0];
 
 
 /* validation */
 
-if(!title)
-throw "Enter title";
-
-if(!description)
-throw "Enter description";
-
-if(!category)
-throw "Enter category";
-
-if(!pages || pages<=0)
-throw "Enter valid pages";
-
-if(!price || price<=0)
-throw "Enter valid price";
-
-if(!pdf || !front || !back)
-throw "Upload all files";
-
+if(!title) throw "Enter title";
+if(!description) throw "Enter description";
+if(!category) throw "Enter category";
+if(!pages || pages<=0) throw "Enter valid pages";
+if(!price || price<=0) throw "Enter valid price";
+if(!pdf || !front || !back) throw "Upload all files";
 
 if(
 pdf.size >
@@ -435,8 +421,7 @@ await toBase64(back);
 /* upload */
 
 let res =
-await fetch(
-UPLOAD_API,{
+await fetch(UPLOAD_API,{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
@@ -458,6 +443,8 @@ back_cover:backBase64
 let data =
 await res.json();
 
+console.log(data);
+
 if(data.success){
 
 alert(
@@ -475,6 +462,8 @@ data.message ||
 }
 
 }catch(err){
+
+console.log(err);
 
 alert(
 "❌ " + err
