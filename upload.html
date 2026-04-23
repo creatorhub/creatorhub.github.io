@@ -1,354 +1,346 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Upload Ebook</title>
+<title>Upload Ebook | CreatorHub</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
 <style>
-body{
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
 font-family:Arial;
-background:#0f172a;
-color:white;
 }
 
+body{
+background:linear-gradient(135deg,#020617,#0f172a);
+color:white;
+min-height:100vh;
+}
+
+/* HEADER */
 .header{
 display:flex;
 align-items:center;
 padding:15px;
-background:#1e293b;
+background:#020617;
+border-bottom:1px solid #1f2937;
+position:sticky;
+top:0;
+z-index:100;
 }
 
 .back{
-font-size:22px;
+font-size:24px;
 cursor:pointer;
 margin-right:15px;
+transition:.3s;
 }
 
+.back:hover{
+transform:translateX(-5px);
+}
+
+.header h2{
+color:#22c55e;
+}
+
+/* CONTAINER */
 .container{
-max-width:500px;
+max-width:700px;
 margin:auto;
 padding:20px;
+animation:fadeUp .8s ease;
 }
 
+/* CARD */
+.card{
+background:#111827;
+padding:25px;
+border-radius:20px;
+border:1px solid #1f2937;
+box-shadow:0 0 20px rgba(0,0,0,.4);
+}
+
+/* INPUTS */
 input,textarea,select{
 width:100%;
-padding:12px;
-margin:8px 0;
+padding:14px;
+margin-top:12px;
 border:none;
-border-radius:8px;
-outline:none;
+border-radius:10px;
+background:#020617;
+color:white;
+border:1px solid #1f2937;
 }
 
+textarea{
+height:120px;
+resize:none;
+}
+
+/* FILE */
+.file-box{
+margin-top:15px;
+}
+
+/* BUTTON */
 button{
 width:100%;
-padding:12px;
-margin-top:10px;
+padding:15px;
+margin-top:20px;
+background:linear-gradient(90deg,#22c55e,#4ade80);
 border:none;
-border-radius:8px;
-background:#22c55e;
-color:white;
-font-size:16px;
+border-radius:12px;
+font-weight:bold;
 cursor:pointer;
+transition:.3s;
 }
 
-.ai-btn{
-background:#3b82f6;
+button:hover{
+transform:scale(1.03);
+box-shadow:0 0 20px #22c55e;
 }
 
-.loading{
-text-align:center;
+/* PREVIEW */
+.preview{
+width:100%;
 margin-top:10px;
 display:none;
+border-radius:12px;
+}
+
+/* PROGRESS */
+.progress{
+margin-top:20px;
+height:18px;
+background:#020617;
+border-radius:10px;
+overflow:hidden;
+display:none;
+}
+
+.bar{
+height:100%;
+width:0%;
+background:#22c55e;
+transition:.5s;
+}
+
+/* CHECKBOX */
+.check{
+display:flex;
+align-items:center;
+gap:10px;
+margin-top:15px;
+}
+
+/* SUCCESS */
+.success{
+display:none;
+text-align:center;
+margin-top:20px;
+color:#22c55e;
+font-weight:bold;
+}
+
+/* ANIMATION */
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
 }
 </style>
 </head>
+
 <body>
 
 <div class="header">
-<div class="back" onclick="goBack()">⬅</div>
-<h3>Upload Ebook</h3>
+<div class="back" onclick="history.back()">⬅</div>
+<h2>Upload Ebook</h2>
 </div>
 
 <div class="container">
+<div class="card">
 
-<button class="ai-btn" onclick="aiHelp()">
-✨ Auto Fill With AI
-</button>
+<input id="title" placeholder="Book Title">
 
-<div class="loading" id="aiLoading">
-Analyzing PDF with AI...
-</div>
+<input id="author_name" placeholder="Author Name">
 
-<input id="title" placeholder="Ebook Title">
+<textarea id="description" placeholder="Book Description"></textarea>
 
-<textarea id="description"
-placeholder="Description"></textarea>
+<input id="category" placeholder="Category">
 
-<input id="category"
-placeholder="Category">
+<input id="language" placeholder="Language">
 
-<input id="pages"
-type="number"
-placeholder="Page Count">
-
-<input id="price"
-type="number"
-placeholder="Price">
-
-<select id="size">
+<select id="book_size">
+<option value="">Select Book Size</option>
 <option value="A4">A4</option>
 <option value="A5">A5</option>
 <option value="6x9">6x9</option>
 </select>
 
-<label>Upload PDF</label>
-<input type="file"
-id="pdf"
-accept="application/pdf">
+<input id="tags" placeholder="Tags (comma separated)">
 
+<input id="isbn" placeholder="ISBN Number">
+
+<input id="price" type="number" placeholder="Price ₹">
+
+<input id="pages" readonly placeholder="Pages auto detected">
+
+<div class="check">
+<input type="checkbox" id="print_available">
+<label>Print Version Available</label>
+</div>
+
+<div class="file-box">
 <label>Front Cover</label>
-<input type="file"
-id="front"
-accept="image/*">
+<input type="file" id="front" accept="image/*">
+<img id="frontPreview" class="preview">
+</div>
 
+<div class="file-box">
 <label>Back Cover</label>
-<input type="file"
-id="back"
-accept="image/*">
+<input type="file" id="back" accept="image/*">
+<img id="backPreview" class="preview">
+</div>
 
-<button id="uploadBtn"
-onclick="uploadEbook()">
+<div class="file-box">
+<label>PDF File</label>
+<input type="file" id="pdf" accept="application/pdf">
+</div>
+
+<div class="progress" id="progress">
+<div class="bar" id="bar"></div>
+</div>
+
+<button onclick="uploadBook()" id="uploadBtn">
 Upload Ebook
 </button>
 
+<div class="success" id="successMsg">
+✅ Ebook Uploaded Successfully
+</div>
+
+</div>
 </div>
 
 <script>
 
-/* APIs */
+const API="YOUR_UPLOAD_API_URL"
 
-const GEMINI_API =
-"https://script.google.com/macros/s/AKfycbxOofkiVgf-0yh_v-I7cXCdxqmyauk6XEOX7pQ04zOkZ6n0oEdSNm6jwmc4HaEcqEEfnw/exec";
+/* USER */
+let user=JSON.parse(localStorage.getItem("user")||"{}")
 
-const UPLOAD_API =
-"https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
-
-
-/* login check */
-
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
-
-if(!user || !user.email){
-alert("Please login first");
-location.href="login.html";
+if(!user.email){
+alert("Login required")
+location.href="login.html"
 }
 
+/* IMAGE PREVIEW */
+function previewImage(input,id){
+let file=input.files[0]
+if(!file) return
 
-/* navigation */
-
-function goBack(){
-window.history.back();
+let reader=new FileReader()
+reader.onload=e=>{
+let img=document.getElementById(id)
+img.src=e.target.result
+img.style.display="block"
+}
+reader.readAsDataURL(file)
 }
 
+front.onchange=()=>previewImage(front,"frontPreview")
+back.onchange=()=>previewImage(back,"backPreview")
 
-/* convert file */
+/* PDF PAGE DETECT */
+pdf.addEventListener("change",async function(){
 
-function toBase64(file){
-return new Promise((resolve,reject)=>{
+let file=this.files[0]
+if(!file) return
 
-let reader =
-new FileReader();
+let reader=new FileReader()
 
-reader.readAsDataURL(file);
+reader.onload=async function(){
 
-reader.onload=
-()=>resolve(reader.result);
+let typedArray=new Uint8Array(reader.result)
 
-reader.onerror=reject;
+let pdfDoc=await pdfjsLib.getDocument(typedArray).promise
 
-});
+document.getElementById("pages").value=pdfDoc.numPages
 }
 
+reader.readAsArrayBuffer(file)
 
-/* AI AUTO FILL */
-
-async function aiHelp(){
-
-try{
-
-let pdf =
-document.getElementById("pdf")
-.files[0];
-
-if(!pdf){
-alert("Upload PDF first");
-return;
-}
-
-document
-.getElementById("aiLoading")
-.style.display="block";
-
-let pdfBase64 =
-await toBase64(pdf);
-
-let res =
-await fetch(GEMINI_API,{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-pdfText:pdfBase64
 })
-});
 
-let data =
-await res.json();
-
-document
-.getElementById("aiLoading")
-.style.display="none";
-
-console.log(data);
-
-if(data.status !== "approved"){
-alert(
-data.message ||
-"AI rejected this ebook"
-);
-return;
+/* BASE64 */
+function convertBase64(file){
+return new Promise((resolve)=>{
+let reader=new FileReader()
+reader.onload=()=>resolve(reader.result)
+reader.readAsDataURL(file)
+})
 }
 
-document
-.getElementById("title")
-.value =
-data.title || "";
+/* UPLOAD */
+async function uploadBook(){
 
-document
-.getElementById("description")
-.value =
-data.description || "";
+let title=document.getElementById("title").value.trim()
+let author_name=document.getElementById("author_name").value.trim()
+let description=document.getElementById("description").value.trim()
+let category=document.getElementById("category").value.trim()
+let language=document.getElementById("language").value.trim()
+let book_size=document.getElementById("book_size").value
+let tags=document.getElementById("tags").value.split(",")
+let isbn=document.getElementById("isbn").value.trim()
+let price=document.getElementById("price").value
+let pages=document.getElementById("pages").value
+let print_available=document.getElementById("print_available").checked
 
-document
-.getElementById("category")
-.value =
-data.category || "";
+let frontFile=document.getElementById("front").files[0]
+let backFile=document.getElementById("back").files[0]
+let pdfFile=document.getElementById("pdf").files[0]
 
-document
-.getElementById("pages")
-.value =
-data.pages || "";
-
-alert(
-"✅ AI auto-filled details"
-);
-
-}catch(e){
-
-document
-.getElementById("aiLoading")
-.style.display="none";
-
-console.log(e);
-
-alert(
-"AI Error: " + e.message
-);
-
-}
+if(!title || !description || !category || !price || !pdfFile){
+alert("Please fill all required fields")
+return
 }
 
+let progress=document.getElementById("progress")
+let bar=document.getElementById("bar")
+let btn=document.getElementById("uploadBtn")
 
-/* FINAL UPLOAD */
-
-async function uploadEbook(){
-
-let btn =
-document.getElementById(
-"uploadBtn"
-);
-
-btn.disabled=true;
-btn.innerText="Uploading...";
+btn.disabled=true
+btn.innerText="Uploading..."
+progress.style.display="block"
 
 try{
 
-let title =
-document.getElementById("title")
-.value.trim();
+bar.style.width="20%"
 
-let description =
-document.getElementById("description")
-.value.trim();
+let frontBase64=await convertBase64(frontFile)
 
-let category =
-document.getElementById("category")
-.value.trim();
+bar.style.width="40%"
 
-let pages =
-Number(
-document.getElementById("pages")
-.value
-);
+let backBase64=await convertBase64(backFile)
 
-let price =
-Number(
-document.getElementById("price")
-.value
-);
+bar.style.width="60%"
 
-let pdf =
-document.getElementById("pdf")
-.files[0];
+let pdfBase64=await convertBase64(pdfFile)
 
-let front =
-document.getElementById("front")
-.files[0];
+bar.style.width="80%"
 
-let back =
-document.getElementById("back")
-.files[0];
-
-
-/* validation */
-
-if(!title) throw "Enter title";
-if(!description) throw "Enter description";
-if(!category) throw "Enter category";
-if(!pages || pages<=0)
-throw "Invalid page count";
-if(!price || price<=0)
-throw "Invalid price";
-if(!pdf || !front || !back)
-throw "Upload all required files";
-
-if(pdf.size > 10*1024*1024){
-throw "PDF max size is 10MB";
-}
-
-
-/* convert */
-
-let pdfBase64 =
-await toBase64(pdf);
-
-let frontBase64 =
-await toBase64(front);
-
-let backBase64 =
-await toBase64(back);
-
-
-/* upload */
-
-let res =
-await fetch(UPLOAD_API,{
+let res=await fetch(API,{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
@@ -357,53 +349,46 @@ body:JSON.stringify({
 action:"uploadEbook",
 email:user.email,
 title:title,
+author_name:author_name,
 description:description,
 category:category,
-pages:pages,
+language:language,
+book_size:book_size,
+tags:tags,
+isbn:isbn,
+print_available:print_available,
 price:price,
+pages:pages,
 pdf:pdfBase64,
 front_cover:frontBase64,
 back_cover:backBase64
 })
-});
+})
 
-let data =
-await res.json();
+let data=await res.json()
 
-console.log(data);
+bar.style.width="100%"
 
 if(data.success){
-
-alert(
-"✅ Ebook uploaded successfully"
-);
-
-location.href=
-"dashboard.html";
-
+document.getElementById("successMsg").style.display="block"
+setTimeout(()=>{
+location.reload()
+},2000)
 }else{
-throw(
-data.message ||
-"Upload failed"
-);
+alert(data.message)
 }
 
-}catch(err){
-
-console.log(err);
-
-alert(
-"❌ " + err
-);
-
+}catch(e){
+alert("Upload failed")
+console.log(e)
 }
 
-btn.disabled=false;
-btn.innerText=
-"Upload Ebook";
+btn.disabled=false
+btn.innerText="Upload Ebook"
 
 }
 
 </script>
+
 </body>
 </html>
