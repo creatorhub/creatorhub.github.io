@@ -104,15 +104,14 @@ margin-bottom:25px;
 }
 
 .icon-box{
-width:70px;
-height:70px;
+width:72px;
+height:72px;
 background:#0f2d1c;
 border-radius:18px;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:28px;
-color:#22c55e;
+box-shadow:0 0 20px rgba(34,197,94,0.15);
 }
 
 /* INPUTS */
@@ -298,7 +297,29 @@ grid-template-columns:1fr;
 </button>
 
 <div class="heading">
-<div class="icon-box">⬆</div>
+<div class="icon-box">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
+    xmlns="http://www.w3.org/2000/svg">
+
+        <path d="M12 16V8" 
+        stroke="#22c55e" 
+        stroke-width="2.2" 
+        stroke-linecap="round"/>
+
+        <path d="M9 11L12 8L15 11" 
+        stroke="#22c55e" 
+        stroke-width="2.2" 
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+
+        <path d="M20 16.5C20 18.9853 17.9853 21 15.5 21H8.5C5.46243 21 3 18.5376 3 15.5C3 12.9624 4.72077 10.8274 7.05 10.195C7.01714 9.93418 7 9.66853 7 9.4C7 6.41766 9.41766 4 12.4 4C14.7423 4 16.7363 5.49393 17.4785 7.57846C19.5158 8.12036 21 9.97843 21 12.2C21 13.7925 20.2387 15.2048 19.05 16.1"
+        stroke="#22c55e"
+        stroke-width="2.2"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+        
+    </svg>
+</div>
 <div>
 <h2>Upload Ebook</h2>
 <p>Upload your ebook and reach thousands of readers</p>
