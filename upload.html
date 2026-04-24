@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Upload Ebook</title>
+<title>CreatorHub Upload Ebook</title>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
 <style>
@@ -15,35 +16,36 @@ font-family:Arial,sans-serif;
 }
 
 body{
-background:linear-gradient(135deg,#020617,#08111f);
+background:linear-gradient(135deg,#020617,#071426,#04111f);
 color:white;
 min-height:100vh;
 }
 
 /* NAVBAR */
 .navbar{
-height:75px;
+height:70px;
+background:#07111f;
 display:flex;
 justify-content:space-between;
 align-items:center;
 padding:0 25px;
-background:#081120;
-border-bottom:1px solid rgba(255,255,255,0.08);
+border-bottom:1px solid rgba(255,255,255,0.05);
 }
 
-.nav-left{
+.left-nav,
+.right-nav{
 display:flex;
 align-items:center;
-gap:18px;
+gap:15px;
 }
 
-.menu-icon{
-font-size:24px;
+.menu-btn{
+font-size:22px;
 cursor:pointer;
 }
 
 .logo{
-font-size:28px;
+font-size:32px;
 font-weight:bold;
 }
 
@@ -51,88 +53,86 @@ font-weight:bold;
 color:#22c55e;
 }
 
-.nav-right{
-display:flex;
-align-items:center;
-gap:15px;
-}
-
 .profile-img{
-width:40px;
-height:40px;
+width:35px;
+height:35px;
 border-radius:50%;
 object-fit:cover;
+background:#22c55e;
 }
 
-.username{
-font-weight:bold;
-}
-
-/* MAIN */
+/* MAIN LAYOUT */
 .container{
+width:95%;
 max-width:1400px;
 margin:auto;
 padding:25px;
 display:grid;
 grid-template-columns:2.7fr 1fr;
-gap:25px;
+gap:20px;
 }
 
 .main-card,
 .side-card{
-background:rgba(17,24,39,0.9);
-border-radius:22px;
+background:rgba(11,18,32,0.95);
 padding:25px;
-border:1px solid rgba(255,255,255,0.08);
-box-shadow:0 0 20px rgba(0,0,0,0.25);
+border-radius:18px;
+border:1px solid rgba(255,255,255,0.05);
 }
 
+.side-card{
+margin-bottom:20px;
+}
+
+/* BACK BUTTON */
 .back-btn{
 background:#111827;
 border:1px solid #374151;
-color:white;
 padding:12px 18px;
-border-radius:12px;
+color:white;
+border-radius:10px;
 cursor:pointer;
-margin-bottom:25px;
+margin-bottom:20px;
 }
 
-.heading-box{
+/* HEADING */
+.heading{
 display:flex;
 align-items:center;
-gap:20px;
+gap:18px;
 margin-bottom:25px;
 }
 
-.upload-icon-box{
+.icon-box{
 width:70px;
 height:70px;
-border-radius:18px;
 background:#0f2d1c;
+border-radius:18px;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:30px;
+font-size:28px;
 color:#22c55e;
 }
 
+/* INPUTS */
 .grid2{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:20px;
+gap:18px;
 }
 
 .grid3{
 display:grid;
 grid-template-columns:1fr 1fr 1fr;
-gap:20px;
+gap:18px;
 }
 
 label{
 display:block;
 margin-top:18px;
 margin-bottom:8px;
-font-weight:600;
+font-size:14px;
 }
 
 input,
@@ -141,75 +141,120 @@ select{
 width:100%;
 padding:14px;
 background:#020617;
-border:1px solid #374151;
-border-radius:12px;
+border:1px solid #1f2937;
+border-radius:10px;
 color:white;
 }
 
 textarea{
-height:130px;
+height:120px;
 resize:none;
 }
 
-.upload-box{
-border:2px dashed #374151;
-padding:35px;
-text-align:center;
-border-radius:18px;
-background:#020617;
-cursor:pointer;
-transition:0.3s;
+.counter{
+text-align:right;
+font-size:12px;
+color:#9ca3af;
+margin-top:5px;
 }
 
-.upload-box:hover{
-border-color:#22c55e;
-}
-
-.preview{
-width:100%;
-height:220px;
-object-fit:cover;
-border-radius:14px;
-display:none;
-margin-top:10px;
-}
-
+/* AI BUTTON */
 .ai-btn{
 width:100%;
-padding:15px;
+padding:14px;
 margin-top:20px;
 background:transparent;
 border:1px solid #22c55e;
 color:#22c55e;
-border-radius:12px;
+border-radius:10px;
 font-weight:bold;
 cursor:pointer;
 }
 
+.ai-text{
+text-align:center;
+font-size:12px;
+color:#9ca3af;
+margin-top:8px;
+}
+
+/* UPLOAD BOX */
+.upload-box,
+.pdf-box{
+border:2px dashed #374151;
+height:180px;
+border-radius:14px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+background:#07111f;
+cursor:pointer;
+margin-top:10px;
+text-align:center;
+}
+
+.preview-wrapper{
+position:relative;
+}
+
+.preview{
+width:160px;
+height:180px;
+object-fit:cover;
+border-radius:12px;
+margin-top:10px;
+display:none;
+}
+
+.remove-btn{
+position:absolute;
+top:15px;
+right:10px;
+background:black;
+border:1px solid white;
+color:white;
+border-radius:50%;
+width:28px;
+height:28px;
+cursor:pointer;
+display:none;
+}
+
+/* PDF PREVIEW */
+.pdf-preview{
+background:#111827;
+padding:15px;
+border-radius:10px;
+margin-top:15px;
+display:none;
+justify-content:space-between;
+align-items:center;
+}
+
+/* UPLOAD BUTTON */
 .upload-btn{
 width:100%;
 padding:18px;
-margin-top:25px;
+margin-top:20px;
 background:linear-gradient(90deg,#16a34a,#4ade80);
 border:none;
-border-radius:14px;
-font-size:18px;
+border-radius:12px;
+font-size:20px;
 font-weight:bold;
-cursor:pointer;
 color:white;
+cursor:pointer;
 }
 
-.side-card h3{
-margin-bottom:15px;
+.approval{
+text-align:center;
+font-size:13px;
+color:#9ca3af;
+margin-top:12px;
 }
 
 .side-card p{
-margin-bottom:12px;
-color:#d1d5db;
-}
-
-#footerContainer{
-margin-top:30px;
+margin-bottom:14px;
 }
 
 @media(max-width:900px){
@@ -224,29 +269,36 @@ grid-template-columns:1fr;
 }
 </style>
 </head>
+
 <body>
 
+<!-- NAVBAR -->
 <div class="navbar">
-<div class="nav-left">
-<div class="menu-icon" onclick="openMenu()">☰</div>
+<div class="left-nav">
+<div class="menu-btn" onclick="location.href='menu.html'">☰</div>
 <div class="logo">Creator<span>Hub</span></div>
 </div>
 
-<div class="nav-right">
-🌙 🔔
+<div class="right-nav">
+🌙
 <img id="profileImage" class="profile-img">
-<div class="username" id="username">Loading...</div>
+<div id="username">Loading...</div>
 ▼
 </div>
 </div>
 
+<!-- MAIN -->
 <div class="container">
 
+<!-- LEFT -->
 <div class="main-card">
-<button class="back-btn" onclick="goDashboard()">← Back to Dashboard</button>
 
-<div class="heading-box">
-<div class="upload-icon-box">⬆</div>
+<button class="back-btn" onclick="location.href='dashboard.html'">
+← Back to Dashboard
+</button>
+
+<div class="heading">
+<div class="icon-box">⬆</div>
 <div>
 <h2>Upload Ebook</h2>
 <p>Upload your ebook and reach thousands of readers</p>
@@ -260,13 +312,18 @@ grid-template-columns:1fr;
 
 <label>Book Description</label>
 <textarea id="description"></textarea>
+<div class="counter" id="counter">0/1000</div>
 
-<button class="ai-btn" onclick="aiHelp()">✨ AI Help Auto Fill</button>
+<button class="ai-btn">✨ AI Help Auto Fill</button>
+<div class="ai-text">
+Get AI suggestions for title, description, category and more
+</div>
 
 <div class="grid3">
 <input id="category" placeholder="Category">
 <input id="language" placeholder="Language">
-<select>
+
+<select id="bookSize">
 <option>Select Book Size</option>
 <option>A4</option>
 <option>A5</option>
@@ -275,142 +332,234 @@ grid-template-columns:1fr;
 </div>
 
 <div class="grid2">
+<input id="tags" placeholder="Tags">
+<input id="isbn" placeholder="ISBN">
+</div>
+
+<div class="grid3">
+<input id="price" placeholder="Price">
+<input id="pages" placeholder="Pages" readonly>
+
+<label>
+<input type="checkbox" id="printVersion">
+Print Version Available
+</label>
+</div>
+
+<!-- FRONT COVER -->
+<div class="grid2">
+
 <div>
 <label>Front Cover</label>
-<div class="upload-box" onclick="front.click()">Upload Front Cover</div>
-<input hidden type="file" id="front">
-<img id="frontPreview" class="preview">
+<div class="upload-box" onclick="front.click()">
+Click to upload
 </div>
 
+<input hidden type="file" id="front" accept="image/*">
+
+<div class="preview-wrapper">
+<img id="frontPreview" class="preview">
+<button class="remove-btn" id="removeFront">×</button>
+</div>
+</div>
+
+<!-- BACK COVER -->
 <div>
 <label>Back Cover</label>
-<div class="upload-box" onclick="back.click()">Upload Back Cover</div>
-<input hidden type="file" id="back">
+<div class="upload-box" onclick="back.click()">
+Click to upload
+</div>
+
+<input hidden type="file" id="back" accept="image/*">
+
+<div class="preview-wrapper">
 <img id="backPreview" class="preview">
+<button class="remove-btn" id="removeBack">×</button>
 </div>
 </div>
 
-<label>PDF Upload</label>
-<div class="upload-box" onclick="pdf.click()">Drag & Drop PDF Here</div>
-<input hidden type="file" id="pdf">
-
-<button class="upload-btn" onclick="uploadBook()">Upload Ebook</button>
 </div>
 
+<!-- PDF -->
+<label>PDF File</label>
+<div class="pdf-box" onclick="pdf.click()">
+Click to upload PDF
+</div>
+
+<input hidden type="file" id="pdf" accept="application/pdf">
+
+<div class="pdf-preview" id="pdfPreview">
+<span id="pdfName"></span>
+<span>✅</span>
+</div>
+
+<button class="upload-btn" onclick="uploadBook()">
+Upload Ebook
+</button>
+
+<div class="approval">
+🔒 Your ebook will be reviewed and published after approval
+</div>
+
+</div>
+
+<!-- RIGHT SIDEBAR -->
 <div>
+
 <div class="side-card">
 <h3>Upload Guidelines</h3>
-<p>✔ PDF format only</p>
+<p>✔ PDF file format only</p>
 <p>✔ Max file size 50MB</p>
-<p>✔ High-quality cover images</p>
+<p>✔ Clear book covers</p>
+<p>✔ No copyright content</p>
 <p>✔ Original content only</p>
 </div>
 
 <div class="side-card">
 <h3>AI Help</h3>
-<p>Generate title suggestions</p>
-<p>Generate descriptions</p>
-<p>Detect category</p>
-<p>Auto detect pages</p>
+<p>Better title</p>
+<p>Description</p>
+<p>Category</p>
+<p>Pages</p>
+</div>
+
 </div>
 </div>
 
-</div>
-
+<!-- FOOTER -->
 <div id="footerContainer"></div>
 
 <script>
-const USER_API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec";
-const UPLOAD_API="https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
+const USER_API =
+"https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec";
 
-function openMenu(){
-window.location.href='menu.html'
+const UPLOAD_API =
+"https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
+
+/* CHARACTER COUNTER */
+description.addEventListener("input",()=>{
+counter.innerText = description.value.length + "/1000";
+});
+
+/* IMAGE PREVIEW */
+function preview(input,id,removeId){
+let file=input.files[0];
+if(!file) return;
+
+let reader=new FileReader();
+
+reader.onload=e=>{
+let img=document.getElementById(id);
+img.src=e.target.result;
+img.style.display="block";
+
+document.getElementById(removeId).style.display="block";
 }
 
-function goDashboard(){
-window.location.href='dashboard.html'
+reader.readAsDataURL(file);
 }
 
-function preview(input,id){
-let file=input.files[0]
-if(!file) return
+front.onchange=()=>preview(front,"frontPreview","removeFront");
+back.onchange=()=>preview(back,"backPreview","removeBack");
 
-let reader=new FileReader()
-reader.onload=(e)=>{
-document.getElementById(id).src=e.target.result
-document.getElementById(id).style.display='block'
-}
-reader.readAsDataURL(file)
+/* REMOVE */
+removeFront.onclick=()=>{
+front.value="";
+frontPreview.style.display="none";
+removeFront.style.display="none";
 }
 
-front.onchange=()=>preview(front,'frontPreview')
-back.onchange=()=>preview(back,'backPreview')
+removeBack.onclick=()=>{
+back.value="";
+backPreview.style.display="none";
+removeBack.style.display="none";
+}
 
+/* PDF */
+pdf.onchange=async function(){
+let file=this.files[0];
+if(!file) return;
+
+pdfPreview.style.display="flex";
+pdfName.innerText=file.name;
+
+let reader=new FileReader();
+
+reader.onload=async function(){
+let typed=new Uint8Array(reader.result);
+
+let pdfDoc=await pdfjsLib.getDocument(typed).promise;
+pages.value=pdfDoc.numPages;
+}
+
+reader.readAsArrayBuffer(file);
+}
+
+/* LOAD USER */
 async function loadUser(){
-let user=JSON.parse(localStorage.getItem('user'))||{}
+let user=JSON.parse(localStorage.getItem("user"))||{};
 
 let res=await fetch(USER_API,{
-method:'POST',
+method:"POST",
 headers:{
-'Content-Type':'application/json'
+"Content-Type":"application/json"
 },
 body:JSON.stringify({
-action:'getUserProfile',
+action:"getUserProfile",
 email:user.email
 })
-})
-let data=await res.json()
+});
 
-username.innerText=data.username
-profileImage.src=data.profile_image
+let data=await res.json();
+
+if(data.success){
+username.innerText=data.user.username;
+profileImage.src=data.user.profile_image;
+}
 }
 
-loadUser()
+loadUser();
 
-function aiHelp(){
-alert('AI auto fill working')
-}
-
+/* UPLOAD */
 async function uploadBook(){
-try{
-let user=JSON.parse(localStorage.getItem('user'))||{}
+alert("Uploading...");
+
+let user=JSON.parse(localStorage.getItem("user"))||{};
 
 let res=await fetch(UPLOAD_API,{
-method:'POST',
+method:"POST",
 headers:{
-'Content-Type':'application/json'
+"Content-Type":"application/json"
 },
 body:JSON.stringify({
-action:'uploadEbook',
+action:"uploadEbook",
 email:user.email,
 title:title.value,
 author:author.value,
 description:description.value,
 category:category.value,
-language:language.value
+language:language.value,
+price:price.value,
+pages:pages.value
 })
-})
+});
 
-let data=await res.json()
+let data=await res.json();
 
 if(data.success){
-alert('✅ Ebook Uploaded Successfully')
+alert("✅ Ebook Uploaded Successfully");
 }else{
-alert(data.message || 'Upload failed')
-}
-
-}catch(err){
-console.log(err)
-alert('Upload error')
+alert(data.message || "Upload failed");
 }
 }
 
-fetch('footer.html')
+/* FOOTER */
+fetch("footer.html")
 .then(res=>res.text())
 .then(data=>{
-document.getElementById('footerContainer').innerHTML=data
-})
+footerContainer.innerHTML=data;
+});
 </script>
 
 </body>
-</html>
+  </html>
