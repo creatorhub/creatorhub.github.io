@@ -7,7 +7,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js">
 
 function openMenuPage(){
-window.location.href='menu.html'
+// menu.html open fix
+window.location.href = './menu.html';
 }
 
 function closeSidebar(){
@@ -18,23 +19,63 @@ function goPage(page){
 window.location.href=page
 }
 
-/* USER DATA LOAD */
-let user = JSON.parse(localStorage.getItem('user')) || {}
+/* USER DATA LOAD FROM API */
+const USER_API = "YOUR_USER_API_URL";
 
-if(user.username){
- document.getElementById('usernameDisplay').innerText = user.username
- document.getElementById('userInitial').innerText = user.username.charAt(0).toUpperCase()
+async function loadUserProfile(){
+ try{
+   let user = JSON.parse(localStorage.getItem('user')) || {};
+
+   if(!user.email){
+     document.getElementById('usernameDisplay').innerText='Guest';
+     return;
+   }
+
+   let res = await fetch(USER_API,{ 
+     method:'POST',
+     headers:{
+       'Content-Type':'application/json'
+     },
+     body:JSON.stringify({
+       action:'getUserProfile',
+       email:user.email
+     })
+   })
+
+   let data = await res.json();
+
+   if(data.success){
+     let username = data.user.username;
+
+     document.getElementById('usernameDisplay').innerText = username;
+     document.getElementById('userInitial').innerText = username.charAt(0).toUpperCase();
+   }
+
+ }catch(err){
+   console.log('User API Error:',err)
+ }
 }
 
+loadUserProfile();
+
 /* FOOTER LOAD */
-fetch('footer.html')
-.then(res=>res.text())
-.then(data=>{
-let footerContainer=document.createElement('div')
-footerContainer.innerHTML=data
-document.body.appendChild(footerContainer)
-})
-.catch(err=>console.log('Footer load error',err))
+async function loadFooter(){
+ try{
+   let res = await fetch('./footer.html');
+   let html = await res.text();
+
+   const footerContainer = document.createElement('div');
+   footerContainer.id='footerContainer';
+   footerContainer.innerHTML = html;
+
+   document.body.appendChild(footerContainer);
+
+ }catch(err){
+   console.log('Footer load error:',err)
+ }
+}
+
+loadFooter();
 
 </script>
 
