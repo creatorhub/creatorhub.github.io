@@ -307,7 +307,7 @@ grid-template-columns:1fr;
 <!-- NAVBAR -->
 <div class="navbar">
 <div class="left-nav">
-<div class="menu-btn" onclick="location.href='menu.html'">☰</div>
+<div class="menu-btn" onclick="window.location.href='menu.html'">☰</div>
 <div class="logo">Creator<span>Hub</span></div>
 </div>
 
@@ -605,14 +605,6 @@ alert("✅ Ebook Uploaded Successfully");
 }else{
 alert(data.message || "Upload failed");
 }
-}
-
-function openMenu(){
-document.getElementById("sidebar").style.left="0";
-}
-
-function closeMenu(){
-document.getElementById("sidebar").style.left="-280px";
 }
 
 /* FOOTER */
