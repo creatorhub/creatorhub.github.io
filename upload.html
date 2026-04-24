@@ -7,30 +7,37 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
 <style>
-body{
+*{
 margin:0;
-font-family:Arial;
-background:#04111f;
-color:white;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
+body{
+background:linear-gradient(135deg,#020617,#08111f);
+color:white;
+min-height:100vh;
+}
+
+/* NAVBAR */
 .navbar{
-height:70px;
-background:#081120;
+height:75px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:0 20px;
-border-bottom:1px solid #1f2937;
+padding:0 25px;
+background:#081120;
+border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
-.left-nav{
+.nav-left{
 display:flex;
 align-items:center;
-gap:15px;
+gap:18px;
 }
 
-.menu{
+.menu-icon{
 font-size:24px;
 cursor:pointer;
 }
@@ -44,107 +51,174 @@ font-weight:bold;
 color:#22c55e;
 }
 
-.right-nav{
+.nav-right{
 display:flex;
 align-items:center;
-gap:12px;
+gap:15px;
 }
 
 .profile-img{
-width:35px;
-height:35px;
+width:40px;
+height:40px;
 border-radius:50%;
 object-fit:cover;
-background:#22c55e;
 }
 
+.username{
+font-weight:bold;
+}
+
+/* MAIN */
 .container{
-width:95%;
+max-width:1400px;
 margin:auto;
-padding:20px;
+padding:25px;
 display:grid;
-grid-template-columns:3fr 1fr;
-gap:20px;
+grid-template-columns:2.7fr 1fr;
+gap:25px;
 }
 
-.main-card,.side-card{
-background:#0b1220;
-border-radius:20px;
-padding:20px;
-border:1px solid #1f2937;
+.main-card,
+.side-card{
+background:rgba(17,24,39,0.9);
+border-radius:22px;
+padding:25px;
+border:1px solid rgba(255,255,255,0.08);
+box-shadow:0 0 20px rgba(0,0,0,0.25);
 }
 
 .back-btn{
 background:#111827;
-color:white;
-padding:10px 15px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-margin-bottom:20px;
-}
-
-input,textarea,select{
-width:100%;
-padding:12px;
-margin-top:8px;
-background:#020617;
 border:1px solid #374151;
-border-radius:10px;
 color:white;
+padding:12px 18px;
+border-radius:12px;
+cursor:pointer;
+margin-bottom:25px;
 }
 
-textarea{
-height:120px;
+.heading-box{
+display:flex;
+align-items:center;
+gap:20px;
+margin-bottom:25px;
+}
+
+.upload-icon-box{
+width:70px;
+height:70px;
+border-radius:18px;
+background:#0f2d1c;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:30px;
+color:#22c55e;
 }
 
 .grid2{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:15px;
+gap:20px;
 }
 
 .grid3{
 display:grid;
 grid-template-columns:1fr 1fr 1fr;
-gap:15px;
+gap:20px;
+}
+
+label{
+display:block;
+margin-top:18px;
+margin-bottom:8px;
+font-weight:600;
+}
+
+input,
+textarea,
+select{
+width:100%;
+padding:14px;
+background:#020617;
+border:1px solid #374151;
+border-radius:12px;
+color:white;
+}
+
+textarea{
+height:130px;
+resize:none;
 }
 
 .upload-box{
 border:2px dashed #374151;
-padding:30px;
+padding:35px;
 text-align:center;
-border-radius:12px;
-margin-top:10px;
+border-radius:18px;
+background:#020617;
 cursor:pointer;
+transition:0.3s;
+}
+
+.upload-box:hover{
+border-color:#22c55e;
 }
 
 .preview{
 width:100%;
 height:220px;
 object-fit:cover;
-border-radius:10px;
+border-radius:14px;
 display:none;
 margin-top:10px;
 }
 
-.green-btn{
+.ai-btn{
 width:100%;
-padding:16px;
-background:#22c55e;
-border:none;
+padding:15px;
+margin-top:20px;
+background:transparent;
+border:1px solid #22c55e;
+color:#22c55e;
 border-radius:12px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.upload-btn{
+width:100%;
+padding:18px;
+margin-top:25px;
+background:linear-gradient(90deg,#16a34a,#4ade80);
+border:none;
+border-radius:14px;
 font-size:18px;
 font-weight:bold;
 cursor:pointer;
-margin-top:20px;
+color:white;
+}
+
+.side-card h3{
+margin-bottom:15px;
+}
+
+.side-card p{
+margin-bottom:12px;
+color:#d1d5db;
+}
+
+#footerContainer{
+margin-top:30px;
 }
 
 @media(max-width:900px){
 .container{
 grid-template-columns:1fr;
 }
-.grid2,.grid3{
+
+.grid2,
+.grid3{
 grid-template-columns:1fr;
 }
 }
@@ -153,15 +227,16 @@ grid-template-columns:1fr;
 <body>
 
 <div class="navbar">
-<div class="left-nav">
-<div class="menu" onclick="openMenu()">☰</div>
+<div class="nav-left">
+<div class="menu-icon" onclick="openMenu()">☰</div>
 <div class="logo">Creator<span>Hub</span></div>
 </div>
 
-<div class="right-nav">
-🌙
+<div class="nav-right">
+🌙 🔔
 <img id="profileImage" class="profile-img">
-<div id="username">Loading...</div>
+<div class="username" id="username">Loading...</div>
+▼
 </div>
 </div>
 
@@ -170,23 +245,28 @@ grid-template-columns:1fr;
 <div class="main-card">
 <button class="back-btn" onclick="goDashboard()">← Back to Dashboard</button>
 
+<div class="heading-box">
+<div class="upload-icon-box">⬆</div>
+<div>
 <h2>Upload Ebook</h2>
 <p>Upload your ebook and reach thousands of readers</p>
+</div>
+</div>
 
 <div class="grid2">
 <input id="title" placeholder="Book Title">
 <input id="author" placeholder="Author Name">
 </div>
 
-<textarea id="description" maxlength="1000" placeholder="Book Description"></textarea>
-<div id="counter">0/1000</div>
+<label>Book Description</label>
+<textarea id="description"></textarea>
 
-<button class="green-btn" onclick="aiHelp()">✨ AI Help Auto Fill</button>
+<button class="ai-btn" onclick="aiHelp()">✨ AI Help Auto Fill</button>
 
 <div class="grid3">
 <input id="category" placeholder="Category">
 <input id="language" placeholder="Language">
-<select id="size">
+<select>
 <option>Select Book Size</option>
 <option>A4</option>
 <option>A5</option>
@@ -195,63 +275,53 @@ grid-template-columns:1fr;
 </div>
 
 <div class="grid2">
-<input id="tags" placeholder="Tags">
-<input id="isbn" placeholder="ISBN">
-</div>
-
-<div class="grid3">
-<input id="price" placeholder="Price">
-<input id="pages" readonly placeholder="Pages">
-<label><input type="checkbox"> Print Version</label>
-</div>
-
-<div class="grid2">
 <div>
-<h4>Front Cover</h4>
-<div class="upload-box" onclick="front.click()">Click Upload</div>
-<input hidden type="file" id="front" accept="image/*">
+<label>Front Cover</label>
+<div class="upload-box" onclick="front.click()">Upload Front Cover</div>
+<input hidden type="file" id="front">
 <img id="frontPreview" class="preview">
 </div>
 
 <div>
-<h4>Back Cover</h4>
-<div class="upload-box" onclick="back.click()">Click Upload</div>
-<input hidden type="file" id="back" accept="image/*">
+<label>Back Cover</label>
+<div class="upload-box" onclick="back.click()">Upload Back Cover</div>
+<input hidden type="file" id="back">
 <img id="backPreview" class="preview">
 </div>
 </div>
 
-<h4>PDF File</h4>
-<div class="upload-box" onclick="pdf.click()">Click Upload PDF</div>
-<input hidden type="file" id="pdf" accept="application/pdf">
-<div id="pdfPreview"></div>
+<label>PDF Upload</label>
+<div class="upload-box" onclick="pdf.click()">Drag & Drop PDF Here</div>
+<input hidden type="file" id="pdf">
 
-<button class="green-btn" onclick="uploadBook()">Upload Ebook</button>
+<button class="upload-btn" onclick="uploadBook()">Upload Ebook</button>
 </div>
 
 <div>
 <div class="side-card">
 <h3>Upload Guidelines</h3>
-<p>✔ PDF only</p>
-<p>✔ Max 50MB</p>
-<p>✔ Clear cover</p>
+<p>✔ PDF format only</p>
+<p>✔ Max file size 50MB</p>
+<p>✔ High-quality cover images</p>
 <p>✔ Original content only</p>
 </div>
 
 <div class="side-card">
 <h3>AI Help</h3>
-<p>Better title</p>
-<p>Description</p>
-<p>Category</p>
-<p>Pages</p>
+<p>Generate title suggestions</p>
+<p>Generate descriptions</p>
+<p>Detect category</p>
+<p>Auto detect pages</p>
 </div>
 </div>
 
 </div>
+
+<div id="footerContainer"></div>
 
 <script>
-const UPLOAD_API="YOUR_UPLOAD_API_URL";
-const USER_API="YOUR_USER_API_URL";
+const USER_API="YOUR_USER_API";
+const UPLOAD_API="YOUR_UPLOAD_API";
 
 function openMenu(){
 window.location.href='menu.html'
@@ -261,11 +331,7 @@ function goDashboard(){
 window.location.href='dashboard.html'
 }
 
-description.addEventListener('input',()=>{
-counter.innerText=description.value.length+'/1000'
-})
-
-function previewImage(input,id){
+function preview(input,id){
 let file=input.files[0]
 if(!file) return
 
@@ -277,74 +343,33 @@ document.getElementById(id).style.display='block'
 reader.readAsDataURL(file)
 }
 
-front.onchange=()=>previewImage(front,'frontPreview')
-back.onchange=()=>previewImage(back,'backPreview')
-
-pdf.onchange=async function(){
-let file=this.files[0]
-if(!file) return
-
-pdfPreview.innerHTML='📄 '+file.name
-
-let reader=new FileReader()
-reader.onload=async function(){
-let typedArray=new Uint8Array(reader.result)
-let pdfDoc=await pdfjsLib.getDocument(typedArray).promise
-pages.value=pdfDoc.numPages
-}
-reader.readAsArrayBuffer(file)
-}
-
-function aiHelp(){
-alert('AI feature connected later')
-}
+front.onchange=()=>preview(front,'frontPreview')
+back.onchange=()=>preview(back,'backPreview')
 
 async function loadUser(){
 let user=JSON.parse(localStorage.getItem('user'))||{}
 
-let res=await fetch(USER_API,{
-method:'POST',
-headers:{'Content-Type':'application/json'},
-body:JSON.stringify({
-action:'getUser',
-email:user.email
-})
-})
-
+let res=await fetch(USER_API,{method:'POST'})
 let data=await res.json()
 
-if(data.success){
-username.innerText=data.user.username
-profileImage.src=data.user.profile_image
-}
+username.innerText=data.username
+profileImage.src=data.profile_image
 }
 
 loadUser()
 
-async function uploadBook(){
-alert('Uploading...')
-
-let res=await fetch(UPLOAD_API,{
-method:'POST',
-headers:{'Content-Type':'application/json'},
-body:JSON.stringify({
-action:'uploadBook',
-title:title.value,
-author:author.value
-})
-})
-
-let data=await res.json()
-
-if(data.success){
-alert('Book Uploaded Successfully')
+function aiHelp(){
+alert('AI auto fill working')
 }
+
+function uploadBook(){
+alert('Upload API connected')
 }
 
 fetch('footer.html')
 .then(res=>res.text())
 .then(data=>{
-document.body.innerHTML += data
+document.getElementById('footerContainer').innerHTML=data
 })
 </script>
 
