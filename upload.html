@@ -3,99 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CreatorHub Upload Ebook</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js">
-
-function openMenuPage(){
-// menu.html open fix
-window.location.href = './menu.html';
-}
-
-function closeSidebar(){
-document.getElementById('sidebar').style.left='-260px'
-}
-
-function goPage(page){
-window.location.href=page
-}
-
-/* USER DATA LOAD FROM API */
-const USER_API = "YOUR_USER_API_URL";
-
-async function loadUserProfile(){
- try{
-   let user = JSON.parse(localStorage.getItem('user')) || {};
-
-   if(!user.email){
-     document.getElementById('usernameDisplay').innerText='Guest';
-     return;
-   }
-
-   let res = await fetch(USER_API,{ 
-     method:'POST',
-     headers:{
-       'Content-Type':'application/json'
-     },
-     body:JSON.stringify({
-       action:'getUserProfile',
-       email:user.email
-     })
-   })
-
-   let data = await res.json();
-
-   if(data.success){
-     let username = data.user.username;
-
-     document.getElementById('usernameDisplay').innerText = username;
-     document.getElementById('userInitial').innerText = username.charAt(0).toUpperCase();
-   }
-
- }catch(err){
-   console.log('User API Error:',err)
- }
-}
-
-loadUserProfile();
-
-/* FOOTER LOAD */
-async function loadFooter(){
- try{
-   let res = await fetch('./footer.html');
-   let html = await res.text();
-
-   const footerContainer = document.createElement('div');
-   footerContainer.id='footerContainer';
-   footerContainer.innerHTML = html;
-
-   document.body.appendChild(footerContainer);
-
- }catch(err){
-   console.log('Footer load error:',err)
- }
-}
-
-loadFooter();
-
-</script>
+<title>Upload Ebook</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
 <style>
 body{
 margin:0;
 font-family:Arial;
-background:#020617;
+background:#04111f;
 color:white;
 }
 
 .navbar{
+height:70px;
+background:#081120;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:15px 30px;
-background:#081120;
+padding:0 20px;
+border-bottom:1px solid #1f2937;
 }
 
-.logo span{color:#22c55e;}
+.left-nav{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.menu{
+font-size:24px;
+cursor:pointer;
+}
+
+.logo{
+font-size:28px;
+font-weight:bold;
+}
+
+.logo span{
+color:#22c55e;
+}
+
+.right-nav{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.profile-img{
+width:35px;
+height:35px;
+border-radius:50%;
+object-fit:cover;
+background:#22c55e;
+}
 
 .container{
 width:95%;
@@ -106,11 +67,21 @@ grid-template-columns:3fr 1fr;
 gap:20px;
 }
 
-.card,.side-card{
+.main-card,.side-card{
 background:#0b1220;
+border-radius:20px;
 padding:20px;
-border-radius:15px;
 border:1px solid #1f2937;
+}
+
+.back-btn{
+background:#111827;
+color:white;
+padding:10px 15px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+margin-bottom:20px;
 }
 
 input,textarea,select{
@@ -119,8 +90,8 @@ padding:12px;
 margin-top:8px;
 background:#020617;
 border:1px solid #374151;
-color:white;
 border-radius:10px;
+color:white;
 }
 
 textarea{
@@ -144,17 +115,8 @@ border:2px dashed #374151;
 padding:30px;
 text-align:center;
 border-radius:12px;
+margin-top:10px;
 cursor:pointer;
-margin-top:10px;
-}
-
-.upload-box:hover{
-border-color:#22c55e;
-}
-
-.preview-wrapper{
-position:relative;
-margin-top:10px;
 }
 
 .preview{
@@ -163,40 +125,19 @@ height:220px;
 object-fit:cover;
 border-radius:10px;
 display:none;
-}
-
-.remove-btn{
-position:absolute;
-top:10px;
-right:10px;
-background:red;
-color:white;
-border:none;
-border-radius:50%;
-width:30px;
-height:30px;
-cursor:pointer;
-display:none;
+margin-top:10px;
 }
 
 .green-btn{
 width:100%;
-padding:15px;
+padding:16px;
 background:#22c55e;
 border:none;
-border-radius:10px;
-margin-top:20px;
+border-radius:12px;
 font-size:18px;
 font-weight:bold;
 cursor:pointer;
-}
-
-#pdfPreview{
-display:none;
-padding:15px;
-background:#111827;
-margin-top:10px;
-border-radius:10px;
+margin-top:20px;
 }
 
 @media(max-width:900px){
@@ -212,76 +153,32 @@ grid-template-columns:1fr;
 <body>
 
 <div class="navbar">
-<div style="display:flex;align-items:center;gap:15px;">
-
-<!-- MENU BUTTON -->
-<div class="menu-btn" onclick="openMenuPage()" style="font-size:22px;cursor:pointer;">☰</div>
-
-<div class="logo">Creator<span style="color:#22c55e;">Hub</span></div>
+<div class="left-nav">
+<div class="menu" onclick="openMenu()">☰</div>
+<div class="logo">Creator<span>Hub</span></div>
 </div>
 
-<div id="userProfile" style="display:flex;align-items:center;gap:10px;">
-<div style="width:35px;height:35px;border-radius:50%;background:#22c55e;display:flex;align-items:center;justify-content:center;font-weight:bold;" id="userInitial">A</div>
-<div id="usernameDisplay">User</div>
+<div class="right-nav">
+🌙
+<img id="profileImage" class="profile-img">
+<div id="username">Loading...</div>
 </div>
-</div>
-
-<!-- SIDEBAR MENU -->
-<div id="sidebar" style="
-position:fixed;
-left:-260px;
-top:0;
-width:250px;
-height:100vh;
-background:#0b1220;
-padding:20px;
-transition:0.3s;
-z-index:999;
-border-right:1px solid #1f2937;
-">
-
-<h2 style="margin-bottom:20px;color:#22c55e;">CreatorHub</h2>
-
-<p onclick="goPage('dashboard.html')" style="cursor:pointer;padding:12px;">🏠 Dashboard</p>
-<p onclick="goPage('mybooks.html')" style="cursor:pointer;padding:12px;">📚 My Books</p>
-<p onclick="goPage('earnings.html')" style="cursor:pointer;padding:12px;">💰 Earnings</p>
-<p onclick="goPage('profile.html')" style="cursor:pointer;padding:12px;">👤 Profile</p>
-<p onclick="closeSidebar()" style="cursor:pointer;padding:12px;color:red;">✖ Close</p>
-
 </div>
 
 <div class="container">
 
-<div class="card">
-<button onclick="goBack()" style="
-background:#111827;
-color:white;
-padding:12px 18px;
-border:1px solid #374151;
-border-radius:10px;
-cursor:pointer;
-margin-bottom:20px;
-">
-← Back to Dashboard
-</button>
+<div class="main-card">
+<button class="back-btn" onclick="goDashboard()">← Back to Dashboard</button>
 
 <h2>Upload Ebook</h2>
 <p>Upload your ebook and reach thousands of readers</p>
 
 <div class="grid2">
-<div>
-<label>Book Title</label>
-<input id="title">
+<input id="title" placeholder="Book Title">
+<input id="author" placeholder="Author Name">
 </div>
 
-<div>
-<label>Author Name</label>
-<input id="author">
-</div>
-</div>
-
-<label>Description</label>
-<textarea id="description" maxlength="1000"></textarea>
+<textarea id="description" maxlength="1000" placeholder="Book Description"></textarea>
 <div id="counter">0/1000</div>
 
 <button class="green-btn" onclick="aiHelp()">✨ AI Help Auto Fill</button>
@@ -290,7 +187,7 @@ margin-bottom:20px;
 <input id="category" placeholder="Category">
 <input id="language" placeholder="Language">
 <select id="size">
-<option>Select book size</option>
+<option>Select Book Size</option>
 <option>A4</option>
 <option>A5</option>
 <option>6x9</option>
@@ -304,7 +201,7 @@ margin-bottom:20px;
 
 <div class="grid3">
 <input id="price" placeholder="Price">
-<input id="pages" placeholder="Pages" readonly>
+<input id="pages" readonly placeholder="Pages">
 <label><input type="checkbox"> Print Version</label>
 </div>
 
@@ -313,30 +210,23 @@ margin-bottom:20px;
 <h4>Front Cover</h4>
 <div class="upload-box" onclick="front.click()">Click Upload</div>
 <input hidden type="file" id="front" accept="image/*">
-<div class="preview-wrapper">
 <img id="frontPreview" class="preview">
-<button class="remove-btn" id="removeFront">X</button>
-</div>
 </div>
 
 <div>
 <h4>Back Cover</h4>
 <div class="upload-box" onclick="back.click()">Click Upload</div>
 <input hidden type="file" id="back" accept="image/*">
-<div class="preview-wrapper">
 <img id="backPreview" class="preview">
-<button class="remove-btn" id="removeBack">X</button>
-</div>
 </div>
 </div>
 
 <h4>PDF File</h4>
-<div class="upload-box" id="pdfDrop">Click Upload PDF / Drag PDF Here</div>
+<div class="upload-box" onclick="pdf.click()">Click Upload PDF</div>
 <input hidden type="file" id="pdf" accept="application/pdf">
 <div id="pdfPreview"></div>
 
-<button class="green-btn" onclick="uploadBook()">⬆ Upload Ebook</button>
-
+<button class="green-btn" onclick="uploadBook()">Upload Ebook</button>
 </div>
 
 <div>
@@ -345,77 +235,56 @@ margin-bottom:20px;
 <p>✔ PDF only</p>
 <p>✔ Max 50MB</p>
 <p>✔ Clear cover</p>
-<p>✔ Original content</p>
+<p>✔ Original content only</p>
 </div>
 
 <div class="side-card">
 <h3>AI Help</h3>
-<p>Suggests title</p>
-<p>Suggests description</p>
-<p>Suggests category</p>
-<p>Detect pages</p>
+<p>Better title</p>
+<p>Description</p>
+<p>Category</p>
+<p>Pages</p>
 </div>
 </div>
 
 </div>
 
 <script>
-function goBack(){
-window.location.href='dashboard.html';
+const UPLOAD_API="YOUR_UPLOAD_API_URL";
+const USER_API="YOUR_USER_API_URL";
+
+function openMenu(){
+window.location.href='menu.html'
+}
+
+function goDashboard(){
+window.location.href='dashboard.html'
 }
 
 description.addEventListener('input',()=>{
-counter.innerText=description.value.length+'/1000';
+counter.innerText=description.value.length+'/1000'
 })
 
-function previewImage(input,previewId,removeId){
+function previewImage(input,id){
 let file=input.files[0]
 if(!file) return
 
 let reader=new FileReader()
-reader.onload=function(e){
-document.getElementById(previewId).src=e.target.result
-document.getElementById(previewId).style.display='block'
-document.getElementById(removeId).style.display='block'
+reader.onload=(e)=>{
+document.getElementById(id).src=e.target.result
+document.getElementById(id).style.display='block'
 }
 reader.readAsDataURL(file)
 }
 
-front.onchange=()=>previewImage(front,'frontPreview','removeFront')
-back.onchange=()=>previewImage(back,'backPreview','removeBack')
+front.onchange=()=>previewImage(front,'frontPreview')
+back.onchange=()=>previewImage(back,'backPreview')
 
-removeFront.onclick=function(){
-front.value=''
-frontPreview.style.display='none'
-this.style.display='none'
-}
-
-removeBack.onclick=function(){
-back.value=''
-backPreview.style.display='none'
-this.style.display='none'
-}
-
-pdfDrop.onclick=()=>pdf.click()
-
-pdf.onchange=handlePDF
-
-pdfDrop.addEventListener('dragover',(e)=>{
-e.preventDefault()
-})
-
-pdfDrop.addEventListener('drop',(e)=>{
-e.preventDefault()
-pdf.files=e.dataTransfer.files
-handlePDF()
-})
-
-async function handlePDF(){
-let file=pdf.files[0]
+pdf.onchange=async function(){
+let file=this.files[0]
 if(!file) return
 
-pdfPreview.style.display='block'
-pdfPreview.innerHTML='📄 '+file.name+' ✅'
+pdfPreview.innerHTML='📄 '+file.name
 
 let reader=new FileReader()
 reader.onload=async function(){
@@ -427,24 +296,56 @@ reader.readAsArrayBuffer(file)
 }
 
 function aiHelp(){
-if(!pdf.files[0]){
-alert('Upload PDF first')
-return
+alert('AI feature connected later')
 }
 
-title.value='The Power Of Focus'
-category.value='Self Help'
-description.value='AI generated description for your ebook.'
+async function loadUser(){
+let user=JSON.parse(localStorage.getItem('user'))||{}
+
+let res=await fetch(USER_API,{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+action:'getUser',
+email:user.email
+})
+})
+
+let data=await res.json()
+
+if(data.success){
+username.innerText=data.user.username
+profileImage.src=data.user.profile_image
+}
 }
 
-function uploadBook(){
-if(!title.value || !author.value){
-alert('Fill required fields')
-return
+loadUser()
+
+async function uploadBook(){
+alert('Uploading...')
+
+let res=await fetch(UPLOAD_API,{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+action:'uploadBook',
+title:title.value,
+author:author.value
+})
+})
+
+let data=await res.json()
+
+if(data.success){
+alert('Book Uploaded Successfully')
+}
 }
 
-alert('Ebook Uploaded Successfully')
-}
+fetch('footer.html')
+.then(res=>res.text())
+.then(data=>{
+document.body.innerHTML += data
+})
 </script>
 
 </body>
