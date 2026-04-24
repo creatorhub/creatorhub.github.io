@@ -177,6 +177,12 @@ transform:translateY(0);
 
 <textarea id="description" placeholder="Book Description"></textarea>
 
+<button type="button" onclick="aiHelp()" id="aiBtn">
+✨ AI Help Auto Fill
+</button>
+
+<div id="aiStatus" style="text-align:center;color:#22c55e;margin-top:10px;"></div>
+  
 <input id="category" placeholder="Category">
 
 <input id="language" placeholder="Language">
@@ -290,6 +296,82 @@ let reader=new FileReader()
 reader.onload=()=>resolve(reader.result)
 reader.readAsDataURL(file)
 })
+}
+
+/* AI AUTO FILL */
+
+async function aiHelp(){
+
+let title =
+document.getElementById("title").value.trim()
+
+let description =
+document.getElementById("description").value.trim()
+
+let pdfFile =
+document.getElementById("pdf").files[0]
+
+if(!pdfFile){
+alert("Upload PDF first")
+return
+}
+
+document.getElementById("aiStatus").innerHTML =
+"AI analyzing PDF..."
+
+try{
+
+let pdfBase64 = await convertBase64(pdfFile)
+
+let res = await fetch(API,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+action:"suggest",
+title:title,
+description:description,
+pdf:pdfBase64
+})
+})
+
+let data = await res.json()
+
+console.log(data)
+
+document.getElementById("aiStatus").innerHTML=""
+
+if(data.success){
+
+let ai = data.ai
+
+document.getElementById("title").value =
+ai.improved_title || title
+
+document.getElementById("description").value =
+ai.improved_description || description
+
+document.getElementById("category").value =
+ai.category || ""
+
+document.getElementById("pages").value =
+ai.pages || ""
+
+alert("AI auto-filled data successfully")
+
+}else{
+alert(data.message || "AI failed")
+}
+
+}catch(e){
+
+console.log(e)
+
+document.getElementById("aiStatus").innerHTML=""
+alert("AI error")
+
+}
 }
 
 /* UPLOAD */
