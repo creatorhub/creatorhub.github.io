@@ -307,10 +307,33 @@ grid-template-columns:1fr;
 <!-- NAVBAR -->
 <div class="navbar">
 <div class="left-nav">
-<div class="menu-btn" onclick="window.location.href='menu.html'">☰</div>
+<div class="menu-btn" onclick="openMenu()">☰</div>
 <div class="logo">Creator<span>Hub</span></div>
 </div>
 
+<div id="menu" class="side">
+
+<div class="menuHeader">
+<img id="menuProfile">
+
+<div id="menuName">User</div>
+</div>
+
+<a href="index.html">Home</a>
+<a href="upload.html">Upload Ebook</a>
+<a href="library.html">My Library</a>
+<a href="orders.html">Orders</a>
+<a href="wallet.html">Wallet</a>
+<a href="subscription.html">Premium Subscription</a>
+<a href="trending.html">Trending Books</a>
+<a href="topselling.html">Top Selling Books</a>
+<a href="toprated.html">Highest Rated Books</a>
+<a onclick="logout()">Logout</a>
+
+</div>
+
+<div id="overlay" onclick="closeMenu()"></div>
+    
 <div class="right-nav">
 🌙
 <img id="profileImage" class="profile-img">
