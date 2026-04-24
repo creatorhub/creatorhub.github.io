@@ -432,6 +432,56 @@ document.getElementById("allBooks").innerHTML=allHTML
 }  
   
 loadBooks()  
+
+/* SEARCH BOOKS */
+
+document.getElementById("search").addEventListener("keypress", async function(e){
+
+if(e.key==="Enter"){
+
+let query=this.value.trim()
+
+if(!query){
+return
+}
+
+let res=await fetch(BOOK_API,{
+method:"POST",
+body:JSON.stringify({
+action:"searchBooks",
+query:query
+})
+})
+
+let data=await res.json()
+
+if(!data.success){
+alert("No books found")
+return
+}
+
+let html=""
+
+data.books.forEach(p=>{
+
+html+=`
+<div class="book">
+<img src="${driveImage(p.front_cover)}">
+<h3>${p.title}</h3>
+<p>₹${p.price}</p>
+<button onclick="buy('${p.id}')">
+Buy Now
+</button>
+</div>
+`
+
+})
+
+document.getElementById("allBooks").innerHTML=html
+
+}
+
+})
   
 function buy(id){  
 localStorage.setItem("buyProduct",id)  
