@@ -61,6 +61,39 @@ object-fit:cover;
 background:#22c55e;
 }
 
+.sidebar{
+position:fixed;
+top:0;
+left:-280px;
+width:260px;
+height:100%;
+background:#07111f;
+padding:30px 20px;
+transition:0.3s;
+z-index:1000;
+border-right:1px solid #1f2937;
+}
+
+.sidebar a{
+display:block;
+color:white;
+text-decoration:none;
+padding:15px 10px;
+margin-top:10px;
+border-radius:10px;
+}
+
+.sidebar a:hover{
+background:#111827;
+}
+
+.close-btn{
+font-size:22px;
+cursor:pointer;
+margin-bottom:20px;
+text-align:right;
+}
+
 /* MAIN LAYOUT */
 .container{
 width:95%;
@@ -274,7 +307,7 @@ grid-template-columns:1fr;
 <!-- NAVBAR -->
 <div class="navbar">
 <div class="left-nav">
-<div class="menu-btn" onclick="location.href='menu.html'">☰</div>
+<div class="menu-btn" onclick="openMenu()">☰</div>
 <div class="logo">Creator<span>Hub</span></div>
 </div>
 
@@ -572,6 +605,14 @@ alert("✅ Ebook Uploaded Successfully");
 }else{
 alert(data.message || "Upload failed");
 }
+}
+
+function openMenu(){
+document.getElementById("sidebar").style.left="0";
+}
+
+function closeMenu(){
+document.getElementById("sidebar").style.left="-280px";
 }
 
 /* FOOTER */
