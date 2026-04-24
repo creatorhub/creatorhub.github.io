@@ -1,39 +1,77 @@
-<footer id="mainFooter"><div class="footerContainer"><div class="footerTop"><!-- BRAND --><div class="footerBrand"><h2 class="footerLogo">CreatorHub</h2><p class="footerTag">
+<footer id="mainFooter">
+<div class="footerContainer">
+
+<div class="footerTop">
+
+<!-- BRAND -->
+<div class="footerBrand">
+<h2 class="footerLogo">CreatorHub</h2>
+
+<p class="footerTag">
 Buy • Sell • Earn From Digital Products
-</p><p class="footerDesc">
+</p>
+
+<p class="footerDesc">
 CreatorHub is a digital ebook marketplace where independent
 creators upload and sell digital products globally.
-</p></div><!-- DISCOVER --><div class="footerSection"><h3>Discover</h3><a href="trending.html">Trending Books</a>
+</p>
+</div>
+
+<!-- DISCOVER -->
+<div class="footerSection">
+<h3>Discover</h3>
+<a href="trending.html">Trending Books</a>
 <a href="topselling.html">Top Selling Books</a>
 <a href="toprated.html">Highest Rated Books</a>
 <a href="authors.html">Authors</a>
 <a href="blog.html">Blog</a>
+</div>
 
-</div><!-- LEARN --><div class="footerSection"><h3>Learn</h3><a href="guides.html">Guides</a>
+<!-- LEARN -->
+<div class="footerSection">
+<h3>Learn</h3>
+<a href="guides.html">Guides</a>
 <a href="learn.html">Learning Center</a>
 <a href="earning-tips.html">Earning Tips</a>
 <a href="editorial-policy.html">Editorial Policy</a>
+</div>
 
-</div><!-- LEGAL --><div class="footerSection"><h3>Legal</h3><a href="about.html">About</a>
+<!-- LEGAL -->
+<div class="footerSection">
+<h3>Legal</h3>
+<a href="about.html">About</a>
 <a href="privacy.html">Privacy Policy</a>
 <a href="terms.html">Terms & Conditions</a>
 <a href="rules.html">Platform Rules</a>
 <a href="disclaimer.html">Disclaimer</a>
 <a href="advertising-policy.html">Advertising Policy</a>
+</div>
 
-</div><!-- SUPPORT --><div class="footerSection"><h3>Support</h3><a href="faq.html">FAQ</a>
+<!-- SUPPORT -->
+<div class="footerSection">
+<h3>Support</h3>
+<a href="faq.html">FAQ</a>
 <a href="support.html">Support Center</a>
 <a href="contact.html">Contact</a>
 <a href="sitemap.html">Sitemap</a>
+</div>
 
-</div></div><!-- BOTTOM --><div class="footerBottom"><p>
+</div>
+
+<!-- BOTTOM -->
+<div class="footerBottom">
+
 <p>
 Platform Fee : <b>10%</b><br>
 Creator Earnings : <b>90%</b>
 </p>
-</p><p class="copyright">
+
+<p class="copyright">
 © 2026 CreatorHub Marketplace — All rights reserved.
-  <div class="social-links">
+</p>
+
+<!-- SOCIAL LINKS -->
+<div class="social-links">
 
 <a href="https://www.facebook.com/profile.php?id=61563235354625&mibextid=ZbWKwL" target="_blank">
 <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
@@ -43,8 +81,12 @@ Creator Earnings : <b>90%</b>
 <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram">
 </a>
 
-  </div>
-</p></div></div><style>
+</div>
+
+</div>
+</div>
+
+<style>
 
 #mainFooter{
 background:#000;
@@ -55,23 +97,19 @@ animation:footerFade .7s ease;
 }
 
 /* CONTAINER */
-
 .footerContainer{
 max-width:1200px;
 margin:auto;
 }
 
 /* GRID */
-
 .footerTop{
 display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(200px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
 gap:40px;
 }
 
 /* BRAND */
-
 .footerBrand{
 max-width:280px;
 }
@@ -97,7 +135,6 @@ line-height:22px;
 }
 
 /* SECTION */
-
 .footerSection h3{
 color:#22c55e;
 margin-bottom:12px;
@@ -114,8 +151,13 @@ font-size:14px;
 transition:.25s;
 }
 
-/* BOTTOM */
+.footerSection a:hover{
+color:#22c55e;
+opacity:1;
+transform:translateX(6px);
+}
 
+/* BOTTOM */
 .footerBottom{
 border-top:1px solid #222;
 margin-top:45px;
@@ -126,15 +168,34 @@ opacity:.75;
 }
 
 /* COPYRIGHT */
-
 .copyright{
 margin-top:8px;
 font-size:13px;
 opacity:.7;
 }
 
-/* MOBILE */
+/* SOCIAL LINKS */
+.social-links{
+display:flex;
+justify-content:center;
+gap:20px;
+margin-top:20px;
+}
 
+.social-links img{
+width:45px;
+height:45px;
+border-radius:50%;
+cursor:pointer;
+transition:.3s;
+}
+
+.social-links img:hover{
+transform:scale(1.15);
+box-shadow:0 0 20px #22c55e;
+}
+
+/* MOBILE */
 @media(max-width:700px){
 
 .footerTop{
@@ -148,19 +209,16 @@ grid-column:span 2;
 }
 
 /* ANIMATION */
-
 @keyframes footerFade{
-
 from{
 opacity:0;
 transform:translateY(30px);
 }
-
 to{
 opacity:1;
 transform:translateY(0);
 }
-
 }
 
-</style></footer>
+</style>
+</footer>
