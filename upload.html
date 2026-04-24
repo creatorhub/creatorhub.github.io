@@ -6,8 +6,8 @@
 <title>CreatorHub Upload Ebook</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js">
 
-function toggleSidebar(){
-document.getElementById('sidebar').style.left='0'
+function openMenuPage(){
+window.location.href='menu.html'
 }
 
 function closeSidebar(){
@@ -16,6 +16,14 @@ document.getElementById('sidebar').style.left='-260px'
 
 function goPage(page){
 window.location.href=page
+}
+
+/* USER DATA LOAD */
+let user = JSON.parse(localStorage.getItem('user')) || {}
+
+if(user.username){
+ document.getElementById('usernameDisplay').innerText = user.username
+ document.getElementById('userInitial').innerText = user.username.charAt(0).toUpperCase()
 }
 
 /* FOOTER LOAD */
@@ -166,12 +174,15 @@ grid-template-columns:1fr;
 <div style="display:flex;align-items:center;gap:15px;">
 
 <!-- MENU BUTTON -->
-<div class="menu-btn" onclick="toggleSidebar()" style="font-size:22px;cursor:pointer;">☰</div>
+<div class="menu-btn" onclick="openMenuPage()" style="font-size:22px;cursor:pointer;">☰</div>
 
 <div class="logo">Creator<span style="color:#22c55e;">Hub</span></div>
 </div>
 
-<div>🌙 AP Ayush ▼</div>
+<div id="userProfile" style="display:flex;align-items:center;gap:10px;">
+<div style="width:35px;height:35px;border-radius:50%;background:#22c55e;display:flex;align-items:center;justify-content:center;font-weight:bold;" id="userInitial">A</div>
+<div id="usernameDisplay">User</div>
+</div>
 </div>
 
 <!-- SIDEBAR MENU -->
