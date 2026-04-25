@@ -529,9 +529,28 @@ location.href="login.html";
 
 /* LOAD USER */
 async function loadUser(){
-let user=JSON.parse(localStorage.getItem("user"))||{};
 
-let res=await fetch(USER_API,{
+try{
+
+let user = JSON.parse(localStorage.getItem("user")) || {}
+
+console.log("Local User:", user)
+
+/* agar email nahi mila */
+if(!user.email){
+document.getElementById("username").innerText="Guest"
+document.getElementById("menuName").innerText="Guest"
+
+document.getElementById("profileImage").src=
+"https://cdn-icons-png.flaticon.com/512/149/149071.png"
+
+document.getElementById("menuProfile").src=
+"https://cdn-icons-png.flaticon.com/512/149/149071.png"
+
+return
+}
+
+let res = await fetch(USER_API,{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
@@ -540,21 +559,57 @@ body:JSON.stringify({
 action:"getUserProfile",
 email:user.email
 })
-});
+})
 
-let data=await res.json();
+let data = await res.json()
+
+console.log("API Response:", data)
 
 if(data.success){
-username.innerText=data.user.username;
-profileImage.src=data.user.profile_image;
 
-menuName.innerText=data.user.username;
-menuProfile.src=data.user.profile_image;
+document.getElementById("username").innerText =
+data.user.username || user.name || "User"
+
+document.getElementById("menuName").innerText =
+data.user.username || user.name || "User"
+
+document.getElementById("profileImage").src =
+data.user.profile_image ||
+"https://cdn-icons-png.flaticon.com/512/149/149071.png"
+
+document.getElementById("menuProfile").src =
+data.user.profile_image ||
+"https://cdn-icons-png.flaticon.com/512/149/149071.png"
+
+}else{
+
+document.getElementById("username").innerText =
+user.name || "User"
+
+document.getElementById("menuName").innerText =
+user.name || "User"
+
 }
+
+}catch(err){
+
+console.log("User Load Error:", err)
+
+document.getElementById("username").innerText="Guest"
+document.getElementById("menuName").innerText="Guest"
+
+document.getElementById("profileImage").src=
+"https://cdn-icons-png.flaticon.com/512/149/149071.png"
+
+document.getElementById("menuProfile").src=
+"https://cdn-icons-png.flaticon.com/512/149/149071.png"
+
 }
 
-loadUser();
+}
 
+loadUser()
+  
 /* CHARACTER COUNTER */
 description.addEventListener("input",()=>{
 counter.innerText=description.value.length+"/1000";
