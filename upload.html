@@ -351,16 +351,16 @@ grid-template-columns:1fr;
 <div id="menuName">User</div>
 </div>
 
-<a href="index.html">🏠 Home</a>
-<a href="upload.html">📤 Upload Ebook</a>
-<a href="library.html">📚 My Library</a>
-<a href="orders.html">📦 Orders</a>
-<a href="wallet.html">💰 Wallet</a>
-<a href="subscription.html">⭐ Premium Subscription</a>
-<a href="trending.html">🔥 Trending Books</a>
-<a href="topselling.html">📈 Top Selling Books</a>
-<a href="toprated.html">⭐ Highest Rated Books</a>
-<a onclick="logout()">🚪 Logout</a>
+<a href="index.html">Home</a>
+<a href="upload.html">Upload Ebook</a>
+<a href="library.html">My Library</a>
+<a href="orders.html">Orders</a>
+<a href="wallet.html">Wallet</a>
+<a href="subscription.html">Premium Subscription</a>
+<a href="trending.html">Trending Books</a>
+<a href="topselling.html">Top Selling Books</a>
+<a href="toprated.html">Highest Rated Books</a>
+<a onclick="logout()">Logout</a>
 
 </div>
 
@@ -422,6 +422,57 @@ Get AI suggestions for title, description, category and more
 <input type="checkbox" id="printVersion">
 Print Version Available
 </label>
+</div>
+
+<!-- FRONT + BACK COVER -->
+<div class="grid2">
+
+<div>
+<label>Front Cover</label>
+
+<div class="upload-box" onclick="front.click()">
+📷 Click to upload front cover
+</div>
+
+<input hidden type="file" id="front" accept="image/*">
+
+<div class="preview-wrapper">
+<img id="frontPreview" class="preview">
+<button class="remove-btn" id="removeFront">×</button>
+</div>
+</div>
+
+
+<div>
+<label>Back Cover</label>
+
+<div class="upload-box" onclick="back.click()">
+📷 Click to upload back cover
+</div>
+
+<input hidden type="file" id="back" accept="image/*">
+
+<div class="preview-wrapper">
+<img id="backPreview" class="preview">
+<button class="remove-btn" id="removeBack">×</button>
+</div>
+</div>
+
+</div>
+
+
+<!-- PDF -->
+<label>PDF File</label>
+
+<div class="pdf-box" onclick="pdf.click()">
+📄 Click to upload PDF
+</div>
+
+<input hidden type="file" id="pdf" accept="application/pdf">
+
+<div class="pdf-preview" id="pdfPreview">
+<span id="pdfName"></span>
+<span>✅</span>
 </div>
 
 <button class="upload-btn" onclick="uploadBook()">Upload Ebook</button>
@@ -510,6 +561,64 @@ loadUser();
 description.addEventListener("input",()=>{
 counter.innerText=description.value.length+"/1000";
 });
+
+/* IMAGE PREVIEW */
+function preview(input,id,removeId){
+let file=input.files[0];
+if(!file) return;
+
+let reader=new FileReader();
+
+reader.onload=e=>{
+document.getElementById(id).src=e.target.result;
+document.getElementById(id).style.display="block";
+document.getElementById(removeId).style.display="block";
+}
+
+reader.readAsDataURL(file);
+}
+
+front.onchange=()=>{
+preview(front,"frontPreview","removeFront");
+}
+
+back.onchange=()=>{
+preview(back,"backPreview","removeBack");
+}
+
+/* REMOVE IMAGE */
+removeFront.onclick=()=>{
+front.value="";
+frontPreview.style.display="none";
+removeFront.style.display="none";
+}
+
+removeBack.onclick=()=>{
+back.value="";
+backPreview.style.display="none";
+removeBack.style.display="none";
+}
+
+/* PDF UPLOAD */
+pdf.onchange=async function(){
+let file=this.files[0];
+if(!file) return;
+
+pdfPreview.style.display="flex";
+pdfName.innerText=file.name;
+
+let reader=new FileReader();
+
+reader.onload=async function(){
+let typedArray=new Uint8Array(reader.result);
+
+let pdfDoc=await pdfjsLib.getDocument(typedArray).promise;
+
+pages.value=pdfDoc.numPages;
+}
+
+reader.readAsArrayBuffer(file);
+}
 
 /* UPLOAD */
 async function uploadBook(){
