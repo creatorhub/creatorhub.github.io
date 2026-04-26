@@ -306,6 +306,31 @@ gap:20px;
 color:#22c55e;
 margin-bottom:15px;
 }
+
+.chat-box{
+height:250px;
+overflow-y:auto;
+background:#111827;
+padding:10px;
+border-radius:10px;
+margin-top:20px;
+}
+
+.msg{
+padding:10px;
+margin:10px 0;
+border-radius:10px;
+max-width:80%;
+}
+
+.user{
+background:#2563eb;
+margin-left:auto;
+}
+
+.bot{
+background:#1f2937;
+}
 </style>
 </head>
 
@@ -452,7 +477,16 @@ Send Message
 <div>✔ Seller issues</div>
 </div>
 
-<button class="ai-btn" onclick="alert('AI Chat Opened')">
+<div class="chat-box" id="chatBox"></div>
+
+<input 
+id="msg" 
+placeholder="Ask anything..."
+style="width:100%;padding:12px;margin-top:10px;background:#111827;border:none;color:white;border-radius:10px;">
+         
+<button class="ai-btn" onclick="sendMessage()">
+Start AI Chat
+</button>
 Start AI Chat
 </button>
 </div>
@@ -520,5 +554,38 @@ Start AI Chat
 
 </div>
 
+<script>
+const SUPPORT_API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec";
+
+async function sendMessage(){
+let input=document.getElementById("msg");
+let text=input.value.trim();
+
+if(!text) return;
+
+let chat=document.getElementById("chatBox");
+
+chat.innerHTML += `<div class="msg user">${text}</div>`;
+input.value="";
+
+let reply="";
+
+try{
+let res=await fetch(
+SUPPORT_API+"?action=support&message="+encodeURIComponent(text)
+);
+
+let data=await res.json();
+reply=data.reply || "No response";
+
+}catch(e){
+reply="Support busy";
+}
+
+chat.innerHTML += `<div class="msg bot">${reply}</div>`;
+chat.scrollTop=chat.scrollHeight;
+}
+</script>
+         
 </body>
          </html>
