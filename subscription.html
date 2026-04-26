@@ -10,22 +10,39 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial, sans-serif;
+font-family: 'Poppins', sans-serif;
 }
 
 body{
-background: radial-gradient(circle at top,#08121f,#020617 60%);
+background:#020817;
 color:white;
-min-height:100vh;
+overflow-x:hidden;
+position:relative;
 }
 
-/* TOP BAR */
+/* background particles */
+body::before{
+content:"";
+position:fixed;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at 20% 20%, rgba(0,255,100,0.15) 2px, transparent 2px),
+radial-gradient(circle at 80% 30%, rgba(0,255,100,0.15) 2px, transparent 2px),
+radial-gradient(circle at 50% 60%, rgba(0,255,100,0.15) 2px, transparent 2px),
+radial-gradient(circle at 30% 80%, rgba(0,255,100,0.15) 2px, transparent 2px);
+background-size:300px 300px;
+z-index:-1;
+}
+
+/* top bar */
 .topbar{
+height:80px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:20px;
-border-bottom:1px solid rgba(255,255,255,0.08);
+padding:0 40px;
+border-bottom:1px solid rgba(255,255,255,0.06);
 }
 
 .back{
@@ -34,38 +51,38 @@ cursor:pointer;
 }
 
 .logo{
-font-size:28px;
-font-weight:bold;
+font-size:34px;
+font-weight:700;
 }
 
 .logo span{
 color:#00ff66;
 }
 
-.active-badge{
-background:#0f3;
+.active{
+background:#00ff66;
 color:black;
-padding:5px 12px;
+padding:6px 14px;
 border-radius:20px;
 font-size:12px;
-font-weight:bold;
 margin-left:10px;
+font-weight:600;
 }
 
 .secure{
 font-size:14px;
-color:#ccc;
+color:#ddd;
 }
 
-/* HERO */
+/* hero */
 .hero{
 text-align:center;
-padding:40px 20px;
+padding:50px 20px;
 }
 
 .hero h1{
-font-size:50px;
-font-weight:bold;
+font-size:64px;
+font-weight:700;
 }
 
 .hero h1 span{
@@ -73,130 +90,144 @@ color:#00ff66;
 }
 
 .hero p{
-margin-top:15px;
 color:#aaa;
-font-size:18px;
+margin-top:15px;
+font-size:20px;
 }
 
-/* PLAN SECTION */
-.plans{
-max-width:1200px;
+/* pricing section */
+.pricing{
+max-width:1300px;
 margin:auto;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+display:flex;
+justify-content:center;
 gap:25px;
-padding:20px;
+padding:30px;
+flex-wrap:wrap;
 }
 
 .card{
-background:#07111d;
+width:380px;
+background:rgba(255,255,255,0.03);
 border:1px solid rgba(255,255,255,0.08);
-border-radius:20px;
-padding:30px;
+border-radius:22px;
+padding:35px;
 position:relative;
-box-shadow:0 0 20px rgba(0,255,100,0.08);
+backdrop-filter: blur(10px);
 }
 
 .card.popular{
 border:2px solid #00ff66;
-transform:scale(1.03);
-box-shadow:0 0 30px rgba(0,255,100,.3);
+transform:translateY(-10px);
+box-shadow:0 0 30px rgba(0,255,100,.35);
 }
 
 .popular-tag{
 position:absolute;
-top:-14px;
+top:-18px;
 left:50%;
 transform:translateX(-50%);
 background:#00ff66;
 color:black;
-padding:8px 20px;
-border-radius:20px;
+padding:10px 25px;
+border-radius:30px;
+font-size:14px;
 font-weight:bold;
-font-size:13px;
 }
 
-.plan-title{
-font-size:28px;
-margin-bottom:15px;
+.plan-name{
+font-size:32px;
+margin-top:10px;
 }
 
 .price{
-font-size:55px;
+font-size:70px;
 font-weight:bold;
 color:#00ff66;
-margin-bottom:10px;
+margin:20px 0;
 }
 
 .billing{
-color:#aaa;
-margin-bottom:25px;
+background:rgba(255,255,255,0.05);
+display:inline-block;
+padding:8px 18px;
+border-radius:20px;
+color:#ccc;
+margin-bottom:30px;
 }
 
-ul{
+.line{
+height:1px;
+background:rgba(255,255,255,0.08);
+margin:25px 0;
+}
+
+.features-list{
 list-style:none;
-text-align:left;
-margin-bottom:25px;
 }
 
-ul li{
-margin:12px 0;
+.features-list li{
+margin:15px 0;
+font-size:18px;
 }
 
-ul li::before{
+.features-list li::before{
 content:"✔ ";
 color:#00ff66;
 }
 
-button{
+.btn{
 width:100%;
-padding:15px;
+height:55px;
 border:none;
 border-radius:12px;
-background:linear-gradient(to right,#00ff66,#00cc55);
+background:linear-gradient(90deg,#00ff66,#00cc55);
 font-size:18px;
-font-weight:bold;
+font-weight:700;
 cursor:pointer;
+margin-top:25px;
 }
 
-/* FEATURES */
-.features{
-max-width:1200px;
-margin:40px auto;
+/* bottom features */
+.bottom-features,
+.bottom-trust{
+max-width:1300px;
+margin:30px auto;
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+grid-template-columns:repeat(4,1fr);
 gap:20px;
-padding:20px;
+padding:0 20px;
 }
 
-.feature-box{
-background:#07111d;
-padding:25px;
-border-radius:16px;
+.bottom-trust{
+grid-template-columns:repeat(3,1fr);
+}
+
+.box{
+background:rgba(255,255,255,0.03);
 border:1px solid rgba(255,255,255,0.08);
-}
-
-/* TRUST SECTION */
-.trust{
-max-width:1200px;
-margin:auto;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-padding:20px;
-}
-
-.trust-box{
-background:#07111d;
 padding:25px;
-border-radius:16px;
-border:1px solid rgba(255,255,255,0.08);
-text-align:center;
+border-radius:18px;
 }
 
-@media(max-width:768px){
+.box h3{
+margin-bottom:10px;
+}
+
+.box p{
+color:#aaa;
+font-size:14px;
+line-height:1.6;
+}
+
+@media(max-width:900px){
 .hero h1{
-font-size:34px;
+font-size:38px;
+}
+
+.bottom-features,
+.bottom-trust{
+grid-template-columns:1fr;
 }
 }
 </style>
@@ -208,12 +239,12 @@ font-size:34px;
 <div class="back">← Back to Home</div>
 
 <div class="logo">
-CreatorHub <span>Premium</span>
-<span class="active-badge">ACTIVE</span>
+Creator<span>Hub Premium</span>
+<span class="active">ACTIVE</span>
 </div>
 
 <div class="secure">
-🔒 Secure & Trusted
+🛡 Secure & Trusted
 </div>
 </div>
 
@@ -224,69 +255,101 @@ CreatorHub <span>Premium</span>
 </div>
 
 
-<div class="plans">
+<div class="pricing">
 
 <div class="card">
-<h2 class="plan-title">15 Days Plan</h2>
+<h2 class="plan-name">15 Days Plan</h2>
 <div class="price">₹399</div>
 <div class="billing">One-time payment</div>
 
-<ul>
+<div class="line"></div>
+
+<ul class="features-list">
 <li>Unlimited Ebook Reading</li>
 <li>Premium Books Access</li>
 <li>No Ads Reading</li>
 </ul>
 
-<button onclick="subscribe('15days',399)">Subscribe Now →</button>
+<button class="btn">Subscribe Now →</button>
 </div>
 
 
 <div class="card popular">
 <div class="popular-tag">🔥 MOST POPULAR</div>
 
-<h2 class="plan-title">Monthly Plan</h2>
+<h2 class="plan-name">Monthly Plan</h2>
 <div class="price">₹799</div>
 <div class="billing">Billed monthly</div>
 
-<ul>
+<div class="line"></div>
+
+<ul class="features-list">
 <li>Unlimited Ebook Reading</li>
 <li>All Premium Books Free</li>
 <li>Early Access New Books</li>
 </ul>
 
-<button onclick="subscribe('month',799)">Subscribe Now →</button>
+<button class="btn">Subscribe Now →</button>
 </div>
 
 
 <div class="card">
-<h2 class="plan-title">Yearly Plan</h2>
+<h2 class="plan-name">Yearly Plan</h2>
 <div class="price">₹3599</div>
 <div class="billing">Billed yearly</div>
 
-<ul>
+<div class="line"></div>
+
+<ul class="features-list">
 <li>Unlimited Ebook Reading</li>
 <li>All Premium Books Free</li>
 <li>Early Access + No Ads</li>
 </ul>
 
-<button onclick="subscribe('year',3599)">Subscribe Now →</button>
+<button class="btn">Subscribe Now →</button>
 </div>
 
 </div>
 
 
-<div class="features">
-<div class="feature-box">♾ Unlimited Access</div>
-<div class="feature-box">⭐ Premium Content</div>
-<div class="feature-box">🚫 No Ads Experience</div>
-<div class="feature-box">🎧 24/7 Support</div>
+<div class="bottom-features">
+<div class="box">
+<h3>∞ Unlimited Access</h3>
+<p>Read unlimited ebooks anytime, anywhere.</p>
+</div>
+
+<div class="box">
+<h3>⭐ Premium Content</h3>
+<p>Access exclusive premium ebooks and guides.</p>
+</div>
+
+<div class="box">
+<h3>⚡ No Ads Experience</h3>
+<p>Enjoy ad-free reading experience.</p>
+</div>
+
+<div class="box">
+<h3>🎧 24/7 Support</h3>
+<p>We are here to help you anytime.</p>
+</div>
 </div>
 
 
-<div class="trust">
-<div class="trust-box">🔒 100% Secure Payments</div>
-<div class="trust-box">🎁 Cancel Anytime</div>
-<div class="trust-box">😊 Risk Free</div>
+<div class="bottom-trust">
+<div class="box">
+<h3>🔒 100% Secure Payments</h3>
+<p>Powered by Cashfree</p>
+</div>
+
+<div class="box">
+<h3>🎁 Cancel Anytime</h3>
+<p>No hidden charges.</p>
+</div>
+
+<div class="box">
+<h3>😊 Risk Free</h3>
+<p>7 days money back guarantee</p>
+</div>
 </div>
 
 </body>
