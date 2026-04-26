@@ -423,11 +423,64 @@ grid-template-columns:1fr;
 </div>
 
 <div class="support-grid">
-<div class="box">
-<h2>FAQs</h2>
-<div class="faq-item">How do I buy an ebook?</div>
-<div class="faq-item">Refund policy?</div>
-<div class="faq-item">Seller earnings?</div>
+<div class="box faq-box">
+
+    <div class="faq-header">
+        <h2>Frequently Asked Questions</h2>
+        <a href="#" onclick="alert('Opening all FAQs')">View All FAQs →</a>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+        <span>How do I buy an ebook on CreatorHub?</span>
+        <i class="fa-solid fa-chevron-down"></i>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+        <span>How will I receive my purchased ebook?</span>
+        <i class="fa-solid fa-chevron-down"></i>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+        <span>Can I get a refund if I'm not satisfied?</span>
+        <i class="fa-solid fa-chevron-down"></i>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+        <span>How can I become a seller on CreatorHub?</span>
+        <i class="fa-solid fa-chevron-down"></i>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+        <span>When will I receive my earnings?</span>
+        <i class="fa-solid fa-chevron-down"></i>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+        <span>Is my payment information secure?</span>
+        <i class="fa-solid fa-chevron-down"></i>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+        <span>How do I track my order?</span>
+        <i class="fa-solid fa-chevron-down"></i>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+        <span>Do you deliver physical products too?</span>
+        <i class="fa-solid fa-chevron-down"></i>
+    </div>
+
+    <div class="faq-contact-box">
+        <div>
+            <h4>Still have questions?</h4>
+            <p>Our support team is here to help you.</p>
+        </div>
+
+        <button onclick="alert('Contact Support Opened')">
+            Contact Support
+        </button>
+    </div>
+
 </div>
 
 <div class="box contact-box">
