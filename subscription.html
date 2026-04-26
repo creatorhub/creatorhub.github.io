@@ -398,7 +398,7 @@ Subscribe Now →
 </div>
 </div>
 
-<div class="box">
+<div class="box support-box" onclick="openSupport()">
 <div class="icon"><i class="fas fa-headset"></i></div>
 <div>
 <h3>24/7 Support</h3>
@@ -464,6 +464,10 @@ function goBack(){
 window.location.href="index.html";
 }
 
+function openSupport(){
+window.location.href="support.html";
+}
+  
 let user=JSON.parse(localStorage.getItem("user") || "null");
 
 if(!user){
