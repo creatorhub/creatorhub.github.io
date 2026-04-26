@@ -17,7 +17,7 @@ font-family:Arial,sans-serif;
 body{
 background:#050b14;
 color:white;
-overflow-x:auto;
+overflow-x:hidden;
 }
 
 a{
@@ -25,14 +25,9 @@ text-decoration:none;
 color:white;
 }
 
-button{
-cursor:pointer;
-}
-
 .container{
 width:95%;
 margin:auto;
-min-width:1600px;
 }
 
 /* NAVBAR */
@@ -41,17 +36,17 @@ height:80px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-border-bottom:1px solid #1f2937;
+border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
 .logo{
-font-size:32px;
+font-size:34px;
 font-weight:bold;
 color:#22c55e;
 }
 
 .nav-links a{
-margin:0 12px;
+margin:0 15px;
 font-size:14px;
 }
 
@@ -61,12 +56,12 @@ align-items:center;
 gap:15px;
 }
 
-.nav-search{
+.search-box{
 padding:12px;
 background:#111827;
 border:none;
-color:white;
 border-radius:10px;
+color:white;
 }
 
 /* HERO */
@@ -74,7 +69,7 @@ border-radius:10px;
 display:grid;
 grid-template-columns:1fr 1fr;
 align-items:center;
-padding:40px 0;
+padding:50px 0;
 }
 
 .hero h1{
@@ -88,11 +83,13 @@ color:#22c55e;
 
 .hero p{
 margin:20px 0;
-color:#ccc;
+color:#9ca3af;
+font-size:18px;
 }
 
 .hero-search{
 display:flex;
+margin-top:20px;
 }
 
 .hero-search input{
@@ -114,98 +111,95 @@ border-radius:0 10px 10px 0;
 
 .hero img{
 width:100%;
-max-width:500px;
+max-width:550px;
 }
 
 /* QUICK HELP */
-.quick-help-title{
-font-size:28px;
-margin:30px 0;
+.section-title{
+font-size:30px;
+margin-bottom:20px;
 }
 
 .cards{
 display:grid;
-grid-template-columns:repeat(6,250px);
+grid-template-columns:repeat(6,1fr);
 gap:20px;
-overflow-x:auto;
-padding-bottom:10px;
+margin-bottom:40px;
 }
 
 .card{
-background:#0b1623;
-padding:22px;
+background:#08111f;
+padding:25px;
 border-radius:16px;
-border:1px solid rgba(255,255,255,0.08);
+border:1px solid rgba(255,255,255,0.06);
 min-height:220px;
 position:relative;
 }
 
-.card-icon{
-width:60px;
-height:60px;
-display:flex;
-align-items:center;
-justify-content:center;
-border-radius:14px;
+.card i{
 font-size:28px;
 margin-bottom:20px;
+color:#22c55e;
 }
 
-.green{background:#0f2f20;color:#22c55e}
-.purple{background:#25153d;color:#a855f7}
-.orange{background:#3a210b;color:#f97316}
-.blue{background:#102642;color:#3b82f6}
-.red{background:#3d1118;color:#ef4444}
-.lime{background:#1f3310;color:#84cc16}
-
 .card h3{
-font-size:20px;
-margin-bottom:10px;
+margin-bottom:15px;
 }
 
 .card p{
+font-size:14px;
 color:#9ca3af;
+line-height:1.5;
 margin-bottom:20px;
 }
 
 .card a{
 color:#22c55e;
+font-weight:bold;
 }
 
-.new-badge{
+.badge{
 position:absolute;
 top:10px;
 right:10px;
 background:#22c55e;
 color:black;
-padding:5px 10px;
+padding:4px 10px;
 border-radius:20px;
-font-size:11px;
+font-size:12px;
 }
 
 /* SUPPORT GRID */
 .support-grid{
 display:grid;
-grid-template-columns:500px 400px 400px;
+grid-template-columns:1.3fr 1fr 1fr;
 gap:20px;
-margin:40px 0;
-overflow-x:auto;
+margin-bottom:40px;
 }
 
 .box{
-background:#0b1623;
+background:#08111f;
 padding:25px;
-border-radius:18px;
-border:1px solid #1f2937;
+border-radius:16px;
+border:1px solid rgba(255,255,255,0.06);
 }
 
 /* FAQ */
+.faq-header{
+display:flex;
+justify-content:space-between;
+margin-bottom:20px;
+}
+
+.faq-header a{
+color:#22c55e;
+}
+
 .faq-item{
 display:flex;
 justify-content:space-between;
 padding:18px 0;
-border-bottom:1px solid #1f2937;
-cursor:pointer;
+border-bottom:1px solid rgba(255,255,255,0.06);
 }
 
 /* CONTACT */
@@ -217,93 +211,106 @@ padding:14px;
 margin-top:14px;
 background:#111827;
 border:none;
-color:white;
 border-radius:10px;
+color:white;
 }
 
 .contact-btn{
 width:100%;
-padding:14px;
+padding:15px;
 margin-top:20px;
 background:#22c55e;
 border:none;
 border-radius:10px;
+font-weight:bold;
 }
 
-/* AI */
-.ai-robot img{
+/* AI SUPPORT */
+.ai-box img{
 width:180px;
+margin:20px 0;
 }
 
-.ai-chat-btn{
+.ai-list div{
+padding:10px 0;
+border-bottom:1px solid rgba(255,255,255,0.06);
+}
+
+.ai-btn{
 width:100%;
-padding:14px;
+padding:15px;
+margin-top:20px;
 background:#22c55e;
 border:none;
 border-radius:10px;
-margin-top:20px;
+font-weight:bold;
 }
 
 /* DELIVERY */
-.delivery-section{
-background:#0b1623;
+.delivery{
+background:#08111f;
 padding:30px;
-border-radius:18px;
-margin:40px 0;
+border-radius:16px;
+margin-bottom:40px;
 }
 
 .delivery-grid{
 display:grid;
-grid-template-columns:350px repeat(4,220px);
+grid-template-columns:300px repeat(4,1fr);
 gap:20px;
-overflow-x:auto;
+align-items:center;
 }
 
-.delivery-truck-box img{
+.delivery img{
 width:220px;
 }
 
 .delivery-btn{
-margin-top:20px;
 float:right;
+margin-top:20px;
 padding:14px 25px;
 background:#22c55e;
 border:none;
 border-radius:10px;
+font-weight:bold;
 }
 
 /* FEATURES */
 .features{
 display:grid;
-grid-template-columns:repeat(4,250px);
+grid-template-columns:repeat(4,1fr);
 gap:20px;
-margin:40px 0;
-overflow-x:auto;
+margin-bottom:40px;
 }
 
 .feature{
-background:#0b1623;
+background:#08111f;
 padding:25px;
-border-radius:15px;
+border-radius:14px;
 text-align:center;
 }
 
 /* FOOTER */
 footer{
-border-top:1px solid #1f2937;
+border-top:1px solid rgba(255,255,255,0.08);
 padding:40px 0;
 }
 
 .footer-grid{
 display:grid;
-grid-template-columns:repeat(5,220px);
+grid-template-columns:repeat(5,1fr);
 gap:20px;
-overflow-x:auto;
+}
+
+.footer-grid h3{
+color:#22c55e;
+margin-bottom:15px;
 }
 </style>
 </head>
 
 <body>
+
 <div class="container">
 
 <!-- NAVBAR -->
@@ -319,9 +326,9 @@ overflow-x:auto;
 </div>
 
 <div class="nav-right">
-<input class="nav-search" placeholder="Search ebooks...">
+<input class="search-box" placeholder="Search ebooks...">
 <i class="fa fa-search"></i>
-<i class="fa fa-shopping-cart"></i>
+<i class="fa fa-cart-shopping"></i>
 <i class="fa fa-bell"></i>
 </div>
 </div>
@@ -330,11 +337,11 @@ overflow-x:auto;
 <div class="hero">
 <div>
 <h1>How can we <span>help</span> you?</h1>
-<p>Find answers or connect with support team 24/7.</p>
+<p>Find answers to your questions or connect with support team 24/7.</p>
 
 <div class="hero-search">
-<input id="searchInput" placeholder="Search help articles...">
-<button onclick="searchHelp()">Search</button>
+<input placeholder="Search help articles...">
+<button>Search</button>
 </div>
 </div>
 
@@ -344,49 +351,49 @@ overflow-x:auto;
 </div>
 
 <!-- QUICK HELP -->
-<h2 class="quick-help-title">Quick Help</h2>
+<h2 class="section-title">Quick Help</h2>
 
 <div class="cards">
 <div class="card">
-<div class="card-icon green"><i class="fa fa-book"></i></div>
+<i class="fa fa-book"></i>
 <h3>Buying & Payments</h3>
-<p>Payment help.</p>
+<p>Learn about payments and refunds.</p>
 <a href="#">View Articles →</a>
 </div>
 
 <div class="card">
-<div class="card-icon purple"><i class="fa fa-download"></i></div>
-<h3>Downloads</h3>
-<p>Download help.</p>
+<i class="fa fa-download"></i>
+<h3>Downloads & Access</h3>
+<p>Download purchased ebooks.</p>
 <a href="#">View Articles →</a>
 </div>
 
 <div class="card">
-<div class="card-icon orange"><i class="fa fa-wallet"></i></div>
-<h3>Selling</h3>
-<p>Earnings help.</p>
+<i class="fa fa-wallet"></i>
+<h3>Selling & Earnings</h3>
+<p>Learn about payouts.</p>
 <a href="#">View Articles →</a>
 </div>
 
 <div class="card">
-<div class="card-icon blue"><i class="fa fa-shield"></i></div>
-<h3>Security</h3>
-<p>Account help.</p>
+<i class="fa fa-shield"></i>
+<h3>Account Security</h3>
+<p>Manage account security.</p>
 <a href="#">View Articles →</a>
 </div>
 
 <div class="card">
-<div class="card-icon red"><i class="fa fa-bug"></i></div>
+<i class="fa fa-bug"></i>
 <h3>Report Issue</h3>
-<p>Problem report.</p>
+<p>Facing problems?</p>
 <a href="#">Report Now →</a>
 </div>
 
 <div class="card">
-<div class="new-badge">NEW</div>
-<div class="card-icon lime"><i class="fa fa-truck"></i></div>
+<div class="badge">NEW</div>
+<i class="fa fa-truck"></i>
 <h3>Delivery</h3>
-<p>Shipping help.</p>
+<p>Shipping and delivery info.</p>
 <a href="#">View Articles →</a>
 </div>
 </div>
@@ -394,40 +401,69 @@ overflow-x:auto;
 <!-- SUPPORT GRID -->
 <div class="support-grid">
 
+<!-- FAQ -->
 <div class="box">
+<div class="faq-header">
 <h2>Frequently Asked Questions</h2>
+<a href="#">View All FAQs →</a>
+</div>
+
 <div class="faq-item"><span>How do I buy ebook?</span><i class="fa fa-chevron-down"></i></div>
+<div class="faq-item"><span>How will I receive ebook?</span><i class="fa fa-chevron-down"></i></div>
 <div class="faq-item"><span>Refund policy?</span><i class="fa fa-chevron-down"></i></div>
 <div class="faq-item"><span>Seller earnings?</span><i class="fa fa-chevron-down"></i></div>
+<div class="faq-item"><span>Track order?</span><i class="fa fa-chevron-down"></i></div>
 </div>
 
+<!-- CONTACT -->
 <div class="box contact-box">
 <h2>Contact Support</h2>
-<input placeholder="Your Name">
-<input placeholder="Your Email">
+<p style="color:#9ca3af;margin:15px 0;">We usually respond within <span style="color:#22c55e;">24 hours.</span></p>
+
+<input placeholder="Enter your name">
+<input placeholder="Enter your email">
+
 <select>
-<option>Select Subject</option>
+<option>Select subject</option>
 </select>
-<textarea placeholder="Your Message"></textarea>
-<button class="contact-btn">Send Message</button>
+
+<input placeholder="Order ID">
+
+<textarea rows="5" placeholder="Message"></textarea>
+
+<button class="contact-btn" onclick="alert('Message Sent')">
+Send Message
+</button>
 </div>
 
-<div class="box">
+<!-- AI -->
+<div class="box ai-box">
 <h2>24/7 AI Support</h2>
-<div class="ai-robot">
+
 <img src="https://cdn-icons-png.flaticon.com/512/8943/8943377.png">
-</div>
-<button class="ai-chat-btn" onclick="openAiChat()">Start AI Chat</button>
+
+<h3>Chat with CreatorHub AI</h3>
+
+<div class="ai-list">
+<div>✔ Payment issues</div>
+<div>✔ Refund help</div>
+<div>✔ Download issues</div>
+<div>✔ Account recovery</div>
+<div>✔ Seller issues</div>
 </div>
 
+<button class="ai-btn" onclick="alert('AI Chat Opened')">
+Start AI Chat
+</button>
+</div>
 </div>
 
 <!-- DELIVERY -->
-<div class="delivery-section">
+<div class="delivery">
 <h2>We also deliver to your doorstep</h2>
 
 <div class="delivery-grid">
-<div class="delivery-truck-box">
+<div>
 <img src="https://cdn-icons-png.flaticon.com/512/3081/3081559.png">
 </div>
 
@@ -452,26 +488,37 @@ overflow-x:auto;
 <!-- FOOTER -->
 <footer>
 <div class="footer-grid">
-<div><h3>CreatorHub</h3></div>
-<div><h3>Quick Links</h3></div>
-<div><h3>Resources</h3></div>
-<div><h3>For Sellers</h3></div>
-<div><h3>Newsletter</h3></div>
+<div>
+<h3>CreatorHub</h3>
+<p>Digital marketplace platform.</p>
+</div>
+
+<div>
+<h3>Quick Links</h3>
+<p>Home</p>
+<p>Categories</p>
+</div>
+
+<div>
+<h3>Resources</h3>
+<p>Help Center</p>
+<p>Blog</p>
+</div>
+
+<div>
+<h3>For Sellers</h3>
+<p>Guide</p>
+<p>Payouts</p>
+</div>
+
+<div>
+<h3>Newsletter</h3>
+<input class="search-box" placeholder="Enter email">
+</div>
 </div>
 </footer>
 
 </div>
-
-<script>
-function searchHelp(){
-let q=document.getElementById("searchInput").value;
-alert("Searching: " + q);
-}
-
-function openAiChat(){
-alert("AI Chat Opened");
-}
-</script>
 
 </body>
          </html>
