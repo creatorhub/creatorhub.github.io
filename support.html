@@ -60,26 +60,82 @@ border-radius:0 10px 10px 0;
 }
 .hero img{width:100%;max-width:500px}
 
-/* CARDS */
+/* QUICK HELP EXACT IMAGE STYLE */
+.quick-help-title{
+font-size:28px;
+font-weight:700;
+margin:30px 0 20px;
+}
+
 .cards{
 display:grid;
 grid-template-columns:repeat(6,1fr);
-gap:20px;
+gap:18px;
 margin:30px 0;
 }
+
 .card{
 background:#0b1623;
-padding:25px;
-border-radius:15px;
-border:1px solid #1f2937;
+padding:22px;
+border-radius:16px;
+border:1px solid rgba(255,255,255,0.08);
+min-height:220px;
+position:relative;
+transition:0.3s;
 }
-.card i{font-size:35px;color:#22c55e;margin-bottom:15px}
-.card button{
-margin-top:15px;
-padding:10px 20px;
+
+.card:hover{
+transform:translateY(-5px);
+border-color:#22c55e;
+box-shadow:0 0 20px rgba(34,197,94,0.25);
+}
+
+.card-icon{
+width:60px;
+height:60px;
+border-radius:14px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:28px;
+margin-bottom:20px;
+}
+
+.green{background:rgba(34,197,94,0.12); color:#22c55e}
+.purple{background:rgba(168,85,247,0.12); color:#a855f7}
+.orange{background:rgba(249,115,22,0.12); color:#f97316}
+.blue{background:rgba(59,130,246,0.12); color:#3b82f6}
+.red{background:rgba(239,68,68,0.12); color:#ef4444}
+.lime{background:rgba(132,204,22,0.12); color:#84cc16}
+
+.card h3{
+font-size:20px;
+margin-bottom:12px;
+}
+
+.card p{
+font-size:14px;
+color:#9ca3af;
+line-height:1.5;
+margin-bottom:20px;
+}
+
+.card a{
+color:#22c55e;
+font-weight:600;
+text-decoration:none;
+}
+
+.new-badge{
+position:absolute;
+top:12px;
+right:12px;
 background:#22c55e;
-border:none;
-border-radius:8px;
+color:black;
+padding:4px 10px;
+border-radius:20px;
+font-size:11px;
+font-weight:bold;
 }
 
 /* SUPPORT GRID */
@@ -210,13 +266,52 @@ grid-template-columns:1fr;
 </div>
 </div>
 
+<h2 class="quick-help-title">Quick Help</h2>
 <div class="cards">
-<div class="card"><i class="fa fa-book"></i><h3>Buying</h3><button onclick="alert('Buying Help')">View</button></div>
-<div class="card"><i class="fa fa-download"></i><h3>Downloads</h3><button onclick="alert('Downloads Help')">View</button></div>
-<div class="card"><i class="fa fa-wallet"></i><h3>Earnings</h3><button onclick="alert('Earnings Help')">View</button></div>
-<div class="card"><i class="fa fa-shield"></i><h3>Security</h3><button onclick="alert('Security Help')">View</button></div>
-<div class="card"><i class="fa fa-bug"></i><h3>Report</h3><button onclick="alert('Reported')">Report</button></div>
-<div class="card"><i class="fa fa-truck"></i><h3>Delivery</h3><button onclick="alert('Delivery Help')">View</button></div>
+
+<div class="card">
+<div class="card-icon green"><i class="fa-solid fa-book-open"></i></div>
+<h3>Buying & Payments</h3>
+<p>Learn about secure payments, refunds and order issues.</p>
+<a href="#" onclick="alert('Buying Help Opened')">View Articles →</a>
+</div>
+
+<div class="card">
+<div class="card-icon purple"><i class="fa-solid fa-download"></i></div>
+<h3>Downloads & Access</h3>
+<p>How to download your purchased ebooks.</p>
+<a href="#" onclick="alert('Download Help Opened')">View Articles →</a>
+</div>
+
+<div class="card">
+<div class="card-icon orange"><i class="fa-solid fa-briefcase"></i></div>
+<h3>Selling & Earnings</h3>
+<p>Learn about selling, payouts and earnings.</p>
+<a href="#" onclick="alert('Seller Help Opened')">View Articles →</a>
+</div>
+
+<div class="card">
+<div class="card-icon blue"><i class="fa-solid fa-shield-halved"></i></div>
+<h3>Account & Security</h3>
+<p>Manage your account privacy and security.</p>
+<a href="#" onclick="alert('Security Help Opened')">View Articles →</a>
+</div>
+
+<div class="card">
+<div class="card-icon red"><i class="fa-regular fa-message"></i></div>
+<h3>Report an Issue</h3>
+<p>Facing a problem? Let us know.</p>
+<a href="#" onclick="alert('Issue Report Opened')" style="color:#ef4444">Report Now →</a>
+</div>
+
+<div class="card">
+<div class="new-badge">NEW</div>
+<div class="card-icon lime"><i class="fa-solid fa-truck"></i></div>
+<h3>Delivery & Shipping</h3>
+<p>Track orders, delivery info and shipping help.</p>
+<a href="#" onclick="alert('Delivery Help Opened')">View Articles →</a>
+</div>
+
 </div>
 
 <div class="support-grid">
