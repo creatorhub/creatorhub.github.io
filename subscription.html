@@ -1,202 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CreatorHub Premium</title>
 
 <style>
-
-body{
+*{
 margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:#020617;
-color:white;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
 }
 
-/* HEADER */
+body{
+background: radial-gradient(circle at top,#08121f,#020617 60%);
+color:white;
+min-height:100vh;
+}
 
+/* TOP BAR */
 .topbar{
 display:flex;
+justify-content:space-between;
 align-items:center;
-padding:16px;
-border-bottom:1px solid #1f2937;
-position:sticky;
-top:0;
-background:#020617;
-z-index:99;
+padding:20px;
+border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
 .back{
-font-size:22px;
+font-size:18px;
 cursor:pointer;
-margin-right:10px;
 }
 
-.title{
-flex:1;
-text-align:center;
+.logo{
+font-size:28px;
 font-weight:bold;
-color:#22c55e;
 }
 
-/* BADGE */
+.logo span{
+color:#00ff66;
+}
 
-.badge{
-background:#22c55e;
-padding:5px 10px;
-border-radius:6px;
+.active-badge{
+background:#0f3;
+color:black;
+padding:5px 12px;
+border-radius:20px;
 font-size:12px;
-margin-left:6px;
-display:none;
+font-weight:bold;
+margin-left:10px;
 }
 
-/* CONTAINER */
+.secure{
+font-size:14px;
+color:#ccc;
+}
 
-.container{
-max-width:1000px;
-margin:auto;
-padding:40px 20px;
+/* HERO */
+.hero{
 text-align:center;
-animation:fadeUp .6s ease;
+padding:40px 20px;
 }
 
-h1{
-color:#22c55e;
-margin-bottom:30px;
+.hero h1{
+font-size:50px;
+font-weight:bold;
 }
 
-/* PLANS */
+.hero h1 span{
+color:#00ff66;
+}
 
+.hero p{
+margin-top:15px;
+color:#aaa;
+font-size:18px;
+}
+
+/* PLAN SECTION */
 .plans{
+max-width:1200px;
+margin:auto;
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:20px;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:25px;
+padding:20px;
 }
-
-/* CARD */
 
 .card{
-background:linear-gradient(145deg,#111827,#020617);
+background:#07111d;
+border:1px solid rgba(255,255,255,0.08);
+border-radius:20px;
 padding:30px;
-border-radius:18px;
-border:1px solid #1f2937;
-box-shadow:0 20px 40px rgba(0,0,0,0.7);
-transition:.3s;
+position:relative;
+box-shadow:0 0 20px rgba(0,255,100,0.08);
 }
 
-.card:hover{
-transform:translateY(-8px);
-box-shadow:0 25px 50px rgba(0,0,0,.9);
+.card.popular{
+border:2px solid #00ff66;
+transform:scale(1.03);
+box-shadow:0 0 30px rgba(0,255,100,.3);
 }
 
-/* PRICE */
+.popular-tag{
+position:absolute;
+top:-14px;
+left:50%;
+transform:translateX(-50%);
+background:#00ff66;
+color:black;
+padding:8px 20px;
+border-radius:20px;
+font-weight:bold;
+font-size:13px;
+}
+
+.plan-title{
+font-size:28px;
+margin-bottom:15px;
+}
 
 .price{
-font-size:38px;
-color:#22c55e;
-margin:15px 0;
+font-size:55px;
+font-weight:bold;
+color:#00ff66;
+margin-bottom:10px;
 }
 
-/* BUTTON */
+.billing{
+color:#aaa;
+margin-bottom:25px;
+}
+
+ul{
+list-style:none;
+text-align:left;
+margin-bottom:25px;
+}
+
+ul li{
+margin:12px 0;
+}
+
+ul li::before{
+content:"✔ ";
+color:#00ff66;
+}
 
 button{
 width:100%;
-padding:14px;
+padding:15px;
 border:none;
-border-radius:10px;
-background:linear-gradient(90deg,#22c55e,#4ade80);
-color:black;
+border-radius:12px;
+background:linear-gradient(to right,#00ff66,#00cc55);
+font-size:18px;
 font-weight:bold;
 cursor:pointer;
-margin-top:12px;
-transition:.3s;
 }
 
-button:hover{
-transform:scale(1.03);
-box-shadow:0 0 20px #22c55e;
+/* FEATURES */
+.features{
+max-width:1200px;
+margin:40px auto;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+padding:20px;
 }
 
-button:disabled{
-opacity:.6;
-cursor:not-allowed;
+.feature-box{
+background:#07111d;
+padding:25px;
+border-radius:16px;
+border:1px solid rgba(255,255,255,0.08);
 }
 
-/* LIST */
-
-ul{
-text-align:left;
-margin-top:10px;
-line-height:1.8;
+/* TRUST SECTION */
+.trust{
+max-width:1200px;
+margin:auto;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+padding:20px;
 }
 
-/* LOADER */
-
-.loader{
-margin-top:20px;
-opacity:.7;
-animation:pulse 1.5s infinite;
+.trust-box{
+background:#07111d;
+padding:25px;
+border-radius:16px;
+border:1px solid rgba(255,255,255,0.08);
+text-align:center;
 }
 
-/* ANIMATIONS */
-
-@keyframes fadeUp{
-0%{
-opacity:0;
-transform:translateY(40px);
-}
-100%{
-opacity:1;
-transform:translateY(0);
+@media(max-width:768px){
+.hero h1{
+font-size:34px;
 }
 }
-
-@keyframes pulse{
-0%{opacity:.3}
-50%{opacity:1}
-100%{opacity:.3}
-}
-
-/* MOBILE */
-
-@media(max-width:600px){
-
-.price{
-font-size:32px;
-}
-
-}
-
 </style>
-
 </head>
 
 <body>
 
 <div class="topbar">
-<div class="back" onclick="location.href='index.html'">⬅</div>
+<div class="back">← Back to Home</div>
 
-<div class="title">
-CreatorHub Premium
-<span id="badge" class="badge">ACTIVE</span>
+<div class="logo">
+CreatorHub <span>Premium</span>
+<span class="active-badge">ACTIVE</span>
 </div>
 
+<div class="secure">
+🔒 Secure & Trusted
+</div>
 </div>
 
-<div class="container">
 
-<h1>Unlock Unlimited Ebook Reading</h1>
+<div class="hero">
+<h1>Unlock <span>Unlimited</span> Ebook Reading</h1>
+<p>Choose the perfect plan and enjoy unlimited access to thousands of premium ebooks.</p>
+</div>
+
 
 <div class="plans">
 
 <div class="card">
-
-<h2>15 Days Plan</h2>
-
+<h2 class="plan-title">15 Days Plan</h2>
 <div class="price">₹399</div>
+<div class="billing">One-time payment</div>
 
 <ul>
 <li>Unlimited Ebook Reading</li>
@@ -204,18 +237,16 @@ CreatorHub Premium
 <li>No Ads Reading</li>
 </ul>
 
-<button onclick="subscribe('15days',399)">
-Subscribe Now
-</button>
-
+<button onclick="subscribe('15days',399)">Subscribe Now →</button>
 </div>
 
 
-<div class="card">
+<div class="card popular">
+<div class="popular-tag">🔥 MOST POPULAR</div>
 
-<h2>Monthly Plan</h2>
-
+<h2 class="plan-title">Monthly Plan</h2>
 <div class="price">₹799</div>
+<div class="billing">Billed monthly</div>
 
 <ul>
 <li>Unlimited Ebook Reading</li>
@@ -223,18 +254,14 @@ Subscribe Now
 <li>Early Access New Books</li>
 </ul>
 
-<button onclick="subscribe('month',799)">
-Subscribe Now
-</button>
-
+<button onclick="subscribe('month',799)">Subscribe Now →</button>
 </div>
 
 
 <div class="card">
-
-<h2>Yearly Plan</h2>
-
+<h2 class="plan-title">Yearly Plan</h2>
 <div class="price">₹3599</div>
+<div class="billing">Billed yearly</div>
 
 <ul>
 <li>Unlimited Ebook Reading</li>
@@ -242,137 +269,25 @@ Subscribe Now
 <li>Early Access + No Ads</li>
 </ul>
 
-<button onclick="subscribe('year',3599)">
-Subscribe Now
-</button>
-
+<button onclick="subscribe('year',3599)">Subscribe Now →</button>
 </div>
 
 </div>
 
-<div id="loader" class="loader">
-Checking subscription...
+
+<div class="features">
+<div class="feature-box">♾ Unlimited Access</div>
+<div class="feature-box">⭐ Premium Content</div>
+<div class="feature-box">🚫 No Ads Experience</div>
+<div class="feature-box">🎧 24/7 Support</div>
 </div>
 
+
+<div class="trust">
+<div class="trust-box">🔒 100% Secure Payments</div>
+<div class="trust-box">🎁 Cancel Anytime</div>
+<div class="trust-box">😊 Risk Free</div>
 </div>
-
-<script>
-
-/* PAYMENT API */
-
-const PAYMENT API="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
-  
-/* USER */
-
-let user=JSON.parse(localStorage.getItem("user")||"null")
-
-if(!user){
-
-alert("Login First")
-location.href="login.html"
-
-}
-
-/* CHECK SUB */
-
-async function checkSubscription(){
-
-try{
-
-let res=await fetch(PAYMENT_API+"?db=subscriptions&t="+Date.now())
-
-let subs=await res.json()
-
-document.getElementById("loader").style.display="none"
-
-if(!Array.isArray(subs)) return
-
-let active=subs.find(s=>s.email===user.email)
-
-if(active){
-
-let exp=new Date(active.expiry)
-
-if(Date.now()<exp){
-
-document.getElementById("badge").style.display="inline-block"
-
-document.querySelectorAll("button").forEach(btn=>{
-
-btn.disabled=true
-btn.innerText="Premium Active"
-
-})
-
-}
-
-}
-
-}catch{
-
-document.getElementById("loader").innerText="Subscription check failed"
-
-}
-
-}
-
-checkSubscription()
-
-/* SUBSCRIBE */
-
-async function subscribe(plan,amount){
-
-if(!confirm("Proceed to payment?")) return
-
-try{
-
-let res=await fetch(PAYMENT_API,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-
-action:"create_subscription_order",
-plan:plan,
-amount:amount,
-email:user.email
-
-})
-
-})
-
-let data=await res.json()
-
-if(data.payment_session_id){
-
-let cashfree = Cashfree({
-mode:"sandbox"
-})
-
-cashfree.checkout({
-paymentSessionId: data.payment_session_id,
-redirectTarget: "_self"
-})
-
-}else{
-
-alert(data.message || "Payment initialization failed")
-
-}
-
-}catch{
-
-alert("Payment server error")
-
-}
-
-}
-
-</script>
 
 </body>
 </html>
