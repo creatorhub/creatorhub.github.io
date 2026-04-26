@@ -5,53 +5,51 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CreatorHub Premium</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family: 'Poppins', sans-serif;
+font-family:'Poppins',sans-serif;
 }
 
 body{
-background:#020817;
+background:#050b14;
 color:white;
 overflow-x:hidden;
-position:relative;
 }
 
-/* background particles */
+/* background dots */
 body::before{
 content:"";
 position:fixed;
 width:100%;
 height:100%;
-background:
-radial-gradient(circle at 20% 20%, rgba(0,255,100,0.15) 2px, transparent 2px),
-radial-gradient(circle at 80% 30%, rgba(0,255,100,0.15) 2px, transparent 2px),
-radial-gradient(circle at 50% 60%, rgba(0,255,100,0.15) 2px, transparent 2px),
-radial-gradient(circle at 30% 80%, rgba(0,255,100,0.15) 2px, transparent 2px);
-background-size:300px 300px;
+background-image:
+radial-gradient(#00ff66 1px, transparent 1px);
+background-size:120px 120px;
+opacity:.15;
 z-index:-1;
 }
 
-/* top bar */
+/* navbar */
 .topbar{
-height:80px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:0 40px;
-border-bottom:1px solid rgba(255,255,255,0.06);
+padding:20px 30px;
+border-bottom:1px solid rgba(255,255,255,.08);
 }
 
-.back{
-font-size:18px;
+.back-btn{
 cursor:pointer;
+font-size:16px;
 }
 
 .logo{
-font-size:34px;
+font-size:30px;
 font-weight:700;
 }
 
@@ -59,19 +57,17 @@ font-weight:700;
 color:#00ff66;
 }
 
-.active{
+.active-badge{
 background:#00ff66;
 color:black;
-padding:6px 14px;
+padding:4px 12px;
 border-radius:20px;
 font-size:12px;
 margin-left:10px;
-font-weight:600;
 }
 
 .secure{
 font-size:14px;
-color:#ddd;
 }
 
 /* hero */
@@ -81,7 +77,7 @@ padding:50px 20px;
 }
 
 .hero h1{
-font-size:64px;
+font-size:55px;
 font-weight:700;
 }
 
@@ -92,265 +88,312 @@ color:#00ff66;
 .hero p{
 color:#aaa;
 margin-top:15px;
-font-size:20px;
 }
 
-/* pricing section */
+/* pricing */
 .pricing{
 max-width:1300px;
 margin:auto;
 display:flex;
 justify-content:center;
 gap:25px;
-padding:30px;
 flex-wrap:wrap;
+padding:20px;
 }
 
 .card{
-width:380px;
-background:rgba(255,255,255,0.03);
-border:1px solid rgba(255,255,255,0.08);
-border-radius:22px;
-padding:35px;
+width:360px;
+background:#08111d;
+border:1px solid rgba(255,255,255,.08);
+border-radius:20px;
+padding:30px;
 position:relative;
-backdrop-filter: blur(10px);
 }
 
 .card.popular{
 border:2px solid #00ff66;
-transform:translateY(-10px);
-box-shadow:0 0 30px rgba(0,255,100,.35);
+box-shadow:0 0 25px rgba(0,255,100,.3);
 }
 
-.popular-tag{
+.tag{
 position:absolute;
-top:-18px;
+top:-15px;
 left:50%;
 transform:translateX(-50%);
 background:#00ff66;
 color:black;
-padding:10px 25px;
-border-radius:30px;
-font-size:14px;
-font-weight:bold;
-}
-
-.plan-name{
-font-size:32px;
-margin-top:10px;
+padding:8px 20px;
+border-radius:20px;
+font-size:13px;
+font-weight:600;
 }
 
 .price{
-font-size:70px;
+font-size:60px;
 font-weight:bold;
 color:#00ff66;
 margin:20px 0;
 }
 
-.billing{
-background:rgba(255,255,255,0.05);
+.small{
+background:#111827;
 display:inline-block;
-padding:8px 18px;
+padding:8px 15px;
 border-radius:20px;
 color:#ccc;
-margin-bottom:30px;
+margin-bottom:20px;
 }
 
 .line{
 height:1px;
-background:rgba(255,255,255,0.08);
-margin:25px 0;
+background:#1f2937;
+margin:20px 0;
 }
 
-.features-list{
+ul{
 list-style:none;
+line-height:2;
 }
 
-.features-list li{
-margin:15px 0;
-font-size:18px;
-}
-
-.features-list li::before{
+ul li::before{
 content:"✔ ";
 color:#00ff66;
 }
 
-.btn{
+button{
 width:100%;
-height:55px;
+padding:15px;
+margin-top:20px;
 border:none;
 border-radius:12px;
-background:linear-gradient(90deg,#00ff66,#00cc55);
-font-size:18px;
-font-weight:700;
+background:linear-gradient(to right,#00ff66,#00cc55);
+font-weight:bold;
 cursor:pointer;
-margin-top:25px;
 }
 
-/* bottom features */
-.bottom-features,
-.bottom-trust{
+button:disabled{
+opacity:.6;
+cursor:not-allowed;
+}
+
+/* features */
+.features{
 max-width:1300px;
-margin:30px auto;
+margin:auto;
 display:grid;
-grid-template-columns:repeat(4,1fr);
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 gap:20px;
-padding:0 20px;
-}
-
-.bottom-trust{
-grid-template-columns:repeat(3,1fr);
+padding:20px;
 }
 
 .box{
-background:rgba(255,255,255,0.03);
-border:1px solid rgba(255,255,255,0.08);
+background:#08111d;
 padding:25px;
 border-radius:18px;
+border:1px solid rgba(255,255,255,.08);
 }
 
-.box h3{
-margin-bottom:10px;
+/* loader */
+.loader{
+text-align:center;
+padding:20px;
+color:#00ff66;
 }
 
-.box p{
-color:#aaa;
-font-size:14px;
-line-height:1.6;
-}
-
-@media(max-width:900px){
+@media(max-width:768px){
 .hero h1{
-font-size:38px;
-}
-
-.bottom-features,
-.bottom-trust{
-grid-template-columns:1fr;
+font-size:35px;
 }
 }
 </style>
 </head>
-
 <body>
 
 <div class="topbar">
-<div class="back">← Back to Home</div>
+<div class="back-btn" onclick="goBack()">← Back to Home</div>
 
 <div class="logo">
 Creator<span>Hub Premium</span>
-<span class="active">ACTIVE</span>
+<span id="activeBadge" class="active-badge" style="display:none;">
+ACTIVE
+</span>
 </div>
 
-<div class="secure">
-🛡 Secure & Trusted
+<div class="secure">🛡 Secure & Trusted</div>
 </div>
-</div>
-
 
 <div class="hero">
 <h1>Unlock <span>Unlimited</span> Ebook Reading</h1>
 <p>Choose the perfect plan and enjoy unlimited access to thousands of premium ebooks.</p>
 </div>
 
-
 <div class="pricing">
 
 <div class="card">
-<h2 class="plan-name">15 Days Plan</h2>
+<h2>15 Days Plan</h2>
 <div class="price">₹399</div>
-<div class="billing">One-time payment</div>
+<div class="small">One-time payment</div>
 
 <div class="line"></div>
 
-<ul class="features-list">
+<ul>
 <li>Unlimited Ebook Reading</li>
 <li>Premium Books Access</li>
 <li>No Ads Reading</li>
 </ul>
 
-<button class="btn">Subscribe Now →</button>
+<button onclick="subscribe('15days',399,this)">
+Subscribe Now →
+</button>
 </div>
 
-
 <div class="card popular">
-<div class="popular-tag">🔥 MOST POPULAR</div>
+<div class="tag">🔥 MOST POPULAR</div>
 
-<h2 class="plan-name">Monthly Plan</h2>
+<h2>Monthly Plan</h2>
 <div class="price">₹799</div>
-<div class="billing">Billed monthly</div>
+<div class="small">Billed monthly</div>
 
 <div class="line"></div>
 
-<ul class="features-list">
+<ul>
 <li>Unlimited Ebook Reading</li>
 <li>All Premium Books Free</li>
 <li>Early Access New Books</li>
 </ul>
 
-<button class="btn">Subscribe Now →</button>
+<button onclick="subscribe('month',799,this)">
+Subscribe Now →
+</button>
 </div>
 
-
 <div class="card">
-<h2 class="plan-name">Yearly Plan</h2>
+<h2>Yearly Plan</h2>
 <div class="price">₹3599</div>
-<div class="billing">Billed yearly</div>
+<div class="small">Billed yearly</div>
 
 <div class="line"></div>
 
-<ul class="features-list">
+<ul>
 <li>Unlimited Ebook Reading</li>
 <li>All Premium Books Free</li>
 <li>Early Access + No Ads</li>
 </ul>
 
-<button class="btn">Subscribe Now →</button>
+<button onclick="subscribe('year',3599,this)">
+Subscribe Now →
+</button>
 </div>
 
 </div>
 
-
-<div class="bottom-features">
-<div class="box">
-<h3>∞ Unlimited Access</h3>
-<p>Read unlimited ebooks anytime, anywhere.</p>
+<div class="features">
+<div class="box">∞ Unlimited Access</div>
+<div class="box">⭐ Premium Content</div>
+<div class="box">⚡ No Ads Experience</div>
+<div class="box">🎧 24/7 Support</div>
+<div class="box">🔒 100% Secure Payments</div>
+<div class="box">🎁 Cancel Anytime</div>
+<div class="box">😊 Risk Free</div>
 </div>
 
-<div class="box">
-<h3>⭐ Premium Content</h3>
-<p>Access exclusive premium ebooks and guides.</p>
-</div>
+<div id="loader" class="loader">Checking subscription...</div>
 
-<div class="box">
-<h3>⚡ No Ads Experience</h3>
-<p>Enjoy ad-free reading experience.</p>
-</div>
+<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 
-<div class="box">
-<h3>🎧 24/7 Support</h3>
-<p>We are here to help you anytime.</p>
-</div>
-</div>
+<script>
+const PAYMENT_API="YOUR_GOOGLE_SCRIPT_URL";
 
+/* back button */
+function goBack(){
+window.location.href="index.html";
+}
 
-<div class="bottom-trust">
-<div class="box">
-<h3>🔒 100% Secure Payments</h3>
-<p>Powered by Cashfree</p>
-</div>
+/* user check */
+let user=JSON.parse(localStorage.getItem("user") || "null");
 
-<div class="box">
-<h3>🎁 Cancel Anytime</h3>
-<p>No hidden charges.</p>
-</div>
+if(!user){
+alert("Please login first");
+window.location.href="login.html";
+}
 
-<div class="box">
-<h3>😊 Risk Free</h3>
-<p>7 days money back guarantee</p>
-</div>
-</div>
+/* subscription check */
+async function checkSubscription(){
+try{
+let res=await fetch(PAYMENT_API+"?db=subscriptions&t="+Date.now());
+let subs=await res.json();
+
+document.getElementById("loader").style.display="none";
+
+let active=subs.find(s=>s.email===user.email);
+
+if(active){
+let exp=new Date(active.expiry);
+
+if(Date.now()<exp){
+document.getElementById("activeBadge").style.display="inline-block";
+
+document.querySelectorAll("button").forEach(btn=>{
+btn.disabled=true;
+btn.innerText="Premium Active";
+});
+}
+}
+}catch(err){
+document.getElementById("loader").innerText="Subscription check failed";
+}
+}
+
+checkSubscription();
+
+/* subscribe button */
+async function subscribe(plan,amount,btn){
+
+if(btn.disabled) return;
+
+btn.disabled=true;
+btn.innerText="Processing...";
+
+try{
+let res=await fetch(PAYMENT_API,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+action:"create_subscription_order",
+plan:plan,
+amount:amount,
+email:user.email
+})
+});
+
+let data=await res.json();
+
+if(data.payment_session_id){
+
+const cashfree=Cashfree({
+mode:"sandbox"
+});
+
+cashfree.checkout({
+paymentSessionId:data.payment_session_id,
+redirectTarget:"_self"
+});
+
+}else{
+alert(data.message || "Payment failed");
+btn.disabled=false;
+btn.innerText="Subscribe Now →";
+}
+
+}catch(error){
+alert("Server error");
+btn.disabled=false;
+btn.innerText="Subscribe Now →";
+}
+}
+</script>
 
 </body>
 </html>
