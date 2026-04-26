@@ -2,452 +2,183 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CreatorHub Support</title>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial, sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#050b14;color:white}
+a{text-decoration:none;color:white}
+button{cursor:pointer}
 
-body{
-background:#050b14;
-color:white;
-}
+.navbar{display:flex;justify-content:space-between;align-items:center;padding:20px 40px;background:#08111f;border-bottom:1px solid #1f2937}
+.logo{font-size:30px;font-weight:bold;color:#22c55e}
+.nav-links a{margin:0 12px}
+.nav-icons i{margin-left:15px;cursor:pointer}
 
-/* HEADER */
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 50px;
-background:#08111f;
-border-bottom:1px solid #1e293b;
-}
+.hero{display:flex;justify-content:space-between;align-items:center;padding:50px;flex-wrap:wrap}
+.hero h1{font-size:60px}
+.hero span{color:#22c55e}
+.hero p{margin:20px 0;color:#ccc}
+.search-box{display:flex}
+.search-box input{padding:15px;width:400px;background:#111827;border:none;color:white}
+.search-box button{padding:15px 25px;background:#22c55e;border:none}
+.hero img{width:350px}
 
-.logo{
-font-size:28px;
-font-weight:bold;
-color:#22c55e;
-}
+.section-title{padding:0 50px;font-size:28px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;padding:30px 50px}
+.card{background:#111827;padding:20px;border-radius:15px;text-align:center}
+.card i{font-size:35px;color:#22c55e;margin-bottom:10px}
+.card button{margin-top:10px;padding:10px 20px;background:#22c55e;border:none;border-radius:8px}
 
-nav a{
-color:white;
-text-decoration:none;
-margin:0 15px;
-font-size:14px;
-}
+.support-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;padding:40px 50px}
+.box{background:#111827;padding:20px;border-radius:15px}
+.faq-item{padding:15px;border-bottom:1px solid #333;cursor:pointer}
+input,textarea,select{width:100%;padding:12px;margin-top:10px;background:#0f172a;border:none;color:white;border-radius:8px}
+.send-btn{width:100%;padding:12px;background:#22c55e;border:none;margin-top:10px;border-radius:8px}
 
-/* HERO */
-.hero{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:50px;
-flex-wrap:wrap;
-}
+.chat-box{height:250px;overflow-y:auto;background:#0f172a;padding:10px;border-radius:10px;margin-bottom:10px}
+.msg{padding:10px;margin:10px 0;border-radius:10px}
+.user{background:#2563eb;text-align:right}
+.bot{background:#1f2937}
 
-.hero-left{
-width:50%;
-}
+.delivery{padding:40px 50px}
+.delivery-box{background:#111827;padding:30px;border-radius:20px;text-align:center}
 
-.hero-left h1{
-font-size:55px;
-line-height:1.2;
-}
+footer{background:#08111f;padding:40px;margin-top:30px}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+.footer-grid h3{color:#22c55e}
 
-.hero-left span{
-color:#22c55e;
-}
-
-.hero-left p{
-margin:20px 0;
-color:#cbd5e1;
-}
-
-.search-box{
-display:flex;
-margin-top:20px;
-}
-
-.search-box input{
-flex:1;
-padding:15px;
-border:none;
-outline:none;
-border-radius:10px 0 0 10px;
-background:#111827;
-color:white;
-}
-
-.search-box button{
-padding:15px 25px;
-background:#22c55e;
-border:none;
-color:black;
-font-weight:bold;
-border-radius:0 10px 10px 0;
-cursor:pointer;
-}
-
-/* HERO IMAGE */
-.hero-right{
-width:40%;
-text-align:center;
-}
-
-.hero-right img{
-width:100%;
-max-width:400px;
-}
-
-/* QUICK HELP */
-.quick-help{
-padding:40px 50px;
-}
-
-.section-title{
-font-size:28px;
-margin-bottom:25px;
-}
-
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-}
-
-.card{
-background:#111827;
-padding:25px;
-border-radius:15px;
-border:1px solid #1e293b;
-transition:0.3s;
-}
-
-.card:hover{
-transform:translateY(-5px);
-border-color:#22c55e;
-}
-
-.card h3{
-margin-bottom:10px;
-color:#22c55e;
-}
-
-/* FAQ + CONTACT */
-.support-grid{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:20px;
-padding:40px 50px;
-}
-
-.box{
-background:#111827;
-padding:25px;
-border-radius:15px;
-border:1px solid #1e293b;
-}
-
-.faq-item{
-padding:12px 0;
-border-bottom:1px solid #1e293b;
-cursor:pointer;
-}
-
-.contact-form input,
-.contact-form textarea,
-.contact-form select{
-width:100%;
-padding:12px;
-margin-top:12px;
-background:#0f172a;
-border:none;
-color:white;
-border-radius:10px;
-}
-
-.contact-form button{
-width:100%;
-margin-top:15px;
-padding:14px;
-background:#22c55e;
-border:none;
-font-weight:bold;
-border-radius:10px;
-cursor:pointer;
-}
-
-/* AI CHAT */
-.chat-box{
-height:300px;
-overflow-y:auto;
-background:#0f172a;
-padding:15px;
-border-radius:10px;
-margin-bottom:10px;
-}
-
-.msg{
-padding:10px;
-margin:8px 0;
-border-radius:10px;
-max-width:80%;
-}
-
-.user{
-background:#2563eb;
-margin-left:auto;
-}
-
-.bot{
-background:#1e293b;
-}
-
-.chat-input{
-display:flex;
-gap:10px;
-}
-
-.chat-input input{
-flex:1;
-padding:12px;
-border:none;
-border-radius:10px;
-background:#0f172a;
-color:white;
-}
-
-.chat-input button{
-padding:12px 20px;
-background:#22c55e;
-border:none;
-border-radius:10px;
-font-weight:bold;
-}
-
-/* DELIVERY SECTION */
-.delivery{
-padding:50px;
-text-align:center;
-}
-
-.delivery-box{
-background:#111827;
-padding:30px;
-border-radius:20px;
-border:1px solid #1e293b;
-}
-
-.delivery h2{
-margin-bottom:20px;
-color:#22c55e;
-}
-
-/* FOOTER */
-footer{
-margin-top:50px;
-padding:30px;
-text-align:center;
-background:#08111f;
-border-top:1px solid #1e293b;
-color:#94a3b8;
-}
-
-/* MOBILE */
-@media(max-width:900px){
-.hero{
-flex-direction:column;
-}
-
-.hero-left,
-.hero-right{
-width:100%;
-}
-
-.support-grid{
-grid-template-columns:1fr;
-}
+@media(max-width:768px){
+.hero{flex-direction:column}
+.hero img{width:100%;margin-top:20px}
+.search-box{flex-direction:column}
+.search-box input{width:100%}
 }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header>
+<div class="navbar">
 <div class="logo">CreatorHub</div>
-<nav>
-<a href="#">Home</a>
-<a href="#">Categories</a>
-<a href="#">Top Creators</a>
-<a href="#">Become Seller</a>
-</nav>
-</header>
+<div class="nav-links">
+<a href="home.html">Home</a>
+<a href="categories.html">Categories</a>
+<a href="top-creators.html">Top Creators</a>
+<a href="seller.html">Become Seller</a>
+<a href="dashboard.html">Dashboard</a>
+</div>
+<div class="nav-icons">
+<i class="fa fa-search" onclick="searchHelp()"></i>
+<i class="fa fa-shopping-cart" onclick="location.href='cart.html'"></i>
+<i class="fa fa-bell" onclick="location.href='notifications.html'"></i>
+</div>
+</div>
 
-<!-- HERO -->
 <section class="hero">
-<div class="hero-left">
+<div>
 <h1>How can we <span>help</span> you?</h1>
-<p>Find answers to your questions or connect with our support team 24/7.</p>
-
+<p>Find answers to your questions or connect with support team 24/7.</p>
 <div class="search-box">
-<input type="text" placeholder="Search help articles...">
-<button>Search</button>
+<input id="searchInput" placeholder="Search help articles...">
+<button onclick="searchHelp()">Search</button>
 </div>
 </div>
-
-<div class="hero-right">
+<div>
 <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png">
 </div>
 </section>
 
-<!-- QUICK HELP -->
-<section class="quick-help">
 <h2 class="section-title">Quick Help</h2>
-
 <div class="cards">
-<div class="card">
-<h3>Buying & Payments</h3>
-<p>Refunds, payments & order issues.</p>
+<div class="card"><i class="fa fa-credit-card"></i><h3>Payments</h3><button onclick="alert('Payment Help')">View</button></div>
+<div class="card"><i class="fa fa-download"></i><h3>Downloads</h3><button onclick="alert('Download Help')">View</button></div>
+<div class="card"><i class="fa fa-wallet"></i><h3>Earnings</h3><button onclick="alert('Earnings Help')">View</button></div>
+<div class="card"><i class="fa fa-shield"></i><h3>Security</h3><button onclick="alert('Security Help')">View</button></div>
+<div class="card"><i class="fa fa-bug"></i><h3>Report Issue</h3><button onclick="alert('Issue Reported')">Report</button></div>
+<div class="card"><i class="fa fa-truck"></i><h3>Delivery</h3><button onclick="alert('Delivery Help')">View</button></div>
 </div>
 
-<div class="card">
-<h3>Downloads</h3>
-<p>Download purchased ebooks.</p>
-</div>
-
-<div class="card">
-<h3>Selling & Earnings</h3>
-<p>Payouts & seller issues.</p>
-</div>
-
-<div class="card">
-<h3>Account Security</h3>
-<p>Password & login issues.</p>
-</div>
-
-<div class="card">
-<h3>Report Issue</h3>
-<p>Facing a problem? Let us know.</p>
-</div>
-
-<div class="card">
-<h3>Delivery</h3>
-<p>Track shipping & delivery.</p>
-</div>
-</div>
-</section>
-
-<!-- FAQ + CONTACT + CHAT -->
-<section class="support-grid">
-
-<!-- FAQ -->
+<div class="support-grid">
 <div class="box">
 <h2>FAQs</h2>
-
-<div class="faq-item">How do I buy an ebook?</div>
-<div class="faq-item">How will I receive my product?</div>
-<div class="faq-item">Can I get a refund?</div>
-<div class="faq-item">How do I become seller?</div>
-<div class="faq-item">When will I receive earnings?</div>
+<div class="faq-item" onclick="alert('Buy ebook guide')">How do I buy an ebook?</div>
+<div class="faq-item" onclick="alert('Refund policy')">Can I get refund?</div>
+<div class="faq-item" onclick="alert('Seller guide')">How to become seller?</div>
+<div class="faq-item" onclick="alert('Payment security')">Is payment secure?</div>
 </div>
 
-<!-- CONTACT -->
-<div class="box contact-form">
+<div class="box">
 <h2>Contact Support</h2>
-
-<input type="text" placeholder="Your Name">
-<input type="email" placeholder="Your Email">
+<input placeholder="Your Name">
+<input placeholder="Your Email">
 <select>
-<option>Select Subject</option>
 <option>Payment Issue</option>
 <option>Refund Issue</option>
 <option>Seller Issue</option>
 </select>
-
-<textarea rows="5" placeholder="Your message"></textarea>
-<button>Send Message</button>
+<textarea placeholder="Type message"></textarea>
+<button class="send-btn" onclick="alert('Message Sent Successfully')">Send Message</button>
 </div>
 
-<!-- AI CHAT SUPPORT -->
 <div class="box">
 <h2>24/7 AI Support</h2>
-
 <div class="chat-box" id="chatBox">
 <div class="msg bot">Hi 👋 How can I help you today?</div>
 </div>
-
-<div class="chat-input">
-<input type="text" id="messageInput" placeholder="Type message...">
-<button onclick="sendMessage()">Send</button>
+<input id="msg" placeholder="Ask anything">
+<button class="send-btn" onclick="sendMessage()">Start AI Chat</button>
 </div>
 </div>
 
-</section>
-
-<!-- DELIVERY -->
-<section class="delivery">
+<div class="delivery">
 <div class="delivery-box">
 <h2>We also deliver to your doorstep</h2>
-<p>Fast delivery • Real-time tracking • Secure packaging • Easy returns</p>
+<p>Fast Delivery • Real Time Tracking • Secure Packaging • Easy Returns</p>
 </div>
-</section>
+</div>
 
-<!-- FOOTER -->
 <footer>
-© 2026 CreatorHub. All rights reserved.
+<div class="footer-grid">
+<div><h3>CreatorHub</h3><p>Digital marketplace platform.</p></div>
+<div><h3>Quick Links</h3><p>Home</p><p>Categories</p></div>
+<div><h3>Resources</h3><p>Help Center</p></div>
+<div><h3>For Sellers</h3><p>Payouts</p></div>
+<div><h3>Newsletter</h3><input placeholder="Enter Email"></div>
+</div>
 </footer>
 
 <script>
-const SUPPORT_API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec";
+const SUPPORT_API='https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec';
+
+function searchHelp(){
+let q=document.getElementById('searchInput').value;
+if(!q) return alert('Enter search text');
+alert('Searching: '+q);
+}
 
 async function sendMessage(){
-let input=document.getElementById("messageInput");
+let input=document.getElementById('msg');
 let text=input.value.trim();
-
 if(!text) return;
 
-let chatBox=document.getElementById("chatBox");
+let chat=document.getElementById('chatBox');
+chat.innerHTML += `<div class='msg user'>${text}</div>`;
+input.value='';
 
-chatBox.innerHTML += `
-<div class="msg user">${text}</div>
-`;
-
-input.value="";
-
-chatBox.innerHTML += `
-<div class="msg bot" id="loading">Typing...</div>
-`;
-
-chatBox.scrollTop=chatBox.scrollHeight;
-
-let reply="";
-
+let reply='';
 try{
-let res=await fetch(
-SUPPORT_API + "?action=support&message=" + encodeURIComponent(text)
-);
-
+let res=await fetch(SUPPORT_API+'?action=support&message='+encodeURIComponent(text));
 let data=await res.json();
-reply=data.reply || "No response";
+reply=data.reply || 'No response';
+}catch(e){
+reply='Support system busy. Try again later.';
 }
-catch(err){
-reply="Support system busy. Please try again.";
-}
 
-document.getElementById("loading").remove();
-
-chatBox.innerHTML += `
-<div class="msg bot">${reply}</div>
-`;
-
-chatBox.scrollTop=chatBox.scrollHeight;
+chat.innerHTML += `<div class='msg bot'>${reply}</div>`;
+chat.scrollTop=chat.scrollHeight;
 }
 </script>
 
 </body>
-  </html>
+</html>
