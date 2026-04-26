@@ -11,32 +11,20 @@
 body{background:#050b14;color:#fff}
 a{text-decoration:none;color:white}
 button{cursor:pointer}
+.container{width:95%;margin:auto}
 
+/* NAVBAR */
 .navbar{
 height:80px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:0 40px;
-background:#07111d;
 border-bottom:1px solid #1f2937;
 }
-
-.logo{
-font-size:34px;
-font-weight:bold;
-color:#22c55e;
-}
-
+.logo{font-size:32px;font-weight:bold;color:#22c55e}
 .nav-links a{margin:0 15px}
-
-.search-nav{
-display:flex;
-align-items:center;
-gap:15px;
-}
-
-.search-nav input{
+.nav-right{display:flex;align-items:center;gap:15px}
+.nav-search{
 padding:12px;
 background:#111827;
 border:none;
@@ -44,35 +32,25 @@ color:white;
 border-radius:10px;
 }
 
+/* HERO */
 .hero{
-display:flex;
-justify-content:space-between;
+display:grid;
+grid-template-columns:1fr 1fr;
 align-items:center;
-padding:50px;
+padding:40px 0;
 }
-
-.hero-left h1{
-font-size:70px;
-line-height:1.1;
-}
-
-.hero-left span{color:#22c55e}
-.hero-left p{margin:20px 0;color:#bbb}
-
-.hero-search{
-display:flex;
-margin-top:20px;
-}
-
+.hero h1{font-size:70px;line-height:1.1}
+.hero span{color:#22c55e}
+.hero p{margin:20px 0;color:#ccc}
+.hero-search{display:flex}
 .hero-search input{
-width:400px;
+flex:1;
 padding:15px;
 background:#111827;
 border:none;
 color:white;
 border-radius:10px 0 0 10px;
 }
-
 .hero-search button{
 padding:15px 30px;
 background:#22c55e;
@@ -80,38 +58,22 @@ border:none;
 font-weight:bold;
 border-radius:0 10px 10px 0;
 }
+.hero img{width:100%;max-width:500px}
 
-.hero-right img{
-width:450px;
-filter:drop-shadow(0 0 20px #22c55e);
-}
-
-.section-title{
-padding:0 50px;
-font-size:28px;
-margin-bottom:20px;
-}
-
+/* CARDS */
 .cards{
 display:grid;
 grid-template-columns:repeat(6,1fr);
 gap:20px;
-padding:0 50px 40px;
+margin:30px 0;
 }
-
 .card{
 background:#0b1623;
 padding:25px;
-border-radius:16px;
+border-radius:15px;
 border:1px solid #1f2937;
 }
-
-.card i{
-font-size:35px;
-color:#22c55e;
-margin-bottom:15px;
-}
-
+.card i{font-size:35px;color:#22c55e;margin-bottom:15px}
 .card button{
 margin-top:15px;
 padding:10px 20px;
@@ -120,20 +82,19 @@ border:none;
 border-radius:8px;
 }
 
+/* SUPPORT GRID */
 .support-grid{
 display:grid;
-grid-template-columns:1.2fr 1fr 1fr;
+grid-template-columns:1.3fr 1fr 1fr;
 gap:20px;
-padding:0 50px 40px;
+margin:30px 0;
 }
-
 .box{
 background:#0b1623;
 padding:25px;
-border-radius:16px;
+border-radius:15px;
 border:1px solid #1f2937;
 }
-
 .faq-item{
 padding:15px 0;
 border-bottom:1px solid #1f2937;
@@ -149,7 +110,6 @@ border:none;
 color:white;
 border-radius:8px;
 }
-
 .send-btn{
 width:100%;
 padding:14px;
@@ -162,101 +122,158 @@ font-weight:bold;
 
 .chat-box{
 height:220px;
-overflow-y:auto;
+overflow:auto;
 background:#111827;
 padding:10px;
 border-radius:10px;
 margin-bottom:10px;
 }
-
 .msg{padding:10px;margin:10px 0;border-radius:10px}
 .user{background:#2563eb}
 .bot{background:#1f2937}
 
+/* DELIVERY */
 .delivery{
-padding:0 50px 40px;
-}
-
-.delivery-box{
 background:#0b1623;
 padding:30px;
-border-radius:16px;
+border-radius:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin:30px 0;
+}
+
+/* FEATURES */
+.features{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+margin:30px 0;
+}
+.feature{
+background:#0b1623;
+padding:20px;
+border-radius:12px;
 text-align:center;
 }
 
-.footer-top{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-padding:30px 50px;
-border-top:1px solid #1f2937;
-}
-
+/* FOOTER */
 footer{
-background:#07111d;
-padding:30px 50px;
+border-top:1px solid #1f2937;
+padding:40px 0;
 }
-
 .footer-grid{
 display:grid;
 grid-template-columns:repeat(5,1fr);
 gap:20px;
 }
-
-.footer-grid h3{color:#22c55e}
+.footer-grid h3{color:#22c55e;margin-bottom:10px}
 
 @media(max-width:900px){
-.cards,.support-grid,.footer-grid,.footer-top{
+.hero,.support-grid,.cards,.features,.footer-grid{
 grid-template-columns:1fr;
 }
-.hero{flex-direction:column}
-.hero-right img{width:100%;margin-top:20px}
 }
 </style>
 </head>
 <body>
+<div class="container">
 
 <div class="navbar">
 <div class="logo">CreatorHub</div>
-
 <div class="nav-links">
-<a href="home.html">Home</a>
-<a href="categories.html">Categories</a>
-<a href="creators.html">Top Creators</a>
-<a href="seller.html">Become a Seller</a>
-<a href="dashboard.html">Dashboard</a>
+<a href="#">Home</a>
+<a href="#">Categories</a>
+<a href="#">Top Creators</a>
+<a href="#">Become Seller</a>
+<a href="#">Dashboard</a>
 </div>
-
-<div class="search-nav">
-<input placeholder="Search ebooks, guides...">
+<div class="nav-right">
+<input class="nav-search" placeholder="Search ebooks...">
 <i class="fa fa-search"></i>
-<i class="fa fa-shopping-cart" onclick="location.href='cart.html'"></i>
-<i class="fa fa-bell" onclick="location.href='notification.html'"></i>
+<i class="fa fa-shopping-cart"></i>
+<i class="fa fa-bell"></i>
 </div>
 </div>
 
-<section class="hero">
-<div class="hero-left">
+<div class="hero">
+<div>
 <h1>How can we <span>help</span> you?</h1>
-<p>Find answers to your questions or connect with our support team 24/7.</p>
+<p>Find answers or connect with support team 24/7.</p>
 <div class="hero-search">
 <input id="searchInput" placeholder="Search help articles...">
 <button onclick="searchHelp()">Search</button>
 </div>
 </div>
-
-<div class="hero-right">
+<div>
 <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png">
 </div>
-</section>
+</div>
 
-<!-- Existing sections remain same and fully working -->
+<div class="cards">
+<div class="card"><i class="fa fa-book"></i><h3>Buying</h3><button onclick="alert('Buying Help')">View</button></div>
+<div class="card"><i class="fa fa-download"></i><h3>Downloads</h3><button onclick="alert('Downloads Help')">View</button></div>
+<div class="card"><i class="fa fa-wallet"></i><h3>Earnings</h3><button onclick="alert('Earnings Help')">View</button></div>
+<div class="card"><i class="fa fa-shield"></i><h3>Security</h3><button onclick="alert('Security Help')">View</button></div>
+<div class="card"><i class="fa fa-bug"></i><h3>Report</h3><button onclick="alert('Reported')">Report</button></div>
+<div class="card"><i class="fa fa-truck"></i><h3>Delivery</h3><button onclick="alert('Delivery Help')">View</button></div>
+</div>
+
+<div class="support-grid">
+<div class="box">
+<h2>FAQs</h2>
+<div class="faq-item">How do I buy an ebook?</div>
+<div class="faq-item">Refund policy?</div>
+<div class="faq-item">Seller earnings?</div>
+</div>
+
+<div class="box">
+<h2>Contact Support</h2>
+<input placeholder="Name">
+<input placeholder="Email">
+<textarea placeholder="Message"></textarea>
+<button class="send-btn">Send Message</button>
+</div>
+
+<div class="box">
+<h2>24/7 AI Support</h2>
+<div class="chat-box" id="chatBox">
+<div class="msg bot">Hi 👋 How can I help?</div>
+</div>
+<input id="msg" placeholder="Ask anything">
+<button class="send-btn" onclick="sendMessage()">Start AI Chat</button>
+</div>
+</div>
+
+<div class="delivery">
+<h2>We also deliver to your doorstep</h2>
+<button class="send-btn" style="width:auto">Learn More</button>
+</div>
+
+<div class="features">
+<div class="feature">24/7 Support</div>
+<div class="feature">Fast Response</div>
+<div class="feature">Secure & Trusted</div>
+<div class="feature">Community Help</div>
+</div>
+
+<footer>
+<div class="footer-grid">
+<div><h3>CreatorHub</h3></div>
+<div><h3>Quick Links</h3></div>
+<div><h3>Resources</h3></div>
+<div><h3>For Sellers</h3></div>
+<div><h3>Newsletter</h3></div>
+</div>
+</footer>
+
+</div>
 
 <script>
 const SUPPORT_API='https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec';
 
 function searchHelp(){
 let q=document.getElementById('searchInput').value;
-if(!q) return alert('Enter search text');
 alert('Searching: '+q);
 }
 
@@ -275,7 +292,7 @@ let res=await fetch(SUPPORT_API+'?action=support&message='+encodeURIComponent(te
 let data=await res.json();
 reply=data.reply || 'No response';
 }catch(e){
-reply='Support system busy';
+reply='Support busy';
 }
 
 chat.innerHTML += `<div class='msg bot'>${reply}</div>`;
@@ -284,4 +301,4 @@ chat.scrollTop=chat.scrollHeight;
 </script>
 
 </body>
-</html>
+  </html>
