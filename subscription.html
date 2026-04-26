@@ -7,6 +7,8 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 <style>
 *{
 margin:0;
@@ -16,30 +18,33 @@ font-family:'Poppins',sans-serif;
 }
 
 body{
-background:#050b14;
+background:#040b14;
 color:white;
 overflow-x:hidden;
+position:relative;
 }
 
-/* background dots */
+/* glowing particles */
 body::before{
 content:"";
 position:fixed;
 width:100%;
 height:100%;
-background-image:
-radial-gradient(#00ff66 1px, transparent 1px);
-background-size:120px 120px;
-opacity:.15;
+background:
+radial-gradient(circle at 20% 20%, rgba(0,255,100,.2) 2px, transparent 2px),
+radial-gradient(circle at 70% 30%, rgba(0,255,100,.2) 2px, transparent 2px),
+radial-gradient(circle at 40% 70%, rgba(0,255,100,.2) 2px, transparent 2px),
+radial-gradient(circle at 80% 80%, rgba(0,255,100,.2) 2px, transparent 2px);
+background-size:300px 300px;
 z-index:-1;
 }
 
-/* navbar */
+/* topbar */
 .topbar{
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:20px 30px;
+padding:20px 35px;
 border-bottom:1px solid rgba(255,255,255,.08);
 }
 
@@ -49,7 +54,7 @@ font-size:16px;
 }
 
 .logo{
-font-size:30px;
+font-size:32px;
 font-weight:700;
 }
 
@@ -60,14 +65,16 @@ color:#00ff66;
 .active-badge{
 background:#00ff66;
 color:black;
-padding:4px 12px;
+padding:5px 12px;
 border-radius:20px;
 font-size:12px;
 margin-left:10px;
+display:none;
 }
 
 .secure{
 font-size:14px;
+color:#ddd;
 }
 
 /* hero */
@@ -77,7 +84,7 @@ padding:50px 20px;
 }
 
 .hero h1{
-font-size:55px;
+font-size:60px;
 font-weight:700;
 }
 
@@ -86,11 +93,12 @@ color:#00ff66;
 }
 
 .hero p{
-color:#aaa;
+color:#a1a1aa;
+font-size:20px;
 margin-top:15px;
 }
 
-/* pricing */
+/* pricing cards */
 .pricing{
 max-width:1300px;
 margin:auto;
@@ -102,20 +110,20 @@ padding:20px;
 }
 
 .card{
-width:360px;
-background:#08111d;
+width:370px;
+background:#07111d;
 border:1px solid rgba(255,255,255,.08);
-border-radius:20px;
+border-radius:22px;
 padding:30px;
 position:relative;
 }
 
 .card.popular{
 border:2px solid #00ff66;
-box-shadow:0 0 25px rgba(0,255,100,.3);
+box-shadow:0 0 30px rgba(0,255,100,.3);
 }
 
-.tag{
+.popular-tag{
 position:absolute;
 top:-15px;
 left:50%;
@@ -123,31 +131,52 @@ transform:translateX(-50%);
 background:#00ff66;
 color:black;
 padding:8px 20px;
-border-radius:20px;
+border-radius:25px;
 font-size:13px;
 font-weight:600;
 }
 
-.price{
-font-size:60px;
-font-weight:bold;
+.plan-icon{
+width:70px;
+height:70px;
+margin:auto;
+margin-bottom:20px;
+border-radius:20px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(0,255,100,.08);
 color:#00ff66;
-margin:20px 0;
+font-size:28px;
 }
 
-.small{
-background:#111827;
+.card h2{
+text-align:center;
+margin-bottom:15px;
+}
+
+.price{
+font-size:65px;
+text-align:center;
+font-weight:700;
+color:#00ff66;
+}
+
+.billing{
 display:inline-block;
-padding:8px 15px;
+padding:8px 16px;
+background:#111827;
 border-radius:20px;
-color:#ccc;
-margin-bottom:20px;
+margin:15px auto;
+display:block;
+width:fit-content;
+color:#ddd;
 }
 
 .line{
 height:1px;
 background:#1f2937;
-margin:20px 0;
+margin:25px 0;
 }
 
 ul{
@@ -160,18 +189,19 @@ content:"✔ ";
 color:#00ff66;
 }
 
-button{
+.subscribe-btn{
 width:100%;
-padding:15px;
-margin-top:20px;
+padding:16px;
 border:none;
 border-radius:12px;
 background:linear-gradient(to right,#00ff66,#00cc55);
-font-weight:bold;
+font-weight:700;
 cursor:pointer;
+margin-top:20px;
+font-size:16px;
 }
 
-button:disabled{
+.subscribe-btn:disabled{
 opacity:.6;
 cursor:not-allowed;
 }
@@ -181,16 +211,46 @@ cursor:not-allowed;
 max-width:1300px;
 margin:auto;
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
 gap:20px;
 padding:20px;
 }
 
+.trust-section{
+grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+}
+
 .box{
-background:#08111d;
+background:#07111d;
 padding:25px;
 border-radius:18px;
 border:1px solid rgba(255,255,255,.08);
+display:flex;
+align-items:center;
+gap:18px;
+}
+
+.icon{
+width:60px;
+height:60px;
+min-width:60px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(0,255,100,.08);
+color:#00ff66;
+font-size:24px;
+box-shadow:0 0 20px rgba(0,255,100,.15);
+}
+
+.box h3{
+margin-bottom:6px;
+}
+
+.box p{
+color:#a1a1aa;
+font-size:14px;
 }
 
 /* loader */
@@ -204,6 +264,11 @@ color:#00ff66;
 .hero h1{
 font-size:35px;
 }
+
+.topbar{
+flex-direction:column;
+gap:15px;
+}
 }
 </style>
 </head>
@@ -214,25 +279,32 @@ font-size:35px;
 
 <div class="logo">
 Creator<span>Hub Premium</span>
-<span id="activeBadge" class="active-badge" style="display:none;">
-ACTIVE
-</span>
+<span id="activeBadge" class="active-badge">ACTIVE</span>
 </div>
 
-<div class="secure">🛡 Secure & Trusted</div>
+<div class="secure">
+<i class="fa-solid fa-shield-halved"></i>
+Secure & Trusted
 </div>
+</div>
+
 
 <div class="hero">
 <h1>Unlock <span>Unlimited</span> Ebook Reading</h1>
 <p>Choose the perfect plan and enjoy unlimited access to thousands of premium ebooks.</p>
 </div>
 
+
 <div class="pricing">
 
 <div class="card">
+<div class="plan-icon">
+<i class="fa-regular fa-calendar"></i>
+</div>
+
 <h2>15 Days Plan</h2>
 <div class="price">₹399</div>
-<div class="small">One-time payment</div>
+<div class="billing">One-time payment</div>
 
 <div class="line"></div>
 
@@ -242,17 +314,24 @@ ACTIVE
 <li>No Ads Reading</li>
 </ul>
 
-<button onclick="subscribe('15days',399,this)">
+<button class="subscribe-btn" onclick="subscribe('15days',399,this)">
 Subscribe Now →
 </button>
 </div>
 
+
 <div class="card popular">
-<div class="tag">🔥 MOST POPULAR</div>
+<div class="popular-tag">
+🔥 MOST POPULAR
+</div>
+
+<div class="plan-icon">
+<i class="fa-solid fa-crown"></i>
+</div>
 
 <h2>Monthly Plan</h2>
 <div class="price">₹799</div>
-<div class="small">Billed monthly</div>
+<div class="billing">Billed monthly</div>
 
 <div class="line"></div>
 
@@ -262,15 +341,20 @@ Subscribe Now →
 <li>Early Access New Books</li>
 </ul>
 
-<button onclick="subscribe('month',799,this)">
+<button class="subscribe-btn" onclick="subscribe('month',799,this)">
 Subscribe Now →
 </button>
 </div>
 
+
 <div class="card">
+<div class="plan-icon">
+<i class="fa-solid fa-shield"></i>
+</div>
+
 <h2>Yearly Plan</h2>
 <div class="price">₹3599</div>
-<div class="small">Billed yearly</div>
+<div class="billing">Billed yearly</div>
 
 <div class="line"></div>
 
@@ -280,36 +364,92 @@ Subscribe Now →
 <li>Early Access + No Ads</li>
 </ul>
 
-<button onclick="subscribe('year',3599,this)">
+<button class="subscribe-btn" onclick="subscribe('year',3599,this)">
 Subscribe Now →
 </button>
 </div>
 
 </div>
 
+
 <div class="features">
-<div class="box">∞ Unlimited Access</div>
-<div class="box">⭐ Premium Content</div>
-<div class="box">⚡ No Ads Experience</div>
-<div class="box">🎧 24/7 Support</div>
-<div class="box">🔒 100% Secure Payments</div>
-<div class="box">🎁 Cancel Anytime</div>
-<div class="box">😊 Risk Free</div>
+
+<div class="box">
+<div class="icon"><i class="fas fa-infinity"></i></div>
+<div>
+<h3>Unlimited Access</h3>
+<p>Read unlimited ebooks anytime, anywhere.</p>
+</div>
 </div>
 
-<div id="loader" class="loader">Checking subscription...</div>
+<div class="box">
+<div class="icon"><i class="fas fa-award"></i></div>
+<div>
+<h3>Premium Content</h3>
+<p>Access exclusive premium ebooks and guides.</p>
+</div>
+</div>
+
+<div class="box">
+<div class="icon"><i class="fas fa-bolt"></i></div>
+<div>
+<h3>No Ads Experience</h3>
+<p>Enjoy ad-free reading experience.</p>
+</div>
+</div>
+
+<div class="box">
+<div class="icon"><i class="fas fa-headset"></i></div>
+<div>
+<h3>24/7 Support</h3>
+<p>We are here to help you anytime.</p>
+</div>
+</div>
+
+</div>
+
+
+<div class="features trust-section">
+
+<div class="box">
+<div class="icon"><i class="fas fa-lock"></i></div>
+<div>
+<h3>100% Secure Payments</h3>
+<p>Powered by Cashfree</p>
+</div>
+</div>
+
+<div class="box">
+<div class="icon"><i class="fas fa-gift"></i></div>
+<div>
+<h3>Cancel Anytime</h3>
+<p>No hidden charges. Cancel anytime.</p>
+</div>
+</div>
+
+<div class="box">
+<div class="icon"><i class="fas fa-smile"></i></div>
+<div>
+<h3>Risk Free</h3>
+<p>7 days money back guarantee</p>
+</div>
+</div>
+
+</div>
+
+<div id="loader" class="loader">
+Checking subscription...
+</div>
 
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 
 <script>
 const PAYMENT_API="YOUR_GOOGLE_SCRIPT_URL";
 
-/* back button */
 function goBack(){
 window.location.href="index.html";
 }
 
-/* user check */
 let user=JSON.parse(localStorage.getItem("user") || "null");
 
 if(!user){
@@ -317,23 +457,23 @@ alert("Please login first");
 window.location.href="login.html";
 }
 
-/* subscription check */
+/* check subscription */
 async function checkSubscription(){
 try{
-let res=await fetch(PAYMENT_API+"?db=subscriptions&t="+Date.now());
+let res=await fetch(PAYMENT_API + "?db=subscriptions&t=" + Date.now());
 let subs=await res.json();
 
 document.getElementById("loader").style.display="none";
 
-let active=subs.find(s=>s.email===user.email);
+let active=subs.find(s => s.email === user.email);
 
 if(active){
 let exp=new Date(active.expiry);
 
-if(Date.now()<exp){
+if(Date.now() < exp){
 document.getElementById("activeBadge").style.display="inline-block";
 
-document.querySelectorAll("button").forEach(btn=>{
+document.querySelectorAll(".subscribe-btn").forEach(btn=>{
 btn.disabled=true;
 btn.innerText="Premium Active";
 });
@@ -346,7 +486,7 @@ document.getElementById("loader").innerText="Subscription check failed";
 
 checkSubscription();
 
-/* subscribe button */
+/* payment */
 async function subscribe(plan,amount,btn){
 
 if(btn.disabled) return;
@@ -355,6 +495,7 @@ btn.disabled=true;
 btn.innerText="Processing...";
 
 try{
+
 let res=await fetch(PAYMENT_API,{
 method:"POST",
 headers:{
@@ -387,7 +528,7 @@ btn.disabled=false;
 btn.innerText="Subscribe Now →";
 }
 
-}catch(error){
+}catch(err){
 alert("Server error");
 btn.disabled=false;
 btn.innerText="Subscribe Now →";
