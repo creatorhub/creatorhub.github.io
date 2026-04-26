@@ -157,14 +157,61 @@ border-bottom:1px solid #1f2937;
 cursor:pointer;
 }
 
-input,textarea,select{
+.contact-box{
+background:#08111f;
+border:1px solid rgba(255,255,255,0.08);
+border-radius:18px;
+padding:25px;
+}
+
+.contact-box h2{
+font-size:28px;
+margin-bottom:10px;
+}
+
+.contact-subtitle{
+color:#9ca3af;
+margin-bottom:20px;
+}
+
+.contact-subtitle span{
+color:#22c55e;
+font-weight:bold;
+}
+
+.contact-box input,
+.contact-box textarea,
+.contact-box select{
 width:100%;
-padding:12px;
-margin-top:10px;
-background:#111827;
-border:none;
+padding:14px;
+margin-top:14px;
+background:#0f172a;
+border:1px solid rgba(255,255,255,0.08);
+border-radius:10px;
 color:white;
-border-radius:8px;
+outline:none;
+}
+
+.file-upload{
+margin-top:15px;
+color:#9ca3af;
+font-size:14px;
+}
+
+.contact-btn{
+width:100%;
+padding:15px;
+margin-top:20px;
+background:#22c55e;
+border:none;
+border-radius:12px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.contact-btn:hover{
+background:#16a34a;
 }
 .send-btn{
 width:100%;
@@ -383,12 +430,37 @@ grid-template-columns:1fr;
 <div class="faq-item">Seller earnings?</div>
 </div>
 
-<div class="box">
-<h2>Contact Support</h2>
-<input placeholder="Name">
-<input placeholder="Email">
-<textarea placeholder="Message"></textarea>
-<button class="send-btn">Send Message</button>
+<div class="box contact-box">
+    
+    <h2>Contact Support</h2>
+    <p class="contact-subtitle">
+        We usually respond within <span>24 hours.</span>
+    </p>
+
+    <input type="text" placeholder="Enter your name">
+
+    <input type="email" placeholder="Enter your email">
+
+    <select>
+        <option>Select a subject</option>
+        <option>Payment Issue</option>
+        <option>Refund Issue</option>
+        <option>Seller Issue</option>
+    </select>
+
+    <input type="text" placeholder="Enter your order ID">
+
+    <textarea rows="5" placeholder="Type your message here..."></textarea>
+
+    <div class="file-upload">
+        <label>Attach File (optional)</label>
+        <input type="file">
+    </div>
+
+    <button class="contact-btn" onclick="alert('Message Sent Successfully')">
+        Send Message ✈
+    </button>
+
 </div>
 
 <div class="box">
