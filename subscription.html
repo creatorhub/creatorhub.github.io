@@ -441,10 +441,24 @@ Subscribe Now →
 Checking subscription...
 </div>
 
+<div id="footer-container"></div>
+  
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 
 <script>
 const PAYMENT_API="YOUR_GOOGLE_SCRIPT_URL";
+
+async function loadFooter() {
+    try {
+        const response = await fetch("footer.html");
+        const data = await response.text();
+        document.getElementById("footer-container").innerHTML = data;
+    } catch (error) {
+        console.log("Footer load failed");
+    }
+}
+
+loadFooter();
 
 function goBack(){
 window.location.href="index.html";
