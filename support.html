@@ -293,6 +293,77 @@ border-radius:10px;
 font-weight:bold;
 }
 
+.ai-support-box{
+background:#08111f;
+border:1px solid rgba(255,255,255,0.08);
+border-radius:18px;
+padding:25px;
+text-align:center;
+}
+
+.ai-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.ai-badge{
+background:#22c55e;
+color:black;
+padding:6px 12px;
+border-radius:10px;
+font-weight:bold;
+font-size:14px;
+}
+
+.ai-robot img{
+width:180px;
+filter:drop-shadow(0 0 20px rgba(34,197,94,0.4));
+margin-bottom:20px;
+}
+
+.ai-support-box h3{
+font-size:26px;
+margin-bottom:10px;
+}
+
+.ai-desc{
+color:#9ca3af;
+margin-bottom:20px;
+}
+
+.ai-list{
+text-align:left;
+margin-bottom:25px;
+}
+
+.ai-list div{
+padding:10px 0;
+border-bottom:1px solid rgba(255,255,255,0.08);
+color:white;
+}
+
+.ai-chat-btn{
+width:100%;
+padding:14px;
+background:#22c55e;
+border:none;
+border-radius:12px;
+font-weight:bold;
+cursor:pointer;
+margin-bottom:20px;
+}
+
+.ai-footer{
+color:#9ca3af;
+}
+
+.ai-footer span{
+color:#22c55e;
+font-weight:bold;
+}
+    
 .chat-box{
 height:220px;
 overflow:auto;
@@ -586,14 +657,41 @@ grid-template-columns:1fr;
 
 </div>
 
-<div class="box">
-<h2>24/7 AI Support</h2>
-<div class="chat-box" id="chatBox">
-<div class="msg bot">Hi 👋 How can I help?</div>
-</div>
-<input id="msg" placeholder="Ask anything">
-<button class="send-btn" onclick="sendMessage()">Start AI Chat</button>
-</div>
+<div class="box ai-support-box">
+
+    <div class="ai-top">
+        <h2>24/7 AI Support</h2>
+        <div class="ai-badge">AI</div>
+    </div>
+
+    <div class="ai-robot">
+        <img src="https://cdn-icons-png.flaticon.com/512/8943/8943377.png">
+    </div>
+
+    <h3>Chat with CreatorHub AI</h3>
+
+    <p class="ai-desc">
+        Get instant answers anytime, anywhere.
+    </p>
+
+    <div class="ai-list">
+        <div>✔ Payment issues</div>
+        <div>✔ Refund & cancellation</div>
+        <div>✔ Download problems</div>
+        <div>✔ Account recovery</div>
+        <div>✔ Upload & seller issues</div>
+        <div>✔ Delivery & shipping</div>
+        <div>✔ And much more...</div>
+    </div>
+
+    <button class="ai-chat-btn" onclick="openAiChat()">
+        Start AI Chat
+    </button>
+
+    <p class="ai-footer">
+        Always here for you <span>24/7</span>
+    </p>
+
 </div>
 
 <div class="delivery-section">
