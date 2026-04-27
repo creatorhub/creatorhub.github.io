@@ -270,6 +270,65 @@ color:#22c55e;
 #footer-container{
 margin-top:20px;
 }
+
+.side{
+position:fixed;
+top:0;
+left:0;
+width:270px;
+height:100%;
+background:#020617;
+padding:20px;
+transform:translateX(-100%);
+transition:.3s;
+z-index:9999;
+box-shadow:5px 0 30px black;
+overflow:auto;
+}
+
+.side.open{
+transform:translateX(0);
+}
+
+.menuHeader{
+text-align:center;
+margin-bottom:20px;
+}
+
+.menuHeader img{
+width:70px;
+height:70px;
+border-radius:50%;
+border:2px solid #22c55e;
+object-fit:cover;
+}
+
+.menuHeader div{
+margin-top:8px;
+font-weight:bold;
+}
+
+.side a{
+display:block;
+background:#111827;
+padding:14px;
+margin-top:12px;
+border-radius:12px;
+text-decoration:none;
+color:white;
+cursor:pointer;
+}
+
+#overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.6);
+display:none;
+z-index:9998;
+                          }
 </style>
 </head>
 <body>
@@ -451,6 +510,29 @@ View Seller Profile
 </div>
 </div>
 
+<div id="menu" class="side">
+
+<div class="menuHeader">
+<img id="menuProfile">
+
+<div id="menuName">User</div>
+</div>
+
+<a href="index.html">Home</a>
+<a href="upload.html">Upload Ebook</a>
+<a href="library.html">My Library</a>
+<a href="orders.html">Orders</a>
+<a href="wallet.html">Wallet</a>
+<a href="subscription.html">Premium Subscription</a>
+<a href="trending.html">Trending Books</a>
+<a href="topselling.html">Top Selling Books</a>
+<a href="toprated.html">Highest Rated Books</a>
+<a onclick="logout()">Logout</a>
+
+</div>
+
+<div id="overlay" onclick="closeMenu()"></div>
+    
 <!-- Footer -->
 <div id="footer-container"></div>
 
@@ -462,11 +544,33 @@ function go(page){
 window.location.href=page;
 }
 
+let user=JSON.parse(localStorage.getItem("user")||"{}")
+
+let profile=
+localStorage.getItem("profile_"+(user?.email||"guest"))
+
+document.getElementById("menuProfile").src=
+profile ||
+"https://cdn-icons-png.flaticon.com/512/149/149071.png"
+
+document.getElementById("menuName").innerText=
+user.name || "Guest"
+
 function openMenu(){
-const sidebar=document.querySelector(".sidebar");
-sidebar.classList.toggle("hide-sidebar");
+document.getElementById("menu").classList.add("open")
+document.getElementById("overlay").style.display="block"
 }
 
+function closeMenu(){
+document.getElementById("menu").classList.remove("open")
+document.getElementById("overlay").style.display="none"
+}
+
+function logout(){
+localStorage.removeItem("user")
+location.href="login.html"
+}
+    
 new Chart(document.getElementById("lineChart"),{
 type:"line",
 data:{
