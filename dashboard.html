@@ -22,18 +22,17 @@ body{
 background:#020617;
 color:white;
 overflow-x:auto;
-overflow-y:auto;
 min-width:1400px;
 }
 
-/* MAIN WRAPPER */
+/* wrapper */
 .wrapper{
 display:flex;
 width:1400px;
 min-height:100vh;
 }
 
-/* SIDEBAR */
+/* sidebar */
 .sidebar{
 width:260px;
 background:#07111f;
@@ -97,7 +96,6 @@ background:#14532d;
 color:#22c55e;
 }
 
-/* promo */
 .promo,.help{
 background:#111827;
 padding:20px;
@@ -115,13 +113,12 @@ margin-top:10px;
 cursor:pointer;
 }
 
-/* MAIN CONTENT */
+/* main */
 .main{
 flex:1;
 padding:20px;
 }
 
-/* HEADER */
 .topbar{
 display:flex;
 justify-content:space-between;
@@ -145,7 +142,6 @@ cursor:pointer;
 font-weight:bold;
 }
 
-/* STATS */
 .cards{
 display:grid;
 grid-template-columns:repeat(5,1fr);
@@ -163,7 +159,7 @@ border-radius:16px;
 color:#22c55e;
 }
 
-/* GRAPH */
+/* graph section */
 .middle{
 display:grid;
 grid-template-columns:2fr 1fr;
@@ -177,8 +173,8 @@ padding:20px;
 border-radius:16px;
 }
 
-/* orders */
-.order-item{
+.order-item,
+.ebook-item{
 display:flex;
 justify-content:space-between;
 padding:12px 0;
@@ -192,21 +188,27 @@ grid-template-columns:1fr 1fr 1fr;
 gap:20px;
 }
 
-.ebook-item{
-display:flex;
-justify-content:space-between;
-padding:12px 0;
-border-bottom:1px solid #1f2937;
-}
-
-/* application */
+/* badge */
 .status-icon{
-font-size:80px;
-color:#22c55e;
 text-align:center;
 margin:20px 0;
 }
 
+.status-icon img{
+width:120px;
+height:120px;
+object-fit:contain;
+filter:drop-shadow(0px 0px 10px rgba(34,197,94,0.6));
+animation:floatBadge 3s infinite ease-in-out;
+}
+
+@keyframes floatBadge{
+0%{transform:translateY(0px);}
+50%{transform:translateY(-8px);}
+100%{transform:translateY(0px);}
+}
+
+/* features */
 .features{
 display:grid;
 grid-template-columns:repeat(4,1fr);
@@ -214,33 +216,17 @@ gap:10px;
 margin-top:20px;
 }
 
-.status-icon img{
-animation: floatBadge 3s infinite ease-in-out;
-}
-
-@keyframes floatBadge{
-0%{
-transform:translateY(0px);
-}
-50%{
-transform:translateY(-8px);
-}
-100%{
-transform:translateY(0px);
-}
-}
-
 .feature{
 background:#0f172a;
 padding:15px;
 border-radius:12px;
-text-align:center;
 display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
 gap:10px;
 font-size:14px;
+text-align:center;
 }
 
 .feature i{
@@ -312,14 +298,13 @@ Creator<span>Hub</span>
 <i class="fa fa-bell"></i>
 <i class="fa fa-user-circle"></i>
 
-<button class="upload-btn"
-onclick="go('upload.html')">
+<button class="upload-btn" onclick="go('upload.html')">
 + Upload Ebook
 </button>
 </div>
 </div>
 
-<!-- cards -->
+<!-- Cards -->
 <div class="cards">
 <div class="card">
 <h3>Total Earnings</h3>
@@ -352,7 +337,7 @@ onclick="go('upload.html')">
 </div>
 </div>
 
-<!-- graph -->
+<!-- Graph -->
 <div class="middle">
 
 <div class="box">
@@ -382,10 +367,11 @@ onclick="go('upload.html')">
 <span>5 AM Club</span>
 <span>₹149</span>
 </div>
+
 </div>
 </div>
 
-<!-- bottom -->
+<!-- Bottom -->
 <div class="bottom">
 
 <div class="box">
@@ -416,17 +402,20 @@ onclick="go('upload.html')">
 <h3>Application Status</h3>
 
 <div class="status-icon">
-<img src="badge.png">
+<img src="https://cdn-icons-png.flaticon.com/512/845/845646.png">
 </div>
 
 <h2 class="green">Approved Seller</h2>
 <p>You can upload ebooks and start selling</p>
 
-<button class="upload-btn">
+<br>
+
+<button class="upload-btn" onclick="go('seller-profile.html')">
 View Seller Profile
 </button>
 
 <div class="features">
+
 <div class="feature">
 <i class="fa-solid fa-money-bill-trend-up"></i>
 <span>90% Earnings</span>
@@ -446,11 +435,11 @@ View Seller Profile
 <i class="fa-solid fa-headset"></i>
 <span>24/7 Support</span>
 </div>
+
+</div>
 </div>
 
 </div>
-
-</div>>
 
 </div>
 </div>
@@ -489,15 +478,16 @@ backgroundColor:[
 });
 </script>
 
+<!-- Footer -->
 <div id="footer-container"></div>
 
 <script>
 fetch("footer.html")
-.then(response => response.text())
-.then(data => {
-document.getElementById("footer-container").innerHTML = data;
+.then(res=>res.text())
+.then(data=>{
+document.getElementById("footer-container").innerHTML=data;
 })
-.catch(error => console.log(error));
+.catch(err=>console.log(err));
 </script>
 
 </body>
