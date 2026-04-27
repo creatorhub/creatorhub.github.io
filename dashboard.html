@@ -23,14 +23,47 @@ background:#020617;
 color:white;
 overflow-x:auto;
 min-width:1400px;
-height:auto;
+}
+
+/* top menu */
+.top-menu-toggle{
+position:fixed;
+top:15px;
+left:15px;
+display:flex;
+align-items:center;
+gap:10px;
+z-index:9999;
+background:#07111f;
+padding:10px 15px;
+border-radius:12px;
+box-shadow:0 0 10px rgba(0,0,0,0.4);
+}
+
+.menu-icon{
+font-size:20px;
+cursor:pointer;
+color:white;
+}
+
+.menu-icon:hover{
+color:#22c55e;
+}
+
+.logo{
+font-size:24px;
+font-weight:bold;
+}
+
+.logo span{
+color:#22c55e;
 }
 
 /* wrapper */
 .wrapper{
 display:flex;
 width:1400px;
-height:auto;
+min-height:100vh;
 }
 
 /* sidebar */
@@ -39,39 +72,12 @@ width:260px;
 background:#07111f;
 padding:20px;
 border-right:1px solid #1f2937;
+margin-top:70px;
+transition:.3s;
 }
 
-.logo{
-font-size:32px;
-font-weight:bold;
-margin-bottom:0;
-}
-
-.logo-container{
-display:flex;
-align-items:center;
-justify-content:flex-start;
-gap:8px;
-margin-bottom:25px;
-}
-
-.menu-icon{
-font-size:18px;
-cursor:pointer;
-color:white;
-display:flex;
-align-items:center;
-justify-content:center;
-margin-top:2px;
-}
-
-.menu-icon:hover{
-color:#22c55e;
-transform:scale(1.1);
-}
-
-.logo span{
-color:#22c55e;
+.hide-sidebar{
+display:none;
 }
 
 .profile-box{
@@ -141,6 +147,7 @@ cursor:pointer;
 .main{
 flex:1;
 padding:20px;
+margin-top:70px;
 }
 
 .topbar{
@@ -166,6 +173,7 @@ cursor:pointer;
 font-weight:bold;
 }
 
+/* cards */
 .cards{
 display:grid;
 grid-template-columns:repeat(5,1fr);
@@ -183,7 +191,7 @@ border-radius:16px;
 color:#22c55e;
 }
 
-/* graph section */
+/* graph */
 .middle{
 display:grid;
 grid-template-columns:2fr 1fr;
@@ -258,47 +266,24 @@ font-size:22px;
 color:#22c55e;
 }
 
-.top-menu-toggle{
-position:fixed;
-top:15px;
-left:15px;
-display:flex;
-align-items:center;
-gap:10px;
-z-index:9999;
-background:#07111f;
-padding:10px 15px;
-border-radius:12px;
+/* footer */
+#footer-container{
+margin-top:20px;
 }
-
-.top-menu-toggle .logo{
-font-size:24px;
-margin:0;
-}
-
-.hide-sidebar{
-display:none;
-  }
 </style>
 </head>
 <body>
 
-<body>
-
+<!-- top menu -->
 <div class="top-menu-toggle">
     <i class="fa-solid fa-bars menu-icon" onclick="openMenu()"></i>
-
-    <div class="logo">
-        Creator<span>Hub</span>
-    </div>
+    <div class="logo">Creator<span>Hub</span></div>
 </div>
 
 <div class="wrapper">
 
 <!-- Sidebar -->
 <div class="sidebar">
-
-</div>
 
 <div class="profile-box" onclick="go('profile.html')">
 <div style="display:flex;gap:10px;">
@@ -393,7 +378,6 @@ display:none;
 
 <!-- Graph -->
 <div class="middle">
-
 <div class="box">
 <h3>Sales Overview</h3>
 <canvas id="lineChart"></canvas>
@@ -402,25 +386,10 @@ display:none;
 <div class="box">
 <h3>Recent Orders</h3>
 
-<div class="order-item">
-<span>Power Of Focus</span>
-<span>₹199</span>
-</div>
-
-<div class="order-item">
-<span>Atomic Habits</span>
-<span>₹249</span>
-</div>
-
-<div class="order-item">
-<span>Deep Work</span>
-<span>₹199</span>
-</div>
-
-<div class="order-item">
-<span>5 AM Club</span>
-<span>₹149</span>
-</div>
+<div class="order-item"><span>Power Of Focus</span><span>₹199</span></div>
+<div class="order-item"><span>Atomic Habits</span><span>₹249</span></div>
+<div class="order-item"><span>Deep Work</span><span>₹199</span></div>
+<div class="order-item"><span>5 AM Club</span><span>₹149</span></div>
 
 </div>
 </div>
@@ -431,20 +400,9 @@ display:none;
 <div class="box">
 <h3>Top Ebooks</h3>
 
-<div class="ebook-item">
-<span>Power Of Focus</span>
-<span>₹2388</span>
-</div>
-
-<div class="ebook-item">
-<span>Atomic Habits</span>
-<span>₹2490</span>
-</div>
-
-<div class="ebook-item">
-<span>Think & Grow Rich</span>
-<span>₹1192</span>
-</div>
+<div class="ebook-item"><span>Power Of Focus</span><span>₹2388</span></div>
+<div class="ebook-item"><span>Atomic Habits</span><span>₹2490</span></div>
+<div class="ebook-item"><span>Think & Grow Rich</span><span>₹1192</span></div>
 </div>
 
 <div class="box">
@@ -469,7 +427,6 @@ View Seller Profile
 </button>
 
 <div class="features">
-
 <div class="feature">
 <i class="fa-solid fa-money-bill-trend-up"></i>
 <span>90% Earnings</span>
@@ -489,11 +446,13 @@ View Seller Profile
 <i class="fa-solid fa-headset"></i>
 <span>24/7 Support</span>
 </div>
-
-</div>
 </div>
 
 </div>
+</div>
+
+<!-- Footer -->
+<div id="footer-container"></div>
 
 </div>
 </div>
@@ -504,7 +463,7 @@ window.location.href=page;
 }
 
 function openMenu(){
-const sidebar = document.querySelector(".sidebar");
+const sidebar=document.querySelector(".sidebar");
 sidebar.classList.toggle("hide-sidebar");
 }
 
@@ -527,20 +486,11 @@ data:{
 labels:["Ebook","Print","Bonus"],
 datasets:[{
 data:[82,11,7],
-backgroundColor:[
-"#22c55e",
-"#3b82f6",
-"#f59e0b"
-]
+backgroundColor:["#22c55e","#3b82f6","#f59e0b"]
 }]
 }
 });
-</script>
 
-<!-- Footer -->
-<div id="footer-container"></div>
-
-<script>
 fetch("footer.html")
 .then(res=>res.text())
 .then(data=>{
@@ -550,4 +500,4 @@ document.getElementById("footer-container").innerHTML=data;
 </script>
 
 </body>
-  </html>
+                    </html>
