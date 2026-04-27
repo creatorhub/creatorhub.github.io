@@ -2,65 +2,84 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CreatorHub Wallet</title>
+
+<!-- Font Awesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
 <style>
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial, sans-serif;
+    font-family:Arial,sans-serif;
 }
 
 body{
-    background:#050b17;
+    background:#030712;
     color:white;
     display:flex;
 }
 
 /* SIDEBAR */
 .sidebar{
-    width:240px;
-    background:#08111f;
+    width:260px;
+    background:#020617;
     min-height:100vh;
+    border-right:1px solid #1f2937;
     padding:20px;
-    border-right:1px solid #1e293b;
 }
 
 .logo{
-    font-size:24px;
+    font-size:28px;
     font-weight:bold;
-    color:#22c55e;
     margin-bottom:30px;
+}
+
+.logo span{
+    color:#22c55e;
 }
 
 .profile{
     background:#0f172a;
-    padding:15px;
-    border-radius:12px;
-    margin-bottom:30px;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:25px;
+    text-align:center;
 }
 
-.profile h3{
-    font-size:18px;
+.avatar{
+    width:60px;
+    height:60px;
+    background:#22c55e;
+    color:black;
+    font-weight:bold;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:auto;
+    margin-bottom:10px;
 }
 
 .profile p{
     color:#22c55e;
-    margin-top:5px;
 }
 
+/* MENU */
 .menu{
     list-style:none;
 }
 
 .menu li{
     padding:14px;
-    margin-bottom:10px;
+    margin-bottom:8px;
     border-radius:10px;
     cursor:pointer;
-    transition:0.3s;
+    display:flex;
+    gap:12px;
+    align-items:center;
 }
 
 .menu li:hover,
@@ -75,7 +94,7 @@ body{
     padding:25px;
 }
 
-/* TOP */
+/* TOPBAR */
 .topbar{
     display:flex;
     justify-content:space-between;
@@ -83,80 +102,87 @@ body{
     margin-bottom:25px;
 }
 
-.topbar h1{
-    font-size:28px;
+.top-icons{
+    display:flex;
+    gap:20px;
+    font-size:20px;
 }
 
-/* STAT CARDS */
+/* STATS */
 .stats{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    grid-template-columns:repeat(4,1fr);
     gap:20px;
     margin-bottom:25px;
 }
 
-.card{
+.stat-card{
     background:#0f172a;
     padding:20px;
     border-radius:16px;
-    border:1px solid #1e293b;
-    transition:0.3s;
+    border:1px solid #1f2937;
 }
 
-.card:hover{
-    transform:translateY(-5px);
-}
-
-.card h3{
+.stat-card h4{
     color:#94a3b8;
     margin-bottom:10px;
 }
 
-.card .amount{
-    font-size:30px;
+.stat-card h2{
     color:#22c55e;
-    font-weight:bold;
 }
 
 /* GRID */
-.grid{
+.middle{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1.5fr 1fr;
     gap:20px;
 }
 
-/* WITHDRAW */
-.withdraw-box,
-.payout-box{
+/* BOX */
+.box{
     background:#0f172a;
     padding:20px;
     border-radius:16px;
-    border:1px solid #1e293b;
+    border:1px solid #1f2937;
 }
 
 input{
     width:100%;
     padding:14px;
-    margin-top:15px;
     background:#020617;
+    color:white;
     border:none;
     border-radius:10px;
-    color:white;
+    margin-top:15px;
 }
 
-button{
-    width:100%;
-    padding:14px;
+.quick-buttons{
+    display:flex;
+    gap:10px;
     margin-top:15px;
-    background:#22c55e;
+}
+
+.quick-buttons button{
+    flex:1;
+    background:#1f2937;
+    color:white;
     border:none;
+    padding:12px;
     border-radius:10px;
-    font-weight:bold;
     cursor:pointer;
 }
 
-button:hover{
-    background:#16a34a;
+.withdraw-btn{
+    width:100%;
+    margin-top:20px;
+    background:#22c55e;
+    color:black;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
 /* PAYOUT */
@@ -167,26 +193,50 @@ button:hover{
     margin-top:10px;
 }
 
-/* HISTORY */
-.history{
+/* TABLE */
+.table-box{
     margin-top:25px;
     background:#0f172a;
     padding:20px;
     border-radius:16px;
-    border:1px solid #1e293b;
 }
 
-.history-item{
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+th,td{
+    padding:12px;
+    text-align:left;
+    border-bottom:1px solid #1f2937;
+}
+
+.status{
+    color:#22c55e;
+}
+
+/* FOOTER */
+.footer-box{
+    margin-top:25px;
+    background:#0f172a;
+    padding:20px;
+    border-radius:16px;
     display:flex;
     justify-content:space-between;
-    background:#020617;
-    padding:15px;
-    margin-top:10px;
-    border-radius:10px;
 }
 
 /* MOBILE */
-@media(max-width:900px){
+@media(max-width:1000px){
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .middle{
+        grid-template-columns:1fr;
+    }
+
     body{
         flex-direction:column;
     }
@@ -195,10 +245,6 @@ button:hover{
         width:100%;
         min-height:auto;
     }
-
-    .grid{
-        grid-template-columns:1fr;
-    }
 }
 </style>
 </head>
@@ -206,88 +252,158 @@ button:hover{
 
 <!-- SIDEBAR -->
 <div class="sidebar">
-    <div class="logo">CreatorHub</div>
+
+    <div class="logo">
+        Creator<span>Hub</span>
+    </div>
 
     <div class="profile">
+        <div class="avatar">AP</div>
         <h3 id="username">Ayush</h3>
         <p>Seller</p>
     </div>
 
     <ul class="menu">
-        <li>Dashboard</li>
-        <li>Orders</li>
-        <li>Sales</li>
-        <li class="active">Wallet</li>
-        <li>Profile</li>
+        <li><i class="fa fa-home"></i> Dashboard</li>
+        <li><i class="fa fa-book"></i> My Ebooks</li>
+        <li><i class="fa fa-shopping-cart"></i> Orders</li>
+        <li><i class="fa fa-chart-line"></i> Sales & Earnings</li>
+        <li><i class="fa fa-chart-pie"></i> Analytics</li>
+        <li><i class="fa fa-wallet"></i> Payouts</li>
+        <li class="active"><i class="fa fa-wallet"></i> Wallet</li>
+        <li><i class="fa fa-star"></i> Reviews</li>
+        <li><i class="fa fa-envelope"></i> Messages</li>
+        <li><i class="fa fa-user"></i> Profile</li>
+        <li><i class="fa fa-cog"></i> Settings</li>
     </ul>
+
 </div>
 
 <!-- MAIN -->
 <div class="main">
 
+    <!-- TOPBAR -->
     <div class="topbar">
-        <h1>My Wallet</h1>
-        <div>1 May - 31 May 2025</div>
+        <div>
+            <h1>My Wallet</h1>
+            <p style="color:#94a3b8;">Manage your earnings and withdrawals</p>
+        </div>
+
+        <div class="top-icons">
+            <i class="fa fa-moon"></i>
+            <i class="fa fa-bell"></i>
+        </div>
     </div>
 
     <!-- STATS -->
     <div class="stats">
 
-        <div class="card">
-            <h3>Available Balance</h3>
-            <div class="amount">₹ <span id="balance">0</span></div>
+        <div class="stat-card">
+            <h4>Available Balance</h4>
+            <h2>₹ <span id="balance">0</span></h2>
         </div>
 
-        <div class="card">
-            <h3>Pending Balance</h3>
-            <div class="amount">₹ <span id="pending">0</span></div>
+        <div class="stat-card">
+            <h4>Pending Balance</h4>
+            <h2>₹ <span id="pending">0</span></h2>
         </div>
 
-        <div class="card">
-            <h3>Total Withdrawn</h3>
-            <div class="amount">₹ <span id="withdrawn">0</span></div>
+        <div class="stat-card">
+            <h4>Total Withdrawn</h4>
+            <h2>₹ <span id="withdrawn">0</span></h2>
         </div>
 
-        <div class="card">
-            <h3>Total Earnings</h3>
-            <div class="amount">₹ <span id="earnings">0</span></div>
+        <div class="stat-card">
+            <h4>Total Earnings</h4>
+            <h2>₹ <span id="earnings">0</span></h2>
         </div>
 
     </div>
 
-    <!-- GRID -->
-    <div class="grid">
+    <!-- MIDDLE -->
+    <div class="middle">
 
         <!-- WITHDRAW -->
-        <div class="withdraw-box">
+        <div class="box">
             <h2>Withdraw Earnings</h2>
 
-            <input type="number" id="amount" placeholder="Enter amount">
+            <input 
+                type="number" 
+                id="amount" 
+                placeholder="Enter Amount">
 
-            <button onclick="withdrawMoney()">Withdraw Now</button>
+            <div class="quick-buttons">
+                <button onclick="setAmount(1000)">₹1000</button>
+                <button onclick="setAmount(5000)">₹5000</button>
+                <button onclick="setAmount(10000)">₹10000</button>
+                <button onclick="setAll()">All</button>
+            </div>
+
+            <button 
+                class="withdraw-btn"
+                onclick="withdrawMoney()">
+                Withdraw Now
+            </button>
         </div>
 
         <!-- PAYOUT -->
-        <div class="payout-box">
+        <div class="box">
             <h2>Payout Methods</h2>
 
             <div class="method">
-                UPI: ayush@paytm
+                <i class="fa fa-mobile"></i>
+                ayush@paytm (Primary)
             </div>
 
             <div class="method">
+                <i class="fa fa-bank"></i>
                 HDFC Bank ****1234
+            </div>
+
+            <div class="method">
+                Platform Fee: 10%
+            </div>
+
+            <div class="method">
+                Minimum Withdraw: ₹500
             </div>
         </div>
 
     </div>
 
-    <!-- HISTORY -->
-    <div class="history">
+    <!-- TABLE -->
+    <div class="table-box">
         <h2>Transaction History</h2>
 
-        <div id="historyBox">
-            Loading...
+        <table>
+            <thead>
+                <tr>
+                    <th>Book</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody id="historyBox">
+                <tr>
+                    <td colspan="3">Loading...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer-box">
+        <div>
+            <h3>Your earnings are safe with us</h3>
+            <p style="color:#94a3b8;">
+                We use bank-level security
+            </p>
+        </div>
+
+        <div>
+            <h3>Need Help?</h3>
+            <p style="color:#22c55e;">Contact Support</p>
         </div>
     </div>
 
@@ -297,7 +413,7 @@ button:hover{
 
 const API="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec";
 
-let user = JSON.parse(localStorage.getItem("user") || "{}");
+let user=JSON.parse(localStorage.getItem("user")||"{}");
 
 if(!user.email){
     alert("Login First");
@@ -305,14 +421,12 @@ if(!user.email){
 }
 
 let currentBalance=0;
-let totalWithdrawn=0;
-let totalEarnings=0;
 
 async function getDB(db){
     try{
-        let res = await fetch(API + "?db=" + db + "&t=" + Date.now());
-        let data = await res.json();
-        return Array.isArray(data) ? data : [];
+        let res=await fetch(API+"?db="+db+"&t="+Date.now());
+        let data=await res.json();
+        return Array.isArray(data)?data:[];
     }catch{
         return [];
     }
@@ -320,36 +434,40 @@ async function getDB(db){
 
 async function loadWallet(){
 
-    document.getElementById("username").innerText = user.name || "Creator";
+    document.getElementById("username").innerText=
+        user.name || "Ayush";
 
-    let wallets = await getDB("wallets");
-    let orders = await getDB("orders");
-    let withdrawals = await getDB("withdrawals");
+    let wallets=await getDB("wallets");
+    let orders=await getDB("orders");
+    let withdrawals=await getDB("withdrawals");
 
-    let myWallet = wallets.find(w=>w.email===user.email);
+    let myWallet=wallets.find(
+        w=>w.email===user.email
+    );
 
-    currentBalance = myWallet ? Number(myWallet.balance || 0) : 0;
+    currentBalance=myWallet ?
+        Number(myWallet.balance||0):0;
 
     document.getElementById("balance").innerText=currentBalance;
 
-    let myOrders = orders.filter(
-        o=>o.seller===user.email && o.payment==="paid"
+    let myOrders=orders.filter(
+        o=>o.seller===user.email &&
+        o.payment==="paid"
     );
 
-    totalEarnings = 0;
+    let totalEarnings=0;
 
-    myOrders.forEach(order=>{
-        let earn = order.amount-(order.amount*0.10);
-        totalEarnings += earn;
+    myOrders.forEach(o=>{
+        totalEarnings += o.amount-(o.amount*0.10);
     });
 
     document.getElementById("earnings").innerText=totalEarnings;
 
-    let myWithdraws = withdrawals.filter(
+    let myWithdrawals=withdrawals.filter(
         w=>w.email===user.email
     );
 
-    totalWithdrawn = myWithdraws.reduce(
+    let totalWithdrawn=myWithdrawals.reduce(
         (sum,w)=>sum+Number(w.amount),
         0
     );
@@ -361,30 +479,40 @@ async function loadWallet(){
     let box=document.getElementById("historyBox");
 
     if(!myOrders.length){
-        box.innerHTML="No Transactions Yet";
+        box.innerHTML=
+        `<tr><td colspan="3">No Transactions</td></tr>`;
         return;
     }
 
     box.innerHTML="";
 
-    myOrders.reverse().forEach(order=>{
+    myOrders.reverse().forEach(o=>{
 
-        let earn = order.amount-(order.amount*0.10);
+        let earn=o.amount-(o.amount*0.10);
 
         box.innerHTML += `
-        <div class="history-item">
-            <div>${order.bookName || "Book Sale"}</div>
-            <div>₹${earn}</div>
-        </div>
+        <tr>
+            <td>${o.bookName || "Book Sale"}</td>
+            <td>₹${earn}</td>
+            <td class="status">Completed</td>
+        </tr>
         `;
     });
 }
 
 loadWallet();
 
+function setAmount(val){
+    document.getElementById("amount").value=val;
+}
+
+function setAll(){
+    document.getElementById("amount").value=currentBalance;
+}
+
 async function withdrawMoney(){
 
-    let amount = Number(
+    let amount=Number(
         document.getElementById("amount").value
     );
 
@@ -393,21 +521,20 @@ async function withdrawMoney(){
         return;
     }
 
-    if(amount < 100){
-        alert("Minimum withdraw ₹100");
+    if(amount<500){
+        alert("Minimum withdraw ₹500");
         return;
     }
 
-    if(amount > currentBalance){
-        alert("Insufficient balance");
+    if(amount>currentBalance){
+        alert("Insufficient Balance");
         return;
     }
 
     if(!confirm("Confirm withdrawal?")) return;
 
     try{
-
-        let res = await fetch(API,{
+        let res=await fetch(API,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -435,4 +562,4 @@ async function withdrawMoney(){
 </script>
 
 </body>
-                                    </html>
+    </html>
