@@ -1,6 +1,6 @@
 <div class="box faq-box">
 
-    <!-- Header -->
+    <!-- FAQ Header -->
     <div class="faq-header">
         <h2>Frequently Asked Questions</h2>
         <a href="faq-page.html">View All FAQs →</a>
@@ -26,7 +26,7 @@
         </div>
 
         <div class="faq-answer">
-            Register on CreatorHub and verify your email to access all features.
+            Register on CreatorHub and verify your email to access all platform features.
         </div>
     </div>
 
@@ -50,7 +50,7 @@
         </div>
 
         <div class="faq-answer">
-            Seller approval usually takes 12 to 24 hours.
+            Seller approval usually takes between 12 to 24 hours.
         </div>
     </div>
 
@@ -62,7 +62,7 @@
         </div>
 
         <div class="faq-answer">
-            Buyers click Buy Now and complete payment securely.
+            Buyers simply click Buy Now and complete secure payment.
         </div>
     </div>
 
@@ -74,7 +74,7 @@
         </div>
 
         <div class="faq-answer">
-            No refunds available because digital downloads cannot be reversed.
+            No refunds are available because digital downloads cannot be reversed.
         </div>
     </div>
 
@@ -90,7 +90,7 @@
         </div>
     </div>
 
-    <!-- Bottom Box -->
+    <!-- Bottom Contact Box -->
     <div class="faq-bottom">
 
         <div class="faq-text">
@@ -105,3 +105,85 @@
     </div>
 
 </div>
+
+<style>
+.faq-box{
+height:650px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
+
+.faq-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.faq-header a{
+color:#22c55e;
+font-weight:bold;
+text-decoration:none;
+}
+
+.faq-item{
+padding:15px 0;
+border-bottom:1px solid rgba(255,255,255,0.08);
+cursor:pointer;
+}
+
+.faq-question{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.faq-answer{
+display:none;
+margin-top:10px;
+color:#9ca3af;
+font-size:14px;
+line-height:1.5;
+}
+
+.faq-item.active .faq-answer{
+display:block;
+}
+
+.faq-bottom{
+margin-top:20px;
+background:#111827;
+padding:15px;
+border-radius:12px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+}
+
+.faq-text h4{
+margin-bottom:5px;
+}
+
+.faq-text p{
+font-size:13px;
+color:#9ca3af;
+}
+
+.faq-bottom button{
+background:#22c55e;
+border:none;
+padding:10px 18px;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+white-space:nowrap;
+}
+</style>
+
+<script>
+function toggleAnswer(item){
+    item.classList.toggle("active");
+}
+</script>
