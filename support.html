@@ -487,8 +487,6 @@ style="width:100%;padding:12px;margin-top:10px;background:#111827;border:none;co
 <button class="ai-btn" onclick="sendMessage()">
 Start AI Chat
 </button>
-Start AI Chat
-</button>
 </div>
 </div>
 
@@ -521,11 +519,21 @@ Start AI Chat
 
 <!-- FOOTER -->
 
-<footer-component></footer-component>
-
-<script src="footer.js"></script>
-         
+<div class="features">
+....
 </div>
+
+<div id="footer-container"></div>
+
+</div>
+
+<script>
+fetch("footer.html")
+.then(res => res.text())
+.then(data => {
+document.getElementById("footer-container").innerHTML = data;
+});
+</script>
 
 <script>
 const SUPPORT_API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec";
