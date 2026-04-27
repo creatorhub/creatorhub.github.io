@@ -221,6 +221,18 @@ padding:18px 0;
 border-bottom:1px solid rgba(255,255,255,0.06);
 }
 
+.faq-answer{
+display:none;
+margin-top:10px;
+color:#9ca3af;
+font-size:14px;
+line-height:1.5;
+}
+
+.faq-item.active .faq-answer{
+display:block;
+}
+
 /* CONTACT */
 .contact-box input,
 .contact-box textarea,
@@ -588,6 +600,10 @@ reply="Support busy";
 chat.innerHTML += `<div class="msg bot">${reply}</div>`;
 chat.scrollTop=chat.scrollHeight;
 }
+
+function toggleAnswer(item){
+item.classList.toggle("active");
+         }
 </script>
          
 </body>
