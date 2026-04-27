@@ -1,226 +1,77 @@
-<!DOCTYPE html><html lang="en">
-<head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>FAQ - CreatorHub</title><style>
-
-:root{
---bg:#020617;
---card:#111827;
---accent:#22c55e;
-}
-
-/* PAGE */
-
-body{
-margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:var(--bg);
-color:white;
-animation:fadePage .6s ease;
-}
-
-/* HEADER */
-
-.topbar{
-display:flex;
-align-items:center;
-padding:14px;
-background:#020617;
-border-bottom:1px solid #1f2937;
-position:sticky;
-top:0;
-z-index:999;
-}
-
-.back{
-font-size:22px;
-cursor:pointer;
-width:40px;
-color:var(--accent);
-transition:.2s;
-}
-
-.back:hover{
-transform:translateX(-5px);
-}
-
-.title{
-flex:1;
-text-align:center;
-font-weight:bold;
-color:var(--accent);
-}
-
-/* CONTAINER */
-
-.container{
-max-width:950px;
-margin:auto;
-padding:25px;
-}
-
-h2{
-color:var(--accent);
-}
-
-/* FAQ CARD */
-
-.card{
-
-background:linear-gradient(145deg,#111827,#020617);
-
-padding:18px;
-
-border-radius:14px;
-
-margin-top:14px;
-
-cursor:pointer;
-
-border:1px solid #1f2937;
-
-box-shadow:0 10px 25px rgba(0,0,0,.6);
-
-transition:.25s;
-
-}
-
-.card:hover{
-transform:translateY(-3px);
-}
-
-/* QUESTION */
-
-.question{
-font-weight:bold;
-font-size:17px;
-}
-
-/* ANSWER */
-
-.answer{
-
-margin-top:10px;
-
-max-height:0;
-
-overflow:hidden;
-
-opacity:.85;
-
-line-height:24px;
-
-transition:max-height .3s ease;
-
-}
-
-/* OPEN STATE */
-
-.card.open .answer{
-max-height:200px;
-}
-
-/* ANIMATION */
-
-@keyframes fadePage{
-from{
-opacity:0;
-transform:translateY(20px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-</style></head><body><div class="topbar"><div class="back"
-onclick="location.href='index.html'">⬅
-
-</div><div class="title">❓ CreatorHub FAQ
-
-</div></div><div class="container"><h2>Frequently Asked Questions</h2><p style="opacity:.8">Learn how CreatorHub marketplace works including buying, selling, payments, safety and account policies.
-
-</p><div id="faqBox"></div></div><script>
-
-const faqs=[
-
-["What is CreatorHub?",
-"CreatorHub is a digital marketplace where creators can sell ebooks and users can safely purchase digital knowledge products."],
-
-["How do I create an account?",
-"Use the Register page and verify your email before accessing dashboard features."],
-
-["How do I become a seller?",
-"Apply using the Become Seller option inside the dashboard and wait for admin approval."],
-
-["How long does approval take?",
-"Seller approval normally takes between 12 to 24 hours."],
-
-["How do buyers purchase ebooks?",
-"Buyers simply click Buy Ebook and complete payment to access the digital file."],
-
-["Where are purchased ebooks stored?",
-"Purchased ebooks appear inside your personal My Library section."],
-
-["Refund available?",
-"No refunds available because digital downloads cannot be reversed."],
-
-["Seller earning percentage?",
-"Sellers receive 90 percent earnings after admin commission."],
-
-["Admin commission?",
-"CreatorHub platform keeps 10 percent service commission."],
-
-["How increase ebook sales?",
-"Share your product links on social media platforms like WhatsApp, Telegram and Facebook."],
-
-["Does CreatorHub allow copyrighted ebooks?",
-"No. Copyright violations are strictly prohibited."],
-
-["Can multiple ebooks upload?",
-"Yes approved sellers can upload multiple ebooks."],
-
-["How search ebooks?",
-"Use homepage search bar to quickly find ebooks."],
-
-["Account suspension reasons?",
-"Fraud uploads, spam content or illegal products may cause permanent account suspension."],
-
-["How contact support?",
-"Use the support or contact page available in the footer menu."],
-
-["Is CreatorHub free?",
-"Yes account creation is completely free for users."],
-
-["Why choose CreatorHub?",
-"CreatorHub provides a safe ecosystem for creators and learners to sell and buy digital knowledge products."]
-
-];
-
-let box=document.getElementById("faqBox");
-
-faqs.forEach(f=>{
-
-box.innerHTML+=`
-
-<div class="card" onclick="this.classList.toggle('open')">
-
-<div class="question">
-
-${f[0]}
+<div class="box">
+
+    <div class="faq-header">
+        <h2>Frequently Asked Questions</h2>
+        <a href="#">View All FAQs →</a>
+    </div>
+
+    <div class="faq-item">
+        <span>What is CreatorHub?</span>
+        <i class="fa fa-chevron-down"></i>
+    </div>
+
+    <div class="faq-item">
+        <span>How do I create an account?</span>
+        <i class="fa fa-chevron-down"></i>
+    </div>
+
+    <div class="faq-item">
+        <span>How do I become a seller?</span>
+        <i class="fa fa-chevron-down"></i>
+    </div>
+
+    <div class="faq-item">
+        <span>How long does seller approval take?</span>
+        <i class="fa fa-chevron-down"></i>
+    </div>
+
+    <div class="faq-item">
+        <span>How do buyers purchase ebooks?</span>
+        <i class="fa fa-chevron-down"></i>
+    </div>
+
+    <div class="faq-item">
+        <span>Where are purchased ebooks stored?</span>
+        <i class="fa fa-chevron-down"></i>
+    </div>
+
+    <div class="faq-item">
+        <span>Is refund available?</span>
+        <i class="fa fa-chevron-down"></i>
+    </div>
+
+    <div class="faq-item">
+        <span>Seller earning percentage?</span>
+        <i class="fa fa-chevron-down"></i>
+    </div>
+
+    <div class="faq-item">
+        <span>Does CreatorHub allow copyrighted ebooks?</span>
+        <i class="fa fa-chevron-down"></i>
+    </div>
+
+    <div class="faq-item">
+        <span>How can I contact support?</span>
+        <i class="fa fa-chevron-down"></i>
+    </div>
+
+    <div style="margin-top:20px;background:#0f172a;padding:20px;border-radius:12px;">
+        <h4>Still have questions?</h4>
+        <p style="color:#9ca3af;margin-top:8px;">
+            Our support team is available 24/7 to help you.
+        </p>
+
+        <button 
+        style="
+        margin-top:15px;
+        background:#22c55e;
+        border:none;
+        padding:12px 20px;
+        border-radius:10px;
+        font-weight:bold;
+        cursor:pointer;">
+            Contact Support
+        </button>
+    </div>
 
 </div>
-
-<div class="answer">
-
-${f[1]}
-
-</div>
-
-</div>
-
-`;
-
-});
-
-</script></body>
-</html>
