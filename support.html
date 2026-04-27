@@ -202,11 +202,10 @@ background:#08111f;
 padding:25px;
 border-radius:16px;
 border:1px solid rgba(255,255,255,0.06);
-height:650px;
+min-height:650px;
 display:flex;
 flex-direction:column;
-justify-content:flex-start;
-overflow:hidden;
+justify-content:space-between;
 }
          
 /* FAQ */
@@ -239,6 +238,9 @@ margin-top:auto;
 background:#111827;
 padding:20px;
 border-radius:12px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
          
 .faq-answer{
@@ -523,6 +525,7 @@ Send Message
 <div>✔ Seller issues</div>
 </div>
 
+<div style="margin-top:auto;"></div>
 <div class="chat-box" id="chatBox"></div>
 
 <input 
