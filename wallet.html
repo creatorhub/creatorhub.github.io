@@ -1,338 +1,438 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Wallet</title><style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CreatorHub Wallet</title>
 
-:root{
---bg:#020617;
---card:#111827;
---accent:#22c55e;
-}
-
+<style>
 *{
-box-sizing:border-box;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
 }
 
 body{
-margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:var(--bg);
-color:white;
-animation:fadePage .6s ease;
+    background:#050b17;
+    color:white;
+    display:flex;
 }
 
-/* HEADER */
-
-.header{
-display:flex;
-align-items:center;
-padding:16px;
-background:#020617;
-border-bottom:1px solid #1f2937;
-position:sticky;
-top:0;
-z-index:99;
+/* SIDEBAR */
+.sidebar{
+    width:240px;
+    background:#08111f;
+    min-height:100vh;
+    padding:20px;
+    border-right:1px solid #1e293b;
 }
 
-.back{
-font-size:22px;
-cursor:pointer;
-margin-right:10px;
+.logo{
+    font-size:24px;
+    font-weight:bold;
+    color:#22c55e;
+    margin-bottom:30px;
 }
 
-.title{
-font-size:20px;
-font-weight:bold;
-color:var(--accent);
+.profile{
+    background:#0f172a;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:30px;
 }
 
-/* CONTAINER */
-
-.container{
-padding:20px;
-max-width:700px;
-margin:auto;
+.profile h3{
+    font-size:18px;
 }
 
-/* CARD */
+.profile p{
+    color:#22c55e;
+    margin-top:5px;
+}
+
+.menu{
+    list-style:none;
+}
+
+.menu li{
+    padding:14px;
+    margin-bottom:10px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.menu li:hover,
+.menu .active{
+    background:#22c55e;
+    color:black;
+}
+
+/* MAIN */
+.main{
+    flex:1;
+    padding:25px;
+}
+
+/* TOP */
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.topbar h1{
+    font-size:28px;
+}
+
+/* STAT CARDS */
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-bottom:25px;
+}
 
 .card{
-background:linear-gradient(145deg,#111827,#020617);
-border-radius:16px;
-padding:20px;
-margin-bottom:20px;
-box-shadow:0 10px 25px rgba(0,0,0,0.6);
-border:1px solid #1f2937;
-transition:.35s;
-animation:fadeUp .6s ease;
+    background:#0f172a;
+    padding:20px;
+    border-radius:16px;
+    border:1px solid #1e293b;
+    transition:0.3s;
 }
 
 .card:hover{
-transform:translateY(-6px);
-box-shadow:0 20px 45px rgba(0,0,0,.9);
+    transform:translateY(-5px);
 }
 
-/* BALANCE */
-
-.balance{
-font-size:36px;
-font-weight:bold;
-margin-top:10px;
-color:var(--accent);
-animation:pulseGlow 2s infinite;
+.card h3{
+    color:#94a3b8;
+    margin-bottom:10px;
 }
 
-/* INPUT */
-
-input{
-width:100%;
-padding:14px;
-margin-top:12px;
-border:none;
-border-radius:10px;
-background:#020617;
-color:white;
-border:1px solid #1f2937;
-outline:none;
+.card .amount{
+    font-size:30px;
+    color:#22c55e;
+    font-weight:bold;
 }
 
-/* BUTTON */
-
-button{
-width:100%;
-padding:14px;
-margin-top:15px;
-border:none;
-border-radius:12px;
-font-weight:bold;
-background:linear-gradient(90deg,#22c55e,#4ade80);
-color:black;
-cursor:pointer;
-transition:.3s;
-}
-
-button:hover{
-transform:scale(1.03);
-box-shadow:0 0 18px #22c55e;
-}
-
-/* HISTORY */
-
-.item{
-background:#020617;
-padding:12px;
-border-radius:10px;
-margin-top:8px;
-display:flex;
-justify-content:space-between;
-border:1px solid #1f2937;
-font-size:14px;
-animation:slideIn .5s ease;
-}
-
-/* ANIMATIONS */
-
-@keyframes fadePage{
-from{opacity:0}
-to{opacity:1}
-}
-
-@keyframes fadeUp{
-from{
-opacity:0;
-transform:translateY(40px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-@keyframes slideIn{
-from{
-opacity:0;
-transform:translateX(-20px);
-}
-to{
-opacity:1;
-transform:translateX(0);
-}
-}
-
-@keyframes pulseGlow{
-0%{text-shadow:0 0 5px #22c55e}
-50%{text-shadow:0 0 20px #22c55e}
-100%{text-shadow:0 0 5px #22c55e}
-}
-
-/* MOBILE */
-
-@media(max-width:768px){
-
-.balance{
-font-size:30px;
-}
-
-}
-
-</style></head><body><div class="header">
-<div class="back" onclick="history.back()">⬅</div>
-<div class="title">Creator Wallet</div>
-</div><div class="container"><div class="card"><h3>Available Balance</h3><div class="balance">
-₹ <span id="balance">0</span>
-</div></div><div class="card"><h3>Withdraw Money</h3><input id="amount" type="number" placeholder="Withdraw Amount ₹"><button onclick="withdraw()">Withdraw Money</button>
-
-</div><div class="card"><h3>Earnings History</h3><div id="history">Loading...</div></div></div><script>
-
-/* API */
-
-const API="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
-  
-/* USER */
-
-let user=JSON.parse(localStorage.getItem("user")||"{}")
-
-if(!user.email){
-
-alert("Login First")
-location.href="login.html"
-
-}
-
-/* DATABASE */
-
-async function getDB(db){
-
-try{
-
-let r=await fetch(API+"?db="+db+"&t="+Date.now())
-let data=await r.json()
-
-return Array.isArray(data)?data:[]
-
-}catch{
-
-return[]
-
-}
-
-}
-
-/* WALLET */
-
-let currentBalance=0
-
-async function loadWallet(){
-
-let wallets=await getDB("wallets")
-
-let my=wallets.find(w=>w.email===user.email)
-
-currentBalance=my?Number(my.balance||0):0
-
-document.getElementById("balance").innerText=currentBalance
-
-/* HISTORY */
-
-let orders=await getDB("orders")
-
-let myOrders=orders.filter(o=>
-
-o.seller===user.email &&
-o.payment==="paid"
-
-)
-
-let box=document.getElementById("history")
-
-if(!myOrders.length){
-
-box.innerHTML="No Earnings Yet"
-return
-
-}
-
-box.innerHTML=""
-
-myOrders.reverse().forEach(o=>{
-
-let earn = o.amount - (o.amount * 0.10)
-
-box.innerHTML+=`
-
-<div class="item">
-
-<div>₹ ${earn}</div>
-
-<div>${o.type==="printed" ? "Printed Book Sale" : "Ebook Sale"}</div>
-
-</div>
-
-`
-
-})
-
-}
-
-loadWallet()
-
-/* UPI VALIDATION */
-
-function validUPI(vpa){
-
-return /^[a-zA-Z0-9.\-_]{2,}@[a-zA-Z]{2,}$/.test(vpa)
-
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
 }
 
 /* WITHDRAW */
-
-async function withdraw(){
-
-let amount = Number(document.getElementById("amount").value)
-
-if(!amount){
-alert("Enter amount")
-return
+.withdraw-box,
+.payout-box{
+    background:#0f172a;
+    padding:20px;
+    border-radius:16px;
+    border:1px solid #1e293b;
 }
 
-if(amount < 100){
-alert("Minimum withdraw ₹100")
-return
+input{
+    width:100%;
+    padding:14px;
+    margin-top:15px;
+    background:#020617;
+    border:none;
+    border-radius:10px;
+    color:white;
 }
 
-if(amount > currentBalance){
-alert("Insufficient balance")
-return
+button{
+    width:100%;
+    padding:14px;
+    margin-top:15px;
+    background:#22c55e;
+    border:none;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-if(!confirm("Confirm withdraw request?")) return
-
-try{
-
-let res = await fetch(API,{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-action:"withdraw",
-email:user.email,
-amount:amount
-})
-})
-
-let data = await res.json()
-
-if(data.success){
-alert("Withdraw successful")
-location.reload()
-}else{
-alert(data.message || "Withdraw failed")
+button:hover{
+    background:#16a34a;
 }
 
-}catch{
-alert("Server error")
+/* PAYOUT */
+.method{
+    background:#020617;
+    padding:15px;
+    border-radius:10px;
+    margin-top:10px;
 }
 
+/* HISTORY */
+.history{
+    margin-top:25px;
+    background:#0f172a;
+    padding:20px;
+    border-radius:16px;
+    border:1px solid #1e293b;
 }
 
-</script></body>
-</html>
+.history-item{
+    display:flex;
+    justify-content:space-between;
+    background:#020617;
+    padding:15px;
+    margin-top:10px;
+    border-radius:10px;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+    body{
+        flex-direction:column;
+    }
+
+    .sidebar{
+        width:100%;
+        min-height:auto;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div class="logo">CreatorHub</div>
+
+    <div class="profile">
+        <h3 id="username">Ayush</h3>
+        <p>Seller</p>
+    </div>
+
+    <ul class="menu">
+        <li>Dashboard</li>
+        <li>Orders</li>
+        <li>Sales</li>
+        <li class="active">Wallet</li>
+        <li>Profile</li>
+    </ul>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <div class="topbar">
+        <h1>My Wallet</h1>
+        <div>1 May - 31 May 2025</div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats">
+
+        <div class="card">
+            <h3>Available Balance</h3>
+            <div class="amount">₹ <span id="balance">0</span></div>
+        </div>
+
+        <div class="card">
+            <h3>Pending Balance</h3>
+            <div class="amount">₹ <span id="pending">0</span></div>
+        </div>
+
+        <div class="card">
+            <h3>Total Withdrawn</h3>
+            <div class="amount">₹ <span id="withdrawn">0</span></div>
+        </div>
+
+        <div class="card">
+            <h3>Total Earnings</h3>
+            <div class="amount">₹ <span id="earnings">0</span></div>
+        </div>
+
+    </div>
+
+    <!-- GRID -->
+    <div class="grid">
+
+        <!-- WITHDRAW -->
+        <div class="withdraw-box">
+            <h2>Withdraw Earnings</h2>
+
+            <input type="number" id="amount" placeholder="Enter amount">
+
+            <button onclick="withdrawMoney()">Withdraw Now</button>
+        </div>
+
+        <!-- PAYOUT -->
+        <div class="payout-box">
+            <h2>Payout Methods</h2>
+
+            <div class="method">
+                UPI: ayush@paytm
+            </div>
+
+            <div class="method">
+                HDFC Bank ****1234
+            </div>
+        </div>
+
+    </div>
+
+    <!-- HISTORY -->
+    <div class="history">
+        <h2>Transaction History</h2>
+
+        <div id="historyBox">
+            Loading...
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+const API="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec";
+
+let user = JSON.parse(localStorage.getItem("user") || "{}");
+
+if(!user.email){
+    alert("Login First");
+    location.href="login.html";
+}
+
+let currentBalance=0;
+let totalWithdrawn=0;
+let totalEarnings=0;
+
+async function getDB(db){
+    try{
+        let res = await fetch(API + "?db=" + db + "&t=" + Date.now());
+        let data = await res.json();
+        return Array.isArray(data) ? data : [];
+    }catch{
+        return [];
+    }
+}
+
+async function loadWallet(){
+
+    document.getElementById("username").innerText = user.name || "Creator";
+
+    let wallets = await getDB("wallets");
+    let orders = await getDB("orders");
+    let withdrawals = await getDB("withdrawals");
+
+    let myWallet = wallets.find(w=>w.email===user.email);
+
+    currentBalance = myWallet ? Number(myWallet.balance || 0) : 0;
+
+    document.getElementById("balance").innerText=currentBalance;
+
+    let myOrders = orders.filter(
+        o=>o.seller===user.email && o.payment==="paid"
+    );
+
+    totalEarnings = 0;
+
+    myOrders.forEach(order=>{
+        let earn = order.amount-(order.amount*0.10);
+        totalEarnings += earn;
+    });
+
+    document.getElementById("earnings").innerText=totalEarnings;
+
+    let myWithdraws = withdrawals.filter(
+        w=>w.email===user.email
+    );
+
+    totalWithdrawn = myWithdraws.reduce(
+        (sum,w)=>sum+Number(w.amount),
+        0
+    );
+
+    document.getElementById("withdrawn").innerText=totalWithdrawn;
+
+    document.getElementById("pending").innerText="0";
+
+    let box=document.getElementById("historyBox");
+
+    if(!myOrders.length){
+        box.innerHTML="No Transactions Yet";
+        return;
+    }
+
+    box.innerHTML="";
+
+    myOrders.reverse().forEach(order=>{
+
+        let earn = order.amount-(order.amount*0.10);
+
+        box.innerHTML += `
+        <div class="history-item">
+            <div>${order.bookName || "Book Sale"}</div>
+            <div>₹${earn}</div>
+        </div>
+        `;
+    });
+}
+
+loadWallet();
+
+async function withdrawMoney(){
+
+    let amount = Number(
+        document.getElementById("amount").value
+    );
+
+    if(!amount){
+        alert("Enter amount");
+        return;
+    }
+
+    if(amount < 100){
+        alert("Minimum withdraw ₹100");
+        return;
+    }
+
+    if(amount > currentBalance){
+        alert("Insufficient balance");
+        return;
+    }
+
+    if(!confirm("Confirm withdrawal?")) return;
+
+    try{
+
+        let res = await fetch(API,{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                action:"withdraw",
+                email:user.email,
+                amount:amount
+            })
+        });
+
+        let data=await res.json();
+
+        if(data.success){
+            alert("Withdrawal Successful");
+            location.reload();
+        }else{
+            alert(data.message || "Withdrawal Failed");
+        }
+
+    }catch{
+        alert("Server Error");
+    }
+}
+</script>
+
+</body>
+                                    </html>
