@@ -257,23 +257,46 @@ text-align:center;
 font-size:22px;
 color:#22c55e;
 }
+
+.top-menu-toggle{
+position:fixed;
+top:15px;
+left:15px;
+display:flex;
+align-items:center;
+gap:10px;
+z-index:9999;
+background:#07111f;
+padding:10px 15px;
+border-radius:12px;
+}
+
+.top-menu-toggle .logo{
+font-size:24px;
+margin:0;
+}
+
+.hide-sidebar{
+display:none;
+  }
 </style>
 </head>
 <body>
+
+<body>
+
+<div class="top-menu-toggle">
+    <i class="fa-solid fa-bars menu-icon" onclick="openMenu()"></i>
+
+    <div class="logo">
+        Creator<span>Hub</span>
+    </div>
+</div>
 
 <div class="wrapper">
 
 <!-- Sidebar -->
 <div class="sidebar">
-
-<div class="logo-container">
-
-<i class="fa-solid fa-bars menu-icon"
-onclick="openMenu()"></i>
-
-<div class="logo">
-Creator<span>Hub</span>
-</div>
 
 </div>
 
@@ -482,12 +505,7 @@ window.location.href=page;
 
 function openMenu(){
 const sidebar = document.querySelector(".sidebar");
-
-if(sidebar.style.display === "none"){
-sidebar.style.display = "block";
-}else{
-sidebar.style.display = "none";
-}
+sidebar.classList.toggle("hide-sidebar");
 }
 
 new Chart(document.getElementById("lineChart"),{
