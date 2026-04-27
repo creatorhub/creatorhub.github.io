@@ -214,11 +214,38 @@ gap:10px;
 margin-top:20px;
 }
 
+.status-icon img{
+animation: floatBadge 3s infinite ease-in-out;
+}
+
+@keyframes floatBadge{
+0%{
+transform:translateY(0px);
+}
+50%{
+transform:translateY(-8px);
+}
+100%{
+transform:translateY(0px);
+}
+}
+
 .feature{
 background:#0f172a;
 padding:15px;
-border-radius:10px;
+border-radius:12px;
 text-align:center;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:10px;
+font-size:14px;
+}
+
+.feature i{
+font-size:22px;
+color:#22c55e;
 }
 </style>
 </head>
@@ -389,7 +416,13 @@ onclick="go('upload.html')">
 <h3>Application Status</h3>
 
 <div class="status-icon">
-<i class="fa fa-award"></i>
+<img 
+src="https://cdn-icons-png.flaticon.com/512/845/845646.png"
+style="
+width:130px;
+height:130px;
+object-fit:contain;
+">
 </div>
 
 <h2 class="green">Approved Seller</h2>
@@ -401,11 +434,28 @@ View Seller Profile
 </button>
 
 <div class="features">
-<div class="feature">90% Earnings</div>
-<div class="feature">10% Fee</div>
-<div class="feature">Instant Delivery</div>
-<div class="feature">24/7 Support</div>
+
+<div class="feature">
+<i class="fa-solid fa-money-bill-trend-up"></i>
+<span>90% Earnings</span>
 </div>
+
+<div class="feature">
+<i class="fa-solid fa-percent"></i>
+<span>10% Fee</span>
+</div>
+
+<div class="feature">
+<i class="fa-solid fa-bolt"></i>
+<span>Instant Delivery</span>
+</div>
+
+<div class="feature">
+<i class="fa-solid fa-headset"></i>
+<span>24/7 Support</span>
+</div>
+
+</div>>
 
 </div>
 </div>
