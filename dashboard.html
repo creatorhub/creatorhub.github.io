@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Seller Dashboard</title>
+<title>CreatorHub Seller Dashboard</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -15,7 +15,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial,sans-serif;
+font-family:Arial;
 }
 
 body{
@@ -26,7 +26,7 @@ display:flex;
 
 /* SIDEBAR */
 .sidebar{
-width:260px;
+width:270px;
 height:100vh;
 background:#07111f;
 padding:20px;
@@ -38,7 +38,7 @@ border-right:1px solid #1f2937;
 .logo{
 font-size:30px;
 font-weight:bold;
-margin-bottom:30px;
+margin-bottom:25px;
 }
 
 .logo span{
@@ -50,9 +50,10 @@ background:#111827;
 padding:15px;
 border-radius:16px;
 display:flex;
-align-items:center;
 justify-content:space-between;
+align-items:center;
 margin-bottom:20px;
+cursor:pointer;
 }
 
 .avatar{
@@ -61,45 +62,65 @@ height:50px;
 border-radius:50%;
 background:#22c55e;
 display:flex;
-align-items:center;
 justify-content:center;
+align-items:center;
 font-weight:bold;
 }
 
 .approved{
 background:#14532d;
-padding:6px 12px;
+padding:5px 12px;
 border-radius:20px;
-font-size:12px;
 color:#22c55e;
-}
-
-.menu{
-list-style:none;
+font-size:12px;
 }
 
 .menu li{
+list-style:none;
 padding:14px;
 margin-bottom:10px;
 border-radius:12px;
+cursor:pointer;
 display:flex;
 gap:12px;
-cursor:pointer;
-color:#cbd5e1;
 }
 
-.menu li.active{
+.menu li:hover,
+.active{
 background:#14532d;
 color:#22c55e;
 }
 
-.menu li:hover{
-background:#0f172a;
+/* promo */
+.promo{
+background:#111827;
+padding:20px;
+border-radius:16px;
+margin-top:20px;
+text-align:center;
 }
 
+.promo button{
+background:#22c55e;
+border:none;
+padding:10px 20px;
+margin-top:15px;
+border-radius:10px;
+cursor:pointer;
+}
+
+.help-box{
+background:#111827;
+padding:20px;
+border-radius:16px;
+margin-top:20px;
+text-align:center;
+}
+
+/* MAIN */
 .main{
-margin-left:260px;
-width:calc(100% - 260px);
+margin-left:270px;
+width:calc(100% - 270px);
 padding:20px;
 }
 
@@ -108,7 +129,7 @@ padding:20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:25px;
+margin-bottom:20px;
 }
 
 .right-icons{
@@ -119,45 +140,37 @@ gap:20px;
 
 .upload-btn{
 background:#22c55e;
-color:black;
-padding:12px 20px;
 border:none;
+padding:12px 20px;
 border-radius:10px;
 font-weight:bold;
 cursor:pointer;
 }
 
-/* CARDS */
+/* cards */
 .cards{
 display:grid;
 grid-template-columns:repeat(5,1fr);
 gap:20px;
-margin-bottom:25px;
+margin-bottom:20px;
 }
 
 .card{
 background:#111827;
 padding:20px;
 border-radius:16px;
-border:1px solid #1f2937;
-}
-
-.card i{
-font-size:22px;
-color:#22c55e;
-margin-bottom:10px;
 }
 
 .green{
 color:#22c55e;
 }
 
-/* MIDDLE */
+/* middle */
 .middle{
 display:grid;
 grid-template-columns:2fr 1fr;
 gap:20px;
-margin-bottom:25px;
+margin-bottom:20px;
 }
 
 .box{
@@ -166,43 +179,45 @@ padding:20px;
 border-radius:16px;
 }
 
-/* LOWER */
-.lower{
+/* bottom */
+.bottom{
 display:grid;
 grid-template-columns:1fr 1fr 1fr;
 gap:20px;
+margin-bottom:20px;
 }
 
-.ebook-item,
-.order-item{
+.item{
 display:flex;
 justify-content:space-between;
 padding:12px 0;
 border-bottom:1px solid #1f2937;
 }
 
-/* Status box */
-.status-box{
-text-align:center;
+/* final stats */
+.final-stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+margin-top:20px;
 }
 
-.status-icon{
-font-size:70px;
-color:#22c55e;
-margin:20px 0;
+.small-box{
+background:#0f172a;
+padding:20px;
+border-radius:12px;
+text-align:center;
 }
 </style>
 </head>
 <body>
 
-<!-- Sidebar -->
+<!-- SIDEBAR -->
 <div class="sidebar">
 
-<div class="logo">
-Creator<span>Hub</span>
-</div>
+<div class="logo">Creator<span>Hub</span></div>
 
-<div class="profile-box">
+<div class="profile-box" onclick="go('profile.html')">
 <div style="display:flex;gap:10px;">
 <div class="avatar">AP</div>
 <div>
@@ -214,21 +229,32 @@ Creator<span>Hub</span>
 </div>
 
 <ul class="menu">
-<li class="active"><i class="fa fa-home"></i> Dashboard</li>
-<li><i class="fa fa-book"></i> My Ebooks</li>
-<li><i class="fa fa-cart-shopping"></i> Orders</li>
-<li><i class="fa fa-chart-line"></i> Sales & Earnings</li>
-<li><i class="fa fa-chart-pie"></i> Analytics</li>
-<li><i class="fa fa-wallet"></i> Payouts</li>
-<li><i class="fa fa-star"></i> Reviews</li>
-<li><i class="fa fa-message"></i> Messages</li>
-<li><i class="fa fa-user"></i> Profile</li>
-<li><i class="fa fa-gear"></i> Seller Settings</li>
+<li class="active" onclick="go('dashboard.html')"><i class="fa fa-home"></i> Dashboard</li>
+<li onclick="go('ebooks.html')"><i class="fa fa-book"></i> My Ebooks</li>
+<li onclick="go('orders.html')"><i class="fa fa-cart-shopping"></i> Orders</li>
+<li onclick="go('sales.html')"><i class="fa fa-chart-line"></i> Sales & Earnings</li>
+<li onclick="go('analytics.html')"><i class="fa fa-chart-pie"></i> Analytics</li>
+<li onclick="go('payouts.html')"><i class="fa fa-wallet"></i> Payouts</li>
+<li onclick="go('reviews.html')"><i class="fa fa-star"></i> Reviews</li>
+<li onclick="go('messages.html')"><i class="fa fa-message"></i> Messages</li>
+<li onclick="go('profile.html')"><i class="fa fa-user"></i> Profile</li>
+<li onclick="go('settings.html')"><i class="fa fa-gear"></i> Seller Settings</li>
 </ul>
+
+<div class="promo">
+<h3>Earn More with CreatorHub</h3>
+<p>Upload quality ebooks and earn up to 90%</p>
+<button onclick="go('upload.html')">Learn More</button>
+</div>
+
+<div class="help-box">
+<h3>Need Help?</h3>
+<p>support@creatorhub.com</p>
+</div>
 
 </div>
 
-<!-- Main -->
+<!-- MAIN -->
 <div class="main">
 
 <div class="topbar">
@@ -238,9 +264,14 @@ Creator<span>Hub</span>
 </div>
 
 <div class="right-icons">
-<i class="fa-solid fa-moon"></i>
-<i class="fa-solid fa-bell"></i>
-<button class="upload-btn">
+<i class="fa fa-moon" onclick="toggleTheme()"></i>
+<i class="fa fa-bell" onclick="go('notifications.html')"></i>
+
+<div onclick="go('profile.html')" style="cursor:pointer">
+<i class="fa fa-user-circle"></i>
+</div>
+
+<button class="upload-btn" onclick="go('upload.html')">
 + Upload Ebook
 </button>
 </div>
@@ -248,42 +279,35 @@ Creator<span>Hub</span>
 
 <!-- Cards -->
 <div class="cards">
-
 <div class="card">
-<i class="fa fa-wallet"></i>
-<p>Total Earnings</p>
+<h3>Total Earnings</h3>
 <h2>₹48,750</h2>
 <p class="green">+18.6%</p>
 </div>
 
 <div class="card">
-<i class="fa fa-cart-shopping"></i>
-<p>Total Sales</p>
+<h3>Total Sales</h3>
 <h2>256</h2>
 <p class="green">+14.2%</p>
 </div>
 
 <div class="card">
-<i class="fa fa-book"></i>
-<p>Ebooks Uploaded</p>
+<h3>Ebooks Uploaded</h3>
 <h2>12</h2>
-<p class="green">+2 this month</p>
+<p class="green">+2</p>
 </div>
 
 <div class="card">
-<i class="fa fa-box"></i>
-<p>Total Orders</p>
+<h3>Total Orders</h3>
 <h2>312</h2>
 <p class="green">+16.5%</p>
 </div>
 
 <div class="card">
-<i class="fa fa-money-bill"></i>
-<p>Pending Payout</p>
+<h3>Pending Payout</h3>
 <h2>₹6,250</h2>
 <p>28 May</p>
 </div>
-
 </div>
 
 <!-- Graph + Orders -->
@@ -296,77 +320,46 @@ Creator<span>Hub</span>
 
 <div class="box">
 <h3>Recent Orders</h3>
-
-<div class="order-item">
-<span>The Power Of Focus</span>
-<span class="green">₹199</span>
-</div>
-
-<div class="order-item">
-<span>Atomic Habits</span>
-<span class="green">₹249</span>
-</div>
-
-<div class="order-item">
-<span>Think & Grow Rich</span>
-<span class="green">₹149</span>
-</div>
-
-<div class="order-item">
-<span>Deep Work</span>
-<span class="green">₹299</span>
+<div class="item"><span>Power of Focus</span><span>₹199</span></div>
+<div class="item"><span>Atomic Habits</span><span>₹249</span></div>
+<div class="item"><span>Deep Work</span><span>₹199</span></div>
+<div class="item"><span>5 AM Club</span><span>₹149</span></div>
 </div>
 
 </div>
-</div>
 
-<!-- Lower -->
-<div class="lower">
+<!-- Bottom -->
+<div class="bottom">
 
 <div class="box">
 <h3>Top Ebooks</h3>
-
-<div class="ebook-item">
-<span>Power Of Focus</span>
-<span class="green">₹2,388</span>
-</div>
-
-<div class="ebook-item">
-<span>Atomic Habits</span>
-<span class="green">₹2,490</span>
-</div>
-
-<div class="ebook-item">
-<span>Think & Grow Rich</span>
-<span class="green">₹1,192</span>
-</div>
-
-<div class="ebook-item">
-<span>5 AM Club</span>
-<span class="green">₹1,194</span>
-</div>
+<div class="item"><span>Power Of Focus</span><span>₹2388</span></div>
+<div class="item"><span>Atomic Habits</span><span>₹2490</span></div>
+<div class="item"><span>Think & Grow Rich</span><span>₹1192</span></div>
 </div>
 
 <div class="box">
-<h3>Earnings Breakdown</h3>
+<h3>Earning Breakdown</h3>
 <canvas id="pieChart"></canvas>
 </div>
 
-<div class="box status-box">
+<div class="box">
 <h3>Application Status</h3>
-
-<div class="status-icon">
-<i class="fa-solid fa-circle-check"></i>
-</div>
-
+<br>
 <h2 class="green">Approved Seller</h2>
 <p>You can upload ebooks and start selling</p>
 
-<br>
-
-<button class="upload-btn">
+<button class="upload-btn"
+onclick="go('seller-profile.html')">
 View Seller Profile
 </button>
+
+<div class="final-stats">
+<div class="small-box">90% Earnings</div>
+<div class="small-box">10% Fee</div>
+<div class="small-box">Instant Delivery</div>
+<div class="small-box">24/7 Support</div>
+</div>
 </div>
 
 </div>
@@ -374,12 +367,21 @@ View Seller Profile
 </div>
 
 <script>
-new Chart(document.getElementById('lineChart'),{
+function go(page){
+window.location.href=page;
+}
+
+function toggleTheme(){
+alert("Dark/Light mode toggle");
+}
+
+/* charts */
+new Chart(document.getElementById("lineChart"),{
 type:'line',
 data:{
 labels:['1','5','10','15','20','25','30'],
 datasets:[{
-data:[1000,3000,4500,6000,5000,7000,9000],
+data:[1000,3000,4500,6000,5200,7000,9000],
 borderColor:'#22c55e',
 backgroundColor:'rgba(34,197,94,0.2)',
 fill:true
@@ -387,21 +389,17 @@ fill:true
 }
 });
 
-new Chart(document.getElementById('pieChart'),{
+new Chart(document.getElementById("pieChart"),{
 type:'doughnut',
 data:{
-labels:['Ebook Sales','Print Sales','Bonus'],
+labels:['Ebook','Print','Bonus'],
 datasets:[{
 data:[82,11,7],
-backgroundColor:[
-'#22c55e',
-'#3b82f6',
-'#f59e0b'
-]
+backgroundColor:['#22c55e','#3b82f6','#f59e0b']
 }]
 }
 });
 </script>
 
 </body>
-    </html>
+</html>
