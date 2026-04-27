@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All FAQs</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+body{
+background:#050b14;
+color:white;
+font-family:Arial;
+padding:30px;
+}
+
+a{
+color:#22c55e;
+text-decoration:none;
+font-size:18px;
+}
+
+.faq-item{
+background:#08111f;
+padding:20px;
+margin-top:15px;
+border-radius:12px;
+cursor:pointer;
+}
+
+.faq-question{
+display:flex;
+justify-content:space-between;
+}
+
+.faq-answer{
+display:none;
+margin-top:10px;
+color:#9ca3af;
+}
+
+.faq-item.active .faq-answer{
+display:block;
+}
+</style>
+</head>
+<body>
+
+<a href="support.html">
+<i class="fa fa-arrow-left"></i> Back to Support
+</a>
+
+<h1 style="margin-top:20px;">All FAQs</h1>
+
+<div class="faq-item" onclick="toggleAnswer(this)">
+<div class="faq-question">
+<span>Seller earning percentage?</span>
+<i class="fa fa-chevron-down"></i>
+</div>
+<div class="faq-answer">
+Sellers receive 90% earnings after admin commission.
+</div>
+</div>
+
+<div class="faq-item" onclick="toggleAnswer(this)">
+<div class="faq-question">
+<span>Does CreatorHub allow copyrighted ebooks?</span>
+<i class="fa fa-chevron-down"></i>
+</div>
+<div class="faq-answer">
+No. Copyright content is strictly prohibited.
+</div>
+</div>
+
+<div class="faq-item" onclick="toggleAnswer(this)">
+<div class="faq-question">
+<span>How contact support?</span>
+<i class="fa fa-chevron-down"></i>
+</div>
+<div class="faq-answer">
+Use support form or AI support section.
+</div>
+</div>
+
+<div class="faq-item" onclick="toggleAnswer(this)">
+<div class="faq-question">
+<span>How increase ebook sales?</span>
+<i class="fa fa-chevron-down"></i>
+</div>
+<div class="faq-answer">
+Promote ebooks using social media.
+</div>
+</div>
+
+<div class="faq-item" onclick="toggleAnswer(this)">
+<div class="faq-question">
+<span>Account suspension reasons?</span>
+<i class="fa fa-chevron-down"></i>
+</div>
+<div class="faq-answer">
+Spam, fraud and copyright violations.
+</div>
+</div>
+
+<script>
+function toggleAnswer(item){
+item.classList.toggle("active");
+}
+</script>
+
+</body>
+</html>
