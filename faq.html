@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CreatorHub FAQ</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#050b14;
+    color:white;
+}
+
+.container{
+    width:90%;
+    max-width:900px;
+    margin:auto;
+    padding:40px 0;
+}
+
+/* Top Bar */
+.topbar{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:30px;
+}
+
+.back-btn{
+    color:#22c55e;
+    font-size:20px;
+    cursor:pointer;
+    text-decoration:none;
+}
+
+.page-title{
+    font-size:28px;
+    font-weight:bold;
+}
+
+/* FAQ Box */
+.faq-box{
+    background:#08111f;
+    padding:30px;
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,0.06);
+}
+
+/* FAQ Item */
+.faq-item{
+    padding:20px 0;
+    border-bottom:1px solid rgba(255,255,255,0.06);
+    cursor:pointer;
+}
+
+.faq-question{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.faq-answer{
+    display:none;
+    margin-top:12px;
+    color:#9ca3af;
+    line-height:1.6;
+    font-size:15px;
+}
+
+.faq-item.active .faq-answer{
+    display:block;
+}
+
+/* Bottom Help Box */
+.faq-bottom{
+    margin-top:30px;
+    background:#0f172a;
+    padding:20px;
+    border-radius:12px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.faq-bottom h4{
+    margin-bottom:6px;
+}
+
+.faq-bottom p{
+    color:#9ca3af;
+    font-size:14px;
+}
+
+.faq-bottom button{
+    background:#22c55e;
+    color:black;
+    border:none;
+    padding:12px 20px;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* Mobile */
+@media(max-width:768px){
+    .faq-bottom{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .faq-question{
+        font-size:16px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Top Bar -->
+    <div class="topbar">
+        <a href="support.html" class="back-btn">
+            <i class="fa fa-arrow-left"></i>
+        </a>
+
+        <div class="page-title">
+            CreatorHub FAQ
+        </div>
+    </div>
+
+    <!-- FAQ Box -->
+    <div class="faq-box">
+
+        <!-- FAQ 1 -->
+        <div class="faq-item" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                <span>What is CreatorHub?</span>
+                <i class="fa fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                CreatorHub is a digital marketplace where creators can sell ebooks and users can buy digital products safely.
+            </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                <span>How do I create an account?</span>
+                <i class="fa fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                Use the Register page and verify your email before accessing dashboard features.
+            </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                <span>How do I become a seller?</span>
+                <i class="fa fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                Apply using Become Seller option and wait for admin approval.
+            </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq-item" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                <span>How long does approval take?</span>
+                <i class="fa fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                Seller approval normally takes between 12 to 24 hours.
+            </div>
+        </div>
+
+        <!-- FAQ 5 -->
+        <div class="faq-item" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                <span>How do buyers purchase ebooks?</span>
+                <i class="fa fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                Buyers simply click Buy Ebook and complete payment to access the digital file.
+            </div>
+        </div>
+
+        <!-- FAQ 6 -->
+        <div class="faq-item" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                <span>Where are purchased ebooks stored?</span>
+                <i class="fa fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                Purchased ebooks appear inside your personal My Library section.
+            </div>
+        </div>
+
+        <!-- FAQ 7 -->
+        <div class="faq-item" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                <span>Refund available?</span>
+                <i class="fa fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                No refunds are available because digital downloads cannot be reversed.
+            </div>
+        </div>
+
+        <!-- FAQ 8 -->
+        <div class="faq-item" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                <span>Seller earning percentage?</span>
+                <i class="fa fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                Sellers receive 90% earnings after admin commission.
+            </div>
+        </div>
+
+        <!-- FAQ 9 -->
+        <div class="faq-item" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                <span>Does CreatorHub allow copyrighted ebooks?</span>
+                <i class="fa fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                No. Copyright violations are strictly prohibited.
+            </div>
+        </div>
+
+        <!-- FAQ 10 -->
+        <div class="faq-item" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                <span>How contact support?</span>
+                <i class="fa fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                Use the support page contact form or AI support section.
+            </div>
+        </div>
+
+        <!-- Bottom Help Box -->
+        <div class="faq-bottom">
+            <div>
+                <h4>Still have questions?</h4>
+                <p>Our support team is here to help you anytime.</p>
+            </div>
+
+            <button onclick="window.location.href='support.html'">
+                Contact Support
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function toggleAnswer(item){
+    item.classList.toggle("active");
+}
+</script>
+
+</body>
+</html>
