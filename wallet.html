@@ -6,14 +6,14 @@
 <title>CreatorHub Wallet</title>
 
 <link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial,sans-serif;
+font-family:Inter,sans-serif;
 }
 
 body{
@@ -26,50 +26,48 @@ overflow:hidden;
 
 /* SIDEBAR */
 .sidebar{
-width:260px;
-background:#030b1a;
+width:250px;
+background:#020b17;
+border-right:1px solid rgba(255,255,255,0.05);
 padding:20px;
-border-right:1px solid #1f2937;
-overflow-y:auto;
+overflow:auto;
 }
 
 .logo{
 font-size:28px;
-font-weight:bold;
-margin-bottom:30px;
+font-weight:700;
+margin-bottom:25px;
 }
 
 .logo span{
 color:#22c55e;
 }
 
-.profile-box{
-background:#111827;
-padding:20px;
+.profile{
+background:#081320;
+padding:18px;
 border-radius:16px;
 margin-bottom:25px;
-text-align:center;
 }
 
 .avatar{
-width:60px;
-height:60px;
+width:55px;
+height:55px;
 border-radius:50%;
 background:#22c55e;
 display:flex;
 align-items:center;
 justify-content:center;
-margin:auto;
 font-weight:bold;
 color:black;
-font-size:20px;
 margin-bottom:10px;
 }
 
 .approved{
 background:#14532d;
-padding:6px 10px;
-border-radius:20px;
+color:#22c55e;
+padding:6px 12px;
+border-radius:30px;
 font-size:12px;
 display:inline-block;
 margin-top:10px;
@@ -81,12 +79,12 @@ list-style:none;
 
 .menu li{
 padding:14px;
-margin-bottom:10px;
-border-radius:10px;
+border-radius:12px;
+margin-bottom:8px;
 cursor:pointer;
 display:flex;
-align-items:center;
 gap:12px;
+align-items:center;
 }
 
 .menu li:hover{
@@ -94,15 +92,15 @@ background:#111827;
 }
 
 .menu .active{
-background:#22c55e;
-color:black;
+background:#16a34a;
 }
 
 /* MAIN */
 .main{
 flex:1;
 padding:25px;
-overflow-y:auto;
+overflow:auto;
+background:radial-gradient(circle at top right,#0f172a,#020617);
 }
 
 /* TOPBAR */
@@ -113,11 +111,48 @@ align-items:center;
 margin-bottom:25px;
 }
 
-.top-icons{
+.top-right{
+display:flex;
+gap:20px;
+align-items:center;
+}
+
+.user-mini{
 display:flex;
 align-items:center;
-gap:20px;
-font-size:20px;
+gap:10px;
+}
+
+/* HEADER */
+.wallet-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.wallet-title{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.wallet-icon{
+width:60px;
+height:60px;
+background:#0f3d20;
+border-radius:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:24px;
+color:#22c55e;
+}
+
+.payout-cycle{
+background:#0f172a;
+padding:20px;
+border-radius:16px;
 }
 
 /* STATS */
@@ -128,135 +163,140 @@ gap:20px;
 margin-bottom:25px;
 }
 
-.stat-card{
-background:#111827;
+.stat{
+background:#0f172a;
 padding:20px;
-border-radius:16px;
-border:1px solid #1f2937;
+border-radius:18px;
+border:1px solid rgba(255,255,255,.05);
 }
 
-.stat-card h4{
+.stat h4{
 color:#94a3b8;
+font-size:14px;
 margin-bottom:10px;
 }
 
-.green{color:#22c55e;}
-.yellow{color:#facc15;}
-.blue{color:#3b82f6;}
-.purple{color:#a855f7;}
+.stat h2{
+font-size:34px;
+margin-bottom:8px;
+}
 
-/* MIDDLE */
-.middle{
+/* GRID */
+.grid{
 display:grid;
 grid-template-columns:1.5fr 1fr;
 gap:20px;
 margin-bottom:25px;
 }
 
-.box{
-background:#111827;
-padding:20px;
-border-radius:16px;
-border:1px solid #1f2937;
+.card{
+background:#0f172a;
+padding:25px;
+border-radius:20px;
 }
 
+/* INPUT */
 input{
 width:100%;
 padding:14px;
-margin-top:15px;
 background:#020617;
 border:none;
 border-radius:10px;
 color:white;
+margin-top:15px;
 }
 
-.quick-buttons{
+.amount-buttons{
 display:flex;
 gap:10px;
 margin-top:15px;
 }
 
-.quick-buttons button{
+.amount-buttons button{
 flex:1;
-background:#1f2937;
+background:#111827;
 color:white;
-padding:12px;
 border:none;
+padding:12px;
 border-radius:10px;
 cursor:pointer;
 }
 
 .withdraw-btn{
 width:100%;
-padding:14px;
-margin-top:20px;
+padding:16px;
 background:#22c55e;
+color:black;
+font-weight:bold;
 border:none;
 border-radius:12px;
-font-weight:bold;
+margin-top:20px;
 cursor:pointer;
-color:black;
 }
 
-.withdraw-btn:hover{
-background:#16a34a;
-}
-
-/* payout */
+/* payout methods */
 .method{
-background:#020617;
-padding:15px;
-margin-top:12px;
-border-radius:12px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+background:#020617;
+padding:15px;
+border-radius:12px;
+margin-top:15px;
 }
 
-.action-btn{
-padding:8px 12px;
+.method-actions button{
+margin-left:8px;
+padding:8px 10px;
 border:none;
 border-radius:8px;
 cursor:pointer;
-margin-left:8px;
 }
 
-.edit-btn{
-background:#3b82f6;
-color:white;
-}
-
-.delete-btn{
-background:#ef4444;
-color:white;
-}
-
-/* table */
-.table-box{
-background:#111827;
+/* fee card */
+.fee-card{
+margin-top:20px;
+background:#020617;
 padding:20px;
-border-radius:16px;
+border-radius:12px;
+}
+
+/* transaction */
+.table-card{
+background:#0f172a;
+padding:25px;
+border-radius:20px;
+margin-bottom:25px;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
-margin-top:15px;
+margin-top:20px;
 }
 
 th,td{
 padding:14px;
 text-align:left;
-border-bottom:1px solid #1f2937;
+border-bottom:1px solid rgba(255,255,255,.05);
 }
 
-.status{
+.credit{
 color:#22c55e;
 }
 
-/* footer */
-#footer-container{
-margin-top:30px;
+.debit{
+color:red;
+}
+
+/* bottom section */
+.bottom-box{
+background:#0f172a;
+padding:25px;
+border-radius:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 </style>
 </head>
@@ -265,27 +305,29 @@ margin-top:30px;
 <!-- SIDEBAR -->
 <div class="sidebar">
 
-<div class="logo">Creator<span>Hub</span></div>
+<div class="logo">
+Creator<span>Hub</span>
+</div>
 
-<div class="profile-box">
+<div class="profile">
 <div class="avatar">AP</div>
-<h3 id="username">Ayush</h3>
+<h3>Ayush</h3>
 <p>Seller</p>
 <div class="approved">Approved</div>
 </div>
 
 <ul class="menu">
-<li onclick="goPage('dashboard.html')"><i class="fa fa-home"></i> Dashboard</li>
-<li onclick="goPage('ebooks.html')"><i class="fa fa-book"></i> My Ebooks</li>
-<li onclick="goPage('orders.html')"><i class="fa fa-cart-shopping"></i> Orders</li>
-<li onclick="goPage('sales.html')"><i class="fa fa-chart-line"></i> Sales</li>
-<li onclick="goPage('analytics.html')"><i class="fa fa-chart-pie"></i> Analytics</li>
-<li onclick="goPage('payouts.html')"><i class="fa fa-money-bill"></i> Payouts</li>
+<li><i class="fa fa-home"></i> Dashboard</li>
+<li><i class="fa fa-book"></i> My Ebooks</li>
+<li><i class="fa fa-cart-shopping"></i> Orders</li>
+<li><i class="fa fa-chart-line"></i> Sales & Earnings</li>
+<li><i class="fa fa-chart-pie"></i> Analytics</li>
+<li><i class="fa fa-money-bill"></i> Payouts</li>
 <li class="active"><i class="fa fa-wallet"></i> Wallet</li>
-<li onclick="goPage('reviews.html')"><i class="fa fa-star"></i> Reviews</li>
-<li onclick="goPage('messages.html')"><i class="fa fa-envelope"></i> Messages</li>
-<li onclick="goPage('profile.html')"><i class="fa fa-user"></i> Profile</li>
-<li onclick="goPage('settings.html')"><i class="fa fa-cog"></i> Settings</li>
+<li><i class="fa fa-star"></i> Reviews</li>
+<li><i class="fa fa-envelope"></i> Messages</li>
+<li><i class="fa fa-user"></i> Profile</li>
+<li><i class="fa fa-cog"></i> Settings</li>
 </ul>
 
 </div>
@@ -294,57 +336,92 @@ margin-top:30px;
 <div class="main">
 
 <div class="topbar">
+<div><i class="fa fa-arrow-left"></i> Back to Dashboard</div>
+
+<div class="top-right">
+<i class="fa fa-moon"></i>
+<i class="fa fa-bell"></i>
+
+<div class="user-mini">
+<div class="avatar" style="width:40px;height:40px;">AP</div>
+<div>
+<h4>Ayush</h4>
+<small>Seller</small>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Wallet Header -->
+<div class="wallet-header">
+
+<div class="wallet-title">
+<div class="wallet-icon">
+<i class="fa fa-wallet"></i>
+</div>
+
 <div>
 <h1>My Wallet</h1>
-<p style="color:#94a3b8;">Manage your earnings and withdrawals</p>
-</div>
-
-<div class="top-icons">
-<i class="fa fa-moon" onclick="toggleTheme()"></i>
-<i class="fa fa-bell" onclick="showNotifications()"></i>
+<p style="color:#94a3b8">
+Manage your earnings and withdrawals
+</p>
 </div>
 </div>
 
-<!-- stats -->
+<div class="payout-cycle">
+<p style="color:#94a3b8">Current Payout Cycle</p>
+<h3>1 May - 31 May 2025</h3>
+</div>
+
+</div>
+
+<!-- Stats -->
 <div class="stats">
 
-<div class="stat-card">
+<div class="stat">
 <h4>Available Balance</h4>
-<h2 class="green">₹<span id="balance">0</span></h2>
+<h2 style="color:#22c55e">₹12,500</h2>
+<p style="color:#22c55e">Ready to withdraw</p>
 </div>
 
-<div class="stat-card">
+<div class="stat">
 <h4>Pending Balance</h4>
-<h2 class="yellow">₹<span id="pending">0</span></h2>
+<h2 style="color:#facc15">₹4,200</h2>
+<p style="color:#facc15">Will be available soon</p>
 </div>
 
-<div class="stat-card">
+<div class="stat">
 <h4>Total Withdrawn</h4>
-<h2 class="blue">₹<span id="withdrawn">0</span></h2>
+<h2 style="color:#3b82f6">₹50,000</h2>
+<p style="color:#3b82f6">All time earnings</p>
 </div>
 
-<div class="stat-card">
+<div class="stat">
 <h4>Total Earnings</h4>
-<h2 class="purple">₹<span id="earnings">0</span></h2>
+<h2 style="color:#a855f7">₹66,700</h2>
+<p style="color:#a855f7">All time</p>
 </div>
 
 </div>
 
-<!-- middle -->
-<div class="middle">
+<!-- middle grid -->
+<div class="grid">
 
-<div class="box">
+<div class="card">
 <h2>Withdraw Earnings</h2>
 
-<input type="number"
-id="amount"
-placeholder="Enter Amount">
+<input id="amount" placeholder="₹12500">
 
-<div class="quick-buttons">
+<div class="amount-buttons">
 <button onclick="setAmount(1000)">₹1000</button>
 <button onclick="setAmount(5000)">₹5000</button>
 <button onclick="setAmount(10000)">₹10000</button>
 <button onclick="setAll()">All</button>
+</div>
+
+<div style="margin-top:20px">
+<p style="color:#94a3b8">Withdraw to</p>
+<h4>UPI ID - ayush@paytm</h4>
 </div>
 
 <button class="withdraw-btn"
@@ -353,203 +430,95 @@ Withdraw Now
 </button>
 </div>
 
-<div class="box">
+<div>
+
+<div class="card">
 <h2>Payout Methods</h2>
 
 <div class="method">
 <span>ayush@paytm</span>
-<div>
-<button class="action-btn edit-btn"
-onclick="editUPI()">Edit</button>
 
-<button class="action-btn delete-btn"
-onclick="deleteUPI()">Delete</button>
+<div class="method-actions">
+<button onclick="editUPI()">✏️</button>
+<button onclick="deleteUPI()">🗑️</button>
 </div>
 </div>
 
 <div class="method">
-<span>HDFC ****1234</span>
-<div>
-<button class="action-btn edit-btn"
-onclick="editBank()">Edit</button>
+<span>HDFC Bank ****1234</span>
 
-<button class="action-btn delete-btn"
-onclick="deleteBank()">Delete</button>
+<div class="method-actions">
+<button onclick="editBank()">✏️</button>
+<button onclick="deleteBank()">🗑️</button>
 </div>
-</div>
-
 </div>
 </div>
 
-<!-- history -->
-<div class="table-box">
+<div class="fee-card">
+<h3>Fee & Payout Info</h3>
+<p>Platform Fee: 10%</p>
+<p>Minimum Withdraw: ₹500</p>
+<p>Payout Time: Within 24-48 Hours</p>
+<p>Payout Days: Monday to Saturday</p>
+</div>
+
+</div>
+</div>
+
+<!-- transactions -->
+<div class="table-card">
 <h2>Transaction History</h2>
 
 <table>
-<thead>
 <tr>
-<th>Book</th>
+<th>Date</th>
+<th>ID</th>
+<th>Description</th>
+<th>Type</th>
 <th>Amount</th>
 <th>Status</th>
 </tr>
-</thead>
 
-<tbody id="historyBox">
 <tr>
-<td colspan="3">Loading...</td>
+<td>20 May</td>
+<td>TXN892374</td>
+<td>The Power of Focus</td>
+<td class="credit">Credit</td>
+<td>₹199</td>
+<td class="credit">Completed</td>
 </tr>
-</tbody>
+
+<tr>
+<td>18 May</td>
+<td>TXN891001</td>
+<td>Withdrawal</td>
+<td class="debit">Debit</td>
+<td>-₹5000</td>
+<td class="credit">Completed</td>
+</tr>
 </table>
 </div>
 
-<!-- footer html -->
-<div id="footer-container"></div>
+<!-- bottom -->
+<div class="bottom-box">
+<div>
+<h3>Your earnings are safe with us</h3>
+<p style="color:#94a3b8">
+We use bank-level security
+</p>
+</div>
+
+<div>
+<h3>Need Help?</h3>
+<p style="color:#22c55e">Contact Support</p>
+</div>
+</div>
 
 </div>
 
 <script>
-const API="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec";
+let currentBalance=12500;
 
-let user=JSON.parse(localStorage.getItem("user")||"{}");
-
-if(!user.email){
-alert("Login First");
-location.href="login.html";
-}
-
-let currentBalance=0;
-
-/* navigation */
-function goPage(page){
-window.location.href=page;
-}
-
-/* top buttons */
-function toggleTheme(){
-alert("Dark theme already enabled");
-}
-
-function showNotifications(){
-alert("No new notifications");
-}
-
-/* payout buttons */
-function editUPI(){
-let newUpi=prompt("Enter new UPI ID");
-if(newUpi){
-alert("UPI Updated: "+newUpi);
-}
-}
-
-function deleteUPI(){
-if(confirm("Delete UPI?")){
-alert("UPI deleted");
-}
-}
-
-function editBank(){
-alert("Bank edit feature");
-}
-
-function deleteBank(){
-if(confirm("Delete bank account?")){
-alert("Bank deleted");
-}
-}
-
-/* footer load */
-fetch("footer.html")
-.then(res=>res.text())
-.then(data=>{
-document.getElementById("footer-container").innerHTML=data;
-})
-.catch(()=>{
-document.getElementById("footer-container").innerHTML=
-"<div style='padding:20px;text-align:center;color:gray'>Footer not found</div>";
-});
-
-/* api */
-async function getDB(db){
-try{
-let r=await fetch(API+"?db="+db+"&t="+Date.now());
-let data=await r.json();
-return Array.isArray(data)?data:[];
-}catch{
-return [];
-}
-}
-
-async function loadWallet(){
-
-document.getElementById("username").innerText=
-user.name||"Ayush";
-
-let wallets=await getDB("wallets");
-let orders=await getDB("orders");
-let withdrawals=await getDB("withdrawals");
-
-let myWallet=wallets.find(
-w=>w.email===user.email
-);
-
-currentBalance=myWallet?
-Number(myWallet.balance||0):0;
-
-document.getElementById("balance").innerText=currentBalance;
-
-let myOrders=orders.filter(
-o=>o.seller===user.email &&
-o.payment==="paid"
-);
-
-let totalEarnings=0;
-
-myOrders.forEach(o=>{
-totalEarnings+=o.amount-(o.amount*0.10);
-});
-
-document.getElementById("earnings").innerText=totalEarnings;
-
-let myWithdrawals=withdrawals.filter(
-w=>w.email===user.email
-);
-
-let totalWithdrawn=myWithdrawals.reduce(
-(sum,w)=>sum+Number(w.amount),
-0
-);
-
-document.getElementById("withdrawn").innerText=totalWithdrawn;
-
-document.getElementById("pending").innerText="0";
-
-let box=document.getElementById("historyBox");
-
-if(!myOrders.length){
-box.innerHTML=
-`<tr><td colspan="3">No Transactions</td></tr>`;
-return;
-}
-
-box.innerHTML="";
-
-myOrders.reverse().forEach(o=>{
-
-let earn=o.amount-(o.amount*0.10);
-
-box.innerHTML+=`
-<tr>
-<td>${o.bookName||"Book Sale"}</td>
-<td>₹${earn}</td>
-<td class="status">Completed</td>
-</tr>
-`;
-});
-}
-
-loadWallet();
-
-/* amount */
 function setAmount(v){
 document.getElementById("amount").value=v;
 }
@@ -558,58 +527,33 @@ function setAll(){
 document.getElementById("amount").value=currentBalance;
 }
 
-/* withdraw */
-async function withdrawMoney(){
-
-let amount=Number(
-document.getElementById("amount").value
-);
+function withdrawMoney(){
+let amount=document.getElementById("amount").value;
 
 if(!amount){
 alert("Enter amount");
 return;
 }
 
-if(amount<500){
-alert("Minimum withdraw ₹500");
-return;
+alert("Withdrawal request submitted: ₹"+amount);
 }
 
-if(amount>currentBalance){
-alert("Insufficient Balance");
-return;
+function editUPI(){
+alert("Edit UPI clicked");
 }
 
-if(!confirm("Confirm withdrawal?")) return;
-
-try{
-
-let res=await fetch(API,{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-action:"withdraw",
-email:user.email,
-amount:amount
-})
-});
-
-let data=await res.json();
-
-if(data.success){
-alert("Withdrawal Successful");
-location.reload();
-}else{
-alert(data.message||"Withdrawal Failed");
+function deleteUPI(){
+alert("Delete UPI clicked");
 }
 
-}catch{
-alert("Server Error");
+function editBank(){
+alert("Edit bank clicked");
 }
+
+function deleteBank(){
+alert("Delete bank clicked");
 }
 </script>
 
 </body>
-</html>
+                                        </html>
