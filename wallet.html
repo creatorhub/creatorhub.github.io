@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=1400">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CreatorHub Wallet</title>
 
 <link rel="stylesheet"
@@ -20,20 +20,18 @@ body{
 background:#020617;
 color:white;
 display:flex;
-height:100vh;
-overflow:hidden;
+min-height:100vh;
+overflow-x:hidden;
 }
 
 /* SIDEBAR */
 .sidebar{
 width:250px;
+min-height:100vh;
 background:#020b17;
 border-right:1px solid rgba(255,255,255,0.05);
 padding:20px;
-overflow:auto;
-transition:0.4s ease;
-position:relative;
-left:0;
+transition:.4s;
 }
 
 .sidebar.hide{
@@ -107,8 +105,8 @@ background:#16a34a;
 .main{
 flex:1;
 padding:25px;
-overflow:auto;
 background:radial-gradient(circle at top right,#0f172a,#020617);
+min-height:100vh;
 }
 
 /* TOPBAR */
@@ -323,6 +321,53 @@ border-radius:20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+}
+
+@media(max-width:900px){
+
+body{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+min-height:auto;
+}
+
+.stats{
+grid-template-columns:repeat(2,1fr);
+}
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.wallet-header{
+flex-direction:column;
+align-items:flex-start;
+gap:20px;
+}
+
+.topbar{
+flex-direction:column;
+align-items:flex-start;
+gap:20px;
+}
+
+.table-card{
+overflow-x:auto;
+}
+
+table{
+min-width:700px;
+}
+
+.bottom-box{
+flex-direction:column;
+align-items:flex-start;
+gap:20px;
+}
+
 }
 </style>
 </head>
