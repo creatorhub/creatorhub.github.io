@@ -31,6 +31,14 @@ background:#020b17;
 border-right:1px solid rgba(255,255,255,0.05);
 padding:20px;
 overflow:auto;
+transition:0.4s ease;
+position:relative;
+left:0;
+}
+
+.sidebar.hide{
+left:-250px;
+margin-right:-250px;
 }
 
 .logo{
@@ -109,6 +117,24 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 margin-bottom:25px;
+}
+
+.menu-btn{
+width:45px;
+height:45px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#111827;
+border-radius:12px;
+cursor:pointer;
+font-size:20px;
+transition:.3s;
+}
+
+.menu-btn:hover{
+background:#22c55e;
+color:black;
 }
 
 .top-right{
@@ -336,13 +362,8 @@ align-items:center;
 <div style="display:flex;align-items:center;gap:15px;">
 
     <!-- MENU BUTTON -->
-    <div onclick="toggleSidebar()" 
-    style="
-    font-size:22px;
-    cursor:pointer;
-    color:white;
-    ">
-        <i class="fa-solid fa-bars"></i>
+    <div class="menu-btn" onclick="toggleSidebar()">
+    <i class="fa-solid fa-bars"></i>
     </div>
 
     <!-- LOGO -->
@@ -574,15 +595,8 @@ alert("Delete bank clicked");
 }
 
 function toggleSidebar(){
-
 let sidebar=document.querySelector(".sidebar");
-
-if(sidebar.style.display==="none"){
-    sidebar.style.display="block";
-}else{
-    sidebar.style.display="none";
-}
-
+sidebar.classList.toggle("hide");
 }
 </script>
 
