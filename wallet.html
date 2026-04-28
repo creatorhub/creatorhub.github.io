@@ -26,17 +26,15 @@ overflow-x:hidden;
 
 /* SIDEBAR */
 .sidebar{
-width:250px;
-min-height:100vh;
+width:260px;
 background:#020b17;
-border-right:1px solid rgba(255,255,255,0.05);
 padding:20px;
+border-right:1px solid rgba(255,255,255,.05);
 transition:.4s;
 }
 
 .sidebar.hide{
-left:-250px;
-margin-right:-250px;
+margin-left:-260px;
 }
 
 .logo{
@@ -64,8 +62,8 @@ background:#22c55e;
 display:flex;
 align-items:center;
 justify-content:center;
-font-weight:bold;
 color:black;
+font-weight:bold;
 margin-bottom:10px;
 }
 
@@ -85,8 +83,8 @@ list-style:none;
 
 .menu li{
 padding:14px;
-border-radius:12px;
 margin-bottom:8px;
+border-radius:12px;
 cursor:pointer;
 display:flex;
 gap:12px;
@@ -101,12 +99,54 @@ background:#111827;
 background:#16a34a;
 }
 
+/* upload box */
+.upload-box{
+background:#0f172a;
+padding:20px;
+border-radius:16px;
+margin-top:30px;
+text-align:center;
+}
+
+.upload-box h3{
+color:#22c55e;
+margin-bottom:10px;
+}
+
+.upload-box p{
+color:#94a3b8;
+font-size:13px;
+margin-bottom:15px;
+}
+
+.upload-box button{
+background:#22c55e;
+border:none;
+padding:12px 20px;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+}
+
+/* help */
+.help-box{
+background:#0f172a;
+padding:20px;
+border-radius:16px;
+margin-top:20px;
+text-align:center;
+}
+
+.help-box p{
+color:#94a3b8;
+font-size:13px;
+}
+
 /* MAIN */
 .main{
 flex:1;
 padding:25px;
 background:radial-gradient(circle at top right,#0f172a,#020617);
-min-height:100vh;
 }
 
 /* TOPBAR */
@@ -120,14 +160,12 @@ margin-bottom:25px;
 .menu-btn{
 width:45px;
 height:45px;
+background:#111827;
 display:flex;
 align-items:center;
 justify-content:center;
-background:#111827;
 border-radius:12px;
 cursor:pointer;
-font-size:20px;
-transition:.3s;
 }
 
 .menu-btn:hover{
@@ -135,10 +173,16 @@ background:#22c55e;
 color:black;
 }
 
+.top-left{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
 .top-right{
 display:flex;
-gap:20px;
 align-items:center;
+gap:20px;
 }
 
 .user-mini{
@@ -147,7 +191,7 @@ align-items:center;
 gap:10px;
 }
 
-/* HEADER */
+/* wallet header */
 .wallet-header{
 display:flex;
 justify-content:space-between;
@@ -169,8 +213,8 @@ border-radius:15px;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:24px;
 color:#22c55e;
+font-size:24px;
 }
 
 .payout-cycle{
@@ -179,7 +223,7 @@ padding:20px;
 border-radius:16px;
 }
 
-/* STATS */
+/* stats */
 .stats{
 display:grid;
 grid-template-columns:repeat(4,1fr);
@@ -191,21 +235,9 @@ margin-bottom:25px;
 background:#0f172a;
 padding:20px;
 border-radius:18px;
-border:1px solid rgba(255,255,255,.05);
 }
 
-.stat h4{
-color:#94a3b8;
-font-size:14px;
-margin-bottom:10px;
-}
-
-.stat h2{
-font-size:34px;
-margin-bottom:8px;
-}
-
-/* GRID */
+/* grid */
 .grid{
 display:grid;
 grid-template-columns:1.5fr 1fr;
@@ -219,7 +251,7 @@ padding:25px;
 border-radius:20px;
 }
 
-/* INPUT */
+/* input */
 input{
 width:100%;
 padding:14px;
@@ -250,15 +282,15 @@ cursor:pointer;
 width:100%;
 padding:16px;
 background:#22c55e;
-color:black;
-font-weight:bold;
 border:none;
 border-radius:12px;
 margin-top:20px;
 cursor:pointer;
+font-weight:bold;
+color:black;
 }
 
-/* payout methods */
+/* payout */
 .method{
 display:flex;
 justify-content:space-between;
@@ -277,7 +309,7 @@ border-radius:8px;
 cursor:pointer;
 }
 
-/* fee card */
+/* fee */
 .fee-card{
 margin-top:20px;
 background:#020617;
@@ -285,18 +317,18 @@ padding:20px;
 border-radius:12px;
 }
 
-/* transaction */
+/* table */
 .table-card{
 background:#0f172a;
 padding:25px;
 border-radius:20px;
 margin-bottom:25px;
+overflow-x:auto;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
-margin-top:20px;
 }
 
 th,td{
@@ -313,7 +345,7 @@ color:#22c55e;
 color:red;
 }
 
-/* bottom section */
+/* bottom */
 .bottom-box{
 background:#0f172a;
 padding:25px;
@@ -321,17 +353,21 @@ border-radius:20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+margin-bottom:25px;
 }
 
-@media(max-width:900px){
+#footer-container{
+margin-top:20px;
+}
 
+/* mobile */
+@media(max-width:900px){
 body{
 flex-direction:column;
 }
 
 .sidebar{
 width:100%;
-min-height:auto;
 }
 
 .stats{
@@ -353,21 +389,6 @@ flex-direction:column;
 align-items:flex-start;
 gap:20px;
 }
-
-.table-card{
-overflow-x:auto;
-}
-
-table{
-min-width:700px;
-}
-
-.bottom-box{
-flex-direction:column;
-align-items:flex-start;
-gap:20px;
-}
-
 }
 </style>
 </head>
@@ -384,18 +405,29 @@ gap:20px;
 </div>
 
 <ul class="menu">
-<li><i class="fa fa-home"></i> Dashboard</li>
-<li><i class="fa fa-book"></i> My Ebooks</li>
-<li><i class="fa fa-cart-shopping"></i> Orders</li>
-<li><i class="fa fa-chart-line"></i> Sales & Earnings</li>
-<li><i class="fa fa-chart-pie"></i> Analytics</li>
-<li><i class="fa fa-money-bill"></i> Payouts</li>
+<li onclick="goPage('dashboard.html')"><i class="fa fa-home"></i> Dashboard</li>
+<li onclick="goPage('ebooks.html')"><i class="fa fa-book"></i> My Ebooks</li>
+<li onclick="goPage('orders.html')"><i class="fa fa-cart-shopping"></i> Orders</li>
+<li onclick="goPage('sales.html')"><i class="fa fa-chart-line"></i> Sales</li>
+<li onclick="goPage('analytics.html')"><i class="fa fa-chart-pie"></i> Analytics</li>
+<li onclick="goPage('payouts.html')"><i class="fa fa-money-bill"></i> Payouts</li>
 <li class="active"><i class="fa fa-wallet"></i> Wallet</li>
-<li><i class="fa fa-star"></i> Reviews</li>
-<li><i class="fa fa-envelope"></i> Messages</li>
-<li><i class="fa fa-user"></i> Profile</li>
-<li><i class="fa fa-cog"></i> Settings</li>
+<li onclick="goPage('reviews.html')"><i class="fa fa-star"></i> Reviews</li>
+<li onclick="goPage('messages.html')"><i class="fa fa-envelope"></i> Messages</li>
+<li onclick="goPage('profile.html')"><i class="fa fa-user"></i> Profile</li>
+<li onclick="goPage('settings.html')"><i class="fa fa-cog"></i> Settings</li>
 </ul>
+
+<div class="upload-box">
+<h3>Earn More with CreatorHub</h3>
+<p>Upload quality ebooks and earn up to 90% per sale.</p>
+<button onclick="goPage('upload.html')">Upload Ebook</button>
+</div>
+
+<div class="help-box">
+<h4>Need Help?</h4>
+<p>support@creatorhub.com</p>
+</div>
 
 </div>
 
@@ -404,25 +436,20 @@ gap:20px;
 
 <div class="topbar">
 
-<div style="display:flex;align-items:center;gap:15px;">
-
-    <!-- MENU BUTTON -->
-    <div class="menu-btn" onclick="toggleSidebar()">
-    <i class="fa-solid fa-bars"></i>
-    </div>
-
-    <!-- LOGO -->
-    <div class="logo">
-        Creator<span>Hub</span>
-    </div>
-
-    <!-- BACK -->
-    <div>
-        <i class="fa fa-arrow-left"></i> Back to Dashboard
-    </div>
-
+<div class="top-left">
+<div class="menu-btn" onclick="toggleSidebar()">
+<i class="fa fa-bars"></i>
 </div>
-  
+
+<div class="logo">
+Creator<span>Hub</span>
+</div>
+
+<div>
+<i class="fa fa-arrow-left"></i> Back to Dashboard
+</div>
+</div>
+
 <div class="top-right">
 <i class="fa fa-moon"></i>
 <i class="fa fa-bell"></i>
@@ -437,9 +464,8 @@ gap:20px;
 </div>
 </div>
 
-<!-- Wallet Header -->
+<!-- Wallet header -->
 <div class="wallet-header">
-
 <div class="wallet-title">
 <div class="wallet-icon">
 <i class="fa fa-wallet"></i>
@@ -447,9 +473,7 @@ gap:20px;
 
 <div>
 <h1>My Wallet</h1>
-<p style="color:#94a3b8">
-Manage your earnings and withdrawals
-</p>
+<p style="color:#94a3b8;">Manage your earnings and withdrawals</p>
 </div>
 </div>
 
@@ -457,12 +481,10 @@ Manage your earnings and withdrawals
 <p style="color:#94a3b8">Current Payout Cycle</p>
 <h3>1 May - 31 May 2025</h3>
 </div>
-
 </div>
 
-<!-- Stats -->
+<!-- stats -->
 <div class="stats">
-
 <div class="stat">
 <h4>Available Balance</h4>
 <h2 style="color:#22c55e">₹12,500</h2>
@@ -486,10 +508,9 @@ Manage your earnings and withdrawals
 <h2 style="color:#a855f7">₹66,700</h2>
 <p style="color:#a855f7">All time</p>
 </div>
-
 </div>
 
-<!-- middle grid -->
+<!-- withdraw + payout -->
 <div class="grid">
 
 <div class="card">
@@ -509,20 +530,20 @@ Manage your earnings and withdrawals
 <h4>UPI ID - ayush@paytm</h4>
 </div>
 
-<button class="withdraw-btn"
-onclick="withdrawMoney()">
+<button class="withdraw-btn" onclick="withdrawMoney()">
 Withdraw Now
 </button>
 </div>
 
 <div>
-
 <div class="card">
-<h2>Payout Methods</h2>
+<h2>Payout Methods 
+<span style="float:right;color:#22c55e;cursor:pointer"
+onclick="addPayout()">+ Add New</span>
+</h2>
 
 <div class="method">
 <span>ayush@paytm</span>
-
 <div class="method-actions">
 <button onclick="editUPI()">✏️</button>
 <button onclick="deleteUPI()">🗑️</button>
@@ -531,7 +552,6 @@ Withdraw Now
 
 <div class="method">
 <span>HDFC Bank ****1234</span>
-
 <div class="method-actions">
 <button onclick="editBank()">✏️</button>
 <button onclick="deleteBank()">🗑️</button>
@@ -546,11 +566,10 @@ Withdraw Now
 <p>Payout Time: Within 24-48 Hours</p>
 <p>Payout Days: Monday to Saturday</p>
 </div>
-
 </div>
 </div>
 
-<!-- transactions -->
+<!-- transaction -->
 <div class="table-card">
 <h2>Transaction History</h2>
 
@@ -574,6 +593,15 @@ Withdraw Now
 </tr>
 
 <tr>
+<td>19 May</td>
+<td>TXN892112</td>
+<td>Atomic Habits</td>
+<td class="credit">Credit</td>
+<td>₹249</td>
+<td class="credit">Completed</td>
+</tr>
+
+<tr>
 <td>18 May</td>
 <td>TXN891001</td>
 <td>Withdrawal</td>
@@ -588,21 +616,30 @@ Withdraw Now
 <div class="bottom-box">
 <div>
 <h3>Your earnings are safe with us</h3>
-<p style="color:#94a3b8">
-We use bank-level security
-</p>
+<p style="color:#94a3b8;">We use bank-level security</p>
 </div>
 
 <div>
 <h3>Need Help?</h3>
-<p style="color:#22c55e">Contact Support</p>
+<p style="color:#22c55e;">Contact Support</p>
 </div>
 </div>
+
+<!-- footer -->
+<div id="footer-container"></div>
 
 </div>
 
 <script>
 let currentBalance=12500;
+
+function goPage(page){
+window.location.href=page;
+}
+
+function toggleSidebar(){
+document.querySelector(".sidebar").classList.toggle("hide");
+}
 
 function setAmount(v){
 document.getElementById("amount").value=v;
@@ -620,30 +657,40 @@ alert("Enter amount");
 return;
 }
 
-alert("Withdrawal request submitted: ₹"+amount);
+alert("Withdrawal Request Submitted ₹"+amount);
+}
+
+function addPayout(){
+alert("Add New Payout Method");
 }
 
 function editUPI(){
-alert("Edit UPI clicked");
+alert("Edit UPI");
 }
 
 function deleteUPI(){
-alert("Delete UPI clicked");
+alert("Delete UPI");
 }
 
 function editBank(){
-alert("Edit bank clicked");
+alert("Edit Bank");
 }
 
 function deleteBank(){
-alert("Delete bank clicked");
+alert("Delete Bank");
 }
 
-function toggleSidebar(){
-let sidebar=document.querySelector(".sidebar");
-sidebar.classList.toggle("hide");
-}
+/* footer.html load */
+fetch("footer.html")
+.then(res=>res.text())
+.then(data=>{
+document.getElementById("footer-container").innerHTML=data;
+})
+.catch(()=>{
+document.getElementById("footer-container").innerHTML=
+"<p style='text-align:center;color:gray'>Footer not found</p>";
+});
 </script>
 
 </body>
-                                        </html>
+    </html>
