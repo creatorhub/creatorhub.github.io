@@ -173,7 +173,10 @@ alert(data.message || "Login failed")
 return
 }
 
-localStorage.setItem("user",JSON.stringify(data.user));
+localStorage.setItem("user",JSON.stringify({
+email: data.user.email,
+token: data.token
+}));
 
 alert("Login Success ✅");
 
@@ -193,17 +196,32 @@ alert("Server error");
 
 async function handleGoogleLogin(response){
 
-let data=parseJwt(response.credential);
+let gdata = parseJwt(response.credential);
 
+// 🔥 backend call
+let res = await fetch(API,{
+method:"POST",
+body:new URLSearchParams({
+action:"google_login",
+email:gdata.email,
+name:gdata.name
+})
+});
+
+let text = await res.text();
+let data = JSON.parse(text);
+
+// 🔐 TOKEN SAVE
+if(data.success){
 localStorage.setItem("user",JSON.stringify({
-email:data.email,
-name:data.name
+email: data.user.email,
+token: data.token
 }));
+}
 
 location.href="dashboard.html";
 
 }
-
 
 /* ACCOUNT RECOVERY */
 
