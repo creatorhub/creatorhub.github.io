@@ -699,7 +699,7 @@ async function initGoogle(){
         }
       });
 
-      tokenClient.requestAccessToken();
+      tokenClient.requestAccessToken({prompt:"consent"});
     });
   });
 }
@@ -734,8 +734,8 @@ async function uploadBook(){
 
 try{
 
-let user = JSON.parse(localStorage.getItem("user") || {});
-
+let user = JSON.parse(localStorage.getItem("user") || "{}");
+  
 if(!user.token){
 alert("Login required");
 return;
