@@ -156,9 +156,30 @@ let data=JSON.parse(text)
 
 if(data.success){
 
+// 🔥 AUTO LOGIN
+let loginRes = await fetch(API,{
+method:"POST",
+body:new URLSearchParams({
+action:"login",
+email:email,
+password:password
+})
+})
+
+let loginText = await loginRes.text()
+let loginData = JSON.parse(loginText)
+
+// 🔐 TOKEN SAVE
+if(loginData.success){
+localStorage.setItem("user", JSON.stringify({
+email: loginData.user.email,
+token: loginData.token
+}))
+}
+
 alert("Account Created Successfully ✅")
 
-location.href="login.html"
+location.href="dashboard.html"
 
 }else{
 
