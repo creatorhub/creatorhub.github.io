@@ -679,11 +679,120 @@ pages.value=pdfDoc.numPages;
 reader.readAsArrayBuffer(file);
 }
 
-/* UPLOAD */
-async function uploadBook(){
-alert("Uploading...");
+/******** GOOGLE LOGIN ********/
+async function initGoogle(){
+  return new Promise((resolve)=>{
+    gapi.load("client", async ()=>{
+      await gapi.client.init({
+        apiKey: API_KEY,
+        discoveryDocs:["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"]
+      });
+
+      const tokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: CLIENT_ID,
+        scope:"https://www.googleapis.com/auth/drive.file",
+        callback:(res)=>{
+          accessToken = res.access_token;
+          resolve();
+        }
+      });
+
+      tokenClient.requestAccessToken();
+    });
+  });
 }
 
+/******** DRIVE UPLOAD ********/
+async function uploadToDrive(file){
+
+  let form = new FormData();
+
+  form.append("metadata", new Blob([JSON.stringify({
+    name:file.name,
+    mimeType:file.type
+  })], {type:"application/json"}));
+
+  form.append("file", file);
+
+  let res = await fetch(
+    "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
+    {
+      method:"POST",
+      headers:{ Authorization:"Bearer "+accessToken },
+      body:form
+    }
+  );
+
+  let data = await res.json();
+  return data.id;
+}
+
+/* UPLOAD */
+async function uploadBook(){
+
+try{
+
+let user = JSON.parse(localStorage.getItem("user") || {});
+
+if(!user.token){
+alert("Login required");
+return;
+}
+
+await initGoogle();
+
+let pdfFile = pdf.files[0];
+let frontFile = front.files[0];
+let backFile = back.files[0];
+
+if(!pdfFile || !frontFile || !backFile){
+alert("All files required");
+return;
+}
+
+alert("Uploading to Drive...");
+
+let pdfId = await uploadToDrive(pdfFile);
+let frontId = await uploadToDrive(frontFile);
+let backId = await uploadToDrive(backFile);
+
+let res = await fetch(UPLOAD_API,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+action:"uploadEbook",
+token:user.token,
+
+title:title.value,
+description:description.value,
+category:category.value,
+author_name:author.value,
+pages:pages.value,
+price:price.value,
+
+pdfId:pdfId,
+frontCoverId:frontId,
+backCoverId:backId
+})
+});
+
+let data = await res.json();
+
+if(data.success){
+alert("✅ Upload Success");
+}else{
+alert("❌ "+data.message);
+}
+
+}catch(e){
+console.log(e);
+alert("Error: "+e);
+}
+
+}
+  
 /* FOOTER */
 fetch("footer.html")
 .then(res=>res.text())
