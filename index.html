@@ -335,6 +335,8 @@ transform:translateY(0);
 <a href="trending.html">Trending Books</a>
 <a href="topselling.html">Top Selling</a>
 <a href="cart.html">Cart</a>
+<a onclick="logout()">Logout</a>
+  
 
 </div>  <div id="overlay" onclick="closeMenu()"></div>  <!-- HERO -->  <section class="hero">  <div class="hero-text">  <h1>Discover, Buy & Sell eBooks <br> on <span>CreatorHub</span></h1>  <p>Explore thousands of digital books from talented creators.</p>  <div class="hero-buttons">  <button class="btn-green" onclick="goProducts()">Browse Ebooks</button>
 
@@ -507,6 +509,12 @@ return
 location.href="upload.html"  
   
 }  
+
+function logout(){
+  localStorage.removeItem("user");
+  alert("Logged out successfully");
+  location.href="login.html";
+}
   
   /* LOAD FOOTER */  
   
