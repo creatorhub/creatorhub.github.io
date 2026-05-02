@@ -6,7 +6,9 @@
 <title>CreatorHub Upload Ebook</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-
+<script src="https://apis.google.com/js/api.js"></script>
+<script src="https://accounts.google.com/gsi/client"></script>
+  
 <style>
 *{
 margin:0;
@@ -511,6 +513,10 @@ const USER_API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_
 
 const UPLOAD_API="https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
 
+const CLIENT_ID = "YAHAN_APNA_CLIENT_ID";
+const API_KEY = "YAHAN_APNA_API_KEY";
+let accessToken = "";
+  
 /* MENU */
 function openMenu(){
 document.getElementById("menu").classList.add("open");
