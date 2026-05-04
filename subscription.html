@@ -518,6 +518,23 @@ document.getElementById("loader").innerText="Subscription check failed";
 
 checkSubscription();
 
+function getPlanId(plan){
+
+if(plan==="15days"){
+return "creatorhub_starter_15_v2";
+}
+
+if(plan==="month"){
+return "creatorhub_growth_30";
+}
+
+if(plan==="year"){
+return "creatorhub_elite_365";
+}
+
+return "";
+  }
+
 /* payment */
 async function subscribe(plan,amount,btn){
 
@@ -540,23 +557,6 @@ email:user.email,
 phone:user.phone || "9999999999"
 })
 });
-
-function getPlanId(plan){
-
-if(plan==="15days"){
-return "creatorhub_starter_15_v2";
-}
-
-if(plan==="month"){
-return "creatorhub_growth_30";
-}
-
-if(plan==="year"){
-return "creatorhub_elite_365";
-}
-
-return "";
-  }
 
 let data=await res.json();
 
