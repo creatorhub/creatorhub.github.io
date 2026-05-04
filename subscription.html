@@ -493,7 +493,11 @@ let subs=await res.json();
 
 document.getElementById("loader").style.display="none";
 
-let active=subs.find(s => s.email === user.email);
+let active=subs.find(s => 
+s.email === user.email &&
+s.status === "active" &&
+new Date(s.expiry) > new Date()
+);
 
 if(active){
 let exp=new Date(active.expiry);
