@@ -456,7 +456,7 @@ Checking subscription...
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 
 <script>
-const PAYMENT_API="YOUR_GOOGLE_SCRIPT_URL";
+const PAYMENT_API="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec";
 
 async function loadFooter() {
     try {
@@ -530,12 +530,29 @@ headers:{
 "Content-Type":"application/json"
 },
 body:JSON.stringify({
-action:"create_subscription_order",
-plan:plan,
-amount:amount,
-email:user.email
+action:"create_subscription",
+plan_id:getPlanId(plan),
+email:user.email,
+phone:user.phone || "9999999999"
 })
 });
+
+function getPlanId(plan){
+
+if(plan==="15days"){
+return "creatorhub_starter_15_v2";
+}
+
+if(plan==="month"){
+return "creatorhub_growth_30";
+}
+
+if(plan==="year"){
+return "creatorhub_elite_365";
+}
+
+return "";
+  }
 
 let data=await res.json();
 
@@ -547,7 +564,7 @@ mode:"sandbox"
 
 cashfree.checkout({
 paymentSessionId:data.payment_session_id,
-redirectTarget:"_self"
+redirectTarget:"_top"
 });
 
 }else{
