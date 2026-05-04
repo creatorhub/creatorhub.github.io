@@ -558,7 +558,10 @@ phone:user.phone || "9999999999"
 })
 });
 
-let data=await res.json();
+let text = await res.text();
+console.log("RAW RESPONSE:", text);
+
+let data = JSON.parse(text);
 
 if(data.payment_session_id){
 
