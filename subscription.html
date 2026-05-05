@@ -549,6 +549,8 @@ let planId = getPlanId(plan);
 
 if(!planId){
 alert("Plan error");
+btn.disabled=false;
+btn.innerText="Subscribe Now →";
 return;
   }
 
@@ -559,6 +561,7 @@ headers:{
 },
 body:JSON.stringify({
 action:"create_subscription",
+plan_id:planId,
 email:user.email,
 phone:user.phone || "9999999999"
 })
