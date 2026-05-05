@@ -545,6 +545,13 @@ btn.innerText="Processing...";
 
 try{
 
+let planId = getPlanId(plan);
+
+if(!planId){
+alert("Plan error");
+return;
+  }
+
 let res=await fetch(PAYMENT_API,{
 method:"POST",
 headers:{
@@ -552,7 +559,6 @@ headers:{
 },
 body:JSON.stringify({
 action:"create_subscription",
-plan_id:getPlanId(plan),
 email:user.email,
 phone:user.phone || "9999999999"
 })
