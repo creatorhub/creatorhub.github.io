@@ -223,23 +223,5 @@ location.href="library.html"
 
 </script>
 
-<script>
-const API="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec";
-
-const params = new URLSearchParams(window.location.search);
-const orderId = params.get("order_id");
-
-if(orderId){
-fetch(API,{
-method:"POST",
-headers:{ "Content-Type":"application/json" },
-body:JSON.stringify({
-action:"verify",
-orderId:orderId
-})
-});
-}
-</script>
-
 </body>
 </html>
