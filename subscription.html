@@ -495,7 +495,12 @@ document.getElementById("loader").style.display="none";
 
 let active = subs.find(s => {
 
-if(s.email !== user.email) return false;
+if(
+String(s.email).trim().toLowerCase() !==
+String(user.email).trim().toLowerCase()
+){
+return false;
+}
 
 if(s.status !== "active") return false;
 
