@@ -493,23 +493,32 @@ let subs=await res.json();
 
 document.getElementById("loader").style.display="none";
 
-let active=subs.find(s => 
-s.email === user.email &&
-s.status === "active" &&
-new Date(s.expiry) > new Date()
-);
+let active = subs.find(s => {
+
+if(s.email !== user.email) return false;
+
+if(s.status !== "active") return false;
+
+if(!s.expiry) return false;
+
+let expiry = new Date(s.expiry);
+
+return expiry.getTime() > Date.now();
+
+});
 
 if(active){
-let exp=new Date(active.expiry);
 
-if(Date.now() < exp){
 document.getElementById("activeBadge").style.display="inline-block";
 
 document.querySelectorAll(".subscribe-btn").forEach(btn=>{
-btn.disabled=true;
-btn.innerText="Premium Active";
+
+btn.disabled = true;
+
+btn.innerText = "Premium Active";
+
 });
-}
+
 }
 }catch(err){
 document.getElementById("loader").innerText="Subscription check failed";
