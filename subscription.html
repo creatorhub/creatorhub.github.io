@@ -451,6 +451,24 @@ Subscribe Now →
 Checking subscription...
 </div>
 
+<div id="cancelBox" style="display:none;text-align:center;margin:30px;">
+
+<button onclick="cancelPremium()" style="
+padding:14px 24px;
+border:none;
+border-radius:10px;
+background:red;
+color:white;
+font-weight:bold;
+cursor:pointer;
+">
+
+Cancel Subscription
+
+</button>
+
+</div>
+  
 <div id="footer-container"></div>
   
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
@@ -525,6 +543,8 @@ btn.innerText = "Premium Active";
 });
 
 }
+
+document.getElementById("cancelBox").style.display = "block";
 }catch(err){
 document.getElementById("loader").innerText="Subscription check failed";
 }
@@ -663,6 +683,52 @@ btn.innerText = "Subscribe Now →";
 
 }
             }
+
+async function cancelPremium(){
+
+let ok = confirm(
+"Are you sure you want to cancel premium?"
+);
+
+if(!ok) return;
+
+try{
+
+let res = await fetch(PAYMENT_API,{
+
+method:"POST",
+
+body:JSON.stringify({
+
+action:"cancel_subscription",
+
+email:user.email
+
+})
+
+});
+
+let data = await res.json();
+
+if(data.success){
+
+alert("Subscription cancelled");
+
+location.reload();
+
+}else{
+
+alert(data.message || "Cancel failed");
+
+}
+
+}catch(err){
+
+alert("Server error");
+
+}
+
+}
 </script>
 
 </body>
