@@ -573,20 +573,11 @@ let res = await fetch(PAYMENT_API,{
 
 method:"POST",
 
-headers:{
-"Content-Type":"application/json"
-},
-
 body:JSON.stringify({
-
 action:"create_subscription",
-
 plan_id: planId,
-
 email: user.email,
-
 phone: user.phone || "9999999999"
-
 })
 
 });
