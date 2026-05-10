@@ -169,16 +169,10 @@ document.getElementById("progress").innerText =
 
 try{
 
-let res = await fetch(PAYMENT_API,{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-action:"verify",
-orderId:orderId
-})
-})
+let res = await fetch(
+PAYMENT_API +
+"?action=verify&orderId=" + orderId
+)
 
 let data = await res.json()
 
