@@ -586,15 +586,24 @@ redirectTarget:"_top"
 });
 
 }else{
-alert(data.message || "Payment failed");
-btn.disabled=false;
-btn.innerText="Subscribe Now →";
-}
 
-}catch(err){
-alert("Server error");
+alert("SERVER RESPONSE:\n\n" + text);
+
 btn.disabled=false;
 btn.innerText="Subscribe Now →";
+
+}
+  
+}catch(err){
+
+alert(
+"REAL ERROR:\n\n" +
+(err && err.message ? err.message : JSON.stringify(err))
+);
+
+btn.disabled=false;
+btn.innerText="Subscribe Now →";
+
 }
 }
 </script>
