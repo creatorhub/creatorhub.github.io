@@ -470,13 +470,28 @@ Cancel Subscription
 </div>
   
 <div id="footer-container"></div>
-  
+
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 
 <script>
 
 const PAYMENT_API =
 "https://script.google.com/macros/s/AKfycbyKnVmxYCTskDLpOk_s2Ch1nHnVvD__GVHbnztTCvl4bzYgk7sDx0F1WuJ0CXMORqs/exec";
+
+/* USER */
+
+let user =
+JSON.parse(
+localStorage.getItem("user") || "null"
+);
+
+if(!user){
+
+alert("Please login first");
+
+window.location.href = "login.html";
+
+}
 
 /* FOOTER */
 
@@ -522,29 +537,6 @@ window.location.href =
 
 }
 
-/* USER */
-
-let user =
-JSON.parse(
-localStorage.getItem("user")
-|| "null"
-);
-
-if(!user){
-
-alert("Please login first");
-
-window.location.href =
-"login.html";
-
-}
-
-/* HIDE LOADER */
-
-document.getElementById(
-"loader"
-).style.display = "none";
-
 /* PLAN */
 
 function getPlanId(plan){
@@ -572,10 +564,11 @@ async function subscribe(plan, amount, btn){
 if(btn.disabled) return;
 
 btn.disabled = true;
-
 btn.innerText = "Processing...";
 
 try{
+
+/* LOGIN CHECK */
 
 if(!user || !user.email){
 
@@ -588,7 +581,9 @@ return;
 
 }
 
-let planId =
+/* PLAN */
+
+const planId =
 getPlanId(plan);
 
 if(!planId){
@@ -596,7 +591,6 @@ if(!planId){
 alert("Invalid plan");
 
 btn.disabled = false;
-
 btn.innerText =
 "Subscribe Now →";
 
@@ -604,9 +598,9 @@ return;
 
 }
 
-/* API */
+/* API CALL */
 
-let response =
+const response =
 await fetch(PAYMENT_API,{
 
 method:"POST",
@@ -618,14 +612,11 @@ headers:{
 
 body:JSON.stringify({
 
-action:
-"create_autopay",
+action:"create_autopay",
 
-plan_id:
-planId,
+plan_id:planId,
 
-email:
-user.email,
+email:user.email,
 
 phone:
 user.phone ||
@@ -635,7 +626,9 @@ user.phone ||
 
 });
 
-let data =
+/* RESPONSE */
+
+const data =
 await response.json();
 
 console.log(
@@ -643,7 +636,7 @@ console.log(
 data
 );
 
-/* FAIL */
+/* FAILED */
 
 if(!data.success){
 
@@ -653,7 +646,6 @@ data.message ||
 );
 
 btn.disabled = false;
-
 btn.innerText =
 "Subscribe Now →";
 
@@ -661,16 +653,32 @@ return;
 
 }
 
-/* OPEN CASHFREE */
+/* SESSION */
 
-if(
-data.subscription_session_id
-){
+if(!data.subscription_session_id){
+
+alert(
+"Subscription session missing"
+);
+
+btn.disabled = false;
+btn.innerText =
+"Subscribe Now →";
+
+return;
+
+}
+
+/* CASHFREE */
 
 const cashfree =
 Cashfree({
+
 mode:"sandbox"
+
 });
+
+/* SUBSCRIPTION CHECKOUT */
 
 cashfree.subscriptionCheckout({
 
@@ -680,21 +688,6 @@ data.subscription_session_id,
 redirectTarget:"_self"
 
 });
-
-return;
-
-}
-
-/* NO SESSION */
-
-alert(
-"Subscription session missing"
-);
-
-btn.disabled = false;
-
-btn.innerText =
-"Subscribe Now →";
 
 }catch(err){
 
@@ -706,7 +699,6 @@ err.message ||
 );
 
 btn.disabled = false;
-
 btn.innerText =
 "Subscribe Now →";
 
@@ -726,7 +718,7 @@ if(!ok) return;
 
 try{
 
-let response =
+const response =
 await fetch(PAYMENT_API,{
 
 method:"POST",
@@ -741,14 +733,13 @@ body:JSON.stringify({
 action:
 "cancel_subscription",
 
-email:
-user.email
+email:user.email
 
 })
 
 });
 
-let data =
+const data =
 await response.json();
 
 if(data.success){
@@ -770,15 +761,110 @@ data.message ||
 
 }catch(err){
 
-alert(
-"Server error"
+alert("Server error");
+
+}
+
+}
+
+/* CHECK ACTIVE */
+
+async function checkSubscription(){
+
+try{
+
+const response =
+await fetch(
+PAYMENT_API +
+"?db=subscriptions&t=" +
+Date.now()
 );
 
+const subs =
+await response.json();
+
+document.getElementById(
+"loader"
+).style.display = "none";
+
+const active =
+subs.find(s => {
+
+if(
+String(s.email)
+.trim()
+.toLowerCase()
+
+!==
+
+String(user.email)
+.trim()
+.toLowerCase()
+){
+return false;
 }
+
+if(s.status !== "active"){
+return false;
+}
+
+if(!s.expiry){
+return false;
+}
+
+const expiry =
+new Date(s.expiry);
+
+return (
+expiry.getTime() >
+Date.now()
+);
+
+});
+
+if(active){
+
+document.getElementById(
+"activeBadge"
+).style.display =
+"inline-block";
+
+document
+.querySelectorAll(
+".subscribe-btn"
+)
+.forEach(btn => {
+
+btn.disabled = true;
+
+btn.innerText =
+"Premium Active";
+
+});
+
+document.getElementById(
+"cancelBox"
+).style.display =
+"block";
 
 }
 
-  </script>
+}catch(err){
+
+console.log(err);
+
+document.getElementById(
+"loader"
+).innerText =
+"Subscription check failed";
+
+}
+
+}
+
+checkSubscription();
+
+</script>
 
 </body>
 </html>
