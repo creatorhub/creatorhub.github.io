@@ -506,8 +506,10 @@ window.location.href="login.html";
 
 /* check subscription */
 async function checkSubscription(){
-try{
-let res=await fetch(PAYMENT_API + "?db=subscriptions&t=" + Date.now());
+
+document.getElementById("loader").style.display = "none";
+
+}
 let subs=await res.json();
 
 document.getElementById("loader").style.display="none";
