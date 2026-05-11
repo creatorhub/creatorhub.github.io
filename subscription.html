@@ -474,42 +474,105 @@ Cancel Subscription
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 
 <script>
+
 const PAYMENT_API =
 "https://script.google.com/macros/s/AKfycbyKnVmxYCTskDLpOk_s2Ch1nHnVvD__GVHbnztTCvl4bzYgk7sDx0F1WuJ0CXMORqs/exec";
-  
-async function loadFooter() {
-    try {
-        const response = await fetch("footer.html");
-        const data = await response.text();
-        document.getElementById("footer-container").innerHTML = data;
-    } catch (error) {
-        console.log("Footer load failed");
-    }
+
+/* FOOTER */
+
+async function loadFooter(){
+
+try{
+
+const response =
+await fetch("footer.html");
+
+const data =
+await response.text();
+
+document.getElementById(
+"footer-container"
+).innerHTML = data;
+
+}catch(error){
+
+console.log(
+"Footer load failed"
+);
+
+}
+
 }
 
 loadFooter();
 
+/* NAVIGATION */
+
 function goBack(){
-window.location.href="index.html";
+
+window.location.href =
+"index.html";
+
 }
 
 function openSupport(){
-window.location.href="support.html";
+
+window.location.href =
+"support.html";
+
 }
-  
-let user=JSON.parse(localStorage.getItem("user") || "null");
+
+/* USER */
+
+let user =
+JSON.parse(
+localStorage.getItem("user")
+|| "null"
+);
 
 if(!user){
+
 alert("Please login first");
-window.location.href="login.html";
+
+window.location.href =
+"login.html";
+
 }
 
-/* check subscription */
+/* HIDE LOADER */
+
+document.getElementById(
+"loader"
+).style.display = "none";
+
+/* PLAN */
+
+function getPlanId(plan){
+
+if(plan === "15days"){
+return "creatorhub_starter_15_v2";
+}
+
+if(plan === "month"){
+return "creatorhub_growth_30";
+}
+
+if(plan === "year"){
+return "creatorhub_elite_365";
+}
+
+return "";
+
+}
+
+/* SUBSCRIBE */
+
 async function subscribe(plan, amount, btn){
 
 if(btn.disabled) return;
 
 btn.disabled = true;
+
 btn.innerText = "Processing...";
 
 try{
@@ -518,22 +581,24 @@ if(!user || !user.email){
 
 alert("Please login first");
 
-window.location.href = "login.html";
+window.location.href =
+"login.html";
 
 return;
 
 }
 
-/* PLAN */
-
-let planId = getPlanId(plan);
+let planId =
+getPlanId(plan);
 
 if(!planId){
 
 alert("Invalid plan");
 
 btn.disabled = false;
-btn.innerText = "Subscribe Now →";
+
+btn.innerText =
+"Subscribe Now →";
 
 return;
 
@@ -541,35 +606,44 @@ return;
 
 /* API */
 
-let response = await fetch(PAYMENT_API,{
+let response =
+await fetch(PAYMENT_API,{
 
 method:"POST",
 
 headers:{
-"Content-Type":"application/json"
+"Content-Type":
+"application/json"
 },
 
 body:JSON.stringify({
 
-action:"create_autopay",
+action:
+"create_autopay",
 
-plan_id:planId,
+plan_id:
+planId,
 
-email:user.email,
+email:
+user.email,
 
-phone:user.phone || "9999999999"
+phone:
+user.phone ||
+"9999999999"
 
 })
 
 });
 
-/* RESPONSE */
+let data =
+await response.json();
 
-let data = await response.json();
+console.log(
+"API RESPONSE:",
+data
+);
 
-console.log("API RESPONSE:", data);
-
-/* FAILED */
+/* FAIL */
 
 if(!data.success){
 
@@ -579,21 +653,24 @@ data.message ||
 );
 
 btn.disabled = false;
-btn.innerText = "Subscribe Now →";
+
+btn.innerText =
+"Subscribe Now →";
 
 return;
 
 }
 
-/* CASHFREE */
+/* OPEN CASHFREE */
 
-if(data.subscription_session_id){
+if(
+data.subscription_session_id
+){
 
-const cashfree = Cashfree({
+const cashfree =
+Cashfree({
 mode:"sandbox"
 });
-
-/* IMPORTANT */
 
 cashfree.subscriptionCheckout({
 
@@ -608,149 +685,36 @@ return;
 
 }
 
-/* FALLBACK */
+/* NO SESSION */
 
-alert("Subscription session missing");
+alert(
+"Subscription session missing"
+);
 
 btn.disabled = false;
-btn.innerText = "Subscribe Now →";
+
+btn.innerText =
+"Subscribe Now →";
 
 }catch(err){
 
 console.log(err);
 
 alert(
-err.message || "Server error"
+err.message ||
+"Server error"
 );
 
 btn.disabled = false;
-btn.innerText = "Subscribe Now →";
+
+btn.innerText =
+"Subscribe Now →";
 
 }
 
 }
 
-/* payment */
-async function subscribe(plan, amount, btn){
-
-if(btn.disabled) return;
-
-btn.disabled = true;
-btn.innerText = "Processing...";
-
-try{
-
-// USER CHECK
-if(!user || !user.email){
-
-alert("Please login again");
-
-window.location.href = "login.html";
-
-return;
-}
-
-// PLAN ID
-let planId = getPlanId(plan);
-
-console.log("PLAN ID:", planId);
-
-if(!planId){
-
-alert("Invalid plan selected");
-
-btn.disabled = false;
-btn.innerText = "Subscribe Now →";
-
-return;
-}
-
-// API CALL
-let res = await fetch(PAYMENT_API,{
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-action:"create_autopay",
-plan_id: planId,
-email: user.email,
-phone: user.phone || "9999999999"
-})
-});
-
-// RAW TEXT
-let text = await res.text();
-
-console.log("RAW RESPONSE:", text);
-
-// SAFE JSON
-let data;
-
-try{
-
-data = JSON.parse(text);
-
-console.log("PARSED RESPONSE:", data);
-
-}catch(parseErr){
-
-alert("Invalid server response");
-
-console.log(text);
-
-btn.disabled = false;
-btn.innerText = "Subscribe Now →";
-
-return;
-}
-
-// SUCCESS
-if(data.subscription_session_id){
-
-const cashfree = Cashfree({
-mode:"sandbox"
-});
-
-cashfree.checkout({
-
-subscriptionSessionId:
-data.subscription_session_id,
-
-redirectTarget:"_top"
-
-});
-
-return;
-
-}
-
-// FAIL
-alert(
-data.message ||
-text ||
-"Payment failed"
-);
-
-btn.disabled = false;
-btn.innerText = "Subscribe Now →";
-
-}catch(err){
-
-alert(
-"ERROR:\n\n" +
-(err.message || err)
-);
-
-console.log(err);
-
-btn.disabled = false;
-btn.innerText = "Subscribe Now →";
-
-}
-            }
+/* CANCEL */
 
 async function cancelPremium(){
 
@@ -762,46 +726,59 @@ if(!ok) return;
 
 try{
 
-let res = await fetch(PAYMENT_API,{
+let response =
+await fetch(PAYMENT_API,{
 
 method:"POST",
 
 headers:{
-"Content-Type":"application/json"
+"Content-Type":
+"application/json"
 },
 
 body:JSON.stringify({
 
-action:"cancel_subscription",
+action:
+"cancel_subscription",
 
-email:user.email
+email:
+user.email
 
 })
 
 });
 
-let data = await res.json();
+let data =
+await response.json();
 
 if(data.success){
 
-alert("Subscription cancelled");
+alert(
+"Subscription cancelled"
+);
 
 location.reload();
 
 }else{
 
-alert(data.message || "Cancel failed");
+alert(
+data.message ||
+"Cancel failed"
+);
 
 }
 
 }catch(err){
 
-alert("Server error");
+alert(
+"Server error"
+);
 
 }
 
 }
-</script>
+
+  </script>
 
 </body>
 </html>
