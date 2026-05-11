@@ -607,6 +607,11 @@ return;
 // API CALL
 let res = await fetch(PAYMENT_API,{
 method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
 body:JSON.stringify({
 action:"create_autopay",
 plan_id: planId,
