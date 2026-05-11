@@ -596,6 +596,8 @@ return;
 // PLAN ID
 let planId = getPlanId(plan);
 
+console.log("PLAN ID:", planId);
+
 if(!planId){
 
 alert("Invalid plan selected");
@@ -633,6 +635,8 @@ let data;
 try{
 
 data = JSON.parse(text);
+
+console.log("PARSED RESPONSE:", data);
 
 }catch(parseErr){
 
