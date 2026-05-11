@@ -505,30 +505,130 @@ window.location.href="login.html";
 }
 
 /* check subscription */
-async function checkSubscription(){
+async function subscribe(plan, amount, btn){
 
-document.getElementById("loader").style.display = "none";
+if(btn.disabled) return;
+
+btn.disabled = true;
+btn.innerText = "Processing...";
+
+try{
+
+if(!user || !user.email){
+
+alert("Please login first");
+
+window.location.href = "login.html";
+
+return;
 
 }
 
-checkSubscription();
+/* PLAN */
 
-function getPlanId(plan){
+let planId = getPlanId(plan);
 
-if(plan==="15days"){
-return "creatorhub_starter_15_v2";
+if(!planId){
+
+alert("Invalid plan");
+
+btn.disabled = false;
+btn.innerText = "Subscribe Now →";
+
+return;
+
 }
 
-if(plan==="month"){
-return "creatorhub_growth_30";
+/* API */
+
+let response = await fetch(PAYMENT_API,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+action:"create_autopay",
+
+plan_id:planId,
+
+email:user.email,
+
+phone:user.phone || "9999999999"
+
+})
+
+});
+
+/* RESPONSE */
+
+let data = await response.json();
+
+console.log("API RESPONSE:", data);
+
+/* FAILED */
+
+if(!data.success){
+
+alert(
+data.message ||
+"Subscription failed"
+);
+
+btn.disabled = false;
+btn.innerText = "Subscribe Now →";
+
+return;
+
 }
 
-if(plan==="year"){
-return "creatorhub_elite_365";
+/* CASHFREE */
+
+if(data.subscription_session_id){
+
+const cashfree = Cashfree({
+mode:"sandbox"
+});
+
+/* IMPORTANT */
+
+cashfree.subscriptionCheckout({
+
+subscriptionSessionId:
+data.subscription_session_id,
+
+redirectTarget:"_self"
+
+});
+
+return;
+
 }
 
-return "";
-  }
+/* FALLBACK */
+
+alert("Subscription session missing");
+
+btn.disabled = false;
+btn.innerText = "Subscribe Now →";
+
+}catch(err){
+
+console.log(err);
+
+alert(
+err.message || "Server error"
+);
+
+btn.disabled = false;
+btn.innerText = "Subscribe Now →";
+
+}
+
+}
 
 /* payment */
 async function subscribe(plan, amount, btn){
