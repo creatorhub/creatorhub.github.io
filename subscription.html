@@ -542,9 +542,10 @@ btn.innerText = "Premium Active";
 
 });
 
+document.getElementById("cancelBox").style.display = "block";
+
 }
 
-document.getElementById("cancelBox").style.display = "block";
 }catch(err){
 document.getElementById("loader").innerText="Subscription check failed";
 }
@@ -641,7 +642,7 @@ return;
 }
 
 // SUCCESS
-if(data.subscription_session_id)
+if(data.subscription_session_id){
 
 const cashfree = Cashfree({
 mode:"sandbox"
@@ -657,6 +658,7 @@ redirectTarget:"_top"
 });
 
 return;
+
 }
 
 // FAIL
@@ -697,6 +699,10 @@ try{
 let res = await fetch(PAYMENT_API,{
 
 method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
 
 body:JSON.stringify({
 
