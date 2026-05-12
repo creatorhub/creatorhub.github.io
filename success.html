@@ -533,11 +533,13 @@ return;
 
 try{
 
-const subRes = await fetch(
-API + "?db=subscriptions&t=" + Date.now()
-);
+/* VERIFY PAYMENT FIRST */
 
-const subs = await subRes.json();
+await fetch(
+API +
+"?action=verify&orderId=" +
+orderId
+);
 
 let sub = null;
 
@@ -555,7 +557,12 @@ sub = subs.find(
 s => s.id === orderId
 );
 
-if(sub) break;
+if(
+sub &&
+sub.status === "active"
+){
+break;
+}
 
 /* WAIT 2 SEC */
 await new Promise(r=>setTimeout(r,2000));
