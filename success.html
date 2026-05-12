@@ -539,9 +539,28 @@ API + "?db=subscriptions&t=" + Date.now()
 
 const subs = await subRes.json();
 
-const sub = subs.find(
+let sub = null;
+
+/* WAIT FOR DB UPDATE */
+
+for(let i=0;i<5;i++){
+
+const subRes = await fetch(
+API + "?db=subscriptions&t=" + Date.now()
+);
+
+const subs = await subRes.json();
+
+sub = subs.find(
 s => s.id === orderId
 );
+
+if(sub) break;
+
+/* WAIT 2 SEC */
+await new Promise(r=>setTimeout(r,2000));
+
+}
 
 if(sub){
 
