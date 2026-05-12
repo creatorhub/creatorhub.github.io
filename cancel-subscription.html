@@ -348,14 +348,13 @@ const user = JSON.parse(
 localStorage.getItem("user") || "null"
 );
 
-const plan = localStorage.getItem("premium_plan") || "Premium";
+if(!user){
 
-const amount = Number(
-localStorage.getItem("premium_amount") || 0
-);
+alert("Please login first");
 
-const refund = Math.round(amount * 0.85);
-const adminFee = amount - refund;
+window.location.href = "login.html";
+
+}
 
 let generatedOTP = "";
 
@@ -364,14 +363,112 @@ alert("Login required");
 location.href = "login.html";
 }
 
-/* LOAD DATA */
+/* LOAD ACTIVE SUBSCRIPTION */
 
-document.getElementById("email").value = user.email || "";
-document.getElementById("planName").innerText = plan;
-document.getElementById("paidAmount").innerText = "₹" + amount;
-document.getElementById("refundAmount").innerText = "₹" + refund;
-document.getElementById("adminFee").innerText = "₹" + adminFee;
+async function loadSubscription(){
 
+try{
+
+const res = await fetch(
+API + "?db=subscriptions&t=" + Date.now()
+);
+
+const subs = await res.json();
+
+const activeSub = subs.find(s => {
+
+if(
+String(s.email).trim().toLowerCase() !==
+String(user.email).trim().toLowerCase()
+){
+return false;
+}
+
+if(s.status !== "active"){
+return false;
+}
+
+if(!s.expiry){
+return false;
+}
+
+return new Date(s.expiry).getTime() > Date.now();
+
+});
+
+if(!activeSub){
+
+alert("No active subscription found");
+
+window.location.href="premium.html";
+
+return;
+
+}
+
+/* PLAN */
+
+let planName = "Premium";
+
+if(activeSub.plan === "creatorhub_growth_30"){
+planName = "Monthly Premium";
+}
+
+if(activeSub.plan === "creatorhub_elite_365"){
+planName = "Yearly Premium";
+}
+
+if(activeSub.plan === "creatorhub_starter_15_v2"){
+planName = "15 Days Premium";
+}
+
+/* PAYMENT */
+
+const amount =
+Number(activeSub.amount || 0);
+
+const fee =
+Math.floor(amount * 0.15);
+
+const refund =
+amount - fee;
+
+/* SAVE ORDER ID */
+
+localStorage.setItem(
+"premium_order_id",
+activeSub.id
+);
+
+/* SHOW */
+
+document.getElementById("email").value =
+user.email || "";
+
+document.getElementById("planName").innerText =
+planName;
+
+document.getElementById("paidAmount").innerText =
+"₹" + amount;
+
+document.getElementById("adminFee").innerText =
+"₹" + fee;
+
+document.getElementById("refundAmount").innerText =
+"₹" + refund;
+
+}catch(err){
+
+console.log(err);
+
+alert("Failed to load subscription");
+
+}
+
+}
+
+loadSubscription();
+  
 /* SEND OTP */
 
 async function sendOTP(){
