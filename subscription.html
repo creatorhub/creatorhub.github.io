@@ -475,25 +475,52 @@ Cancel Subscription
 
 <script>
 
+/* =========================================================
+   CREATORHUB PREMIUM SUBSCRIPTION JS
+========================================================= */
+
+/* =========================================================
+   API
+========================================================= */
+
 const PAYMENT_API =
 "https://script.google.com/macros/s/AKfycbyKnVmxYCTskDLpOk_s2Ch1nHnVvD__GVHbnztTCvl4bzYgk7sDx0F1WuJ0CXMORqs/exec";
 
-/* USER */
+/* =========================================================
+   CASHFREE
+========================================================= */
+
+const cashfree =
+Cashfree({
+
+mode:"sandbox"
+
+});
+
+/* =========================================================
+   USER
+========================================================= */
 
 let user =
 JSON.parse(
-localStorage.getItem("user") || "null"
+
+localStorage.getItem("user") ||
+"null"
+
 );
 
 if(!user){
 
 alert("Please login first");
 
-window.location.href = "login.html";
+window.location.href =
+"login.html";
 
 }
 
-/* FOOTER */
+/* =========================================================
+   LOAD FOOTER
+========================================================= */
 
 async function loadFooter(){
 
@@ -502,14 +529,14 @@ try{
 const response =
 await fetch("footer.html");
 
-const data =
+const html =
 await response.text();
 
 document.getElementById(
 "footer-container"
-).innerHTML = data;
+).innerHTML = html;
 
-}catch(error){
+}catch(err){
 
 console.log(
 "Footer load failed"
@@ -521,7 +548,9 @@ console.log(
 
 loadFooter();
 
-/* NAVIGATION */
+/* =========================================================
+   NAVIGATION
+========================================================= */
 
 function goBack(){
 
@@ -537,42 +566,96 @@ window.location.href =
 
 }
 
-/* PLAN */
+/* =========================================================
+   PLAN ID
+========================================================= */
 
 function getPlanId(plan){
 
 if(plan === "15days"){
-return "creatorhub_starter_15_v2";
+
+return
+"creatorhub_starter_15_v2";
+
 }
 
 if(plan === "month"){
-return "creatorhub_growth_30";
+
+return
+"creatorhub_growth_30";
+
 }
 
 if(plan === "year"){
-return "creatorhub_elite_365";
+
+return
+"creatorhub_elite_365";
+
 }
 
 return "";
 
 }
 
-/* SUBSCRIBE */
+/* =========================================================
+   BUTTON STATE
+========================================================= */
 
-async function subscribe(plan, amount, btn){
+function setButtonLoading(btn,state){
 
-if(btn.disabled) return;
+if(!btn) return;
+
+if(state){
 
 btn.disabled = true;
-btn.innerText = "Processing...";
+
+btn.dataset.originalText =
+btn.innerText;
+
+btn.innerText =
+"Processing...";
+
+}else{
+
+btn.disabled = false;
+
+btn.innerText =
+
+btn.dataset.originalText ||
+
+"Subscribe Now →";
+
+}
+
+}
+
+/* =========================================================
+   SUBSCRIBE
+========================================================= */
+
+async function subscribe(
+plan,
+amount,
+btn
+){
 
 try{
 
+setButtonLoading(
+btn,
+true
+);
+
 /* LOGIN CHECK */
 
-if(!user || !user.email){
+if(
+!user ||
+!user.email
+){
 
-alert("Please login first");
+alert(
+"Please login first"
+);
 
 window.location.href =
 "login.html";
@@ -588,20 +671,25 @@ getPlanId(plan);
 
 if(!planId){
 
-alert("Invalid plan");
+alert(
+"Invalid plan"
+);
 
-btn.disabled = false;
-btn.innerText =
-"Subscribe Now →";
+setButtonLoading(
+btn,
+false
+);
 
 return;
 
 }
 
-/* API CALL */
+/* API REQUEST */
 
 const response =
-await fetch(PAYMENT_API,{
+await fetch(
+PAYMENT_API,
+{
 
 method:"POST",
 
@@ -612,11 +700,18 @@ headers:{
 
 body:JSON.stringify({
 
-action:"create_autopay",
+action:
+"create_autopay",
 
-plan_id:planId,
+plan_id:
+planId,
 
-email:user.email,
+name:
+user.name ||
+"CreatorHub User",
+
+email:
+user.email,
 
 phone:
 user.phone ||
@@ -624,15 +719,17 @@ user.phone ||
 
 })
 
-});
+}
 
-/* RESPONSE */
+);
+
+/* JSON */
 
 const data =
 await response.json();
 
 console.log(
-"API RESPONSE:",
+"SUBSCRIPTION RESPONSE:",
 data
 );
 
@@ -641,51 +738,61 @@ data
 if(!data.success){
 
 alert(
+
 data.message ||
+
 "Subscription failed"
+
 );
 
-btn.disabled = false;
-btn.innerText =
-"Subscribe Now →";
+setButtonLoading(
+btn,
+false
+);
 
 return;
 
 }
 
-/* SESSION */
+/* SAVE SUB ID */
 
-if(!data.subscription_session_id){
+localStorage.setItem(
+
+"creatorhub_subscription_id",
+
+data.subscription_id
+
+);
+
+/* SESSION CHECK */
+
+if(
+!data.subscription_session_id
+){
 
 alert(
 "Subscription session missing"
 );
 
-btn.disabled = false;
-btn.innerText =
-"Subscribe Now →";
+setButtonLoading(
+btn,
+false
+);
 
 return;
 
 }
 
-/* CASHFREE */
-
-const cashfree =
-Cashfree({
-
-mode:"sandbox"
-
-});
-
-/* SUBSCRIPTION CHECKOUT */
+/* CASHFREE CHECKOUT */
 
 cashfree.subscriptionCheckout({
 
 subscriptionSessionId:
+
 data.subscription_session_id,
 
-redirectTarget:"_self"
+redirectTarget:
+"_self"
 
 });
 
@@ -694,32 +801,178 @@ redirectTarget:"_self"
 console.log(err);
 
 alert(
+
 err.message ||
 "Server error"
+
 );
 
-btn.disabled = false;
-btn.innerText =
-"Subscribe Now →";
+setButtonLoading(
+btn,
+false
+);
 
 }
 
 }
 
-/* CANCEL */
+/* =========================================================
+   VERIFY SUBSCRIPTION
+========================================================= */
+
+async function verifySubscription(){
+
+try{
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+let subscriptionId =
+
+params.get(
+"subscription_id"
+);
+
+/* FALLBACK */
+
+if(!subscriptionId){
+
+subscriptionId =
+
+localStorage.getItem(
+"creatorhub_subscription_id"
+);
+
+}
+
+if(!subscriptionId){
+
+return;
+
+}
+
+const response =
+await fetch(
+
+PAYMENT_API +
+
+"?action=verify_subscription" +
+
+"&subscription_id=" +
+
+subscriptionId +
+
+"&t=" +
+
+Date.now()
+
+);
+
+const data =
+await response.json();
+
+console.log(
+"VERIFY:",
+data
+);
+
+/* ACTIVE */
+
+if(
+
+data.success &&
+
+data.status ===
+"ACTIVE"
+
+){
+
+localStorage.setItem(
+
+"premium_active",
+
+"true"
+
+);
+
+localStorage.setItem(
+
+"active_subscription_id",
+
+subscriptionId
+
+);
+
+document.getElementById(
+"activeBadge"
+)?.style.setProperty(
+"display",
+"inline-block"
+);
+
+document.getElementById(
+"paymentStatus"
+)?.innerHTML =
+
+`
+<div class="success-box">
+Premium Activated Successfully
+</div>
+`;
+
+}
+
+/* FAILED */
+
+else{
+
+document.getElementById(
+"paymentStatus"
+)?.innerHTML =
+
+`
+<div class="pending-box">
+Payment Pending
+</div>
+`;
+
+}
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+
+/* =========================================================
+   CANCEL SUBSCRIPTION
+========================================================= */
 
 async function cancelPremium(){
 
-let ok = confirm(
+const ok =
+confirm(
+
 "Are you sure you want to cancel premium?"
+
 );
 
-if(!ok) return;
+if(!ok){
+
+return;
+
+}
 
 try{
 
 const response =
-await fetch(PAYMENT_API,{
+await fetch(
+PAYMENT_API,
+{
 
 method:"POST",
 
@@ -733,14 +986,22 @@ body:JSON.stringify({
 action:
 "cancel_subscription",
 
-email:user.email
+email:
+user.email
 
 })
 
-});
+}
+
+);
 
 const data =
 await response.json();
+
+console.log(
+"CANCEL:",
+data
+);
 
 if(data.success){
 
@@ -748,26 +1009,131 @@ alert(
 "Subscription cancelled"
 );
 
+localStorage.removeItem(
+"premium_active"
+);
+
 location.reload();
 
 }else{
 
 alert(
+
 data.message ||
+
 "Cancel failed"
+
 );
 
 }
 
 }catch(err){
 
-alert("Server error");
+console.log(err);
+
+alert(
+"Server error"
+);
 
 }
 
 }
 
-/* CHECK ACTIVE */
+/* =========================================================
+   REFUND
+========================================================= */
+
+async function requestRefund(){
+
+try{
+
+const subscriptionId =
+
+localStorage.getItem(
+"active_subscription_id"
+);
+
+if(!subscriptionId){
+
+alert(
+"No subscription found"
+);
+
+return;
+
+}
+
+const response =
+await fetch(
+PAYMENT_API,
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":
+"application/json"
+},
+
+body:JSON.stringify({
+
+action:
+"refund_subscription",
+
+subscription_id:
+subscriptionId
+
+})
+
+}
+
+);
+
+const data =
+await response.json();
+
+console.log(
+"REFUND:",
+data
+);
+
+if(data.success){
+
+alert(
+
+"Refund Amount: ₹" +
+
+data.refund
+
+);
+
+}else{
+
+alert(
+
+data.message ||
+
+"Refund failed"
+
+);
+
+}
+
+}catch(err){
+
+console.log(err);
+
+alert(
+"Server error"
+);
+
+}
+
+}
+
+/* =========================================================
+   CHECK SUBSCRIPTION
+========================================================= */
 
 async function checkSubscription(){
 
@@ -775,22 +1141,46 @@ try{
 
 const response =
 await fetch(
+
 PAYMENT_API +
+
 "?db=subscriptions&t=" +
+
 Date.now()
+
 );
 
-const subs =
+const result =
 await response.json();
 
+/* DATABASE ARRAY */
+
+const subs =
+
+result.data ||
+[];
+
+/* HIDE LOADER */
+
+const loader =
 document.getElementById(
 "loader"
-).style.display = "none";
+);
+
+if(loader){
+
+loader.style.display =
+"none";
+
+}
+
+/* FIND ACTIVE */
 
 const active =
 subs.find(s => {
 
 if(
+
 String(s.email)
 .trim()
 .toLowerCase()
@@ -800,20 +1190,32 @@ String(s.email)
 String(user.email)
 .trim()
 .toLowerCase()
+
 ){
+
 return false;
+
 }
 
-if(s.status !== "active"){
+if(
+s.status !==
+"active"
+){
+
 return false;
+
 }
 
 if(!s.expiry){
+
 return false;
+
 }
 
 const expiry =
-new Date(s.expiry);
+new Date(
+s.expiry
+);
 
 return (
 expiry.getTime() >
@@ -822,12 +1224,26 @@ Date.now()
 
 });
 
+/* ACTIVE UI */
+
 if(active){
+
+localStorage.setItem(
+"premium_active",
+"true"
+);
+
+localStorage.setItem(
+"active_subscription_id",
+active.id
+);
 
 document.getElementById(
 "activeBadge"
-).style.display =
-"inline-block";
+)?.style.setProperty(
+"display",
+"inline-block"
+);
 
 document
 .querySelectorAll(
@@ -844,8 +1260,10 @@ btn.innerText =
 
 document.getElementById(
 "cancelBox"
-).style.display =
-"block";
+)?.style.setProperty(
+"display",
+"block"
+);
 
 }
 
@@ -853,16 +1271,39 @@ document.getElementById(
 
 console.log(err);
 
+const loader =
 document.getElementById(
 "loader"
-).innerText =
+);
+
+if(loader){
+
+loader.innerText =
 "Subscription check failed";
 
 }
 
 }
 
+}
+
+/* =========================================================
+   AUTO RUN
+========================================================= */
+
+window.addEventListener(
+
+"load",
+
+function(){
+
 checkSubscription();
+
+verifySubscription();
+
+}
+
+);
 
 </script>
 
