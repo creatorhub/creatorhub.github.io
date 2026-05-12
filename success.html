@@ -541,33 +541,75 @@ const data = await res.json();
 
 if(data.success){
 
-let now = new Date();
-let expiry = new Date();
+/* GET SUBSCRIPTIONS */
+const subRes = await fetch(
+API + "?db=subscriptions&t=" + Date.now()
+);
 
-expiry.setMonth(expiry.getMonth()+1);
+const subs = await subRes.json();
 
-if(orderId.includes("15")){
-expiry.setDate(now.getDate()+15);
-document.getElementById("amountPaid").innerText = "₹399";
+const sub = subs.find(
+s => s.id === orderId
+);
+
+if(!sub){
+alert("Subscription not found");
+window.location.href = "premium.html";
+return;
 }
 
-if(orderId.includes("365")){
-expiry.setFullYear(now.getFullYear()+1);
-document.getElementById("amountPaid").innerText = "₹3599";
+/* ORDER */
+document.getElementById("orderId").innerText = sub.id || "-";
+
+/* AMOUNT */
+document.getElementById("amountPaid").innerText =
+"₹" + (sub.amount || 0);
+
+/* START DATE */
+let startDate = new Date(
+sub.activated_date || sub.date
+);
+
+document.getElementById("startDate").innerText =
+startDate.toLocaleString();
+
+/* EXPIRY DATE */
+if(sub.expiry){
+
+let expiryDate = new Date(sub.expiry);
+
+document.getElementById("expiryDate").innerText =
+expiryDate.toLocaleString();
+
+}else{
+
+document.getElementById("expiryDate").innerText =
+"Not Available";
+
 }
 
-/* order */
-document.getElementById("orderId").innerText = orderId;
+/* PLAN */
+let renewalText = "OFF";
 
-/* dates */
-document.getElementById("startDate").innerText = now.toLocaleString();
+if(sub.plan === "creatorhub_growth_30"){
+renewalText = "ON (Monthly)";
+}
 
-document.getElementById("expiryDate").innerText = expiry.toLocaleString();
+if(sub.plan === "creatorhub_elite_365"){
+renewalText = "ON (Yearly)";
+}
 
-/* premium save */
+if(sub.plan === "creatorhub_starter_15_v2"){
+renewalText = "OFF";
+}
+
+document.querySelector(".green").innerText =
+renewalText;
+
+/* SAVE PREMIUM */
 localStorage.setItem("premium_active","true");
 
-/* show */
+/* SHOW */
 document.getElementById("loading").style.display = "none";
 document.getElementById("content").style.display = "block";
 
