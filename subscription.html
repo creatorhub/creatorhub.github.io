@@ -532,6 +532,8 @@ return expiry.getTime() > Date.now();
 
 if(active){
 
+window.currentSubId = active.id;
+
 document.getElementById("activeBadge").style.display="inline-block";
 
 document.querySelectorAll(".subscribe-btn").forEach(btn=>{
@@ -568,6 +570,99 @@ return "creatorhub_elite_365";
 
 return "";
   }
+
+/* ================= AUTOPAY ================= */
+
+async function startAutoPay(btn){
+
+if(btn.disabled) return;
+
+btn.disabled = true;
+
+btn.innerText = "Processing...";
+
+try{
+
+let res = await fetch(PAYMENT_API,{
+
+method:"POST",
+
+body:JSON.stringify({
+
+action:"create_autopay",
+
+plan_id:"creatorhub_monthly",
+
+email:user.email,
+
+phone:user.phone || "9999999999"
+
+})
+
+});
+
+let text = await res.text();
+
+console.log(text);
+
+let data = JSON.parse(text);
+
+/* CASHFREE SUBSCRIPTION LINK */
+
+if(
+data.subscription_session_id
+){
+
+const cashfree = Cashfree({
+mode:"sandbox"
+});
+
+cashfree.checkout({
+
+paymentSessionId:
+data.subscription_session_id,
+
+redirectTarget:"_top"
+
+});
+
+return;
+
+}
+
+/* FALLBACK */
+
+if(data.payment_link){
+
+window.location.href =
+data.payment_link;
+
+return;
+
+}
+
+alert(
+data.message ||
+"Autopay failed"
+);
+
+btn.disabled = false;
+
+btn.innerText = "Subscribe Now →";
+
+}catch(err){
+
+console.log(err);
+
+alert("Server Error");
+
+btn.disabled = false;
+
+btn.innerText = "Subscribe Now →";
+
+}
+
+}
 
 /* payment */
 async function subscribe(plan, amount, btn){
@@ -700,9 +795,10 @@ method:"POST",
 
 body:JSON.stringify({
 
-action:"cancel_subscription",
+action:"refund",
 
-email:user.email
+email:user.email,
+orderId:window.currentSubId
 
 })
 
