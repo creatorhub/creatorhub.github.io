@@ -1,219 +1,579 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Successful</title>
 
-<title>Payment Success</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
 
 body{
-margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:#020617;
+background:#030b12;
 color:white;
+overflow-x:hidden;
+min-height:100vh;
+position:relative;
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at 20% 20%, rgba(0,255,100,.15) 2px, transparent 2px),
+radial-gradient(circle at 80% 40%, rgba(0,255,100,.12) 2px, transparent 2px),
+radial-gradient(circle at 40% 80%, rgba(0,255,100,.15) 2px, transparent 2px);
+background-size:300px 300px;
+z-index:-2;
+}
+
+.glow{
+position:fixed;
+width:500px;
+height:500px;
+background:rgba(0,255,100,.08);
+filter:blur(120px);
+border-radius:50%;
+top:-150px;
+left:50%;
+transform:translateX(-50%);
+z-index:-1;
+}
+
+.topbar{
 display:flex;
-justify-content:center;
+justify-content:space-between;
 align-items:center;
-height:100vh;
+padding:25px 40px;
+}
+
+.logo{
+font-size:32px;
+font-weight:700;
+}
+
+.logo span{
+color:#00ff66;
+}
+
+.home-btn{
+padding:14px 24px;
+border:1px solid rgba(0,255,100,.5);
+background:transparent;
+color:white;
+border-radius:14px;
+cursor:pointer;
+font-size:15px;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
 padding:20px;
 }
 
-.card{
-background:linear-gradient(145deg,#111827,#020617);
-padding:35px;
-border-radius:18px;
-max-width:420px;
-width:100%;
-text-align:center;
-border:1px solid #1f2937;
-box-shadow:0 20px 40px rgba(0,0,0,0.7);
-animation:fadeUp .6s ease;
+.success-icon{
+width:140px;
+height:140px;
+border-radius:50%;
+margin:20px auto;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(0,255,100,.12);
+box-shadow:0 0 40px rgba(0,255,100,.35);
+font-size:60px;
+color:#00ff66;
 }
 
 h1{
-color:#22c55e;
+text-align:center;
+font-size:70px;
+margin-top:20px;
+font-weight:700;
+}
+
+h1 span{
+color:#00ff66;
+}
+
+.subtitle{
+text-align:center;
+margin-top:15px;
+font-size:22px;
+color:#d1d5db;
+}
+
+.subtitle2{
+text-align:center;
+margin-top:12px;
+font-size:17px;
+color:#9ca3af;
+}
+
+.card{
+margin-top:50px;
+background:#07111d;
+border:1px solid rgba(255,255,255,.08);
+border-radius:28px;
+padding:35px;
+backdrop-filter:blur(10px);
+}
+
+.card-title{
+font-size:28px;
+font-weight:600;
+margin-bottom:30px;
+color:#00ff66;
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+padding:18px 0;
+border-bottom:1px solid rgba(255,255,255,.08);
+gap:20px;
+}
+
+.label{
+color:#9ca3af;
+font-size:17px;
+}
+
+.value{
+font-size:17px;
+font-weight:600;
+text-align:right;
+}
+
+.active{
+background:#00ff66;
+color:black;
+padding:6px 14px;
+border-radius:20px;
+font-size:13px;
+font-weight:700;
+}
+
+.features-title{
+text-align:center;
+margin-top:50px;
+font-size:32px;
+font-weight:600;
+color:#00ff66;
+}
+
+.features{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-top:30px;
+}
+
+.feature-box{
+background:#07111d;
+border:1px solid rgba(255,255,255,.08);
+padding:28px;
+border-radius:22px;
+text-align:center;
+}
+
+.feature-icon{
+width:70px;
+height:70px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+margin:auto;
+margin-bottom:18px;
+background:rgba(0,255,100,.1);
+color:#00ff66;
+font-size:28px;
+}
+
+.feature-box h3{
 margin-bottom:10px;
 }
 
-#status{
-opacity:.8;
+.feature-box p{
+color:#9ca3af;
 font-size:14px;
+line-height:1.7;
 }
 
-button{
-margin-top:22px;
-width:100%;
-padding:14px;
-border:none;
-border-radius:10px;
-background:linear-gradient(90deg,#22c55e,#4ade80);
+.main-btn{
+display:block;
+margin:45px auto;
+padding:18px 40px;
+background:linear-gradient(to right,#00ff66,#00cc55);
 color:black;
-font-weight:bold;
+font-size:20px;
+font-weight:700;
+border:none;
+border-radius:18px;
 cursor:pointer;
-display:none;
-transition:.3s;
 }
 
-button:hover{
-transform:scale(1.03);
-box-shadow:0 0 15px #22c55e;
+.security{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:20px;
+margin-bottom:50px;
 }
 
-.loader{
+.security-box{
+background:#07111d;
+border:1px solid rgba(255,255,255,.08);
+padding:25px;
+border-radius:20px;
+display:flex;
+align-items:center;
+gap:18px;
+}
+
+.security-icon{
+width:60px;
+height:60px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(0,255,100,.1);
+color:#00ff66;
+font-size:24px;
+}
+
+.loading{
+text-align:center;
 margin-top:25px;
-font-size:14px;
-animation:pulse 1.2s infinite;
+color:#00ff66;
+font-size:18px;
 }
 
-.progress{
-margin-top:10px;
-font-size:12px;
-opacity:.7;
+@media(max-width:768px){
+
+.topbar{
+padding:20px;
+flex-direction:column;
+gap:18px;
 }
 
-@keyframes pulse{
-0%{opacity:.3}
-50%{opacity:1}
-100%{opacity:.3}
+h1{
+font-size:42px;
 }
 
-@keyframes fadeUp{
-0%{opacity:0;transform:translateY(40px);}
-100%{opacity:1;transform:translateY(0);}
+.subtitle{
+font-size:18px;
 }
 
+.row{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.value{
+text-align:left;
+}
+
+}
 </style>
 </head>
-
 <body>
+
+<div class="glow"></div>
+
+<div class="topbar">
+
+<div class="logo">
+CreatorHub <span>Premium</span>
+</div>
+
+<button class="home-btn" onclick="goHome()">
+<i class="fa-solid fa-house"></i>
+Go to Home
+</button>
+
+</div>
+
+<div class="container">
+
+<div class="success-icon">
+<i class="fa-solid fa-check"></i>
+</div>
+
+<h1>
+Payment <span>Successful!</span>
+</h1>
+
+<div class="subtitle">
+🎉 Congratulations! Your subscription is now active.
+</div>
+
+<div class="subtitle2">
+<i class="fa-solid fa-shield-halved"></i>
+Your payment has been securely processed.
+</div>
+
+<div id="loading" class="loading">
+Verifying payment...
+</div>
+
+<div id="content" style="display:none;">
 
 <div class="card">
 
-<h1 id="title">Payment Successful</h1>
+<div class="card-title">
+<i class="fa-solid fa-receipt"></i>
+Subscription Details
+</div>
 
-<p id="status">
-Verifying payment and unlocking your ebook...
+<div class="row">
+<div class="label">Plan Name</div>
+<div class="value">
+CreatorHub Premium
+<span class="active">ACTIVE</span>
+</div>
+</div>
+
+<div class="row">
+<div class="label">Amount Paid</div>
+<div class="value" id="amountPaid">₹799</div>
+</div>
+
+<div class="row">
+<div class="label">Order ID</div>
+<div class="value" id="orderId">Loading...</div>
+</div>
+
+<div class="row">
+<div class="label">Start Date</div>
+<div class="value" id="startDate">Loading...</div>
+</div>
+
+<div class="row">
+<div class="label">Expiry Date</div>
+<div class="value" id="expiryDate">Loading...</div>
+</div>
+
+<div class="row">
+<div class="label">Auto Renewal</div>
+<div class="value" style="color:#00ff66;">
+ON (Monthly)
+</div>
+</div>
+
+</div>
+
+<div class="features-title">
+You now have access to
+</div>
+
+<div class="features">
+
+<div class="feature-box">
+<div class="feature-icon">
+<i class="fa-solid fa-infinity"></i>
+</div>
+<h3>Unlimited Reading</h3>
+<p>
+Read unlimited premium ebooks anytime.
 </p>
-
-<div id="loader" class="loader">
-⏳ Please wait...
 </div>
 
-<div id="progress" class="progress">
-Attempt 1 / 10
+<div class="feature-box">
+<div class="feature-icon">
+<i class="fa-solid fa-crown"></i>
+</div>
+<h3>Premium Content</h3>
+<p>
+Access exclusive premium ebooks & guides.
+</p>
 </div>
 
-<button id="libraryBtn" onclick="goLibrary()">
-Go To My Library
+<div class="feature-box">
+<div class="feature-icon">
+<i class="fa-solid fa-bolt"></i>
+</div>
+<h3>No Ads</h3>
+<p>
+Enjoy ad-free reading experience.
+</p>
+</div>
+
+<div class="feature-box">
+<div class="feature-icon">
+<i class="fa-solid fa-headset"></i>
+</div>
+<h3>24/7 Support</h3>
+<p>
+We are here to help you anytime.
+</p>
+</div>
+
+</div>
+
+<button class="main-btn" onclick="goPremium()">
+Explore Premium Content →
 </button>
+
+<div class="security">
+
+<div class="security-box">
+<div class="security-icon">
+<i class="fa-solid fa-lock"></i>
+</div>
+<div>
+<h3>100% Secure Payment</h3>
+<p>Powered by Cashfree</p>
+</div>
+</div>
+
+<div class="security-box">
+<div class="security-icon">
+<i class="fa-solid fa-shield-halved"></i>
+</div>
+<div>
+<h3>Safe & Secure</h3>
+<p>Your data is protected</p>
+</div>
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 <script>
 
-const PAYMENT_API = "https://script.google.com/macros/s/AKfycbyKnVmxYCTskDLpOk_s2Ch1nHnVvD__GVHbnztTCvl4bzYgk7sDx0F1WuJ0CXMORqs/exec"
+const API =
+"https://script.google.com/macros/s/AKfycbyKnVmxYCTskDLpOk_s2Ch1nHnVvD__GVHbnztTCvl4bzYgk7sDx0F1WuJ0CXMORqs/exec";
 
-/* USER */
+const params =
+new URLSearchParams(window.location.search);
 
-let user = JSON.parse(localStorage.getItem("user")||"null")
+const orderId =
+params.get("order_id");
 
-if(!user){
-alert("Login required")
-location.href="login.html"
+function goHome(){
+window.location.href = "index.html";
 }
 
-/* GET ORDER ID */
-
-function getOrderId(){
-let params = new URLSearchParams(window.location.search)
-return (
-params.get("order_id") ||
-params.get("orderId") ||
-params.get("cf_order_id") ||
-params.get("order-id") ||
-params.get("order")
-)
+function goPremium(){
+window.location.href = "premium.html";
 }
-
-let orderId = getOrderId()
-
-let retry = 0
-const maxRetry = 10
 
 async function verifyPayment(){
 
 if(!orderId){
 
-document.getElementById("title").innerText="Order Error"
-document.getElementById("status").innerText="Order ID not found"
-document.getElementById("loader").style.display="none"
+alert("Missing Order ID");
 
-return
+window.location.href = "premium.html";
+
+return;
+
 }
-
-if(retry >= maxRetry){
-
-document.getElementById("title").innerText="Verification Timeout"
-document.getElementById("status").innerText="Payment verification failed"
-document.getElementById("loader").style.display="none"
-document.getElementById("libraryBtn").style.display="block"
-
-return
-}
-
-document.getElementById("progress").innerText =
-"Attempt " + (retry+1) + " / " + maxRetry
 
 try{
 
-let res = await fetch(
-PAYMENT_API +
-"?action=verify&orderId=" + orderId
-)
+const res = await fetch(
+API +
+"?action=verify&orderId=" +
+orderId
+);
 
-let data = await res.json()
+const data = await res.json();
+
+console.log(data);
 
 if(data.success){
 
-document.getElementById("status").innerText =
-"Ebook unlocked successfully!"
+let now = new Date();
 
-document.getElementById("loader").style.display="none"
-document.getElementById("progress").style.display="none"
-document.getElementById("libraryBtn").style.display="block"
+let expiry = new Date();
 
-localStorage.removeItem("buyProduct")
+expiry.setMonth(expiry.getMonth()+1);
 
-setTimeout(()=>{
-goLibrary()
-},3000)
+/* ORDER */
+document.getElementById(
+"orderId"
+).innerText = orderId;
+
+/* DATE */
+document.getElementById(
+"startDate"
+).innerText =
+now.toLocaleString();
+
+/* EXPIRY */
+document.getElementById(
+"expiryDate"
+).innerText =
+expiry.toLocaleString();
+
+/* AMOUNT */
+if(orderId.includes("15")){
+document.getElementById(
+"amountPaid"
+).innerText = "₹399";
+}
+
+if(orderId.includes("365")){
+document.getElementById(
+"amountPaid"
+).innerText = "₹3599";
+}
+
+/* SAVE PREMIUM */
+localStorage.setItem(
+"premium_active",
+"true"
+);
+
+/* SHOW CONTENT */
+document.getElementById(
+"loading"
+).style.display = "none";
+
+document.getElementById(
+"content"
+).style.display = "block";
 
 }else{
 
-retry++
-setTimeout(verifyPayment,3000)
+alert("Payment verification failed");
+
+window.location.href = "premium.html";
 
 }
 
-}catch(e){
+}catch(err){
 
-retry++
-document.getElementById("status").innerText =
-"Retrying verification..."
-setTimeout(verifyPayment,3000)
+console.log(err);
+
+alert("Server Error");
+
+window.location.href = "premium.html";
 
 }
 
 }
 
-verifyPayment()
-
-function goLibrary(){
-location.href="library.html"
-}
+verifyPayment();
 
 </script>
 
