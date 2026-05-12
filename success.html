@@ -533,15 +533,6 @@ return;
 
 try{
 
-const res = await fetch(
-API + "?action=verify&orderId=" + orderId
-);
-
-const data = await res.json();
-
-if(data.success){
-
-/* GET SUBSCRIPTIONS */
 const subRes = await fetch(
 API + "?db=subscriptions&t=" + Date.now()
 );
@@ -552,11 +543,7 @@ const sub = subs.find(
 s => s.id === orderId
 );
 
-if(!sub){
-alert("Subscription not found");
-window.location.href = "premium.html";
-return;
-}
+if(sub){
 
 /* ORDER */
 document.getElementById("orderId").innerText = sub.id || "-";
