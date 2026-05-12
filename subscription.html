@@ -470,969 +470,265 @@ Cancel Subscription
 </div>
   
 <div id="footer-container"></div>
-
+  
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 
 <script>
+const PAYMENT_API="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec";
 
-/* =========================================================
-   CREATORHUB PREMIUM JS
-========================================================= */
-
-/* =========================================================
-   API
-========================================================= */
-
-const PAYMENT_API =
-"https://script.google.com/macros/s/AKfycbyKnVmxYCTskDLpOk_s2Ch1nHnVvD__GVHbnztTCvl4bzYgk7sDx0F1WuJ0CXMORqs/exec";
-
-/* =========================================================
-   CASHFREE
-========================================================= */
-
-const cashfree =
-Cashfree({
-
-mode:"sandbox"
-
-});
-
-/* =========================================================
-   USER
-========================================================= */
-
-let user = null;
-
-try{
-
-user =
-JSON.parse(
-
-localStorage.getItem("user") ||
-"null"
-
-);
-
-}catch(err){
-
-console.log(err);
-
+async function loadFooter() {
+    try {
+        const response = await fetch("footer.html");
+        const data = await response.text();
+        document.getElementById("footer-container").innerHTML = data;
+    } catch (error) {
+        console.log("Footer load failed");
+    }
 }
 
-/* LOGIN CHECK */
-
-if(!user){
-
-alert("Please login first");
-
-window.location.href =
-"login.html";
-
-throw new Error(
-"User not logged in"
-);
-
-}
-
-/* =========================================================
-   LOAD FOOTER
-========================================================= */
-
-async function loadFooter(){
-
-try{
-
-const response =
-await fetch("footer.html");
-
-if(!response.ok){
-
-throw new Error(
-"Footer file missing"
-);
-
-}
-
-const html =
-await response.text();
-
-const footer =
-document.getElementById(
-"footer-container"
-);
-
-if(footer){
-
-footer.innerHTML =
-html;
-
-}
-
-}catch(err){
-
-console.log(
-"Footer error:",
-err
-);
-
-}
-
-}
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
+loadFooter();
 
 function goBack(){
-
-window.location.href =
-"index.html";
-
+window.location.href="index.html";
 }
 
 function openSupport(){
+window.location.href="support.html";
+}
+  
+let user=JSON.parse(localStorage.getItem("user") || "null");
 
-window.location.href =
-"support.html";
-
+if(!user){
+alert("Please login first");
+window.location.href="login.html";
 }
 
-/* =========================================================
-   PLAN IDS
-========================================================= */
-
-function getPlanId(plan){
-
-if(plan === "15days"){
-
-return
-"creatorhub_starter_15_v2";
-
-}
-
-if(plan === "month"){
-
-return
-"creatorhub_growth_30";
-
-}
-
-if(plan === "year"){
-
-return
-"creatorhub_elite_365";
-
-}
-
-return "";
-
-}
-
-/* =========================================================
-   BUTTON LOADER
-========================================================= */
-
-function setButtonLoading(
-btn,
-state
-){
-
-if(!btn) return;
-
-if(state){
-
-btn.disabled = true;
-
-btn.dataset.originalText =
-btn.innerText;
-
-btn.innerText =
-"Processing...";
-
-}else{
-
-btn.disabled = false;
-
-btn.innerText =
-
-btn.dataset.originalText ||
-
-"Subscribe Now →";
-
-}
-
-}
-
-/* =========================================================
-   GLOBAL LOADER
-========================================================= */
-
-function showLoader(state){
-
-const loader =
-document.getElementById(
-"loader"
-);
-
-if(!loader) return;
-
-if(state){
-
-loader.style.display =
-"block";
-
-}else{
-
-loader.style.display =
-"none";
-
-}
-
-}
-
-/* =========================================================
-   SUBSCRIBE
-========================================================= */
-
-async function subscribe(
-plan,
-amount,
-btn
-){
-
-try{
-
-setButtonLoading(
-btn,
-true
-);
-
-showLoader(true);
-
-/* VALIDATE USER */
-
-if(
-!user ||
-!user.email
-){
-
-alert(
-"Please login first"
-);
-
-window.location.href =
-"login.html";
-
-return;
-
-}
-
-/* PLAN */
-
-const planId =
-getPlanId(plan);
-
-if(!planId){
-
-alert(
-"Invalid plan"
-);
-
-setButtonLoading(
-btn,
-false
-);
-
-showLoader(false);
-
-return;
-
-}
-
-/* REQUEST */
-
-const response =
-await fetch(
-PAYMENT_API,
-{
-
-method:"POST",
-
-headers:{
-"Content-Type":
-"application/json"
-},
-
-body:JSON.stringify({
-
-action:
-"create_autopay",
-
-plan_id:
-planId,
-
-name:
-user.name ||
-"CreatorHub User",
-
-email:
-user.email,
-
-phone:
-user.phone ||
-"9999999999"
-
-})
-
-}
-
-);
-
-/* RESPONSE */
-
-const data =
-await response.json();
-
-console.log(
-"SUBSCRIBE RESPONSE:",
-data
-);
-
-showLoader(false);
-
-/* ERROR */
-
-if(!data.success){
-
-alert(
-
-data.message ||
-
-"Subscription failed"
-
-);
-
-setButtonLoading(
-btn,
-false
-);
-
-return;
-
-}
-
-/* SESSION */
-
-if(
-!data.subscription_session_id
-){
-
-alert(
-"Subscription session missing"
-);
-
-setButtonLoading(
-btn,
-false
-);
-
-return;
-
-}
-
-/* SAVE */
-
-localStorage.setItem(
-
-"creatorhub_subscription_id",
-
-data.subscription_id
-
-);
-
-/* OPEN CASHFREE */
-
-cashfree.subscriptionCheckout({
-
-subscriptionSessionId:
-
-data.subscription_session_id,
-
-redirectTarget:
-"_self"
-
-});
-
-}catch(err){
-
-console.log(
-"SUBSCRIBE ERROR:",
-err
-);
-
-alert(
-
-err.message ||
-"Server error"
-
-);
-
-showLoader(false);
-
-setButtonLoading(
-btn,
-false
-);
-
-}
-
-}
-
-/* =========================================================
-   VERIFY SUBSCRIPTION
-========================================================= */
-
-async function verifySubscription(){
-
-try{
-
-const params =
-new URLSearchParams(
-window.location.search
-);
-
-let subscriptionId =
-
-params.get(
-"subscription_id"
-);
-
-/* FALLBACK */
-
-if(!subscriptionId){
-
-subscriptionId =
-
-localStorage.getItem(
-"creatorhub_subscription_id"
-);
-
-}
-
-if(!subscriptionId){
-
-return;
-
-}
-
-/* REQUEST */
-
-const response =
-await fetch(
-
-PAYMENT_API +
-
-"?action=verify_subscription" +
-
-"&subscription_id=" +
-
-subscriptionId +
-
-"&t=" +
-
-Date.now()
-
-);
-
-const data =
-await response.json();
-
-console.log(
-"VERIFY RESPONSE:",
-data
-);
-
-/* ACTIVE */
-
-if(
-
-data.success &&
-
-data.status ===
-"ACTIVE"
-
-){
-
-localStorage.setItem(
-"premium_active",
-"true"
-);
-
-localStorage.setItem(
-"active_subscription_id",
-subscriptionId
-);
-
-/* BADGE */
-
-const badge =
-document.getElementById(
-"activeBadge"
-);
-
-if(badge){
-
-badge.style.display =
-"inline-block";
-
-}
-
-/* PAYMENT STATUS */
-
-const status =
-document.getElementById(
-"paymentStatus"
-);
-
-if(status){
-
-status.innerHTML =
-
-`
-<div style="
-background:#00ff66;
-color:black;
-padding:14px;
-border-radius:10px;
-margin:20px;
-font-weight:600;
-text-align:center;
-">
-Payment Successful
-</div>
-`;
-
-}
-
-/* DISABLE BUTTONS */
-
-document
-.querySelectorAll(
-".subscribe-btn"
-)
-.forEach(btn => {
-
-btn.disabled = true;
-
-btn.innerText =
-"Premium Active";
-
-});
-
-/* SHOW CANCEL */
-
-const cancelBox =
-document.getElementById(
-"cancelBox"
-);
-
-if(cancelBox){
-
-cancelBox.style.display =
-"block";
-
-}
-
-}
-
-}catch(err){
-
-console.log(
-"VERIFY ERROR:",
-err
-);
-
-}
-
-}
-
-/* =========================================================
-   CHECK SUBSCRIPTION
-========================================================= */
-
+/* check subscription */
 async function checkSubscription(){
-
 try{
+let res=await fetch(PAYMENT_API + "?db=subscriptions&t=" + Date.now());
+let subs=await res.json();
 
-showLoader(true);
+document.getElementById("loader").style.display="none";
 
-const response =
-await fetch(
-
-PAYMENT_API +
-
-"?db=subscriptions&t=" +
-
-Date.now()
-
-);
-
-const result =
-await response.json();
-
-console.log(
-"SUBSCRIPTIONS:",
-result
-);
-
-showLoader(false);
-
-/* ARRAY */
-
-const subs =
-result.data || [];
-
-/* FIND ACTIVE */
-
-const active =
-subs.find(s => {
+let active = subs.find(s => {
 
 if(
-
-String(s.email)
-.trim()
-.toLowerCase()
-
-!==
-
-String(user.email)
-.trim()
-.toLowerCase()
-
+String(s.email).trim().toLowerCase() !==
+String(user.email).trim().toLowerCase()
 ){
-
 return false;
-
 }
 
-if(
-s.status !==
-"active"
-){
+if(s.status !== "active") return false;
 
-return false;
+if(!s.expiry) return false;
 
-}
+let expiry = new Date(s.expiry);
 
-if(!s.expiry){
-
-return false;
-
-}
-
-const expiry =
-new Date(
-s.expiry
-);
-
-return (
-expiry.getTime() >
-Date.now()
-);
+return expiry.getTime() > Date.now();
 
 });
-
-/* ACTIVE */
 
 if(active){
 
-localStorage.setItem(
-"premium_active",
-"true"
-);
+document.getElementById("activeBadge").style.display="inline-block";
 
-localStorage.setItem(
-"active_subscription_id",
-active.id
-);
-
-/* BADGE */
-
-const badge =
-document.getElementById(
-"activeBadge"
-);
-
-if(badge){
-
-badge.style.display =
-"inline-block";
-
-}
-
-/* BUTTONS */
-
-document
-.querySelectorAll(
-".subscribe-btn"
-)
-.forEach(btn => {
+document.querySelectorAll(".subscribe-btn").forEach(btn=>{
 
 btn.disabled = true;
 
-btn.innerText =
-"Premium Active";
+btn.innerText = "Premium Active";
 
 });
 
-/* CANCEL */
-
-const cancelBox =
-document.getElementById(
-"cancelBox"
-);
-
-if(cancelBox){
-
-cancelBox.style.display =
-"block";
-
 }
 
-}
-
+document.getElementById("cancelBox").style.display = "block";
 }catch(err){
-
-console.log(
-"CHECK ERROR:",
-err
-);
-
-showLoader(false);
-
+document.getElementById("loader").innerText="Subscription check failed";
+}
 }
 
+checkSubscription();
+
+function getPlanId(plan){
+
+if(plan==="15days"){
+return "creatorhub_starter_15_v2";
 }
 
-/* =========================================================
-   CANCEL SUBSCRIPTION
-========================================================= */
+if(plan==="month"){
+return "creatorhub_growth_30";
+}
 
-async function cancelPremium(){
+if(plan==="year"){
+return "creatorhub_elite_365";
+}
+
+return "";
+  }
+
+/* payment */
+async function subscribe(plan, amount, btn){
+
+if(btn.disabled) return;
+
+btn.disabled = true;
+btn.innerText = "Processing...";
 
 try{
 
-const ok =
-confirm(
-"Cancel subscription?"
-);
+// USER CHECK
+if(!user || !user.email){
 
-if(!ok){
+alert("Please login again");
+
+window.location.href = "login.html";
 
 return;
-
 }
 
-showLoader(true);
+// PLAN ID
+let planId = getPlanId(plan);
 
-const response =
-await fetch(
-PAYMENT_API,
-{
+if(!planId){
+
+alert("Invalid plan selected");
+
+btn.disabled = false;
+btn.innerText = "Subscribe Now →";
+
+return;
+}
+
+// API CALL
+let res = await fetch(PAYMENT_API,{
 
 method:"POST",
 
-headers:{
-"Content-Type":
-"application/json"
-},
+body:JSON.stringify({
+action:"create_subscription",
+plan_id: planId,
+email: user.email,
+phone: user.phone || "9999999999"
+})
+
+});
+
+// RAW TEXT
+let text = await res.text();
+
+console.log("RAW RESPONSE:", text);
+
+// SAFE JSON
+let data;
+
+try{
+
+data = JSON.parse(text);
+
+}catch(parseErr){
+
+alert("Invalid server response");
+
+console.log(text);
+
+btn.disabled = false;
+btn.innerText = "Subscribe Now →";
+
+return;
+}
+
+// SUCCESS
+if(data.payment_session_id){
+
+const cashfree = Cashfree({
+mode:"sandbox"
+});
+
+cashfree.checkout({
+
+paymentSessionId:
+data.payment_session_id,
+
+redirectTarget:"_top"
+
+});
+
+return;
+}
+
+// FAIL
+alert(
+data.message ||
+text ||
+"Payment failed"
+);
+
+btn.disabled = false;
+btn.innerText = "Subscribe Now →";
+
+}catch(err){
+
+alert(
+"ERROR:\n\n" +
+(err.message || err)
+);
+
+console.log(err);
+
+btn.disabled = false;
+btn.innerText = "Subscribe Now →";
+
+}
+            }
+
+async function cancelPremium(){
+
+let ok = confirm(
+"Are you sure you want to cancel premium?"
+);
+
+if(!ok) return;
+
+try{
+
+let res = await fetch(PAYMENT_API,{
+
+method:"POST",
 
 body:JSON.stringify({
 
-action:
-"cancel_subscription",
+action:"cancel_subscription",
 
-email:
-user.email
+email:user.email
 
 })
 
-}
+});
 
-);
-
-const data =
-await response.json();
-
-console.log(
-"CANCEL RESPONSE:",
-data
-);
-
-showLoader(false);
+let data = await res.json();
 
 if(data.success){
 
-alert(
-"Subscription cancelled"
-);
-
-localStorage.removeItem(
-"premium_active"
-);
+alert("Subscription cancelled");
 
 location.reload();
 
 }else{
 
-alert(
-
-data.message ||
-
-"Cancel failed"
-
-);
+alert(data.message || "Cancel failed");
 
 }
 
 }catch(err){
 
-console.log(
-"CANCEL ERROR:",
-err
-);
-
-showLoader(false);
-
-alert(
-"Server error"
-);
+alert("Server error");
 
 }
 
 }
-
-/* =========================================================
-   REFUND
-========================================================= */
-
-async function requestRefund(){
-
-try{
-
-const subscriptionId =
-
-localStorage.getItem(
-"active_subscription_id"
-);
-
-if(!subscriptionId){
-
-alert(
-"No subscription found"
-);
-
-return;
-
-}
-
-showLoader(true);
-
-const response =
-await fetch(
-PAYMENT_API,
-{
-
-method:"POST",
-
-headers:{
-"Content-Type":
-"application/json"
-},
-
-body:JSON.stringify({
-
-action:
-"refund_subscription",
-
-subscription_id:
-subscriptionId
-
-})
-
-}
-
-);
-
-const data =
-await response.json();
-
-console.log(
-"REFUND RESPONSE:",
-data
-);
-
-showLoader(false);
-
-if(data.success){
-
-alert(
-
-"Refund Amount: ₹" +
-
-data.refund
-
-);
-
-}else{
-
-alert(
-
-data.message ||
-
-"Refund failed"
-
-);
-
-}
-
-}catch(err){
-
-console.log(
-"REFUND ERROR:",
-err
-);
-
-showLoader(false);
-
-alert(
-"Server error"
-);
-
-}
-
-}
-
-/* =========================================================
-   AUTO RUN
-========================================================= */
-
-window.addEventListener(
-
-"load",
-
-async function(){
-
-await loadFooter();
-
-await checkSubscription();
-
-await verifySubscription();
-
-}
-
-);
-
 </script>
 
 </body>
