@@ -471,13 +471,41 @@ Cancel Subscription
   
 <div id="footer-container"></div>
 
+<!-- ===================================================== -->
+<!-- CASHFREE SDK -->
+<!-- ===================================================== -->
+
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 
-<script>
+<!-- ===================================================== -->
+<!-- REQUIRED HTML -->
+<!-- ===================================================== -->
 
-/* =========================================================
-   CREATORHUB PREMIUM SUBSCRIPTION JS
-========================================================= */
+<div id="loader" style="display:none;">
+Loading...
+</div>
+
+<div id="paymentStatus"></div>
+
+<div id="activeBadge" style="display:none;">
+Premium Active
+</div>
+
+<div id="cancelBox" style="display:none;">
+
+<button onclick="cancelPremium()">
+Cancel Premium
+</button>
+
+</div>
+
+<div id="footer-container"></div>
+
+<!-- ===================================================== -->
+<!-- FULL WORKING JS -->
+<!-- ===================================================== -->
+
+<script>
 
 /* =========================================================
    API
@@ -501,7 +529,11 @@ mode:"sandbox"
    USER
 ========================================================= */
 
-let user =
+let user = null;
+
+try{
+
+user =
 JSON.parse(
 
 localStorage.getItem("user") ||
@@ -509,12 +541,24 @@ localStorage.getItem("user") ||
 
 );
 
+}catch(err){
+
+console.log(err);
+
+}
+
+/* LOGIN CHECK */
+
 if(!user){
 
 alert("Please login first");
 
 window.location.href =
 "login.html";
+
+throw new Error(
+"User not logged in"
+);
 
 }
 
@@ -529,17 +573,34 @@ try{
 const response =
 await fetch("footer.html");
 
+if(!response.ok){
+
+throw new Error(
+"Footer file missing"
+);
+
+}
+
 const html =
 await response.text();
 
+const container =
 document.getElementById(
 "footer-container"
-).innerHTML = html;
+);
+
+if(container){
+
+container.innerHTML =
+html;
+
+}
 
 }catch(err){
 
 console.log(
-"Footer load failed"
+"Footer error:",
+err
 );
 
 }
@@ -598,10 +659,13 @@ return "";
 }
 
 /* =========================================================
-   BUTTON STATE
+   BUTTON LOADING
 ========================================================= */
 
-function setButtonLoading(btn,state){
+function setButtonLoading(
+btn,
+state
+){
 
 if(!btn) return;
 
@@ -646,7 +710,7 @@ btn,
 true
 );
 
-/* LOGIN CHECK */
+/* VALIDATE */
 
 if(
 !user ||
@@ -683,6 +747,13 @@ false
 return;
 
 }
+
+/* SHOW LOADER */
+
+document.getElementById(
+"loader"
+).style.display =
+"block";
 
 /* API REQUEST */
 
@@ -729,9 +800,16 @@ const data =
 await response.json();
 
 console.log(
-"SUBSCRIPTION RESPONSE:",
+"SUBSCRIBE RESPONSE:",
 data
 );
+
+/* HIDE LOADER */
+
+document.getElementById(
+"loader"
+).style.display =
+"none";
 
 /* FAILED */
 
@@ -754,17 +832,7 @@ return;
 
 }
 
-/* SAVE SUB ID */
-
-localStorage.setItem(
-
-"creatorhub_subscription_id",
-
-data.subscription_id
-
-);
-
-/* SESSION CHECK */
+/* SESSION */
 
 if(
 !data.subscription_session_id
@@ -783,6 +851,16 @@ return;
 
 }
 
+/* SAVE */
+
+localStorage.setItem(
+
+"creatorhub_subscription_id",
+
+data.subscription_id
+
+);
+
 /* CASHFREE CHECKOUT */
 
 cashfree.subscriptionCheckout({
@@ -798,7 +876,10 @@ redirectTarget:
 
 }catch(err){
 
-console.log(err);
+console.log(
+"SUBSCRIBE ERROR:",
+err
+);
 
 alert(
 
@@ -806,6 +887,11 @@ err.message ||
 "Server error"
 
 );
+
+document.getElementById(
+"loader"
+).style.display =
+"none";
 
 setButtonLoading(
 btn,
@@ -874,7 +960,7 @@ const data =
 await response.json();
 
 console.log(
-"VERIFY:",
+"VERIFY RESPONSE:",
 data
 );
 
@@ -890,47 +976,58 @@ data.status ===
 ){
 
 localStorage.setItem(
-
 "premium_active",
-
 "true"
-
 );
 
 localStorage.setItem(
-
 "active_subscription_id",
-
 subscriptionId
-
 );
 
+const badge =
 document.getElementById(
 "activeBadge"
-)?.style.setProperty(
-"display",
-"inline-block"
 );
 
+if(badge){
+
+badge.style.display =
+"inline-block";
+
+}
+
+const status =
 document.getElementById(
 "paymentStatus"
-)?.innerHTML =
+);
+
+if(status){
+
+status.innerHTML =
 
 `
 <div class="success-box">
-Premium Activated Successfully
+Payment Successful
 </div>
 `;
 
 }
 
-/* FAILED */
+}
+
+/* NOT ACTIVE */
 
 else{
 
+const status =
 document.getElementById(
 "paymentStatus"
-)?.innerHTML =
+);
+
+if(status){
+
+status.innerHTML =
 
 `
 <div class="pending-box">
@@ -940,9 +1037,160 @@ Payment Pending
 
 }
 
+}
+
 }catch(err){
 
-console.log(err);
+console.log(
+"VERIFY ERROR:",
+err
+);
+
+}
+
+}
+
+/* =========================================================
+   CHECK ACTIVE SUBSCRIPTION
+========================================================= */
+
+async function checkSubscription(){
+
+try{
+
+const response =
+await fetch(
+
+PAYMENT_API +
+
+"?db=subscriptions&t=" +
+
+Date.now()
+
+);
+
+const result =
+await response.json();
+
+console.log(
+"SUBSCRIPTIONS:",
+result
+);
+
+/* ARRAY */
+
+const subs =
+result.data || [];
+
+/* FIND */
+
+const active =
+subs.find(s => {
+
+if(
+
+String(s.email)
+.trim()
+.toLowerCase()
+
+!==
+
+String(user.email)
+.trim()
+.toLowerCase()
+
+){
+
+return false;
+
+}
+
+if(
+s.status !==
+"active"
+){
+
+return false;
+
+}
+
+if(!s.expiry){
+
+return false;
+
+}
+
+const expiry =
+new Date(
+s.expiry
+);
+
+return (
+expiry.getTime() >
+Date.now()
+);
+
+});
+
+/* ACTIVE */
+
+if(active){
+
+localStorage.setItem(
+"premium_active",
+"true"
+);
+
+localStorage.setItem(
+"active_subscription_id",
+active.id
+);
+
+const badge =
+document.getElementById(
+"activeBadge"
+);
+
+if(badge){
+
+badge.style.display =
+"inline-block";
+
+}
+
+document
+.querySelectorAll(
+".subscribe-btn"
+)
+.forEach(btn => {
+
+btn.disabled = true;
+
+btn.innerText =
+"Premium Active";
+
+});
+
+const cancelBox =
+document.getElementById(
+"cancelBox"
+);
+
+if(cancelBox){
+
+cancelBox.style.display =
+"block";
+
+}
+
+}
+
+}catch(err){
+
+console.log(
+"CHECK ERROR:",
+err
+);
 
 }
 
@@ -954,11 +1202,11 @@ console.log(err);
 
 async function cancelPremium(){
 
+try{
+
 const ok =
 confirm(
-
-"Are you sure you want to cancel premium?"
-
+"Cancel premium?"
 );
 
 if(!ok){
@@ -966,8 +1214,6 @@ if(!ok){
 return;
 
 }
-
-try{
 
 const response =
 await fetch(
@@ -999,7 +1245,7 @@ const data =
 await response.json();
 
 console.log(
-"CANCEL:",
+"CANCEL RESPONSE:",
 data
 );
 
@@ -1029,7 +1275,10 @@ data.message ||
 
 }catch(err){
 
-console.log(err);
+console.log(
+"CANCEL ERROR:",
+err
+);
 
 alert(
 "Server error"
@@ -1093,7 +1342,7 @@ const data =
 await response.json();
 
 console.log(
-"REFUND:",
+"REFUND RESPONSE:",
 data
 );
 
@@ -1121,167 +1370,14 @@ data.message ||
 
 }catch(err){
 
-console.log(err);
+console.log(
+"REFUND ERROR:",
+err
+);
 
 alert(
 "Server error"
 );
-
-}
-
-}
-
-/* =========================================================
-   CHECK SUBSCRIPTION
-========================================================= */
-
-async function checkSubscription(){
-
-try{
-
-const response =
-await fetch(
-
-PAYMENT_API +
-
-"?db=subscriptions&t=" +
-
-Date.now()
-
-);
-
-const result =
-await response.json();
-
-/* DATABASE ARRAY */
-
-const subs =
-
-result.data ||
-[];
-
-/* HIDE LOADER */
-
-const loader =
-document.getElementById(
-"loader"
-);
-
-if(loader){
-
-loader.style.display =
-"none";
-
-}
-
-/* FIND ACTIVE */
-
-const active =
-subs.find(s => {
-
-if(
-
-String(s.email)
-.trim()
-.toLowerCase()
-
-!==
-
-String(user.email)
-.trim()
-.toLowerCase()
-
-){
-
-return false;
-
-}
-
-if(
-s.status !==
-"active"
-){
-
-return false;
-
-}
-
-if(!s.expiry){
-
-return false;
-
-}
-
-const expiry =
-new Date(
-s.expiry
-);
-
-return (
-expiry.getTime() >
-Date.now()
-);
-
-});
-
-/* ACTIVE UI */
-
-if(active){
-
-localStorage.setItem(
-"premium_active",
-"true"
-);
-
-localStorage.setItem(
-"active_subscription_id",
-active.id
-);
-
-document.getElementById(
-"activeBadge"
-)?.style.setProperty(
-"display",
-"inline-block"
-);
-
-document
-.querySelectorAll(
-".subscribe-btn"
-)
-.forEach(btn => {
-
-btn.disabled = true;
-
-btn.innerText =
-"Premium Active";
-
-});
-
-document.getElementById(
-"cancelBox"
-)?.style.setProperty(
-"display",
-"block"
-);
-
-}
-
-}catch(err){
-
-console.log(err);
-
-const loader =
-document.getElementById(
-"loader"
-);
-
-if(loader){
-
-loader.innerText =
-"Subscription check failed";
-
-}
 
 }
 
@@ -1295,15 +1391,42 @@ window.addEventListener(
 
 "load",
 
-function(){
+async function(){
 
-checkSubscription();
+await checkSubscription();
 
-verifySubscription();
+await verifySubscription();
 
 }
 
 );
+
+</script>
+
+<!-- ===================================================== -->
+<!-- SUBSCRIBE BUTTONS -->
+<!-- ===================================================== -->
+
+<button
+class="subscribe-btn"
+onclick="subscribe('15days',399,this)"
+>
+Subscribe Now →
+</button>
+
+<button
+class="subscribe-btn"
+onclick="subscribe('month',799,this)"
+>
+Subscribe Now →
+</button>
+
+<button
+class="subscribe-btn"
+onclick="subscribe('year',3599,this)"
+>
+Subscribe Now →
+</button>
 
 </script>
 
