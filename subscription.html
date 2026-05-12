@@ -471,41 +471,13 @@ Cancel Subscription
   
 <div id="footer-container"></div>
 
-<!-- ===================================================== -->
-<!-- CASHFREE SDK -->
-<!-- ===================================================== -->
-
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 
-<!-- ===================================================== -->
-<!-- REQUIRED HTML -->
-<!-- ===================================================== -->
-
-<div id="loader" style="display:none;">
-Loading...
-</div>
-
-<div id="paymentStatus"></div>
-
-<div id="activeBadge" style="display:none;">
-Premium Active
-</div>
-
-<div id="cancelBox" style="display:none;">
-
-<button onclick="cancelPremium()">
-Cancel Premium
-</button>
-
-</div>
-
-<div id="footer-container"></div>
-
-<!-- ===================================================== -->
-<!-- FULL WORKING JS -->
-<!-- ===================================================== -->
-
 <script>
+
+/* =========================================================
+   CREATORHUB PREMIUM JS
+========================================================= */
 
 /* =========================================================
    API
@@ -584,14 +556,14 @@ throw new Error(
 const html =
 await response.text();
 
-const container =
+const footer =
 document.getElementById(
 "footer-container"
 );
 
-if(container){
+if(footer){
 
-container.innerHTML =
+footer.innerHTML =
 html;
 
 }
@@ -606,8 +578,6 @@ err
 }
 
 }
-
-loadFooter();
 
 /* =========================================================
    NAVIGATION
@@ -628,7 +598,7 @@ window.location.href =
 }
 
 /* =========================================================
-   PLAN ID
+   PLAN IDS
 ========================================================= */
 
 function getPlanId(plan){
@@ -659,7 +629,7 @@ return "";
 }
 
 /* =========================================================
-   BUTTON LOADING
+   BUTTON LOADER
 ========================================================= */
 
 function setButtonLoading(
@@ -694,6 +664,33 @@ btn.dataset.originalText ||
 }
 
 /* =========================================================
+   GLOBAL LOADER
+========================================================= */
+
+function showLoader(state){
+
+const loader =
+document.getElementById(
+"loader"
+);
+
+if(!loader) return;
+
+if(state){
+
+loader.style.display =
+"block";
+
+}else{
+
+loader.style.display =
+"none";
+
+}
+
+}
+
+/* =========================================================
    SUBSCRIBE
 ========================================================= */
 
@@ -710,7 +707,9 @@ btn,
 true
 );
 
-/* VALIDATE */
+showLoader(true);
+
+/* VALIDATE USER */
 
 if(
 !user ||
@@ -744,18 +743,13 @@ btn,
 false
 );
 
+showLoader(false);
+
 return;
 
 }
 
-/* SHOW LOADER */
-
-document.getElementById(
-"loader"
-).style.display =
-"block";
-
-/* API REQUEST */
+/* REQUEST */
 
 const response =
 await fetch(
@@ -794,7 +788,7 @@ user.phone ||
 
 );
 
-/* JSON */
+/* RESPONSE */
 
 const data =
 await response.json();
@@ -804,14 +798,9 @@ console.log(
 data
 );
 
-/* HIDE LOADER */
+showLoader(false);
 
-document.getElementById(
-"loader"
-).style.display =
-"none";
-
-/* FAILED */
+/* ERROR */
 
 if(!data.success){
 
@@ -861,7 +850,7 @@ data.subscription_id
 
 );
 
-/* CASHFREE CHECKOUT */
+/* OPEN CASHFREE */
 
 cashfree.subscriptionCheckout({
 
@@ -888,10 +877,7 @@ err.message ||
 
 );
 
-document.getElementById(
-"loader"
-).style.display =
-"none";
+showLoader(false);
 
 setButtonLoading(
 btn,
@@ -939,6 +925,8 @@ return;
 
 }
 
+/* REQUEST */
+
 const response =
 await fetch(
 
@@ -985,6 +973,8 @@ localStorage.setItem(
 subscriptionId
 );
 
+/* BADGE */
+
 const badge =
 document.getElementById(
 "activeBadge"
@@ -997,6 +987,8 @@ badge.style.display =
 
 }
 
+/* PAYMENT STATUS */
+
 const status =
 document.getElementById(
 "paymentStatus"
@@ -1007,33 +999,47 @@ if(status){
 status.innerHTML =
 
 `
-<div class="success-box">
+<div style="
+background:#00ff66;
+color:black;
+padding:14px;
+border-radius:10px;
+margin:20px;
+font-weight:600;
+text-align:center;
+">
 Payment Successful
 </div>
 `;
 
 }
 
-}
+/* DISABLE BUTTONS */
 
-/* NOT ACTIVE */
+document
+.querySelectorAll(
+".subscribe-btn"
+)
+.forEach(btn => {
 
-else{
+btn.disabled = true;
 
-const status =
+btn.innerText =
+"Premium Active";
+
+});
+
+/* SHOW CANCEL */
+
+const cancelBox =
 document.getElementById(
-"paymentStatus"
+"cancelBox"
 );
 
-if(status){
+if(cancelBox){
 
-status.innerHTML =
-
-`
-<div class="pending-box">
-Payment Pending
-</div>
-`;
+cancelBox.style.display =
+"block";
 
 }
 
@@ -1051,12 +1057,14 @@ err
 }
 
 /* =========================================================
-   CHECK ACTIVE SUBSCRIPTION
+   CHECK SUBSCRIPTION
 ========================================================= */
 
 async function checkSubscription(){
 
 try{
+
+showLoader(true);
 
 const response =
 await fetch(
@@ -1077,12 +1085,14 @@ console.log(
 result
 );
 
+showLoader(false);
+
 /* ARRAY */
 
 const subs =
 result.data || [];
 
-/* FIND */
+/* FIND ACTIVE */
 
 const active =
 subs.find(s => {
@@ -1146,6 +1156,8 @@ localStorage.setItem(
 active.id
 );
 
+/* BADGE */
+
 const badge =
 document.getElementById(
 "activeBadge"
@@ -1157,6 +1169,8 @@ badge.style.display =
 "inline-block";
 
 }
+
+/* BUTTONS */
 
 document
 .querySelectorAll(
@@ -1170,6 +1184,8 @@ btn.innerText =
 "Premium Active";
 
 });
+
+/* CANCEL */
 
 const cancelBox =
 document.getElementById(
@@ -1192,6 +1208,8 @@ console.log(
 err
 );
 
+showLoader(false);
+
 }
 
 }
@@ -1206,7 +1224,7 @@ try{
 
 const ok =
 confirm(
-"Cancel premium?"
+"Cancel subscription?"
 );
 
 if(!ok){
@@ -1214,6 +1232,8 @@ if(!ok){
 return;
 
 }
+
+showLoader(true);
 
 const response =
 await fetch(
@@ -1249,6 +1269,8 @@ console.log(
 data
 );
 
+showLoader(false);
+
 if(data.success){
 
 alert(
@@ -1279,6 +1301,8 @@ console.log(
 "CANCEL ERROR:",
 err
 );
+
+showLoader(false);
 
 alert(
 "Server error"
@@ -1311,6 +1335,8 @@ alert(
 return;
 
 }
+
+showLoader(true);
 
 const response =
 await fetch(
@@ -1346,6 +1372,8 @@ console.log(
 data
 );
 
+showLoader(false);
+
 if(data.success){
 
 alert(
@@ -1375,6 +1403,8 @@ console.log(
 err
 );
 
+showLoader(false);
+
 alert(
 "Server error"
 );
@@ -1393,6 +1423,8 @@ window.addEventListener(
 
 async function(){
 
+await loadFooter();
+
 await checkSubscription();
 
 await verifySubscription();
@@ -1400,33 +1432,6 @@ await verifySubscription();
 }
 
 );
-
-</script>
-
-<!-- ===================================================== -->
-<!-- SUBSCRIBE BUTTONS -->
-<!-- ===================================================== -->
-
-<button
-class="subscribe-btn"
-onclick="subscribe('15days',399,this)"
->
-Subscribe Now →
-</button>
-
-<button
-class="subscribe-btn"
-onclick="subscribe('month',799,this)"
->
-Subscribe Now →
-</button>
-
-<button
-class="subscribe-btn"
-onclick="subscribe('year',3599,this)"
->
-Subscribe Now →
-</button>
 
 </script>
 
