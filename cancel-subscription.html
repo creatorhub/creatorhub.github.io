@@ -344,6 +344,8 @@ style="
 opacity:.5;
 cursor:not-allowed;
 ">
+Cancel Subscription & Refund
+</button>
 
 <div class="status" id="status"></div>
 
@@ -369,8 +371,6 @@ alert("Please login first");
 window.location.href = "login.html";
 
 }
-
-let generatedOTP = "";
 
 let otpVerified = false;
 
@@ -495,7 +495,7 @@ status.style.color = "#00ff66";
 
 status.innerText = "Sending OTP...";
 
-generatedOTP = Math.floor(
+const generatedOTP = Math.floor(
 100000 + Math.random() * 900000
 ).toString();
 
