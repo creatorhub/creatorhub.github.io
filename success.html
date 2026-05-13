@@ -359,8 +359,8 @@ Go to Home
 
 <div class="main">
 
-<div class="success-circle">
-<i class="fa-solid fa-check"></i>
+<div class="success-circle" id="statusCircle">
+<i class="fa-solid fa-clock" id="statusIcon"></i>
 </div>
 
 <div class="title">
@@ -576,6 +576,15 @@ sub.status === "active" &&
 sub.expiry
 ){
 
+document.getElementById("statusIcon").className =
+"fa-solid fa-check";
+
+document.getElementById("statusIcon").style.color =
+"#00ff66";
+
+document.getElementById("statusCircle").style.boxShadow =
+"0 0 0 18px rgba(0,255,100,.04),0 0 60px rgba(0,255,100,.25)";
+
 document.getElementById("paymentTitle").innerHTML =
 'Payment <span>Successful!</span>';
 
@@ -641,6 +650,15 @@ document.getElementById("loading").style.display = "none";
 document.getElementById("content").style.display = "block";
 
 }else{
+
+document.getElementById("statusIcon").className =
+"fa-solid fa-xmark";
+
+document.getElementById("statusIcon").style.color =
+"#ff4d4d";
+
+document.getElementById("statusCircle").style.boxShadow =
+"0 0 0 18px rgba(255,70,70,.04),0 0 60px rgba(255,70,70,.25)";
 
 document.getElementById("paymentTitle").innerHTML =
 'Payment <span style="color:#ff4d4d">Failed</span>';
