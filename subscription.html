@@ -596,7 +596,7 @@ plan_id:"creatorhub_monthly",
 
 email:user.email,
 
-phone:user.phone || "9999999999"
+phone: user.phone
 
 })
 
@@ -668,6 +668,32 @@ btn.innerText = "Subscribe Now →";
 /* payment */
 async function subscribe(plan, amount, btn){
 
+if(!user.phone){
+
+let phone = prompt(
+"Enter your mobile number for verification"
+);
+
+if(!phone || phone.length < 10){
+
+alert("Valid mobile number required");
+
+btn.disabled = false;
+btn.innerText = "Subscribe Now →";
+
+return;
+
+}
+
+user.phone = phone;
+
+localStorage.setItem(
+"user",
+JSON.stringify(user)
+);
+
+}
+
 if(btn.disabled) return;
 
 btn.disabled = true;
@@ -707,7 +733,7 @@ body:JSON.stringify({
 action:"create_subscription",
 plan_id: planId,
 email: user.email,
-phone: user.phone || "9999999999"
+phone: user.phone
 })
 
 });
