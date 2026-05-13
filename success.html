@@ -364,16 +364,17 @@ Go to Home
 </div>
 
 <div class="title">
-Payment <span>Successful!</span>
+<div class="title" id="paymentTitle">
+Verifying <span>Payment...</span>
 </div>
 
-<div class="subtitle">
-Congratulations! Your subscription is now active.
+<div class="subtitle" id="paymentSubtitle">
+Please wait while we verify your payment.
 </div>
 
-<div class="subtitle2">
-<i class="fa-solid fa-shield-halved"></i>
-Your payment has been <span>securely processed.</span>
+<div class="subtitle2" id="paymentSubtitle2">
+<i class="fa-solid fa-clock"></i>
+Checking payment status...
 </div>
 
 <div id="loading" class="loading">
@@ -569,7 +570,20 @@ await new Promise(r=>setTimeout(r,2000));
 
 }
 
-if(sub){
+if(
+sub &&
+sub.status === "active" &&
+sub.expiry
+){
+
+document.getElementById("paymentTitle").innerHTML =
+'Payment <span>Successful!</span>';
+
+document.getElementById("paymentSubtitle").innerText =
+'Congratulations! Your subscription is now active.';
+
+document.getElementById("paymentSubtitle2").innerHTML =
+'<i class="fa-solid fa-shield-halved"></i> Your payment has been <span>securely processed.</span>';
 
 /* ORDER */
 document.getElementById("orderId").innerText = sub.id || "-";
@@ -628,8 +642,19 @@ document.getElementById("content").style.display = "block";
 
 }else{
 
-alert("Payment verification failed");
-window.location.href = "premium.html";
+document.getElementById("paymentTitle").innerHTML =
+'Payment <span style="color:#ff4d4d">Failed</span>';
+
+document.getElementById("paymentSubtitle").innerText =
+'Your payment was not completed.';
+
+document.getElementById("paymentSubtitle2").innerHTML =
+'<i class="fa-solid fa-circle-xmark"></i> Please try again.';
+
+document.getElementById("loading").style.display =
+"none";
+
+return;
 
 }
 
