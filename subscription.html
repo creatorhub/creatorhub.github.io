@@ -674,9 +674,22 @@ let phone = prompt(
 "Enter your mobile number for verification"
 );
 
-if(!phone || phone.length < 10){
+if(!phone){
 
-alert("Valid mobile number required");
+btn.disabled = false;
+btn.innerText = "Subscribe Now →";
+
+return;
+
+}
+
+phone = phone.trim();
+
+if(
+!/^[6-9]\d{9}$/.test(phone)
+){
+
+alert("Enter valid 10 digit mobile number");
 
 btn.disabled = false;
 btn.innerText = "Subscribe Now →";
