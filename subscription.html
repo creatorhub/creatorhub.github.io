@@ -270,6 +270,18 @@ padding:20px;
 color:#00ff66;
 }
 
+@keyframes popup{
+from{
+transform:scale(.9);
+opacity:0;
+}
+
+to{
+transform:scale(1);
+opacity:1;
+}
+}
+
 @media(max-width:768px){
 .hero h1{
 font-size:35px;
@@ -470,6 +482,108 @@ Cancel Subscription
 </div>
   
 <div id="footer-container"></div>
+
+<!-- MOBILE VERIFY POPUP -->
+<div id="phonePopup" style="
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.75);
+backdrop-filter:blur(6px);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:9999;
+padding:20px;
+">
+
+<div style="
+width:100%;
+max-width:450px;
+background:#07111d;
+border:1px solid rgba(255,255,255,.08);
+border-radius:28px;
+padding:35px;
+box-shadow:0 0 40px rgba(0,255,100,.15);
+animation:popup .25s ease;
+">
+
+<div style="text-align:center;">
+
+<div style="
+width:85px;
+height:85px;
+margin:auto;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(0,255,100,.08);
+color:#00ff66;
+font-size:34px;
+margin-bottom:20px;
+">
+<i class="fa-solid fa-phone"></i>
+</div>
+
+<h2 style="font-size:30px;margin-bottom:10px;">
+Mobile Verification
+</h2>
+
+<p style="
+color:#9ca3af;
+line-height:1.7;
+font-size:15px;
+margin-bottom:25px;
+">
+Verify your mobile number before continuing payment.
+Your number will be securely linked with your CreatorHub Premium account.
+</p>
+
+</div>
+
+<input
+id="verifyPhone"
+type="tel"
+placeholder="Enter 10 digit mobile number"
+style="
+width:100%;
+padding:18px;
+border:none;
+outline:none;
+border-radius:16px;
+background:#111827;
+color:white;
+font-size:16px;
+margin-bottom:18px;
+"
+>
+
+<button
+onclick="savePhoneAndContinue()"
+style="
+width:100%;
+padding:18px;
+border:none;
+border-radius:16px;
+background:linear-gradient(to right,#00ff66,#00cc55);
+font-size:17px;
+font-weight:700;
+cursor:pointer;
+color:black;
+">
+Verify & Continue
+</button>
+
+<div id="phoneStatus" style="
+text-align:center;
+margin-top:16px;
+font-size:14px;
+color:#ff4d4d;
+"></div>
+
+</div>
+
+</div>
   
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 
@@ -497,6 +611,10 @@ window.location.href="support.html";
 }
   
 let user=JSON.parse(localStorage.getItem("user") || "null");
+
+let pendingPlan = null;
+let pendingAmount = null;
+let pendingBtn = null;
 
 if(!user){
 alert("Please login first");
@@ -670,6 +788,22 @@ async function subscribe(plan, amount, btn){
 
 if(!user.phone){
 
+pendingPlan = plan;
+pendingAmount = amount;
+pendingBtn = btn;
+
+const popup = document.getElementById(
+"phonePopup"
+);
+
+popup.style.display = "flex";
+
+return;
+
+  }
+
+if(!user.phone){
+
 let phone = prompt(
 "Enter your mobile number for verification"
 );
@@ -818,6 +952,55 @@ btn.innerText = "Subscribe Now →";
 
 }
             }
+
+function savePhoneAndContinue(){
+
+const phoneInput = document
+.getElementById("verifyPhone");
+
+const status = document
+.getElementById("phoneStatus");
+
+let phone = phoneInput.value.trim();
+
+if(
+!/^[6-9]\d{9}$/.test(phone)
+){
+
+status.innerText =
+"Enter valid mobile number";
+
+return;
+
+}
+
+user.phone = phone;
+
+localStorage.setItem(
+"user",
+JSON.stringify(user)
+);
+
+status.style.color = "#00ff66";
+
+status.innerText =
+"Mobile verified successfully";
+
+setTimeout(()=>{
+
+document.getElementById(
+"phonePopup"
+).style.display = "none";
+
+subscribe(
+pendingPlan,
+pendingAmount,
+pendingBtn
+);
+
+},1000);
+
+}
 
 async function cancelPremium(){
 
