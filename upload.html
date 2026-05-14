@@ -582,10 +582,11 @@ let email =
 
   (localUser.user && localUser.user.email)
 
-if(!email)
-  
-  username.innerText="Guest"
-  menuName.innerText="Guest"
+if(!email){
+
+  username.innerText = "Guest"
+
+  menuName.innerText = "Guest"
 
   return
 
@@ -902,11 +903,17 @@ localStorage.getItem("user")
 
 );
 
-if(!user.email){
+let userEmail =
 
-alert("Login required");
+  user.email ||
 
-return;
+  (user.user && user.user.email)
+
+if(!userEmail){
+
+  alert("Login required")
+
+  return
 
 }
 
@@ -1009,7 +1016,7 @@ action:"uploadEbook",
 
 /* ================= USER ================= */
 
-email:user.email,
+email:userEmail,
 
 /* ================= BOOK ================= */
 
