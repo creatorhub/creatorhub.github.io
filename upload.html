@@ -577,8 +577,14 @@ let localUser = JSON.parse(
   localStorage.getItem("user")
 ) || {}
 
-if(!localUser.email){
+let email =
 
+  localUser.email ||
+
+  (localUser.user && localUser.user.email)
+
+if(!email)
+  
   username.innerText="Guest"
   menuName.innerText="Guest"
 
@@ -598,7 +604,7 @@ let res = await fetch(UPLOAD_API,{
 
     action:"getUser",
 
-    email:localUser.email
+    email:email
 
   })
 
