@@ -391,7 +391,9 @@ grid-template-columns:1fr;
 <textarea id="description"></textarea>
 <div class="counter" id="counter">0/1000</div>
 
-<button class="ai-btn">✨ AI Help Auto Fill</button>
+<button class="ai-btn" onclick="autoFillAI()">
+✨ AI Help Auto Fill
+</button>
 <div class="ai-text">
 Get AI suggestions for title, description, category and more
 </div>
@@ -883,6 +885,124 @@ let data = await res.json();
 console.log("DRIVE FILE:", data);
 
 return data.id;
+
+}
+
+/* =========================================================
+   AI AUTO FILL
+   ========================================================= */
+
+async function autoFillAI(){
+
+try{
+
+  let pdfFile = pdf.files[0]
+
+  if(!pdfFile){
+
+    alert("Upload PDF first")
+
+    return
+
+  }
+
+  alert("AI reading PDF...")
+
+  let text = await extractPDFText(pdfFile)
+
+  let res = await fetch(UPLOAD_API,{
+
+    method:"POST",
+
+    headers:{
+      "Content-Type":"application/json"
+    },
+
+    body:JSON.stringify({
+
+      action:"analyzePDF",
+
+      pdfText:text
+
+    })
+
+  })
+
+  let data = await res.json()
+
+  console.log(data)
+
+  if(data.success){
+
+    let ai = data.ai
+
+    title.value = ai.title || ""
+
+    author.value = ai.author || ""
+
+    description.value = ai.description || ""
+
+    category.value = ai.category || ""
+
+    language.value = ai.language || ""
+
+    tags.value = ai.tags || ""
+
+    isbn.value = ai.isbn || ""
+
+    counter.innerText =
+      description.value.length + "/1000"
+
+    alert("AI Auto Fill Complete")
+
+  }else{
+
+    alert(data.message)
+
+  }
+
+}catch(err){
+
+  console.log(err)
+
+  alert("AI Auto Fill Failed")
+
+}
+
+}
+
+/* =========================================================
+   EXTRACT PDF TEXT
+   ========================================================= */
+
+async function extractPDFText(file){
+
+  let arrayBuffer = await file.arrayBuffer()
+
+  let pdfDoc = await pdfjsLib
+    .getDocument({data:arrayBuffer})
+    .promise
+
+  let finalText = ""
+
+  let totalPages = Math.min(pdfDoc.numPages,10)
+
+  for(let i=1;i<=totalPages;i++){
+
+    let page = await pdfDoc.getPage(i)
+
+    let textContent =
+      await page.getTextContent()
+
+    let pageText = textContent.items
+      .map(item => item.str)
+      .join(" ")
+
+    finalText += pageText + "\n"
+
+  }
+
+  return finalText.slice(0,15000)
 
 }
 
