@@ -509,299 +509,643 @@ Print Version Available
 <div id="footerContainer"></div>
 
 <script>
-const USER_API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec";
 
-const UPLOAD_API="https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
+/* =========================================================
+   API CONFIG
+   ========================================================= */
 
-const CLIENT_ID = "895144937824-ojsv6ca2nn67h2mmne6td4r0hr89kmok.apps.googleusercontent.com";
-  
-const API_KEY = "AIzaSyAakSA5fgVrO6f-WPocfv8C9LhnQe32nPw";
-  
+const USER_API =
+"https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec";
+
+const UPLOAD_API =
+"https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
+
+/* =========================================================
+   GOOGLE CONFIG
+   ========================================================= */
+
+const CLIENT_ID =
+"895144937824-ojsv6ca2nn67h2mmne6td4r0hr89kmok.apps.googleusercontent.com";
+
+const API_KEY =
+"YOUR_GOOGLE_API_KEY";
+
+/* =========================================================
+   GLOBALS
+   ========================================================= */
+
 let accessToken = "";
-  
-/* MENU */
+
+/* =========================================================
+   MENU
+   ========================================================= */
+
 function openMenu(){
-document.getElementById("menu").classList.add("open");
-document.getElementById("overlay").style.display="block";
+
+document.getElementById("menu")
+.classList.add("open");
+
+document.getElementById("overlay")
+.style.display="block";
+
 }
 
 function closeMenu(){
-document.getElementById("menu").classList.remove("open");
-document.getElementById("overlay").style.display="none";
+
+document.getElementById("menu")
+.classList.remove("open");
+
+document.getElementById("overlay")
+.style.display="none";
+
 }
 
 function logout(){
+
 localStorage.removeItem("user");
+
 location.href="login.html";
+
 }
 
-/* LOAD USER */
+/* =========================================================
+   LOAD USER
+   ========================================================= */
+
 async function loadUser(){
 
 try{
 
-let user = JSON.parse(localStorage.getItem("user")) || {}
+let user = JSON.parse(
+localStorage.getItem("user")
+) || {};
 
-console.log("Local User:", user)
+console.log("LOCAL USER:", user);
 
-/* agar email nahi mila */
+/* ================= NO USER ================= */
+
 if(!user.email){
-document.getElementById("username").innerText="Guest"
-document.getElementById("menuName").innerText="Guest"
 
-document.getElementById("profileImage").src=
-"https://cdn-icons-png.flaticon.com/512/149/149071.png"
+document.getElementById("username")
+.innerText="Guest";
 
-document.getElementById("menuProfile").src=
-"https://cdn-icons-png.flaticon.com/512/149/149071.png"
+document.getElementById("menuName")
+.innerText="Guest";
 
-return
+document.getElementById("profileImage").src =
+"https://cdn-icons-png.flaticon.com/512/149/149071.png";
+
+document.getElementById("menuProfile").src =
+"https://cdn-icons-png.flaticon.com/512/149/149071.png";
+
+return;
+
 }
 
+/* ================= FETCH PROFILE ================= */
+
 let res = await fetch(USER_API,{
+
 method:"POST",
+
 headers:{
 "Content-Type":"application/json"
 },
+
 body:JSON.stringify({
+
 action:"getUserProfile",
+
 email:user.email
-})
+
 })
 
-let data = await res.json()
+});
 
-console.log("API Response:", data)
+let data = await res.json();
+
+console.log("USER API:", data);
+
+/* ================= SUCCESS ================= */
 
 if(data.success){
 
 document.getElementById("username").innerText =
-data.user.username || user.name || "User"
+data.user.username || user.name || "User";
 
 document.getElementById("menuName").innerText =
-data.user.username || user.name || "User"
+data.user.username || user.name || "User";
 
 document.getElementById("profileImage").src =
 data.user.profile_image ||
-"https://cdn-icons-png.flaticon.com/512/149/149071.png"
+"https://cdn-icons-png.flaticon.com/512/149/149071.png";
 
 document.getElementById("menuProfile").src =
 data.user.profile_image ||
-"https://cdn-icons-png.flaticon.com/512/149/149071.png"
+"https://cdn-icons-png.flaticon.com/512/149/149071.png";
 
 }else{
 
 document.getElementById("username").innerText =
-user.name || "User"
+user.name || "User";
 
 document.getElementById("menuName").innerText =
-user.name || "User"
+user.name || "User";
 
 }
 
 }catch(err){
 
-console.log("User Load Error:", err)
+console.log("LOAD USER ERROR:", err);
 
-document.getElementById("username").innerText="Guest"
-document.getElementById("menuName").innerText="Guest"
+document.getElementById("username")
+.innerText="Guest";
 
-document.getElementById("profileImage").src=
-"https://cdn-icons-png.flaticon.com/512/149/149071.png"
-
-document.getElementById("menuProfile").src=
-"https://cdn-icons-png.flaticon.com/512/149/149071.png"
+document.getElementById("menuName")
+.innerText="Guest";
 
 }
 
 }
 
-loadUser()
-  
-/* CHARACTER COUNTER */
+loadUser();
+
+/* =========================================================
+   CHARACTER COUNTER
+   ========================================================= */
+
 description.addEventListener("input",()=>{
-counter.innerText=description.value.length+"/1000";
+
+counter.innerText =
+description.value.length + "/1000";
+
 });
 
-/* IMAGE PREVIEW */
+/* =========================================================
+   IMAGE PREVIEW
+   ========================================================= */
+
 function preview(input,id,removeId){
-let file=input.files[0];
+
+let file = input.files[0];
+
 if(!file) return;
 
-let reader=new FileReader();
+let reader = new FileReader();
 
-reader.onload=e=>{
-document.getElementById(id).src=e.target.result;
-document.getElementById(id).style.display="block";
-document.getElementById(removeId).style.display="block";
-}
+reader.onload = e => {
+
+document.getElementById(id).src =
+e.target.result;
+
+document.getElementById(id)
+.style.display="block";
+
+document.getElementById(removeId)
+.style.display="block";
+
+};
 
 reader.readAsDataURL(file);
+
 }
 
-front.onchange=()=>{
-preview(front,"frontPreview","removeFront");
-}
+/* ================= FRONT ================= */
 
-back.onchange=()=>{
-preview(back,"backPreview","removeBack");
-}
+front.onchange = ()=>{
 
-/* REMOVE IMAGE */
-removeFront.onclick=()=>{
+preview(
+front,
+"frontPreview",
+"removeFront"
+);
+
+};
+
+/* ================= BACK ================= */
+
+back.onchange = ()=>{
+
+preview(
+back,
+"backPreview",
+"removeBack"
+);
+
+};
+
+/* =========================================================
+   REMOVE IMAGES
+   ========================================================= */
+
+removeFront.onclick = ()=>{
+
 front.value="";
+
 frontPreview.style.display="none";
+
 removeFront.style.display="none";
-}
 
-removeBack.onclick=()=>{
+};
+
+removeBack.onclick = ()=>{
+
 back.value="";
-backPreview.style.display="none";
-removeBack.style.display="none";
-}
 
-/* PDF UPLOAD */
-pdf.onchange=async function(){
-let file=this.files[0];
+backPreview.style.display="none";
+
+removeBack.style.display="none";
+
+};
+
+/* =========================================================
+   PDF UPLOAD
+   ========================================================= */
+
+pdf.onchange = async function(){
+
+let file = this.files[0];
+
 if(!file) return;
 
 pdfPreview.style.display="flex";
-pdfName.innerText=file.name;
 
-let reader=new FileReader();
+pdfName.innerText = file.name;
 
-reader.onload=async function(){
-let typedArray=new Uint8Array(reader.result);
+let reader = new FileReader();
 
-let pdfDoc=await pdfjsLib.getDocument(typedArray).promise;
+reader.onload = async function(){
 
-pages.value=pdfDoc.numPages;
-}
+let typedArray =
+new Uint8Array(reader.result);
+
+let pdfDoc =
+await pdfjsLib
+.getDocument(typedArray)
+.promise;
+
+pages.value = pdfDoc.numPages;
+
+};
 
 reader.readAsArrayBuffer(file);
-}
 
-/******** GOOGLE LOGIN ********/
+};
+
+/* =========================================================
+   GOOGLE LOGIN
+   ========================================================= */
+
 async function initGoogle(){
-  return new Promise((resolve)=>{
-    gapi.load("client", async ()=>{
-      await gapi.client.init({
-        apiKey: API_KEY,
-        discoveryDocs:["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"]
-      });
 
-      const tokenClient = google.accounts.oauth2.initTokenClient({
-        client_id: CLIENT_ID,
-        scope:"https://www.googleapis.com/auth/drive.file",
-        callback:(res)=>{
-          accessToken = res.access_token;
-          resolve();
-        }
-      });
+return new Promise((resolve)=>{
 
-      tokenClient.requestAccessToken({prompt:"consent"});
-    });
-  });
+gapi.load("client", async ()=>{
+
+await gapi.client.init({
+
+apiKey:API_KEY,
+
+discoveryDocs:[
+"https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"
+]
+
+});
+
+/* ================= TOKEN ================= */
+
+const tokenClient =
+google.accounts.oauth2.initTokenClient({
+
+client_id:CLIENT_ID,
+
+scope:
+"https://www.googleapis.com/auth/drive.file",
+
+callback:(res)=>{
+
+accessToken = res.access_token;
+
+resolve();
+
 }
 
-/******** DRIVE UPLOAD ********/
+});
+
+tokenClient.requestAccessToken({
+prompt:"consent"
+});
+
+});
+
+});
+
+}
+
+/* =========================================================
+   DRIVE UPLOAD
+   ========================================================= */
+
 async function uploadToDrive(file){
 
-  let form = new FormData();
+let form = new FormData();
 
-  form.append("metadata", new Blob([JSON.stringify({
-    name:file.name,
-    mimeType:file.type
-  })], {type:"application/json"}));
+/* ================= METADATA ================= */
 
-  form.append("file", file);
+form.append(
 
-  let res = await fetch(
-    "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
-    {
-      method:"POST",
-      headers:{ Authorization:"Bearer "+accessToken },
-      body:form
-    }
-  );
+"metadata",
 
-  let data = await res.json();
-  return data.id;
+new Blob([JSON.stringify({
+
+name:file.name,
+
+mimeType:file.type
+
+})],{
+
+type:"application/json"
+
+})
+
+);
+
+/* ================= FILE ================= */
+
+form.append("file",file);
+
+/* ================= REQUEST ================= */
+
+let res = await fetch(
+
+"https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
+
+{
+
+method:"POST",
+
+headers:{
+Authorization:"Bearer " + accessToken
+},
+
+body:form
+
 }
 
-/* UPLOAD */
+);
+
+let data = await res.json();
+
+console.log("DRIVE FILE:", data);
+
+return data.id;
+
+}
+
+/* =========================================================
+   UPLOAD EBOOK
+   ========================================================= */
+
 async function uploadBook(){
 
 try{
 
-let user = JSON.parse(localStorage.getItem("user") || "{}");
-  
-if(!user.token){
+/* ================= USER ================= */
+
+let user = JSON.parse(
+
+localStorage.getItem("user")
+|| "{}"
+
+);
+
+if(!user.email){
+
 alert("Login required");
+
 return;
+
 }
+
+/* ================= FILES ================= */
+
+let pdfFile = pdf.files[0];
+
+let frontFile = front.files[0];
+
+let backFile = back.files[0];
+
+/* ================= VALIDATION ================= */
+
+if(!title.value.trim()){
+
+alert("Enter book title");
+
+return;
+
+}
+
+if(description.value.trim().length < 20){
+
+alert("Description too short");
+
+return;
+
+}
+
+if(!price.value || Number(price.value) <= 0){
+
+alert("Invalid price");
+
+return;
+
+}
+
+if(bookSize.value === "Select Book Size"){
+
+alert("Select book size");
+
+return;
+
+}
+
+if(!pdfFile || !frontFile || !backFile){
+
+alert("All files required");
+
+return;
+
+}
+
+/* =========================================================
+   GOOGLE DRIVE AUTH
+   ========================================================= */
+
+alert("Connecting Google Drive...");
 
 await initGoogle();
 
-let pdfFile = pdf.files[0];
-let frontFile = front.files[0];
-let backFile = back.files[0];
+/* =========================================================
+   UPLOAD FILES
+   ========================================================= */
 
-if(!pdfFile || !frontFile || !backFile){
-alert("All files required");
-return;
-}
+alert("Uploading PDF...");
 
-alert("Uploading to Drive...");
+let pdfId =
+await uploadToDrive(pdfFile);
 
-let pdfId = await uploadToDrive(pdfFile);
-let frontId = await uploadToDrive(frontFile);
-let backId = await uploadToDrive(backFile);
+alert("Uploading Front Cover...");
+
+let frontId =
+await uploadToDrive(frontFile);
+
+alert("Uploading Back Cover...");
+
+let backId =
+await uploadToDrive(backFile);
+
+/* =========================================================
+   SEND TO BACKEND
+   ========================================================= */
+
+alert("Submitting Ebook...");
 
 let res = await fetch(UPLOAD_API,{
+
 method:"POST",
+
 headers:{
 "Content-Type":"application/json"
 },
-body:JSON.stringify({
-action:"uploadEbook",
-token:user.token,
 
-title:title.value,
-description:description.value,
-category:category.value,
-author_name:author.value,
-pages:pages.value,
-price:price.value,
+body:JSON.stringify({
+
+/* ================= ACTION ================= */
+
+action:"uploadEbook",
+
+/* ================= USER ================= */
+
+email:user.email,
+
+/* ================= BOOK ================= */
+
+title:title.value.trim(),
+
+description:
+description.value.trim(),
+
+category:
+category.value.trim(),
+
+author_name:
+author.value.trim(),
+
+language:
+language.value.trim(),
+
+tags:
+tags.value.trim(),
+
+isbn:
+isbn.value.trim(),
+
+pages:Number(
+pages.value || 0
+),
+
+price:Number(price.value),
+
+size:bookSize.value,
+
+print_version:
+document.getElementById("printVersion").checked,
+
+/* ================= DRIVE IDS ================= */
 
 pdfId:pdfId,
+
 frontCoverId:frontId,
+
 backCoverId:backId
+
 })
+
 });
+
+/* =========================================================
+   RESPONSE
+   ========================================================= */
 
 let data = await res.json();
 
+console.log("UPLOAD RESPONSE:", data);
+
+/* ================= SUCCESS ================= */
+
 if(data.success){
-alert("✅ Upload Success");
+
+alert("✅ Ebook uploaded successfully");
+
+/* ================= RESET ================= */
+
+title.value="";
+author.value="";
+description.value="";
+category.value="";
+language.value="";
+tags.value="";
+isbn.value="";
+price.value="";
+pages.value="";
+
+bookSize.selectedIndex=0;
+
+pdf.value="";
+front.value="";
+back.value="";
+
+pdfPreview.style.display="none";
+
+frontPreview.style.display="none";
+backPreview.style.display="none";
+
+removeFront.style.display="none";
+removeBack.style.display="none";
+
+counter.innerText="0/1000";
+
 }else{
-alert("❌ "+data.message);
-}
 
-}catch(e){
-console.log(e);
-alert("Error: "+e);
-}
+alert("❌ " + data.message);
 
 }
-  
-/* FOOTER */
+
+}catch(err){
+
+console.log("UPLOAD ERROR:", err);
+
+alert("Upload failed");
+
+}
+
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
 fetch("footer.html")
+
 .then(res=>res.text())
+
 .then(data=>{
-footerContainer.innerHTML=data;
+
+footerContainer.innerHTML = data;
+
 });
-</script>
+
+  </script>
 
 </body>
 </html>
