@@ -640,50 +640,6 @@ menuName.innerText="Guest"
 
 }
 
-/* ================= SUCCESS ================= */
-
-if(data.success){
-
-document.getElementById("username").innerText =
-data.user.username || user.name || "User";
-
-document.getElementById("menuName").innerText =
-data.user.username || user.name || "User";
-
-document.getElementById("profileImage").src =
-data.user.profile_image ||
-"https://cdn-icons-png.flaticon.com/512/149/149071.png";
-
-document.getElementById("menuProfile").src =
-data.user.profile_image ||
-"https://cdn-icons-png.flaticon.com/512/149/149071.png";
-
-}else{
-
-document.getElementById("username").innerText =
-user.name || "User";
-
-document.getElementById("menuName").innerText =
-user.name || "User";
-
-}
-
-}catch(err){
-
-console.log("LOAD USER ERROR:", err);
-
-document.getElementById("username")
-.innerText="Guest";
-
-document.getElementById("menuName")
-.innerText="Guest";
-
-}
-
-}
-
-loadUser();
-
 /* =========================================================
    CHARACTER COUNTER
    ========================================================= */
