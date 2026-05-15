@@ -694,6 +694,19 @@ Click to Upload PDF
 
 <input hidden type="file" id="pdf">
 
+<div id="pdfPreview" style="
+display:none;
+margin-top:12px;
+background:#111827;
+padding:12px;
+border-radius:10px;
+font-size:14px;
+">
+
+📄 <span id="pdfName"></span>
+
+</div>
+
 <button class="upload-btn" onclick="uploadBook()">
 Upload Ebook
 </button>
@@ -900,6 +913,12 @@ document.getElementById("bookSize")
 
 const printVersion =
 document.getElementById("printVersion")
+
+const pdfPreview =
+document.getElementById("pdfPreview")
+
+const pdfName =
+document.getElementById("pdfName")
 
 /* =========================================================
    MENU
@@ -1258,7 +1277,8 @@ alert(data.message)
 
 console.log(err)
 
-alert("AI Auto Fill Failed")
+alert(err)
+console.log(err)
 
 }
 
