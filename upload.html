@@ -516,23 +516,23 @@ Print Version Available
    ========================================================= */
 
 const UPLOAD_API =
-"https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
+"https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec"
 
 /* =========================================================
    GOOGLE CONFIG
    ========================================================= */
 
 const CLIENT_ID =
-"895144937824-ojsv6ca2nn67h2mmne6td4r0hr89kmok.apps.googleusercontent.com";
+"895144937824-ojsv6ca2nn67h2mmne6td4r0hr89kmok.apps.googleusercontent.com"
 
 const API_KEY =
-"AIzaSyAakSA5fgVrO6f-WPocfv8C9LhnQe32nPw";
+"AIzaSyAakSA5fgVrO6f-WPocfv8C9LhnQe32nPw"
 
 /* =========================================================
    GLOBALS
    ========================================================= */
 
-let accessToken = "";
+let accessToken = ""
 
 /* =========================================================
    MENU
@@ -540,29 +540,29 @@ let accessToken = "";
 
 function openMenu(){
 
-document.getElementById("menu")
-.classList.add("open");
+  document.getElementById("menu")
+  .classList.add("open")
 
-document.getElementById("overlay")
-.style.display="block";
+  document.getElementById("overlay")
+  .style.display = "block"
 
 }
 
 function closeMenu(){
 
-document.getElementById("menu")
-.classList.remove("open");
+  document.getElementById("menu")
+  .classList.remove("open")
 
-document.getElementById("overlay")
-.style.display="none";
+  document.getElementById("overlay")
+  .style.display = "none"
 
 }
 
 function logout(){
 
-localStorage.removeItem("user");
+  localStorage.removeItem("user")
 
-location.href="login.html";
+  location.href = "login.html"
 
 }
 
@@ -572,89 +572,93 @@ location.href="login.html";
 
 async function loadUser(){
 
-try{
+  try{
 
-let localUser = JSON.parse(
-  localStorage.getItem("user")
-) || {}
+    let localUser = JSON.parse(
+      localStorage.getItem("user")
+    ) || {}
 
-let email =
+    let email =
 
-  localUser.email ||
+      localUser.email ||
 
-  (localUser.user && localUser.user.email)
+      (localUser.user &&
+       localUser.user.email)
 
-if(!email){
+    if(!email){
 
-  username.innerText = "Guest"
+      username.innerText = "Guest"
+      menuName.innerText = "Guest"
 
-  menuName.innerText = "Guest"
+      return
 
-  return
+    }
+
+    let res = await fetch(UPLOAD_API,{
+
+      method:"POST",
+
+      headers:{
+        "Content-Type":"application/json"
+      },
+
+      body:JSON.stringify({
+
+        action:"getUser",
+
+        email:email
+
+      })
+
+    })
+
+    let data = await res.json()
+
+    if(data.success){
+
+      username.innerText =
+
+        data.user.username ||
+        data.user.name ||
+        "User"
+
+      menuName.innerText =
+
+        data.user.username ||
+        data.user.name ||
+        "User"
+
+      profileImage.src =
+
+        data.user.profile_image ||
+
+        "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+
+      menuProfile.src =
+
+        data.user.profile_image ||
+
+        "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+
+    }else{
+
+      username.innerText = "Guest"
+      menuName.innerText = "Guest"
+
+    }
+
+  }catch(err){
+
+    console.log(err)
+
+    username.innerText = "Guest"
+    menuName.innerText = "Guest"
+
+  }
 
 }
 
-let res = await fetch(UPLOAD_API,{
-
-  method:"POST",
-
-  headers:{
-    "Content-Type":"application/json"
-  },
-
-  body:JSON.stringify({
-
-    action:"getUser",
-
-    email:email
-
-  })
-
-})
-
-let data = await res.json()
-
-if(data.success){
-
-  username.innerText =
-
-  data.user.username ||
-  data.user.name ||
-  "User"
-
-menuName.innerText =
-
-  data.user.username ||
-  data.user.name ||
-  "User"
-
-  profileImage.src =
-    data.user.profile_image ||
-    "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-
-  menuProfile.src =
-    data.user.profile_image ||
-    "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-
-}else{
-
-  username.innerText="Guest"
-  menuName.innerText="Guest"
-
-}
-
-}catch(err){
-
-console.log(err)
-
-username.innerText="Guest"
-menuName.innerText="Guest"
-
-}
-
-}
-
-loadUser();
+loadUser()
 
 /* =========================================================
    CHARACTER COUNTER
@@ -662,10 +666,10 @@ loadUser();
 
 description.addEventListener("input",()=>{
 
-counter.innerText =
-description.value.length + "/1000";
+  counter.innerText =
+  description.value.length + "/1000"
 
-});
+})
 
 /* =========================================================
    IMAGE PREVIEW
@@ -673,52 +677,52 @@ description.value.length + "/1000";
 
 function preview(input,id,removeId){
 
-let file = input.files[0];
+  let file = input.files[0]
 
-if(!file) return;
+  if(!file) return
 
-let reader = new FileReader();
+  let reader = new FileReader()
 
-reader.onload = e => {
+  reader.onload = e => {
 
-document.getElementById(id).src =
-e.target.result;
+    document.getElementById(id).src =
+    e.target.result
 
-document.getElementById(id)
-.style.display="block";
+    document.getElementById(id)
+    .style.display = "block"
 
-document.getElementById(removeId)
-.style.display="block";
+    document.getElementById(removeId)
+    .style.display = "block"
 
-};
+  }
 
-reader.readAsDataURL(file);
+  reader.readAsDataURL(file)
 
 }
 
-/* ================= FRONT ================= */
+/* FRONT */
 
 front.onchange = ()=>{
 
-preview(
-front,
-"frontPreview",
-"removeFront"
-);
+  preview(
+    front,
+    "frontPreview",
+    "removeFront"
+  )
 
-};
+}
 
-/* ================= BACK ================= */
+/* BACK */
 
 back.onchange = ()=>{
 
-preview(
-back,
-"backPreview",
-"removeBack"
-);
+  preview(
+    back,
+    "backPreview",
+    "removeBack"
+  )
 
-};
+}
 
 /* =========================================================
    REMOVE IMAGES
@@ -726,23 +730,23 @@ back,
 
 removeFront.onclick = ()=>{
 
-front.value="";
+  front.value = ""
 
-frontPreview.style.display="none";
+  frontPreview.style.display = "none"
 
-removeFront.style.display="none";
+  removeFront.style.display = "none"
 
-};
+}
 
 removeBack.onclick = ()=>{
 
-back.value="";
+  back.value = ""
 
-backPreview.style.display="none";
+  backPreview.style.display = "none"
 
-removeBack.style.display="none";
+  removeBack.style.display = "none"
 
-};
+}
 
 /* =========================================================
    PDF UPLOAD
@@ -750,226 +754,31 @@ removeBack.style.display="none";
 
 pdf.onchange = async function(){
 
-let file = this.files[0];
+  let file = this.files[0]
 
-if(!file) return;
+  if(!file) return
 
-pdfPreview.style.display="flex";
+  pdfPreview.style.display = "flex"
 
-pdfName.innerText = file.name;
+  pdfName.innerText = file.name
 
-let reader = new FileReader();
+  let reader = new FileReader()
 
-reader.onload = async function(){
+  reader.onload = async function(){
 
-let typedArray =
-new Uint8Array(reader.result);
+    let typedArray =
+    new Uint8Array(reader.result)
 
-let pdfDoc =
-await pdfjsLib
-.getDocument(typedArray)
-.promise;
+    let pdfDoc =
+    await pdfjsLib
+    .getDocument(typedArray)
+    .promise
 
-pages.value = pdfDoc.numPages;
-
-};
-
-reader.readAsArrayBuffer(file);
-
-};
-
-/* =========================================================
-   GOOGLE LOGIN
-   ========================================================= */
-
-async function initGoogle(){
-
-return new Promise((resolve)=>{
-
-gapi.load("client", async ()=>{
-
-await gapi.client.init({
-
-apiKey:API_KEY,
-
-discoveryDocs:[
-"https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"
-]
-
-});
-
-/* ================= TOKEN ================= */
-
-const tokenClient =
-google.accounts.oauth2.initTokenClient({
-
-client_id:CLIENT_ID,
-
-scope:
-"https://www.googleapis.com/auth/drive.file",
-
-callback:(res)=>{
-
-accessToken = res.access_token;
-
-resolve();
-
-}
-
-});
-
-tokenClient.requestAccessToken({
-prompt:"consent"
-});
-
-});
-
-});
-
-}
-
-/* =========================================================
-   DRIVE UPLOAD
-   ========================================================= */
-
-async function uploadToDrive(file){
-
-let form = new FormData();
-
-/* ================= METADATA ================= */
-
-form.append(
-
-"metadata",
-
-new Blob([JSON.stringify({
-
-name:file.name,
-
-mimeType:file.type
-
-})],{
-
-type:"application/json"
-
-})
-
-);
-
-/* ================= FILE ================= */
-
-form.append("file",file);
-
-/* ================= REQUEST ================= */
-
-let res = await fetch(
-
-"https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
-
-{
-
-method:"POST",
-
-headers:{
-Authorization:"Bearer " + accessToken
-},
-
-body:form
-
-}
-
-);
-
-let data = await res.json();
-
-console.log("DRIVE FILE:", data);
-
-return data.id;
-
-}
-
-/* =========================================================
-   AI AUTO FILL
-   ========================================================= */
-
-async function autoFillAI(){
-
-try{
-
-  let pdfFile = pdf.files[0]
-
-  if(!pdfFile){
-
-    alert(
-"Please upload a PDF first so AI can analyze your ebook."
-)
-
-    return
+    pages.value = pdfDoc.numPages
 
   }
 
-  alert("AI reading PDF...")
-
-  let text = await extractPDFText(pdfFile)
-
-  let res = await fetch(UPLOAD_API,{
-
-    method:"POST",
-
-    headers:{
-      "Content-Type":"application/json"
-    },
-
-    body:JSON.stringify({
-
-      action:"analyzePDF",
-
-      pdfText:text
-
-    })
-
-  })
-
-  let data = await res.json()
-
-  console.log(data)
-
-  if(data.success){
-
-    let ai = data.ai
-
-    title.value = ai.title || ""
-
-    author.value = ai.author || ""
-
-    description.value = ai.description || ""
-
-    category.value = ai.category || ""
-
-    language.value = ai.language || ""
-
-    tags.value = ai.tags || ""
-
-    isbn.value = ai.isbn || ""
-
-    counter.innerText =
-      description.value.length + "/1000"
-
-    alert("AI Auto Fill Complete")
-
-  }else{
-
-    alert(data.message)
-
-  }
-
-}catch(err){
-
-  console.log(err)
-
-  alert("AI Auto Fill Failed")
-
-}
+  reader.readAsArrayBuffer(file)
 
 }
 
@@ -979,26 +788,33 @@ try{
 
 async function extractPDFText(file){
 
-  let arrayBuffer = await file.arrayBuffer()
+  let arrayBuffer =
+  await file.arrayBuffer()
 
-  let pdfDoc = await pdfjsLib
-    .getDocument({data:arrayBuffer})
-    .promise
+  let pdfDoc =
+  await pdfjsLib
+  .getDocument({
+    data:arrayBuffer
+  })
+  .promise
 
   let finalText = ""
 
-  let totalPages = Math.min(pdfDoc.numPages,10)
+  let totalPages =
+  Math.min(pdfDoc.numPages,10)
 
   for(let i=1;i<=totalPages;i++){
 
-    let page = await pdfDoc.getPage(i)
+    let page =
+    await pdfDoc.getPage(i)
 
     let textContent =
-      await page.getTextContent()
+    await page.getTextContent()
 
-    let pageText = textContent.items
-      .map(item => item.str)
-      .join(" ")
+    let pageText =
+    textContent.items
+    .map(item => item.str)
+    .join(" ")
 
     finalText += pageText + "\n"
 
@@ -1009,237 +825,436 @@ async function extractPDFText(file){
 }
 
 /* =========================================================
+   AI AUTO FILL
+   ========================================================= */
+
+async function autoFillAI(){
+
+  try{
+
+    let pdfFile = pdf.files[0]
+
+    if(!pdfFile){
+
+      alert(
+      "Please upload PDF first"
+      )
+
+      return
+
+    }
+
+    alert("AI reading PDF...")
+
+    let text =
+    await extractPDFText(pdfFile)
+
+    let res = await fetch(UPLOAD_API,{
+
+      method:"POST",
+
+      headers:{
+        "Content-Type":"application/json"
+      },
+
+      body:JSON.stringify({
+
+        action:"analyzePDF",
+
+        pdfText:text
+
+      })
+
+    })
+
+    let data = await res.json()
+
+    console.log(data)
+
+    if(data.success){
+
+      let ai = data.ai
+
+      title.value =
+      ai.title || ""
+
+      author.value =
+      ai.author || ""
+
+      description.value =
+      ai.description || ""
+
+      category.value =
+      ai.category || ""
+
+      language.value =
+      ai.language || ""
+
+      tags.value =
+      ai.tags || ""
+
+      isbn.value =
+      ai.isbn || ""
+
+      counter.innerText =
+      description.value.length + "/1000"
+
+      alert("AI Auto Fill Complete")
+
+    }else{
+
+      alert(data.message)
+
+    }
+
+  }catch(err){
+
+    console.log(err)
+
+    alert("AI Auto Fill Failed")
+
+  }
+
+}
+
+/* =========================================================
+   GOOGLE LOGIN
+   ========================================================= */
+
+async function initGoogle(){
+
+  return new Promise((resolve)=>{
+
+    gapi.load("client", async ()=>{
+
+      await gapi.client.init({
+
+        apiKey:API_KEY,
+
+        discoveryDocs:[
+        "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"
+        ]
+
+      })
+
+      const tokenClient =
+      google.accounts.oauth2.initTokenClient({
+
+        client_id:CLIENT_ID,
+
+        scope:
+        "https://www.googleapis.com/auth/drive.file",
+
+        callback:(res)=>{
+
+          accessToken =
+          res.access_token
+
+          resolve()
+
+        }
+
+      })
+
+      tokenClient.requestAccessToken({
+        prompt:"consent"
+      })
+
+    })
+
+  })
+
+}
+
+/* =========================================================
+   DRIVE UPLOAD
+   ========================================================= */
+
+async function uploadToDrive(file){
+
+  let form = new FormData()
+
+  form.append(
+
+    "metadata",
+
+    new Blob([JSON.stringify({
+
+      name:file.name,
+
+      mimeType:file.type
+
+    })],{
+
+      type:"application/json"
+
+    })
+
+  )
+
+  form.append("file",file)
+
+  let res = await fetch(
+
+    "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
+
+    {
+
+      method:"POST",
+
+      headers:{
+        Authorization:
+        "Bearer " + accessToken
+      },
+
+      body:form
+
+    }
+
+  )
+
+  let data = await res.json()
+
+  console.log(data)
+
+  return data.id
+
+}
+
+/* =========================================================
    UPLOAD EBOOK
    ========================================================= */
 
 async function uploadBook(){
 
-try{
+  try{
 
-/* ================= USER ================= */
+    let user = JSON.parse(
 
-let user = JSON.parse(
+      localStorage.getItem("user")
+      || "{}"
 
-localStorage.getItem("user")
-|| "{}"
+    )
 
-);
+    let userEmail =
 
-let userEmail =
+      user.email ||
 
-  user.email ||
+      (user.user &&
+       user.user.email)
 
-  (user.user && user.user.email)
+    if(!userEmail){
 
-if(!userEmail){
+      alert("Login required")
 
-  alert("Login required")
+      return
 
-  return
+    }
 
-}
+    let pdfFile =
+    pdf.files[0]
 
-/* ================= FILES ================= */
+    let frontFile =
+    front.files[0]
 
-let pdfFile = pdf.files[0];
+    let backFile =
+    back.files[0]
 
-let frontFile = front.files[0];
+    /* VALIDATION */
 
-let backFile = back.files[0];
+    if(!title.value.trim()){
 
-/* ================= VALIDATION ================= */
+      alert("Enter title")
+      return
 
-if(!title.value.trim()){
+    }
 
-alert("Enter book title");
+    if(
+      description.value.trim().length < 20
+    ){
 
-return;
+      alert("Description too short")
+      return
 
-}
+    }
 
-if(description.value.trim().length < 20){
+    if(!price.value){
 
-alert("Description too short");
+      alert("Enter price")
+      return
 
-return;
+    }
 
-}
+    if(
+      bookSize.value ===
+      "Select Book Size"
+    ){
 
-if(!price.value || Number(price.value) <= 0){
+      alert("Select book size")
+      return
 
-alert("Invalid price");
+    }
 
-return;
+    if(
+      !pdfFile ||
+      !frontFile ||
+      !backFile
+    ){
 
-}
+      alert("Upload all files")
+      return
 
-if(bookSize.value === "Select Book Size"){
+    }
 
-alert("Select book size");
+    /* GOOGLE LOGIN */
 
-return;
+    alert("Connecting Google Drive...")
 
-}
+    await initGoogle()
 
-if(!pdfFile || !frontFile || !backFile){
+    /* PDF */
 
-alert("All files required");
+    alert("Uploading PDF...")
 
-return;
+    let pdfId =
+    await uploadToDrive(pdfFile)
 
-}
+    /* FRONT */
 
-/* =========================================================
-   GOOGLE DRIVE AUTH
-   ========================================================= */
+    alert("Uploading Front Cover...")
 
-alert("Connecting Google Drive...");
+    let frontId =
+    await uploadToDrive(frontFile)
 
-await initGoogle();
+    /* BACK */
 
-/* =========================================================
-   UPLOAD FILES
-   ========================================================= */
+    alert("Uploading Back Cover...")
 
-alert("Uploading PDF...");
+    let backId =
+    await uploadToDrive(backFile)
 
-let pdfId =
-await uploadToDrive(pdfFile);
+    /* SUBMIT */
 
-alert("Uploading Front Cover...");
+    alert("Submitting Ebook...")
 
-let frontId =
-await uploadToDrive(frontFile);
+    let res = await fetch(UPLOAD_API,{
 
-alert("Uploading Back Cover...");
+      method:"POST",
 
-let backId =
-await uploadToDrive(backFile);
+      headers:{
+        "Content-Type":"application/json"
+      },
 
-/* =========================================================
-   SEND TO BACKEND
-   ========================================================= */
+      body:JSON.stringify({
 
-alert("Submitting Ebook...");
+        action:"uploadEbook",
 
-let res = await fetch(UPLOAD_API,{
+        email:userEmail,
 
-method:"POST",
+        title:title.value.trim(),
 
-headers:{
-"Content-Type":"application/json"
-},
+        description:
+        description.value.trim(),
 
-body:JSON.stringify({
+        category:
+        category.value.trim(),
 
-/* ================= ACTION ================= */
+        author_name:
+        author.value.trim(),
 
-action:"uploadEbook",
+        language:
+        language.value.trim(),
 
-/* ================= USER ================= */
+        tags:
+        tags.value.trim(),
 
-email:userEmail,
+        isbn:
+        isbn.value.trim(),
 
-/* ================= BOOK ================= */
+        pages:Number(
+          pages.value || 0
+        ),
 
-title:title.value.trim(),
+        price:Number(
+          price.value || 0
+        ),
 
-description:
-description.value.trim(),
+        size:bookSize.value,
 
-category:
-category.value.trim(),
+        print_version:
+        printVersion.checked,
 
-author_name:
-author.value.trim(),
+        pdfId:pdfId,
 
-language:
-language.value.trim(),
+        frontCoverId:frontId,
 
-tags:
-tags.value.trim(),
+        backCoverId:backId
 
-isbn:
-isbn.value.trim(),
+      })
 
-pages:Number(
-pages.value || 0
-),
+    })
 
-price:Number(price.value),
+    let data =
+    await res.json()
 
-size:bookSize.value,
+    console.log(data)
 
-print_version:
-document.getElementById("printVersion").checked,
+    if(data.success){
 
-/* ================= DRIVE IDS ================= */
+      alert(
+      "✅ Ebook uploaded successfully"
+      )
 
-pdfId:pdfId,
+      /* RESET */
 
-frontCoverId:frontId,
+      title.value = ""
+      author.value = ""
+      description.value = ""
+      category.value = ""
+      language.value = ""
+      tags.value = ""
+      isbn.value = ""
+      price.value = ""
+      pages.value = ""
 
-backCoverId:backId
+      pdf.value = ""
+      front.value = ""
+      back.value = ""
 
-})
+      bookSize.selectedIndex = 0
 
-});
+      pdfPreview.style.display =
+      "none"
 
-/* =========================================================
-   RESPONSE
-   ========================================================= */
+      frontPreview.style.display =
+      "none"
 
-let data = await res.json();
+      backPreview.style.display =
+      "none"
 
-console.log("UPLOAD RESPONSE:", data);
+      removeFront.style.display =
+      "none"
 
-/* ================= SUCCESS ================= */
+      removeBack.style.display =
+      "none"
 
-if(data.success){
+      counter.innerText = "0/1000"
 
-alert("✅ Ebook uploaded successfully");
+    }else{
 
-/* ================= RESET ================= */
+      alert(
+      "❌ " + data.message
+      )
 
-title.value="";
-author.value="";
-description.value="";
-category.value="";
-language.value="";
-tags.value="";
-isbn.value="";
-price.value="";
-pages.value="";
+    }
 
-bookSize.selectedIndex=0;
+  }catch(err){
 
-pdf.value="";
-front.value="";
-back.value="";
+    console.log(err)
 
-pdfPreview.style.display="none";
+    alert("Upload failed")
 
-frontPreview.style.display="none";
-backPreview.style.display="none";
-
-removeFront.style.display="none";
-removeBack.style.display="none";
-
-counter.innerText="0/1000";
-
-}else{
-
-alert("❌ " + data.message);
-
-}
-
-}catch(err){
-
-console.log("UPLOAD ERROR:", err);
-
-alert("Upload failed");
-
-}
+  }
 
 }
 
@@ -1253,11 +1268,12 @@ fetch("footer.html")
 
 .then(data=>{
 
-footerContainer.innerHTML = data;
+  footerContainer.innerHTML =
+  data
 
-});
+})
 
-  </script>
+</script>
 
 </body>
 </html>
