@@ -907,16 +907,17 @@ async function autoFillAI(){
 
     }
 
-  }catch(err){
+}catch(err){
 
-    console.log(err)
+  console.log(err)
 
-    alert("AI Auto Fill Failed")
+  alert(
+    "AI Auto Fill Failed:\n\n" +
+    err
+  )
 
   }
-
-}
-
+  
 /* =========================================================
    GOOGLE LOGIN
    ========================================================= */
@@ -1013,7 +1014,11 @@ async function uploadToDrive(file){
 
   )
 
-  let data = await res.json()
+  let raw = await res.text()
+
+console.log(raw)
+
+let data = JSON.parse(raw)
 
   console.log(data)
 
