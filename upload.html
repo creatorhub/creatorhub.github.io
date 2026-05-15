@@ -590,35 +590,35 @@ AI reads your PDF and fills details automatically
 
 <div class="grid3" style="margin-top:18px;">
 
-<input placeholder="Category">
+<input id="category" placeholder="Category">
 
-<input placeholder="Language">
+<input id="language" placeholder="Language">
 
 <select>
 <option>Select Book Size</option>
 <option>A4</option>
 <option>A5</option>
 <option>6x9</option>
-</select>
+<select id="bookSize">
 
 </div>
 
 <div class="grid2" style="margin-top:16px;">
 
-<input placeholder="Tags">
+<input id="tags" placeholder="Tags">
 
-<input placeholder="ISBN">
+<input id="isbn" placeholder="ISBN">
 
 </div>
 
 <div class="grid3" style="margin-top:16px;">
 
-<input placeholder="Price">
+<input id="price" placeholder="Price">
 
 <input id="pages" placeholder="Pages">
 
 <label style="display:flex;align-items:center;gap:10px;">
-<input type="checkbox">
+<input type="checkbox" id="printVersion">
 Print Version Available
 </label>
 
@@ -846,6 +846,60 @@ const API_KEY =
    ========================================================= */
 
 let accessToken = ""
+
+const pdf = document.getElementById("pdf")
+
+const title = document.getElementById("title")
+
+const author = document.getElementById("author")
+
+const description =
+document.getElementById("description")
+
+const category =
+document.getElementById("category")
+
+const language =
+document.getElementById("language")
+
+const tags =
+document.getElementById("tags")
+
+const isbn =
+document.getElementById("isbn")
+
+const price =
+document.getElementById("price")
+
+const pages =
+document.getElementById("pages")
+
+const front =
+document.getElementById("front")
+
+const back =
+document.getElementById("back")
+
+const frontPreview =
+document.getElementById("frontPreview")
+
+const backPreview =
+document.getElementById("backPreview")
+
+const removeFront =
+document.getElementById("removeFront")
+
+const removeBack =
+document.getElementById("removeBack")
+
+const counter =
+document.getElementById("counter")
+
+const bookSize =
+document.getElementById("bookSize")
+
+const printVersion =
+document.getElementById("printVersion")
 
 /* =========================================================
    MENU
