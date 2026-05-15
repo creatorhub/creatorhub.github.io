@@ -131,13 +131,14 @@ z-index:9998;
 
 /* MAIN */
 .container{
-width:100%;
+width:95%;
 max-width:1400px;
-padding:15px;
 margin:auto;
+padding:25px;
 display:grid;
 grid-template-columns:2.7fr 1fr;
 gap:20px;
+align-items:start;
 }
 
 .main-card,
@@ -319,22 +320,43 @@ width:100%;
 overflow:hidden;
 }
 @media(max-width:900px){
+@media(max-width:900px){
 
 .container{
-grid-template-columns:1fr;
+display:flex;
+flex-direction:column;
 padding:12px;
+gap:15px;
 }
 
 .main-card,
 .side-card{
+width:100%;
 padding:18px;
-border-radius:16px;
 }
 
 .grid2,
 .grid3{
 grid-template-columns:1fr;
-gap:14px;
+gap:12px;
+}
+
+.upload-box,
+.pdf-box{
+height:140px;
+}
+
+.upload-btn{
+font-size:18px;
+padding:15px;
+}
+
+footer{
+width:100%;
+margin-top:20px;
+border-radius:0;
+}
+
 }
 
 .heading{
