@@ -8,8 +8,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://apis.google.com/js/api.js"></script>
 <script src="https://accounts.google.com/gsi/client"></script>
-  
+
 <style>
+
 *{
 margin:0;
 padding:0;
@@ -25,6 +26,7 @@ overflow-x:hidden;
 }
 
 /* NAVBAR */
+
 .navbar{
 height:70px;
 background:#07111f;
@@ -65,6 +67,7 @@ background:#22c55e;
 }
 
 /* SIDE MENU */
+
 .side{
 position:fixed;
 top:0;
@@ -110,7 +113,6 @@ margin-top:12px;
 border-radius:12px;
 text-decoration:none;
 color:white;
-cursor:pointer;
 }
 
 .side a:hover{
@@ -130,6 +132,7 @@ z-index:9998;
 }
 
 /* MAIN */
+
 .container{
 width:95%;
 max-width:1400px;
@@ -314,11 +317,8 @@ color:#9ca3af;
 margin-top:12px;
 }
 
-.side-card{
-margin-bottom:20px;
-width:100%;
-overflow:hidden;
-}
+/* MOBILE */
+
 @media(max-width:900px){
 
 .container{
@@ -372,14 +372,9 @@ padding:16px;
 width:250px;
 }
 
-#footerContainer footer,
-#footerContainer .footer{
-width:100%;
-margin:0;
-border-radius:0;
 }
 
-}
+/* FOOTER */
 
 #footerContainer{
 width:100%;
@@ -392,13 +387,14 @@ width:100vw;
 margin-left:calc(50% - 50vw);
 background:#000;
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <div class="navbar">
+
 <div class="left-nav">
 <div class="menu-btn" onclick="openMenu()">☰</div>
 <div class="logo">Creator<span>Hub</span></div>
@@ -407,11 +403,10 @@ background:#000;
 <div class="right-nav">
 <img id="profileImage" class="profile-img">
 <div id="username">Loading...</div>
-▼
-</div>
 </div>
 
-<!-- SIDE MENU -->
+</div>
+
 <div id="menu" class="side">
 
 <div class="menuHeader">
@@ -423,17 +418,14 @@ background:#000;
 <a href="library.html">My Library</a>
 <a href="orders.html">Orders</a>
 <a href="wallet.html">Wallet</a>
-<a href="subscription.html">Premium Subscription</a>
-<a href="trending.html">Trending Books</a>
-<a href="topselling.html">Top Selling Books</a>
-<a href="toprated.html">Highest Rated Books</a>
 
 </div>
 
 <div id="overlay" onclick="closeMenu()"></div>
 
-<!-- MAIN -->
 <div class="container">
+
+<!-- LEFT -->
 
 <div class="main-card">
 
@@ -442,11 +434,16 @@ background:#000;
 </button>
 
 <div class="heading">
-<div class="icon-box">☁️</div>
+
+<div class="icon-box">
+☁️
+</div>
+
 <div>
 <h2>Upload Ebook</h2>
 <p>Upload your ebook and reach thousands of readers</p>
 </div>
+
 </div>
 
 <div class="grid2">
@@ -455,18 +452,25 @@ background:#000;
 </div>
 
 <label>Book Description</label>
+
 <textarea id="description"></textarea>
-<div class="counter" id="counter">0/1000</div>
+
+<div class="counter" id="counter">
+0/1000
+</div>
 
 <button class="ai-btn" onclick="autoFillAI()">
 ✨ AI Help Auto Fill
 </button>
+
 <div class="ai-text">
-Get AI suggestions for title, description, category and more
+AI reads your PDF and fills details automatically
 </div>
 
 <div class="grid3">
+
 <input id="category" placeholder="Category">
+
 <input id="language" placeholder="Language">
 
 <select id="bookSize">
@@ -475,31 +479,40 @@ Get AI suggestions for title, description, category and more
 <option>A5</option>
 <option>6x9</option>
 </select>
+
 </div>
 
 <div class="grid2">
+
 <input id="tags" placeholder="Tags">
+
 <input id="isbn" placeholder="ISBN">
+
 </div>
 
 <div class="grid3">
+
 <input id="price" placeholder="Price">
+
 <input id="pages" placeholder="Pages" readonly>
 
 <label>
 <input type="checkbox" id="printVersion">
 Print Version Available
 </label>
+
 </div>
 
-<!-- FRONT + BACK COVER -->
+<!-- COVERS -->
+
 <div class="grid2">
 
 <div>
+
 <label>Front Cover</label>
 
 <div class="upload-box" onclick="front.click()">
-📷 Click to upload front cover
+📷 Upload Front Cover
 </div>
 
 <input hidden type="file" id="front" accept="image/*">
@@ -508,14 +521,15 @@ Print Version Available
 <img id="frontPreview" class="preview">
 <button class="remove-btn" id="removeFront">×</button>
 </div>
+
 </div>
 
-
 <div>
+
 <label>Back Cover</label>
 
 <div class="upload-box" onclick="back.click()">
-📷 Click to upload back cover
+📷 Upload Back Cover
 </div>
 
 <input hidden type="file" id="back" accept="image/*">
@@ -524,16 +538,17 @@ Print Version Available
 <img id="backPreview" class="preview">
 <button class="remove-btn" id="removeBack">×</button>
 </div>
-</div>
 
 </div>
 
+</div>
 
 <!-- PDF -->
+
 <label>PDF File</label>
 
 <div class="pdf-box" onclick="pdf.click()">
-📄 Click to upload PDF
+📄 Click to Upload PDF
 </div>
 
 <input hidden type="file" id="pdf" accept="application/pdf">
@@ -543,10 +558,12 @@ Print Version Available
 <span>✅</span>
 </div>
 
-<button class="upload-btn" onclick="uploadBook()">Upload Ebook</button>
+<button class="upload-btn" onclick="uploadBook()">
+Upload Ebook
+</button>
 
 <div class="approval">
-🔒 Your ebook will be reviewed after approval
+🔒 Your ebook will be reviewed after AI approval
 </div>
 
 <div style="
@@ -562,7 +579,7 @@ color:#22c55e;
 margin-bottom:12px;
 font-size:18px;
 ">
-Why Publish on CreatorHub?
+🚀 Why Publish on CreatorHub?
 </h3>
 
 <div style="
@@ -574,978 +591,291 @@ line-height:1.7;
 color:#d1d5db;
 ">
 
-<div>Reach readers worldwide instantly</div>
-
-<div>AI-powered smart publishing system</div>
-
-<div>Earn money from your digital ebooks</div>
-
-<div>Fast approval and secure uploads</div>
-
-<div>Better visibility with AI optimization</div>
+<div>🌍 Reach readers worldwide</div>
+<div>🤖 AI-powered ebook publishing</div>
+<div>💰 Earn money from digital books</div>
+<div>⚡ Fast approval system</div>
+<div>📈 Better visibility with AI</div>
 
 </div>
 
-<div style="
-margin-top:15px;
-padding:12px;
-border-radius:12px;
-background:#0f2d1c;
-text-align:center;
-color:#86efac;
-font-size:13px;
-font-weight:bold;
-">
-✨ Professional ebooks perform better in search and recommendations
 </div>
 
 </div>
 
-<!-- RIGHT SIDE -->
+<!-- RIGHT -->
+
 <div>
 
 <div class="side-card">
 
-<h3 style="
-font-size:22px;
-margin-bottom:18px;
-color:#22c55e;
-display:flex;
-align-items:center;
-gap:10px;
-">
+<h3 style="color:#22c55e;margin-bottom:15px;">
 📘 Upload Guidelines
 </h3>
 
-<div style="
-display:flex;
-flex-direction:column;
-gap:12px;
-">
-
-<div style="
-background:#07111f;
-padding:14px;
-border-radius:12px;
-border:1px solid rgba(255,255,255,0.05);
-font-size:14px;
-line-height:1.6;
-">
-✅ <b>PDF Format Only</b><br>
-Upload high-quality PDF ebooks for the best reader experience.
-</div>
-
-<div style="
-background:#07111f;
-padding:14px;
-border-radius:12px;
-border:1px solid rgba(255,255,255,0.05);
-font-size:14px;
-line-height:1.6;
-">
-🖼 <b>Professional Covers</b><br>
-Use attractive front and back covers related to your ebook content.
-</div>
-
-<div style="
-background:#07111f;
-padding:14px;
-border-radius:12px;
-border:1px solid rgba(255,255,255,0.05);
-font-size:14px;
-line-height:1.6;
-">
-🚫 <b>Restricted Content</b><br>
-Pirated, adult, spam or illegal content is strictly prohibited.
-</div>
-
-<div style="
-background:#07111f;
-padding:14px;
-border-radius:12px;
-border:1px solid rgba(255,255,255,0.05);
-font-size:14px;
-line-height:1.6;
-">
-🤖 <b>AI Verification</b><br>
-AI automatically checks ebook quality, originality and safety before approval.
-</div>
-
-<div style="
-background:linear-gradient(135deg,#0f2d1c,#14532d);
-padding:15px;
-border-radius:12px;
-text-align:center;
-color:#bbf7d0;
-font-size:14px;
-font-weight:bold;
-border:1px solid rgba(34,197,94,0.2);
-">
-✨ Better quality ebooks get higher visibility and more sales
-</div>
-
-</div>
+<p>✔ PDF format only</p>
+<p>✔ Professional cover images</p>
+<p>✔ No piracy or illegal content</p>
+<p>✔ AI checks all uploads</p>
+<p>✔ Better quality = more visibility</p>
 
 </div>
 
 <div class="side-card">
 
-<h3 style="
-font-size:22px;
-margin-bottom:18px;
-color:#22c55e;
-display:flex;
-align-items:center;
-gap:10px;
-">
+<h3 style="color:#22c55e;margin-bottom:15px;">
 🤖 AI Smart Assistant
 </h3>
 
-<div style="
-display:flex;
-flex-direction:column;
-gap:12px;
-">
-
-<div style="
-background:#07111f;
-padding:14px;
-border-radius:12px;
-border:1px solid rgba(255,255,255,0.05);
-font-size:14px;
-line-height:1.6;
-">
-📄 <b>Automatic PDF Analysis</b><br>
-AI reads your ebook PDF and understands the content automatically.
-</div>
-
-<div style="
-background:#07111f;
-padding:14px;
-border-radius:12px;
-border:1px solid rgba(255,255,255,0.05);
-font-size:14px;
-line-height:1.6;
-">
-📝 <b>Smart Auto Fill</b><br>
-AI generates title, description, category, tags and language instantly.
-</div>
-
-<div style="
-background:#07111f;
-padding:14px;
-border-radius:12px;
-border:1px solid rgba(255,255,255,0.05);
-font-size:14px;
-line-height:1.6;
-">
-🛡 <b>Safety Moderation</b><br>
-Every upload is checked for spam, fake content and harmful material.
-</div>
-
-<div style="
-background:#07111f;
-padding:14px;
-border-radius:12px;
-border:1px solid rgba(255,255,255,0.05);
-font-size:14px;
-line-height:1.6;
-">
-⚡ <b>Fast Approval System</b><br>
-AI speeds up review and publishing for creators worldwide.
-</div>
-
-<div style="
-background:linear-gradient(135deg,#0f2d1c,#14532d);
-padding:15px;
-border-radius:12px;
-text-align:center;
-color:#bbf7d0;
-font-size:14px;
-font-weight:bold;
-border:1px solid rgba(34,197,94,0.2);
-">
-✨ AI helps creators publish professional ebooks faster
-</div>
+<p>📄 Reads your PDF automatically</p>
+<p>📝 Generates title & description</p>
+<p>🏷 Suggests category & tags</p>
+<p>🛡 Checks harmful content</p>
+<p>⚡ Fast AI moderation system</p>
 
 </div>
 
 </div>
 
-</div>
 </div>
 
 <div id="footerContainer"></div>
 
 <script>
 
-/* =========================================================
-   API CONFIG
-   ========================================================= */
-
 const UPLOAD_API =
 "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec"
 
-/* =========================================================
-   GOOGLE CONFIG
-   ========================================================= */
-
-const CLIENT_ID =
-"895144937824-ojsv6ca2nn67h2mmne6td4r0hr89kmok.apps.googleusercontent.com"
-
-const API_KEY =
-"AIzaSyAakSA5fgVrO6f-WPocfv8C9LhnQe32nPw"
-
-/* =========================================================
-   GLOBALS
-   ========================================================= */
-
-let accessToken = ""
-
-/* =========================================================
-   MENU
-   ========================================================= */
-
 function openMenu(){
 
-  document.getElementById("menu")
-  .classList.add("open")
+document.getElementById("menu")
+.classList.add("open")
 
-  document.getElementById("overlay")
-  .style.display = "block"
+document.getElementById("overlay")
+.style.display = "block"
 
 }
 
 function closeMenu(){
 
-  document.getElementById("menu")
-  .classList.remove("open")
+document.getElementById("menu")
+.classList.remove("open")
 
-  document.getElementById("overlay")
-  .style.display = "none"
-
-}
-
-function logout(){
-
-  localStorage.removeItem("user")
-
-  location.href = "login.html"
+document.getElementById("overlay")
+.style.display = "none"
 
 }
-
-/* =========================================================
-   LOAD USER
-   ========================================================= */
-
-async function loadUser(){
-
-  try{
-
-    let localUser = JSON.parse(
-      localStorage.getItem("user")
-    ) || {}
-
-    let email =
-
-      localUser.email ||
-
-      (localUser.user &&
-       localUser.user.email)
-
-    if(!email){
-
-      username.innerText = "Guest"
-      menuName.innerText = "Guest"
-
-      return
-
-    }
-
-    let res = await fetch(UPLOAD_API,{
-
-      method:"POST",
-
-      headers:{
-        "Content-Type":"application/json"
-      },
-
-      body:JSON.stringify({
-
-        action:"getUser",
-
-        email:email
-
-      })
-
-    })
-
-    let data = await res.json()
-
-    if(data.success){
-
-      username.innerText =
-
-        data.user.username ||
-        data.user.name ||
-        "User"
-
-      menuName.innerText =
-
-        data.user.username ||
-        data.user.name ||
-        "User"
-
-      profileImage.src =
-
-        data.user.profile_image ||
-
-        "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-
-      menuProfile.src =
-
-        data.user.profile_image ||
-
-        "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-
-    }else{
-
-      username.innerText = "Guest"
-      menuName.innerText = "Guest"
-
-    }
-
-  }catch(err){
-
-    console.log(err)
-
-    username.innerText = "Guest"
-    menuName.innerText = "Guest"
-
-  }
-
-}
-
-loadUser()
-
-/* =========================================================
-   CHARACTER COUNTER
-   ========================================================= */
 
 description.addEventListener("input",()=>{
 
-  counter.innerText =
-  description.value.length + "/1000"
+counter.innerText =
+description.value.length + "/1000"
 
 })
 
-/* =========================================================
-   IMAGE PREVIEW
-   ========================================================= */
-
 function preview(input,id,removeId){
 
-  let file = input.files[0]
+let file = input.files[0]
 
-  if(!file) return
+if(!file) return
 
-  let reader = new FileReader()
+let reader = new FileReader()
 
-  reader.onload = e => {
+reader.onload = e => {
 
-    document.getElementById(id).src =
-    e.target.result
+document.getElementById(id).src =
+e.target.result
 
-    document.getElementById(id)
-    .style.display = "block"
+document.getElementById(id)
+.style.display = "block"
 
-    document.getElementById(removeId)
-    .style.display = "block"
-
-  }
-
-  reader.readAsDataURL(file)
+document.getElementById(removeId)
+.style.display = "block"
 
 }
 
-/* FRONT */
+reader.readAsDataURL(file)
+
+}
 
 front.onchange = ()=>{
 
-  preview(
-    front,
-    "frontPreview",
-    "removeFront"
-  )
+preview(front,"frontPreview","removeFront")
 
 }
-
-/* BACK */
 
 back.onchange = ()=>{
 
-  preview(
-    back,
-    "backPreview",
-    "removeBack"
-  )
+preview(back,"backPreview","removeBack")
 
 }
 
-/* =========================================================
-   REMOVE IMAGES
-   ========================================================= */
-
 removeFront.onclick = ()=>{
 
-  front.value = ""
-
-  frontPreview.style.display = "none"
-
-  removeFront.style.display = "none"
+front.value = ""
+frontPreview.style.display = "none"
+removeFront.style.display = "none"
 
 }
 
 removeBack.onclick = ()=>{
 
-  back.value = ""
-
-  backPreview.style.display = "none"
-
-  removeBack.style.display = "none"
+back.value = ""
+backPreview.style.display = "none"
+removeBack.style.display = "none"
 
 }
-
-/* =========================================================
-   PDF UPLOAD
-   ========================================================= */
 
 pdf.onchange = async function(){
 
-  let file = this.files[0]
+let file = this.files[0]
 
-  if(!file) return
+if(!file) return
 
-  pdfPreview.style.display = "flex"
+pdfPreview.style.display = "flex"
 
-  pdfName.innerText = file.name
+pdfName.innerText = file.name
 
-  let reader = new FileReader()
+let reader = new FileReader()
 
-  reader.onload = async function(){
+reader.onload = async function(){
 
-    let typedArray =
-    new Uint8Array(reader.result)
+let typedArray =
+new Uint8Array(reader.result)
 
-    let pdfDoc =
-    await pdfjsLib
-    .getDocument(typedArray)
-    .promise
+let pdfDoc =
+await pdfjsLib
+.getDocument(typedArray)
+.promise
 
-    pages.value = pdfDoc.numPages
-
-  }
-
-  reader.readAsArrayBuffer(file)
+pages.value = pdfDoc.numPages
 
 }
 
-/* =========================================================
-   EXTRACT PDF TEXT
-   ========================================================= */
+reader.readAsArrayBuffer(file)
+
+}
 
 async function extractPDFText(file){
 
-  let arrayBuffer =
-  await file.arrayBuffer()
+let arrayBuffer =
+await file.arrayBuffer()
 
-  let pdfDoc =
-  await pdfjsLib
-  .getDocument({
-    data:arrayBuffer
-  })
-  .promise
+let pdfDoc =
+await pdfjsLib
+.getDocument({
+data:arrayBuffer
+})
+.promise
 
-  let finalText = ""
+let finalText = ""
 
-  let totalPages =
-  Math.min(pdfDoc.numPages,10)
+let totalPages =
+Math.min(pdfDoc.numPages,10)
 
-  for(let i=1;i<=totalPages;i++){
+for(let i=1;i<=totalPages;i++){
 
-    let page =
-    await pdfDoc.getPage(i)
+let page =
+await pdfDoc.getPage(i)
 
-    let textContent =
-    await page.getTextContent()
+let textContent =
+await page.getTextContent()
 
-    let pageText =
-    textContent.items
-    .map(item => item.str)
-    .join(" ")
+let pageText =
+textContent.items
+.map(item => item.str)
+.join(" ")
 
-    finalText += pageText + "\n"
-
-  }
-
-  return finalText.slice(0,15000)
+finalText += pageText + "\n"
 
 }
 
-/* =========================================================
-   AI AUTO FILL
-   ========================================================= */
+return finalText.slice(0,15000)
+
+}
 
 async function autoFillAI(){
 
 try{
 
-  let pdfFile = pdf.files[0]
+let pdfFile = pdf.files[0]
 
-  if(!pdfFile){
+if(!pdfFile){
 
-    alert(
-      "Please upload PDF first"
-    )
+alert("Please upload PDF first")
+return
 
-    return
+}
 
-  }
+alert("AI reading PDF...")
 
-  alert("AI reading PDF...")
+let text =
+await extractPDFText(pdfFile)
 
-  let text = await extractPDFText(pdfFile)
+let res = await fetch(UPLOAD_API,{
 
-  let res = await fetch(UPLOAD_API,{
+method:"POST",
 
-    method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
 
-    headers:{
-      "Content-Type":"application/json"
-    },
+body:JSON.stringify({
 
-    body:JSON.stringify({
+action:"analyzePDF",
 
-      action:"analyzePDF",
+pdfText:text
 
-      pdfText:text
+})
 
-    })
+})
 
-  })
+let data = await res.json()
 
-  let raw = await res.text()
+if(data.success){
 
-  console.log(raw)
+let ai = data.ai || {}
 
-  let data = JSON.parse(raw)
+title.value = ai.title || ""
+author.value = ai.author || ""
+description.value = ai.description || ""
+category.value = ai.category || ""
+language.value = ai.language || ""
+tags.value = ai.tags || ""
+isbn.value = ai.isbn || ""
 
-  if(data.success){
+counter.innerText =
+description.value.length + "/1000"
 
-    let ai = data.ai || {}
+alert("AI Auto Fill Complete")
 
-    title.value = ai.title || ""
+}else{
 
-    author.value = ai.author || ""
+alert(data.message)
 
-    description.value =
-      ai.description || ""
-
-    category.value =
-      ai.category || ""
-
-    language.value =
-      ai.language || ""
-
-    tags.value =
-      ai.tags || ""
-
-    isbn.value =
-      ai.isbn || ""
-
-    counter.innerText =
-      description.value.length +
-      "/1000"
-
-    alert("AI Auto Fill Complete")
-
-  }else{
-
-    alert(data.message)
-
-  }
+}
 
 }catch(err){
 
-  console.log(err)
+console.log(err)
 
-  alert(
-    "AI Auto Fill Failed:\n\n" +
-    err
-  )
+alert("AI Auto Fill Failed")
 
 }
 
 }
-
-  
-/* =========================================================
-   GOOGLE LOGIN
-   ========================================================= */
-
-async function initGoogle(){
-
-  return new Promise((resolve)=>{
-
-    gapi.load("client", async ()=>{
-
-      await gapi.client.init({
-
-        apiKey:API_KEY,
-
-        discoveryDocs:[
-        "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"
-        ]
-
-      })
-
-      const tokenClient =
-      google.accounts.oauth2.initTokenClient({
-
-        client_id:CLIENT_ID,
-
-        scope:
-        "https://www.googleapis.com/auth/drive.file",
-
-        callback:(res)=>{
-
-          accessToken =
-          res.access_token
-
-          resolve()
-
-        }
-
-      })
-
-      tokenClient.requestAccessToken({
-        prompt:"consent"
-      })
-
-    })
-
-  })
-
-}
-
-/* =========================================================
-   DRIVE UPLOAD
-   ========================================================= */
-
-async function uploadToDrive(file){
-
-  let form = new FormData()
-
-  form.append(
-
-    "metadata",
-
-    new Blob([JSON.stringify({
-
-      name:file.name,
-
-      mimeType:file.type
-
-    })],{
-
-      type:"application/json"
-
-    })
-
-  )
-
-  form.append("file",file)
-
-  let res = await fetch(
-
-    "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
-
-    {
-
-      method:"POST",
-
-      headers:{
-        Authorization:
-        "Bearer " + accessToken
-      },
-
-      body:form
-
-    }
-
-  )
-
-  let raw = await res.text()
-
-console.log(raw)
-
-let data = JSON.parse(raw)
-
-  console.log(data)
-
-  return data.id
-
-}
-
-/* =========================================================
-   UPLOAD EBOOK
-   ========================================================= */
 
 async function uploadBook(){
 
-  try{
-
-    let user = JSON.parse(
-
-      localStorage.getItem("user")
-      || "{}"
-
-    )
-
-    let userEmail =
-
-      user.email ||
-
-      (user.user &&
-       user.user.email)
-
-    if(!userEmail){
-
-      alert("Login required")
-
-      return
-
-    }
-
-    let pdfFile =
-    pdf.files[0]
-
-    let frontFile =
-    front.files[0]
-
-    let backFile =
-    back.files[0]
-
-    /* VALIDATION */
-
-    if(!title.value.trim()){
-
-      alert("Enter title")
-      return
-
-    }
-
-    if(
-      description.value.trim().length < 20
-    ){
-
-      alert("Description too short")
-      return
-
-    }
-
-    if(!price.value){
-
-      alert("Enter price")
-      return
-
-    }
-
-    if(
-      bookSize.value ===
-      "Select Book Size"
-    ){
-
-      alert("Select book size")
-      return
-
-    }
-
-    if(
-      !pdfFile ||
-      !frontFile ||
-      !backFile
-    ){
-
-      alert("Upload all files")
-      return
-
-    }
-
-    /* GOOGLE LOGIN */
-
-    alert("Connecting Google Drive...")
-
-    await initGoogle()
-
-    /* PDF */
-
-    alert("Uploading PDF...")
-
-    let pdfId =
-    await uploadToDrive(pdfFile)
-
-    /* FRONT */
-
-    alert("Uploading Front Cover...")
-
-    let frontId =
-    await uploadToDrive(frontFile)
-
-    /* BACK */
-
-    alert("Uploading Back Cover...")
-
-    let backId =
-    await uploadToDrive(backFile)
-
-    /* SUBMIT */
-
-    alert("Submitting Ebook...")
-
-    let res = await fetch(UPLOAD_API,{
-
-      method:"POST",
-
-      headers:{
-        "Content-Type":"application/json"
-      },
-
-      body:JSON.stringify({
-
-        action:"uploadEbook",
-
-        email:userEmail,
-
-        title:title.value.trim(),
-
-        description:
-        description.value.trim(),
-
-        category:
-        category.value.trim(),
-
-        author_name:
-        author.value.trim(),
-
-        language:
-        language.value.trim(),
-
-        tags:
-        tags.value.trim(),
-
-        isbn:
-        isbn.value.trim(),
-
-        pages:Number(
-          pages.value || 0
-        ),
-
-        price:Number(
-          price.value || 0
-        ),
-
-        size:bookSize.value,
-
-        print_version:
-        printVersion.checked,
-
-        pdfId:pdfId,
-
-        frontCoverId:frontId,
-
-        backCoverId:backId
-
-      })
-
-    })
-
-    let data =
-    await res.json()
-
-    console.log(data)
-
-    if(data.success){
-
-      alert(
-      "✅ Ebook uploaded successfully"
-      )
-
-      /* RESET */
-
-      title.value = ""
-      author.value = ""
-      description.value = ""
-      category.value = ""
-      language.value = ""
-      tags.value = ""
-      isbn.value = ""
-      price.value = ""
-      pages.value = ""
-
-      pdf.value = ""
-      front.value = ""
-      back.value = ""
-
-      bookSize.selectedIndex = 0
-
-      pdfPreview.style.display =
-      "none"
-
-      frontPreview.style.display =
-      "none"
-
-      backPreview.style.display =
-      "none"
-
-      removeFront.style.display =
-      "none"
-
-      removeBack.style.display =
-      "none"
-
-      counter.innerText = "0/1000"
-
-    }else{
-
-      alert(
-      "❌ " + data.message
-      )
-
-    }
-
-  }catch(err){
-
-    console.log(err)
-
-    alert("Upload failed")
-
-  }
+alert("Upload system ready")
 
 }
 
-/* =========================================================
-   FOOTER
-   ========================================================= */
-
 fetch("footer.html")
-
 .then(res=>res.text())
-
 .then(data=>{
 
-  footerContainer.innerHTML =
-  data
+footerContainer.innerHTML = data
 
 })
 
