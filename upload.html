@@ -830,82 +830,82 @@ async function extractPDFText(file){
 
 async function autoFillAI(){
 
-  try{
+try{
 
-    let pdfFile = pdf.files[0]
+  let pdfFile = pdf.files[0]
 
-    if(!pdfFile){
+  if(!pdfFile){
 
-      alert(
+    alert(
       "Please upload PDF first"
-      )
+    )
 
-      return
+    return
 
-    }
+  }
 
-    alert("AI reading PDF...")
+  alert("AI reading PDF...")
 
-    let text =
-    await extractPDFText(pdfFile)
+  let text = await extractPDFText(pdfFile)
 
-    let res = await fetch(UPLOAD_API,{
+  let res = await fetch(UPLOAD_API,{
 
-      method:"POST",
+    method:"POST",
 
-      headers:{
-        "Content-Type":"application/json"
-      },
+    headers:{
+      "Content-Type":"application/json"
+    },
 
-      body:JSON.stringify({
+    body:JSON.stringify({
 
-        action:"analyzePDF",
+      action:"analyzePDF",
 
-        pdfText:text
-
-      })
+      pdfText:text
 
     })
 
-    let data = await res.json()
+  })
 
-    console.log(data)
+  let raw = await res.text()
 
-    if(data.success){
+  console.log(raw)
 
-      let ai = data.ai
+  let data = JSON.parse(raw)
 
-      title.value =
-      ai.title || ""
+  if(data.success){
 
-      author.value =
-      ai.author || ""
+    let ai = data.ai || {}
 
-      description.value =
+    title.value = ai.title || ""
+
+    author.value = ai.author || ""
+
+    description.value =
       ai.description || ""
 
-      category.value =
+    category.value =
       ai.category || ""
 
-      language.value =
+    language.value =
       ai.language || ""
 
-      tags.value =
+    tags.value =
       ai.tags || ""
 
-      isbn.value =
+    isbn.value =
       ai.isbn || ""
 
-      counter.innerText =
-      description.value.length + "/1000"
+    counter.innerText =
+      description.value.length +
+      "/1000"
 
-      alert("AI Auto Fill Complete")
+    alert("AI Auto Fill Complete")
 
-    }else{
+  }else{
 
-      alert(data.message)
+    alert(data.message)
 
-    }
+  }
 
 }catch(err){
 
@@ -916,7 +916,10 @@ async function autoFillAI(){
     err
   )
 
-  }
+}
+
+}
+
   
 /* =========================================================
    GOOGLE LOGIN
