@@ -57,6 +57,78 @@ border-radius:50%;
 background:#22c55e;
 }
 
+/* SIDE MENU */
+
+.side-menu{
+position:fixed;
+top:0;
+left:-280px;
+width:260px;
+height:100%;
+background:#020617;
+z-index:9999;
+padding:20px;
+transition:.3s;
+border-right:1px solid rgba(255,255,255,0.05);
+overflow:auto;
+}
+
+.side-menu.active{
+left:0;
+}
+
+.menu-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.menu-profile{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.menu-avatar{
+width:50px;
+height:50px;
+border-radius:50%;
+background:#22c55e;
+}
+
+.close-btn{
+font-size:22px;
+cursor:pointer;
+}
+
+.side-menu a{
+display:block;
+padding:14px;
+margin-top:12px;
+border-radius:12px;
+background:#07111f;
+color:white;
+text-decoration:none;
+transition:.3s;
+}
+
+.side-menu a:hover{
+background:#0f172a;
+transform:translateX(5px);
+}
+
+#overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+display:none;
+z-index:9998;
+}
+
 /* MAIN */
 
 .container{
@@ -393,8 +465,19 @@ font-size:18px;
 
 <div class="navbar">
 
+<div style="display:flex;align-items:center;gap:15px;">
+
+<div onclick="openMenu()" style="
+font-size:24px;
+cursor:pointer;
+">
+☰
+</div>
+
 <div class="logo">
 Creator<span>Hub</span>
+</div>
+
 </div>
 
 <div class="profile">
@@ -403,6 +486,40 @@ Creator<span>Hub</span>
 </div>
 
 </div>
+
+<!-- SIDE MENU -->
+
+<div id="menu" class="side-menu">
+
+<div class="menu-top">
+
+<div class="menu-profile">
+<div class="menu-avatar"></div>
+
+<div>
+<h3 id="menuName">Creator</h3>
+<p>creatorhub user</p>
+</div>
+</div>
+
+<div class="close-btn" onclick="closeMenu()">
+✕
+</div>
+
+</div>
+
+<a href="#">Home</a>
+<a href="#">My Library</a>
+<a href="#">Orders</a>
+<a href="#">Wallet</a>
+<a href="#">Premium</a>
+<a href="#">Trending</a>
+<a href="#">Top Selling</a>
+<a href="#">Highest Rated</a>
+
+</div>
+
+<div id="overlay" onclick="closeMenu()"></div>
 
 <!-- MAIN -->
 
@@ -655,66 +772,39 @@ Upload Ebook
 
 </div>
 
-<!-- FOOTER -->
+/* FOOTER LOAD */
 
-<footer>
+fetch("footer.html")
+.then(res => res.text())
+.then(data => {
 
-<div class="footer-grid">
+document.getElementById("footer")
+.innerHTML = data
 
-<div>
+})
 
-<h2>CreatorHub</h2>
+/* MENU */
 
-<p>
-Buy • Sell • Earn From Digital Products
-</p>
+function openMenu(){
 
-<p style="margin-top:10px;">
-CreatorHub is a digital ebook marketplace where creators upload and sell digital products globally.
-</p>
+document.getElementById("menu")
+.classList.add("active")
 
-</div>
+document.getElementById("overlay")
+.style.display = "block"
 
-<div>
+}
 
-<h4>Discover</h4>
+function closeMenu(){
 
-<div>Trending Books</div>
-<div>Top Selling Books</div>
-<div>Highest Rated Books</div>
-<div>Authors</div>
+document.getElementById("menu")
+.classList.remove("active")
 
-</div>
+document.getElementById("overlay")
+.style.display = "none"
 
-<div>
+}
 
-<h4>Learn</h4>
-
-<div>Guides</div>
-<div>Learning Center</div>
-<div>Earning Tips</div>
-<div>Editorial Policy</div>
-
-</div>
-
-<div>
-
-<h4>Legal</h4>
-
-<div>About</div>
-<div>Privacy Policy</div>
-<div>Terms & Conditions</div>
-<div>Platform Rules</div>
-
-</div>
-
-</div>
-
-<div class="footer-bottom">
-© 2025 CreatorHub. All rights reserved.
-</div>
-
-</footer>
 
 <script>
 
@@ -793,5 +883,7 @@ alert("AI Auto Fill Ready")
 
 </script>
 
+<div id="footer"></div>
+  
 </body>
   </html>
