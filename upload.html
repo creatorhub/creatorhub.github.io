@@ -805,8 +805,149 @@ document.getElementById("overlay")
 
 }
 
-
 <script>
+
+/* =========================================================
+   API CONFIG
+   ========================================================= */
+
+const UPLOAD_API =
+"https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec"
+
+/* =========================================================
+   GOOGLE CONFIG
+   ========================================================= */
+
+const CLIENT_ID =
+"895144937824-ojsv6ca2nn67h2mmne6td4r0hr89kmok.apps.googleusercontent.com"
+
+const API_KEY =
+"AIzaSyAakSA5fgVrO6f-WPocfv8C9LhnQe32nPw"
+
+/* =========================================================
+   GLOBALS
+   ========================================================= */
+
+let accessToken = ""
+
+/* =========================================================
+   MENU
+   ========================================================= */
+
+function openMenu(){
+
+document.getElementById("menu")
+.classList.add("active")
+
+document.getElementById("overlay")
+.style.display = "block"
+
+}
+
+function closeMenu(){
+
+document.getElementById("menu")
+.classList.remove("active")
+
+document.getElementById("overlay")
+.style.display = "none"
+
+}
+
+/* =========================================================
+   LOAD USER
+   ========================================================= */
+
+async function loadUser(){
+
+try{
+
+let localUser = JSON.parse(
+localStorage.getItem("user")
+) || {}
+
+let email =
+
+localUser.email ||
+
+(localUser.user &&
+localUser.user.email)
+
+if(!email){
+
+username.innerText = "Guest"
+menuName.innerText = "Guest"
+
+return
+
+}
+
+let res = await fetch(UPLOAD_API,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+action:"getUser",
+
+email:email
+
+})
+
+})
+
+let data = await res.json()
+
+if(data.success){
+
+username.innerText =
+
+data.user.username ||
+data.user.name ||
+"User"
+
+menuName.innerText =
+
+data.user.username ||
+data.user.name ||
+"User"
+
+profileImage.src =
+
+data.user.profile_image ||
+
+"https://cdn-icons-png.flaticon.com/512/149/149071.png"
+
+menuProfile.src =
+
+data.user.profile_image ||
+
+"https://cdn-icons-png.flaticon.com/512/149/149071.png"
+
+}else{
+
+username.innerText = "Guest"
+menuName.innerText = "Guest"
+
+}
+
+}catch(err){
+
+console.log(err)
+
+}
+
+}
+
+loadUser()
+
+/* =========================================================
+   CHARACTER COUNTER
+   ========================================================= */
 
 description.addEventListener("input",()=>{
 
@@ -815,7 +956,11 @@ description.value.length + "/1000"
 
 })
 
-function preview(input,id){
+/* =========================================================
+   IMAGE PREVIEW
+   ========================================================= */
+
+function preview(input,id,removeId){
 
 let file = input.files[0]
 
@@ -831,6 +976,9 @@ e.target.result
 document.getElementById(id)
 .style.display = "block"
 
+document.getElementById(removeId)
+.style.display = "block"
+
 }
 
 reader.readAsDataURL(file)
@@ -839,21 +987,61 @@ reader.readAsDataURL(file)
 
 front.onchange = ()=>{
 
-preview(front,"frontPreview")
+preview(
+front,
+"frontPreview",
+"removeFront"
+)
 
 }
 
 back.onchange = ()=>{
 
-preview(back,"backPreview")
+preview(
+back,
+"backPreview",
+"removeBack"
+)
 
 }
+
+/* =========================================================
+   REMOVE IMAGE
+   ========================================================= */
+
+removeFront.onclick = ()=>{
+
+front.value = ""
+
+frontPreview.style.display = "none"
+
+removeFront.style.display = "none"
+
+}
+
+removeBack.onclick = ()=>{
+
+back.value = ""
+
+backPreview.style.display = "none"
+
+removeBack.style.display = "none"
+
+}
+
+/* =========================================================
+   PDF SELECT
+   ========================================================= */
 
 pdf.onchange = async function(){
 
 let file = this.files[0]
 
 if(!file) return
+
+pdfPreview.style.display = "flex"
+
+pdfName.innerText = file.name
 
 let reader = new FileReader()
 
@@ -875,15 +1063,418 @@ reader.readAsArrayBuffer(file)
 
 }
 
-async function autoFillAI(){
+/* =========================================================
+   EXTRACT PDF TEXT
+   ========================================================= */
 
-alert("AI Auto Fill Ready")
+async function extractPDFText(file){
+
+let arrayBuffer =
+await file.arrayBuffer()
+
+let pdfDoc =
+await pdfjsLib
+.getDocument({
+data:arrayBuffer
+})
+.promise
+
+let finalText = ""
+
+let totalPages =
+Math.min(pdfDoc.numPages,10)
+
+for(let i=1;i<=totalPages;i++){
+
+let page =
+await pdfDoc.getPage(i)
+
+let textContent =
+await page.getTextContent()
+
+let pageText =
+textContent.items
+.map(item => item.str)
+.join(" ")
+
+finalText += pageText + "\n"
 
 }
 
-</script>
+return finalText.slice(0,15000)
 
-<div id="footer"></div>
+}
+
+/* =========================================================
+   AI AUTO FILL
+   ========================================================= */
+
+async function autoFillAI(){
+
+try{
+
+let pdfFile = pdf.files[0]
+
+if(!pdfFile){
+
+alert("Please upload PDF first")
+
+return
+
+}
+
+alert("AI reading PDF...")
+
+let text =
+await extractPDFText(pdfFile)
+
+let res = await fetch(UPLOAD_API,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+action:"analyzePDF",
+
+pdfText:text
+
+})
+
+})
+
+let data = await res.json()
+
+if(data.success){
+
+let ai = data.ai || {}
+
+title.value = ai.title || ""
+
+author.value = ai.author || ""
+
+description.value =
+ai.description || ""
+
+category.value =
+ai.category || ""
+
+language.value =
+ai.language || ""
+
+tags.value =
+ai.tags || ""
+
+isbn.value =
+ai.isbn || ""
+
+counter.innerText =
+description.value.length +
+"/1000"
+
+alert("AI Auto Fill Complete")
+
+}else{
+
+alert(data.message)
+
+}
+
+}catch(err){
+
+console.log(err)
+
+alert("AI Auto Fill Failed")
+
+}
+
+}
+
+/* =========================================================
+   GOOGLE LOGIN
+   ========================================================= */
+
+async function initGoogle(){
+
+return new Promise((resolve)=>{
+
+gapi.load("client", async ()=>{
+
+await gapi.client.init({
+
+apiKey:API_KEY,
+
+discoveryDocs:[
+"https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"
+]
+
+})
+
+const tokenClient =
+google.accounts.oauth2.initTokenClient({
+
+client_id:CLIENT_ID,
+
+scope:
+"https://www.googleapis.com/auth/drive.file",
+
+callback:(res)=>{
+
+accessToken =
+res.access_token
+
+resolve()
+
+}
+
+})
+
+tokenClient.requestAccessToken({
+prompt:"consent"
+})
+
+})
+
+})
+
+}
+
+/* =========================================================
+   DRIVE UPLOAD
+   ========================================================= */
+
+async function uploadToDrive(file){
+
+let form = new FormData()
+
+form.append(
+
+"metadata",
+
+new Blob([JSON.stringify({
+
+name:file.name,
+
+mimeType:file.type
+
+})],{
+
+type:"application/json"
+
+})
+
+)
+
+form.append("file",file)
+
+let res = await fetch(
+
+"https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
+
+{
+
+method:"POST",
+
+headers:{
+Authorization:
+"Bearer " + accessToken
+},
+
+body:form
+
+}
+
+)
+
+let data = await res.json()
+
+return data.id
+
+}
+
+/* =========================================================
+   UPLOAD EBOOK
+   ========================================================= */
+
+async function uploadBook(){
+
+try{
+
+let user = JSON.parse(
+
+localStorage.getItem("user")
+|| "{}"
+
+)
+
+let userEmail =
+
+user.email ||
+
+(user.user &&
+user.user.email)
+
+if(!userEmail){
+
+alert("Login required")
+
+return
+
+}
+
+let pdfFile =
+pdf.files[0]
+
+let frontFile =
+front.files[0]
+
+let backFile =
+back.files[0]
+
+if(!title.value.trim()){
+
+alert("Enter title")
+return
+
+}
+
+if(!description.value.trim()){
+
+alert("Enter description")
+return
+
+}
+
+if(!pdfFile){
+
+alert("Upload PDF")
+return
+
+}
+
+if(!frontFile || !backFile){
+
+alert("Upload both covers")
+return
+
+}
+
+alert("Connecting Google Drive...")
+
+await initGoogle()
+
+alert("Uploading PDF...")
+
+let pdfId =
+await uploadToDrive(pdfFile)
+
+alert("Uploading Front Cover...")
+
+let frontId =
+await uploadToDrive(frontFile)
+
+alert("Uploading Back Cover...")
+
+let backId =
+await uploadToDrive(backFile)
+
+alert("AI checking ebook...")
+
+let pdfText =
+await extractPDFText(pdfFile)
+
+let payload = {
+
+action:"uploadEbook",
+
+email:userEmail,
+
+title:title.value,
+
+author_name:author.value,
+
+description:description.value,
+
+category:category.value,
+
+language:language.value,
+
+tags:tags.value,
+
+isbn:isbn.value,
+
+price:price.value,
+
+pages:pages.value,
+
+size:bookSize.value,
+
+print_version:
+printVersion.checked,
+
+pdfText:pdfText,
+
+pdfId:pdfId,
+
+frontCoverId:frontId,
+
+backCoverId:backId
+
+}
+
+let res = await fetch(UPLOAD_API,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify(payload)
+
+})
+
+let data = await res.json()
+
+if(data.success){
+
+alert("Ebook Uploaded Successfully")
+
+location.reload()
+
+}else{
+
+alert(data.message)
+
+}
+
+}catch(err){
+
+console.log(err)
+
+alert("Upload Failed")
+
+}
+
+}
+
+/* =========================================================
+   FOOTER LOAD
+   ========================================================= */
+
+fetch("footer.html")
+.then(res => res.text())
+.then(data => {
+
+document.getElementById("footer")
+.innerHTML = data
+
+})
+
+</script>
   
 </body>
   </html>
