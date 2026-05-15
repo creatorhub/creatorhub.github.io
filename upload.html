@@ -618,6 +618,19 @@ Upload Front Cover
 
 <img id="frontPreview" class="preview">
 
+<button id="removeFront" style="
+display:none;
+margin-top:8px;
+background:#ef4444;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+">
+Remove
+</button>
+
 </div>
 
 <div>
@@ -631,6 +644,19 @@ Upload Back Cover
 <input hidden type="file" id="back">
 
 <img id="backPreview" class="preview">
+
+<button id="removeBack" style="
+display:none;
+margin-top:8px;
+background:#ef4444;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+">
+Remove
+</button>
 
 </div>
 
@@ -646,7 +672,7 @@ Click to Upload PDF
 
 <input hidden type="file" id="pdf">
 
-<button class="upload-btn">
+<button class="upload-btn" onclick="uploadBook()">
 Upload Ebook
 </button>
 
@@ -772,38 +798,7 @@ Tips for Better Results
 
 </div>
 
-/* FOOTER LOAD */
-
-fetch("footer.html")
-.then(res => res.text())
-.then(data => {
-
-document.getElementById("footer")
-.innerHTML = data
-
-})
-
-/* MENU */
-
-function openMenu(){
-
-document.getElementById("menu")
-.classList.add("active")
-
-document.getElementById("overlay")
-.style.display = "block"
-
-}
-
-function closeMenu(){
-
-document.getElementById("menu")
-.classList.remove("active")
-
-document.getElementById("overlay")
-.style.display = "none"
-
-}
+<div id="footer"></div>
 
 <script>
 
@@ -1475,8 +1470,6 @@ document.getElementById("footer")
 })
 
 </script>
-
-<div id="footer"></div>
   
 </body>
   </html>
