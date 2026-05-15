@@ -6,8 +6,6 @@
 <title>CreatorHub Upload Ebook</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="https://apis.google.com/js/api.js"></script>
-<script src="https://accounts.google.com/gsi/client"></script>
 
 <style>
 
@@ -37,18 +35,6 @@ padding:0 25px;
 border-bottom:1px solid rgba(255,255,255,0.05);
 }
 
-.left-nav,
-.right-nav{
-display:flex;
-align-items:center;
-gap:15px;
-}
-
-.menu-btn{
-font-size:22px;
-cursor:pointer;
-}
-
 .logo{
 font-size:32px;
 font-weight:bold;
@@ -58,77 +44,17 @@ font-weight:bold;
 color:#22c55e;
 }
 
-.profile-img{
-width:35px;
-height:35px;
+.profile{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.profile-dot{
+width:16px;
+height:16px;
 border-radius:50%;
-object-fit:cover;
 background:#22c55e;
-}
-
-/* SIDE MENU */
-
-.side{
-position:fixed;
-top:0;
-left:0;
-width:270px;
-height:100%;
-background:#020617;
-padding:20px;
-transform:translateX(-100%);
-transition:.3s;
-z-index:9999;
-box-shadow:5px 0 30px black;
-overflow:auto;
-}
-
-.side.open{
-transform:translateX(0);
-}
-
-.menuHeader{
-text-align:center;
-margin-bottom:20px;
-}
-
-.menuHeader img{
-width:70px;
-height:70px;
-border-radius:50%;
-border:2px solid #22c55e;
-object-fit:cover;
-}
-
-.menuHeader div{
-margin-top:8px;
-font-weight:bold;
-}
-
-.side a{
-display:block;
-background:#111827;
-padding:14px;
-margin-top:12px;
-border-radius:12px;
-text-decoration:none;
-color:white;
-}
-
-.side a:hover{
-background:#1f2937;
-transform:translateX(5px);
-}
-
-#overlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.6);
-display:none;
-z-index:9998;
 }
 
 /* MAIN */
@@ -139,32 +65,22 @@ max-width:1400px;
 margin:auto;
 padding:25px;
 display:grid;
-grid-template-columns:2.7fr 1fr;
+grid-template-columns:2.6fr 1fr;
 gap:20px;
 align-items:start;
 }
 
-.main-card,
-.side-card{
-background:rgba(11,18,32,0.95);
-padding:25px;
-border-radius:18px;
+/* CARD */
+
+.card{
+background:rgba(11,18,32,0.96);
+padding:24px;
+border-radius:22px;
 border:1px solid rgba(255,255,255,0.05);
+box-shadow:0 0 30px rgba(0,0,0,0.2);
 }
 
-.side-card{
-margin-bottom:20px;
-}
-
-.back-btn{
-background:#111827;
-border:1px solid #374151;
-padding:12px 18px;
-color:white;
-border-radius:10px;
-cursor:pointer;
-margin-bottom:20px;
-}
+/* HEADING */
 
 .heading{
 display:flex;
@@ -174,27 +90,31 @@ margin-bottom:25px;
 }
 
 .icon-box{
-width:72px;
-height:72px;
-background:#0f2d1c;
+width:70px;
+height:70px;
 border-radius:18px;
+background:linear-gradient(135deg,#0f2d1c,#14532d);
 display:flex;
 align-items:center;
 justify-content:center;
-box-shadow:0 0 20px rgba(34,197,94,0.15);
+font-size:28px;
 }
+
+/* GRID */
 
 .grid2{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:18px;
+gap:16px;
 }
 
 .grid3{
 display:grid;
 grid-template-columns:1fr 1fr 1fr;
-gap:18px;
+gap:16px;
 }
+
+/* INPUT */
 
 label{
 display:block;
@@ -208,113 +128,227 @@ textarea,
 select{
 width:100%;
 padding:14px;
-background:#020617;
+border-radius:12px;
 border:1px solid #1f2937;
-border-radius:10px;
+background:#020617;
 color:white;
+font-size:14px;
 }
 
 textarea{
-height:120px;
+height:130px;
 resize:none;
 }
 
 .counter{
 text-align:right;
 font-size:12px;
-color:#9ca3af;
-margin-top:5px;
+color:#94a3b8;
+margin-top:6px;
 }
+
+/* AI BUTTON */
 
 .ai-btn{
 width:100%;
 padding:14px;
 margin-top:20px;
-background:transparent;
+border-radius:12px;
 border:1px solid #22c55e;
+background:transparent;
 color:#22c55e;
-border-radius:10px;
 font-weight:bold;
 cursor:pointer;
+transition:.3s;
+}
+
+.ai-btn:hover{
+background:#0f2d1c;
 }
 
 .ai-text{
 text-align:center;
 font-size:12px;
-color:#9ca3af;
+color:#94a3b8;
 margin-top:8px;
 }
 
+/* UPLOAD */
+
 .upload-box,
 .pdf-box{
-border:2px dashed #374151;
-height:180px;
-border-radius:14px;
+height:170px;
+border:2px dashed #334155;
+border-radius:16px;
 display:flex;
-flex-direction:column;
 align-items:center;
 justify-content:center;
+flex-direction:column;
 background:#07111f;
 cursor:pointer;
 margin-top:10px;
+transition:.3s;
 text-align:center;
 }
 
-.preview-wrapper{
-position:relative;
+.upload-box:hover,
+.pdf-box:hover{
+border-color:#22c55e;
+background:#0b1628;
 }
 
 .preview{
-width:160px;
-height:180px;
-object-fit:cover;
-border-radius:12px;
+width:100%;
 margin-top:10px;
+border-radius:12px;
 display:none;
 }
 
-.remove-btn{
-position:absolute;
-top:15px;
-right:10px;
-background:black;
-border:1px solid white;
-color:white;
-border-radius:50%;
-width:28px;
-height:28px;
-cursor:pointer;
-display:none;
-}
-
-.pdf-preview{
-background:#111827;
-padding:15px;
-border-radius:10px;
-margin-top:15px;
-display:none;
-justify-content:space-between;
-align-items:center;
-}
+/* BUTTON */
 
 .upload-btn{
 width:100%;
 padding:18px;
-margin-top:20px;
-background:linear-gradient(90deg,#16a34a,#4ade80);
+margin-top:22px;
 border:none;
-border-radius:12px;
+border-radius:14px;
+background:linear-gradient(90deg,#16a34a,#4ade80);
+color:white;
 font-size:20px;
 font-weight:bold;
-color:white;
 cursor:pointer;
+transition:.3s;
+}
+
+.upload-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 10px 25px rgba(34,197,94,0.2);
 }
 
 .approval{
 text-align:center;
 font-size:13px;
-color:#9ca3af;
 margin-top:12px;
+color:#94a3b8;
+}
+
+/* FEATURES */
+
+.feature-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-top:25px;
+}
+
+.feature-box{
+display:flex;
+align-items:center;
+gap:12px;
+padding:16px;
+border-radius:16px;
+background:rgba(255,255,255,0.03);
+border:1px solid rgba(255,255,255,0.05);
+}
+
+.feature-icon{
+width:50px;
+height:50px;
+border-radius:14px;
+background:linear-gradient(135deg,#0f2d1c,#14532d);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+flex-shrink:0;
+}
+
+.feature-box h4{
+font-size:15px;
+margin-bottom:4px;
+color:#22c55e;
+}
+
+.feature-box p{
+font-size:12px;
+line-height:1.5;
+color:#cbd5e1;
+}
+
+/* RIGHT SIDE */
+
+.side-card{
+background:rgba(11,18,32,0.96);
+padding:22px;
+border-radius:20px;
+border:1px solid rgba(255,255,255,0.05);
+margin-bottom:20px;
+}
+
+.side-card h3{
+font-size:22px;
+margin-bottom:18px;
+color:#22c55e;
+}
+
+.side-list{
+display:flex;
+flex-direction:column;
+gap:12px;
+font-size:14px;
+line-height:1.6;
+color:#d1d5db;
+}
+
+.highlight{
+margin-top:15px;
+padding:12px;
+border-radius:12px;
+background:linear-gradient(135deg,#0f2d1c,#14532d);
+text-align:center;
+color:#bbf7d0;
+font-size:13px;
+font-weight:bold;
+}
+
+/* FOOTER */
+
+footer{
+margin-top:40px;
+padding:40px 25px;
+background:#000;
+}
+
+.footer-grid{
+display:grid;
+grid-template-columns:2fr 1fr 1fr 1fr;
+gap:25px;
+max-width:1400px;
+margin:auto;
+}
+
+.footer-grid h2{
+color:#22c55e;
+margin-bottom:10px;
+}
+
+.footer-grid h4{
+color:#22c55e;
+margin-bottom:10px;
+}
+
+.footer-grid p,
+.footer-grid div{
+color:#cbd5e1;
+font-size:14px;
+line-height:1.8;
+}
+
+.footer-bottom{
+text-align:center;
+margin-top:25px;
+font-size:13px;
+color:#94a3b8;
 }
 
 /* MOBILE */
@@ -325,67 +359,29 @@ margin-top:12px;
 display:flex;
 flex-direction:column;
 padding:12px;
-gap:15px;
-}
-
-.main-card,
-.side-card{
-width:100%;
-padding:18px;
 }
 
 .grid2,
-.grid3{
+.grid3,
+.feature-grid,
+.footer-grid{
 grid-template-columns:1fr;
-gap:12px;
 }
 
-.heading{
-flex-direction:column;
-align-items:flex-start;
-gap:10px;
-}
-
-.icon-box{
-width:60px;
-height:60px;
+.card,
+.side-card{
+padding:18px;
 }
 
 .upload-box,
 .pdf-box{
 height:140px;
-font-size:14px;
-padding:10px;
-}
-
-.preview{
-width:100%;
-height:auto;
 }
 
 .upload-btn{
 font-size:18px;
-padding:16px;
 }
 
-.side{
-width:250px;
-}
-
-}
-
-/* FOOTER */
-
-#footerContainer{
-width:100%;
-margin-top:30px;
-}
-
-#footerContainer footer,
-#footerContainer .footer{
-width:100vw;
-margin-left:calc(50% - 50vw);
-background:#000;
 }
 
 </style>
@@ -393,45 +389,28 @@ background:#000;
 
 <body>
 
+<!-- NAVBAR -->
+
 <div class="navbar">
 
-<div class="left-nav">
-<div class="menu-btn" onclick="openMenu()">☰</div>
-<div class="logo">Creator<span>Hub</span></div>
+<div class="logo">
+Creator<span>Hub</span>
 </div>
 
-<div class="right-nav">
-<img id="profileImage" class="profile-img">
-<div id="username">Loading...</div>
+<div class="profile">
+<div class="profile-dot"></div>
+<div>Loading...</div>
 </div>
-
-</div>
-
-<div id="menu" class="side">
-
-<div class="menuHeader">
-<img id="menuProfile">
-<div id="menuName">User</div>
-</div>
-
-<a href="index.html">Home</a>
-<a href="library.html">My Library</a>
-<a href="orders.html">Orders</a>
-<a href="wallet.html">Wallet</a>
 
 </div>
 
-<div id="overlay" onclick="closeMenu()"></div>
+<!-- MAIN -->
 
 <div class="container">
 
 <!-- LEFT -->
 
-<div class="main-card">
-
-<button class="back-btn" onclick="location.href='dashboard.html'">
-← Back to Dashboard
-</button>
+<div class="card">
 
 <div class="heading">
 
@@ -447,8 +426,11 @@ background:#000;
 </div>
 
 <div class="grid2">
+
 <input id="title" placeholder="Book Title">
+
 <input id="author" placeholder="Author Name">
+
 </div>
 
 <label>Book Description</label>
@@ -467,13 +449,13 @@ background:#000;
 AI reads your PDF and fills details automatically
 </div>
 
-<div class="grid3">
+<div class="grid3" style="margin-top:18px;">
 
-<input id="category" placeholder="Category">
+<input placeholder="Category">
 
-<input id="language" placeholder="Language">
+<input placeholder="Language">
 
-<select id="bookSize">
+<select>
 <option>Select Book Size</option>
 <option>A4</option>
 <option>A5</option>
@@ -482,22 +464,22 @@ AI reads your PDF and fills details automatically
 
 </div>
 
-<div class="grid2">
+<div class="grid2" style="margin-top:16px;">
 
-<input id="tags" placeholder="Tags">
+<input placeholder="Tags">
 
-<input id="isbn" placeholder="ISBN">
+<input placeholder="ISBN">
 
 </div>
 
-<div class="grid3">
+<div class="grid3" style="margin-top:16px;">
 
-<input id="price" placeholder="Price">
+<input placeholder="Price">
 
-<input id="pages" placeholder="Pages" readonly>
+<input id="pages" placeholder="Pages">
 
-<label>
-<input type="checkbox" id="printVersion">
+<label style="display:flex;align-items:center;gap:10px;">
+<input type="checkbox">
 Print Version Available
 </label>
 
@@ -515,12 +497,9 @@ Print Version Available
 📷 Upload Front Cover
 </div>
 
-<input hidden type="file" id="front" accept="image/*">
+<input hidden type="file" id="front">
 
-<div class="preview-wrapper">
 <img id="frontPreview" class="preview">
-<button class="remove-btn" id="removeFront">×</button>
-</div>
 
 </div>
 
@@ -532,12 +511,9 @@ Print Version Available
 📷 Upload Back Cover
 </div>
 
-<input hidden type="file" id="back" accept="image/*">
+<input hidden type="file" id="back">
 
-<div class="preview-wrapper">
 <img id="backPreview" class="preview">
-<button class="remove-btn" id="removeBack">×</button>
-</div>
 
 </div>
 
@@ -551,14 +527,9 @@ Print Version Available
 📄 Click to Upload PDF
 </div>
 
-<input hidden type="file" id="pdf" accept="application/pdf">
+<input hidden type="file" id="pdf">
 
-<div class="pdf-preview" id="pdfPreview">
-<span id="pdfName"></span>
-<span>✅</span>
-</div>
-
-<button class="upload-btn" onclick="uploadBook()">
+<button class="upload-btn">
 Upload Ebook
 </button>
 
@@ -566,110 +537,40 @@ Upload Ebook
 🔒 Your ebook will be reviewed after AI approval
 </div>
 
-<div style="
-margin-top:18px;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-">
+<!-- FEATURES -->
 
-<div style="
-background:#07111f;
-padding:14px;
-border-radius:12px;
-border:1px solid rgba(255,255,255,0.05);
-">
+<div class="feature-grid">
 
-<div style="
-font-size:22px;
-margin-bottom:6px;
-">
-🌍
+<div class="feature-box">
+<div class="feature-icon">🔒</div>
+<div>
+<h4>Secure Upload</h4>
+<p>Your files are encrypted and protected</p>
+</div>
 </div>
 
-<div style="
-font-size:14px;
-font-weight:bold;
-margin-bottom:5px;
-">
-Global Readers
+<div class="feature-box">
+<div class="feature-icon">🚀</div>
+<div>
+<h4>Fast Approval</h4>
+<p>AI reviews ebooks within minutes</p>
+</div>
 </div>
 
-<div style="
-font-size:12px;
-color:#9ca3af;
-line-height:1.5;
-">
-Reach readers from multiple countries worldwide.
+<div class="feature-box">
+<div class="feature-icon">📈</div>
+<div>
+<h4>Better Reach</h4>
+<p>Quality ebooks get more visibility</p>
+</div>
 </div>
 
+<div class="feature-box">
+<div class="feature-icon">💰</div>
+<div>
+<h4>Earn More</h4>
+<p>Sell globally and grow income</p>
 </div>
-
-<div style="
-background:#07111f;
-padding:14px;
-border-radius:12px;
-border:1px solid rgba(255,255,255,0.05);
-">
-
-<div style="
-font-size:22px;
-margin-bottom:6px;
-">
-💰
-</div>
-
-<div style="
-font-size:14px;
-font-weight:bold;
-margin-bottom:5px;
-">
-Earn Revenue
-</div>
-
-<div style="
-font-size:12px;
-color:#9ca3af;
-line-height:1.5;
-">
-Sell ebooks and grow your creator income online.
-</div>
-
-</div>
-
-</div>
-  
-<div style="
-margin-top:25px;
-padding:20px;
-border-radius:16px;
-background:linear-gradient(135deg,#07111f,#0f172a);
-border:1px solid rgba(255,255,255,0.05);
-">
-
-<h3 style="
-color:#22c55e;
-margin-bottom:12px;
-font-size:18px;
-">
-🚀 Why Publish on CreatorHub?
-</h3>
-
-<div style="
-display:flex;
-flex-direction:column;
-gap:10px;
-font-size:14px;
-line-height:1.7;
-color:#d1d5db;
-">
-
-<div>🌍 Reach readers worldwide</div>
-<div>🤖 AI-powered ebook publishing</div>
-<div>💰 Earn money from digital books</div>
-<div>⚡ Fast approval system</div>
-<div>📈 Better visibility with AI</div>
-
 </div>
 
 </div>
@@ -682,37 +583,23 @@ color:#d1d5db;
 
 <div class="side-card">
 
-<div style="
-display:flex;
-flex-direction:column;
-gap:8px;
-font-size:13px;
-line-height:1.5;
-color:#d1d5db;
-">
+<h3>📘 Upload Guidelines</h3>
 
-<div>High-quality PDF ebooks only</div>
+<div class="side-list">
 
-<div>Professional front & back covers</div>
+<div>✅ High-quality PDF ebooks only</div>
 
-<div>No piracy or harmful content</div>
+<div>🖼 Professional front & back covers</div>
 
-<div>AI checks all uploads automatically</div>
+<div>🚫 No piracy or harmful content</div>
 
-<div>Fast review & approval process</div>
+<div>🤖 AI checks all uploads automatically</div>
+
+<div>⚡ Fast review & approval process</div>
 
 </div>
 
-<div style="
-margin-top:12px;
-padding:10px;
-border-radius:10px;
-background:#0f2d1c;
-text-align:center;
-color:#86efac;
-font-size:12px;
-font-weight:bold;
-">
+<div class="highlight">
 ✨ Better quality ebooks get more visibility
 </div>
 
@@ -720,72 +607,116 @@ font-weight:bold;
 
 <div class="side-card">
 
-<div style="
-display:flex;
-flex-direction:column;
-gap:8px;
-font-size:13px;
-line-height:1.5;
-color:#d1d5db;
-">
+<h3>🤖 AI Smart Assistant</h3>
 
-<div>AI reads your PDF automatically</div>
+<div class="side-list">
 
-<div>Generates title & description</div>
+<div>📄 AI reads your PDF automatically</div>
 
-<div>Suggests category and tags</div>
+<div>📝 Generates title & description</div>
 
-<div>Detects harmful or spam content</div>
+<div>🏷 Suggests category and tags</div>
 
-<div>Smart AI moderation system</div>
+<div>🛡 Detects harmful or spam content</div>
+
+<div>⚡ Smart AI moderation system</div>
 
 </div>
 
-<div style="
-margin-top:12px;
-padding:10px;
-border-radius:10px;
-background:#0f2d1c;
-text-align:center;
-color:#86efac;
-font-size:12px;
-font-weight:bold;
-">
+<div class="highlight">
 ✨ AI helps creators publish faster
 </div>
 
 </div>
 
+<div class="side-card">
+
+<h3 style="color:#a78bfa;">
+💡 Tips for Better Results
+</h3>
+
+<div class="side-list">
+
+<div>• Use clear and attractive covers</div>
+
+<div>• Write detailed descriptions</div>
+
+<div>• Choose accurate category & tags</div>
+
+<div>• Keep content original</div>
+
+<div>• Follow platform guidelines</div>
+
+</div>
+
 </div>
 
 </div>
 
-<div id="footerContainer"></div>
+</div>
+
+<!-- FOOTER -->
+
+<footer>
+
+<div class="footer-grid">
+
+<div>
+
+<h2>CreatorHub</h2>
+
+<p>
+Buy • Sell • Earn From Digital Products
+</p>
+
+<p style="margin-top:10px;">
+CreatorHub is a digital ebook marketplace where creators upload and sell digital products globally.
+</p>
+
+</div>
+
+<div>
+
+<h4>Discover</h4>
+
+<div>Trending Books</div>
+<div>Top Selling Books</div>
+<div>Highest Rated Books</div>
+<div>Authors</div>
+
+</div>
+
+<div>
+
+<h4>Learn</h4>
+
+<div>Guides</div>
+<div>Learning Center</div>
+<div>Earning Tips</div>
+<div>Editorial Policy</div>
+
+</div>
+
+<div>
+
+<h4>Legal</h4>
+
+<div>About</div>
+<div>Privacy Policy</div>
+<div>Terms & Conditions</div>
+<div>Platform Rules</div>
+
+</div>
+
+</div>
+
+<div class="footer-bottom">
+© 2025 CreatorHub. All rights reserved.
+</div>
+
+</footer>
 
 <script>
-
-const UPLOAD_API =
-"https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec"
-
-function openMenu(){
-
-document.getElementById("menu")
-.classList.add("open")
-
-document.getElementById("overlay")
-.style.display = "block"
-
-}
-
-function closeMenu(){
-
-document.getElementById("menu")
-.classList.remove("open")
-
-document.getElementById("overlay")
-.style.display = "none"
-
-}
 
 description.addEventListener("input",()=>{
 
@@ -794,7 +725,7 @@ description.value.length + "/1000"
 
 })
 
-function preview(input,id,removeId){
+function preview(input,id){
 
 let file = input.files[0]
 
@@ -810,9 +741,6 @@ e.target.result
 document.getElementById(id)
 .style.display = "block"
 
-document.getElementById(removeId)
-.style.display = "block"
-
 }
 
 reader.readAsDataURL(file)
@@ -821,29 +749,13 @@ reader.readAsDataURL(file)
 
 front.onchange = ()=>{
 
-preview(front,"frontPreview","removeFront")
+preview(front,"frontPreview")
 
 }
 
 back.onchange = ()=>{
 
-preview(back,"backPreview","removeBack")
-
-}
-
-removeFront.onclick = ()=>{
-
-front.value = ""
-frontPreview.style.display = "none"
-removeFront.style.display = "none"
-
-}
-
-removeBack.onclick = ()=>{
-
-back.value = ""
-backPreview.style.display = "none"
-removeBack.style.display = "none"
+preview(back,"backPreview")
 
 }
 
@@ -852,10 +764,6 @@ pdf.onchange = async function(){
 let file = this.files[0]
 
 if(!file) return
-
-pdfPreview.style.display = "flex"
-
-pdfName.innerText = file.name
 
 let reader = new FileReader()
 
@@ -877,130 +785,13 @@ reader.readAsArrayBuffer(file)
 
 }
 
-async function extractPDFText(file){
-
-let arrayBuffer =
-await file.arrayBuffer()
-
-let pdfDoc =
-await pdfjsLib
-.getDocument({
-data:arrayBuffer
-})
-.promise
-
-let finalText = ""
-
-let totalPages =
-Math.min(pdfDoc.numPages,10)
-
-for(let i=1;i<=totalPages;i++){
-
-let page =
-await pdfDoc.getPage(i)
-
-let textContent =
-await page.getTextContent()
-
-let pageText =
-textContent.items
-.map(item => item.str)
-.join(" ")
-
-finalText += pageText + "\n"
-
-}
-
-return finalText.slice(0,15000)
-
-}
-
 async function autoFillAI(){
 
-try{
-
-let pdfFile = pdf.files[0]
-
-if(!pdfFile){
-
-alert("Please upload PDF first")
-return
+alert("AI Auto Fill Ready")
 
 }
-
-alert("AI reading PDF...")
-
-let text =
-await extractPDFText(pdfFile)
-
-let res = await fetch(UPLOAD_API,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-
-action:"analyzePDF",
-
-pdfText:text
-
-})
-
-})
-
-let data = await res.json()
-
-if(data.success){
-
-let ai = data.ai || {}
-
-title.value = ai.title || ""
-author.value = ai.author || ""
-description.value = ai.description || ""
-category.value = ai.category || ""
-language.value = ai.language || ""
-tags.value = ai.tags || ""
-isbn.value = ai.isbn || ""
-
-counter.innerText =
-description.value.length + "/1000"
-
-alert("AI Auto Fill Complete")
-
-}else{
-
-alert(data.message)
-
-}
-
-}catch(err){
-
-console.log(err)
-
-alert("AI Auto Fill Failed")
-
-}
-
-}
-
-async function uploadBook(){
-
-alert("Upload system ready")
-
-}
-
-fetch("footer.html")
-.then(res=>res.text())
-.then(data=>{
-
-footerContainer.innerHTML = data
-
-})
 
 </script>
 
 </body>
-</html>
+  </html>
