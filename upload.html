@@ -845,14 +845,14 @@ Tips for Better Results
 
 /* =========================================================
    API CONFIG
-   ========================================================= */
+========================================================= */
 
 const UPLOAD_API =
 "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec"
 
 /* =========================================================
    GOOGLE CONFIG
-   ========================================================= */
+========================================================= */
 
 const CLIENT_ID =
 "895144937824-ojsv6ca2nn67h2mmne6td4r0hr89kmok.apps.googleusercontent.com"
@@ -862,73 +862,33 @@ const API_KEY =
 
 /* =========================================================
    GLOBALS
-   ========================================================= */
+========================================================= */
 
 let accessToken = ""
 
 const pdf = document.getElementById("pdf")
-
 const title = document.getElementById("title")
-
 const author = document.getElementById("author")
-
-const description =
-document.getElementById("description")
-
-const category =
-document.getElementById("category")
-
-const language =
-document.getElementById("language")
-
-const tags =
-document.getElementById("tags")
-
-const isbn =
-document.getElementById("isbn")
-
-const price =
-document.getElementById("price")
-
-const pages =
-document.getElementById("pages")
-
-const front =
-document.getElementById("front")
-
-const back =
-document.getElementById("back")
-
-const frontPreview =
-document.getElementById("frontPreview")
-
-const backPreview =
-document.getElementById("backPreview")
-
-const removeFront =
-document.getElementById("removeFront")
-
-const removeBack =
-document.getElementById("removeBack")
-
-const counter =
-document.getElementById("counter")
-
-const bookSize =
-document.getElementById("bookSize")
-
-const printVersion =
-document.getElementById("printVersion")
-
-const pdfPreview =
-document.getElementById("pdfPreview")
-
-const pdfName =
-document.getElementById("pdfName")
+const description = document.getElementById("description")
+const category = document.getElementById("category")
+const language = document.getElementById("language")
+const tags = document.getElementById("tags")
+const isbn = document.getElementById("isbn")
+const price = document.getElementById("price")
+const pages = document.getElementById("pages")
+const front = document.getElementById("front")
+const back = document.getElementById("back")
+const frontPreview = document.getElementById("frontPreview")
+const backPreview = document.getElementById("backPreview")
+const removeFront = document.getElementById("removeFront")
+const removeBack = document.getElementById("removeBack")
+const counter = document.getElementById("counter")
+const bookSize = document.getElementById("bookSize")
+const printVersion = document.getElementById("printVersion")
 
 /* =========================================================
    MENU
-   ========================================================= */
+========================================================= */
 
 function openMenu(){
 
@@ -952,7 +912,7 @@ document.getElementById("overlay")
 
 /* =========================================================
    LOAD USER
-   ========================================================= */
+========================================================= */
 
 async function loadUser(){
 
@@ -971,8 +931,11 @@ localUser.user.email)
 
 if(!email){
 
-username.innerText = "Guest"
-menuName.innerText = "Guest"
+document.getElementById("username")
+.innerText = "Guest"
+
+document.getElementById("menuName")
+.innerText = "Guest"
 
 return
 
@@ -981,6 +944,8 @@ return
 let res = await fetch(UPLOAD_API,{
 
 method:"POST",
+
+mode:"cors",
 
 headers:{
 "Content-Type":"application/json"
@@ -1000,19 +965,22 @@ let data = await res.json()
 
 if(data.success){
 
-username.innerText =
+document.getElementById("username")
+.innerText =
 
 data.user.username ||
 data.user.name ||
 "User"
 
-menuName.innerText =
+document.getElementById("menuName")
+.innerText =
 
 data.user.username ||
 data.user.name ||
 "User"
 
-menuProfile.src =
+document.getElementById("menuProfile")
+.src =
 
 data.user.profile_image ||
 
@@ -1020,8 +988,11 @@ data.user.profile_image ||
 
 }else{
 
-username.innerText = "Guest"
-menuName.innerText = "Guest"
+document.getElementById("username")
+.innerText = "Guest"
+
+document.getElementById("menuName")
+.innerText = "Guest"
 
 }
 
@@ -1037,7 +1008,7 @@ loadUser()
 
 /* =========================================================
    CHARACTER COUNTER
-   ========================================================= */
+========================================================= */
 
 description.addEventListener("input",()=>{
 
@@ -1048,7 +1019,7 @@ description.value.length + "/1000"
 
 /* =========================================================
    IMAGE PREVIEW
-   ========================================================= */
+========================================================= */
 
 function preview(input,id,removeId){
 
@@ -1097,7 +1068,7 @@ back,
 
 /* =========================================================
    REMOVE IMAGE
-   ========================================================= */
+========================================================= */
 
 removeFront.onclick = ()=>{
 
@@ -1121,7 +1092,7 @@ removeBack.style.display = "none"
 
 /* =========================================================
    PDF SELECT
-   ========================================================= */
+========================================================= */
 
 pdf.onchange = async function(){
 
@@ -1129,9 +1100,8 @@ let file = this.files[0]
 
 if(!file) return
 
-pdfPreview.style.display = "flex"
-
-pdfName.innerText = file.name
+document.getElementById("pdfText")
+.innerHTML = "📄 " + file.name
 
 let reader = new FileReader()
 
@@ -1155,7 +1125,7 @@ reader.readAsArrayBuffer(file)
 
 /* =========================================================
    EXTRACT PDF TEXT
-   ========================================================= */
+========================================================= */
 
 async function extractPDFText(file){
 
@@ -1197,7 +1167,7 @@ return finalText.slice(0,15000)
 
 /* =========================================================
    AI AUTO FILL
-   ========================================================= */
+========================================================= */
 
 async function autoFillAI(){
 
@@ -1208,7 +1178,6 @@ let pdfFile = pdf.files[0]
 if(!pdfFile){
 
 alert("Please upload PDF first")
-
 return
 
 }
@@ -1221,6 +1190,8 @@ await extractPDFText(pdfFile)
 let res = await fetch(UPLOAD_API,{
 
 method:"POST",
+
+mode:"cors",
 
 headers:{
 "Content-Type":"application/json"
@@ -1236,7 +1207,17 @@ pdfText:text
 
 })
 
+if(!res.ok){
+
+throw new Error(
+"Server Error : " + res.status
+)
+
+}
+
 let data = await res.json()
+
+console.log(data)
 
 if(data.success){
 
@@ -1277,8 +1258,7 @@ alert(data.message)
 
 console.log(err)
 
-alert(err)
-console.log(err)
+alert(err.message)
 
 }
 
@@ -1286,7 +1266,7 @@ console.log(err)
 
 /* =========================================================
    GOOGLE LOGIN
-   ========================================================= */
+========================================================= */
 
 async function initGoogle(){
 
@@ -1335,7 +1315,7 @@ prompt:"consent"
 
 /* =========================================================
    DRIVE UPLOAD
-   ========================================================= */
+========================================================= */
 
 async function uploadToDrive(file){
 
@@ -1388,17 +1368,14 @@ return data.id
 
 /* =========================================================
    UPLOAD EBOOK
-   ========================================================= */
+========================================================= */
 
 async function uploadBook(){
 
 try{
 
 let user = JSON.parse(
-
-localStorage.getItem("user")
-|| "{}"
-
+localStorage.getItem("user") || "{}"
 )
 
 let userEmail =
@@ -1411,19 +1388,13 @@ user.user.email)
 if(!userEmail){
 
 alert("Login required")
-
 return
 
 }
 
-let pdfFile =
-pdf.files[0]
-
-let frontFile =
-front.files[0]
-
-let backFile =
-back.files[0]
+let pdfFile = pdf.files[0]
+let frontFile = front.files[0]
+let backFile = back.files[0]
 
 if(!title.value.trim()){
 
@@ -1472,7 +1443,7 @@ alert("Uploading Back Cover...")
 let backId =
 await uploadToDrive(backFile)
 
-alert("AI checking ebook...")
+alert("Extracting PDF text...")
 
 let pdfText =
 await extractPDFText(pdfFile)
@@ -1517,7 +1488,6 @@ backCoverId:backId
 }
 
 let res = await fetch(UPLOAD_API,{
-let res = await fetch(UPLOAD_API,{
 
 method:"POST",
 
@@ -1527,17 +1497,21 @@ headers:{
 "Content-Type":"application/json"
 },
 
-body:JSON.stringify({
-
-action:"analyzePDF",
-
-pdfText:text
+body:JSON.stringify(payload)
 
 })
 
-})
+if(!res.ok){
+
+throw new Error(
+"Upload Failed : " + res.status
+)
+
+}
 
 let data = await res.json()
+
+console.log(data)
 
 if(data.success){
 
@@ -1555,7 +1529,7 @@ alert(data.message)
 
 console.log(err)
 
-alert("Upload Failed")
+alert(err.message)
 
 }
 
@@ -1563,7 +1537,7 @@ alert("Upload Failed")
 
 /* =========================================================
    FOOTER LOAD
-   ========================================================= */
+========================================================= */
 
 fetch("footer.html")
 .then(res => res.text())
@@ -1571,6 +1545,11 @@ fetch("footer.html")
 
 document.getElementById("footer")
 .innerHTML = data
+
+})
+.catch(err => {
+
+console.log(err)
 
 })
 
