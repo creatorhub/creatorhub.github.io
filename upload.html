@@ -701,24 +701,17 @@ Remove
 
 <label>PDF File</label>
 
-<div class="pdf-box" onclick="pdf.click()">
-Click to Upload PDF
+<div class="pdf-box" onclick="pdf.click()" id="pdfBox">
+
+<div id="pdfText">
+
+📄 Click to Upload PDF
+
+</div>
+
 </div>
 
 <input hidden type="file" id="pdf">
-
-<div id="pdfPreview" style="
-display:none;
-margin-top:12px;
-background:#111827;
-padding:12px;
-border-radius:10px;
-font-size:14px;
-">
-
-📄 <span id="pdfName"></span>
-
-</div>
 
 <button class="upload-btn" onclick="uploadBook()">
 Upload Ebook
@@ -1524,14 +1517,23 @@ backCoverId:backId
 }
 
 let res = await fetch(UPLOAD_API,{
+let res = await fetch(UPLOAD_API,{
 
 method:"POST",
+
+mode:"cors",
 
 headers:{
 "Content-Type":"application/json"
 },
 
-body:JSON.stringify(payload)
+body:JSON.stringify({
+
+action:"analyzePDF",
+
+pdfText:text
+
+})
 
 })
 
