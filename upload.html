@@ -1215,6 +1215,10 @@ if(data.success){
 
 let ai = data.ai || {}
 
+console.log("AI OBJECT:", ai)
+
+alert(JSON.stringify(ai))
+
 title.value = ai.title || ""
 
 author.value = ai.author || ""
