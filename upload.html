@@ -867,6 +867,9 @@ const API_KEY =
 let accessToken = ""
 
 const pdf = document.getElementById("pdf")
+const username = document.getElementById("username")
+const menuName = document.getElementById("menuName")
+const menuProfile = document.getElementById("menuProfile")
 const title = document.getElementById("title")
 const author = document.getElementById("author")
 const description = document.getElementById("description")
@@ -922,6 +925,8 @@ let localUser = JSON.parse(
 localStorage.getItem("user")
 ) || {}
 
+console.log(localUser)
+
 let email =
 
 localUser.email ||
@@ -931,11 +936,8 @@ localUser.user.email)
 
 if(!email){
 
-document.getElementById("username")
-.innerText = "Guest"
-
-document.getElementById("menuName")
-.innerText = "Guest"
+username.innerText = "Guest"
+menuName.innerText = "Guest"
 
 return
 
@@ -963,24 +965,23 @@ email:email
 
 let data = await res.json()
 
+console.log(data)
+
 if(data.success){
 
-document.getElementById("username")
-.innerText =
+username.innerText =
 
 data.user.username ||
 data.user.name ||
 "User"
 
-document.getElementById("menuName")
-.innerText =
+menuName.innerText =
 
 data.user.username ||
 data.user.name ||
 "User"
 
-document.getElementById("menuProfile")
-.src =
+menuProfile.src =
 
 data.user.profile_image ||
 
@@ -988,11 +989,8 @@ data.user.profile_image ||
 
 }else{
 
-document.getElementById("username")
-.innerText = "Guest"
-
-document.getElementById("menuName")
-.innerText = "Guest"
+username.innerText = "Guest"
+menuName.innerText = "Guest"
 
 }
 
@@ -1000,12 +998,15 @@ document.getElementById("menuName")
 
 console.log(err)
 
-}
+username.innerText = "Guest"
+menuName.innerText = "Guest"
 
 }
 
-loadUser()
+}
 
+   loadUser()
+   
 /* =========================================================
    CHARACTER COUNTER
 ========================================================= */
