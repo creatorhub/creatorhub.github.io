@@ -969,13 +969,15 @@ console.log(data)
 
 if(data.success){
 
-username.innerText =
+document.getElementById("username")
+.innerText =
 data.user.name || "User"
 
-menuName.innerText =
+document.getElementById("menuName")
+.innerText =
 data.user.name || "User"
 
-menuProfile.src =
+document.getElementById("menuProfile").src =
 "https://cdn-icons-png.flaticon.com/512/149/149071.png"
 
 }else{
@@ -997,6 +999,8 @@ menuName.innerText = "Guest"
    }
 
    loadUser()
+
+console.log(data)
    
 /* =========================================================
    CHARACTER COUNTER
