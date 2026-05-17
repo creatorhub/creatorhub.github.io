@@ -1134,7 +1134,7 @@ data:arrayBuffer
 let finalText = ""
 
 let totalPages =
-Math.min(pdfDoc.numPages,3)
+Math.min(pdfDoc.numPages,5)
 
 for(let i=1;i<=totalPages;i++){
 
@@ -1153,7 +1153,7 @@ finalText += pageText + "\n"
 
 }
 
-return finalText.slice(0,5000)
+return finalText.slice(0,8000)
 
 }
 
