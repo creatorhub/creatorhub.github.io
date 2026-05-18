@@ -1462,6 +1462,8 @@ return
 
 await initGoogle()
 
+/* ================= DRIVE UPLOAD ================= */
+
 let pdfId =
 await uploadToDrive(pdfFile)
 
@@ -1471,8 +1473,12 @@ await uploadToDrive(frontFile)
 let backId =
 await uploadToDrive(backFile)
 
+/* ================= PDF TEXT ================= */
+
 let pdfText =
 await extractPDFText(pdfFile)
+
+/* ================= PAYLOAD ================= */
 
 let payload = {
 
@@ -1513,44 +1519,35 @@ backCoverId:backId
 
 }
 
-let response = await fetch(UPLOAD_API, {
+/* ================= API CALL ================= */
 
-  method: "POST",
+let response = await fetch(UPLOAD_API,{
 
-  mode: "cors",
+method:"POST",
 
-  headers: {
-    "Content-Type": "application/json"
-  },
+mode:"cors",
 
-  body: JSON.stringify({
-    action:"uploadEbook",
+headers:{
+"Content-Type":"application/json"
+},
 
-    title:title,
-    author_name:author,
-    description:description,
-    category:category,
-    language:language,
-    tags:tags,
-    isbn:isbn,
-    pages:pages,
-    price:price,
-    size:size,
-
-    pdfId:pdfId,
-
-    frontCoverId:frontCoverId,
-
-    backCoverId:backCoverId,
-
-    email:user.email
-  })
+body:JSON.stringify(payload)
 
 })
+
+if(!response.ok){
+
+throw new Error(
+"Server Error : " + response.status
+)
+
+}
 
 let data = await response.json()
 
 console.log(data)
+
+/* ================= RESULT ================= */
 
 if(data.success){
 
@@ -1560,7 +1557,7 @@ location.reload()
 
 }else{
 
-alert(data.message)
+alert(data.message || "Upload failed")
 
 }
 
