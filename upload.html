@@ -1513,29 +1513,42 @@ backCoverId:backId
 
 }
 
-let res = await fetch(UPLOAD_API,{
+let response = await fetch(UPLOAD_API, {
 
-  method:"POST",
+  method: "POST",
 
-  mode:"cors",
+  mode: "cors",
 
-  headers:{
-    "Content-Type":"application/json"
+  headers: {
+    "Content-Type": "application/json"
   },
 
-  body:JSON.stringify(payload)
+  body: JSON.stringify({
+    action:"uploadEbook",
+
+    title:title,
+    author_name:author,
+    description:description,
+    category:category,
+    language:language,
+    tags:tags,
+    isbn:isbn,
+    pages:pages,
+    price:price,
+    size:size,
+
+    pdfId:pdfId,
+
+    frontCoverId:frontCoverId,
+
+    backCoverId:backCoverId,
+
+    email:user.email
+  })
 
 })
 
-if(!res.ok){
-
-throw new Error(
-"Upload Failed : " + res.status
-)
-
-}
-
-let data = await res.json()
+let data = await response.json()
 
 console.log(data)
 
