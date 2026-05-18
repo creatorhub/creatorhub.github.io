@@ -1306,9 +1306,11 @@ return finalText.slice(0,8000)
 
 async function initGoogle(){
 
-return new Promise((resolve)=>{
+return new Promise((resolve,reject)=>{
 
 gapi.load("client", async ()=>{
+
+try{
 
 await gapi.client.init({
 
@@ -1330,6 +1332,14 @@ scope:
 
 callback:(res)=>{
 
+if(res.error){
+
+reject(res)
+
+return
+
+}
+
 accessToken =
 res.access_token
 
@@ -1340,8 +1350,14 @@ resolve()
 })
 
 tokenClient.requestAccessToken({
-prompt:"consent"
+prompt:""
 })
+
+}catch(err){
+
+reject(err)
+
+}
 
 })
 
