@@ -1213,48 +1213,89 @@ console.log(data)
 
 if(data.success){
 
-let ai = data.ai || {}
+  let ai = data.ai
 
-title.value = ai.title || ""
+  /* STRING TO OBJECT */
 
-author.value = ai.author || ""
+  if(typeof ai === "string"){
 
-description.value =
-ai.description || ""
+    try{
 
-category.value =
-ai.category || ""
+      ai = JSON.parse(ai)
 
-language.value =
-ai.language || ""
+    }catch(err){
 
-tags.value =
-ai.tags || ""
+      ai = {}
 
-isbn.value =
-ai.isbn || ""
+    }
 
-counter.innerText =
-description.value.length +
-"/1000"
+  }
 
-alert("AI Auto Fill Complete")
+  console.log("FINAL AI:", ai)
+
+  /* FILL INPUTS */
+
+  if(ai.title){
+
+    title.value = ai.title
+
+  }
+
+  if(ai.author){
+
+    author.value = ai.author
+
+  }
+
+  if(ai.description){
+
+    description.value =
+      ai.description
+
+  }
+
+  if(ai.category){
+
+    category.value =
+      ai.category
+
+  }
+
+  if(ai.language){
+
+    language.value =
+      ai.language
+
+  }
+
+  if(ai.tags){
+
+    tags.value =
+      Array.isArray(ai.tags)
+      ? ai.tags.join(", ")
+      : ai.tags
+
+  }
+
+  if(ai.isbn){
+
+    isbn.value =
+      ai.isbn
+
+  }
+
+  counter.innerText =
+    description.value.length +
+    "/1000"
+
+  alert("AI Auto Fill Complete")
 
 }else{
 
-alert(data.message)
+  alert(data.message)
 
 }
 
-}catch(err){
-
-console.log(err)
-
-alert(err.message)
-
-}
-
-}
 
 /* =========================================================
    GOOGLE LOGIN
