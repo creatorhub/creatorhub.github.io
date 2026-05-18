@@ -1180,9 +1180,7 @@ return finalText.slice(0,8000)
       await extractPDFText(pdfFile)
 
     console.log(text)
-
-   alert(text.slice(0,1000))
-
+     
  let res = await fetch(UPLOAD_API,{
 
   method:"POST",
@@ -1212,8 +1210,6 @@ return finalText.slice(0,8000)
     let data = await res.json()
 
    console.log("AI RESPONSE:", data)
-
-   alert(JSON.stringify(data))
 
     console.log(data)
 
