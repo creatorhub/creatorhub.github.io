@@ -1181,23 +1181,23 @@ return finalText.slice(0,8000)
 
     console.log(text)
 
-    let res = await fetch(UPLOAD_API,{
+ let res = await fetch(UPLOAD_API,{
 
-      method:"POST",
+  method:"POST",
 
-      headers:{
-        "Content-Type":"text/plain"
-      },
+  headers:{
+    "Content-Type":"application/json"
+  },
 
-      body:JSON.stringify({
+  body:JSON.stringify({
 
-        action:"analyzePDF",
+    action:"analyzePDF",
 
-        pdfText:text
+    pdfText:text
 
-      })
+  })
 
-    })
+})
 
     if(!res.ok){
 
@@ -1208,6 +1208,8 @@ return finalText.slice(0,8000)
     }
 
     let data = await res.json()
+
+   console.log("AI RESPONSE:", data)
 
     console.log(data)
 
