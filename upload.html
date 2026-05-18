@@ -1462,26 +1462,16 @@ return
 
 }
 
-alert("Connecting Google Drive...")
-
 await initGoogle()
-
-alert("Uploading PDF...")
 
 let pdfId =
 await uploadToDrive(pdfFile)
 
-alert("Uploading Front Cover...")
-
 let frontId =
 await uploadToDrive(frontFile)
 
-alert("Uploading Back Cover...")
-
 let backId =
 await uploadToDrive(backFile)
-
-alert("Extracting PDF text...")
 
 let pdfText =
 await extractPDFText(pdfFile)
@@ -1527,15 +1517,15 @@ backCoverId:backId
 
 let res = await fetch(UPLOAD_API,{
 
-method:"POST",
+  method:"POST",
 
-mode:"cors",
+  mode:"cors",
 
-headers:{
-"Content-Type":"application/json"
-},
+  headers:{
+    "Content-Type":"application/json"
+  },
 
-body:JSON.stringify(payload)
+  body:JSON.stringify(payload)
 
 })
 
