@@ -1161,151 +1161,146 @@ return finalText.slice(0,8000)
    AI AUTO FILL
 ========================================================= */
 
-async function autoFillAI(){
+ async function autoFillAI(){
 
-try{
+  try{
 
-let pdfFile = pdf.files[0]
+    let pdfFile = pdf.files[0]
 
-if(!pdfFile){
+    if(!pdfFile){
 
-alert("Please upload PDF first")
-return
-
-}
-
-alert("AI reading PDF...")
-
-let text =
-await extractPDFText(pdfFile)
-
-console.log(text)
-
-let res = await fetch(UPLOAD_API,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"text/plain"
-},
-
-body:JSON.stringify({
-
-action:"analyzePDF",
-
-pdfText:text
-
-})
-
-})
-
-if(!res.ok){
-
-throw new Error(
-"Server Error : " + res.status
-)
-
-}
-
-let data = await res.json()
-
-console.log(data)
-
-if(data.success){
-
-  let ai = data.ai
-
-  /* STRING TO OBJECT */
-
-  if(typeof ai === "string"){
-
-    try{
-
-      ai = JSON.parse(ai)
-
-    }catch(err){
-
-      ai = {}
+      alert("Please upload PDF first")
+      return
 
     }
 
+    alert("AI reading PDF...")
+
+    let text =
+      await extractPDFText(pdfFile)
+
+    console.log(text)
+
+    let res = await fetch(UPLOAD_API,{
+
+      method:"POST",
+
+      headers:{
+        "Content-Type":"text/plain"
+      },
+
+      body:JSON.stringify({
+
+        action:"analyzePDF",
+
+        pdfText:text
+
+      })
+
+    })
+
+    if(!res.ok){
+
+      throw new Error(
+        "Server Error : " + res.status
+      )
+
+    }
+
+    let data = await res.json()
+
+    console.log(data)
+
+    if(data.success){
+
+      let ai = data.ai || {}
+
+      if(typeof ai === "string"){
+
+        try{
+
+          ai = JSON.parse(ai)
+
+        }catch(err){
+
+          ai = {}
+
+        }
+
+      }
+
+      console.log("FINAL AI:", ai)
+
+      if(ai.title){
+
+        title.value = ai.title
+
+      }
+
+      if(ai.author){
+
+        author.value = ai.author
+
+      }
+
+      if(ai.description){
+
+        description.value =
+          ai.description
+
+      }
+
+      if(ai.category){
+
+        category.value =
+          ai.category
+
+      }
+
+      if(ai.language){
+
+        language.value =
+          ai.language
+
+      }
+
+      if(ai.tags){
+
+        tags.value =
+          Array.isArray(ai.tags)
+          ? ai.tags.join(", ")
+          : ai.tags
+
+      }
+
+      if(ai.isbn){
+
+        isbn.value =
+          ai.isbn
+
+      }
+
+      counter.innerText =
+        description.value.length +
+        "/1000"
+
+      alert("AI Auto Fill Complete")
+
+    }else{
+
+      alert(data.message)
+
+    }
+
+  }catch(err){
+
+    console.log(err)
+
+    alert(err.message)
+
   }
 
-  console.log("FINAL AI:", ai)
-
-  /* FILL INPUTS */
-
-  if(ai.title){
-
-    title.value = ai.title
-
-  }
-
-  if(ai.author){
-
-    author.value = ai.author
-
-  }
-
-  if(ai.description){
-
-    description.value =
-      ai.description
-
-  }
-
-  if(ai.category){
-
-    category.value =
-      ai.category
-
-  }
-
-  if(ai.language){
-
-    language.value =
-      ai.language
-
-  }
-
-  if(ai.tags){
-
-    tags.value =
-      Array.isArray(ai.tags)
-      ? ai.tags.join(", ")
-      : ai.tags
-
-  }
-
-  if(ai.isbn){
-
-    isbn.value =
-      ai.isbn
-
-  }
-
-  counter.innerText =
-    description.value.length +
-    "/1000"
-
-  alert("AI Auto Fill Complete")
-
-}else{
-
-  alert(data.message)
-
-   }catch(err){
-
-  console.log(err)
-
-  alert(err.message)
-
-}
-
-}
-
-}
-
+ }
 
 /* =========================================================
    GOOGLE LOGIN
