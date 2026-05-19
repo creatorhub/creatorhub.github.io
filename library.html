@@ -167,11 +167,19 @@ transform:translateY(-6px);
 }
 
 .cover{
+
 width:100%;
-height:340px;
+
+height:260px;
+
 object-fit:cover;
+
 border-radius:18px;
-background:#111827;
+
+display:block;
+
+background:#0f172a;
+
 }
 
 .menu{
@@ -651,9 +659,7 @@ let id = driveId(link)
 
 if(id){
 
-return "https://drive.google.com/thumbnail?id=" +
-id +
-"&sz=w1000"
+return `https://lh3.googleusercontent.com/d/${id}`
 
 }
 
@@ -771,15 +777,7 @@ o.buyer === user.email
 
 (
 
-o.type === "subscription" ||
-
-o.plan === "subscription"
-
-)
-
-&&
-
-(
+o.status === "active" ||
 
 o.status === "paid" ||
 
@@ -788,7 +786,7 @@ o.payment === "paid"
 )
 
 )
-
+   
 /* ================= STATS ================= */
 
 document
@@ -983,15 +981,17 @@ allow = true
 
 /* SUBSCRIPTION */
 
-else if(HAS_SUBSCRIPTION){
+else if(
+
+HAS_SUBSCRIPTION
+
+||
+
+product.owner === user.email
+
+){
 
 allow = true
-
-}
-
-if(allow){
-
-unlocked++
 
 }
 
@@ -1023,24 +1023,6 @@ buttons = `
 onclick="openBook('${product.id}')">
 
 📖 Read Ebook
-
-</button>
-
-`
-
-}
-
-/* BUY */
-
-else{
-
-buttons = `
-
-<button class="buy-btn"
-
-onclick="buyBook('${product.id}')">
-
-Buy ₹${product.price || 0}
 
 </button>
 
