@@ -579,18 +579,19 @@ onclick="location.href='profile.html'">
 
 </div>
 
+<!-- =========================================================
+FULL CREATORHUB LIBRARY SCRIPT
+FAST LOADING + PDF VIEWER + EDIT + DELETE
+========================================================= -->
+
 <script>
 
 /* =========================================================
-   CREATORHUB FULL WORKING LIBRARY SCRIPT
+CONFIG
 ========================================================= */
-
-/* ================= ADMIN ================= */
 
 const ADMIN =
 "ayushprajpati6@gmail.com"
-
-/* ================= API ================= */
 
 const PRODUCT_API =
 "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec"
@@ -598,7 +599,9 @@ const PRODUCT_API =
 const SUBSCRIPTION_API =
 "https://script.google.com/macros/s/AKfycbyKnVmxYCTskDLpOk_s2Ch1nHnVvD__GVHbnztTCvl4bzYgk7sDx0F1WuJ0CXMORqs/exec"
 
-/* ================= USER ================= */
+/* =========================================================
+USER
+========================================================= */
 
 let user =
 JSON.parse(
@@ -606,8 +609,6 @@ localStorage.getItem("user") || "null"
 )
 
 if(!user){
-
-alert("Login First")
 
 location.href =
 "login.html"
@@ -617,7 +618,9 @@ location.href =
 let isAdmin =
 user.email === ADMIN
 
-/* ================= GLOBALS ================= */
+/* =========================================================
+GLOBALS
+========================================================= */
 
 let ALL_PRODUCTS = []
 
@@ -626,7 +629,7 @@ let MY_ORDERS = []
 let HAS_SUBSCRIPTION = false
 
 /* =========================================================
-   DRIVE IMAGE
+DRIVE IMAGE
 ========================================================= */
 
 function driveId(link){
@@ -668,7 +671,7 @@ return "https://picsum.photos/500"
 }
 
 /* =========================================================
-   LOADER
+LOADER
 ========================================================= */
 
 function showLoader(){
@@ -696,7 +699,7 @@ animation:spin 1s linear infinite;
 
 <p style="
 margin-top:20px;
-font-size:20px;
+font-size:18px;
 opacity:.7;
 ">
 
@@ -711,7 +714,7 @@ Loading Library...
 }
 
 /* =========================================================
-   LOAD DATA
+LOAD DATA
 ========================================================= */
 
 async function loadData(){
@@ -722,43 +725,39 @@ showLoader()
 
 /* ================= PRODUCTS ================= */
 
-let productRes =
+let res =
 await fetch(
 
 PRODUCT_API +
-
 "?action=products&t=" +
-
 Date.now()
 
 )
 
-let productData =
-await productRes.json()
+let data =
+await res.json()
 
 ALL_PRODUCTS =
-productData.products || []
+data.products || []
 
-/* ================= ORDERS ================= */
+/* ================= SUBSCRIPTION ================= */
 
-let subRes =
+let sub =
 await fetch(
 
 SUBSCRIPTION_API +
-
 "?action=orders&t=" +
-
 Date.now()
 
 )
 
 let subData =
-await subRes.json()
+await sub.json()
 
 MY_ORDERS =
 subData.orders || []
 
-/* ================= SUBSCRIPTION ================= */
+/* ================= CHECK ACTIVE ================= */
 
 HAS_SUBSCRIPTION =
 MY_ORDERS.some(o =>
@@ -786,7 +785,7 @@ o.payment === "paid"
 )
 
 )
-   
+
 /* ================= STATS ================= */
 
 document
@@ -805,12 +804,7 @@ HAS_SUBSCRIPTION
 document
 .getElementById("premiumBooks")
 .innerText =
-
-ALL_PRODUCTS.filter(p =>
-
-p.subscription
-
-).length
+ALL_PRODUCTS.length
 
 /* ================= RENDER ================= */
 
@@ -838,7 +832,7 @@ Failed To Load Library
 loadData()
 
 /* =========================================================
-   FILTER BOOKS
+RENDER BOOKS
 ========================================================= */
 
 function renderBooks(type){
@@ -848,39 +842,10 @@ document.getElementById("library")
 
 box.innerHTML = ""
 
-/* ================= PURCHASED IDS ================= */
-
-let purchasedIds =
-MY_ORDERS
-
-.filter(o =>
-
-(
-
-o.email === user.email ||
-
-o.user === user.email ||
-
-o.buyer === user.email
-
-)
-
-&&
-
-o.productId
-
-)
-
-.map(o =>
-String(o.productId)
-)
-
 /* ================= FILTER ================= */
 
 let filtered =
 ALL_PRODUCTS.filter(product => {
-
-/* ONLY APPROVED */
 
 if(
 product.status &&
@@ -891,8 +856,6 @@ return false
 
 }
 
-/* ================= MY UPLOADS ================= */
-
 if(type === "uploads"){
 
 return (
@@ -901,40 +864,30 @@ product.owner === user.email
 
 }
 
-/* ================= PURCHASED ================= */
-
-if(type === "purchased"){
-
-return purchasedIds.includes(
-String(product.id)
-)
-
-}
-
-/* ================= SUBSCRIPTION ================= */
-
-if(type === "subscription"){
-
-return HAS_SUBSCRIPTION
-
-}
-
-/* ================= ALL ================= */
-
 return true
 
 })
 
-/* ================= CLEAR ================= */
+/* ================= EMPTY ================= */
 
-box.innerHTML = ""
+if(filtered.length === 0){
 
-/* ================= UNLOCK COUNT ================= */
+box.innerHTML = `
 
-let unlocked = 0
+<div class="empty">
+
+No Ebooks Found
+
+</div>
+
+`
+
+return
+
+}
 
 /* =========================================================
-   LOOP
+LOOP
 ========================================================= */
 
 filtered.forEach(product => {
@@ -944,18 +897,9 @@ filtered.forEach(product => {
 let owner =
 product.owner === user.email
 
-/* ================= PURCHASED ================= */
-
-let purchased =
-purchasedIds.includes(
-String(product.id)
-)
-
 /* ================= ACCESS ================= */
 
 let allow = false
-
-/* ADMIN */
 
 if(isAdmin){
 
@@ -963,33 +907,13 @@ allow = true
 
 }
 
-/* OWNER */
-
 else if(owner){
 
 allow = true
 
 }
 
-/* PURCHASED */
-
-else if(purchased){
-
-allow = true
-
-}
-
-/* SUBSCRIPTION */
-
-else if(
-
-HAS_SUBSCRIPTION
-
-||
-
-product.owner === user.email
-
-){
+else if(HAS_SUBSCRIPTION){
 
 allow = true
 
@@ -1008,19 +932,16 @@ product.image
 
 )
 
-/* ================= BUTTONS ================= */
+/* ================= BUTTON ================= */
 
-let buttons = ""
-
-/* READ */
-
-if(allow){
-
-buttons = `
+let button = `
 
 <button class="read-btn"
 
-onclick="openBook('${product.id}', ${allow})">
+onclick="openBook(
+'${product.id}',
+${allow}
+)">
 
 📖 Read Ebook
 
@@ -1028,11 +949,9 @@ onclick="openBook('${product.id}', ${allow})">
 
 `
 
-/* ================= OWNER ACTIONS ================= */
+/* ================= MANAGE ================= */
 
 let manage = ""
-
-/* ONLY OWNER OR ADMIN */
 
 if(owner || isAdmin){
 
@@ -1069,7 +988,9 @@ box.innerHTML += `
 <div class="card">
 
 <div class="menu">
+
 ⋮
+
 </div>
 
 <img
@@ -1097,7 +1018,7 @@ ${allow
 
 </div>
 
-${buttons}
+${button}
 
 ${manage}
 
@@ -1107,57 +1028,23 @@ ${manage}
 
 })
 
-/* ================= STATS ================= */
-
-document
-.getElementById("unlockedBooks")
-.innerText =
-unlocked
-
-/* ================= EMPTY ================= */
-
-if(box.innerHTML === ""){
-
-box.innerHTML = `
-
-<div class="empty">
-
-No Ebooks Found
-
-</div>
-
-`
-
-}
-
 }
 
 /* =========================================================
-   FILTER TAB
+OPEN BOOK
 ========================================================= */
 
-function filterBooks(type){
+function openBook(id,allow){
 
-document
-.querySelectorAll(".tab")
-.forEach(tab =>
+if(!allow){
 
-tab.classList.remove("active")
-
+alert(
+"Subscription required"
 )
 
-event.target
-.classList.add("active")
-
-renderBooks(type)
+return
 
 }
-
-/* =========================================================
-   OPEN PDF
-========================================================= */
-
-function openBook(id){
 
 let product =
 ALL_PRODUCTS.find(p =>
@@ -1173,96 +1060,56 @@ return
 
 }
 
-/* ================= PDF ================= */
-
 let pdf =
 product.pdf_url ||
-
 product.pdf ||
-
 ""
 
 if(!pdf){
 
-alert("PDF not available")
+alert("PDF missing")
 return
 
 }
 
-/* ================= GOOGLE DRIVE ================= */
-
-if(pdf.includes("/view")){
-
-window.open(
-pdf,
-"_blank"
-)
-
-return
-
-}
-
-if(pdf.includes("id=")){
-
-let fileId =
-pdf.split("id=")[1]
-
-window.open(
-
-"https://drive.google.com/file/d/" +
-
-fileId +
-
-"/view",
-
-"_blank"
-
-)
-
-return
-
-}
-
-/* ================= DIRECT ================= */
-
-window.open(pdf,"_blank")
-
-}
-
-/* =========================================================
-   BUY
-========================================================= */
-
-function buyBook(id){
+/* ================= SAVE VIEW ================= */
 
 localStorage.setItem(
-"buyProduct",
-id
+"viewerPDF",
+pdf
 )
 
+/* ================= OPEN VIEWER ================= */
+
 location.href =
-"payment.html"
+"viewer.html"
 
 }
 
 /* =========================================================
-   EDIT
+EDIT
 ========================================================= */
 
 function editBook(id){
 
+localStorage.setItem(
+"editBookId",
+id
+)
+
 location.href =
-"edit-ebook.html?id=" + id
+"edit-ebook.html"
 
 }
 
 /* =========================================================
-   DELETE
+DELETE
 ========================================================= */
 
 async function deleteBook(id){
 
-let ok = confirm(
+let ok =
+confirm(
 "Delete this ebook?"
 )
 
@@ -1270,7 +1117,8 @@ if(!ok) return
 
 try{
 
-let res = await fetch(PRODUCT_API,{
+let res =
+await fetch(PRODUCT_API,{
 
 method:"POST",
 
@@ -1293,7 +1141,10 @@ email:user.email
 let data =
 await res.json()
 
-alert(data.message)
+alert(
+data.message ||
+"Deleted"
+)
 
 loadData()
 
@@ -1305,7 +1156,28 @@ alert(err.message)
 
 }
 
+/* =========================================================
+FILTER TAB
+========================================================= */
+
+function filterBooks(type){
+
+document
+.querySelectorAll(".tab")
+.forEach(tab =>
+
+tab.classList.remove("active")
+
+)
+
+event.target
+.classList.add("active")
+
+renderBooks(type)
+
+}
+
    </script>
-  
+   
 </body>
 </html>
