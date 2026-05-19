@@ -1,323 +1,865 @@
-<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Reader</title><style>
+<!DOCTYPE html>
+<html lang="en">
 
-body{
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>
+CreatorHub Reader
+</title>
+
+<style>
+
+*{
 margin:0;
-background:#020617;
-color:white;
-font-family:Arial;
-overflow:hidden;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
-/* TOPBAR */
+body{
+
+background:#020617;
+
+color:white;
+
+overflow:hidden;
+
+}
+
+/* =========================================================
+TOPBAR
+========================================================= */
 
 .topbar{
-background:#111827;
-padding:12px;
+
+height:65px;
+
+background:#07111f;
+
 display:flex;
+
 align-items:center;
-box-shadow:0 5px 20px black;
+
+padding:0 18px;
+
+border-bottom:
+1px solid rgba(255,255,255,.06);
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+z-index:9999;
+
+backdrop-filter:blur(20px);
+
 }
 
 .back{
+
+font-size:24px;
+
 cursor:pointer;
-font-size:22px;
+
+width:50px;
+
 }
 
 .title{
+
 flex:1;
+
 text-align:center;
+
+font-size:22px;
+
+font-weight:700;
+
+}
+
+.title span{
+
 color:#22c55e;
-font-weight:bold;
+
 }
 
-/* LOADING */
+/* =========================================================
+VIEWER
+========================================================= */
 
-.loading{
+#viewer{
+
+position:fixed;
+
+top:65px;
+
+left:0;
+
+width:100%;
+
+height:calc(100vh - 65px);
+
+}
+
+/* =========================================================
+LOADER
+========================================================= */
+
+.loader{
+
+height:100%;
+
 display:flex;
-justify-content:center;
+
+flex-direction:column;
+
 align-items:center;
-height:80vh;
-font-size:20px;
-animation:pulse 1.5s infinite;
+
+justify-content:center;
+
+gap:20px;
+
 }
 
-@keyframes pulse{
-0%{opacity:.4}
-50%{opacity:1}
-100%{opacity:.4}
+.spinner{
+
+width:70px;
+
+height:70px;
+
+border-radius:50%;
+
+border:5px solid rgba(255,255,255,.1);
+
+border-top:5px solid #22c55e;
+
+animation:spin 1s linear infinite;
+
 }
 
-/* READER */
+@keyframes spin{
+
+100%{
+transform:rotate(360deg)
+}
+
+}
+
+/* =========================================================
+READER
+========================================================= */
 
 .reader{
+
 width:100%;
-height:calc(100vh - 50px);
+
+height:100%;
+
 position:relative;
+
+overflow:hidden;
+
+background:#000;
+
 }
 
-/* PDF */
+/* =========================================================
+PDF
+========================================================= */
 
 iframe{
+
 width:100%;
+
 height:100%;
+
 border:none;
+
+background:black;
+
 }
 
-/* WATERMARK */
+/* =========================================================
+WATERMARK
+========================================================= */
 
 .watermark{
+
 position:absolute;
+
 top:0;
+
 left:0;
+
 width:100%;
+
 height:100%;
+
 pointer-events:none;
-opacity:.12;
-font-size:38px;
+
 display:flex;
+
 align-items:center;
+
 justify-content:center;
-animation:moveWatermark 18s linear infinite;
+
+font-size:30px;
+
+font-weight:bold;
+
+opacity:.08;
+
+transform:rotate(-30deg);
+
+color:white;
+
+z-index:99;
+
 }
 
-@keyframes moveWatermark{
-
-0%{transform:translate(-20%,-20%)}
-
-50%{transform:translate(20%,20%)}
-
-100%{transform:translate(-20%,-20%)}
-
-}
-
-/* BLOCK MESSAGE */
-
-.block{
-display:flex;
-justify-content:center;
-align-items:center;
-height:80vh;
-font-size:22px;
-opacity:.7;
-}
-
-/* SCREEN OVERLAY */
+/* =========================================================
+OVERLAY
+========================================================= */
 
 .overlay{
+
 position:absolute;
+
 top:0;
+
 left:0;
+
 width:100%;
+
 height:100%;
+
 pointer-events:none;
-background:repeating-linear-gradient(
+
+background:
+
+repeating-linear-gradient(
+
 45deg,
-rgba(255,255,255,0.02),
-rgba(255,255,255,0.02) 2px,
+
+rgba(255,255,255,.02),
+
+rgba(255,255,255,.02) 2px,
+
 transparent 2px,
-transparent 6px
+
+transparent 8px
+
 );
+
+z-index:100;
+
 }
 
-</style></head><body><div class="topbar"><div class="back" onclick="history.back()">⬅</div><div class="title">
-Secure Ebook Reader
-</div></div><div id="viewer" class="loading">
-Loading Ebook...
-</div><script>
+/* =========================================================
+BOTTOM CONTROLS
+========================================================= */
 
-<div style="padding:10px;text-align:center">
+.controls{
 
-<button onclick="startVoice()">🔊 Listen</button>
+position:absolute;
 
-<button onclick="stopVoice()">⛔ Stop</button>
+bottom:18px;
+
+left:50%;
+
+transform:translateX(-50%);
+
+display:flex;
+
+gap:12px;
+
+z-index:999;
+
+}
+
+.control-btn{
+
+background:
+rgba(15,23,42,.92);
+
+border:1px solid rgba(255,255,255,.08);
+
+padding:14px 18px;
+
+border-radius:18px;
+
+color:white;
+
+font-size:15px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+backdrop-filter:blur(20px);
+
+transition:.3s;
+
+}
+
+.control-btn:hover{
+
+transform:translateY(-2px);
+
+}
+
+.listen{
+
+background:
+linear-gradient(
+90deg,
+#16a34a,
+#4ade80
+);
+
+}
+
+.stop{
+
+background:
+linear-gradient(
+90deg,
+#dc2626,
+#ef4444
+);
+
+}
+
+/* =========================================================
+ERROR
+========================================================= */
+
+.block{
+
+height:100%;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:22px;
+
+opacity:.7;
+
+padding:30px;
+
+text-align:center;
+
+}
+
+/* =========================================================
+MOBILE
+========================================================= */
+
+@media(max-width:700px){
+
+.title{
+
+font-size:18px;
+
+}
+
+.watermark{
+
+font-size:22px;
+
+}
+
+.controls{
+
+bottom:12px;
+
+gap:8px;
+
+}
+
+.control-btn{
+
+padding:12px 14px;
+
+font-size:13px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- =========================================================
+TOPBAR
+========================================================= -->
+
+<div class="topbar">
+
+<div
+class="back"
+onclick="history.back()">
+
+⬅
 
 </div>
-  
-/* APIs */
+
+<div class="title">
+
+Creator<span>Hub</span> Reader
+
+</div>
+
+</div>
+
+<!-- =========================================================
+VIEWER
+========================================================= -->
+
+<div id="viewer">
+
+<div class="loader">
+
+<div class="spinner"></div>
+
+<div>
+
+Loading Ebook...
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =========================================================
+SCRIPT
+========================================================= -->
+
+<script>
+
+/* =========================================================
+CONFIG
+========================================================= */
 
 const PRODUCT_API =
-"https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec"
+"https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec"
 
-const PAYMENT_API =
-"https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
-  
-const ADMIN="ayushprajpati6@gmail.com"
+const SUBSCRIPTION_API =
+"https://script.google.com/macros/s/AKfycbyKnVmxYCTskDLpOk_s2Ch1nHnVvD__GVHbnztTCvl4bzYgk7sDx0F1WuJ0CXMORqs/exec"
 
-/* USER */
+const ADMIN =
+"ayushprajpati6@gmail.com"
 
-let user=JSON.parse(localStorage.getItem("user")||"null")
+/* =========================================================
+USER
+========================================================= */
+
+let user =
+JSON.parse(
+localStorage.getItem("user") || "null"
+)
 
 if(!user){
 
-location.href="login.html"
+location.href =
+"login.html"
 
 }
 
-/* PRODUCT ID */
+/* =========================================================
+PRODUCT ID
+========================================================= */
 
-let params=new URLSearchParams(location.search)
+let params =
+new URLSearchParams(
+location.search
+)
 
-let id=params.get("id")
+let id =
+params.get("id")
 
 if(!id){
 
-document.getElementById("viewer").innerHTML="<div class='block'>Invalid Ebook</div>"
+document.getElementById("viewer")
+.innerHTML =
+
+"<div class='block'>Invalid Ebook</div>"
 
 }
 
-/* DRIVE ID */
+/* =========================================================
+DRIVE ID
+========================================================= */
 
 function driveId(link){
 
 if(!link) return null
 
-if(link.includes("id="))
-return link.split("id=")[1].split("&")[0]
+if(link.includes("id=")){
 
-if(link.includes("/file/d/"))
-return link.split("/file/d/")[1].split("/")[0]
+return link
+.split("id=")[1]
+.split("&")[0]
+
+}
+
+if(link.includes("/file/d/")){
+
+return link
+.split("/file/d/")[1]
+.split("/")[0]
+
+}
 
 return null
 
 }
 
-/* GET DB */
+/* =========================================================
+GET JSON
+========================================================= */
 
-async function getDB(api,db){
+async function getJSON(url){
 
-let res=await fetch(api+"?db="+db+"&t="+Date.now())
+let res =
+await fetch(url)
 
-let data=await res.json()
-
-return Array.isArray(data)?data:[]
+return await res.json()
 
 }
 
-/* LOAD READER */
+/* =========================================================
+CHECK SUBSCRIPTION
+========================================================= */
+
+async function checkSubscription(){
+
+try{
+
+let res =
+await fetch(
+
+SUBSCRIPTION_API,
+
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+action:"check_subscription",
+
+email:user.email
+
+})
+
+}
+
+)
+
+let data =
+await res.json()
+
+return data.active === true
+
+}catch{
+
+return false
+
+}
+
+}
+
+/* =========================================================
+LOAD READER
+========================================================= */
 
 async function loadReader(){
 
-let products=await getDB(PRODUCT_API,"products")
+try{
 
-let orders=await getDB(PAYMENT_API,"orders")
-  
-let subs=await getDB(PAYMENT_API,"subscriptions")
-  
-let product=products.find(p=>String(p.id)===String(id))
+/* ================= PRODUCTS ================= */
+
+let data =
+await getJSON(
+
+PRODUCT_API +
+"?action=products&t=" +
+Date.now()
+
+)
+
+let products =
+data.products || []
+
+/* ================= FIND PRODUCT ================= */
+
+let product =
+products.find(p =>
+
+String(p.id) === String(id)
+
+)
 
 if(!product){
 
-document.getElementById("viewer").innerHTML="<div class='block'>Ebook not found</div>"
+document.getElementById("viewer")
+.innerHTML =
+
+"<div class='block'>Ebook Not Found</div>"
 
 return
 
 }
 
-/* ACCESS CHECK */
+/* ================= ACCESS ================= */
 
-let purchased=orders.find(o=>
+let owner =
+product.owner === user.email
 
-o.productId==id &&
-o.buyer===user.email &&
-(o.status==="paid"||o.payment==="paid")
+let subscribed =
+await checkSubscription()
 
-)
+let allow = false
 
-let owner=product.owner===user.email
+if(user.email === ADMIN){
 
-let sub=subs.find(s =>
-s.email===user.email &&
-new Date(s.expiry) > new Date()
-)
+allow = true
 
-let allow=false
+}
 
-if(user.email===ADMIN) allow=true
-else if(owner) allow=true
-else if(sub) allow=true
-else if(purchased) allow=true
+else if(owner){
+
+allow = true
+
+}
+
+else if(subscribed){
+
+allow = true
+
+}
 
 if(!allow){
 
-document.getElementById("viewer").innerHTML="<div class='block'>Buy this ebook to read</div>"
+document.getElementById("viewer")
+.innerHTML =
+
+"<div class='block'>Subscription Required To Read This Ebook</div>"
 
 return
 
 }
 
-/* PDF VIEW */
+/* ================= PDF ================= */
 
-let fileId=driveId(product.pdf)
+let pdf =
 
-let url="https://drive.google.com/file/d/"+fileId+"/preview"
+product.pdf_url ||
+product.pdf ||
+""
 
-document.getElementById("viewer").innerHTML=
+if(!pdf){
 
-`
+document.getElementById("viewer")
+.innerHTML =
+
+"<div class='block'>PDF Missing</div>"
+
+return
+
+}
+
+let fileId =
+driveId(pdf)
+
+if(!fileId){
+
+document.getElementById("viewer")
+.innerHTML =
+
+"<div class='block'>Invalid PDF Link</div>"
+
+return
+
+}
+
+/* ================= GOOGLE PREVIEW ================= */
+
+let preview =
+
+"https://drive.google.com/file/d/" +
+fileId +
+"/preview"
+
+/* ================= RENDER ================= */
+
+document.getElementById("viewer")
+.innerHTML = `
 
 <div class="reader">
 
-<iframe src="${url}" allow="autoplay" sandbox="allow-scripts allow-same-origin"></iframe>
+<iframe
+src="${preview}"
+allowfullscreen
+loading="lazy">
+
+</iframe>
 
 <div class="watermark">
-${user.email} • CreatorHub • Protected
+
+${user.email}
+
 </div>
 
 <div class="overlay"></div>
 
+<div class="controls">
+
+<button
+class="control-btn listen"
+onclick="startVoice()">
+
+🔊 Listen
+
+</button>
+
+<button
+class="control-btn stop"
+onclick="stopVoice()">
+
+⛔ Stop
+
+</button>
+
+</div>
+
 </div>
 
 `
+
+}catch(err){
+
+console.log(err)
+
+document.getElementById("viewer")
+.innerHTML =
+
+"<div class='block'>Failed To Load Ebook</div>"
+
+}
 
 }
 
 loadReader()
 
-/* BLOCK RIGHT CLICK */
-
-document.addEventListener("contextmenu",e=>e.preventDefault())
-
-/* BLOCK COPY */
-
-document.addEventListener("copy",e=>e.preventDefault())
-
-  /* ================= VOICE READER ================= */
+/* =========================================================
+VOICE READER
+========================================================= */
 
 function startVoice(){
 
-let text=document.body.innerText
+let text =
+document.body.innerText
 
-let speech=new SpeechSynthesisUtterance(text)
+let speech =
+new SpeechSynthesisUtterance(text)
 
-speech.lang="en-US"
+speech.lang =
+"en-US"
 
-speech.rate=1
+speech.rate = 1
 
-speech.pitch=1
+speech.pitch = 1
 
-speechSynthesis.speak(speech)
+speech.volume = 1
+
+window.speechSynthesis
+.speak(speech)
 
 }
 
 function stopVoice(){
 
-speechSynthesis.cancel()
+window.speechSynthesis
+.cancel()
 
 }
 
-/* BLOCK PRINT */
+/* =========================================================
+BLOCK ACTIONS
+========================================================= */
 
-document.addEventListener("keydown",function(e){
+document.addEventListener(
 
-if(e.ctrlKey && (e.key==="p" || e.key==="s")){
+"contextmenu",
+
+e => e.preventDefault()
+
+)
+
+document.addEventListener(
+
+"copy",
+
+e => e.preventDefault()
+
+)
+
+document.addEventListener(
+
+"keydown",
+
+function(e){
+
+if(
+
+e.ctrlKey &&
+
+(
+
+e.key === "p" ||
+
+e.key === "s" ||
+
+e.key === "u"
+
+)
+
+){
 
 e.preventDefault()
 
-alert("Action blocked")
+alert("Blocked")
 
 }
 
-})
+}
 
-</script></body>
+)
+
+</script>
+
+</body>
 </html>
