@@ -1001,19 +1001,34 @@ let localUser = JSON.parse(
 localStorage.getItem("user")
 ) || {}
 
+console.log("LOCAL USER:",localUser)
+
 console.log(localUser)
 
-let email =
+let email = ""
 
-localUser.email ||
+if(localUser.email){
 
-(localUser.user &&
-localUser.user.email)
+email = localUser.email
+
+}
+
+else if(
+localUser.user &&
+localUser.user.email
+){
+
+email = localUser.user.email
+
+}
 
 if(!email){
 
-username.innerText = "Guest"
-menuName.innerText = "Guest"
+document.getElementById("username")
+.innerText = "Guest"
+
+document.getElementById("menuName")
+.innerText = "Guest"
 
 return
 
