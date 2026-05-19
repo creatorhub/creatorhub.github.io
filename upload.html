@@ -713,7 +713,10 @@ Remove
 
 <input hidden type="file" id="pdf">
 
-<button class="upload-btn" onclick="uploadBook()">
+<button
+class="upload-btn"
+id="uploadBtn"
+onclick="uploadBook()">
 Upload Ebook
 </button>
 
@@ -1447,6 +1450,14 @@ throw err
 ========================================================= */
 
 async function uploadBook(){
+
+const uploadBtn =
+document.getElementById("uploadBtn")
+
+uploadBtn.disabled = true
+
+uploadBtn.innerText =
+"Uploading..."
 
 try{
 
