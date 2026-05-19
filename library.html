@@ -1171,33 +1171,17 @@ return
 
 }
 
-/* ================= SAVE VIEW ================= */
+/* SAVE VIEW */
 
 localStorage.setItem(
 "viewerPDF",
 pdf
 )
 
-/* ================= OPEN VIEWER ================= */
+/* OPEN VIEWER */
 
 location.href =
-"viewer.html?id=" + id"
-
-}
-
-/* =========================================================
-EDIT
-========================================================= */
-
-function editBook(id){
-
-localStorage.setItem(
-"editBookId",
-id
-)
-
-location.href =
-"edit-ebook.html"
+"viewer.html?id=" + id
 
 }
 
