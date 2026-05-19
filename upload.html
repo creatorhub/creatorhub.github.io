@@ -1550,7 +1550,7 @@ return data.id
    DRIVE UPLOAD
 ========================================================= */
 
-async function uploadToDrive(file,folderId){
+async function uploadToDrive(file){
 
 try{
 
@@ -1565,10 +1565,10 @@ new Blob([JSON.stringify({
 name:file.name,
 
 parents:[
-"1yy-SEqwyTc3ZgTEfR_DPjFVbkUjij0Vw"
+"1WBqoulfH4FNt9o3krB4d4HxSWPA5o-lV"
 ],
 
-mimeType:file.type,
+mimeType:file.type
 
 })],{
 
@@ -1577,6 +1577,13 @@ type:"application/json"
 })
 
 )
+
+form.append(
+"file",
+file
+)
+
+}
 
 form.append("file",file)
 
