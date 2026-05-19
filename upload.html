@@ -1549,9 +1549,11 @@ new Blob([JSON.stringify({
 
 name:file.name,
 
-mimeType:file.type,
+parents:[
+"1yy-SEqwyTc3ZgTEfR_DPjFVbkUjij0Vw"
+],
 
-parents:[folderId]
+mimeType:file.type,
 
 })],{
 
@@ -1840,8 +1842,6 @@ uploadText.innerText =
 "Uploaded Successfully"
 
 uploadBtn.disabled = true
-
-alert("Ebook Uploaded Successfully")
 
 }else{
 
