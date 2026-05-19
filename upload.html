@@ -459,6 +459,18 @@ font-size:18px;
 
 }
 
+@keyframes spin{
+
+0%{
+transform:rotate(0deg);
+}
+
+100%{
+transform:rotate(360deg);
+}
+
+}
+
 </style>
 </head>
 
@@ -717,7 +729,25 @@ Remove
 class="upload-btn"
 id="uploadBtn"
 onclick="uploadBook()">
+
+<span id="uploadText">
 Upload Ebook
+</span>
+
+<span
+id="uploadLoader"
+style="
+display:none;
+width:22px;
+height:22px;
+border:3px solid rgba(255,255,255,0.3);
+border-top:3px solid white;
+border-radius:50%;
+animation:spin 1s linear infinite;
+margin:auto;
+">
+</span>
+
 </button>
 
 <div class="approval">
@@ -1454,10 +1484,17 @@ async function uploadBook(){
 const uploadBtn =
 document.getElementById("uploadBtn")
 
+const uploadText =
+document.getElementById("uploadText")
+
+const uploadLoader =
+document.getElementById("uploadLoader")
+
 uploadBtn.disabled = true
 
-uploadBtn.innerText =
-"Uploading..."
+uploadText.style.display = "none"
+
+uploadLoader.style.display = "block"
 
 try{
 
@@ -1602,7 +1639,11 @@ console.log(data)
 
 if(data.success){
 
-uploadBtn.innerText =
+uploadLoader.style.display = "none"
+
+uploadText.style.display = "block"
+
+uploadText.innerText =
 "Uploaded Successfully"
 
 alert("Ebook Uploaded Successfully")
@@ -1619,14 +1660,19 @@ alert(data.message || "Upload failed")
 
 uploadBtn.disabled = false
 
-uploadBtn.innerText =
+uploadLoader.style.display = "none"
+
+uploadText.style.display = "block"
+
+uploadText.innerText =
 "Upload Ebook"
 
 console.log(err)
 
-alert(JSON.stringify(err))
+alert(err.message)
 
 }
+
 
 }
 
