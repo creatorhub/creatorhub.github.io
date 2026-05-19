@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CreatorHub Library</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>My Library - CreatorHub</title>
 
 <style>
 
@@ -17,6 +20,7 @@ font-family:Arial,sans-serif;
 body{
 background:#020617;
 color:white;
+overflow-x:hidden;
 }
 
 :root{
@@ -24,6 +28,8 @@ color:white;
 --green:#22c55e;
 --border:#1e293b;
 }
+
+/* TOPBAR */
 
 .topbar{
 position:sticky;
@@ -43,7 +49,7 @@ cursor:pointer;
 }
 
 .title{
-font-size:32px;
+font-size:34px;
 font-weight:bold;
 }
 
@@ -60,11 +66,15 @@ color:white;
 font-weight:bold;
 }
 
+/* MAIN */
+
 .container{
 padding:20px;
-max-width:1500px;
+max-width:1600px;
 margin:auto;
 }
+
+/* STATS */
 
 .stats{
 display:grid;
@@ -75,8 +85,8 @@ margin-top:25px;
 
 .stat-box{
 background:var(--card);
-padding:22px;
-border-radius:22px;
+padding:24px;
+border-radius:24px;
 border:1px solid var(--border);
 display:flex;
 align-items:center;
@@ -84,30 +94,37 @@ gap:18px;
 }
 
 .icon{
-width:65px;
-height:65px;
+width:70px;
+height:70px;
 border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:28px;
+font-size:30px;
 background:rgba(34,197,94,.15);
 }
 
 .stat-box h2{
-font-size:30px;
+font-size:32px;
 }
 
 .stat-box p{
 opacity:.7;
-margin-top:4px;
+margin-top:5px;
 }
+
+/* TABS */
 
 .tabs{
 display:flex;
 gap:14px;
 margin-top:28px;
-flex-wrap:wrap;
+overflow:auto;
+padding-bottom:10px;
+}
+
+.tabs::-webkit-scrollbar{
+display:none;
 }
 
 .tab{
@@ -117,19 +134,23 @@ border:1px solid var(--border);
 border-radius:14px;
 cursor:pointer;
 font-weight:bold;
-transition:.3s;
+white-space:nowrap;
 }
 
 .tab.active{
 background:linear-gradient(90deg,#16a34a,#4ade80);
 }
 
+/* GRID */
+
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
 gap:24px;
 margin-top:28px;
 }
+
+/* CARD */
 
 .card{
 background:var(--card);
@@ -142,14 +163,15 @@ overflow:hidden;
 }
 
 .card:hover{
-transform:translateY(-8px);
+transform:translateY(-6px);
 }
 
 .cover{
 width:100%;
-height:320px;
+height:340px;
 object-fit:cover;
 border-radius:18px;
+background:#111827;
 }
 
 .menu{
@@ -157,8 +179,9 @@ position:absolute;
 top:18px;
 right:18px;
 background:rgba(0,0,0,.5);
-padding:8px 10px;
+padding:8px 12px;
 border-radius:12px;
+font-size:18px;
 }
 
 .book-title{
@@ -185,10 +208,23 @@ color:#4ade80;
 
 .read-btn{
 width:100%;
-padding:14px;
+padding:15px;
 border:none;
 border-radius:14px;
 background:linear-gradient(90deg,#16a34a,#4ade80);
+color:white;
+font-size:17px;
+font-weight:bold;
+margin-top:18px;
+cursor:pointer;
+}
+
+.buy-btn{
+width:100%;
+padding:15px;
+border:none;
+border-radius:14px;
+background:#f97316;
 color:white;
 font-size:17px;
 font-weight:bold;
@@ -224,6 +260,8 @@ font-weight:bold;
 cursor:pointer;
 }
 
+/* SUBSCRIPTION */
+
 .subscription{
 margin-top:35px;
 background:linear-gradient(90deg,#1e1b4b,#312e81);
@@ -232,8 +270,8 @@ border-radius:26px;
 display:flex;
 align-items:center;
 justify-content:space-between;
-flex-wrap:wrap;
 gap:20px;
+flex-wrap:wrap;
 }
 
 .subscription h2{
@@ -256,6 +294,8 @@ font-weight:bold;
 cursor:pointer;
 }
 
+/* NAV */
+
 .bottom-nav{
 position:fixed;
 bottom:0;
@@ -266,18 +306,31 @@ padding:14px;
 display:flex;
 justify-content:space-around;
 border-top:1px solid rgba(255,255,255,.05);
+z-index:100;
 }
 
 .nav-item{
 text-align:center;
 font-size:14px;
 opacity:.7;
+cursor:pointer;
 }
 
 .nav-item.active{
 color:#4ade80;
 opacity:1;
 }
+
+/* EMPTY */
+
+.empty{
+text-align:center;
+padding:80px;
+font-size:22px;
+opacity:.7;
+}
+
+/* MOBILE */
 
 @media(max-width:900px){
 
@@ -301,13 +354,17 @@ justify-content:center;
 }
 
 </style>
+
 </head>
 
 <body>
 
+<!-- TOPBAR -->
+
 <div class="topbar">
 
-<div class="back">
+<div class="back"
+onclick="history.back()">
 ⬅
 </div>
 
@@ -315,245 +372,661 @@ justify-content:center;
 My <span>Library</span>
 </div>
 
-<a href="dashboard.html" class="dashboard">
+<a href="dashboard.html"
+class="dashboard">
+
 Dashboard
+
 </a>
 
 </div>
 
+<!-- MAIN -->
+
 <div class="container">
+
+<!-- STATS -->
 
 <div class="stats">
 
 <div class="stat-box">
-<div class="icon">📚</div>
+
+<div class="icon">
+📚
+</div>
+
 <div>
-<h2>24</h2>
+
+<h2 id="totalBooks">
+0
+</h2>
+
 <p>Total Books</p>
+
 </div>
+
 </div>
 
 <div class="stat-box">
-<div class="icon">🔓</div>
+
+<div class="icon">
+🔓
+</div>
+
 <div>
-<h2>18</h2>
+
+<h2 id="unlockedBooks">
+0
+</h2>
+
 <p>Unlocked</p>
+
 </div>
+
 </div>
 
 <div class="stat-box">
-<div class="icon">⭐</div>
+
+<div class="icon">
+⭐
+</div>
+
 <div>
-<h2>5</h2>
+
+<h2 id="premiumBooks">
+0
+</h2>
+
 <p>Premium</p>
+
 </div>
+
 </div>
 
 <div class="stat-box">
-<div class="icon">👑</div>
-<div>
-<h2>Active</h2>
-<p>Subscription</p>
+
+<div class="icon">
+👑
 </div>
+
+<div>
+
+<h2 id="subscriptionStatus">
+Inactive
+</h2>
+
+<p>Subscription</p>
+
 </div>
 
 </div>
+
+</div>
+
+<!-- TABS -->
 
 <div class="tabs">
-<div class="tab active">All Books</div>
-<div class="tab">Purchased</div>
-<div class="tab">Subscription</div>
-<div class="tab">My Uploads</div>
-<div class="tab">Favorites</div>
+
+<div class="tab active"
+onclick="filterBooks('all')">
+
+All Books
+
 </div>
 
-<div class="grid">
+<div class="tab"
+onclick="filterBooks('purchased')">
 
-<div class="card">
+Purchased
 
-<div class="menu">⋮</div>
-
-<img class="cover"
-src="https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=1200&auto=format&fit=crop">
-
-<div class="book-title">
-The Power Of Focus
 </div>
 
-<div class="author">
-James Clear
+<div class="tab"
+onclick="filterBooks('subscription')">
+
+Subscription
+
 </div>
 
-<div class="badge">
-Unlocked
-</div>
+<div class="tab"
+onclick="filterBooks('uploads')">
 
-<button class="read-btn">
-📖 Read Ebook
-</button>
+My Uploads
 
-<div class="actions">
-<button class="edit">
-✏ Edit
-</button>
-
-<button class="delete">
-🗑 Delete
-</button>
 </div>
 
 </div>
 
-<div class="card">
+<!-- GRID -->
 
-<div class="menu">⋮</div>
-
-<img class="cover"
-src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=1200&auto=format&fit=crop">
-
-<div class="book-title">
-Mindset Mastery
-</div>
-
-<div class="author">
-Brian Tracy
-</div>
-
-<div class="badge">
-Premium
-</div>
-
-<button class="read-btn">
-📖 Read Ebook
-</button>
-
-<div class="actions">
-<button class="edit">
-✏ Edit
-</button>
-
-<button class="delete">
-🗑 Delete
-</button>
-</div>
+<div id="library"
+class="grid">
 
 </div>
 
-<div class="card">
-
-<div class="menu">⋮</div>
-
-<img class="cover"
-src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=1200&auto=format&fit=crop">
-
-<div class="book-title">
-Atomic Habits
-</div>
-
-<div class="author">
-James Clear
-</div>
-
-<div class="badge">
-Unlocked
-</div>
-
-<button class="read-btn">
-📖 Read Ebook
-</button>
-
-<div class="actions">
-<button class="edit">
-✏ Edit
-</button>
-
-<button class="delete">
-🗑 Delete
-</button>
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="menu">⋮</div>
-
-<img class="cover"
-src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=1200&auto=format&fit=crop">
-
-<div class="book-title">
-Future Of AI
-</div>
-
-<div class="author">
-Henry Kissinger
-</div>
-
-<div class="badge">
-Premium
-</div>
-
-<button class="read-btn">
-📖 Read Ebook
-</button>
-
-<div class="actions">
-<button class="edit">
-✏ Edit
-</button>
-
-<button class="delete">
-🗑 Delete
-</button>
-</div>
-
-</div>
-
-</div>
+<!-- SUBSCRIPTION -->
 
 <div class="subscription">
 
 <div>
+
 <h2>
 👑 Active Subscription
 </h2>
 
 <p>
-Enjoy unlimited ebook reading access
+Enjoy unlimited access to all premium ebooks
 </p>
+
 </div>
 
-<button class="manage-btn">
+<button class="manage-btn"
+onclick="location.href='subscription.html'">
+
 Manage Subscription
+
 </button>
 
 </div>
 
 </div>
 
+<!-- NAV -->
+
 <div class="bottom-nav">
 
-<div class="nav-item">
+<div class="nav-item"
+onclick="location.href='index.html'">
+
 🏠<br>Home
+
 </div>
 
-<div class="nav-item">
+<div class="nav-item"
+onclick="location.href='explore.html'">
+
 🔍<br>Explore
+
 </div>
 
 <div class="nav-item active">
+
 📚<br>Library
+
 </div>
 
-<div class="nav-item">
+<div class="nav-item"
+onclick="location.href='upload.html'">
+
 ⬆<br>Upload
+
 </div>
 
-<div class="nav-item">
+<div class="nav-item"
+onclick="location.href='profile.html'">
+
 👤<br>Profile
+
 </div>
 
 </div>
+
+<script>
+
+/* ================= API ================= */
+
+const ADMIN =
+"ayushprajpati6@gmail.com"
+
+const PRODUCT_API =
+"https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec"
+
+const SUBSCRIPTION_API =
+"https://script.google.com/macros/s/AKfycbyKnVmxYCTskDLpOk_s2Ch1nHnVvD__GVHbnztTCvl4bzYgk7sDx0F1WuJ0CXMORqs/exec"
+
+/* ================= USER ================= */
+
+let user =
+JSON.parse(
+localStorage.getItem("user") || "null"
+)
+
+if(!user){
+
+alert("Login First")
+
+location.href =
+"login.html"
+
+}
+
+let isAdmin =
+user.email === ADMIN
+
+let ALL_PRODUCTS = []
+let MY_ORDERS = []
+let HAS_SUBSCRIPTION = false
+
+/* ================= DRIVE IMAGE ================= */
+
+function driveId(link){
+
+if(!link) return null
+
+if(link.includes("id="))
+return link.split("id=")[1].split("&")[0]
+
+if(link.includes("/file/d/"))
+return link.split("/file/d/")[1].split("/")[0]
+
+return null
+
+}
+
+function driveImage(link){
+
+let id = driveId(link)
+
+if(id){
+
+return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000"
+
+}
+
+return "https://picsum.photos/400"
+
+}
+
+/* ================= FETCH ================= */
+
+async function loadData(){
+
+try{
+
+/* PRODUCTS */
+
+let productRes =
+await fetch(
+PRODUCT_API +
+"?action=products&t=" +
+Date.now()
+)
+
+let productData =
+await productRes.json()
+
+ALL_PRODUCTS =
+productData.products || []
+
+/* SUBSCRIPTIONS */
+
+let subRes =
+await fetch(
+SUBSCRIPTION_API +
+"?action=orders&t=" +
+Date.now()
+)
+
+let subData =
+await subRes.json()
+
+MY_ORDERS =
+subData.orders || []
+
+/* ACTIVE SUB */
+
+HAS_SUBSCRIPTION =
+MY_ORDERS.some(o =>
+
+o.email === user.email &&
+
+o.type === "subscription" &&
+
+o.status === "paid"
+
+)
+
+document
+.getElementById(
+"subscriptionStatus"
+)
+.innerText =
+HAS_SUBSCRIPTION
+? "Active"
+: "Inactive"
+
+/* STATS */
+
+document
+.getElementById(
+"totalBooks"
+)
+.innerText =
+ALL_PRODUCTS.length
+
+document
+.getElementById(
+"premiumBooks"
+)
+.innerText =
+ALL_PRODUCTS.filter(
+p => p.subscription
+).length
+
+renderBooks("all")
+
+}catch(err){
+
+console.log(err)
+
+}
+
+}
+
+loadData()
+
+/* ================= RENDER ================= */
+
+function renderBooks(type){
+
+let box =
+document.getElementById("library")
+
+box.innerHTML = ""
+
+let purchasedIds =
+MY_ORDERS
+.filter(o =>
+
+o.email === user.email &&
+
+o.productId
+
+)
+.map(o =>
+String(o.productId)
+)
+
+let filtered =
+ALL_PRODUCTS.filter(product => {
+
+if(type === "uploads"){
+
+return product.owner === user.email
+
+}
+
+if(type === "purchased"){
+
+return purchasedIds.includes(
+String(product.id)
+)
+
+}
+
+if(type === "subscription"){
+
+return product.subscription
+
+}
+
+return true
+
+})
+
+document
+.getElementById(
+"unlockedBooks"
+)
+.innerText =
+filtered.length
+
+filtered.forEach(product => {
+
+let owner =
+product.owner === user.email
+
+let purchased =
+purchasedIds.includes(
+String(product.id)
+)
+
+let allow = false
+
+if(isAdmin)
+allow = true
+
+else if(owner)
+allow = true
+
+else if(purchased)
+allow = true
+
+else if(
+HAS_SUBSCRIPTION &&
+product.subscription
+)
+allow = true
+
+let image =
+driveImage(
+product.front_cover
+)
+
+let buttons = ""
+
+if(allow){
+
+buttons = `
+
+<button class="read-btn"
+onclick="openBook('${product.id}')">
+
+📖 Read Ebook
+
+</button>
+
+`
+
+}else{
+
+buttons = `
+
+<button class="buy-btn"
+onclick="buyBook('${product.id}')">
+
+Buy ₹${product.price || 0}
+
+</button>
+
+`
+
+}
+
+let manage = ""
+
+if(owner || isAdmin){
+
+manage = `
+
+<div class="actions">
+
+<button class="edit"
+onclick="editBook('${product.id}')">
+
+✏ Edit
+
+</button>
+
+<button class="delete"
+onclick="deleteBook('${product.id}')">
+
+🗑 Delete
+
+</button>
+
+</div>
+
+`
+
+}
+
+box.innerHTML += `
+
+<div class="card">
+
+<div class="menu">
+⋮
+</div>
+
+<img class="cover"
+src="${image}">
+
+<div class="book-title">
+
+${product.title || "Untitled"}
+
+</div>
+
+<div class="author">
+
+${product.author || "Unknown"}
+
+</div>
+
+<div class="badge">
+
+${allow
+? "Unlocked"
+: "Premium"}
+
+</div>
+
+${buttons}
+
+${manage}
+
+</div>
+
+`
+
+})
+
+if(box.innerHTML === ""){
+
+box.innerHTML = `
+
+<div class="empty">
+
+No Ebooks Found
+
+</div>
+
+`
+
+}
+
+}
+
+/* ================= FILTER ================= */
+
+function filterBooks(type){
+
+document
+.querySelectorAll(".tab")
+.forEach(tab =>
+
+tab.classList.remove("active")
+
+)
+
+event.target
+.classList.add("active")
+
+renderBooks(type)
+
+}
+
+/* ================= OPEN ================= */
+
+function openBook(id){
+
+location.href =
+"viewer.html?id=" + id
+
+}
+
+/* ================= BUY ================= */
+
+function buyBook(id){
+
+localStorage.setItem(
+"buyProduct",
+id
+)
+
+location.href =
+"payment.html"
+
+}
+
+/* ================= EDIT ================= */
+
+function editBook(id){
+
+location.href =
+"edit-ebook.html?id=" + id
+
+}
+
+/* ================= DELETE ================= */
+
+async function deleteBook(id){
+
+let ok = confirm(
+"Delete this ebook?"
+)
+
+if(!ok) return
+
+try{
+
+let res = await fetch(PRODUCT_API,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"text/plain"
+},
+
+body:JSON.stringify({
+
+action:"deleteBook",
+
+id:id,
+
+email:user.email
+
+})
+
+})
+
+let data =
+await res.json()
+
+alert(data.message)
+
+loadData()
+
+}catch(err){
+
+alert(err.message)
+
+}
+
+}
+
+</script>
 
 </body>
 </html>
