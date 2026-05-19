@@ -1583,10 +1583,6 @@ form.append(
 file
 )
 
-}
-
-form.append("file",file)
-
 let res = await fetch(
 
 "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
@@ -1606,18 +1602,27 @@ body:form
 
 )
 
-console.log("DRIVE STATUS:",res.status)
+console.log(
+"DRIVE STATUS:",
+res.status
+)
 
-let data = await res.json()
+let data =
+await res.json()
 
-console.log("DRIVE RESPONSE:",data)
+console.log(
+"DRIVE RESPONSE:",
+data
+)
 
 if(!res.ok){
 
 throw new Error(
+
 data.error
 ? data.error.message
 : "Drive upload failed"
+
 )
 
 }
