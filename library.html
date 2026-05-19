@@ -160,6 +160,8 @@ border:1px solid var(--border);
 transition:.3s;
 position:relative;
 overflow:hidden;
+display:flex;
+flex-direction:column;
 }
 
 .card:hover{
@@ -167,18 +169,13 @@ transform:translateY(-6px);
 }
 
 .cover{
-
 width:100%;
-
-height:260px;
-
+aspect-ratio:2/3;
 object-fit:cover;
-
 border-radius:18px;
-
 display:block;
-
-background:#0f172a;
+background:#111827;
+border:1px solid rgba(255,255,255,.06);
 
 }
 
@@ -658,15 +655,43 @@ return null
 
 function driveImage(link){
 
-let id = driveId(link)
+if(!link){
 
-if(id){
-
-return `https://lh3.googleusercontent.com/d/${id}`
+return "https://picsum.photos/500"
 
 }
 
-return "https://picsum.photos/500"
+let id = ""
+
+/* id= */
+
+if(link.includes("id=")){
+
+id =
+link.split("id=")[1]
+.split("&")[0]
+
+}
+
+/* /d/ */
+
+else if(link.includes("/d/")){
+
+id =
+link.split("/d/")[1]
+.split("/")[0]
+
+}
+
+/* RAW ID */
+
+else{
+
+id = link
+
+}
+
+return `https://drive.google.com/thumbnail?id=${id}&sz=w1200`
 
 }
 
@@ -797,36 +822,35 @@ async function checkSubscription(){
 
 try{
 
-let res = await fetch(
+let res =
+await fetch(
 
-SUBSCRIPTION_API,
-
-{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-
-action:"check_subscription",
-
-email:user.email
-
-})
-
-}
+SUBSCRIPTION_API +
+"?db=subscriptions&t=" +
+Date.now()
 
 )
 
-let data = await res.json()
+let subs =
+await res.json()
 
-console.log(data)
+console.log(subs)
 
 HAS_SUBSCRIPTION =
-data.active === true
+subs.some(s =>
+
+String(s.email)
+.toLowerCase()
+===
+
+String(user.email)
+.toLowerCase()
+
+&&
+
+s.status === "active"
+
+)
 
 document
 .getElementById(
