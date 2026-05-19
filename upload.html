@@ -455,6 +455,10 @@ height:140px;
 
 .upload-btn{
 font-size:18px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
 }
 
 }
@@ -1511,7 +1515,16 @@ user.user.email)
 
 if(!userEmail){
 
+uploadBtn.disabled = false
+
+uploadLoader.style.display = "none"
+
+uploadText.style.display = "block"
+
+uploadText.innerText = "Upload Ebook"
+
 alert("Login required")
+
 return
 
 }
@@ -1522,6 +1535,11 @@ let backFile = back.files[0]
 
 if(!title.value.trim()){
 
+uploadBtn.disabled = false
+uploadLoader.style.display = "none"
+uploadText.style.display = "block"
+uploadText.innerText = "Upload Ebook"
+
 alert("Enter title")
 return
 
@@ -1529,21 +1547,48 @@ return
 
 if(!description.value.trim()){
 
+uploadBtn.disabled = false
+
+uploadLoader.style.display = "none"
+
+uploadText.style.display = "block"
+
+uploadText.innerText = "Upload Ebook"
+
 alert("Enter description")
+
 return
 
 }
 
 if(!pdfFile){
 
+uploadBtn.disabled = false
+
+uploadLoader.style.display = "none"
+
+uploadText.style.display = "block"
+
+uploadText.innerText = "Upload Ebook"
+
 alert("Upload PDF")
+
 return
 
 }
 
 if(!frontFile || !backFile){
 
+uploadBtn.disabled = false
+
+uploadLoader.style.display = "none"
+
+uploadText.style.display = "block"
+
+uploadText.innerText = "Upload Ebook"
+
 alert("Upload both covers")
+
 return
 
 }
@@ -1646,11 +1691,20 @@ uploadText.style.display = "block"
 uploadText.innerText =
 "Uploaded Successfully"
 
+uploadBtn.disabled = true
+
 alert("Ebook Uploaded Successfully")
 
-location.reload()
-
 }else{
+
+uploadBtn.disabled = false
+
+uploadLoader.style.display = "none"
+
+uploadText.style.display = "block"
+
+uploadText.innerText =
+"Upload Ebook"
 
 alert(data.message || "Upload failed")
 
