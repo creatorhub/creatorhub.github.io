@@ -573,6 +573,10 @@ onclick="location.href='profile.html'">
 
 <script>
 
+/* =========================================================
+   CREATORHUB MODERN LIBRARY FULL WORKING SCRIPT
+========================================================= */
+
 /* ================= API ================= */
 
 const ADMIN =
@@ -603,21 +607,37 @@ location.href =
 let isAdmin =
 user.email === ADMIN
 
+/* ================= GLOBALS ================= */
+
 let ALL_PRODUCTS = []
+
 let MY_ORDERS = []
+
 let HAS_SUBSCRIPTION = false
 
-/* ================= DRIVE IMAGE ================= */
+/* =========================================================
+   DRIVE IMAGE
+========================================================= */
 
 function driveId(link){
 
 if(!link) return null
 
-if(link.includes("id="))
-return link.split("id=")[1].split("&")[0]
+if(link.includes("id=")){
 
-if(link.includes("/file/d/"))
-return link.split("/file/d/")[1].split("/")[0]
+return link
+.split("id=")[1]
+.split("&")[0]
+
+}
+
+if(link.includes("/file/d/")){
+
+return link
+.split("/file/d/")[1]
+.split("/")[0]
+
+}
 
 return null
 
@@ -629,7 +649,9 @@ let id = driveId(link)
 
 if(id){
 
-return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000"
+return "https://drive.google.com/thumbnail?id=" +
+id +
+"&sz=w1000"
 
 }
 
@@ -637,19 +659,70 @@ return "https://picsum.photos/400"
 
 }
 
-/* ================= FETCH ================= */
+/* =========================================================
+   LOADER
+========================================================= */
+
+function showLoader(){
+
+document.getElementById("library")
+.innerHTML = `
+
+<div style="
+grid-column:1/-1;
+text-align:center;
+padding:80px;
+">
+
+<div style="
+width:70px;
+height:70px;
+border:5px solid rgba(255,255,255,.1);
+border-top:5px solid #22c55e;
+border-radius:50%;
+margin:auto;
+animation:spin 1s linear infinite;
+">
+
+</div>
+
+<p style="
+margin-top:20px;
+font-size:20px;
+opacity:.7;
+">
+
+Loading Library...
+
+</p>
+
+</div>
+
+`
+
+}
+
+/* =========================================================
+   LOAD DATA
+========================================================= */
 
 async function loadData(){
 
 try{
 
-/* PRODUCTS */
+showLoader()
+
+/* ================= PRODUCTS ================= */
 
 let productRes =
 await fetch(
+
 PRODUCT_API +
+
 "?action=products&t=" +
+
 Date.now()
+
 )
 
 let productData =
@@ -658,13 +731,17 @@ await productRes.json()
 ALL_PRODUCTS =
 productData.products || []
 
-/* SUBSCRIPTIONS */
+/* ================= SUBSCRIPTIONS ================= */
 
 let subRes =
 await fetch(
+
 SUBSCRIPTION_API +
+
 "?action=orders&t=" +
+
 Date.now()
+
 )
 
 let subData =
@@ -673,45 +750,69 @@ await subRes.json()
 MY_ORDERS =
 subData.orders || []
 
-/* ACTIVE SUB */
+/* ================= SUBSCRIPTION CHECK ================= */
 
 HAS_SUBSCRIPTION =
 MY_ORDERS.some(o =>
 
-o.email === user.email &&
+(
 
-o.type === "subscription" &&
+o.email === user.email ||
 
-o.status === "paid"
+o.user === user.email ||
+
+o.buyer === user.email
 
 )
+
+&&
+
+(
+
+o.type === "subscription" ||
+
+o.plan === "subscription"
+
+)
+
+&&
+
+(
+
+o.status === "paid" ||
+
+o.payment === "paid"
+
+)
+
+)
+
+/* ================= STATS ================= */
 
 document
-.getElementById(
-"subscriptionStatus"
-)
-.innerText =
-HAS_SUBSCRIPTION
-? "Active"
-: "Inactive"
-
-/* STATS */
-
-document
-.getElementById(
-"totalBooks"
-)
+.getElementById("totalBooks")
 .innerText =
 ALL_PRODUCTS.length
 
 document
-.getElementById(
-"premiumBooks"
-)
+.getElementById("subscriptionStatus")
 .innerText =
-ALL_PRODUCTS.filter(
-p => p.subscription
+
+HAS_SUBSCRIPTION
+? "Active"
+: "Inactive"
+
+document
+.getElementById("premiumBooks")
+.innerText =
+
+ALL_PRODUCTS.filter(p =>
+
+p.subscription
+
 ).length
+
+/* ================= RENDER ================= */
 
 renderBooks("all")
 
@@ -719,13 +820,26 @@ renderBooks("all")
 
 console.log(err)
 
+document.getElementById("library")
+.innerHTML = `
+
+<div class="empty">
+
+Failed To Load Library
+
+</div>
+
+`
+
 }
 
 }
 
 loadData()
 
-/* ================= RENDER ================= */
+/* =========================================================
+   RENDER BOOKS
+========================================================= */
 
 function renderBooks(type){
 
@@ -734,18 +848,34 @@ document.getElementById("library")
 
 box.innerHTML = ""
 
+/* ================= PURCHASED IDS ================= */
+
 let purchasedIds =
 MY_ORDERS
+
 .filter(o =>
 
-o.email === user.email &&
+(
+
+o.email === user.email ||
+
+o.user === user.email ||
+
+o.buyer === user.email
+
+)
+
+&&
 
 o.productId
 
 )
+
 .map(o =>
 String(o.productId)
 )
+
+/* ================= FILTER ================= */
 
 let filtered =
 ALL_PRODUCTS.filter(product => {
@@ -759,14 +889,16 @@ return product.owner === user.email
 if(type === "purchased"){
 
 return purchasedIds.includes(
+
 String(product.id)
+
 )
 
 }
 
 if(type === "subscription"){
 
-return product.subscription
+return HAS_SUBSCRIPTION
 
 }
 
@@ -774,12 +906,10 @@ return true
 
 })
 
-document
-.getElementById(
-"unlockedBooks"
-)
-.innerText =
-filtered.length
+/* ================= UNLOCKED ================= */
+
+let unlocked =
+0
 
 filtered.forEach(product => {
 
@@ -788,30 +918,59 @@ product.owner === user.email
 
 let purchased =
 purchasedIds.includes(
+
 String(product.id)
+
 )
 
 let allow = false
 
-if(isAdmin)
+/* ================= ACCESS ================= */
+
+if(isAdmin){
+
 allow = true
 
-else if(owner)
+}
+
+else if(owner){
+
 allow = true
 
-else if(purchased)
+}
+
+else if(purchased){
+
 allow = true
 
-else if(
-HAS_SUBSCRIPTION &&
-product.subscription
-)
+}
+
+else if(HAS_SUBSCRIPTION){
+
 allow = true
+
+}
+
+if(allow){
+
+unlocked++
+
+}
+
+/* ================= IMAGE ================= */
 
 let image =
 driveImage(
-product.front_cover
+
+product.front_cover ||
+
+product.frontCover ||
+
+product.image
+
 )
+
+/* ================= BUTTON ================= */
 
 let buttons = ""
 
@@ -820,6 +979,7 @@ if(allow){
 buttons = `
 
 <button class="read-btn"
+
 onclick="openBook('${product.id}')">
 
 📖 Read Ebook
@@ -833,6 +993,7 @@ onclick="openBook('${product.id}')">
 buttons = `
 
 <button class="buy-btn"
+
 onclick="buyBook('${product.id}')">
 
 Buy ₹${product.price || 0}
@@ -843,6 +1004,8 @@ Buy ₹${product.price || 0}
 
 }
 
+/* ================= OWNER ================= */
+
 let manage = ""
 
 if(owner || isAdmin){
@@ -852,6 +1015,7 @@ manage = `
 <div class="actions">
 
 <button class="edit"
+
 onclick="editBook('${product.id}')">
 
 ✏ Edit
@@ -859,6 +1023,7 @@ onclick="editBook('${product.id}')">
 </button>
 
 <button class="delete"
+
 onclick="deleteBook('${product.id}')">
 
 🗑 Delete
@@ -871,6 +1036,8 @@ onclick="deleteBook('${product.id}')">
 
 }
 
+/* ================= CARD ================= */
+
 box.innerHTML += `
 
 <div class="card">
@@ -879,7 +1046,8 @@ box.innerHTML += `
 ⋮
 </div>
 
-<img class="cover"
+<img
+class="cover"
 src="${image}">
 
 <div class="book-title">
@@ -912,6 +1080,15 @@ ${manage}
 
 })
 
+/* ================= STATS ================= */
+
+document
+.getElementById("unlockedBooks")
+.innerText =
+unlocked
+
+/* ================= EMPTY ================= */
+
 if(box.innerHTML === ""){
 
 box.innerHTML = `
@@ -928,7 +1105,9 @@ No Ebooks Found
 
 }
 
-/* ================= FILTER ================= */
+/* =========================================================
+   FILTER BOOKS
+========================================================= */
 
 function filterBooks(type){
 
@@ -947,16 +1126,85 @@ renderBooks(type)
 
 }
 
-/* ================= OPEN ================= */
+/* =========================================================
+   OPEN PDF
+========================================================= */
 
 function openBook(id){
 
-location.href =
-"viewer.html?id=" + id
+let product =
+ALL_PRODUCTS.find(p =>
+
+String(p.id) === String(id)
+
+)
+
+if(!product){
+
+alert("Book not found")
+return
 
 }
 
-/* ================= BUY ================= */
+/* ================= PDF ================= */
+
+let pdf =
+product.pdf_url ||
+
+product.pdf ||
+
+""
+
+if(!pdf){
+
+alert("PDF not available")
+return
+
+}
+
+/* ================= GOOGLE DRIVE ================= */
+
+if(pdf.includes("/view")){
+
+window.open(
+pdf,
+"_blank"
+)
+
+return
+
+}
+
+if(pdf.includes("id=")){
+
+let fileId =
+pdf.split("id=")[1]
+
+window.open(
+
+"https://drive.google.com/file/d/" +
+
+fileId +
+
+"/view",
+
+"_blank"
+
+)
+
+return
+
+}
+
+/* ================= DIRECT ================= */
+
+window.open(pdf,"_blank")
+
+}
+
+/* =========================================================
+   BUY
+========================================================= */
 
 function buyBook(id){
 
@@ -970,7 +1218,9 @@ location.href =
 
 }
 
-/* ================= EDIT ================= */
+/* =========================================================
+   EDIT
+========================================================= */
 
 function editBook(id){
 
@@ -979,7 +1229,9 @@ location.href =
 
 }
 
-/* ================= DELETE ================= */
+/* =========================================================
+   DELETE
+========================================================= */
 
 async function deleteBook(id){
 
@@ -1027,6 +1279,6 @@ alert(err.message)
 }
 
 </script>
-
+  
 </body>
 </html>
