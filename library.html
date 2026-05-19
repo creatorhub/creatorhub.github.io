@@ -740,52 +740,10 @@ await res.json()
 ALL_PRODUCTS =
 data.products || []
 
-/* ================= SUBSCRIPTION ================= */
+/* ================= CHECK SUBSCRIPTION ================= */
 
-let sub =
-await fetch(
-
-SUBSCRIPTION_API +
-"?action=orders&t=" +
-Date.now()
-
-)
-
-let subData =
-await sub.json()
-
-MY_ORDERS =
-subData.orders || []
-
-/* ================= CHECK ACTIVE ================= */
-
-HAS_SUBSCRIPTION =
-MY_ORDERS.some(o =>
-
-(
-
-o.email === user.email ||
-
-o.user === user.email ||
-
-o.buyer === user.email
-
-)
-
-&&
-
-(
-
-o.status === "active" ||
-
-o.status === "paid" ||
-
-o.payment === "paid"
-
-)
-
-)
-
+await checkSubscription()
+   
 /* ================= STATS ================= */
 
 document
@@ -830,6 +788,65 @@ Failed To Load Library
 }
 
 loadData()
+
+/* =========================================================
+CHECK SUBSCRIPTION
+========================================================= */
+
+async function checkSubscription(){
+
+try{
+
+let res = await fetch(
+
+SUBSCRIPTION_API,
+
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+action:"check_subscription",
+
+email:user.email
+
+})
+
+}
+
+)
+
+let data = await res.json()
+
+console.log(data)
+
+HAS_SUBSCRIPTION =
+data.active === true
+
+document
+.getElementById(
+"subscriptionStatus"
+)
+.innerText =
+
+HAS_SUBSCRIPTION
+? "Active"
+: "Inactive"
+
+}catch(err){
+
+console.log(err)
+
+HAS_SUBSCRIPTION = false
+
+}
+
+}
 
 /* =========================================================
 RENDER BOOKS
