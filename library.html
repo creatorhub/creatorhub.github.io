@@ -1,192 +1,321 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>My Library - CreatorHub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CreatorHub Library</title>
 
 <style>
 
-:root{
---bg:#020617;
---text:#ffffff;
---card:#111827;
---accent:#22c55e;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
 body{
-margin:0;
-font-family:Arial;
-background:var(--bg);
-color:var(--text);
+background:#020617;
+color:white;
 }
 
-/* HEADER */
+:root{
+--card:#0f172a;
+--green:#22c55e;
+--border:#1e293b;
+}
 
 .topbar{
-display:flex;
-align-items:center;
-padding:14px;
-background:var(--bg);
-box-shadow:0 5px 20px rgba(0,0,0,.4);
 position:sticky;
 top:0;
+z-index:100;
+background:#07111f;
+padding:18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+border-bottom:1px solid rgba(255,255,255,.05);
 }
 
 .back{
 font-size:24px;
 cursor:pointer;
-width:40px;
 }
 
 .title{
-flex:1;
-text-align:center;
+font-size:32px;
 font-weight:bold;
-color:#22c55e;
+}
+
+.title span{
+color:var(--green);
 }
 
 .dashboard{
-background:#22c55e;
-padding:8px 14px;
-border-radius:20px;
-font-size:13px;
-color:white;
+background:linear-gradient(90deg,#16a34a,#4ade80);
+padding:12px 20px;
+border-radius:14px;
 text-decoration:none;
+color:white;
+font-weight:bold;
 }
-
-/* CONTAINER */
 
 .container{
 padding:20px;
-animation:fadeUp .7s ease;
+max-width:1500px;
+margin:auto;
 }
 
-/* GRID */
-
-.grid{
+.stats{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
+grid-template-columns:repeat(4,1fr);
+gap:18px;
+margin-top:25px;
 }
 
-/* CARD */
-
-.card{
+.stat-box{
 background:var(--card);
+padding:22px;
+border-radius:22px;
+border:1px solid var(--border);
+display:flex;
+align-items:center;
+gap:18px;
+}
+
+.icon{
+width:65px;
+height:65px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:28px;
+background:rgba(34,197,94,.15);
+}
+
+.stat-box h2{
+font-size:30px;
+}
+
+.stat-box p{
+opacity:.7;
+margin-top:4px;
+}
+
+.tabs{
+display:flex;
+gap:14px;
+margin-top:28px;
+flex-wrap:wrap;
+}
+
+.tab{
+padding:14px 22px;
+background:#0b1220;
+border:1px solid var(--border);
 border-radius:14px;
-padding:14px;
-box-shadow:0 10px 25px rgba(0,0,0,.5);
+cursor:pointer;
+font-weight:bold;
 transition:.3s;
 }
 
-.card:hover{
-transform:translateY(-6px);
-box-shadow:0 15px 40px rgba(0,0,0,.8);
+.tab.active{
+background:linear-gradient(90deg,#16a34a,#4ade80);
 }
 
-.card img{
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:24px;
+margin-top:28px;
+}
+
+.card{
+background:var(--card);
+padding:16px;
+border-radius:24px;
+border:1px solid var(--border);
+transition:.3s;
+position:relative;
+overflow:hidden;
+}
+
+.card:hover{
+transform:translateY(-8px);
+}
+
+.cover{
 width:100%;
-height:210px;
+height:320px;
 object-fit:cover;
+border-radius:18px;
+}
+
+.menu{
+position:absolute;
+top:18px;
+right:18px;
+background:rgba(0,0,0,.5);
+padding:8px 10px;
 border-radius:12px;
 }
 
-/* TEXT */
-
-.bookTitle{
-font-size:17px;
-margin-top:10px;
+.book-title{
+font-size:24px;
 font-weight:bold;
+margin-top:16px;
 }
 
-.price{
-color:#22c55e;
-margin-top:6px;
-}
-
-/* BUTTON */
-
-.read{
-background:linear-gradient(90deg,#22c55e,#4ade80);
-border:none;
-width:100%;
-padding:12px;
-margin-top:12px;
-border-radius:10px;
-color:white;
-font-weight:bold;
-cursor:pointer;
-}
-
-.buy{
-background:#f97316;
-border:none;
-width:100%;
-padding:12px;
-margin-top:12px;
-border-radius:10px;
-color:white;
-font-weight:bold;
-cursor:pointer;
-}
-
-/* EMPTY */
-
-.empty{
-text-align:center;
+.author{
 opacity:.7;
-margin-top:50px;
-font-size:18px;
+margin-top:8px;
 }
 
-/* LOADER */
+.badge{
+display:inline-block;
+padding:8px 14px;
+border-radius:20px;
+margin-top:14px;
+font-size:14px;
+font-weight:bold;
+background:rgba(34,197,94,.15);
+color:#4ade80;
+}
 
-.loader{
+.read-btn{
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
+background:linear-gradient(90deg,#16a34a,#4ade80);
+color:white;
+font-size:17px;
+font-weight:bold;
+margin-top:18px;
+cursor:pointer;
+}
+
+.actions{
+display:flex;
+gap:12px;
+margin-top:14px;
+}
+
+.edit{
+flex:1;
+padding:12px;
+border:none;
+border-radius:12px;
+background:#2563eb;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+.delete{
+flex:1;
+padding:12px;
+border:none;
+border-radius:12px;
+background:#ef4444;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+.subscription{
+margin-top:35px;
+background:linear-gradient(90deg,#1e1b4b,#312e81);
+padding:28px;
+border-radius:26px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+flex-wrap:wrap;
+gap:20px;
+}
+
+.subscription h2{
+font-size:28px;
+}
+
+.subscription p{
+margin-top:8px;
+opacity:.8;
+}
+
+.manage-btn{
+padding:16px 24px;
+border:none;
+border-radius:16px;
+background:linear-gradient(90deg,#16a34a,#4ade80);
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:#07111f;
+padding:14px;
+display:flex;
+justify-content:space-around;
+border-top:1px solid rgba(255,255,255,.05);
+}
+
+.nav-item{
 text-align:center;
-padding:40px;
-font-size:18px;
-animation:pulse 1.5s infinite;
+font-size:14px;
+opacity:.7;
 }
 
-@keyframes pulse{
-0%{opacity:.4}
-50%{opacity:1}
-100%{opacity:.4}
-}
-
-/* PAGE ANIMATION */
-
-@keyframes fadeUp{
-
-0%{
-opacity:0;
-transform:translateY(40px);
-}
-
-100%{
+.nav-item.active{
+color:#4ade80;
 opacity:1;
-transform:translateY(0);
+}
+
+@media(max-width:900px){
+
+.stats{
+grid-template-columns:1fr 1fr;
+}
+
+.title{
+font-size:24px;
+}
+
+.cover{
+height:260px;
+}
+
+.subscription{
+text-align:center;
+justify-content:center;
 }
 
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="topbar">
 
-<div class="back" onclick="history.back()">⬅</div>
+<div class="back">
+⬅
+</div>
 
-<div class="title">My Library</div>
+<div class="title">
+My <span>Library</span>
+</div>
 
-<a class="dashboard" href="dashboard.html">
+<a href="dashboard.html" class="dashboard">
 Dashboard
 </a>
 
@@ -194,410 +323,237 @@ Dashboard
 
 <div class="container">
 
-<div id="library" class="grid loader">
-Loading Library...
+<div class="stats">
+
+<div class="stat-box">
+<div class="icon">📚</div>
+<div>
+<h2>24</h2>
+<p>Total Books</p>
+</div>
+</div>
+
+<div class="stat-box">
+<div class="icon">🔓</div>
+<div>
+<h2>18</h2>
+<p>Unlocked</p>
+</div>
+</div>
+
+<div class="stat-box">
+<div class="icon">⭐</div>
+<div>
+<h2>5</h2>
+<p>Premium</p>
+</div>
+</div>
+
+<div class="stat-box">
+<div class="icon">👑</div>
+<div>
+<h2>Active</h2>
+<p>Subscription</p>
+</div>
 </div>
 
 </div>
 
-<script>
-
-const ADMIN="ayushprajpati6@gmail.com"
-
-const PRODUCT_API =
-"https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec"
-  
-const PAYMENT_API =
-"https://script.google.com/macros/s/AKfycbyKnVmxYCTskDLpOk_s2Ch1nHnVvD__GVHbnztTCvl4bzYgk7sDx0F1WuJ0CXMORqs/exec"
-  
-let user =
-JSON.parse(
-localStorage.getItem("user") || "null"
-)
-
-if(!user){
-
-alert("Login first")
-
-location.href="login.html"
-
-}
-
-let isAdmin =
-user.email === ADMIN
-
-function escapeHTML(str){
-
-return String(str).replace(/[&<>"']/g,function(m){
-
-return({
-
-'&':'&amp;',
-'<':'&lt;',
-'>':'&gt;',
-'"':'&quot;',
-"'":'&#039;'
-
-})[m]
-
-})
-
-}
-
-/* DRIVE IMAGE */
-
-function driveId(link){
-
-if(!link) return null
-
-if(link.includes("id="))
-return link.split("id=")[1].split("&")[0]
-
-if(link.includes("/file/d/"))
-return link.split("/file/d/")[1].split("/")[0]
-
-return null
-
-}
-
-function driveImage(link){
-
-let id = driveId(link)
-
-if(id){
-
-return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000"
-
-}
-
-return "https://picsum.photos/400"
-
-}
-
-/* GET DATABASE */
-
-async function getDB(api,db){
-
-try{
-
-let r = await fetch(
-
-api + "?db=" + db + "&t=" + Date.now()
-
-)
-
-let data = await r.json()
-
-return Array.isArray(data)
-? data
-: []
-
-}catch{
-
-return []
-
-}
-
-}
-
-/* LOAD LIBRARY */
-
-async function loadLibrary(){
-
-let products =
-await getDB(PRODUCT_API,"products")
-
-let orders =
-await getDB(PAYMENT_API,"orders")
-
-let box =
-document.getElementById("library")
-
-box.innerHTML = ""
-
-/* MY ORDERS */
-
-let myOrders = orders.filter(o =>
-
-o.buyer === user.email &&
-
-(
-
-o.status === "paid" ||
-
-o.payment === "paid"
-
-)
-
-)
-
-/* SUBSCRIPTION */
-
-let hasSubscription =
-myOrders.some(o =>
-
-o.type === "subscription"
-
-)
-
-/* OWNED PRODUCTS */
-
-let ownedProducts =
-myOrders.map(o => String(o.productId))
-
-products.forEach(product => {
-
-/* APPROVED CHECK */
-
-if(
-
-product.ai_status &&
-
-product.ai_status !== "approved"
-
-)
-
-return
-
-let purchased =
-ownedProducts.includes(
-String(product.id)
-)
-
-let owner =
-product.owner === user.email
-
-let image =
-driveImage(product.front_cover)
-
-let allow = false
-
-/* ACCESS CONTROL */
-
-if(isAdmin){
-
-allow = true
-
-}
-
-else if(owner){
-
-allow = true
-
-}
-
-else if(hasSubscription){
-
-allow = true
-
-}
-
-else if(purchased){
-
-allow = true
-
-}
-
-/* BUTTONS */
-
-let buttons = ""
-
-if(allow){
-
-buttons = `
-
-<button class="read"
-onclick="openReader('${product.id}')">
-
-Read Ebook
-
-</button>
-
-`
-
-}else{
-
-buttons = `
-
-<button class="buy"
-onclick="buyBook('${product.id}')">
-
-Buy Ebook ₹${product.price || 0}
-
-</button>
-
-`
-
-}
-
-/* OWNER / ADMIN */
-
-let manageButtons = ""
-
-if(owner || isAdmin){
-
-manageButtons = `
-
-<button class="read"
-style="
-margin-top:10px;
-background:#3b82f6;
-"
-onclick="editBook('${product.id}')">
-
-Edit Ebook
-
-</button>
-
-<button class="buy"
-style="
-margin-top:10px;
-background:#ef4444;
-"
-onclick="deleteBook('${product.id}')">
-
-Delete Ebook
-
-</button>
-
-`
-
-}
-
-/* CARD */
-
-box.innerHTML += `
+<div class="tabs">
+<div class="tab active">All Books</div>
+<div class="tab">Purchased</div>
+<div class="tab">Subscription</div>
+<div class="tab">My Uploads</div>
+<div class="tab">Favorites</div>
+</div>
+
+<div class="grid">
 
 <div class="card">
 
-<img src="${image}">
+<div class="menu">⋮</div>
 
-<div class="bookTitle">
+<img class="cover"
+src="https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=1200&auto=format&fit=crop">
 
-${escapeHTML(
-product.title || "Untitled"
-)}
+<div class="book-title">
+The Power Of Focus
+</div>
+
+<div class="author">
+James Clear
+</div>
+
+<div class="badge">
+Unlocked
+</div>
+
+<button class="read-btn">
+📖 Read Ebook
+</button>
+
+<div class="actions">
+<button class="edit">
+✏ Edit
+</button>
+
+<button class="delete">
+🗑 Delete
+</button>
+</div>
 
 </div>
 
-<div class="price">
+<div class="card">
 
-₹ ${product.price || 0}
+<div class="menu">⋮</div>
+
+<img class="cover"
+src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=1200&auto=format&fit=crop">
+
+<div class="book-title">
+Mindset Mastery
+</div>
+
+<div class="author">
+Brian Tracy
+</div>
+
+<div class="badge">
+Premium
+</div>
+
+<button class="read-btn">
+📖 Read Ebook
+</button>
+
+<div class="actions">
+<button class="edit">
+✏ Edit
+</button>
+
+<button class="delete">
+🗑 Delete
+</button>
+</div>
 
 </div>
 
-${buttons}
+<div class="card">
 
-${manageButtons}
+<div class="menu">⋮</div>
+
+<img class="cover"
+src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=1200&auto=format&fit=crop">
+
+<div class="book-title">
+Atomic Habits
+</div>
+
+<div class="author">
+James Clear
+</div>
+
+<div class="badge">
+Unlocked
+</div>
+
+<button class="read-btn">
+📖 Read Ebook
+</button>
+
+<div class="actions">
+<button class="edit">
+✏ Edit
+</button>
+
+<button class="delete">
+🗑 Delete
+</button>
+</div>
 
 </div>
 
-`
+<div class="card">
 
-})
+<div class="menu">⋮</div>
 
-if(box.innerHTML === ""){
+<img class="cover"
+src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=1200&auto=format&fit=crop">
 
-box.innerHTML = `
+<div class="book-title">
+Future Of AI
+</div>
 
-<div class='empty'>
+<div class="author">
+Henry Kissinger
+</div>
 
-No ebooks in your library
+<div class="badge">
+Premium
+</div>
+
+<button class="read-btn">
+📖 Read Ebook
+</button>
+
+<div class="actions">
+<button class="edit">
+✏ Edit
+</button>
+
+<button class="delete">
+🗑 Delete
+</button>
+</div>
 
 </div>
 
-`
+</div>
 
-}
+<div class="subscription">
 
-}
+<div>
+<h2>
+👑 Active Subscription
+</h2>
 
-loadLibrary()
+<p>
+Enjoy unlimited ebook reading access
+</p>
+</div>
 
-/* OPEN READER */
+<button class="manage-btn">
+Manage Subscription
+</button>
 
-function openReader(id){
+</div>
 
-location.href =
-"viewer.html?id=" + id
+</div>
 
-}
+<div class="bottom-nav">
 
-/* BUY BOOK */
+<div class="nav-item">
+🏠<br>Home
+</div>
 
-function buyBook(id){
+<div class="nav-item">
+🔍<br>Explore
+</div>
 
-localStorage.setItem(
-"buyProduct",
-id
-)
+<div class="nav-item active">
+📚<br>Library
+</div>
 
-location.href =
-"payment.html"
+<div class="nav-item">
+⬆<br>Upload
+</div>
 
-}
+<div class="nav-item">
+👤<br>Profile
+</div>
 
-/* EDIT BOOK */
+</div>
 
-function editBook(id){
-
-location.href =
-"edit-ebook.html?id=" + id
-
-}
-
-/* DELETE BOOK */
-
-async function deleteBook(id){
-
-let ok = confirm(
-"Delete this ebook?"
-)
-
-if(!ok) return
-
-try{
-
-let res = await fetch(PRODUCT_API,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"text/plain"
-},
-
-body:JSON.stringify({
-
-action:"deleteBook",
-
-id:id,
-
-email:user.email
-
-})
-
-})
-
-let data =
-await res.json()
-
-alert(data.message)
-
-if(data.success){
-
-loadLibrary()
-
-}
-
-}catch(err){
-
-alert(err.message)
-
-}
-
-}
-
-</script>
-  
 </body>
 </html>
