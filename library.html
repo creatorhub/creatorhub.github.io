@@ -210,7 +210,10 @@ const PRODUCT_API =
 const PAYMENT_API =
 "https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
 
-let user=JSON.parse(localStorage.getItem("user")||"null")
+let user =
+JSON.parse(
+localStorage.getItem("user") || "null"
+)
 
 if(!user){
 
@@ -220,18 +223,21 @@ location.href="login.html"
 
 }
 
-let isAdmin=user.email===ADMIN
+let isAdmin =
+user.email === ADMIN
 
 function escapeHTML(str){
 
 return String(str).replace(/[&<>"']/g,function(m){
 
 return({
+
 '&':'&amp;',
 '<':'&lt;',
 '>':'&gt;',
 '"':'&quot;',
 "'":'&#039;'
+
 })[m]
 
 })
@@ -256,10 +262,13 @@ return null
 
 function driveImage(link){
 
-let id=driveId(link)
+let id = driveId(link)
 
-if(id)
-return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000"
+if(id){
+
+return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000"
+
+}
 
 return "https://picsum.photos/400"
 
@@ -271,15 +280,21 @@ async function getDB(api,db){
 
 try{
 
-let r=await fetch(api+"?db="+db+"&t="+Date.now())
+let r = await fetch(
 
-let data=await r.json()
+api + "?db=" + db + "&t=" + Date.now()
 
-return Array.isArray(data)?data:[]
+)
+
+let data = await r.json()
+
+return Array.isArray(data)
+? data
+: []
 
 }catch{
 
-return[]
+return []
 
 }
 
@@ -289,49 +304,107 @@ return[]
 
 async function loadLibrary(){
 
-let products=await getDB(PRODUCT_API,"products")
+let products =
+await getDB(PRODUCT_API,"products")
 
-let orders=await getDB(PAYMENT_API,"orders")
+let orders =
+await getDB(PAYMENT_API,"orders")
 
-let box=document.getElementById("library")
+let box =
+document.getElementById("library")
 
-box.innerHTML=""
+box.innerHTML = ""
 
 /* MY ORDERS */
 
-let myOrders=orders.filter(o=>
+let myOrders = orders.filter(o =>
 
-o.buyer===user.email &&
-(o.status==="paid" || o.payment==="paid")
+o.buyer === user.email &&
+
+(
+
+o.status === "paid" ||
+
+o.payment === "paid"
 
 )
 
-let ownedProducts=myOrders.map(o=>String(o.productId))
+)
 
-products.forEach(product=>{
+/* SUBSCRIPTION */
+
+let hasSubscription =
+myOrders.some(o =>
+
+o.type === "subscription"
+
+)
+
+/* OWNED PRODUCTS */
+
+let ownedProducts =
+myOrders.map(o => String(o.productId))
+
+products.forEach(product => {
 
 /* APPROVED CHECK */
 
-if(product.ai_status && product.ai_status!=="approved")
+if(
+
+product.ai_status &&
+
+product.ai_status !== "approved"
+
+)
+
 return
 
-let purchased=ownedProducts.includes(String(product.id))
+let purchased =
+ownedProducts.includes(
+String(product.id)
+)
 
-let owner=product.owner===user.email
+let owner =
+product.owner === user.email
 
-let image=driveImage(product.front_cover)
+let image =
+driveImage(product.front_cover)
 
-let allow=false
+let allow = false
 
-if(isAdmin) allow=true
-else if(owner) allow=true
-else if(purchased) allow=true
+/* ACCESS CONTROL */
 
-let buttons=""
+if(isAdmin){
+
+allow = true
+
+}
+
+else if(owner){
+
+allow = true
+
+}
+
+else if(hasSubscription){
+
+allow = true
+
+}
+
+else if(purchased){
+
+allow = true
+
+}
+
+/* BUTTONS */
+
+let buttons = ""
 
 if(allow){
 
-buttons=`
+buttons = `
 
 <button class="read"
 onclick="openReader('${product.id}')">
@@ -344,12 +417,12 @@ Read Ebook
 
 }else{
 
-buttons=`
+buttons = `
 
 <button class="buy"
 onclick="buyBook('${product.id}')">
 
-Buy Ebook ₹${product.price}
+Buy Ebook ₹${product.price || 0}
 
 </button>
 
@@ -357,21 +430,65 @@ Buy Ebook ₹${product.price}
 
 }
 
-box.innerHTML+=`
+/* OWNER / ADMIN */
+
+let manageButtons = ""
+
+if(owner || isAdmin){
+
+manageButtons = `
+
+<button class="read"
+style="
+margin-top:10px;
+background:#3b82f6;
+"
+onclick="editBook('${product.id}')">
+
+Edit Ebook
+
+</button>
+
+<button class="buy"
+style="
+margin-top:10px;
+background:#ef4444;
+"
+onclick="deleteBook('${product.id}')">
+
+Delete Ebook
+
+</button>
+
+`
+
+}
+
+/* CARD */
+
+box.innerHTML += `
 
 <div class="card">
 
 <img src="${image}">
 
 <div class="bookTitle">
-${escapeHTML(product.title||"Untitled")}
+
+${escapeHTML(
+product.title || "Untitled"
+)}
+
 </div>
 
 <div class="price">
-₹ ${product.price||0}
+
+₹ ${product.price || 0}
+
 </div>
 
 ${buttons}
+
+${manageButtons}
 
 </div>
 
@@ -379,9 +496,17 @@ ${buttons}
 
 })
 
-if(box.innerHTML===""){
+if(box.innerHTML === ""){
 
-box.innerHTML="<div class='empty'>No ebooks in your library</div>"
+box.innerHTML = `
+
+<div class='empty'>
+
+No ebooks in your library
+
+</div>
+
+`
 
 }
 
@@ -389,21 +514,90 @@ box.innerHTML="<div class='empty'>No ebooks in your library</div>"
 
 loadLibrary()
 
+/* OPEN READER */
+
 function openReader(id){
 
-location.href="viewer.html?id="+id
+location.href =
+"viewer.html?id=" + id
 
 }
 
+/* BUY BOOK */
+
 function buyBook(id){
 
-localStorage.setItem("buyProduct",id)
+localStorage.setItem(
+"buyProduct",
+id
+)
 
-location.href="payment.html"
+location.href =
+"payment.html"
+
+}
+
+/* EDIT BOOK */
+
+function editBook(id){
+
+location.href =
+"edit-ebook.html?id=" + id
+
+}
+
+/* DELETE BOOK */
+
+async function deleteBook(id){
+
+let ok = confirm(
+"Delete this ebook?"
+)
+
+if(!ok) return
+
+try{
+
+let res = await fetch(PRODUCT_API,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"text/plain"
+},
+
+body:JSON.stringify({
+
+action:"deleteBook",
+
+id:id,
+
+email:user.email
+
+})
+
+})
+
+let data =
+await res.json()
+
+alert(data.message)
+
+if(data.success){
+
+loadLibrary()
+
+}
+
+}catch(err){
+
+alert(err.message)
+
+}
 
 }
 
 </script>
-
+  
 </body>
 </html>
