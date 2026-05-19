@@ -1019,7 +1019,46 @@ return
 
 }
 
-let res = await fetch(UPLOAD_API,{
+/* ================= USER DATA ================= */
+
+let userRes = await fetch(UPLOAD_API,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"text/plain"
+},
+
+body:JSON.stringify({
+
+action:"getUser",
+
+email:email
+
+})
+
+})
+
+let userData =
+await userRes.json()
+
+console.log(userData)
+
+if(userData.success){
+
+document.getElementById("username")
+.innerText =
+userData.user.name || "User"
+
+document.getElementById("menuName")
+.innerText =
+userData.user.name || "User"
+
+}
+
+/* ================= SELLER CHECK ================= */
+
+let sellerRes = await fetch(UPLOAD_API,{
 
 method:"POST",
 
@@ -1037,11 +1076,12 @@ email:email
 
 })
 
-let data = await res.json()
+let sellerData =
+await sellerRes.json()
 
-console.log(data)
+console.log(sellerData)
 
-if(!data.success){
+if(!sellerData.success){
 
 window.location.href =
 "seller-apply.html"
