@@ -1550,7 +1550,7 @@ return data.id
    DRIVE UPLOAD
 ========================================================= */
 
-async function uploadToDrive(file){
+async function uploadToDrive(file,folderId)
 
 try{
 
@@ -1565,8 +1565,8 @@ new Blob([JSON.stringify({
 name:file.name,
 
 parents:[
-"1WBqoulfH4FNt9o3krB4d4HxSWPA5o-lV"
-],
+folderId
+]
 
 mimeType:file.type
 
@@ -1755,31 +1755,84 @@ return
 
 await initGoogle()
 
-let ebookFolderId =
+/* ================= CREATE BOOK FOLDER ================= */
 
-await createDriveFolder(
+let bookFolderId =
+await createBookFolder(
+title.value
+)
 
-title.value.replace(/\s+/g,"_")
+/* =========================================================
+   CREATE BOOK FOLDER
+========================================================= */
+
+async function createBookFolder(title){
+
+let metadata = {
+
+name:title,
+
+mimeType:
+"application/vnd.google-apps.folder",
+
+parents:[
+"1WBqoulfH4FNt9o3krB4d4HxSWPA5o-lV"
+]
+
+}
+
+let res = await fetch(
+
+"https://www.googleapis.com/drive/v3/files",
+
+{
+
+method:"POST",
+
+headers:{
+Authorization:
+"Bearer " + accessToken,
+
+"Content-Type":
+"application/json"
+},
+
+body:JSON.stringify(metadata)
+
+}
 
 )
+
+let data =
+await res.json()
+
+return data.id
+
+}
 
 /* ================= DRIVE UPLOAD ================= */
 
 let pdfId =
 await uploadToDrive(
 pdfFile,
+bookFolderId
+)
 ebookFolderId
 )
 
 let frontId =
 await uploadToDrive(
 frontFile,
+bookFolderId
+)
 ebookFolderId
 )
 
 let backId =
 await uploadToDrive(
 backFile,
+bookFolderId
+)
 ebookFolderId
 )
 
