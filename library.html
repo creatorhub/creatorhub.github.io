@@ -574,13 +574,15 @@ onclick="location.href='profile.html'">
 <script>
 
 /* =========================================================
-   CREATORHUB MODERN LIBRARY FULL WORKING SCRIPT
+   CREATORHUB FULL WORKING LIBRARY SCRIPT
 ========================================================= */
 
-/* ================= API ================= */
+/* ================= ADMIN ================= */
 
 const ADMIN =
 "ayushprajpati6@gmail.com"
+
+/* ================= API ================= */
 
 const PRODUCT_API =
 "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec"
@@ -655,7 +657,7 @@ id +
 
 }
 
-return "https://picsum.photos/400"
+return "https://picsum.photos/500"
 
 }
 
@@ -670,17 +672,17 @@ document.getElementById("library")
 
 <div style="
 grid-column:1/-1;
-text-align:center;
 padding:80px;
+text-align:center;
 ">
 
 <div style="
 width:70px;
 height:70px;
+margin:auto;
 border:5px solid rgba(255,255,255,.1);
 border-top:5px solid #22c55e;
 border-radius:50%;
-margin:auto;
 animation:spin 1s linear infinite;
 ">
 
@@ -731,7 +733,7 @@ await productRes.json()
 ALL_PRODUCTS =
 productData.products || []
 
-/* ================= SUBSCRIPTIONS ================= */
+/* ================= ORDERS ================= */
 
 let subRes =
 await fetch(
@@ -750,7 +752,7 @@ await subRes.json()
 MY_ORDERS =
 subData.orders || []
 
-/* ================= SUBSCRIPTION CHECK ================= */
+/* ================= SUBSCRIPTION ================= */
 
 HAS_SUBSCRIPTION =
 MY_ORDERS.some(o =>
@@ -838,7 +840,7 @@ Failed To Load Library
 loadData()
 
 /* =========================================================
-   RENDER BOOKS
+   FILTER BOOKS
 ========================================================= */
 
 function renderBooks(type){
@@ -880,21 +882,38 @@ String(o.productId)
 let filtered =
 ALL_PRODUCTS.filter(product => {
 
-if(type === "uploads"){
+/* ONLY APPROVED */
 
-return product.owner === user.email
+if(
+product.status &&
+product.status !== "approved"
+){
+
+return false
 
 }
+
+/* ================= MY UPLOADS ================= */
+
+if(type === "uploads"){
+
+return (
+product.owner === user.email
+)
+
+}
+
+/* ================= PURCHASED ================= */
 
 if(type === "purchased"){
 
 return purchasedIds.includes(
-
 String(product.id)
-
 )
 
 }
+
+/* ================= SUBSCRIPTION ================= */
 
 if(type === "subscription"){
 
@@ -902,30 +921,43 @@ return HAS_SUBSCRIPTION
 
 }
 
+/* ================= ALL ================= */
+
 return true
 
 })
 
-/* ================= UNLOCKED ================= */
+/* ================= CLEAR ================= */
 
-let unlocked =
-0
+box.innerHTML = ""
+
+/* ================= UNLOCK COUNT ================= */
+
+let unlocked = 0
+
+/* =========================================================
+   LOOP
+========================================================= */
 
 filtered.forEach(product => {
+
+/* ================= OWNER ================= */
 
 let owner =
 product.owner === user.email
 
+/* ================= PURCHASED ================= */
+
 let purchased =
 purchasedIds.includes(
-
 String(product.id)
-
 )
+
+/* ================= ACCESS ================= */
 
 let allow = false
 
-/* ================= ACCESS ================= */
+/* ADMIN */
 
 if(isAdmin){
 
@@ -933,17 +965,23 @@ allow = true
 
 }
 
+/* OWNER */
+
 else if(owner){
 
 allow = true
 
 }
 
+/* PURCHASED */
+
 else if(purchased){
 
 allow = true
 
 }
+
+/* SUBSCRIPTION */
 
 else if(HAS_SUBSCRIPTION){
 
@@ -970,9 +1008,11 @@ product.image
 
 )
 
-/* ================= BUTTON ================= */
+/* ================= BUTTONS ================= */
 
 let buttons = ""
+
+/* READ */
 
 if(allow){
 
@@ -988,7 +1028,11 @@ onclick="openBook('${product.id}')">
 
 `
 
-}else{
+}
+
+/* BUY */
+
+else{
 
 buttons = `
 
@@ -1004,9 +1048,11 @@ Buy ₹${product.price || 0}
 
 }
 
-/* ================= OWNER ================= */
+/* ================= OWNER ACTIONS ================= */
 
 let manage = ""
+
+/* ONLY OWNER OR ADMIN */
 
 if(owner || isAdmin){
 
@@ -1048,6 +1094,7 @@ box.innerHTML += `
 
 <img
 class="cover"
+loading="lazy"
 src="${image}">
 
 <div class="book-title">
@@ -1106,7 +1153,7 @@ No Ebooks Found
 }
 
 /* =========================================================
-   FILTER BOOKS
+   FILTER TAB
 ========================================================= */
 
 function filterBooks(type){
@@ -1278,7 +1325,7 @@ alert(err.message)
 
 }
 
-</script>
+   </script>
   
 </body>
 </html>
