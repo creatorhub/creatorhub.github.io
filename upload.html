@@ -1041,6 +1041,15 @@ let data = await res.json()
 
 console.log(data)
 
+if(!data.success){
+
+window.location.href =
+"seller-apply.html"
+
+return
+
+}
+
 if(data.success){
 
 document.getElementById("username")
