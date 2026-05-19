@@ -933,6 +933,9 @@ const CLIENT_ID =
 const API_KEY =
 "AIzaSyAakSA5fgVrO6f-WPocfv8C9LhnQe32nPw"
 
+const DRIVE_FOLDER_ID =
+"1yy-SEqwyTc3ZgTEfR_DPjFVbkUjij0Vw"
+
 /* =========================================================
    GLOBALS
 ========================================================= */
@@ -1438,11 +1441,52 @@ reject(err)
 
 }
 
+async function createDriveFolder(folderName){
+
+let metadata = {
+
+name:folderName,
+
+mimeType:
+"application/vnd.google-apps.folder",
+
+parents:[DRIVE_FOLDER_ID]
+
+}
+
+let res = await fetch(
+
+"https://www.googleapis.com/drive/v3/files",
+
+{
+
+method:"POST",
+
+headers:{
+Authorization:
+"Bearer " + accessToken,
+
+"Content-Type":
+"application/json"
+},
+
+body:JSON.stringify(metadata)
+
+}
+
+)
+
+let data = await res.json()
+
+return data.id
+
+}
+   
 /* =========================================================
    DRIVE UPLOAD
 ========================================================= */
 
-async function uploadToDrive(file){
+async function uploadToDrive(file,folderId){
 
 try{
 
@@ -1456,7 +1500,9 @@ new Blob([JSON.stringify({
 
 name:file.name,
 
-mimeType:file.type
+mimeType:file.type,
+
+parents:[folderId]
 
 })],{
 
@@ -1631,16 +1677,33 @@ return
 
 await initGoogle()
 
+let ebookFolderId =
+
+await createDriveFolder(
+
+title.value.replace(/\s+/g,"_")
+
+)
+
 /* ================= DRIVE UPLOAD ================= */
 
 let pdfId =
-await uploadToDrive(pdfFile)
+await uploadToDrive(
+pdfFile,
+ebookFolderId
+)
 
 let frontId =
-await uploadToDrive(frontFile)
+await uploadToDrive(
+frontFile,
+ebookFolderId
+)
 
 let backId =
-await uploadToDrive(backFile)
+await uploadToDrive(
+backFile,
+ebookFolderId
+)
 
 /* ================= PDF TEXT ================= */
 
