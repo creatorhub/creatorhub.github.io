@@ -7,7 +7,9 @@
 <meta name="viewport"
 content="width=device-width,initial-scale=1">
 
-<title>CreatorHub Reader</title>
+<title>
+CreatorHub Reader
+</title>
 
 <style>
 
@@ -24,21 +26,28 @@ color:white;
 overflow:hidden;
 }
 
-/* ================= TOPBAR ================= */
+/* =========================================================
+TOPBAR
+========================================================= */
 
 .topbar{
-height:60px;
-background:#07111f;
-display:flex;
-align-items:center;
-padding:0 18px;
 position:fixed;
 top:0;
 left:0;
 width:100%;
-z-index:999;
+height:60px;
+background:
+linear-gradient(
+90deg,
+#07111f,
+#0f172a
+);
+display:flex;
+align-items:center;
+padding:0 16px;
+z-index:9999;
 border-bottom:
-1px solid rgba(255,255,255,.06);
+1px solid rgba(255,255,255,.05);
 }
 
 .back{
@@ -46,37 +55,84 @@ font-size:24px;
 cursor:pointer;
 }
 
-.title{
+.reader-title{
 flex:1;
 text-align:center;
-font-size:20px;
+font-size:18px;
 font-weight:bold;
 }
 
-.title span{
+.reader-title span{
 color:#22c55e;
 }
 
-/* ================= VIEWER ================= */
+/* =========================================================
+VIEWER
+========================================================= */
 
-.viewer{
+#viewer{
 position:fixed;
 top:60px;
 left:0;
 width:100%;
 height:calc(100vh - 60px);
-background:#000814;
+background:#020617;
 }
 
-/* ================= PDF ================= */
+/* =========================================================
+LOADER
+========================================================= */
+
+.loader-wrap{
+width:100%;
+height:100%;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+}
+
+.loader{
+width:70px;
+height:70px;
+border-radius:50%;
+border:5px solid
+rgba(255,255,255,.08);
+
+border-top:
+5px solid #22c55e;
+
+animation:
+spin 1s linear infinite;
+}
+
+.loading-text{
+margin-top:20px;
+font-size:18px;
+opacity:.8;
+animation:pulse 1.4s infinite;
+}
+
+/* =========================================================
+PDF
+========================================================= */
+
+.reader{
+position:relative;
+width:100%;
+height:100%;
+}
 
 iframe{
 width:100%;
 height:100%;
 border:none;
+background:white;
 }
 
-/* ================= WATERMARK ================= */
+/* =========================================================
+WATERMARK
+========================================================= */
 
 .watermark{
 position:absolute;
@@ -88,70 +144,64 @@ pointer-events:none;
 display:flex;
 align-items:center;
 justify-content:center;
-opacity:.08;
-font-size:34px;
+font-size:28px;
 font-weight:bold;
+opacity:.08;
 color:white;
-transform:rotate(-30deg);
-z-index:9;
-}
-
-/* ================= LOADER ================= */
-
-.loader{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-gap:20px;
-}
-
-.spinner{
-width:70px;
-height:70px;
-border-radius:50%;
-border:
-5px solid rgba(255,255,255,.08);
-
-border-top:
-5px solid #22c55e;
-
-animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-
-100%{
-transform:rotate(360deg);
-}
-
-}
-
-/* ================= BLOCK ================= */
-
-.block{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
+animation:move 15s linear infinite;
 text-align:center;
 padding:30px;
-gap:20px;
 }
 
-.block h1{
-font-size:28px;
+/* =========================================================
+OVERLAY
+========================================================= */
+
+.overlay{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+
+background:
+repeating-linear-gradient(
+45deg,
+rgba(255,255,255,.01),
+rgba(255,255,255,.01) 2px,
+transparent 2px,
+transparent 6px
+);
 }
 
-.block p{
+/* =========================================================
+ERROR
+========================================================= */
+
+.error{
+width:100%;
+height:100%;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:30px;
+}
+
+.error h1{
+font-size:34px;
+margin-bottom:12px;
+}
+
+.error p{
 opacity:.7;
-line-height:1.7;
+margin-bottom:30px;
 }
 
-.btn{
-padding:14px 24px;
+.error button{
+padding:14px 28px;
 border:none;
 border-radius:14px;
 background:
@@ -160,23 +210,78 @@ linear-gradient(
 #16a34a,
 #4ade80
 );
-
 color:white;
-font-size:16px;
 font-weight:bold;
+font-size:16px;
 cursor:pointer;
 }
 
-/* ================= MOBILE ================= */
+/* =========================================================
+ANIMATION
+========================================================= */
+
+@keyframes spin{
+
+0%{
+transform:rotate(0deg);
+}
+
+100%{
+transform:rotate(360deg);
+}
+
+}
+
+@keyframes pulse{
+
+0%{
+opacity:.4;
+}
+
+50%{
+opacity:1;
+}
+
+100%{
+opacity:.4;
+}
+
+}
+
+@keyframes move{
+
+0%{
+transform:
+translate(-20%,-20%)
+rotate(-20deg);
+}
+
+50%{
+transform:
+translate(20%,20%)
+rotate(-20deg);
+}
+
+100%{
+transform:
+translate(-20%,-20%)
+rotate(-20deg);
+}
+
+}
+
+/* =========================================================
+MOBILE
+========================================================= */
 
 @media(max-width:700px){
 
-.title{
-font-size:17px;
+.reader-title{
+font-size:15px;
 }
 
 .watermark{
-font-size:22px;
+font-size:18px;
 }
 
 }
@@ -187,30 +292,42 @@ font-size:22px;
 
 <body>
 
-<!-- ================= TOPBAR ================= -->
+<!-- =========================================================
+TOPBAR
+========================================================= -->
 
 <div class="topbar">
 
 <div class="back"
 onclick="history.back()">
+
 ⬅
+
 </div>
 
-<div class="title">
+<div class="reader-title">
+
 Creator<span>Hub</span> Reader
-</div>
 
 </div>
 
-<!-- ================= APP ================= -->
+</div>
 
-<div id="app">
+<!-- =========================================================
+VIEWER
+========================================================= -->
 
-<div class="loader">
+<div id="viewer">
 
-<div class="spinner"></div>
+<div class="loader-wrap">
 
-<p>Loading Ebook...</p>
+<div class="loader"></div>
+
+<div class="loading-text">
+
+Loading Ebook...
+
+</div>
 
 </div>
 
@@ -219,17 +336,11 @@ Creator<span>Hub</span> Reader
 <script>
 
 /* =========================================================
-CONFIG
+API
 ========================================================= */
-
-const ADMIN =
-"ayushprajpati6@gmail.com"
 
 const PRODUCT_API =
 "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec"
-
-const SUBSCRIPTION_API =
-"https://script.google.com/macros/s/AKfycbyKnVmxYCTskDLpOk_s2Ch1nHnVvD__GVHbnztTCvl4bzYgk7sDx0F1WuJ0CXMORqs/exec"
 
 /* =========================================================
 USER
@@ -237,8 +348,7 @@ USER
 
 let user =
 JSON.parse(
-localStorage.getItem("user")
-|| "null"
+localStorage.getItem("user") || "null"
 )
 
 if(!user){
@@ -260,43 +370,13 @@ location.search
 let id =
 params.get("id")
 
-if(!id){
-
-document.getElementById("app")
-.innerHTML = `
-
-<div class="block">
-
-<h1>Invalid Ebook</h1>
-
-<p>
-Book ID Missing
-</p>
-
-<button class="btn"
-onclick="history.back()">
-
-Go Back
-
-</button>
-
-</div>
-
-`
-
-throw new Error(
-"Invalid ID"
-)
-
-}
-
 /* =========================================================
 DRIVE ID
 ========================================================= */
 
 function driveId(link){
 
-if(!link) return ""
+if(!link) return null
 
 /* id= */
 
@@ -318,199 +398,117 @@ return link
 
 }
 
-/* RAW */
+/* raw */
 
 return link
 
 }
 
 /* =========================================================
-GET DB
+LOAD VIEWER
 ========================================================= */
 
-async function getDB(api,db){
-
-try{
-
-let res =
-await fetch(
-
-api +
-"?db=" + db +
-"&t=" + Date.now()
-
-)
-
-let data =
-await res.json()
-
-return Array.isArray(data)
-? data
-: []
-
-}catch(err){
-
-console.log(err)
-
-return []
-
-}
-
-}
-
-/* =========================================================
-LOAD READER
-========================================================= */
-
-async function loadReader(){
+async function loadViewer(){
 
 try{
 
 /* ================= PRODUCTS ================= */
 
-let products =
-await getDB(
-PRODUCT_API,
-"products"
+let res =
+await fetch(
+
+PRODUCT_API +
+"?action=products&t=" +
+Date.now()
+
 )
 
-/* ================= SUBSCRIPTIONS ================= */
+let raw =
+await res.text()
 
-let subs =
-await getDB(
-SUBSCRIPTION_API,
-"subscriptions"
+console.log(raw)
+
+let data = {}
+
+try{
+
+data =
+JSON.parse(raw)
+
+}catch(e){
+
+data = []
+
+}
+
+let products = []
+
+if(Array.isArray(data)){
+
+products = data
+
+}
+
+else if(data.products){
+
+products = data.products
+
+}
+
+/* =========================================================
+GET PRODUCT
+========================================================= */
+
+let savedBook =
+JSON.parse(
+localStorage.getItem(
+"viewerBook"
+) || "null"
 )
 
-/* ================= FIND PRODUCT ================= */
+let product = null
 
-let product =
+/* ================= FIND BY ID ================= */
+
+product =
 products.find(p =>
 
-String(p.id)
-=== String(id)
+String(p.id).trim()
+===
+
+String(id).trim()
 
 )
+
+/* ================= FALLBACK ================= */
+
+if(!product && savedBook){
+
+product = savedBook
+
+}
+
+/* ================= ERROR ================= */
 
 if(!product){
 
-document.getElementById("app")
-.innerHTML = `
+document.getElementById(
+"viewer"
+).innerHTML = `
 
-<div class="block">
+<div class="error">
 
-<h1>Ebook Not Found</h1>
+<h1>
+Ebook Not Found
+</h1>
 
 <p>
 This ebook does not exist
 </p>
 
-<button class="btn"
-onclick="history.back()">
+<button onclick="history.back()">
 
 Go Back
-
-</button>
-
-</div>
-
-`
-
-return
-
-}
-
-/* =========================================================
-ACCESS CHECK
-========================================================= */
-
-let owner =
-
-String(product.owner)
-.toLowerCase()
-
-===
-
-String(user.email)
-.toLowerCase()
-
-let sub = subs.find(s =>
-
-String(s.email)
-.toLowerCase()
-
-===
-
-String(user.email)
-.toLowerCase()
-
-&&
-
-(
-s.status === "active" ||
-s.status === "paid"
-)
-
-)
-
-let allow = false
-
-/* ADMIN */
-
-if(
-String(user.email)
-.toLowerCase()
-
-===
-
-String(ADMIN)
-.toLowerCase()
-){
-
-allow = true
-
-}
-
-/* OWNER */
-
-else if(owner){
-
-allow = true
-
-}
-
-/* SUBSCRIPTION */
-
-else if(sub){
-
-allow = true
-
-}
-
-/* =========================================================
-BLOCK
-========================================================= */
-
-if(!allow){
-
-document.getElementById("app")
-.innerHTML = `
-
-<div class="block">
-
-<h1>
-Subscription Required
-</h1>
-
-<p>
-You need active subscription
-to read this ebook.
-</p>
-
-<button class="btn"
-onclick="location.href='subscription.html'">
-
-Get Subscription
 
 </button>
 
@@ -528,28 +526,27 @@ PDF
 
 let pdf =
 
-product.pdf ||
 product.pdf_url ||
-product.pdfLink ||
+product.pdf ||
 ""
 
 if(!pdf){
 
-document.getElementById("app")
-.innerHTML = `
+document.getElementById(
+"viewer"
+).innerHTML = `
 
-<div class="block">
+<div class="error">
 
 <h1>
 PDF Missing
 </h1>
 
 <p>
-This ebook PDF was not found
+No PDF found for this ebook
 </p>
 
-<button class="btn"
-onclick="history.back()">
+<button onclick="history.back()">
 
 Go Back
 
@@ -563,35 +560,79 @@ return
 
 }
 
+/* =========================================================
+PDF ID
+========================================================= */
+
 let fileId =
 driveId(pdf)
 
-let previewUrl =
+if(!fileId){
 
-"https://drive.google.com/file/d/" +
-fileId +
-"/preview"
+document.getElementById(
+"viewer"
+).innerHTML = `
+
+<div class="error">
+
+<h1>
+Invalid PDF
+</h1>
+
+<p>
+Drive file id missing
+</p>
+
+<button onclick="history.back()">
+
+Go Back
+
+</button>
+
+</div>
+
+`
+
+return
+
+}
+
+/* =========================================================
+PREVIEW URL
+========================================================= */
+
+let url =
+`https://drive.google.com/file/d/${fileId}/preview`
 
 /* =========================================================
 RENDER
 ========================================================= */
 
-document.getElementById("app")
-.innerHTML = `
+document.getElementById(
+"viewer"
+).innerHTML = `
 
-<div class="viewer">
+<div class="reader">
 
 <iframe
-src="${previewUrl}"
-allow="autoplay">
-
+src="${url}"
+allow="autoplay"
+sandbox="
+allow-scripts
+allow-same-origin
+allow-forms
+allow-popups
+">
 </iframe>
 
 <div class="watermark">
 
 ${user.email}
+• CreatorHub Protected
 
 </div>
+
+<div class="overlay"></div>
 
 </div>
 
@@ -601,23 +642,23 @@ ${user.email}
 
 console.log(err)
 
-document.getElementById("app")
-.innerHTML = `
+document.getElementById(
+"viewer"
+).innerHTML = `
 
-<div class="block">
+<div class="error">
 
 <h1>
-Something Went Wrong
+Loading Failed
 </h1>
 
 <p>
 ${err.message}
 </p>
 
-<button class="btn"
-onclick="history.back()">
+<button onclick="location.reload()">
 
-Go Back
+Retry
 
 </button>
 
@@ -629,10 +670,10 @@ Go Back
 
 }
 
-loadReader()
+loadViewer()
 
 /* =========================================================
-BLOCK RIGHT CLICK
+BLOCK
 ========================================================= */
 
 document.addEventListener(
@@ -640,18 +681,10 @@ document.addEventListener(
 e => e.preventDefault()
 )
 
-/* =========================================================
-BLOCK COPY
-========================================================= */
-
 document.addEventListener(
 "copy",
 e => e.preventDefault()
 )
-
-/* =========================================================
-BLOCK SAVE / PRINT
-========================================================= */
 
 document.addEventListener(
 "keydown",
@@ -661,15 +694,14 @@ if(
 e.ctrlKey &&
 (
 e.key === "s" ||
-e.key === "p"
+e.key === "p" ||
+e.key === "u"
 )
 ){
 
 e.preventDefault()
 
-alert(
-"Action Blocked"
-)
+alert("Action Blocked")
 
 }
 
