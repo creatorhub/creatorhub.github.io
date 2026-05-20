@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+Payment • CreatorHub
+</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:
+linear-gradient(
+180deg,
+#020617,
+#07111f
+);
+color:white;
+min-height:100vh;
+overflow-x:hidden;
+}
+
+:root{
+--green:#22c55e;
+--card:#0f172a;
+--border:#1e293b;
+}
+
+/* =========================================================
+TOPBAR
+========================================================= */
+
+.topbar{
+position:sticky;
+top:0;
+z-index:999;
+padding:18px 22px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+background:
+rgba(2,6,23,.92);
+backdrop-filter:blur(18px);
+border-bottom:
+1px solid rgba(255,255,255,.05);
+}
+
+.logo{
+font-size:32px;
+font-weight:900;
+}
+
+.logo span{
+color:#4ade80;
+}
+
+.secure{
+padding:12px 18px;
+border-radius:18px;
+background:
+rgba(34,197,94,.14);
+color:#4ade80;
+font-weight:bold;
+}
+
+/* =========================================================
+MAIN
+========================================================= */
+
+.main{
+max-width:950px;
+margin:auto;
+padding:30px 18px 120px;
+}
+
+/* =========================================================
+CARD
+========================================================= */
+
+.card{
+background:#0f172a;
+border-radius:34px;
+padding:32px;
+border:
+1px solid rgba(255,255,255,.05);
+box-shadow:
+0 25px 70px rgba(0,0,0,.4);
+}
+
+/* =========================================================
+TITLE
+========================================================= */
+
+.title{
+font-size:42px;
+font-weight:900;
+line-height:1.2;
+}
+
+.desc{
+margin-top:14px;
+opacity:.72;
+line-height:1.9;
+}
+
+/* =========================================================
+PROGRESS
+========================================================= */
+
+.progress{
+display:flex;
+align-items:center;
+gap:14px;
+margin-bottom:38px;
+overflow:auto;
+}
+
+.progress::-webkit-scrollbar{
+display:none;
+}
+
+.step{
+display:flex;
+align-items:center;
+gap:10px;
+white-space:nowrap;
+}
+
+.circle{
+width:46px;
+height:46px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+background:
+linear-gradient(
+90deg,
+#16a34a,
+#4ade80
+);
+}
+
+.line{
+width:70px;
+height:3px;
+background:
+rgba(255,255,255,.08);
+border-radius:50px;
+}
+
+/* =========================================================
+PAYMENT METHODS
+========================================================= */
+
+.methods{
+margin-top:30px;
+display:grid;
+gap:18px;
+}
+
+.method{
+padding:22px;
+border-radius:28px;
+background:#081225;
+border:
+2px solid transparent;
+cursor:pointer;
+transition:.3s;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.method.active{
+border-color:#22c55e;
+background:
+rgba(34,197,94,.08);
+}
+
+.method-left{
+display:flex;
+align-items:center;
+gap:16px;
+}
+
+.method-icon{
+font-size:32px;
+}
+
+.method-title{
+font-size:20px;
+font-weight:900;
+}
+
+.method-desc{
+margin-top:6px;
+opacity:.72;
+font-size:14px;
+}
+
+/* =========================================================
+BOOK
+========================================================= */
+
+.summary{
+margin-top:35px;
+padding:26px;
+border-radius:28px;
+background:#081225;
+}
+
+.summary-title{
+font-size:28px;
+font-weight:900;
+margin-bottom:24px;
+}
+
+.book{
+display:flex;
+gap:18px;
+align-items:center;
+}
+
+.cover{
+width:110px;
+height:160px;
+border-radius:18px;
+object-fit:cover;
+background:#111827;
+}
+
+.book-title{
+font-size:24px;
+font-weight:900;
+line-height:1.4;
+}
+
+.author{
+margin-top:10px;
+opacity:.72;
+}
+
+.price{
+margin-top:14px;
+font-size:34px;
+font-weight:900;
+color:#4ade80;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+margin-top:18px;
+opacity:.82;
+}
+
+.total{
+margin-top:22px;
+padding-top:22px;
+border-top:
+1px solid rgba(255,255,255,.08);
+font-size:28px;
+font-weight:900;
+color:#4ade80;
+}
+
+/* =========================================================
+ADDRESS
+========================================================= */
+
+.address{
+margin-top:30px;
+padding:24px;
+border-radius:28px;
+background:#081225;
+line-height:1.9;
+}
+
+/* =========================================================
+PAY BUTTON
+========================================================= */
+
+.pay-btn{
+width:100%;
+height:66px;
+border:none;
+border-radius:26px;
+margin-top:30px;
+background:
+linear-gradient(
+90deg,
+#16a34a,
+#4ade80
+);
+color:white;
+font-size:20px;
+font-weight:900;
+cursor:pointer;
+transition:.3s;
+}
+
+.pay-btn:hover{
+transform:translateY(-3px);
+}
+
+/* =========================================================
+LOADER
+========================================================= */
+
+.loader{
+display:none;
+margin-top:28px;
+padding:26px;
+border-radius:28px;
+background:
+linear-gradient(
+90deg,
+#052e16,
+#064e3b
+);
+text-align:center;
+}
+
+.spin{
+width:70px;
+height:70px;
+border-radius:50%;
+border:5px solid rgba(255,255,255,.1);
+border-top:5px solid #4ade80;
+margin:auto;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+
+0%{
+transform:rotate(0deg);
+}
+
+100%{
+transform:rotate(360deg);
+}
+
+}
+
+/* =========================================================
+MOBILE
+========================================================= */
+
+@media(max-width:700px){
+
+.card{
+padding:22px;
+}
+
+.title{
+font-size:32px;
+}
+
+.book{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.cover{
+width:100%;
+height:300px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- ===================================================== -->
+<!-- TOPBAR -->
+<!-- ===================================================== -->
+
+<div class="topbar">
+
+<div class="logo">
+Creator<span>Hub</span>
+</div>
+
+<div class="secure">
+🔒 Secure Payment
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- MAIN -->
+<!-- ===================================================== -->
+
+<div class="main">
+
+<div class="card">
+
+<!-- ===================================================== -->
+<!-- PROGRESS -->
+<!-- ===================================================== -->
+
+<div class="progress">
+
+<div class="step">
+
+<div class="circle">
+✓
+</div>
+
+<div>
+Address
+</div>
+
+</div>
+
+<div class="line"></div>
+
+<div class="step">
+
+<div class="circle">
+2
+</div>
+
+<div>
+Payment
+</div>
+
+</div>
+
+<div class="line"></div>
+
+<div class="step">
+
+<div style="
+width:46px;
+height:46px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#081225;
+border:1px solid rgba(255,255,255,.06);
+">
+3
+</div>
+
+<div>
+Success
+</div>
+
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- TITLE -->
+<!-- ===================================================== -->
+
+<div class="title">
+Choose Payment Method
+</div>
+
+<div class="desc">
+
+Your order is secured and ready for payment processing.
+
+</div>
+
+<!-- ===================================================== -->
+<!-- METHODS -->
+<!-- ===================================================== -->
+
+<div class="methods">
+
+<div
+class="method active"
+onclick="selectMethod(this,'upi')">
+
+<div class="method-left">
+
+<div class="method-icon">
+📱
+</div>
+
+<div>
+
+<div class="method-title">
+UPI Payment
+</div>
+
+<div class="method-desc">
+Google Pay, PhonePe, Paytm
+</div>
+
+</div>
+
+</div>
+
+<div>
+✓
+</div>
+
+</div>
+
+<div
+class="method"
+onclick="selectMethod(this,'card')">
+
+<div class="method-left">
+
+<div class="method-icon">
+💳
+</div>
+
+<div>
+
+<div class="method-title">
+Credit / Debit Card
+</div>
+
+<div class="method-desc">
+Visa, Mastercard, RuPay
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div
+class="method"
+onclick="selectMethod(this,'netbanking')">
+
+<div class="method-left">
+
+<div class="method-icon">
+🏦
+</div>
+
+<div>
+
+<div class="method-title">
+Net Banking
+</div>
+
+<div class="method-desc">
+All major Indian banks
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div
+class="method"
+onclick="selectMethod(this,'wallet')">
+
+<div class="method-left">
+
+<div class="method-icon">
+👛
+</div>
+
+<div>
+
+<div class="method-title">
+Wallet
+</div>
+
+<div class="method-desc">
+Paytm Wallet, Amazon Pay
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- SUMMARY -->
+<!-- ===================================================== -->
+
+<div class="summary">
+
+<div class="summary-title">
+Order Summary
+</div>
+
+<div class="book">
+
+<img
+id="cover"
+class="cover"
+src="https://picsum.photos/500"
+>
+
+<div>
+
+<div
+id="bookTitle"
+class="book-title">
+
+Premium Ebook
+
+</div>
+
+<div
+id="author"
+class="author">
+
+by CreatorHub
+
+</div>
+
+<div
+id="price"
+class="price">
+
+₹0
+
+</div>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div>
+Ebook Price
+</div>
+
+<div id="subTotal">
+₹0
+</div>
+
+</div>
+
+<div class="row">
+
+<div>
+Platform Fee
+</div>
+
+<div>
+₹29
+</div>
+
+</div>
+
+<div class="row">
+
+<div>
+Delivery
+</div>
+
+<div>
+Qikink
+</div>
+
+</div>
+
+<div class="row total">
+
+<div>
+Total
+</div>
+
+<div id="total">
+₹0
+</div>
+
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- ADDRESS -->
+<!-- ===================================================== -->
+
+<div
+id="addressBox"
+class="address">
+
+Loading address...
+
+</div>
+
+<!-- ===================================================== -->
+<!-- BUTTON -->
+<!-- ===================================================== -->
+
+<button
+class="pay-btn"
+onclick="completePayment()">
+
+Pay Securely
+
+</button>
+
+<!-- ===================================================== -->
+<!-- LOADER -->
+<!-- ===================================================== -->
+
+<div
+id="loader"
+class="loader">
+
+<div class="spin"></div>
+
+<h2 style="margin-top:20px;">
+Processing Payment...
+</h2>
+
+<p style="
+margin-top:12px;
+opacity:.8;
+line-height:1.8;
+">
+
+Please wait while we securely verify your payment and create your order.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* =========================================================
+GLOBAL
+========================================================= */
+
+let PAYMENT_METHOD = "upi"
+
+/* =========================================================
+BOOK
+========================================================= */
+
+let BOOK =
+JSON.parse(
+localStorage.getItem("paymentBook") || "null"
+)
+
+if(!BOOK){
+
+alert("No order found")
+
+location.href =
+"explore.html"
+
+}
+
+/* =========================================================
+ADDRESS
+========================================================= */
+
+let ADDRESS =
+JSON.parse(
+localStorage.getItem("shippingAddress") || "null"
+)
+
+if(!ADDRESS){
+
+alert("Address missing")
+
+location.href =
+"payment.html"
+
+}
+
+/* =========================================================
+IMAGE
+========================================================= */
+
+function driveImage(link){
+
+if(!link){
+
+return "https://picsum.photos/500"
+
+}
+
+let id = ""
+
+if(link.includes("id=")){
+
+id =
+link.split("id=")[1]
+.split("&")[0]
+
+}
+
+else if(link.includes("/d/")){
+
+id =
+link.split("/d/")[1]
+.split("/")[0]
+
+}
+
+else{
+
+id = link
+
+}
+
+return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`
+
+}
+
+/* =========================================================
+LOAD
+========================================================= */
+
+function loadData(){
+
+document.getElementById(
+"bookTitle"
+).innerHTML =
+
+BOOK.title || "Untitled"
+
+document.getElementById(
+"author"
+).innerHTML =
+
+"by " + (BOOK.author || "Unknown")
+
+document.getElementById(
+"cover"
+).src =
+
+driveImage(
+BOOK.front_cover
+)
+
+let price =
+Number(BOOK.price || 0)
+
+let total =
+price + 29
+
+document.getElementById(
+"price"
+).innerHTML =
+
+"₹" + price
+
+document.getElementById(
+"subTotal"
+).innerHTML =
+
+"₹" + price
+
+document.getElementById(
+"total"
+).innerHTML =
+
+"₹" + total
+
+document.getElementById(
+"addressBox"
+).innerHTML = `
+
+<h2 style="
+margin-bottom:18px;
+font-size:28px;
+">
+📍 Delivery Address
+</h2>
+
+<div>
+
+<b>${ADDRESS.name}</b>
+
+<br><br>
+
+${ADDRESS.address}
+
+<br>
+
+${ADDRESS.city},
+${ADDRESS.state}
+
+<br>
+
+${ADDRESS.pincode}
+
+<br><br>
+
+📞 ${ADDRESS.phone}
+
+<br>
+
+✉ ${ADDRESS.email}
+
+</div>
+
+`
+
+}
+
+loadData()
+
+/* =========================================================
+METHOD
+========================================================= */
+
+function selectMethod(el,type){
+
+PAYMENT_METHOD = type
+
+document
+.querySelectorAll(".method")
+.forEach(m =>
+
+m.classList.remove("active")
+
+)
+
+el.classList.add("active")
+
+}
+
+/* =========================================================
+PAYMENT
+========================================================= */
+
+async function completePayment(){
+
+document.getElementById(
+"loader"
+).style.display = "block"
+
+window.scrollTo({
+top:document.body.scrollHeight,
+behavior:"smooth"
+})
+
+await new Promise(r=>
+setTimeout(r,3500)
+)
+
+/* =========================================================
+ORDER
+========================================================= */
+
+let order = {
+
+id:
+"ORD_" + Date.now(),
+
+book:BOOK,
+
+address:ADDRESS,
+
+payment_method:
+PAYMENT_METHOD,
+
+payment_status:
+"paid",
+
+order_status:
+"processing",
+
+created_at:
+new Date().toISOString()
+
+}
+
+/* SAVE */
+
+localStorage.setItem(
+"currentOrder",
+JSON.stringify(order)
+)
+
+/* =========================================================
+SUCCESS
+========================================================= */
+
+window.location.href =
+"success.html"
+
+}
+
+</script>
+
+</body>
+  </html>
