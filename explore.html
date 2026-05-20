@@ -995,6 +995,41 @@ renderBooks(books)
 
 }
 
+/* =========================================================
+PAYMENT
+========================================================= */
+
+function goToPayment(id){
+
+let book =
+ALL_BOOKS.find(b =>
+
+String(b.id) ===
+String(id)
+
+)
+
+if(!book){
+
+alert("Book not found")
+return
+
+}
+
+/* SAVE BOOK */
+
+localStorage.setItem(
+"paymentBook",
+JSON.stringify(book)
+)
+
+/* OPEN PAYMENT */
+
+location.href =
+"payment.html?id=" + id
+
+}
+
 </script>
 
 </body>
