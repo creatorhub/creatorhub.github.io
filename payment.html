@@ -9,7 +9,7 @@
 content="width=device-width, initial-scale=1.0">
 
 <title>
-CreatorHub Checkout
+Secure Checkout • CreatorHub
 </title>
 
 <style>
@@ -47,13 +47,13 @@ TOPBAR
 position:sticky;
 top:0;
 z-index:999;
-padding:18px;
+padding:18px 22px;
 display:flex;
 align-items:center;
 justify-content:space-between;
 background:
 rgba(2,6,23,.92);
-backdrop-filter:blur(20px);
+backdrop-filter:blur(18px);
 border-bottom:
 1px solid rgba(255,255,255,.05);
 }
@@ -80,13 +80,13 @@ font-weight:bold;
 MAIN
 ========================================================= */
 
-.container{
-max-width:1400px;
+.main{
+max-width:1450px;
 margin:auto;
 padding:30px 18px 120px;
 display:grid;
-grid-template-columns:1fr 420px;
-gap:30px;
+grid-template-columns:1fr 430px;
+gap:28px;
 }
 
 /* =========================================================
@@ -100,18 +100,35 @@ padding:32px;
 border:
 1px solid rgba(255,255,255,.05);
 box-shadow:
-0 25px 70px rgba(0,0,0,.45);
+0 25px 70px rgba(0,0,0,.4);
 }
 
 /* =========================================================
-STEP
+TITLE
 ========================================================= */
 
-.steps{
+.title{
+font-size:40px;
+font-weight:900;
+line-height:1.2;
+}
+
+.desc{
+margin-top:14px;
+opacity:.72;
+line-height:1.9;
+max-width:700px;
+}
+
+/* =========================================================
+PROGRESS
+========================================================= */
+
+.progress{
 display:flex;
 align-items:center;
 gap:14px;
-margin-bottom:35px;
+margin-bottom:38px;
 }
 
 .step{
@@ -121,19 +138,13 @@ gap:10px;
 }
 
 .circle{
-width:44px;
-height:44px;
+width:46px;
+height:46px;
 border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
-background:#081225;
 font-weight:bold;
-border:
-1px solid rgba(255,255,255,.06);
-}
-
-.step.active .circle{
 background:
 linear-gradient(
 90deg,
@@ -151,30 +162,19 @@ border-radius:50px;
 }
 
 /* =========================================================
-TITLE
-========================================================= */
-
-.title{
-font-size:38px;
-font-weight:900;
-margin-bottom:12px;
-}
-
-.desc{
-opacity:.72;
-line-height:1.8;
-margin-bottom:35px;
-}
-
-/* =========================================================
-FORM
+GRID
 ========================================================= */
 
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:18px;
+margin-top:30px;
 }
+
+/* =========================================================
+GROUP
+========================================================= */
 
 .group{
 margin-bottom:22px;
@@ -185,6 +185,10 @@ margin-bottom:10px;
 font-weight:bold;
 opacity:.85;
 }
+
+/* =========================================================
+INPUT
+========================================================= */
 
 .input,
 .textarea,
@@ -199,6 +203,7 @@ color:white;
 font-size:15px;
 border:
 1px solid rgba(255,255,255,.06);
+transition:.3s;
 }
 
 .input:focus,
@@ -221,9 +226,9 @@ AI BOX
 
 .ai-box{
 display:none;
-margin-top:25px;
+margin-top:28px;
 padding:24px;
-border-radius:26px;
+border-radius:28px;
 background:
 linear-gradient(
 90deg,
@@ -239,7 +244,7 @@ margin-bottom:12px;
 }
 
 .ai-message{
-line-height:1.8;
+line-height:1.9;
 opacity:.92;
 }
 
@@ -249,9 +254,10 @@ BUTTON
 
 .btn{
 width:100%;
-height:60px;
+height:62px;
 border:none;
-border-radius:22px;
+border-radius:24px;
+margin-top:28px;
 background:
 linear-gradient(
 90deg,
@@ -259,11 +265,10 @@ linear-gradient(
 #4ade80
 );
 color:white;
-font-size:17px;
+font-size:18px;
 font-weight:900;
 cursor:pointer;
 transition:.3s;
-margin-top:25px;
 }
 
 .btn:hover{
@@ -279,15 +284,15 @@ display:flex;
 gap:18px;
 align-items:center;
 padding:20px;
-border-radius:26px;
+border-radius:28px;
 background:#081225;
 }
 
 .cover{
 width:120px;
-height:165px;
+height:170px;
+border-radius:20px;
 object-fit:cover;
-border-radius:18px;
 }
 
 .book-title{
@@ -302,7 +307,7 @@ opacity:.72;
 }
 
 .price{
-margin-top:18px;
+margin-top:16px;
 font-size:34px;
 font-weight:900;
 color:#4ade80;
@@ -315,7 +320,7 @@ SUMMARY
 .summary{
 margin-top:28px;
 padding:24px;
-border-radius:26px;
+border-radius:28px;
 background:#081225;
 }
 
@@ -348,11 +353,11 @@ border-radius:22px;
 background:#081225;
 display:flex;
 align-items:center;
-gap:15px;
+gap:14px;
 }
 
 .trust-icon{
-font-size:28px;
+font-size:30px;
 }
 
 /* =========================================================
@@ -361,7 +366,7 @@ MOBILE
 
 @media(max-width:950px){
 
-.container{
+.main{
 grid-template-columns:1fr;
 }
 
@@ -370,7 +375,7 @@ grid-template-columns:1fr;
 }
 
 .title{
-font-size:30px;
+font-size:32px;
 }
 
 }
@@ -401,7 +406,7 @@ Creator<span>Hub</span>
 <!-- MAIN -->
 <!-- ===================================================== -->
 
-<div class="container">
+<div class="main">
 
 <!-- ===================================================== -->
 <!-- LEFT -->
@@ -409,9 +414,9 @@ Creator<span>Hub</span>
 
 <div class="card">
 
-<div class="steps">
+<div class="progress">
 
-<div class="step active">
+<div class="step">
 
 <div class="circle">
 1
@@ -427,7 +432,16 @@ Address
 
 <div class="step">
 
-<div class="circle">
+<div style="
+width:46px;
+height:46px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#081225;
+border:1px solid rgba(255,255,255,.06);
+">
 2
 </div>
 
@@ -441,7 +455,16 @@ Payment
 
 <div class="step">
 
-<div class="circle">
+<div style="
+width:46px;
+height:46px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#081225;
+border:1px solid rgba(255,255,255,.06);
+">
 3
 </div>
 
@@ -459,8 +482,8 @@ Delivery Address
 
 <div class="desc">
 
-Fill your shipping details carefully.
-CreatorHub AI automatically verifies fake or incomplete addresses before payment.
+Fill your delivery information carefully.
+CreatorHub AI automatically verifies fake or incomplete addresses before continuing to secure payment.
 
 </div>
 
@@ -489,7 +512,7 @@ Phone Number
 <input
 id="phone"
 class="input"
-placeholder="Enter phone number"
+placeholder="Enter mobile number"
 >
 
 </div>
@@ -513,7 +536,7 @@ placeholder="Enter email address"
 <div class="group">
 
 <div class="label">
-Full Address
+Street Address
 </div>
 
 <textarea
@@ -597,14 +620,14 @@ id="aiBox"
 class="ai-box">
 
 <div class="ai-title">
-🤖 AI Verification
+🤖 AI Address Verification
 </div>
 
 <div
 id="aiMessage"
 class="ai-message">
 
-Checking your address...
+Checking address authenticity...
 
 </div>
 
@@ -632,7 +655,7 @@ Order Summary
 
 <div class="desc">
 
-Professional CreatorHub secure checkout.
+Secure AI powered CreatorHub checkout system.
 
 </div>
 
@@ -747,7 +770,7 @@ Secure Payments
 </h3>
 
 <p style="opacity:.7;margin-top:6px;">
-256-bit encrypted checkout protection
+256-bit encrypted payment protection
 </p>
 
 </div>
@@ -763,11 +786,11 @@ Secure Payments
 <div>
 
 <h3>
-Qikink Delivery
+Qikink Shipping
 </h3>
 
 <p style="opacity:.7;margin-top:6px;">
-Professional fulfillment processing
+Professional order fulfillment system
 </p>
 
 </div>
@@ -787,7 +810,7 @@ Subscription Reading
 </h3>
 
 <p style="opacity:.7;margin-top:6px;">
-Read anytime with CreatorHub subscription
+Read ebooks anytime using subscription
 </p>
 
 </div>
@@ -861,7 +884,7 @@ return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`
 }
 
 /* =========================================================
-LOAD
+LOAD BOOK
 ========================================================= */
 
 function loadBook(){
@@ -967,106 +990,3 @@ return
 }
 
 /* =========================================================
-AI BOX
-========================================================= */
-
-document.getElementById(
-"aiBox"
-).style.display = "block"
-
-document.getElementById(
-"aiMessage"
-).innerHTML =
-
-"🤖 AI is verifying your address..."
-
-await new Promise(r=>
-setTimeout(r,2200)
-)
-
-/* =========================================================
-VALIDATION
-========================================================= */
-
-if(address.length < 10){
-
-document.getElementById(
-"aiMessage"
-).innerHTML =
-
-"❌ AI rejected incomplete address"
-
-return
-
-}
-
-if(phone.length < 10){
-
-document.getElementById(
-"aiMessage"
-).innerHTML =
-
-"❌ Invalid phone number"
-
-return
-
-}
-
-if(pincode.length < 6){
-
-document.getElementById(
-"aiMessage"
-).innerHTML =
-
-"❌ Invalid pincode"
-
-return
-
-}
-
-/* =========================================================
-SUCCESS
-========================================================= */
-
-document.getElementById(
-"aiMessage"
-).innerHTML =
-
-"✅ Address verified successfully"
-
-/* =========================================================
-SAVE
-========================================================= */
-
-localStorage.setItem(
-"shippingAddress",
-JSON.stringify({
-
-name,
-phone,
-email,
-address,
-city,
-state,
-pincode
-
-})
-)
-
-/* =========================================================
-NEXT PAGE
-========================================================= */
-
-setTimeout(()=>{
-
-location.href =
-"payment1.html"
-
-},1200)
-
-}
-
-</script>
-
-</body>
-</html>
