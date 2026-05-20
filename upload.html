@@ -917,14 +917,14 @@ Tips for Better Results
 <script>
 
 /* =========================================================
-   API CONFIG
+API CONFIG
 ========================================================= */
 
 const UPLOAD_API =
 "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec"
 
 /* =========================================================
-   GOOGLE CONFIG
+GOOGLE CONFIG
 ========================================================= */
 
 const CLIENT_ID =
@@ -937,36 +937,78 @@ const DRIVE_FOLDER_ID =
 "1WBqoulfH4FNt9o3krB4d4HxSWPA5o-lV"
 
 /* =========================================================
-   GLOBALS
+GLOBALS
 ========================================================= */
 
 let accessToken = ""
 
 const pdf = document.getElementById("pdf")
-const username = document.getElementById("username")
-const menuName = document.getElementById("menuName")
-const menuProfile = document.getElementById("menuProfile")
-const title = document.getElementById("title")
-const author = document.getElementById("author")
-const description = document.getElementById("description")
-const category = document.getElementById("category")
-const language = document.getElementById("language")
-const tags = document.getElementById("tags")
-const isbn = document.getElementById("isbn")
-const price = document.getElementById("price")
-const pages = document.getElementById("pages")
-const front = document.getElementById("front")
-const back = document.getElementById("back")
-const frontPreview = document.getElementById("frontPreview")
-const backPreview = document.getElementById("backPreview")
-const removeFront = document.getElementById("removeFront")
-const removeBack = document.getElementById("removeBack")
-const counter = document.getElementById("counter")
-const bookSize = document.getElementById("bookSize")
-const printVersion = document.getElementById("printVersion")
+
+const username =
+document.getElementById("username")
+
+const menuName =
+document.getElementById("menuName")
+
+const menuProfile =
+document.getElementById("menuProfile")
+
+const title =
+document.getElementById("title")
+
+const author =
+document.getElementById("author")
+
+const description =
+document.getElementById("description")
+
+const category =
+document.getElementById("category")
+
+const language =
+document.getElementById("language")
+
+const tags =
+document.getElementById("tags")
+
+const isbn =
+document.getElementById("isbn")
+
+const price =
+document.getElementById("price")
+
+const pages =
+document.getElementById("pages")
+
+const front =
+document.getElementById("front")
+
+const back =
+document.getElementById("back")
+
+const frontPreview =
+document.getElementById("frontPreview")
+
+const backPreview =
+document.getElementById("backPreview")
+
+const removeFront =
+document.getElementById("removeFront")
+
+const removeBack =
+document.getElementById("removeBack")
+
+const counter =
+document.getElementById("counter")
+
+const bookSize =
+document.getElementById("bookSize")
+
+const printVersion =
+document.getElementById("printVersion")
 
 /* =========================================================
-   MENU
+MENU
 ========================================================= */
 
 function openMenu(){
@@ -990,20 +1032,17 @@ document.getElementById("overlay")
 }
 
 /* =========================================================
-   LOAD USER
+LOAD USER
 ========================================================= */
 
 async function loadUser(){
 
 try{
 
-let localUser = JSON.parse(
+let localUser =
+JSON.parse(
 localStorage.getItem("user")
 ) || {}
-
-console.log("LOCAL USER:",localUser)
-
-console.log(localUser)
 
 let email = ""
 
@@ -1018,25 +1057,25 @@ localUser.user &&
 localUser.user.email
 ){
 
-email = localUser.user.email
+email =
+localUser.user.email
 
 }
 
 if(!email){
 
-document.getElementById("username")
-.innerText = "Guest"
+username.innerText = "User"
 
-document.getElementById("menuName")
-.innerText = "Guest"
+menuName.innerText = "User"
 
 return
 
 }
 
-/* ================= USER DATA ================= */
+/* ================= USER ================= */
 
-let userRes = await fetch(UPLOAD_API,{
+let userRes =
+await fetch(UPLOAD_API,{
 
 method:"POST",
 
@@ -1061,19 +1100,18 @@ console.log(userData)
 
 if(userData.success){
 
-document.getElementById("username")
-.innerText =
+username.innerText =
 userData.user.name || "User"
 
-document.getElementById("menuName")
-.innerText =
+menuName.innerText =
 userData.user.name || "User"
 
 }
 
-/* ================= SELLER CHECK ================= */
+/* ================= SELLER ================= */
 
-let sellerRes = await fetch(UPLOAD_API,{
+let sellerRes =
+await fetch(UPLOAD_API,{
 
 method:"POST",
 
@@ -1098,39 +1136,58 @@ console.log(sellerData)
 
 if(!sellerData.success){
 
-window.location.href =
+location.href =
 "seller-apply.html"
 
 return
 
 }
 
-   }
+}catch(err){
 
-   loadUser()
+console.log(err)
+
+username.innerText = "User"
+
+menuName.innerText = "User"
+
+}
+
+}
+
+loadUser()
 
 /* =========================================================
-   CHARACTER COUNTER
+COUNTER
 ========================================================= */
 
-description.addEventListener("input",()=>{
+description.addEventListener(
+"input",
+()=>{
 
 counter.innerText =
-description.value.length + "/1000"
+description.value.length +
+"/1000"
 
 })
 
 /* =========================================================
-   IMAGE PREVIEW
+IMAGE PREVIEW
 ========================================================= */
 
-function preview(input,id,removeId){
+function preview(
+input,
+id,
+removeId
+){
 
-let file = input.files[0]
+let file =
+input.files[0]
 
 if(!file) return
 
-let reader = new FileReader()
+let reader =
+new FileReader()
 
 reader.onload = e => {
 
@@ -1170,16 +1227,18 @@ back,
 }
 
 /* =========================================================
-   REMOVE IMAGE
+REMOVE IMAGE
 ========================================================= */
 
 removeFront.onclick = ()=>{
 
 front.value = ""
 
-frontPreview.style.display = "none"
+frontPreview.style.display =
+"none"
 
-removeFront.style.display = "none"
+removeFront.style.display =
+"none"
 
 }
 
@@ -1187,14 +1246,16 @@ removeBack.onclick = ()=>{
 
 back.value = ""
 
-backPreview.style.display = "none"
+backPreview.style.display =
+"none"
 
-removeBack.style.display = "none"
+removeBack.style.display =
+"none"
 
 }
 
 /* =========================================================
-   PDF SELECT
+PDF SELECT
 ========================================================= */
 
 pdf.onchange = async function(){
@@ -1204,11 +1265,14 @@ let file = this.files[0]
 if(!file) return
 
 document.getElementById("pdfText")
-.innerHTML = "📄 " + file.name
+.innerHTML =
+"📄 " + file.name
 
-let reader = new FileReader()
+let reader =
+new FileReader()
 
-reader.onload = async function(){
+reader.onload =
+async function(){
 
 let typedArray =
 new Uint8Array(reader.result)
@@ -1218,7 +1282,8 @@ await pdfjsLib
 .getDocument(typedArray)
 .promise
 
-pages.value = pdfDoc.numPages
+pages.value =
+pdfDoc.numPages
 
 }
 
@@ -1227,7 +1292,7 @@ reader.readAsArrayBuffer(file)
 }
 
 /* =========================================================
-   EXTRACT PDF TEXT
+EXTRACT PDF TEXT
 ========================================================= */
 
 async function extractPDFText(file){
@@ -1245,9 +1310,16 @@ data:arrayBuffer
 let finalText = ""
 
 let totalPages =
-Math.min(pdfDoc.numPages,5)
+Math.min(
+pdfDoc.numPages,
+3
+)
 
-for(let i=1;i<=totalPages;i++){
+for(
+let i=1;
+i<=totalPages;
+i++
+){
 
 let page =
 await pdfDoc.getPage(i)
@@ -1260,165 +1332,135 @@ textContent.items
 .map(item => item.str)
 .join(" ")
 
-finalText += pageText + "\n"
+finalText +=
+pageText + "\n"
 
 }
 
-return finalText.slice(0,8000)
+return finalText
+.slice(0,8000)
 
 }
 
 /* =========================================================
-   AI AUTO FILL
+AI AUTO FILL
 ========================================================= */
 
- async function autoFillAI(){
+async function autoFillAI(){
 
-  try{
+try{
 
-    let pdfFile = pdf.files[0]
+let pdfFile =
+pdf.files[0]
 
-    if(!pdfFile){
+if(!pdfFile){
 
-      alert("Please upload PDF first")
-      return
+alert(
+"Please upload PDF first"
+)
 
-    }
+return
 
-    let pdfText =
-await extractPDFText(pdfFile)
+}
 
-    console.log(text)
-     
- let res = await fetch(UPLOAD_API,{
+let pdfText =
+await extractPDFText(
+pdfFile
+)
 
-  method:"POST",
+console.log(pdfText)
 
-  headers:{
-    "Content-Type":"text/plain"
-  },
+let res =
+await fetch(UPLOAD_API,{
 
-  body:JSON.stringify({
+method:"POST",
 
-    action:"analyzePDF",
-    pdfText:pdfText
+headers:{
+"Content-Type":"text/plain"
+},
 
-  })
+body:JSON.stringify({
+
+action:"analyzePDF",
+
+pdfText:pdfText
 
 })
 
-    if(!res.ok){
+})
 
-      throw new Error(
-        "Server Error : " + res.status
-      )
+let data =
+await res.json()
 
-    }
+console.log(data)
 
-    let data = await res.json()
+if(data.success){
 
-   console.log("AI RESPONSE:", data)
+let ai =
+data.ai || {}
 
-    console.log(data)
+title.value =
+ai.title || ""
 
-    if(data.success){
+author.value =
+ai.author || ""
 
-      let ai = data.ai || {}
+description.value =
+ai.description || ""
 
-      if(typeof ai === "string"){
+category.value =
+ai.category || ""
 
-        try{
+language.value =
+ai.language || ""
 
-          ai = JSON.parse(ai)
+tags.value =
+Array.isArray(ai.tags)
+? ai.tags.join(", ")
+: (ai.tags || "")
 
-        }catch(err){
+isbn.value =
+String(ai.isbn || "")
+.replace(
+/[^0-9X-]/g,
+""
+)
 
-          ai = {}
+counter.innerText =
+description.value.length +
+"/1000"
 
-        }
+}else{
 
-      }
+alert(
+data.message ||
+"AI Failed"
+)
 
-      console.log("FINAL AI:", ai)
+}
 
-      if(ai.title){
+}catch(err){
 
-        title.value = ai.title
+console.log(err)
 
-      }
+alert(err.message)
 
-      if(ai.author){
+}
 
-        author.value = ai.author
-
-      }
-
-      if(ai.description){
-
-        description.value =
-          ai.description
-
-      }
-
-      if(ai.category){
-
-        category.value =
-          ai.category
-
-      }
-
-      if(ai.language){
-
-        language.value =
-          ai.language
-
-      }
-
-      if(ai.tags){
-
-        tags.value =
-          Array.isArray(ai.tags)
-          ? ai.tags.join(", ")
-          : ai.tags
-
-      }
-
-      if(ai.isbn){
-
-        isbn.value =
-          ai.isbn
-
-      }
-
-      counter.innerText =
-        description.value.length +
-        "/1000"
-
-    }else{
-
-      alert(data.message)
-
-    }
-
-  }catch(err){
-
-    console.log(err)
-
-    alert(err.message)
-
-  }
-
- }
+}
 
 /* =========================================================
-   GOOGLE LOGIN
+GOOGLE LOGIN
 ========================================================= */
 
 async function initGoogle(){
 
-return new Promise((resolve,reject)=>{
+return new Promise(
+(resolve,reject)=>{
 
-gapi.load("client", async ()=>{
+gapi.load(
+"client",
+async ()=>{
 
 try{
 
@@ -1433,19 +1475,20 @@ discoveryDocs:[
 })
 
 const tokenClient =
-google.accounts.oauth2.initTokenClient({
+google.accounts.oauth2
+.initTokenClient({
 
-client_id:CLIENT_ID,
+client_id:
+CLIENT_ID,
 
 scope:
-"https://www.googleapis.com/auth/drive.file",
+"https://www.googleapis.com/auth/drive",
 
 callback:(res)=>{
 
 if(res.error){
 
 reject(res)
-
 return
 
 }
@@ -1459,7 +1502,8 @@ resolve()
 
 })
 
-tokenClient.requestAccessToken({
+tokenClient
+.requestAccessToken({
 prompt:""
 })
 
@@ -1475,6 +1519,10 @@ reject(err)
 
 }
 
+/* =========================================================
+CREATE DRIVE FOLDER
+========================================================= */
+
 async function createDriveFolder(folderName){
 
 let metadata = {
@@ -1484,7 +1532,9 @@ name:folderName,
 mimeType:
 "application/vnd.google-apps.folder",
 
-parents:[DRIVE_FOLDER_ID]
+parents:[
+DRIVE_FOLDER_ID
+]
 
 }
 
@@ -1504,27 +1554,34 @@ Authorization:
 "application/json"
 },
 
-body:JSON.stringify(metadata)
+body:JSON.stringify(
+metadata
+)
 
 }
 
 )
 
-let data = await res.json()
+let data =
+await res.json()
 
 return data.id
 
 }
-   
+
 /* =========================================================
-   DRIVE UPLOAD
+UPLOAD TO DRIVE
 ========================================================= */
 
-async function uploadToDrive(file,folderId){
+async function uploadToDrive(
+file,
+folderId
+){
 
 try{
 
-let form = new FormData()
+let form =
+new FormData()
 
 form.append(
 
@@ -1572,18 +1629,8 @@ body:form
 
 )
 
-console.log(
-"DRIVE STATUS:",
-res.status
-)
-
 let data =
 await res.json()
-
-console.log(
-"DRIVE RESPONSE:",
-data
-)
 
 if(!res.ok){
 
@@ -1591,7 +1638,7 @@ throw new Error(
 
 data.error
 ? data.error.message
-: "Drive upload failed"
+: "Drive Upload Failed"
 
 )
 
@@ -1610,30 +1657,40 @@ throw err
 }
 
 /* =========================================================
-   UPLOAD EBOOK
+UPLOAD EBOOK
 ========================================================= */
 
 async function uploadBook(){
 
 const uploadBtn =
-document.getElementById("uploadBtn")
+document.getElementById(
+"uploadBtn"
+)
 
 const uploadText =
-document.getElementById("uploadText")
+document.getElementById(
+"uploadText"
+)
 
 const uploadLoader =
-document.getElementById("uploadLoader")
+document.getElementById(
+"uploadLoader"
+)
 
 uploadBtn.disabled = true
 
-uploadText.style.display = "none"
+uploadText.style.display =
+"none"
 
-uploadLoader.style.display = "block"
+uploadLoader.style.display =
+"block"
 
 try{
 
-let user = JSON.parse(
-localStorage.getItem("user") || "{}"
+let user =
+JSON.parse(
+localStorage.getItem("user")
+|| "{}"
 )
 
 let userEmail =
@@ -1645,105 +1702,82 @@ user.user.email)
 
 if(!userEmail){
 
-uploadBtn.disabled = false
-
-uploadLoader.style.display = "none"
-
-uploadText.style.display = "block"
-
-uploadText.innerText = "Upload Ebook"
-
-alert("Login required")
-
-return
+throw new Error(
+"Login Required"
+)
 
 }
 
-let pdfFile = pdf.files[0]
-let frontFile = front.files[0]
-let backFile = back.files[0]
+let pdfFile =
+pdf.files[0]
+
+let frontFile =
+front.files[0]
+
+let backFile =
+back.files[0]
 
 if(!title.value.trim()){
 
-uploadBtn.disabled = false
-uploadLoader.style.display = "none"
-uploadText.style.display = "block"
-uploadText.innerText = "Upload Ebook"
-
-alert("Enter title")
-return
+throw new Error(
+"Enter Title"
+)
 
 }
 
 if(!description.value.trim()){
 
-uploadBtn.disabled = false
-
-uploadLoader.style.display = "none"
-
-uploadText.style.display = "block"
-
-uploadText.innerText = "Upload Ebook"
-
-alert("Enter description")
-
-return
+throw new Error(
+"Enter Description"
+)
 
 }
 
 if(!pdfFile){
 
-uploadBtn.disabled = false
-
-uploadLoader.style.display = "none"
-
-uploadText.style.display = "block"
-
-uploadText.innerText = "Upload Ebook"
-
-alert("Upload PDF")
-
-return
+throw new Error(
+"Upload PDF"
+)
 
 }
 
-if(!frontFile || !backFile){
+if(
+!frontFile ||
+!backFile
+){
 
-uploadBtn.disabled = false
-
-uploadLoader.style.display = "none"
-
-uploadText.style.display = "block"
-
-uploadText.innerText = "Upload Ebook"
-
-alert("Upload both covers")
-
-return
+throw new Error(
+"Upload Both Covers"
+)
 
 }
+
+/* ================= GOOGLE ================= */
 
 await initGoogle()
 
 /* ================= PDF TEXT ================= */
 
-console.log(pdfText)
+let pdfText =
+await extractPDFText(
+pdfFile
+)
 
-/* ================= CREATE BOOK FOLDER ================= */
+/* ================= CREATE FOLDER ================= */
 
 let bookFolderId =
 await createDriveFolder(
 title.value
 )
 
-/* ================= DRIVE UPLOAD ================= */
+/* ================= UPLOAD FILES ================= */
 
 let pdfId =
 await uploadToDrive(
 pdfFile,
 bookFolderId
 )
-   
+
 let frontId =
 await uploadToDrive(
 frontFile,
@@ -1756,11 +1790,6 @@ backFile,
 bookFolderId
 )
 
-/* ================= PDF TEXT ================= */
-
-let pdfText =
-await extractPDFText(pdfFile)
-
 /* ================= PAYLOAD ================= */
 
 let payload = {
@@ -1771,40 +1800,54 @@ email:userEmail,
 
 title:title.value,
 
-author_name:author.value,
+author_name:
+author.value,
 
-description:description.value,
+description:
+description.value,
 
-category:category.value,
+category:
+category.value,
 
-language:language.value,
+language:
+language.value,
 
-tags:tags.value,
+tags:
+tags.value,
 
-isbn:isbn.value,
+isbn:
+isbn.value,
 
-price:price.value,
+price:
+price.value,
 
-pages:pages.value,
+pages:
+pages.value,
 
-size:bookSize.value,
+size:
+bookSize.value,
 
 print_version:
 printVersion.checked,
 
-pdfText:pdfText,
+pdfText:
+pdfText,
 
-pdfId:pdfId,
+pdfId:
+pdfId,
 
-frontCoverId:frontId,
+frontCoverId:
+frontId,
 
-backCoverId:backId
+backCoverId:
+backId
 
 }
 
-/* ================= API CALL ================= */
+/* ================= API ================= */
 
-let response = await fetch(UPLOAD_API,{
+let response =
+await fetch(UPLOAD_API,{
 
 method:"POST",
 
@@ -1812,82 +1855,76 @@ headers:{
 "Content-Type":"text/plain"
 },
 
-body:JSON.stringify(payload)
+body:JSON.stringify(
+payload
+)
 
 })
 
-console.log("UPLOAD RESPONSE STATUS:",response.status)
-
-if(!response.ok){
-
-throw new Error(
-"Server Error : " + response.status
-)
-
-}
-
-let data = await response.json()
+let data =
+await response.json()
 
 console.log(data)
 
-/* ================= RESULT ================= */
-
 if(data.success){
 
-uploadLoader.style.display = "none"
+uploadLoader.style.display =
+"none"
 
-uploadText.style.display = "block"
+uploadText.style.display =
+"block"
 
 uploadText.innerText =
 "Uploaded Successfully"
 
-uploadBtn.disabled = true
+setTimeout(()=>{
+
+location.href =
+"library.html"
+
+},1500)
 
 }else{
 
-uploadBtn.disabled = false
-
-uploadLoader.style.display = "none"
-
-uploadText.style.display = "block"
-
-uploadText.innerText =
-"Upload Ebook"
-
-alert(data.message || "Upload failed")
+throw new Error(
+data.message ||
+"Upload Failed"
+)
 
 }
 
 }catch(err){
 
-uploadBtn.disabled = false
-
-uploadLoader.style.display = "none"
-
-uploadText.style.display = "block"
-
-uploadText.innerText =
-"Upload Ebook"
-
 console.log(err)
 
 alert(err.message)
 
-}
+uploadBtn.disabled = false
 
+uploadLoader.style.display =
+"none"
+
+uploadText.style.display =
+"block"
+
+uploadText.innerText =
+"Upload Ebook"
+
+}
 
 }
 
 /* =========================================================
-   FOOTER LOAD
+FOOTER
 ========================================================= */
 
 fetch("footer.html")
 .then(res => res.text())
 .then(data => {
 
-document.getElementById("footer")
-.innerHTML = data
+document.getElementById(
+"footer"
+).innerHTML = data
 
 })
 .catch(err => {
@@ -1896,7 +1933,7 @@ console.log(err)
 
 })
 
-</script>
+   </script>
   
 </body>
   </html>
