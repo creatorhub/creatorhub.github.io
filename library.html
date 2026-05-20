@@ -999,7 +999,7 @@ allow = false
 
 }
 
-/* ================= MY UPLOADS ================= */
+/* ================= UPLOADS ================= */
 
 if(type === "uploads"){
 
@@ -1007,11 +1007,31 @@ return owner
 
 }
 
-/* ================= HIDE BOOKS ================= */
+/* ================= SUBSCRIPTION TAB ================= */
+
+if(type === "subscription"){
+
+return HAS_SUBSCRIPTION
+
+}
+
+/* ================= PURCHASED TAB ================= */
+
+if(type === "purchased"){
+
+return owner
+
+}
+
+/* ================= ALL BOOKS ================= */
+
+if(type === "all"){
 
 return allow
 
-})
+}
+
+return false
 
 /* ================= EMPTY ================= */
 
