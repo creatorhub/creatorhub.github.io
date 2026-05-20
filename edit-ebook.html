@@ -22,26 +22,21 @@ font-family:Arial,sans-serif;
 }
 
 body{
-
 background:
 linear-gradient(
 180deg,
 #020617 0%,
 #031127 100%
 );
-
 color:white;
 min-height:100vh;
 overflow-x:hidden;
-
 }
 
 :root{
-
 --green:#22c55e;
 --card:#0f172a;
 --border:#1e293b;
-
 }
 
 /* =========================================================
@@ -49,41 +44,27 @@ TOPBAR
 ========================================================= */
 
 .topbar{
-
 height:70px;
-
 display:flex;
 align-items:center;
 gap:18px;
-
 padding:0 18px;
-
 position:sticky;
 top:0;
 z-index:999;
-
-background:
-rgba(2,6,23,.92);
-
+background:rgba(2,6,23,.92);
 backdrop-filter:blur(20px);
-
-border-bottom:
-1px solid rgba(255,255,255,.05);
-
+border-bottom:1px solid rgba(255,255,255,.05);
 }
 
 .back{
-
 font-size:24px;
 cursor:pointer;
-
 }
 
 .title{
-
 font-size:26px;
 font-weight:800;
-
 }
 
 .title span{
@@ -95,16 +76,9 @@ CONTAINER
 ========================================================= */
 
 .container{
-
 max-width:1100px;
-
 margin:auto;
-
-padding:
-25px
-18px
-120px;
-
+padding:25px 18px 120px;
 }
 
 /* =========================================================
@@ -112,43 +86,30 @@ CARD
 ========================================================= */
 
 .card{
-
 background:
 linear-gradient(
 180deg,
 rgba(15,23,42,.96),
 rgba(8,18,37,.98)
 );
-
-border:
-1px solid rgba(255,255,255,.05);
-
+border:1px solid rgba(255,255,255,.05);
 border-radius:32px;
-
 padding:30px;
-
 position:relative;
 overflow:hidden;
-
-box-shadow:
-0 30px 80px rgba(0,0,0,.45);
-
+box-shadow:0 30px 80px rgba(0,0,0,.45);
 animation:fade .4s ease;
-
 }
 
 @keyframes fade{
-
 from{
 opacity:0;
 transform:translateY(20px);
 }
-
 to{
 opacity:1;
 transform:translateY(0);
 }
-
 }
 
 /* =========================================================
@@ -156,22 +117,17 @@ HEADER
 ========================================================= */
 
 .editor-header{
-
 display:flex;
 justify-content:space-between;
 align-items:center;
 gap:20px;
 flex-wrap:wrap;
-
 margin-bottom:30px;
-
 }
 
 .editor-title h1{
-
 font-size:38px;
 font-weight:800;
-
 }
 
 .editor-title span{
@@ -179,32 +135,19 @@ color:#4ade80;
 }
 
 .editor-title p{
-
 margin-top:12px;
-
 opacity:.75;
-
 line-height:1.8;
 max-width:600px;
-
 }
 
 .live-badge{
-
 padding:12px 18px;
-
 border-radius:18px;
-
-background:
-rgba(34,197,94,.15);
-
-border:
-1px solid rgba(34,197,94,.25);
-
+background:rgba(34,197,94,.15);
+border:1px solid rgba(34,197,94,.25);
 color:#4ade80;
-
 font-weight:bold;
-
 }
 
 /* =========================================================
@@ -212,42 +155,28 @@ INFO GRID
 ========================================================= */
 
 .info-grid{
-
 display:grid;
 grid-template-columns:repeat(3,1fr);
-
 gap:18px;
-
 margin-bottom:30px;
-
 }
 
 .info-box{
-
 background:#081225;
-
 padding:20px;
-
 border-radius:22px;
-
-border:
-1px solid rgba(255,255,255,.05);
-
+border:1px solid rgba(255,255,255,.05);
 }
 
 .info-box h3{
-
 font-size:13px;
 opacity:.65;
 margin-bottom:10px;
-
 }
 
 .info-box p{
-
 font-size:20px;
 font-weight:bold;
-
 }
 
 /* =========================================================
@@ -255,54 +184,33 @@ PREVIEW
 ========================================================= */
 
 .preview-wrap{
-
 display:grid;
 grid-template-columns:1fr 1fr;
-
 gap:24px;
-
 margin-bottom:35px;
-
 }
 
 .preview-box{
-
 background:#081225;
-
 padding:22px;
-
 border-radius:24px;
-
-border:
-1px solid rgba(255,255,255,.05);
-
+border:1px solid rgba(255,255,255,.05);
 text-align:center;
-
 }
 
 .preview-label{
-
 margin-bottom:14px;
-
 opacity:.75;
 font-weight:bold;
-
 }
 
 .preview{
-
 width:100%;
 max-width:240px;
-
 height:340px;
-
 object-fit:cover;
-
 border-radius:18px;
-
-box-shadow:
-0 20px 45px rgba(0,0,0,.45);
-
+box-shadow:0 20px 45px rgba(0,0,0,.45);
 }
 
 /* =========================================================
@@ -310,12 +218,9 @@ GRID
 ========================================================= */
 
 .grid{
-
 display:grid;
 grid-template-columns:1fr 1fr;
-
 gap:20px;
-
 }
 
 /* =========================================================
@@ -327,14 +232,10 @@ margin-top:20px;
 }
 
 .label{
-
 margin-bottom:10px;
-
 font-size:14px;
 font-weight:bold;
-
 opacity:.85;
-
 }
 
 /* =========================================================
@@ -344,45 +245,28 @@ INPUT
 .input,
 .textarea,
 .select{
-
 width:100%;
-
 padding:18px;
-
 background:#020617;
-
-border:
-1px solid rgba(255,255,255,.06);
-
+border:1px solid rgba(255,255,255,.06);
 border-radius:18px;
-
 color:white;
-
 font-size:15px;
-
 outline:none;
-
 transition:.3s;
-
 }
 
 .input:focus,
 .textarea:focus,
 .select:focus{
-
 border-color:#22c55e;
-
-box-shadow:
-0 0 0 4px rgba(34,197,94,.1);
-
+box-shadow:0 0 0 4px rgba(34,197,94,.1);
 }
 
 .textarea{
-
 min-height:170px;
 resize:none;
 line-height:1.8;
-
 }
 
 /* =========================================================
@@ -390,16 +274,10 @@ FILE
 ========================================================= */
 
 .file-wrap{
-
 background:#081225;
-
 padding:18px;
-
 border-radius:18px;
-
-border:
-1px dashed rgba(255,255,255,.1);
-
+border:1px dashed rgba(255,255,255,.1);
 }
 
 .file{
@@ -411,69 +289,44 @@ BUTTONS
 ========================================================= */
 
 .actions{
-
 display:flex;
 gap:18px;
-
 margin-top:35px;
-
 }
 
 .btn{
-
 flex:1;
-
 padding:18px;
-
 border:none;
 border-radius:20px;
-
 font-size:16px;
 font-weight:800;
-
 cursor:pointer;
-
 transition:.3s;
-
 }
 
 .btn:hover{
-
-transform:
-translateY(-3px);
-
+transform:translateY(-3px);
 }
 
 .save{
-
 background:
 linear-gradient(
 90deg,
 #16a34a,
 #4ade80
 );
-
 color:white;
-
-box-shadow:
-0 15px 35px rgba(34,197,94,.25);
-
 }
 
 .delete{
-
 background:
 linear-gradient(
 90deg,
 #dc2626,
 #ef4444
 );
-
 color:white;
-
-box-shadow:
-0 15px 35px rgba(239,68,68,.25);
-
 }
 
 /* =========================================================
@@ -481,293 +334,160 @@ STATUS
 ========================================================= */
 
 .status{
-
 margin-top:20px;
-
 padding:16px;
-
 border-radius:18px;
-
 display:none;
-
 font-weight:bold;
-
 }
 
 .success{
-
-background:
-rgba(34,197,94,.15);
-
+background:rgba(34,197,94,.15);
 color:#4ade80;
-
 }
 
 .error{
-
-background:
-rgba(239,68,68,.15);
-
+background:rgba(239,68,68,.15);
 color:#f87171;
-
 }
 
 /* =========================================================
-EXTRA SECTION
+EXTRA
 ========================================================= */
 
 .extra-section{
-
 margin-top:40px;
-
 background:#081225;
-
 padding:30px;
-
 border-radius:30px;
-
-border:
-1px solid rgba(255,255,255,.05);
-
+border:1px solid rgba(255,255,255,.05);
 }
 
 .section-title{
-
 font-size:32px;
 font-weight:800;
-
 margin-bottom:14px;
-
 }
 
 .section-desc{
-
 opacity:.8;
-
 line-height:1.9;
-
 margin-bottom:30px;
-
 }
 
-/* =========================================================
-GROWTH
-========================================================= */
-
 .growth-grid{
-
 display:grid;
 grid-template-columns:repeat(4,1fr);
-
 gap:18px;
-
 margin-bottom:35px;
-
 }
 
 .growth-card{
-
 background:#020617;
-
 padding:22px;
-
 border-radius:22px;
-
 display:flex;
 align-items:center;
 gap:16px;
-
-border:
-1px solid rgba(255,255,255,.05);
-
+border:1px solid rgba(255,255,255,.05);
 }
 
 .growth-icon{
-
 width:60px;
 height:60px;
-
 border-radius:50%;
-
 display:flex;
 align-items:center;
 justify-content:center;
-
 font-size:28px;
-
-background:
-rgba(34,197,94,.12);
-
+background:rgba(34,197,94,.12);
 }
 
 .growth-card h3{
-
 font-size:26px;
 font-weight:800;
-
 }
 
 .growth-card p{
-
 opacity:.7;
 margin-top:4px;
-
 }
-
-/* =========================================================
-INSIGHT
-========================================================= */
 
 .insight-box,
 .pro-note{
-
 background:#020617;
-
 padding:28px;
-
 border-radius:26px;
-
 line-height:2;
-
 margin-bottom:30px;
-
 }
 
 .insight-title,
 .pro-title{
-
 font-size:24px;
 font-weight:800;
-
 margin-bottom:14px;
-
 }
 
-/* =========================================================
-SEO
-========================================================= */
-
 .seo-box{
-
 background:
 linear-gradient(
 90deg,
 #052e16,
 #064e3b
 );
-
 padding:28px;
-
 border-radius:26px;
-
 margin-bottom:30px;
-
 }
 
 .seo-title{
-
 font-size:24px;
 font-weight:800;
-
 margin-bottom:18px;
-
 }
 
 .seo-bar{
-
 width:100%;
 height:18px;
-
-background:
-rgba(255,255,255,.12);
-
+background:rgba(255,255,255,.12);
 border-radius:50px;
-
 overflow:hidden;
-
 margin-bottom:18px;
-
 }
 
 .seo-fill{
-
-width:88%;
 height:100%;
-
 background:
 linear-gradient(
 90deg,
 #22c55e,
 #4ade80
 );
-
 border-radius:50px;
-
-animation:glow 2s linear infinite;
-
 }
-
-@keyframes glow{
-
-0%{
-filter:brightness(1);
-}
-
-50%{
-filter:brightness(1.3);
-}
-
-100%{
-filter:brightness(1);
-}
-
-}
-
-/* =========================================================
-ACTIONS
-========================================================= */
 
 .action-grid{
-
 display:grid;
 grid-template-columns:1fr 1fr;
-
 gap:18px;
-
 margin-bottom:30px;
-
 }
 
 .action-btn{
-
 padding:18px;
-
 border:none;
 border-radius:20px;
-
 background:
 linear-gradient(
 90deg,
 #16a34a,
 #4ade80
 );
-
 color:white;
-
 font-size:16px;
 font-weight:bold;
-
 cursor:pointer;
-
-transition:.3s;
-
-}
-
-.action-btn:hover{
-
-transform:
-translateY(-3px);
-
 }
 
 /* =========================================================
@@ -781,9 +501,7 @@ MOBILE
 .info-grid,
 .growth-grid,
 .action-grid{
-
 grid-template-columns:1fr;
-
 }
 
 .actions{
@@ -806,10 +524,6 @@ padding:20px;
 
 <body>
 
-<!-- =========================================================
-TOPBAR
-========================================================= -->
-
 <div class="topbar">
 
 <div class="back"
@@ -822,10 +536,6 @@ Edit <span>Ebook</span>
 </div>
 
 </div>
-
-<!-- =========================================================
-MAIN
-========================================================= -->
 
 <div class="container">
 
@@ -920,6 +630,9 @@ RENDER
 
 function render(){
 
+let trending =
+Number(BOOK.trending || 0)
+
 document.getElementById("app")
 .innerHTML = `
 
@@ -934,10 +647,7 @@ Edit <span>Your Ebook</span>
 </h1>
 
 <p>
-
-Update ebook details, optimize your product listing,
-improve metadata and manage your ebook professionally.
-
+Update ebook details, optimize metadata and manage your digital publishing professionally.
 </p>
 
 </div>
@@ -951,27 +661,18 @@ improve metadata and manage your ebook professionally.
 <div class="info-grid">
 
 <div class="info-box">
-
 <h3>BOOK ID</h3>
-
 <p>#${BOOK.id}</p>
-
 </div>
 
 <div class="info-box">
-
 <h3>STATUS</h3>
-
-<p>Published</p>
-
+<p>${BOOK.status || "Published"}</p>
 </div>
 
 <div class="info-box">
-
 <h3>AUTHOR</h3>
-
 <p>${BOOK.author || "Unknown"}</p>
-
 </div>
 
 </div>
@@ -987,7 +688,7 @@ improve metadata and manage your ebook professionally.
 <img
 id="frontPreview"
 class="preview"
-src="${driveImage(BOOK.front_cover || BOOK.frontCover)}"
+src="${driveImage(BOOK.front_cover)}"
 >
 
 </div>
@@ -1001,7 +702,7 @@ src="${driveImage(BOOK.front_cover || BOOK.frontCover)}"
 <img
 id="backPreview"
 class="preview"
-src="${driveImage(BOOK.back_cover || BOOK.backCover)}"
+src="${driveImage(BOOK.back_cover)}"
 >
 
 </div>
@@ -1061,18 +762,11 @@ class="textarea"
 📂 Category
 </div>
 
-<select
+<input
 id="category"
-class="select"
+class="input"
+value="${BOOK.category || ""}"
 >
-
-<option>Business</option>
-<option>Technology</option>
-<option>Finance</option>
-<option>Marketing</option>
-<option>Education</option>
-
-</select>
 
 </div>
 
@@ -1144,20 +838,14 @@ onchange="previewBack(event)"
 <button
 class="btn save"
 id="saveBtn"
-onclick="saveBook()"
->
-
+onclick="saveBook()">
 💾 Save Changes
-
 </button>
 
 <button
 class="btn delete"
-onclick="deleteBook()"
->
-
+onclick="deleteBook()">
 🗑 Delete Ebook
-
 </button>
 
 </div>
@@ -1167,15 +855,11 @@ onclick="deleteBook()"
 <div class="extra-section">
 
 <div class="section-title">
-Ebook Growth Dashboard
+🚀 Ebook Growth Dashboard
 </div>
 
 <p class="section-desc">
-
-Track ebook performance, improve discoverability,
-optimize your product listing and grow your digital
-publishing business professionally.
-
+Real CreatorHub analytics powered by your live ebook performance data.
 </p>
 
 <div class="growth-grid">
@@ -1188,8 +872,8 @@ publishing business professionally.
 
 <div>
 
-<h3 id="readsCount">
-0
+<h3>
+${Number(BOOK.reads || 0).toLocaleString()}
 </h3>
 
 <p>
@@ -1208,8 +892,8 @@ Total Reads
 
 <div>
 
-<h3 id="ratingCount">
-0
+<h3>
+${BOOK.rating || "0.0"}
 </h3>
 
 <p>
@@ -1228,8 +912,8 @@ Average Rating
 
 <div>
 
-<h3 id="revenueCount">
-0
+<h3>
+₹${Number(BOOK.revenue || 0).toLocaleString()}
 </h3>
 
 <p>
@@ -1248,8 +932,8 @@ Revenue
 
 <div>
 
-<h3 id="trendingCount">
-0%
+<h3>
+${trending}%
 </h3>
 
 <p>
@@ -1268,9 +952,17 @@ Trending
 📈 Author Insights
 </div>
 
-<p id="authorInsightText">
+<p>
 
-Loading author insights...
+"${BOOK.title}" currently has
+${BOOK.reads || 0} total reads.
+
+This ebook belongs to
+"${BOOK.category || "General"}"
+category and is building
+reader engagement through
+consistent visibility and
+professional branding.
 
 </p>
 
@@ -1284,13 +976,22 @@ Loading author insights...
 
 <div class="seo-bar">
 
-<div class="seo-fill"></div>
+<div
+class="seo-fill"
+style="width:${trending}%">
+</div>
 
 </div>
 
-<p id="seoText">
+<p>
 
-Loading SEO optimization...
+Your ebook currently has
+${trending}% marketplace visibility.
+
+Optimizing title keywords,
+description quality and
+category targeting improves
+organic discoverability.
 
 </p>
 
@@ -1324,15 +1025,10 @@ Loading SEO optimization...
 
 <p>
 
-Professional ebook creators regularly update
-covers, descriptions and pricing strategies.
-
-A strong visual identity improves click-through
-rate while optimized descriptions increase
-reader engagement and conversion rates.
-
-Maintaining consistent branding across all
-ebooks helps build trust and long-term growth.
+Consistent branding, optimized
+descriptions and quality cover
+design improve conversion and
+reader trust across marketplaces.
 
 </p>
 
@@ -1345,66 +1041,6 @@ ebooks helps build trust and long-term growth.
 }
 
 render()
-
-/* =========================================================
-LIVE DASHBOARD
-========================================================= */
-
-setTimeout(()=>{
-
-document.getElementById(
-"readsCount"
-).innerText =
-(Math.floor(Math.random()*50000)+5000)
-.toLocaleString()
-
-document.getElementById(
-"ratingCount"
-).innerText =
-(4 + Math.random()).toFixed(1)
-
-document.getElementById(
-"revenueCount"
-).innerText =
-"₹" +
-(Math.floor(Math.random()*50000)+10000)
-.toLocaleString()
-
-document.getElementById(
-"trendingCount"
-).innerText =
-(Math.floor(Math.random()*15)+85)
-+ "%"
-
-document.getElementById(
-"authorInsightText"
-).innerHTML = `
-
-"${BOOK.title}" is currently performing
-strongly inside the CreatorHub marketplace.
-
-Your ebook cover quality, metadata structure
-and category optimization are helping improve
-discoverability and reader engagement.
-
-Regular updates improve search visibility,
-recommendation ranking and audience trust.
-
-`
-
-document.getElementById(
-"seoText"
-).innerHTML = `
-
-Your ebook SEO score is highly optimized.
-
-Improving title keywords, description quality
-and category targeting can further boost
-marketplace visibility and conversions.
-
-`
-
-},400)
 
 /* =========================================================
 PREVIEW
@@ -1513,11 +1149,17 @@ document.getElementById("description")
 
 let category =
 document.getElementById("category")
-.value
+.value.trim()
 
 let price =
 document.getElementById("price")
 .value
+
+let frontCover =
+BOOK.front_cover || ""
+
+let backCover =
+BOOK.back_cover || ""
 
 let frontFile =
 document.getElementById("frontFile")
@@ -1526,12 +1168,6 @@ document.getElementById("frontFile")
 let backFile =
 document.getElementById("backFile")
 .files[0]
-
-let frontCover =
-BOOK.front_cover || ""
-
-let backCover =
-BOOK.back_cover || ""
 
 if(frontFile){
 
@@ -1582,8 +1218,6 @@ body:JSON.stringify(body)
 let data =
 await res.json()
 
-console.log(data)
-
 BOOK.title = title
 BOOK.author = author
 BOOK.description = description
@@ -1610,11 +1244,9 @@ setTimeout(()=>{
 
 location.reload()
 
-},1200)
+},1000)
 
 }catch(err){
-
-console.log(err)
 
 showStatus(
 err.message,
@@ -1645,7 +1277,6 @@ if(!ok) return
 
 try{
 
-let res =
 await fetch(PRODUCT_API,{
 
 method:"POST",
@@ -1666,12 +1297,7 @@ email:user.email
 
 })
 
-let data =
-await res.json()
-
-alert(
-data.message || "Deleted"
-)
+alert("Ebook Deleted")
 
 location.href =
 "library.html"
