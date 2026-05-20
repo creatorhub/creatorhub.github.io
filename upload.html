@@ -966,6 +966,44 @@ const bookSize = document.getElementById("bookSize")
 const printVersion = document.getElementById("printVersion")
 
 /* =========================================================
+PDF TEXT EXTRACT
+========================================================= */
+
+async function extractPDFText(file){
+
+const arrayBuffer =
+await file.arrayBuffer()
+
+const pdf =
+await pdfjsLib.getDocument({
+data:arrayBuffer
+}).promise
+
+let text = ""
+
+for(let i=1;i<=pdf.numPages;i++){
+
+let page =
+await pdf.getPage(i)
+
+let content =
+await page.getTextContent()
+
+let strings =
+content.items.map(
+item => item.str
+)
+
+text +=
+strings.join(" ") + "\n"
+
+}
+
+return text
+
+}
+
+/* =========================================================
    MENU
 ========================================================= */
 
@@ -1106,6 +1144,22 @@ return
 }
 
 if(data.success){
+
+/* ================= LOAD USER ================= */
+
+let savedUser =
+JSON.parse(
+
+localStorage.getItem("user")
+|| "null"
+
+)
+
+if(savedUser){
+
+user = savedUser
+
+}
 
 document.getElementById("username")
 .innerText =
@@ -1330,8 +1384,7 @@ return finalText.slice(0,8000)
   body:JSON.stringify({
 
     action:"analyzePDF",
-
-    pdfText:text
+    pdfText:pdfText
 
   })
 
@@ -1754,6 +1807,13 @@ return
 }
 
 await initGoogle()
+
+/* ================= PDF TEXT ================= */
+
+let pdfText =
+await extractPDFText(pdfFile)
+
+console.log(pdfText)
 
 /* ================= CREATE BOOK FOLDER ================= */
 
