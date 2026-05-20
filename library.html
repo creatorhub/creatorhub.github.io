@@ -928,6 +928,8 @@ box.innerHTML = ""
 let filtered =
 ALL_PRODUCTS.filter(product => {
 
+/* ================= APPROVED ================= */
+
 if(
 product.status &&
 product.status !== "approved"
@@ -937,15 +939,65 @@ return false
 
 }
 
-if(type === "uploads"){
+/* ================= OWNER ================= */
 
-return (
-product.owner === user.email
-)
+let owner =
+
+String(product.owner)
+.toLowerCase()
+
+===
+
+String(user.email)
+.toLowerCase()
+
+/* ================= ACCESS ================= */
+
+let allow = false
+
+/* ADMIN */
+
+if(isAdmin){
+
+allow = true
 
 }
 
-return true
+/* OWNER */
+
+else if(owner){
+
+allow = true
+
+}
+
+/* ACTIVE SUBSCRIPTION */
+
+else if(HAS_SUBSCRIPTION){
+
+allow = true
+
+}
+
+/* NO ACCESS */
+
+else{
+
+allow = false
+
+}
+
+/* ================= MY UPLOADS ================= */
+
+if(type === "uploads"){
+
+return owner
+
+}
+
+/* ================= HIDE BOOKS ================= */
+
+return allow
 
 })
 
