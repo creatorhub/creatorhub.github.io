@@ -4,6 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport"
 content="width=device-width,initial-scale=1">
 
@@ -77,6 +78,7 @@ left:0;
 width:100%;
 height:calc(100vh - 60px);
 background:#020617;
+overflow:auto;
 }
 
 /* =========================================================
@@ -96,14 +98,9 @@ justify-content:center;
 width:70px;
 height:70px;
 border-radius:50%;
-border:5px solid
-rgba(255,255,255,.08);
-
-border-top:
-5px solid #22c55e;
-
-animation:
-spin 1s linear infinite;
+border:5px solid rgba(255,255,255,.08);
+border-top:5px solid #22c55e;
+animation:spin 1s linear infinite;
 }
 
 .loading-text{
@@ -125,7 +122,7 @@ height:100%;
 
 iframe{
 width:100%;
-height:100%;
+height:100vh;
 border:none;
 background:white;
 }
@@ -173,6 +170,139 @@ rgba(255,255,255,.01) 2px,
 transparent 2px,
 transparent 6px
 );
+}
+
+/* =========================================================
+REVIEWS
+========================================================= */
+
+.review-section{
+
+position:absolute;
+
+right:20px;
+bottom:20px;
+
+width:340px;
+
+background:
+rgba(2,6,23,.92);
+
+backdrop-filter:blur(20px);
+
+padding:20px;
+
+border-radius:24px;
+
+border:
+1px solid rgba(255,255,255,.06);
+
+z-index:9999;
+
+}
+
+.review-section h2{
+
+margin-bottom:16px;
+
+font-size:22px;
+
+}
+
+.rating-row{
+
+display:flex;
+gap:10px;
+
+margin-bottom:16px;
+
+}
+
+.rating-row button{
+
+flex:1;
+
+height:50px;
+
+border:none;
+border-radius:14px;
+
+background:#0f172a;
+
+font-size:24px;
+
+cursor:pointer;
+
+transition:.3s;
+
+color:white;
+
+}
+
+.rating-row button.active{
+
+background:#22c55e;
+
+transform:scale(1.05);
+
+}
+
+#reviewComment{
+
+width:100%;
+height:120px;
+
+border:none;
+outline:none;
+
+resize:none;
+
+padding:16px;
+
+border-radius:18px;
+
+background:#0f172a;
+
+color:white;
+
+font-size:15px;
+
+margin-bottom:16px;
+
+}
+
+.submit-review{
+
+width:100%;
+height:52px;
+
+border:none;
+border-radius:18px;
+
+background:
+linear-gradient(
+90deg,
+#16a34a,
+#4ade80
+);
+
+color:white;
+
+font-size:16px;
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+#reviewStatus{
+
+margin-top:12px;
+
+font-size:14px;
+
+opacity:.8;
+
 }
 
 /* =========================================================
@@ -284,6 +414,19 @@ font-size:15px;
 font-size:18px;
 }
 
+.review-section{
+
+position:relative;
+
+width:100%;
+
+right:auto;
+bottom:auto;
+
+margin-top:20px;
+
+}
+
 }
 
 </style>
@@ -371,14 +514,18 @@ let id =
 params.get("id")
 
 /* =========================================================
+GLOBAL PRODUCT
+========================================================= */
+
+let product = null
+
+/* =========================================================
 DRIVE ID
 ========================================================= */
 
 function driveId(link){
 
 if(!link) return null
-
-/* id= */
 
 if(link.includes("id=")){
 
@@ -388,8 +535,6 @@ return link
 
 }
 
-/* /d/ */
-
 if(link.includes("/d/")){
 
 return link
@@ -398,9 +543,114 @@ return link
 
 }
 
-/* raw */
-
 return link
+
+}
+
+/* =========================================================
+REVIEW SYSTEM
+========================================================= */
+
+let CURRENT_RATING = 0
+
+function setRating(num){
+
+CURRENT_RATING = num
+
+document
+.querySelectorAll(
+".rating-row button"
+)
+.forEach((btn,index)=>{
+
+btn.classList.remove("active")
+
+if(index < num){
+
+btn.classList.add("active")
+
+}
+
+})
+
+}
+
+/* =========================================================
+SUBMIT REVIEW
+========================================================= */
+
+async function submitReview(){
+
+try{
+
+let comment =
+document.getElementById(
+"reviewComment"
+).value.trim()
+
+if(!CURRENT_RATING){
+
+alert("Select Rating")
+
+return
+
+}
+
+if(!comment){
+
+alert("Write Review")
+
+return
+
+}
+
+let res =
+await fetch(PRODUCT_API,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"text/plain"
+},
+
+body:JSON.stringify({
+
+action:"addReview",
+
+id:product.id,
+
+rating:CURRENT_RATING,
+
+comment:comment,
+
+email:user.email
+
+})
+
+})
+
+let data =
+await res.json()
+
+console.log(data)
+
+document.getElementById(
+"reviewStatus"
+).innerHTML =
+
+"✅ Review Submitted"
+
+document.getElementById(
+"reviewComment"
+).value = ""
+
+}catch(err){
+
+console.log(err)
+
+alert(err.message)
+
+}
 
 }
 
@@ -411,8 +661,6 @@ LOAD VIEWER
 async function loadViewer(){
 
 try{
-
-/* ================= PRODUCTS ================= */
 
 let res =
 await fetch(
@@ -425,8 +673,6 @@ Date.now()
 
 let raw =
 await res.text()
-
-console.log(raw)
 
 let data = {}
 
@@ -466,10 +712,6 @@ localStorage.getItem(
 ) || "null"
 )
 
-let product = null
-
-/* ================= FIND BY ID ================= */
-
 product =
 products.find(p =>
 
@@ -479,8 +721,6 @@ String(p.id).trim()
 String(id).trim()
 
 )
-
-/* ================= FALLBACK ================= */
 
 if(!product && savedBook){
 
@@ -493,7 +733,9 @@ localStorage.setItem(
 JSON.stringify(product)
 )
 
-/* ================= ERROR ================= */
+/* =========================================================
+ERROR
+========================================================= */
 
 if(!product){
 
@@ -609,7 +851,9 @@ PREVIEW URL
 let url =
 `https://drive.google.com/file/d/${fileId}/preview`
 
-/* ================= UPDATE STATS ================= */
+/* =========================================================
+UPDATE STATS
+========================================================= */
 
 product.reads =
 Number(product.reads || 0) + 1
@@ -640,7 +884,7 @@ rating:product.rating || "5.0",
 
 revenue:product.revenue || 0,
 
-trending:product.trending
+trending:product.trending,
 
 email:user.email
 
@@ -677,6 +921,54 @@ ${user.email}
 </div>
 
 <div class="overlay"></div>
+
+<div class="review-section">
+
+<h2>
+⭐ Reader Reviews
+</h2>
+
+<div class="rating-row">
+
+<button onclick="setRating(1)">
+⭐
+</button>
+
+<button onclick="setRating(2)">
+⭐
+</button>
+
+<button onclick="setRating(3)">
+⭐
+</button>
+
+<button onclick="setRating(4)">
+⭐
+</button>
+
+<button onclick="setRating(5)">
+⭐
+</button>
+
+</div>
+
+<textarea
+id="reviewComment"
+placeholder="Write your review..."
+></textarea>
+
+<button
+class="submit-review"
+onclick="submitReview()"
+>
+
+Submit Review
+
+</button>
+
+<div id="reviewStatus"></div>
+
+</div>
 
 </div>
 
