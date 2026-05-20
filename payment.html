@@ -44,17 +44,17 @@ TOPBAR
 ========================================================= */
 
 .topbar{
+position:sticky;
+top:0;
+z-index:999;
 padding:18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
 background:rgba(2,6,23,.92);
 backdrop-filter:blur(20px);
 border-bottom:
 1px solid rgba(255,255,255,.05);
-position:sticky;
-top:0;
-z-index:999;
+display:flex;
+align-items:center;
+justify-content:space-between;
 }
 
 .logo{
@@ -67,10 +67,10 @@ color:#4ade80;
 }
 
 .secure{
-padding:10px 16px;
-border-radius:16px;
+padding:12px 18px;
+border-radius:18px;
 background:
-rgba(34,197,94,.14);
+rgba(34,197,94,.15);
 color:#4ade80;
 font-weight:bold;
 }
@@ -80,7 +80,7 @@ CONTAINER
 ========================================================= */
 
 .container{
-max-width:1400px;
+max-width:1350px;
 margin:auto;
 padding:30px 18px 120px;
 display:grid;
@@ -99,21 +99,68 @@ padding:30px;
 border:
 1px solid rgba(255,255,255,.05);
 box-shadow:
-0 25px 60px rgba(0,0,0,.4);
+0 25px 70px rgba(0,0,0,.4);
+}
+
+/* =========================================================
+STEP
+========================================================= */
+
+.steps{
+display:flex;
+align-items:center;
+gap:15px;
+margin-bottom:35px;
+}
+
+.step{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.circle{
+width:42px;
+height:42px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#081225;
+font-weight:bold;
+border:
+1px solid rgba(255,255,255,.05);
+}
+
+.step.active .circle{
+background:
+linear-gradient(
+90deg,
+#16a34a,
+#4ade80
+);
+}
+
+.line{
+width:60px;
+height:3px;
+background:
+rgba(255,255,255,.08);
+border-radius:50px;
 }
 
 /* =========================================================
 TITLE
 ========================================================= */
 
-.section-title{
-font-size:34px;
+.title{
+font-size:36px;
 font-weight:900;
 margin-bottom:10px;
 }
 
-.section-desc{
-opacity:.7;
+.desc{
+opacity:.75;
 line-height:1.8;
 margin-bottom:35px;
 }
@@ -129,18 +176,18 @@ gap:18px;
 }
 
 .group{
-margin-bottom:20px;
+margin-bottom:22px;
 }
 
 .label{
 margin-bottom:10px;
 font-weight:bold;
-opacity:.85;
+opacity:.82;
 }
 
 .input,
-.select,
-.textarea{
+.textarea,
+.select{
 width:100%;
 padding:18px;
 border:none;
@@ -154,8 +201,8 @@ border:
 }
 
 .input:focus,
-.select:focus,
-.textarea:focus{
+.textarea:focus,
+.select:focus{
 border-color:#22c55e;
 box-shadow:
 0 0 0 4px rgba(34,197,94,.1);
@@ -165,6 +212,147 @@ box-shadow:
 min-height:140px;
 resize:none;
 line-height:1.8;
+}
+
+/* =========================================================
+AI BOX
+========================================================= */
+
+.ai-box{
+margin-top:25px;
+padding:24px;
+border-radius:24px;
+background:
+linear-gradient(
+90deg,
+#052e16,
+#064e3b
+);
+display:none;
+}
+
+.ai-title{
+font-size:24px;
+font-weight:900;
+margin-bottom:12px;
+}
+
+/* =========================================================
+BUTTON
+========================================================= */
+
+.btn{
+width:100%;
+height:58px;
+border:none;
+border-radius:22px;
+background:
+linear-gradient(
+90deg,
+#16a34a,
+#4ade80
+);
+color:white;
+font-size:17px;
+font-weight:900;
+cursor:pointer;
+transition:.3s;
+margin-top:25px;
+}
+
+.btn:hover{
+transform:translateY(-3px);
+}
+
+/* =========================================================
+PAYMENT METHODS
+========================================================= */
+
+.methods{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+margin-top:25px;
+}
+
+.method{
+padding:22px;
+border-radius:24px;
+background:#081225;
+border:
+2px solid transparent;
+cursor:pointer;
+transition:.3s;
+}
+
+.method.active{
+border-color:#22c55e;
+background:
+rgba(34,197,94,.12);
+}
+
+.method h3{
+margin-top:10px;
+font-size:22px;
+}
+
+.method p{
+margin-top:8px;
+opacity:.72;
+line-height:1.6;
+}
+
+/* =========================================================
+PAYMENT BOX
+========================================================= */
+
+.payment-box{
+display:none;
+}
+
+.pay-card{
+margin-top:30px;
+background:#081225;
+padding:25px;
+border-radius:28px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+margin-bottom:20px;
+opacity:.85;
+}
+
+.total{
+font-size:28px;
+font-weight:900;
+color:#4ade80;
+}
+
+/* =========================================================
+SUCCESS
+========================================================= */
+
+.success{
+display:none;
+text-align:center;
+padding:60px 20px;
+}
+
+.success-icon{
+font-size:100px;
+}
+
+.success h1{
+margin-top:25px;
+font-size:44px;
+}
+
+.success p{
+margin-top:18px;
+line-height:1.9;
+opacity:.78;
 }
 
 /* =========================================================
@@ -178,137 +366,42 @@ align-items:center;
 padding:18px;
 border-radius:24px;
 background:#081225;
-margin-bottom:28px;
 }
 
 .cover{
-width:110px;
-height:150px;
+width:120px;
+height:165px;
 object-fit:cover;
 border-radius:18px;
 }
 
 .book-title{
-font-size:22px;
-font-weight:800;
+font-size:24px;
+font-weight:900;
 line-height:1.4;
 }
 
 .author{
 margin-top:10px;
-opacity:.7;
+opacity:.72;
 }
 
 .price{
 margin-top:16px;
-font-size:28px;
+font-size:32px;
 font-weight:900;
 color:#4ade80;
-}
-
-/* =========================================================
-PAYMENT
-========================================================= */
-
-.payments{
-margin-top:25px;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-}
-
-.pay{
-padding:18px;
-border-radius:20px;
-background:#081225;
-border:
-1px solid rgba(255,255,255,.05);
-text-align:center;
-font-weight:bold;
-cursor:pointer;
-transition:.3s;
-}
-
-.pay.active{
-border-color:#22c55e;
-background:
-rgba(34,197,94,.12);
 }
 
 /* =========================================================
 SUMMARY
 ========================================================= */
 
-.summary-box{
+.summary{
+margin-top:30px;
+padding:25px;
+border-radius:28px;
 background:#081225;
-padding:24px;
-border-radius:24px;
-margin-top:25px;
-}
-
-.row{
-display:flex;
-justify-content:space-between;
-margin-bottom:18px;
-opacity:.82;
-}
-
-.total{
-font-size:26px;
-font-weight:900;
-color:#4ade80;
-}
-
-/* =========================================================
-BUTTON
-========================================================= */
-
-.order-btn{
-width:100%;
-height:60px;
-margin-top:28px;
-border:none;
-border-radius:22px;
-background:
-linear-gradient(
-90deg,
-#16a34a,
-#4ade80
-);
-color:white;
-font-size:18px;
-font-weight:900;
-cursor:pointer;
-transition:.3s;
-}
-
-.order-btn:hover{
-transform:translateY(-3px);
-}
-
-/* =========================================================
-SUCCESS
-========================================================= */
-
-.success{
-display:none;
-text-align:center;
-padding:50px 20px;
-}
-
-.success-icon{
-font-size:90px;
-}
-
-.success h1{
-margin-top:20px;
-font-size:42px;
-}
-
-.success p{
-margin-top:18px;
-line-height:1.9;
-opacity:.8;
 }
 
 /* =========================================================
@@ -322,6 +415,10 @@ grid-template-columns:1fr;
 }
 
 .grid{
+grid-template-columns:1fr;
+}
+
+.methods{
 grid-template-columns:1fr;
 }
 
@@ -350,7 +447,7 @@ Creator<span>Hub</span>
 </div>
 
 <!-- ===================================================== -->
-<!-- CONTAINER -->
+<!-- MAIN -->
 <!-- ===================================================== -->
 
 <div class="container">
@@ -361,16 +458,63 @@ Creator<span>Hub</span>
 
 <div class="card">
 
-<div id="checkoutBox">
+<div class="steps">
 
-<div class="section-title">
-Shipping Details
+<div class="step active">
+
+<div class="circle">
+1
 </div>
 
-<div class="section-desc">
+<div>
+Address
+</div>
 
-Fill your delivery address carefully.
-AI verification checks fake or incomplete addresses before payment.
+</div>
+
+<div class="line"></div>
+
+<div class="step" id="paymentStep">
+
+<div class="circle">
+2
+</div>
+
+<div>
+Payment
+</div>
+
+</div>
+
+<div class="line"></div>
+
+<div class="step" id="successStep">
+
+<div class="circle">
+3
+</div>
+
+<div>
+Success
+</div>
+
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- ADDRESS -->
+<!-- ===================================================== -->
+
+<div id="addressBox">
+
+<div class="title">
+Delivery Address
+</div>
+
+<div class="desc">
+
+AI verifies fake or incomplete addresses before allowing payment.
 
 </div>
 
@@ -383,7 +527,6 @@ Full Name
 </div>
 
 <input
-type="text"
 id="name"
 class="input"
 placeholder="Enter full name"
@@ -398,10 +541,9 @@ Phone Number
 </div>
 
 <input
-type="tel"
 id="phone"
 class="input"
-placeholder="Enter mobile number"
+placeholder="Enter phone number"
 >
 
 </div>
@@ -415,10 +557,9 @@ Email Address
 </div>
 
 <input
-type="email"
 id="email"
 class="input"
-placeholder="Enter email"
+placeholder="Enter email address"
 >
 
 </div>
@@ -432,7 +573,7 @@ Full Address
 <textarea
 id="address"
 class="textarea"
-placeholder="House no, street, city, state..."
+placeholder="House no, street, landmark..."
 ></textarea>
 
 </div>
@@ -446,7 +587,6 @@ City
 </div>
 
 <input
-type="text"
 id="city"
 class="input"
 placeholder="City"
@@ -461,7 +601,6 @@ State
 </div>
 
 <input
-type="text"
 id="state"
 class="input"
 placeholder="State"
@@ -480,7 +619,6 @@ Pincode
 </div>
 
 <input
-type="number"
 id="pincode"
 class="input"
 placeholder="Pincode"
@@ -508,26 +646,22 @@ India
 
 </div>
 
-<div class="payments">
-
 <div
-class="pay active">
+id="aiBox"
+class="ai-box">
 
-💳 Razorpay
-
+<div class="ai-title">
+🤖 AI Address Verification
 </div>
 
-<div
-class="pay">
-
-📦 Cashfree
-
+<div id="aiMessage">
+Checking address...
 </div>
 
 </div>
 
 <button
-class="order-btn"
+class="btn"
 onclick="verifyAddress()">
 
 Continue To Payment
@@ -537,98 +671,58 @@ Continue To Payment
 </div>
 
 <!-- ===================================================== -->
-<!-- SUCCESS -->
+<!-- PAYMENT -->
 <!-- ===================================================== -->
 
 <div
-id="successBox"
-class="success">
+id="paymentBox"
+class="payment-box">
 
-<div class="success-icon">
-✅
+<div class="title">
+Choose Payment Method
 </div>
 
-<h1>
-Order Successful
-</h1>
+<div class="desc">
+
+Complete payment securely to confirm your order.
+
+</div>
+
+<div class="methods">
+
+<div
+class="method active">
+
+💳
+
+<h3>
+Razorpay
+</h3>
 
 <p>
-
-Your ebook order has been confirmed successfully.
-
-CreatorHub will now process your delivery through Qikink.
-
-Tracking details will be shared on your email shortly.
-
+UPI, Cards, Net Banking & Wallets
 </p>
 
-<button
-class="order-btn"
-onclick="location.href='library.html'">
-
-Open My Library
-
-</button>
-
-</div>
-
-</div>
-
-<!-- ===================================================== -->
-<!-- RIGHT -->
-<!-- ===================================================== -->
-
-<div class="card">
-
-<div class="section-title">
-Order Summary
-</div>
-
-<div class="section-desc">
-
-Secure AI powered CreatorHub checkout.
-
-</div>
-
-<div class="book">
-
-<img
-id="cover"
-class="cover"
-src="https://picsum.photos/500"
->
-
-<div>
-
-<div
-id="title"
-class="book-title">
-
-Premium Ebook
-
 </div>
 
 <div
-id="author"
-class="author">
+class="method">
 
-by CreatorHub
+📦
 
-</div>
+<h3>
+Cashfree
+</h3>
 
-<div
-id="price"
-class="price">
-
-₹0
-
-</div>
+<p>
+Fast & secure payment processing
+</p>
 
 </div>
 
 </div>
 
-<div class="summary-box">
+<div class="pay-card">
 
 <div class="row">
 
@@ -636,19 +730,7 @@ class="price">
 Ebook Price
 </div>
 
-<div id="subtotal">
-₹0
-</div>
-
-</div>
-
-<div class="row">
-
-<div>
-Delivery
-</div>
-
-<div>
+<div id="subTotal">
 ₹0
 </div>
 
@@ -680,6 +762,147 @@ Total
 
 <div id="total">
 ₹0
+</div>
+
+</div>
+
+</div>
+
+<button
+class="btn"
+onclick="payNow()">
+
+🔒 Pay Securely
+
+</button>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- SUCCESS -->
+<!-- ===================================================== -->
+
+<div
+id="successBox"
+class="success">
+
+<div class="success-icon">
+✅
+</div>
+
+<h1>
+Order Successful
+</h1>
+
+<p>
+
+Payment completed successfully.
+
+CreatorHub has received your order
+and Qikink delivery processing will start shortly.
+
+</p>
+
+<button
+class="btn"
+onclick="location.href='library.html'">
+
+Open My Library
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- RIGHT -->
+<!-- ===================================================== -->
+
+<div class="card">
+
+<div class="title">
+Order Summary
+</div>
+
+<div class="desc">
+
+Secure CreatorHub AI checkout system.
+
+</div>
+
+<div class="book">
+
+<img
+id="cover"
+class="cover"
+src="https://picsum.photos/500"
+>
+
+<div>
+
+<div
+id="bookTitle"
+class="book-title">
+
+Premium Ebook
+
+</div>
+
+<div
+id="author"
+class="author">
+
+by CreatorHub
+
+</div>
+
+<div
+id="price"
+class="price">
+
+₹0
+
+</div>
+
+</div>
+
+</div>
+
+<div class="summary">
+
+<div class="row">
+
+<div>
+Delivery
+</div>
+
+<div>
+Qikink Shipping
+</div>
+
+</div>
+
+<div class="row">
+
+<div>
+Access
+</div>
+
+<div>
+Subscription Reading
+</div>
+
+</div>
+
+<div class="row">
+
+<div>
+License
+</div>
+
+<div>
+Personal Use
 </div>
 
 </div>
@@ -751,13 +974,13 @@ return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`
 }
 
 /* =========================================================
-LOAD
+LOAD BOOK
 ========================================================= */
 
 function loadBook(){
 
 document.getElementById(
-"title"
+"bookTitle"
 ).innerHTML =
 
 BOOK.title || "Untitled"
@@ -789,7 +1012,7 @@ document.getElementById(
 "₹" + price
 
 document.getElementById(
-"subtotal"
+"subTotal"
 ).innerHTML =
 
 "₹" + price
@@ -805,7 +1028,7 @@ document.getElementById(
 loadBook()
 
 /* =========================================================
-AI VERIFY
+VERIFY ADDRESS
 ========================================================= */
 
 async function verifyAddress(){
@@ -849,7 +1072,7 @@ if(
 ){
 
 alert(
-"Please fill all details"
+"Please fill all fields"
 )
 
 return
@@ -857,21 +1080,75 @@ return
 }
 
 /* =========================================================
-FAKE AI CHECK
+AI BOX
+========================================================= */
+
+document.getElementById(
+"aiBox"
+).style.display = "block"
+
+document.getElementById(
+"aiMessage"
+).innerHTML =
+
+"🤖 AI is verifying your address..."
+
+await new Promise(r=>
+setTimeout(r,2000)
+)
+
+/* =========================================================
+AI VALIDATION
 ========================================================= */
 
 if(address.length < 10){
 
-alert(
-"AI detected incomplete address"
-)
+document.getElementById(
+"aiMessage"
+).innerHTML =
+
+"❌ AI rejected incomplete address"
+
+return
+
+}
+
+if(phone.length < 10){
+
+document.getElementById(
+"aiMessage"
+).innerHTML =
+
+"❌ Invalid phone number"
+
+return
+
+}
+
+if(pincode.length < 6){
+
+document.getElementById(
+"aiMessage"
+).innerHTML =
+
+"❌ Invalid pincode"
 
 return
 
 }
 
 /* =========================================================
-SAVE ORDER
+SUCCESS
+========================================================= */
+
+document.getElementById(
+"aiMessage"
+).innerHTML =
+
+"✅ Address verified successfully"
+
+/* =========================================================
+SAVE
 ========================================================= */
 
 localStorage.setItem(
@@ -890,35 +1167,42 @@ pincode
 )
 
 /* =========================================================
-PAYMENT
+NEXT
 ========================================================= */
 
-startPayment()
+setTimeout(()=>{
+
+document.getElementById(
+"addressBox"
+).style.display = "none"
+
+document.getElementById(
+"paymentBox"
+).style.display = "block"
+
+document.getElementById(
+"paymentStep"
+).classList.add("active")
+
+},1200)
 
 }
 
 /* =========================================================
-PAYMENT
+PAY
 ========================================================= */
 
-function startPayment(){
+function payNow(){
 
-let total =
-Number(BOOK.price || 0) + 29
-
-/* =========================================================
-RAZORPAY MOCK
-========================================================= */
+alert(
+"Redirecting To Secure Payment..."
+)
 
 setTimeout(()=>{
 
 paymentSuccess()
 
 },2500)
-
-alert(
-"Redirecting To Payment Gateway..."
-)
 
 }
 
@@ -929,15 +1213,19 @@ SUCCESS
 function paymentSuccess(){
 
 document.getElementById(
-"checkoutBox"
+"paymentBox"
 ).style.display = "none"
 
 document.getElementById(
 "successBox"
 ).style.display = "block"
 
+document.getElementById(
+"successStep"
+).classList.add("active")
+
 /* =========================================================
-SAVE PURCHASE
+SAVE ORDER
 ========================================================= */
 
 let orders =
@@ -951,9 +1239,9 @@ id:"ORD_" + Date.now(),
 
 book:BOOK,
 
-date:new Date(),
+status:"paid",
 
-status:"paid"
+date:new Date()
 
 })
 
