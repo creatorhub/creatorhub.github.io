@@ -933,9 +933,6 @@ const CLIENT_ID =
 const API_KEY =
 "AIzaSyAakSA5fgVrO6f-WPocfv8C9LhnQe32nPw"
 
-const DRIVE_FOLDER_ID =
-"1yy-SEqwyTc3ZgTEfR_DPjFVbkUjij0Vw"
-
 /* =========================================================
    GLOBALS
 ========================================================= */
@@ -1550,7 +1547,7 @@ return data.id
    DRIVE UPLOAD
 ========================================================= */
 
-async function uploadToDrive(file,folderId)
+async function uploadToDrive(file,folderId){
 
 try{
 
@@ -1566,7 +1563,7 @@ name:file.name,
 
 parents:[
 folderId
-]
+],
 
 mimeType:file.type
 
@@ -1758,7 +1755,7 @@ await initGoogle()
 /* ================= CREATE BOOK FOLDER ================= */
 
 let bookFolderId =
-await createBookFolder(
+await createDriveFolder(
 title.value
 )
 
@@ -1817,23 +1814,17 @@ await uploadToDrive(
 pdfFile,
 bookFolderId
 )
-ebookFolderId
-)
-
+   
 let frontId =
 await uploadToDrive(
 frontFile,
 bookFolderId
-)
-ebookFolderId
 )
 
 let backId =
 await uploadToDrive(
 backFile,
 bookFolderId
-)
-ebookFolderId
 )
 
 /* ================= PDF TEXT ================= */
