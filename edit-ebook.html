@@ -624,6 +624,56 @@ return `https://drive.google.com/thumbnail?id=${id}&sz=w1000&t=${Date.now()}`
 
 }
 
+async function refreshBook(){
+
+try{
+
+let res =
+await fetch(
+
+PRODUCT_API +
+"?action=products&t=" +
+Date.now()
+
+)
+
+let data =
+await res.json()
+
+let products =
+data.products || []
+
+let latest =
+products.find(p =>
+
+String(p.id) ===
+String(BOOK.id)
+
+)
+
+if(latest){
+
+BOOK = latest
+
+localStorage.setItem(
+"viewerBook",
+JSON.stringify(BOOK)
+)
+
+}
+
+render()
+
+}catch(err){
+
+console.log(err)
+
+render()
+
+}
+
+}
+
 /* =========================================================
 RENDER
 ========================================================= */
@@ -1040,7 +1090,7 @@ reader trust across marketplaces.
 
 }
 
-render()
+refreshBook()
 
 /* =========================================================
 PREVIEW
