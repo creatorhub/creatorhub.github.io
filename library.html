@@ -814,8 +814,31 @@ Date.now()
 
 /* ================= JSON ================= */
 
-ALL_PRODUCTS =
+let productData =
 await productRes.json()
+
+console.log(productData)
+
+/* ================= FIX ================= */
+
+if(Array.isArray(productData)){
+
+ALL_PRODUCTS = productData
+
+}
+
+else if(productData.products){
+
+ALL_PRODUCTS =
+productData.products
+
+}
+
+else{
+
+ALL_PRODUCTS = []
+
+}
 
 let subs =
 await subRes.json()
