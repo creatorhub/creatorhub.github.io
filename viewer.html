@@ -488,6 +488,11 @@ product = savedBook
 
 }
 
+localStorage.setItem(
+"viewerBook",
+JSON.stringify(product)
+)
+
 /* ================= ERROR ================= */
 
 if(!product){
@@ -606,13 +611,13 @@ let url =
 
 /* ================= UPDATE STATS ================= */
 
-BOOK.reads =
-Number(BOOK.reads || 0) + 1
+product.reads =
+Number(product.reads || 0) + 1
 
-BOOK.trending =
+product.trending =
 Math.min(
 100,
-Number(BOOK.trending || 0) + 1
+Number(product.trending || 0) + 1
 )
 
 fetch(PRODUCT_API,{
@@ -627,15 +632,15 @@ body:JSON.stringify({
 
 action:"updateStats",
 
-id:BOOK.id,
+id:product.id,
 
-reads:BOOK.reads,
+reads:product.reads,
 
-rating:BOOK.rating || "5.0",
+rating:product.rating || "5.0",
 
-revenue:BOOK.revenue || 0,
+revenue:product.revenue || 0,
 
-trending:BOOK.trending
+trending:product.trending
 
 })
 
