@@ -597,6 +597,206 @@ padding:20px;
 
 }
 
+/* =========================================================
+EXTRA SECTION
+========================================================= */
+
+.extra-section{
+margin-top:40px;
+background:#081225;
+padding:30px;
+border-radius:30px;
+border:1px solid rgba(255,255,255,.05);
+}
+
+.section-title{
+font-size:30px;
+font-weight:800;
+margin-bottom:14px;
+}
+
+.section-desc{
+opacity:.8;
+line-height:1.9;
+font-size:15px;
+margin-bottom:30px;
+}
+
+.growth-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:18px;
+margin-bottom:35px;
+}
+
+.growth-card{
+background:#020617;
+padding:22px;
+border-radius:22px;
+display:flex;
+align-items:center;
+gap:16px;
+border:1px solid rgba(255,255,255,.05);
+}
+
+.growth-icon{
+width:60px;
+height:60px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:28px;
+background:rgba(34,197,94,.12);
+}
+
+.growth-card h3{
+font-size:26px;
+font-weight:800;
+}
+
+.growth-card p{
+opacity:.7;
+margin-top:4px;
+}
+
+.insight-box{
+background:#020617;
+padding:28px;
+border-radius:24px;
+line-height:2;
+opacity:.9;
+margin-bottom:30px;
+}
+
+.insight-title{
+font-size:24px;
+font-weight:800;
+margin-bottom:14px;
+}
+
+.seo-box{
+background:
+linear-gradient(
+90deg,
+#052e16,
+#064e3b
+);
+padding:28px;
+border-radius:26px;
+margin-bottom:30px;
+}
+
+.seo-title{
+font-size:24px;
+font-weight:800;
+margin-bottom:18px;
+}
+
+.seo-bar{
+width:100%;
+height:18px;
+background:rgba(255,255,255,.12);
+border-radius:50px;
+overflow:hidden;
+margin-bottom:18px;
+}
+
+.seo-fill{
+width:82%;
+height:100%;
+background:
+linear-gradient(
+90deg,
+#22c55e,
+#4ade80
+);
+border-radius:50px;
+animation:seoMove 2s linear infinite;
+}
+
+@keyframes seoMove{
+
+0%{
+filter:brightness(1);
+}
+
+50%{
+filter:brightness(1.3);
+}
+
+100%{
+filter:brightness(1);
+}
+
+}
+
+.action-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:18px;
+margin-bottom:30px;
+}
+
+.action-btn{
+padding:18px;
+border:none;
+border-radius:20px;
+background:
+linear-gradient(
+90deg,
+#16a34a,
+#4ade80
+);
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+transition:.3s;
+}
+
+.action-btn:hover{
+transform:translateY(-4px);
+}
+
+.pro-note{
+background:#020617;
+padding:30px;
+border-radius:26px;
+line-height:2;
+opacity:.9;
+}
+
+.pro-title{
+font-size:24px;
+font-weight:800;
+margin-bottom:15px;
+}
+
+@media(max-width:900px){
+
+.growth-grid{
+grid-template-columns:1fr 1fr;
+}
+
+.action-grid{
+grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:600px){
+
+.growth-grid{
+grid-template-columns:1fr;
+}
+
+.section-title{
+font-size:24px;
+}
+
+  }
+
 </style>
 
 </head>
@@ -978,6 +1178,207 @@ onclick="deleteBook()"
 🗑 Delete Ebook
 
 </button>
+
+</div>
+
+</div>
+
+<!-- =========================================================
+EXTRA AUTHOR DETAILS SECTION
+========================================================= -->
+
+<div class="extra-section">
+
+<div class="section-title">
+🚀 Ebook Growth Dashboard
+</div>
+
+<p class="section-desc">
+
+Track your ebook performance, improve reader engagement,
+optimize your product listing and grow your digital publishing
+business professionally like Amazon Kindle Direct Publishing.
+
+</p>
+
+<!-- STATS -->
+
+<div class="growth-grid">
+
+<div class="growth-card">
+
+<div class="growth-icon">
+📚
+</div>
+
+<div>
+
+<h3>
+12.4K
+</h3>
+
+<p>
+Total Reads
+</p>
+
+</div>
+
+</div>
+
+<div class="growth-card">
+
+<div class="growth-icon">
+⭐
+</div>
+
+<div>
+
+<h3>
+4.9
+</h3>
+
+<p>
+Average Rating
+</p>
+
+</div>
+
+</div>
+
+<div class="growth-card">
+
+<div class="growth-icon">
+💰
+</div>
+
+<div>
+
+<h3>
+₹24,900
+</h3>
+
+<p>
+Revenue Generated
+</p>
+
+</div>
+
+</div>
+
+<div class="growth-card">
+
+<div class="growth-icon">
+🔥
+</div>
+
+<div>
+
+<h3>
+82%
+</h3>
+
+<p>
+Trending Score
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- AUTHOR INSIGHTS -->
+
+<div class="insight-box">
+
+<div class="insight-title">
+📈 Author Insights
+</div>
+
+<p>
+
+Your ebook is currently performing better than most creators
+in your category. Readers are spending more time on your
+content, which increases visibility in search results and
+recommendation systems.
+
+Optimizing your title, cover design and pricing strategy can
+significantly improve conversion rates and reader retention.
+
+Consistent updates and high quality covers help improve trust,
+branding and long term sales performance.
+
+</p>
+
+</div>
+
+<!-- SEO SECTION -->
+
+<div class="seo-box">
+
+<div class="seo-title">
+🎯 SEO Optimization Score
+</div>
+
+<div class="seo-bar">
+
+<div class="seo-fill">
+
+</div>
+
+</div>
+
+<p>
+
+Your ebook metadata is optimized for high discoverability.
+Improve keyword density in the title and description to boost
+search ranking inside CreatorHub marketplace.
+
+</p>
+
+</div>
+
+<!-- ACTION BUTTONS -->
+
+<div class="action-grid">
+
+<button class="action-btn">
+📊 View Analytics
+</button>
+
+<button class="action-btn">
+💬 Reader Reviews
+</button>
+
+<button class="action-btn">
+📢 Promote Ebook
+</button>
+
+<button class="action-btn">
+🚀 Boost Visibility
+</button>
+
+</div>
+
+<!-- PROFESSIONAL NOTE -->
+
+<div class="pro-note">
+
+<div class="pro-title">
+👑 Professional Publishing Tips
+</div>
+
+<p>
+
+Professional ebook creators regularly update covers,
+descriptions and pricing based on audience behavior.
+A strong visual identity improves click-through rate,
+while better descriptions increase conversion.
+
+Maintaining consistent branding across all ebooks helps
+build trust and improves long term creator growth.
+
+</p>
 
 </div>
 
