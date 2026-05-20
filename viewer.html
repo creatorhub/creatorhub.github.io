@@ -604,6 +604,43 @@ PREVIEW URL
 let url =
 `https://drive.google.com/file/d/${fileId}/preview`
 
+/* ================= UPDATE STATS ================= */
+
+BOOK.reads =
+Number(BOOK.reads || 0) + 1
+
+BOOK.trending =
+Math.min(
+100,
+Number(BOOK.trending || 0) + 1
+)
+
+fetch(PRODUCT_API,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"text/plain"
+},
+
+body:JSON.stringify({
+
+action:"updateStats",
+
+id:BOOK.id,
+
+reads:BOOK.reads,
+
+rating:BOOK.rating || "5.0",
+
+revenue:BOOK.revenue || 0,
+
+trending:BOOK.trending
+
+})
+
+})
+
 /* =========================================================
 RENDER
 ========================================================= */
