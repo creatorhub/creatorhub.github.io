@@ -638,12 +638,10 @@ onclick="location.href='profile.html'">
 
 /* =========================================================
 CREATORHUB LIBRARY FINAL SCRIPT
-FAST + WORKING + VIEWER FIXED
+FAST + FULL WORKING + VIEWER FIX
 ========================================================= */
 
-/* =========================================================
-CONFIG
-========================================================= */
+/* ================= API ================= */
 
 const ADMIN =
 "ayushprajpati6@gmail.com"
@@ -654,57 +652,43 @@ const PRODUCT_API =
 const SUBSCRIPTION_API =
 "https://script.google.com/macros/s/AKfycbyKnVmxYCTskDLpOk_s2Ch1nHnVvD__GVHbnztTCvl4bzYgk7sDx0F1WuJ0CXMORqs/exec"
 
-/* =========================================================
-USER
-========================================================= */
+/* ================= USER ================= */
 
 let user =
 JSON.parse(
-localStorage.getItem("user")
-|| "null"
+localStorage.getItem("user") || "null"
 )
 
 if(!user){
 
-location.href =
-"login.html"
+location.href = "login.html"
 
 }
 
 let isAdmin =
+user.email === ADMIN
 
-String(user.email)
-.toLowerCase()
-
-===
-
-String(ADMIN)
-.toLowerCase()
-
-/* =========================================================
-GLOBALS
-========================================================= */
+/* ================= GLOBAL ================= */
 
 let ALL_PRODUCTS = []
 
 let HAS_SUBSCRIPTION = false
 
 /* =========================================================
-FAST IMAGE
+DRIVE IMAGE
 ========================================================= */
 
 function driveImage(link){
 
 if(!link){
 
-return
-"https://picsum.photos/500"
+return "https://picsum.photos/500"
 
 }
 
 let id = ""
 
-/* ================= id= ================= */
+/* id= */
 
 if(link.includes("id=")){
 
@@ -714,7 +698,7 @@ link.split("id=")[1]
 
 }
 
-/* ================= /d/ ================= */
+/* /d/ */
 
 else if(link.includes("/d/")){
 
@@ -724,7 +708,7 @@ link.split("/d/")[1]
 
 }
 
-/* ================= RAW ================= */
+/* raw */
 
 else{
 
@@ -732,8 +716,7 @@ id = link
 
 }
 
-return
-`https://drive.google.com/thumbnail?id=${id}&sz=w1000`
+return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`
 
 }
 
@@ -748,21 +731,17 @@ document.getElementById("library")
 
 <div style="
 grid-column:1/-1;
-padding:100px 20px;
+padding:80px;
 text-align:center;
 ">
 
 <div style="
-width:65px;
-height:65px;
+width:70px;
+height:70px;
 margin:auto;
+border:5px solid rgba(255,255,255,.1);
+border-top:5px solid #22c55e;
 border-radius:50%;
-border:
-5px solid rgba(255,255,255,.08);
-
-border-top:
-5px solid #22c55e;
-
 animation:spin 1s linear infinite;
 "></div>
 
@@ -771,9 +750,7 @@ margin-top:20px;
 font-size:18px;
 opacity:.7;
 ">
-
 Loading Library...
-
 </p>
 
 </div>
@@ -792,32 +769,32 @@ try{
 
 showLoader()
 
-/* ================= LOAD BOTH ================= */
+/* ================= PRODUCTS ================= */
 
-const [productRes,subRes] =
-
-await Promise.all([
-
-fetch(
+let productRes =
+await fetch(
 PRODUCT_API +
-"?db=products&t=" +
-Date.now()
-),
-
-fetch(
-SUBSCRIPTION_API +
-"?db=subscriptions&t=" +
+"?action=products&t=" +
 Date.now()
 )
 
-])
+let raw =
+await productRes.text()
 
-/* ================= JSON ================= */
+console.log("PRODUCT RAW:", raw)
 
-let productData =
-await productRes.json()
+let productData = {}
 
-console.log(productData)
+try{
+
+productData =
+JSON.parse(raw)
+
+}catch(e){
+
+productData = []
+
+}
 
 /* ================= FIX ================= */
 
@@ -840,72 +817,31 @@ ALL_PRODUCTS = []
 
 }
 
-let subs =
-await subRes.json()
+/* ================= SUBSCRIPTION ================= */
 
-/* ================= FIX ARRAY ================= */
+await checkSubscription()
 
-if(!Array.isArray(ALL_PRODUCTS)){
+/* ================= STATS ================= */
 
-ALL_PRODUCTS = []
-
-}
-
-if(!Array.isArray(subs)){
-
-subs = []
-
-}
-
-/* =========================================================
-SUBSCRIPTION
-========================================================= */
-
-HAS_SUBSCRIPTION =
-subs.some(s =>
-
-String(s.email)
-.toLowerCase()
-
-===
-
-String(user.email)
-.toLowerCase()
-
-&&
-
-(
-s.status === "active" ||
-s.status === "paid"
-)
-
-)
-
-/* =========================================================
-STATS
-========================================================= */
-
-document
-.getElementById("totalBooks")
-.innerText =
+document.getElementById(
+"totalBooks"
+).innerText =
 ALL_PRODUCTS.length
 
-document
-.getElementById("premiumBooks")
-.innerText =
+document.getElementById(
+"premiumBooks"
+).innerText =
 ALL_PRODUCTS.length
 
-document
-.getElementById("subscriptionStatus")
-.innerText =
+document.getElementById(
+"subscriptionStatus"
+).innerText =
 
 HAS_SUBSCRIPTION
 ? "Active"
 : "Inactive"
 
-/* =========================================================
-RENDER
-========================================================= */
+/* ================= RENDER ================= */
 
 renderBooks("all")
 
@@ -931,6 +867,52 @@ Failed To Load Library
 loadData()
 
 /* =========================================================
+CHECK SUBSCRIPTION
+========================================================= */
+
+async function checkSubscription(){
+
+try{
+
+let res =
+await fetch(
+
+SUBSCRIPTION_API +
+"?db=subscriptions&t=" +
+Date.now()
+
+)
+
+let subs =
+await res.json()
+
+HAS_SUBSCRIPTION =
+subs.some(s =>
+
+String(s.email)
+.toLowerCase()
+===
+
+String(user.email)
+.toLowerCase()
+
+&&
+
+s.status === "active"
+
+)
+
+}catch(err){
+
+console.log(err)
+
+HAS_SUBSCRIPTION = false
+
+}
+
+}
+
+/* =========================================================
 RENDER BOOKS
 ========================================================= */
 
@@ -941,14 +923,10 @@ document.getElementById("library")
 
 box.innerHTML = ""
 
-/* =========================================================
-FILTER
-========================================================= */
+/* ================= FILTER ================= */
 
 let filtered =
 ALL_PRODUCTS.filter(product => {
-
-/* ================= APPROVED ================= */
 
 if(
 product.status &&
@@ -959,29 +937,11 @@ return false
 
 }
 
-/* ================= MY UPLOADS ================= */
-
 if(type === "uploads"){
 
 return (
-
-String(product.owner)
-.toLowerCase()
-
-===
-
-String(user.email)
-.toLowerCase()
-
+product.owner === user.email
 )
-
-}
-
-/* ================= SUBSCRIPTION ================= */
-
-if(type === "subscription"){
-
-return HAS_SUBSCRIPTION
 
 }
 
@@ -989,9 +949,7 @@ return true
 
 })
 
-/* =========================================================
-EMPTY
-========================================================= */
+/* ================= EMPTY ================= */
 
 if(filtered.length === 0){
 
@@ -1010,12 +968,6 @@ return
 }
 
 /* =========================================================
-UNLOCKED
-========================================================= */
-
-let unlocked = 0
-
-/* =========================================================
 LOOP
 ========================================================= */
 
@@ -1024,14 +976,7 @@ filtered.forEach(product => {
 /* ================= OWNER ================= */
 
 let owner =
-
-String(product.owner)
-.toLowerCase()
-
-===
-
-String(user.email)
-.toLowerCase()
+product.owner === user.email
 
 /* ================= ACCESS ================= */
 
@@ -1055,12 +1000,6 @@ allow = true
 
 }
 
-if(allow){
-
-unlocked++
-
-}
-
 /* ================= IMAGE ================= */
 
 let image =
@@ -1068,8 +1007,7 @@ driveImage(
 
 product.front_cover ||
 product.frontCover ||
-product.image ||
-""
+product.image
 
 )
 
@@ -1079,10 +1017,7 @@ let button = `
 
 <button class="read-btn"
 
-onclick="openBook(
-'${product.id}',
-${allow}
-)">
+onclick="openBook('${product.id}')">
 
 📖 Read Ebook
 
@@ -1102,9 +1037,7 @@ manage = `
 
 <button class="edit"
 
-onclick="editBook(
-'${product.id}'
-)">
+onclick="editBook('${product.id}')">
 
 ✏ Edit
 
@@ -1112,9 +1045,7 @@ onclick="editBook(
 
 <button class="delete"
 
-onclick="deleteBook(
-'${product.id}'
-)">
+onclick="deleteBook('${product.id}')">
 
 🗑 Delete
 
@@ -1126,9 +1057,7 @@ onclick="deleteBook(
 
 }
 
-/* =========================================================
-CARD
-========================================================= */
+/* ================= CARD ================= */
 
 box.innerHTML += `
 
@@ -1142,11 +1071,8 @@ box.innerHTML += `
 class="cover"
 loading="lazy"
 src="${image}"
-
-onerror="
-this.src=
-'https://picsum.photos/500'
-">
+onerror="this.src='https://picsum.photos/500'"
+>
 
 <div class="book-title">
 
@@ -1156,9 +1082,7 @@ ${product.title || "Untitled"}
 
 <div class="author">
 
-${product.author ||
-product.author_name ||
-"Unknown"}
+${product.author || "Unknown"}
 
 </div>
 
@@ -1180,24 +1104,52 @@ ${manage}
 
 })
 
-/* =========================================================
-UNLOCKED STATS
-========================================================= */
-
-document
-.getElementById("unlockedBooks")
-.innerText =
-unlocked
-
 }
 
 /* =========================================================
 OPEN BOOK
 ========================================================= */
 
-function openBook(id,allow){
+function openBook(id){
 
-console.log("OPEN:",id)
+let product =
+ALL_PRODUCTS.find(p =>
+
+String(p.id) === String(id)
+
+)
+
+if(!product){
+
+alert("Book not found")
+return
+
+}
+
+/* ================= ACCESS ================= */
+
+let owner =
+product.owner === user.email
+
+let allow = false
+
+if(isAdmin){
+
+allow = true
+
+}
+
+else if(owner){
+
+allow = true
+
+}
+
+else if(HAS_SUBSCRIPTION){
+
+allow = true
+
+}
 
 if(!allow){
 
@@ -1212,13 +1164,36 @@ return
 
 }
 
-/* ================= REDIRECT ================= */
+/* ================= PDF ================= */
+
+let pdf =
+product.pdf_url ||
+product.pdf ||
+""
+
+if(!pdf){
+
+alert("PDF missing")
+return
+
+}
+
+/* ================= SAVE ================= */
+
+localStorage.setItem(
+"viewerPDF",
+pdf
+)
+
+localStorage.setItem(
+"viewerBook",
+JSON.stringify(product)
+)
+
+/* ================= OPEN ================= */
 
 location.href =
-
-"viewer.html?id=" +
-
-encodeURIComponent(id)
+"viewer.html"
 
 }
 
@@ -1286,18 +1261,14 @@ loadData()
 
 }catch(err){
 
-console.log(err)
-
-alert(
-"Delete Failed"
-)
+alert(err.message)
 
 }
 
 }
 
 /* =========================================================
-FILTER TABS
+FILTER TAB
 ========================================================= */
 
 function filterBooks(type){
@@ -1306,41 +1277,16 @@ document
 .querySelectorAll(".tab")
 .forEach(tab =>
 
-tab.classList.remove(
-"active"
-)
+tab.classList.remove("active")
 
 )
 
 event.target
-.classList.add(
-"active"
-)
+.classList.add("active")
 
 renderBooks(type)
 
 }
-
-/* =========================================================
-SPIN ANIMATION
-========================================================= */
-
-const style =
-document.createElement("style")
-
-style.innerHTML = `
-
-@keyframes spin{
-
-100%{
-transform:rotate(360deg);
-}
-
-}
-
-`
-
-document.head.appendChild(style)
 
    </script>
    
