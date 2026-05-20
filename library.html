@@ -678,8 +678,8 @@ onclick="location.href='profile.html'">
 <script>
 
 /* =========================================================
-CREATORHUB LIBRARY FINAL SCRIPT
-FAST + FULL WORKING + VIEWER FIX
+CREATORHUB LIBRARY FINAL WORKING SCRIPT
+100% FIXED VERSION
 ========================================================= */
 
 /* ================= API ================= */
@@ -707,7 +707,9 @@ location.href = "login.html"
 }
 
 let isAdmin =
-user.email === ADMIN
+String(user.email).toLowerCase()
+===
+String(ADMIN).toLowerCase()
 
 /* ================= GLOBAL ================= */
 
@@ -716,7 +718,7 @@ let ALL_PRODUCTS = []
 let HAS_SUBSCRIPTION = false
 
 /* =========================================================
-DRIVE IMAGE
+DRIVE IMAGE FIX
 ========================================================= */
 
 function driveImage(link){
@@ -749,7 +751,7 @@ link.split("/d/")[1]
 
 }
 
-/* raw */
+/* raw id */
 
 else{
 
@@ -801,6 +803,74 @@ Loading Library...
 }
 
 /* =========================================================
+CHECK SUBSCRIPTION
+========================================================= */
+
+async function checkSubscription(){
+
+try{
+
+let res =
+await fetch(
+
+SUBSCRIPTION_API +
+"?db=subscriptions&t=" +
+Date.now()
+
+)
+
+let response =
+await res.json()
+
+console.log("SUBSCRIPTION:", response)
+
+let subs = []
+
+if(Array.isArray(response)){
+
+subs = response
+
+}
+
+else if(response.subscriptions){
+
+subs = response.subscriptions
+
+}
+
+HAS_SUBSCRIPTION =
+subs.some(s =>
+
+String(s.email)
+.toLowerCase()
+
+===
+
+String(user.email)
+.toLowerCase()
+
+&&
+
+String(s.status)
+.toLowerCase()
+
+===
+
+"active"
+
+)
+
+}catch(err){
+
+console.log(err)
+
+HAS_SUBSCRIPTION = false
+
+}
+
+}
+
+/* =========================================================
 LOAD DATA
 ========================================================= */
 
@@ -814,41 +884,43 @@ showLoader()
 
 let productRes =
 await fetch(
+
 PRODUCT_API +
 "?action=products&t=" +
 Date.now()
+
 )
 
 let raw =
 await productRes.text()
 
-console.log("PRODUCT RAW:", raw)
+console.log("RAW:", raw)
 
-let productData = {}
+let response = {}
 
 try{
 
-productData =
+response =
 JSON.parse(raw)
 
-}catch(e){
+}catch(err){
 
-productData = []
-
-}
-
-/* ================= FIX ================= */
-
-if(Array.isArray(productData)){
-
-ALL_PRODUCTS = productData
+response = {}
 
 }
 
-else if(productData.products){
+/* ================= FIX RESPONSE ================= */
+
+if(Array.isArray(response)){
+
+ALL_PRODUCTS = response
+
+}
+
+else if(response.products){
 
 ALL_PRODUCTS =
-productData.products
+response.products
 
 }
 
@@ -862,7 +934,7 @@ ALL_PRODUCTS = []
 
 await checkSubscription()
 
-/* ================= ACCESS COUNT ================= */
+/* ================= ACCESSIBLE ================= */
 
 let accessibleBooks =
 ALL_PRODUCTS.filter(product => {
@@ -892,12 +964,17 @@ return false
 document.getElementById(
 "totalBooks"
 ).innerText =
+ALL_PRODUCTS.length
+
+document.getElementById(
+"unlockedBooks"
+).innerText =
 accessibleBooks.length
 
 document.getElementById(
 "premiumBooks"
 ).innerText =
-accessibleBooks.length
+ALL_PRODUCTS.length
 
 document.getElementById(
 "subscriptionStatus"
@@ -930,54 +1007,6 @@ Failed To Load Library
 
 }
 
-loadData()
-
-/* =========================================================
-CHECK SUBSCRIPTION
-========================================================= */
-
-async function checkSubscription(){
-
-try{
-
-let res =
-await fetch(
-
-SUBSCRIPTION_API +
-"?db=subscriptions&t=" +
-Date.now()
-
-)
-
-let subs =
-await res.json()
-
-HAS_SUBSCRIPTION =
-subs.some(s =>
-
-String(s.email)
-.toLowerCase()
-===
-
-String(user.email)
-.toLowerCase()
-
-&&
-
-s.status === "active"
-
-)
-
-}catch(err){
-
-console.log(err)
-
-HAS_SUBSCRIPTION = false
-
-}
-
-}
-
 /* =========================================================
 RENDER BOOKS
 ========================================================= */
@@ -994,7 +1023,7 @@ box.innerHTML = ""
 let filtered =
 ALL_PRODUCTS.filter(product => {
 
-/* ================= APPROVED ================= */
+/* APPROVED */
 
 if(
 product.status &&
@@ -1005,7 +1034,7 @@ return false
 
 }
 
-/* ================= OWNER ================= */
+/* OWNER */
 
 let owner =
 
@@ -1017,11 +1046,9 @@ String(product.owner)
 String(user.email)
 .toLowerCase()
 
-/* ================= ACCESS ================= */
+/* ACCESS */
 
 let allow = false
-
-/* ADMIN */
 
 if(isAdmin){
 
@@ -1029,15 +1056,11 @@ allow = true
 
 }
 
-/* OWNER */
-
 else if(owner){
 
 allow = true
 
 }
-
-/* ACTIVE SUBSCRIPTION */
 
 else if(HAS_SUBSCRIPTION){
 
@@ -1045,15 +1068,7 @@ allow = true
 
 }
 
-/* NO ACCESS */
-
-else{
-
-allow = false
-
-}
-
-/* ================= UPLOADS ================= */
+/* FILTERS */
 
 if(type === "uploads"){
 
@@ -1061,23 +1076,17 @@ return owner
 
 }
 
-/* ================= SUBSCRIPTION TAB ================= */
-
 if(type === "subscription"){
 
 return HAS_SUBSCRIPTION
 
 }
 
-/* ================= PURCHASED TAB ================= */
-
 if(type === "purchased"){
 
 return owner
 
 }
-
-/* ================= ALL BOOKS ================= */
 
 if(type === "all"){
 
@@ -1089,7 +1098,7 @@ return false
 
 })
 
-/* ================= EMPTY ================= */
+/* EMPTY */
 
 if(filtered.length === 0){
 
@@ -1113,12 +1122,15 @@ LOOP
 
 filtered.forEach(product => {
 
-/* ================= OWNER ================= */
-
 let owner =
-product.owner === user.email
 
-/* ================= ACCESS ================= */
+String(product.owner)
+.toLowerCase()
+
+===
+
+String(user.email)
+.toLowerCase()
 
 let allow = false
 
@@ -1140,7 +1152,7 @@ allow = true
 
 }
 
-/* ================= IMAGE ================= */
+/* IMAGE */
 
 let image =
 driveImage(
@@ -1151,7 +1163,7 @@ product.image
 
 )
 
-/* ================= BUTTON ================= */
+/* BUTTON */
 
 let button = `
 
@@ -1165,7 +1177,7 @@ onclick="openBook('${product.id}')">
 
 `
 
-/* ================= MANAGE ================= */
+/* MANAGE */
 
 let manage = ""
 
@@ -1197,7 +1209,7 @@ onclick="deleteBook('${product.id}')">
 
 }
 
-/* ================= CARD ================= */
+/* CARD */
 
 box.innerHTML += `
 
@@ -1266,10 +1278,17 @@ return
 
 }
 
-/* ================= ACCESS ================= */
+/* ACCESS */
 
 let owner =
-product.owner === user.email
+
+String(product.owner)
+.toLowerCase()
+
+===
+
+String(user.email)
+.toLowerCase()
 
 let allow = false
 
@@ -1304,7 +1323,7 @@ return
 
 }
 
-/* ================= PDF ================= */
+/* PDF */
 
 let pdf =
 product.pdf_url ||
@@ -1318,7 +1337,7 @@ return
 
 }
 
-/* ================= SAVE ================= */
+/* SAVE */
 
 localStorage.setItem(
 "viewerPDF",
@@ -1330,7 +1349,7 @@ localStorage.setItem(
 JSON.stringify(product)
 )
 
-/* ================= OPEN ================= */
+/* OPEN */
 
 location.href =
 "viewer.html?id=" + id
@@ -1338,7 +1357,7 @@ location.href =
 }
 
 /* =========================================================
-EDIT
+EDIT BOOK
 ========================================================= */
 
 function editBook(id){
@@ -1354,7 +1373,7 @@ location.href =
 }
 
 /* =========================================================
-DELETE
+DELETE BOOK
 ========================================================= */
 
 async function deleteBook(id){
@@ -1374,7 +1393,7 @@ await fetch(PRODUCT_API,{
 method:"POST",
 
 headers:{
-"Content-Type":"text/plain"
+"Content-Type":"application/json"
 },
 
 body:JSON.stringify({
@@ -1421,14 +1440,33 @@ tab.classList.remove("active")
 
 )
 
-event.target
-.classList.add("active")
+let clickedTab =
+[...document.querySelectorAll(".tab")]
+.find(tab =>
+
+tab.innerText
+.toLowerCase()
+.includes(type)
+
+)
+
+if(clickedTab){
+
+clickedTab.classList.add("active")
+
+}
 
 renderBooks(type)
 
 }
 
-   </script>
+/* =========================================================
+START
+========================================================= */
+
+loadData()
+
+</script>
    
 </body>
 </html>
