@@ -933,8 +933,8 @@ const CLIENT_ID =
 const API_KEY =
 "AIzaSyAakSA5fgVrO6f-WPocfv8C9LhnQe32nPw"
 
-const ROOT_FOLDER =
-"1yy-SEqwyTc3ZgTEfR_DPjFVbkUjij0Vw"
+const DRIVE_FOLDER_ID =
+"1WBqoulfH4FNt9o3krB4d4HxSWPA5o-lV"
 
 /* =========================================================
    GLOBALS
@@ -964,44 +964,6 @@ const removeBack = document.getElementById("removeBack")
 const counter = document.getElementById("counter")
 const bookSize = document.getElementById("bookSize")
 const printVersion = document.getElementById("printVersion")
-
-/* =========================================================
-PDF TEXT EXTRACT
-========================================================= */
-
-async function extractPDFText(file){
-
-const arrayBuffer =
-await file.arrayBuffer()
-
-const pdf =
-await pdfjsLib.getDocument({
-data:arrayBuffer
-}).promise
-
-let text = ""
-
-for(let i=1;i<=pdf.numPages;i++){
-
-let page =
-await pdf.getPage(i)
-
-let content =
-await page.getTextContent()
-
-let strings =
-content.items.map(
-item => item.str
-)
-
-text +=
-strings.join(" ") + "\n"
-
-}
-
-return text
-
-}
 
 /* =========================================================
    MENU
@@ -1140,51 +1102,6 @@ window.location.href =
 "seller-apply.html"
 
 return
-
-}
-
-if(data.success){
-
-/* ================= LOAD USER ================= */
-
-let savedUser =
-JSON.parse(
-
-localStorage.getItem("user")
-|| "null"
-
-)
-
-if(savedUser){
-
-user = savedUser
-
-}
-
-document.getElementById("username")
-.innerText =
-data.user.name || "User"
-
-document.getElementById("menuName")
-.innerText =
-data.user.name || "User"
-
-document.getElementById("menuProfile").src =
-"https://cdn-icons-png.flaticon.com/512/149/149071.png"
-
-}else{
-
-username.innerText = "Guest"
-menuName.innerText = "Guest"
-
-}
-
-}catch(err){
-
-console.log(err)
-
-username.innerText = "Guest"
-menuName.innerText = "Guest"
 
 }
 
@@ -1368,8 +1285,8 @@ return finalText.slice(0,8000)
 
     }
 
-    let text =
-      await extractPDFText(pdfFile)
+    let pdfText =
+await extractPDFText(pdfFile)
 
     console.log(text)
      
@@ -1810,9 +1727,6 @@ await initGoogle()
 
 /* ================= PDF TEXT ================= */
 
-let pdfText =
-await extractPDFText(pdfFile)
-
 console.log(pdfText)
 
 /* ================= CREATE BOOK FOLDER ================= */
@@ -1821,54 +1735,6 @@ let bookFolderId =
 await createDriveFolder(
 title.value
 )
-
-/* =========================================================
-   CREATE BOOK FOLDER
-========================================================= */
-
-async function createBookFolder(title){
-
-let metadata = {
-
-name:title,
-
-mimeType:
-"application/vnd.google-apps.folder",
-
-parents:[
-"1WBqoulfH4FNt9o3krB4d4HxSWPA5o-lV"
-]
-
-}
-
-let res = await fetch(
-
-"https://www.googleapis.com/drive/v3/files",
-
-{
-
-method:"POST",
-
-headers:{
-Authorization:
-"Bearer " + accessToken,
-
-"Content-Type":
-"application/json"
-},
-
-body:JSON.stringify(metadata)
-
-}
-
-)
-
-let data =
-await res.json()
-
-return data.id
-
-}
 
 /* ================= DRIVE UPLOAD ================= */
 
