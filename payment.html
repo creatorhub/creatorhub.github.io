@@ -81,12 +81,9 @@ MAIN
 ========================================================= */
 
 .main{
-max-width:1450px;
+max-width:850px;
 margin:auto;
 padding:30px 18px 120px;
-display:grid;
-grid-template-columns:1fr 430px;
-gap:28px;
 }
 
 /* =========================================================
@@ -108,7 +105,7 @@ TITLE
 ========================================================= */
 
 .title{
-font-size:40px;
+font-size:42px;
 font-weight:900;
 line-height:1.2;
 }
@@ -117,7 +114,6 @@ line-height:1.2;
 margin-top:14px;
 opacity:.72;
 line-height:1.9;
-max-width:700px;
 }
 
 /* =========================================================
@@ -129,12 +125,18 @@ display:flex;
 align-items:center;
 gap:14px;
 margin-bottom:38px;
+overflow:auto;
+}
+
+.progress::-webkit-scrollbar{
+display:none;
 }
 
 .step{
 display:flex;
 align-items:center;
 gap:10px;
+white-space:nowrap;
 }
 
 .circle{
@@ -221,6 +223,72 @@ line-height:1.8;
 }
 
 /* =========================================================
+BOOK SUMMARY
+========================================================= */
+
+.summary{
+margin-top:35px;
+padding:26px;
+border-radius:28px;
+background:#081225;
+}
+
+.summary-title{
+font-size:28px;
+font-weight:900;
+margin-bottom:24px;
+}
+
+.book{
+display:flex;
+gap:18px;
+align-items:center;
+}
+
+.cover{
+width:110px;
+height:160px;
+border-radius:18px;
+object-fit:cover;
+background:#111827;
+}
+
+.book-title{
+font-size:24px;
+font-weight:900;
+line-height:1.4;
+}
+
+.author{
+margin-top:10px;
+opacity:.72;
+}
+
+.price{
+margin-top:14px;
+font-size:34px;
+font-weight:900;
+color:#4ade80;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+margin-top:18px;
+opacity:.82;
+}
+
+.total{
+margin-top:22px;
+padding-top:22px;
+border-top:
+1px solid rgba(255,255,255,.08);
+font-size:28px;
+font-weight:900;
+color:#4ade80;
+}
+
+/* =========================================================
 AI BOX
 ========================================================= */
 
@@ -254,10 +322,10 @@ BUTTON
 
 .btn{
 width:100%;
-height:62px;
+height:64px;
 border:none;
 border-radius:24px;
-margin-top:28px;
+margin-top:30px;
 background:
 linear-gradient(
 90deg,
@@ -273,68 +341,6 @@ transition:.3s;
 
 .btn:hover{
 transform:translateY(-3px);
-}
-
-/* =========================================================
-BOOK
-========================================================= */
-
-.book{
-display:flex;
-gap:18px;
-align-items:center;
-padding:20px;
-border-radius:28px;
-background:#081225;
-}
-
-.cover{
-width:120px;
-height:170px;
-border-radius:20px;
-object-fit:cover;
-}
-
-.book-title{
-font-size:24px;
-font-weight:900;
-line-height:1.4;
-}
-
-.author{
-margin-top:10px;
-opacity:.72;
-}
-
-.price{
-margin-top:16px;
-font-size:34px;
-font-weight:900;
-color:#4ade80;
-}
-
-/* =========================================================
-SUMMARY
-========================================================= */
-
-.summary{
-margin-top:28px;
-padding:24px;
-border-radius:28px;
-background:#081225;
-}
-
-.row{
-display:flex;
-justify-content:space-between;
-margin-bottom:18px;
-opacity:.85;
-}
-
-.total{
-font-size:28px;
-font-weight:900;
-color:#4ade80;
 }
 
 /* =========================================================
@@ -357,18 +363,14 @@ gap:14px;
 }
 
 .trust-icon{
-font-size:30px;
+font-size:28px;
 }
 
 /* =========================================================
 MOBILE
 ========================================================= */
 
-@media(max-width:950px){
-
-.main{
-grid-template-columns:1fr;
-}
+@media(max-width:700px){
 
 .grid{
 grid-template-columns:1fr;
@@ -376,6 +378,20 @@ grid-template-columns:1fr;
 
 .title{
 font-size:32px;
+}
+
+.card{
+padding:22px;
+}
+
+.book{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.cover{
+width:100%;
+height:300px;
 }
 
 }
@@ -408,11 +424,11 @@ Creator<span>Hub</span>
 
 <div class="main">
 
-<!-- ===================================================== -->
-<!-- LEFT -->
-<!-- ===================================================== -->
-
 <div class="card">
+
+<!-- ===================================================== -->
+<!-- PROGRESS -->
+<!-- ===================================================== -->
 
 <div class="progress">
 
@@ -476,16 +492,24 @@ Success
 
 </div>
 
+<!-- ===================================================== -->
+<!-- TITLE -->
+<!-- ===================================================== -->
+
 <div class="title">
 Delivery Address
 </div>
 
 <div class="desc">
 
-Fill your delivery information carefully.
-CreatorHub AI automatically verifies fake or incomplete addresses before continuing to secure payment.
+Fill your shipping details carefully.
+CreatorHub AI automatically verifies all delivery addresses before payment processing.
 
 </div>
+
+<!-- ===================================================== -->
+<!-- FORM -->
+<!-- ===================================================== -->
 
 <div class="grid">
 
@@ -615,48 +639,14 @@ India
 
 </div>
 
-<div
-id="aiBox"
-class="ai-box">
-
-<div class="ai-title">
-🤖 AI Address Verification
-</div>
-
-<div
-id="aiMessage"
-class="ai-message">
-
-Checking address authenticity...
-
-</div>
-
-</div>
-
-<button
-class="btn"
-onclick="verifyAddress()">
-
-Continue To Payment
-
-</button>
-
-</div>
-
 <!-- ===================================================== -->
-<!-- RIGHT -->
+<!-- ORDER SUMMARY -->
 <!-- ===================================================== -->
 
-<div class="card">
+<div class="summary">
 
-<div class="title">
+<div class="summary-title">
 Order Summary
-</div>
-
-<div class="desc">
-
-Secure AI powered CreatorHub checkout system.
-
 </div>
 
 <div class="book">
@@ -697,8 +687,6 @@ class="price">
 
 </div>
 
-<div class="summary">
-
 <div class="row">
 
 <div>
@@ -730,16 +718,10 @@ Delivery
 </div>
 
 <div>
-Qikink Fulfillment
+Qikink
 </div>
 
 </div>
-
-<hr style="
-border:none;
-border-top:1px solid rgba(255,255,255,.08);
-margin:22px 0;
-">
 
 <div class="row total">
 
@@ -754,6 +736,44 @@ Total
 </div>
 
 </div>
+
+<!-- ===================================================== -->
+<!-- AI -->
+<!-- ===================================================== -->
+
+<div
+id="aiBox"
+class="ai-box">
+
+<div class="ai-title">
+🤖 AI Address Verification
+</div>
+
+<div
+id="aiMessage"
+class="ai-message">
+
+Checking address authenticity...
+
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- BUTTON -->
+<!-- ===================================================== -->
+
+<button
+class="btn"
+onclick="verifyAddress()">
+
+Continue To Payment
+
+</button>
+
+<!-- ===================================================== -->
+<!-- TRUST -->
+<!-- ===================================================== -->
 
 <div class="trust">
 
@@ -770,7 +790,7 @@ Secure Payments
 </h3>
 
 <p style="opacity:.7;margin-top:6px;">
-256-bit encrypted payment protection
+256-bit encrypted checkout protection
 </p>
 
 </div>
@@ -786,11 +806,11 @@ Secure Payments
 <div>
 
 <h3>
-Qikink Shipping
+Qikink Delivery
 </h3>
 
 <p style="opacity:.7;margin-top:6px;">
-Professional order fulfillment system
+Professional shipping fulfillment
 </p>
 
 </div>
@@ -810,7 +830,7 @@ Subscription Reading
 </h3>
 
 <p style="opacity:.7;margin-top:6px;">
-Read ebooks anytime using subscription
+Read ebooks anytime with subscription
 </p>
 
 </div>
@@ -989,4 +1009,96 @@ return
 
 }
 
-/* =========================================================
+document.getElementById(
+"aiBox"
+).style.display = "block"
+
+document.getElementById(
+"aiMessage"
+).innerHTML =
+
+"🤖 AI is verifying your address..."
+
+await new Promise(r=>
+setTimeout(r,2200)
+)
+
+if(address.length < 10){
+
+document.getElementById(
+"aiMessage"
+).innerHTML =
+
+"❌ Incomplete address detected"
+
+return
+
+}
+
+if(phone.length < 10){
+
+document.getElementById(
+"aiMessage"
+).innerHTML =
+
+"❌ Invalid phone number"
+
+return
+
+}
+
+if(pincode.length < 6){
+
+document.getElementById(
+"aiMessage"
+).innerHTML =
+
+"❌ Invalid pincode"
+
+return
+
+}
+
+document.getElementById(
+"aiMessage"
+).innerHTML =
+
+"✅ Address verified successfully"
+
+/* SAVE */
+
+localStorage.setItem(
+"shippingAddress",
+JSON.stringify({
+
+name,
+phone,
+email,
+address,
+city,
+state,
+pincode
+
+})
+)
+
+localStorage.setItem(
+"paymentBook",
+JSON.stringify(BOOK)
+)
+
+/* NEXT */
+
+setTimeout(()=>{
+
+window.location.href =
+"payment1.html"
+
+},1200)
+
+}
+
+</script>
+
+</body>
+  </html>
