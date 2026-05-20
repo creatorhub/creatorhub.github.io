@@ -634,12 +634,12 @@ onclick="location.href='profile.html'">
 
 </div>
 
-<!-- =========================================================
-FULL CREATORHUB LIBRARY SCRIPT
-FAST LOADING + PDF VIEWER + EDIT + DELETE
-========================================================= -->
-
 <script>
+
+/* =========================================================
+CREATORHUB LIBRARY FINAL SCRIPT
+FAST + WORKING + VIEWER FIXED
+========================================================= */
 
 /* =========================================================
 CONFIG
@@ -660,7 +660,8 @@ USER
 
 let user =
 JSON.parse(
-localStorage.getItem("user") || "null"
+localStorage.getItem("user")
+|| "null"
 )
 
 if(!user){
@@ -671,7 +672,14 @@ location.href =
 }
 
 let isAdmin =
-user.email === ADMIN
+
+String(user.email)
+.toLowerCase()
+
+===
+
+String(ADMIN)
+.toLowerCase()
 
 /* =========================================================
 GLOBALS
@@ -679,49 +687,24 @@ GLOBALS
 
 let ALL_PRODUCTS = []
 
-let MY_ORDERS = []
-
 let HAS_SUBSCRIPTION = false
 
 /* =========================================================
-DRIVE IMAGE
+FAST IMAGE
 ========================================================= */
-
-function driveId(link){
-
-if(!link) return null
-
-if(link.includes("id=")){
-
-return link
-.split("id=")[1]
-.split("&")[0]
-
-}
-
-if(link.includes("/file/d/")){
-
-return link
-.split("/file/d/")[1]
-.split("/")[0]
-
-}
-
-return null
-
-}
 
 function driveImage(link){
 
 if(!link){
 
-return "https://picsum.photos/500"
+return
+"https://picsum.photos/500"
 
 }
 
 let id = ""
 
-/* id= */
+/* ================= id= ================= */
 
 if(link.includes("id=")){
 
@@ -731,7 +714,7 @@ link.split("id=")[1]
 
 }
 
-/* /d/ */
+/* ================= /d/ ================= */
 
 else if(link.includes("/d/")){
 
@@ -741,7 +724,7 @@ link.split("/d/")[1]
 
 }
 
-/* RAW ID */
+/* ================= RAW ================= */
 
 else{
 
@@ -749,7 +732,8 @@ id = link
 
 }
 
-return `https://drive.google.com/thumbnail?id=${id}&sz=w1200`
+return
+`https://drive.google.com/thumbnail?id=${id}&sz=w1000`
 
 }
 
@@ -764,21 +748,23 @@ document.getElementById("library")
 
 <div style="
 grid-column:1/-1;
-padding:80px;
+padding:100px 20px;
 text-align:center;
 ">
 
 <div style="
-width:70px;
-height:70px;
+width:65px;
+height:65px;
 margin:auto;
-border:5px solid rgba(255,255,255,.1);
-border-top:5px solid #22c55e;
 border-radius:50%;
-animation:spin 1s linear infinite;
-">
+border:
+5px solid rgba(255,255,255,.08);
 
-</div>
+border-top:
+5px solid #22c55e;
+
+animation:spin 1s linear infinite;
+"></div>
 
 <p style="
 margin-top:20px;
@@ -806,31 +792,83 @@ try{
 
 showLoader()
 
-/* ================= PRODUCTS ================= */
+/* ================= LOAD BOTH ================= */
 
-let res =
-await fetch(
+const [productRes,subRes] =
 
+await Promise.all([
+
+fetch(
 PRODUCT_API +
-"?action=products&t=" +
+"?db=products&t=" +
 Date.now()
+),
+
+fetch(
+SUBSCRIPTION_API +
+"?db=subscriptions&t=" +
+Date.now()
+)
+
+])
+
+/* ================= JSON ================= */
+
+ALL_PRODUCTS =
+await productRes.json()
+
+let subs =
+await subRes.json()
+
+/* ================= FIX ARRAY ================= */
+
+if(!Array.isArray(ALL_PRODUCTS)){
+
+ALL_PRODUCTS = []
+
+}
+
+if(!Array.isArray(subs)){
+
+subs = []
+
+}
+
+/* =========================================================
+SUBSCRIPTION
+========================================================= */
+
+HAS_SUBSCRIPTION =
+subs.some(s =>
+
+String(s.email)
+.toLowerCase()
+
+===
+
+String(user.email)
+.toLowerCase()
+
+&&
+
+(
+s.status === "active" ||
+s.status === "paid"
+)
 
 )
 
-let data =
-await res.json()
-
-ALL_PRODUCTS =
-data.products || []
-
-/* ================= CHECK SUBSCRIPTION ================= */
-
-await checkSubscription()
-   
-/* ================= STATS ================= */
+/* =========================================================
+STATS
+========================================================= */
 
 document
 .getElementById("totalBooks")
+.innerText =
+ALL_PRODUCTS.length
+
+document
+.getElementById("premiumBooks")
 .innerText =
 ALL_PRODUCTS.length
 
@@ -842,12 +880,9 @@ HAS_SUBSCRIPTION
 ? "Active"
 : "Inactive"
 
-document
-.getElementById("premiumBooks")
-.innerText =
-ALL_PRODUCTS.length
-
-/* ================= RENDER ================= */
+/* =========================================================
+RENDER
+========================================================= */
 
 renderBooks("all")
 
@@ -873,64 +908,6 @@ Failed To Load Library
 loadData()
 
 /* =========================================================
-CHECK SUBSCRIPTION
-========================================================= */
-
-async function checkSubscription(){
-
-try{
-
-let res =
-await fetch(
-
-SUBSCRIPTION_API +
-"?db=subscriptions&t=" +
-Date.now()
-
-)
-
-let subs =
-await res.json()
-
-console.log(subs)
-
-HAS_SUBSCRIPTION =
-subs.some(s =>
-
-String(s.email)
-.toLowerCase()
-===
-
-String(user.email)
-.toLowerCase()
-
-&&
-
-s.status === "active"
-
-)
-
-document
-.getElementById(
-"subscriptionStatus"
-)
-.innerText =
-
-HAS_SUBSCRIPTION
-? "Active"
-: "Inactive"
-
-}catch(err){
-
-console.log(err)
-
-HAS_SUBSCRIPTION = false
-
-}
-
-}
-
-/* =========================================================
 RENDER BOOKS
 ========================================================= */
 
@@ -941,10 +918,14 @@ document.getElementById("library")
 
 box.innerHTML = ""
 
-/* ================= FILTER ================= */
+/* =========================================================
+FILTER
+========================================================= */
 
 let filtered =
 ALL_PRODUCTS.filter(product => {
+
+/* ================= APPROVED ================= */
 
 if(
 product.status &&
@@ -955,11 +936,29 @@ return false
 
 }
 
+/* ================= MY UPLOADS ================= */
+
 if(type === "uploads"){
 
 return (
-product.owner === user.email
+
+String(product.owner)
+.toLowerCase()
+
+===
+
+String(user.email)
+.toLowerCase()
+
 )
+
+}
+
+/* ================= SUBSCRIPTION ================= */
+
+if(type === "subscription"){
+
+return HAS_SUBSCRIPTION
 
 }
 
@@ -967,7 +966,9 @@ return true
 
 })
 
-/* ================= EMPTY ================= */
+/* =========================================================
+EMPTY
+========================================================= */
 
 if(filtered.length === 0){
 
@@ -986,6 +987,12 @@ return
 }
 
 /* =========================================================
+UNLOCKED
+========================================================= */
+
+let unlocked = 0
+
+/* =========================================================
 LOOP
 ========================================================= */
 
@@ -994,7 +1001,14 @@ filtered.forEach(product => {
 /* ================= OWNER ================= */
 
 let owner =
-product.owner === user.email
+
+String(product.owner)
+.toLowerCase()
+
+===
+
+String(user.email)
+.toLowerCase()
 
 /* ================= ACCESS ================= */
 
@@ -1018,16 +1032,21 @@ allow = true
 
 }
 
+if(allow){
+
+unlocked++
+
+}
+
 /* ================= IMAGE ================= */
 
 let image =
 driveImage(
 
 product.front_cover ||
-
 product.frontCover ||
-
-product.image
+product.image ||
+""
 
 )
 
@@ -1060,7 +1079,9 @@ manage = `
 
 <button class="edit"
 
-onclick="editBook('${product.id}')">
+onclick="editBook(
+'${product.id}'
+)">
 
 ✏ Edit
 
@@ -1068,7 +1089,9 @@ onclick="editBook('${product.id}')">
 
 <button class="delete"
 
-onclick="deleteBook('${product.id}')">
+onclick="deleteBook(
+'${product.id}'
+)">
 
 🗑 Delete
 
@@ -1080,22 +1103,27 @@ onclick="deleteBook('${product.id}')">
 
 }
 
-/* ================= CARD ================= */
+/* =========================================================
+CARD
+========================================================= */
 
 box.innerHTML += `
 
 <div class="card">
 
 <div class="menu">
-
 ⋮
-
 </div>
 
 <img
 class="cover"
 loading="lazy"
-src="${image}">
+src="${image}"
+
+onerror="
+this.src=
+'https://picsum.photos/500'
+">
 
 <div class="book-title">
 
@@ -1105,7 +1133,9 @@ ${product.title || "Untitled"}
 
 <div class="author">
 
-${product.author || "Unknown"}
+${product.author ||
+product.author_name ||
+"Unknown"}
 
 </div>
 
@@ -1127,6 +1157,15 @@ ${manage}
 
 })
 
+/* =========================================================
+UNLOCKED STATS
+========================================================= */
+
+document
+.getElementById("unlockedBooks")
+.innerText =
+unlocked
+
 }
 
 /* =========================================================
@@ -1135,53 +1174,44 @@ OPEN BOOK
 
 function openBook(id,allow){
 
+console.log("OPEN:",id)
+
 if(!allow){
 
 alert(
-"Subscription required"
+"Subscription Required"
 )
-
-return
-
-}
-
-let product =
-ALL_PRODUCTS.find(p =>
-
-String(p.id) === String(id)
-
-)
-
-if(!product){
-
-alert("Book not found")
-return
-
-}
-
-let pdf =
-product.pdf_url ||
-product.pdf ||
-""
-
-if(!pdf){
-
-alert("PDF missing")
-return
-
-}
-
-/* SAVE VIEW */
-
-localStorage.setItem(
-"viewerPDF",
-pdf
-)
-
-/* OPEN VIEWER */
 
 location.href =
-"viewer.html?id=" + id
+"subscription.html"
+
+return
+
+}
+
+/* ================= REDIRECT ================= */
+
+location.href =
+
+"viewer.html?id=" +
+
+encodeURIComponent(id)
+
+}
+
+/* =========================================================
+EDIT
+========================================================= */
+
+function editBook(id){
+
+localStorage.setItem(
+"editBookId",
+id
+)
+
+location.href =
+"edit-ebook.html"
 
 }
 
@@ -1233,14 +1263,18 @@ loadData()
 
 }catch(err){
 
-alert(err.message)
+console.log(err)
+
+alert(
+"Delete Failed"
+)
 
 }
 
 }
 
 /* =========================================================
-FILTER TAB
+FILTER TABS
 ========================================================= */
 
 function filterBooks(type){
@@ -1249,16 +1283,41 @@ document
 .querySelectorAll(".tab")
 .forEach(tab =>
 
-tab.classList.remove("active")
+tab.classList.remove(
+"active"
+)
 
 )
 
 event.target
-.classList.add("active")
+.classList.add(
+"active"
+)
 
 renderBooks(type)
 
 }
+
+/* =========================================================
+SPIN ANIMATION
+========================================================= */
+
+const style =
+document.createElement("style")
+
+style.innerHTML = `
+
+@keyframes spin{
+
+100%{
+transform:rotate(360deg);
+}
+
+}
+
+`
+
+document.head.appendChild(style)
 
    </script>
    
