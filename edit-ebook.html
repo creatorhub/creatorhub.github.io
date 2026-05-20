@@ -360,8 +360,8 @@ id = link
 
 }
 
-return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`
-
+return `https://drive.google.com/thumbnail?id=${id}&sz=w1000&t=${Date.now()}`
+  
 }
 
 /* =========================================================
@@ -772,6 +772,23 @@ await res.json()
 
 console.log(data)
 
+/* ================= UPDATE LOCAL ================= */
+
+BOOK.title = title
+BOOK.author = author
+BOOK.description = description
+BOOK.category = category
+BOOK.price = price
+
+BOOK.front_cover = frontCover
+BOOK.back_cover = backCover
+BOOK.pdf = pdf
+
+localStorage.setItem(
+"viewerBook",
+JSON.stringify(BOOK)
+)
+
 showStatus(
 "✅ Ebook Updated Successfully",
 "success"
@@ -782,9 +799,9 @@ btn.innerHTML =
 
 setTimeout(()=>{
 
-location.reload()
+render()
 
-},1200)
+},800)
 
 }catch(err){
 
