@@ -4,9 +4,13 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>Edit Ebook • CreatorHub</title>
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
+<title>
+Edit Ebook • CreatorHub
+</title>
 
 <style>
 
@@ -18,64 +22,122 @@ font-family:Arial,sans-serif;
 }
 
 body{
-background:#020617;
+
+background:
+linear-gradient(
+180deg,
+#020617 0%,
+#031127 100%
+);
+
 color:white;
 overflow-x:hidden;
+min-height:100vh;
+
 }
 
 :root{
---card:#0f172a;
+
 --green:#22c55e;
+--card:#0f172a;
 --border:#1e293b;
+
 }
 
-/* TOPBAR */
+/* =========================================================
+TOPBAR
+========================================================= */
 
 .topbar{
+
 position:sticky;
 top:0;
-z-index:100;
-background:#07111f;
-padding:18px;
+z-index:999;
+
+height:70px;
+
+padding:0 18px;
+
 display:flex;
 align-items:center;
-gap:15px;
-border-bottom:1px solid rgba(255,255,255,.05);
+gap:16px;
+
+background:
+rgba(2,6,23,.92);
+
+backdrop-filter:blur(20px);
+
+border-bottom:
+1px solid rgba(255,255,255,.05);
+
 }
 
 .back{
+
 font-size:24px;
 cursor:pointer;
+
 }
 
 .title{
+
 font-size:26px;
-font-weight:bold;
+font-weight:800;
+
 }
 
 .title span{
 color:#4ade80;
 }
 
-/* CONTAINER */
+/* =========================================================
+CONTAINER
+========================================================= */
 
 .container{
-padding:20px;
-max-width:900px;
+
+width:100%;
+max-width:1000px;
+
 margin:auto;
-padding-bottom:120px;
+
+padding:
+30px
+18px
+140px;
+
 }
 
-/* CARD */
+/* =========================================================
+CARD
+========================================================= */
 
 .card{
-background:#081225;
-border:1px solid var(--border);
-border-radius:28px;
-padding:22px;
+
+width:100%;
+
+background:
+linear-gradient(
+180deg,
+rgba(15,23,42,.95),
+rgba(8,18,37,.98)
+);
+
+border:
+1px solid rgba(255,255,255,.05);
+
+border-radius:32px;
+
+padding:28px;
+
+position:relative;
+overflow:hidden;
+
 box-shadow:
-0 20px 60px rgba(0,0,0,.4);
+0 30px 80px rgba(0,0,0,.45);
+
 animation:fade .5s ease;
+
 }
 
 @keyframes fade{
@@ -92,69 +154,257 @@ transform:translateY(0);
 
 }
 
-/* COVER */
+.card::before{
 
-.preview-wrap{
+content:"";
+
+position:absolute;
+
+top:-120px;
+right:-120px;
+
+width:250px;
+height:250px;
+
+background:
+rgba(34,197,94,.12);
+
+filter:blur(80px);
+
+border-radius:50%;
+
+}
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.editor-header{
+
 display:flex;
-justify-content:center;
+justify-content:space-between;
+align-items:center;
+
 gap:20px;
 flex-wrap:wrap;
-margin-bottom:25px;
+
+margin-bottom:30px;
+
+}
+
+.editor-title h1{
+
+font-size:34px;
+font-weight:800;
+
+}
+
+.editor-title span{
+color:#4ade80;
+}
+
+.editor-title p{
+
+margin-top:10px;
+
+opacity:.7;
+
+font-size:15px;
+line-height:1.6;
+
+max-width:550px;
+
+}
+
+.live-badge{
+
+padding:12px 18px;
+
+border-radius:18px;
+
+background:
+rgba(34,197,94,.15);
+
+border:
+1px solid rgba(34,197,94,.25);
+
+color:#4ade80;
+
+font-weight:bold;
+
+}
+
+/* =========================================================
+INFO BOX
+========================================================= */
+
+.info-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(3,1fr);
+
+gap:18px;
+
+margin-bottom:30px;
+
+}
+
+.info-box{
+
+background:#081225;
+
+padding:18px;
+
+border-radius:20px;
+
+border:
+1px solid rgba(255,255,255,.05);
+
+}
+
+.info-box h3{
+
+font-size:13px;
+opacity:.7;
+
+margin-bottom:10px;
+
+}
+
+.info-box p{
+
+font-size:18px;
+font-weight:bold;
+
+}
+
+/* =========================================================
+PREVIEW
+========================================================= */
+
+.preview-wrap{
+
+display:grid;
+
+grid-template-columns:
+repeat(2,1fr);
+
+gap:24px;
+
+margin-bottom:35px;
+
+}
+
+.preview-box{
+
+background:#081225;
+
+border:
+1px solid rgba(255,255,255,.05);
+
+padding:20px;
+
+border-radius:24px;
+
+text-align:center;
+
+}
+
+.preview-label{
+
+margin-bottom:14px;
+
+font-size:14px;
+font-weight:bold;
+
+opacity:.7;
+
 }
 
 .preview{
-width:170px;
-height:240px;
-border-radius:20px;
+
+width:100%;
+max-width:220px;
+
+height:320px;
+
 object-fit:cover;
-background:#0f172a;
-border:1px solid rgba(255,255,255,.05);
+
+border-radius:18px;
+
 box-shadow:
-0 15px 35px rgba(0,0,0,.45);
+0 20px 45px rgba(0,0,0,.45);
+
 }
 
-/* GRID */
+/* =========================================================
+GRID
+========================================================= */
 
 .grid{
+
 display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-}
 
-@media(max-width:700px){
+grid-template-columns:
+1fr 1fr;
 
-.grid{
-grid-template-columns:1fr;
-}
+gap:20px;
 
 }
 
-/* GROUP */
+/* =========================================================
+GROUP
+========================================================= */
 
 .group{
-margin-top:18px;
+margin-top:20px;
 }
 
 .label{
+
 font-size:14px;
+
 margin-bottom:10px;
-opacity:.8;
-font-weight:bold;
+
+font-weight:700;
+
+opacity:.85;
+
+display:flex;
+align-items:center;
+gap:8px;
+
 }
+
+/* =========================================================
+INPUT
+========================================================= */
 
 .input,
 .textarea,
 .select{
 
 width:100%;
-background:#0b1220;
-border:1px solid #162033;
-border-radius:16px;
-padding:16px;
-color:white;
+
+background:
+rgba(2,6,23,.8);
+
+border:
+1px solid rgba(255,255,255,.06);
+
+border-radius:18px;
+
+padding:18px;
+
 font-size:15px;
+color:white;
+
 outline:none;
+
 transition:.3s;
+
 }
 
 .input:focus,
@@ -162,93 +412,189 @@ transition:.3s;
 .select:focus{
 
 border-color:#22c55e;
+
 box-shadow:
-0 0 0 3px rgba(34,197,94,.15);
+0 0 0 4px rgba(34,197,94,.12);
+
+transform:translateY(-1px);
 
 }
 
 .textarea{
-min-height:140px;
+
+min-height:170px;
 resize:none;
+
+line-height:1.7;
+
 }
 
-/* FILE */
+/* =========================================================
+FILE
+========================================================= */
+
+.file-wrap{
+
+background:#081225;
+
+border:
+1px dashed rgba(255,255,255,.1);
+
+padding:18px;
+
+border-radius:20px;
+
+}
 
 .file{
 width:100%;
-padding:14px;
-border-radius:16px;
-background:#0b1220;
-border:1px dashed #334155;
 color:white;
 }
 
-/* BUTTONS */
+/* =========================================================
+BUTTONS
+========================================================= */
 
 .actions{
+
 display:flex;
-gap:15px;
-margin-top:30px;
-flex-wrap:wrap;
+gap:18px;
+
+margin-top:35px;
+
 }
 
 .btn{
+
 flex:1;
-padding:16px;
+
+padding:18px;
+
 border:none;
-border-radius:18px;
+border-radius:20px;
+
 font-size:16px;
-font-weight:bold;
+font-weight:800;
+
 cursor:pointer;
+
 transition:.3s;
+
 }
 
 .save{
+
 background:
-linear-gradient(90deg,#16a34a,#4ade80);
+linear-gradient(
+90deg,
+#16a34a,
+#4ade80
+);
+
 color:white;
+
+box-shadow:
+0 15px 35px rgba(34,197,94,.25);
+
 }
 
 .save:hover{
-transform:translateY(-2px);
+
+transform:
+translateY(-3px);
+
 }
 
 .delete{
-background:#ef4444;
+
+background:
+linear-gradient(
+90deg,
+#dc2626,
+#ef4444
+);
+
 color:white;
+
+box-shadow:
+0 15px 35px rgba(239,68,68,.25);
+
 }
 
 .delete:hover{
-transform:translateY(-2px);
+
+transform:
+translateY(-3px);
+
 }
 
-.loader{
-display:flex;
-justify-content:center;
-align-items:center;
-height:80vh;
-font-size:20px;
-opacity:.7;
-}
-
-/* STATUS */
+/* =========================================================
+STATUS
+========================================================= */
 
 .status{
-margin-top:18px;
-padding:14px;
-border-radius:14px;
+
+margin-top:20px;
+
+padding:16px;
+
+border-radius:18px;
+
 display:none;
+
 font-size:14px;
+font-weight:bold;
+
 }
 
 .success{
-background:rgba(34,197,94,.15);
+
+background:
+rgba(34,197,94,.15);
+
 color:#4ade80;
+
 }
 
 .error{
-background:rgba(239,68,68,.15);
+
+background:
+rgba(239,68,68,.15);
+
 color:#f87171;
+
+}
+
+/* =========================================================
+MOBILE
+========================================================= */
+
+@media(max-width:800px){
+
+.preview-wrap{
+grid-template-columns:1fr;
+}
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.info-grid{
+grid-template-columns:1fr;
+}
+
+.actions{
+flex-direction:column;
+}
+
+.editor-title h1{
+font-size:26px;
+}
+
+.card{
+padding:20px;
+}
+
 }
 
 </style>
@@ -257,7 +603,9 @@ color:#f87171;
 
 <body>
 
-<!-- TOPBAR -->
+<!-- =========================================================
+TOPBAR
+========================================================= -->
 
 <div class="topbar">
 
@@ -272,27 +620,28 @@ Edit <span>Ebook</span>
 
 </div>
 
-<!-- MAIN -->
+<!-- =========================================================
+MAIN
+========================================================= -->
 
 <div class="container">
 
-<div id="app"
-class="loader">
-
-Loading Ebook...
-
-</div>
+<div id="app"></div>
 
 </div>
 
 <script>
 
 /* =========================================================
-CONFIG
+API
 ========================================================= */
 
 const PRODUCT_API =
 "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec"
+
+/* =========================================================
+USER
+========================================================= */
 
 let user =
 JSON.parse(
@@ -319,7 +668,6 @@ if(!BOOK){
 
 document.getElementById("app")
 .innerHTML =
-
 "Book Not Found"
 
 }
@@ -361,7 +709,7 @@ id = link
 }
 
 return `https://drive.google.com/thumbnail?id=${id}&sz=w1000&t=${Date.now()}`
-  
+
 }
 
 /* =========================================================
@@ -375,7 +723,76 @@ document.getElementById("app")
 
 <div class="card">
 
+<div class="editor-header">
+
+<div class="editor-title">
+
+<h1>
+Edit <span>Your Ebook</span>
+</h1>
+
+<p>
+
+Update ebook details, optimize your product listing,
+change covers and manage your ebook professionally.
+
+</p>
+
+</div>
+
+<div class="live-badge">
+🟢 Live Product
+</div>
+
+</div>
+
+<div class="info-grid">
+
+<div class="info-box">
+
+<h3>
+BOOK ID
+</h3>
+
+<p>
+#${BOOK.id}
+</p>
+
+</div>
+
+<div class="info-box">
+
+<h3>
+STATUS
+</h3>
+
+<p>
+Published
+</p>
+
+</div>
+
+<div class="info-box">
+
+<h3>
+AUTHOR
+</h3>
+
+<p>
+${BOOK.author || "Unknown"}
+</p>
+
+</div>
+
+</div>
+
 <div class="preview-wrap">
+
+<div class="preview-box">
+
+<div class="preview-label">
+📕 Front Cover
+</div>
 
 <img
 id="frontPreview"
@@ -385,6 +802,14 @@ BOOK.front_cover ||
 BOOK.frontCover
 )}"
 >
+
+</div>
+
+<div class="preview-box">
+
+<div class="preview-label">
+📘 Back Cover
+</div>
 
 <img
 id="backPreview"
@@ -397,12 +822,14 @@ BOOK.backCover
 
 </div>
 
+</div>
+
 <div class="grid">
 
 <div class="group">
 
 <div class="label">
-Book Title
+📖 Book Title
 </div>
 
 <input
@@ -416,7 +843,7 @@ value="${BOOK.title || ""}"
 <div class="group">
 
 <div class="label">
-Author Name
+✍️ Author Name
 </div>
 
 <input
@@ -432,7 +859,7 @@ value="${BOOK.author || ""}"
 <div class="group">
 
 <div class="label">
-Description
+📝 Description
 </div>
 
 <textarea
@@ -447,7 +874,7 @@ class="textarea"
 <div class="group">
 
 <div class="label">
-Category
+📂 Category
 </div>
 
 <select
@@ -456,10 +883,10 @@ class="select"
 >
 
 <option>Business</option>
-<option>Marketing</option>
 <option>Technology</option>
-<option>Education</option>
 <option>Finance</option>
+<option>Marketing</option>
+<option>Education</option>
 
 </select>
 
@@ -468,7 +895,7 @@ class="select"
 <div class="group">
 
 <div class="label">
-Price
+💰 Price
 </div>
 
 <input
@@ -487,8 +914,10 @@ value="${BOOK.price || 0}"
 <div class="group">
 
 <div class="label">
-Front Cover
+🖼 Front Cover
 </div>
+
+<div class="file-wrap">
 
 <input
 type="file"
@@ -500,11 +929,15 @@ onchange="previewFront(event)"
 
 </div>
 
+</div>
+
 <div class="group">
 
 <div class="label">
-Back Cover
+🖼 Back Cover
 </div>
+
+<div class="file-wrap">
 
 <input
 type="file"
@@ -518,19 +951,6 @@ onchange="previewBack(event)"
 
 </div>
 
-<div class="group">
-
-<div class="label">
-Replace PDF
-</div>
-
-<input
-type="file"
-class="file"
-id="pdfFile"
-accept=".pdf"
->
-
 </div>
 
 <div
@@ -542,8 +962,8 @@ class="status">
 
 <button
 class="btn save"
-onclick="saveBook()"
 id="saveBtn"
+onclick="saveBook()"
 >
 
 💾 Save Changes
@@ -692,10 +1112,6 @@ let backFile =
 document.getElementById("backFile")
 .files[0]
 
-let pdfFile =
-document.getElementById("pdfFile")
-.files[0]
-
 /* OLD */
 
 let frontCover =
@@ -704,10 +1120,7 @@ BOOK.front_cover || ""
 let backCover =
 BOOK.back_cover || ""
 
-let pdf =
-BOOK.pdf || ""
-
-/* NEW UPLOAD */
+/* NEW */
 
 if(frontFile){
 
@@ -720,13 +1133,6 @@ if(backFile){
 
 backCover =
 await uploadToDrive(backFile)
-
-}
-
-if(pdfFile){
-
-pdf =
-await uploadToDrive(pdfFile)
 
 }
 
@@ -746,7 +1152,6 @@ price,
 
 front_cover:frontCover,
 back_cover:backCover,
-pdf:pdf,
 
 email:user.email
 
@@ -772,7 +1177,7 @@ await res.json()
 
 console.log(data)
 
-/* ================= UPDATE LOCAL ================= */
+/* UPDATE LOCAL */
 
 BOOK.title = title
 BOOK.author = author
@@ -782,7 +1187,6 @@ BOOK.price = price
 
 BOOK.front_cover = frontCover
 BOOK.back_cover = backCover
-BOOK.pdf = pdf
 
 localStorage.setItem(
 "viewerBook",
@@ -879,4 +1283,4 @@ alert(err.message)
 </script>
 
 </body>
-</html>
+  </html>
