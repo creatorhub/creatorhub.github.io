@@ -833,17 +833,42 @@ ALL_PRODUCTS = []
 
 await checkSubscription()
 
+/* ================= ACCESS COUNT ================= */
+
+let accessibleBooks =
+ALL_PRODUCTS.filter(product => {
+
+let owner =
+
+String(product.owner)
+.toLowerCase()
+
+===
+
+String(user.email)
+.toLowerCase()
+
+if(isAdmin) return true
+
+if(owner) return true
+
+if(HAS_SUBSCRIPTION) return true
+
+return false
+
+})
+
 /* ================= STATS ================= */
 
 document.getElementById(
 "totalBooks"
 ).innerText =
-ALL_PRODUCTS.length
+accessibleBooks.length
 
 document.getElementById(
 "premiumBooks"
 ).innerText =
-ALL_PRODUCTS.length
+accessibleBooks.length
 
 document.getElementById(
 "subscriptionStatus"
