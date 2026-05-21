@@ -1136,6 +1136,12 @@ document.getElementById(
 "upi"
 ).value.trim()
 
+let name =
+document.getElementById("name").value
+
+let phone =
+document.getElementById("phone").value
+
 if(!amount || !upi){
 
 alert("Please fill all fields")
@@ -1163,7 +1169,11 @@ body:JSON.stringify({
 
 action:"withdraw",
 
-email:USER_EMAIL,
+email:userEmail,
+
+name:name,
+
+phone:phone,
 
 amount:amount,
 
