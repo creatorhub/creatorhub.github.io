@@ -62,7 +62,7 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 
-padding:18px 20px;
+padding:18px 18px;
 
 background:
 rgba(2,6,23,.92);
@@ -76,7 +76,7 @@ border-bottom:
 
 .logo{
 
-font-size:34px;
+font-size:32px;
 font-weight:900;
 
 }
@@ -89,7 +89,7 @@ color:#4ade80;
 
 display:flex;
 align-items:center;
-gap:24px;
+gap:22px;
 
 }
 
@@ -117,7 +117,7 @@ color:#4ade80;
 
 .login-btn{
 
-height:52px;
+height:50px;
 
 padding:0 24px;
 
@@ -146,12 +146,12 @@ MAIN
 
 .main{
 
-max-width:1450px;
+max-width:1500px;
 
 margin:auto;
 
 padding:
-40px 18px 120px;
+40px 16px 120px;
 
 }
 
@@ -166,9 +166,9 @@ background:#0f172a;
 border:
 1px solid rgba(255,255,255,.06);
 
-border-radius:38px;
+border-radius:36px;
 
-padding:50px 40px;
+padding:50px 38px;
 
 position:relative;
 
@@ -202,12 +202,12 @@ top:-250px;
 
 .hero-title{
 
-font-size:68px;
+font-size:70px;
 font-weight:900;
 
 line-height:1.05;
 
-max-width:850px;
+max-width:900px;
 
 position:relative;
 z-index:2;
@@ -241,7 +241,7 @@ display:flex;
 gap:18px;
 flex-wrap:wrap;
 
-margin-top:36px;
+margin-top:38px;
 
 position:relative;
 z-index:2;
@@ -333,7 +333,66 @@ max-width:700px;
 }
 
 /* =====================================================
-BOOKS GRID
+FILTERS
+===================================================== */
+
+.filters{
+
+display:flex;
+gap:14px;
+flex-wrap:wrap;
+
+margin-top:35px;
+
+}
+
+.filter-btn{
+
+height:52px;
+
+padding:0 24px;
+
+border:none;
+
+border-radius:16px;
+
+background:#081225;
+
+color:white;
+
+font-size:14px;
+font-weight:800;
+
+cursor:pointer;
+
+transition:.3s;
+
+border:
+1px solid rgba(255,255,255,.06);
+
+}
+
+.filter-btn:hover{
+
+transform:translateY(-3px);
+
+}
+
+.filter-active{
+
+background:
+linear-gradient(
+90deg,
+#16a34a,
+#4ade80
+);
+
+border:none;
+
+}
+
+/* =====================================================
+BOOK GRID
 ===================================================== */
 
 .books-grid{
@@ -343,9 +402,9 @@ display:grid;
 grid-template-columns:
 repeat(2,1fr);
 
-gap:18px;
+gap:14px;
 
-margin-top:45px;
+margin-top:35px;
 
 }
 
@@ -362,7 +421,7 @@ repeat(3,1fr);
 
 .books-grid{
 grid-template-columns:
-repeat(5,1fr);
+repeat(6,1fr);
 }
 
 }
@@ -376,9 +435,9 @@ BOOK CARD
 background:#0f172a;
 
 border:
-1px solid rgba(255,255,255,.06);
+1px solid rgba(255,255,255,.05);
 
-border-radius:24px;
+border-radius:20px;
 
 overflow:hidden;
 
@@ -387,17 +446,17 @@ cursor:pointer;
 transition:.3s;
 
 box-shadow:
-0 12px 35px rgba(0,0,0,.35);
+0 8px 25px rgba(0,0,0,.3);
 
 }
 
 .book:hover{
 
 transform:
-translateY(-6px);
+translateY(-5px);
 
 border-color:
-rgba(74,222,128,.35);
+rgba(74,222,128,.25);
 
 }
 
@@ -415,16 +474,16 @@ background:#081225;
 
 .book-content{
 
-padding:14px;
+padding:12px;
 
 }
 
 .book-title{
 
-font-size:15px;
+font-size:13px;
 font-weight:800;
 
-line-height:1.5;
+line-height:1.45;
 
 display:-webkit-box;
 
@@ -434,25 +493,25 @@ display:-webkit-box;
 
 overflow:hidden;
 
-min-height:46px;
+min-height:40px;
 
 }
 
 .book-author{
 
-margin-top:8px;
+margin-top:6px;
 
-font-size:12px;
+font-size:11px;
 
-opacity:.68;
+opacity:.65;
 
 }
 
 .book-price{
 
-margin-top:14px;
+margin-top:10px;
 
-font-size:30px;
+font-size:24px;
 font-weight:900;
 
 color:#4ade80;
@@ -835,6 +894,42 @@ Browse the latest premium ebooks uploaded by creators on CreatorHub.
 
 </div>
 
+<div class="filters">
+
+<button
+class="filter-btn filter-active"
+onclick="filterBooks('all',this)">
+
+All Books
+
+</button>
+
+<button
+class="filter-btn"
+onclick="filterBooks('trending',this)">
+
+Trending
+
+</button>
+
+<button
+class="filter-btn"
+onclick="filterBooks('high',this)">
+
+High Rated
+
+</button>
+
+<button
+class="filter-btn"
+onclick="filterBooks('low',this)">
+
+Budget Reads
+
+</button>
+
+</div>
+
 <div
 id="booksGrid"
 class="books-grid">
@@ -1120,6 +1215,41 @@ return
 let books =
 data.products.reverse()
 
+window.ALL_BOOKS = books
+
+renderBooks(books)
+
+}catch(err){
+
+console.log(err)
+
+document.getElementById(
+"booksGrid"
+).innerHTML = `
+
+<div class="loading">
+
+Failed to load ebooks.
+
+</div>
+
+`
+
+}
+
+}
+
+/* =====================================================
+RENDER BOOKS
+===================================================== */
+
+function renderBooks(books){
+
+let grid =
+document.getElementById(
+"booksGrid"
+)
+
 grid.innerHTML = ""
 
 books.forEach(book=>{
@@ -1162,21 +1292,78 @@ by ${book.author || "Unknown"}
 
 })
 
-}catch(err){
+}
 
-console.log(err)
+/* =====================================================
+FILTER BOOKS
+===================================================== */
 
-document.getElementById(
-"booksGrid"
-).innerHTML = `
+function filterBooks(type,button){
 
-<div class="loading">
+document
+.querySelectorAll(".filter-btn")
+.forEach(btn=>{
 
-Failed to load ebooks.
+btn.classList.remove(
+"filter-active"
+)
 
-</div>
+})
 
-`
+button.classList.add(
+"filter-active"
+)
+
+let books =
+window.ALL_BOOKS || []
+
+if(type==="all"){
+
+renderBooks(books)
+return
+
+}
+
+if(type==="trending"){
+
+let trending =
+books.filter(book=>
+
+Number(book.price||0) >= 300
+
+)
+
+renderBooks(trending)
+return
+
+}
+
+if(type==="high"){
+
+let high =
+books.filter(book=>
+
+String(book.title||"")
+.length > 15
+
+)
+
+renderBooks(high)
+return
+
+}
+
+if(type==="low"){
+
+let low =
+books.filter(book=>
+
+Number(book.price||0) < 300
+
+)
+
+renderBooks(low)
+return
 
 }
 
