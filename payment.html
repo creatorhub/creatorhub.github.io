@@ -544,6 +544,11 @@ background:#111827;
 
 }
 
+.book{
+opacity:0;
+transition:.4s;
+}
+
 .book-title{
 
 font-size:24px;
@@ -1063,7 +1068,9 @@ Order Summary
 <img
 id="cover"
 class="cover"
-src="https://picsum.photos/400"
+src=""
+loading="eager"
+decoding="async"
 >
 
 <div>
@@ -1381,6 +1388,8 @@ document.getElementById(
 ).innerHTML =
 "₹" + total
 
+document.querySelector(".book").style.opacity="1"
+
 }catch(err){
 
 console.log(err)
@@ -1400,20 +1409,12 @@ DRIVE IMAGE
 function driveImage(url){
 
 if(!url){
-
-return "https://picsum.photos/400"
-
+return ""
 }
-
-/* UC FORMAT */
 
 if(url.includes("uc?id=")){
-
 return url
-
 }
-
-/* /d/ FORMAT */
 
 if(url.includes("/d/")){
 
@@ -1421,11 +1422,9 @@ let id =
 url.split("/d/")[1]
 .split("/")[0]
 
-return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000"
+return "https://lh3.googleusercontent.com/d/"+id
 
 }
-
-/* id= FORMAT */
 
 if(url.includes("id=")){
 
@@ -1433,7 +1432,7 @@ let id =
 url.split("id=")[1]
 .split("&")[0]
 
-return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000"
+return "https://lh3.googleusercontent.com/d/"+id
 
 }
 
