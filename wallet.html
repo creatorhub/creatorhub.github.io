@@ -77,6 +77,39 @@ font-weight:900;
 
 }
 
+.logo-wrap{
+
+display:flex;
+flex-direction:column;
+
+}
+
+.back-home{
+
+margin-top:6px;
+
+font-size:13px;
+
+font-weight:700;
+
+color:#4ade80;
+
+text-decoration:none;
+
+opacity:.9;
+
+transition:.3s;
+
+}
+
+.back-home:hover{
+
+opacity:1;
+
+transform:translateX(-4px);
+
+}
+
 .logo span{
 color:#4ade80;
 }
@@ -622,15 +655,17 @@ TOPBAR
 
 <div class="topbar">
 
+<div class="logo-wrap">
+
 <div class="logo">
 Creator<span>Hub</span>
 </div>
 
 <a href="index.html" class="back-home">
-
 ← Back To Home
-
 </a>
+
+</div>
 
 <div class="badge">
 Wallet Dashboard
