@@ -888,25 +888,25 @@ VERIFY ADDRESS
 
 async function verifyAddress(){
 
-let name =
+let name=
 document.getElementById("name").value.trim()
 
-let phone =
+let phone=
 document.getElementById("phone").value.trim()
 
-let email =
+let email=
 document.getElementById("email").value.trim()
 
-let address =
+let address=
 document.getElementById("address").value.trim()
 
-let city =
+let city=
 document.getElementById("city").value.trim()
 
-let state =
+let state=
 document.getElementById("state").value.trim()
 
-let pincode =
+let pincode=
 document.getElementById("pincode").value.trim()
 
 if(
@@ -935,15 +935,21 @@ document.getElementById(
 
 try{
 
-let res =
+let res=
 await fetch(API_URL,{
+
 method:"POST",
+
 mode:"cors",
+
 headers:{
 "Content-Type":"text/plain;charset=utf-8"
 },
+
 body:JSON.stringify({
+
 action:"verifyAddress",
+
 name,
 phone,
 email,
@@ -951,17 +957,19 @@ address,
 city,
 state,
 pincode
-})
+
 })
 
-let result =
+})
+
+let result=
 await res.json()
 
 if(!result.success){
 
 document.getElementById(
 "verifyMessage"
-).innerHTML =
+).innerHTML=
 result.message
 
 return
@@ -970,14 +978,12 @@ return
 
 document.getElementById(
 "verifyMessage"
-).innerHTML =
+).innerHTML=
 "Address verified successfully"
 
 localStorage.setItem(
 "shippingAddress",
-
 JSON.stringify({
-
 name,
 phone,
 email,
@@ -985,9 +991,7 @@ address,
 city,
 state,
 pincode
-
 })
-
 )
 
 localStorage.setItem(
@@ -1004,9 +1008,11 @@ window.location.href=
 
 }catch(err){
 
+console.log(err)
+
 document.getElementById(
 "verifyMessage"
-).innerHTML =
+).innerHTML=
 "Verification failed"
 
 }
