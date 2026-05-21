@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>
+CreatorHub Order Tracking
+</title>
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link href="
+https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
+
+body{
+
+background:
+linear-gradient(
+180deg,
+#020617,
+#071120
+);
+
+min-height:100vh;
+
+color:white;
+
+overflow-x:hidden;
+
+}
+
+/* ======================================================
+TOPBAR
+====================================================== */
+
+.topbar{
+
+position:sticky;
+top:0;
+z-index:999;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:18px 24px;
+
+background:
+rgba(2,6,23,.88);
+
+backdrop-filter:blur(18px);
+
+border-bottom:
+1px solid rgba(255,255,255,.05);
+
+}
+
+.logo{
+
+font-size:34px;
+font-weight:900;
+
+}
+
+.logo span{
+color:#4ade80;
+}
+
+.badge{
+
+padding:14px 18px;
+
+border-radius:18px;
+
+background:
+rgba(34,197,94,.12);
+
+color:#4ade80;
+
+font-weight:700;
+font-size:14px;
+
+}
+
+/* ======================================================
+MAIN
+====================================================== */
+
+.main{
+
+max-width:1200px;
+
+margin:auto;
+
+padding:
+40px 20px 100px;
+
+}
+
+/* ======================================================
+HEADER
+====================================================== */
+
+.header{
+
+text-align:center;
+
+margin-bottom:45px;
+
+}
+
+.icon{
+
+width:130px;
+height:130px;
+
+margin:auto;
+
+border-radius:50%;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:64px;
+
+background:
+linear-gradient(
+135deg,
+#16a34a,
+#4ade80
+);
+
+box-shadow:
+0 20px 60px rgba(34,197,94,.35);
+
+animation:pop .6s ease;
+
+}
+
+@keyframes pop{
+
+0%{
+transform:scale(.5);
+opacity:0;
+}
+
+100%{
+transform:scale(1);
+opacity:1;
+}
+
+}
+
+h1{
+
+margin-top:35px;
+
+font-size:56px;
+font-weight:900;
+
+line-height:1.2;
+
+}
+
+.desc{
+
+margin-top:18px;
+
+font-size:18px;
+
+line-height:1.9;
+
+opacity:.78;
+
+max-width:760px;
+
+margin-left:auto;
+margin-right:auto;
+
+}
+
+/* ======================================================
+GRID
+====================================================== */
+
+.grid{
+
+display:grid;
+
+grid-template-columns:
+1fr 1fr;
+
+gap:28px;
+
+margin-top:45px;
+
+}
+
+@media(max-width:950px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
+}
+
+/* ======================================================
+CARD
+====================================================== */
+
+.card{
+
+background:#0f172a;
+
+padding:34px;
+
+border-radius:34px;
+
+border:
+1px solid rgba(255,255,255,.05);
+
+box-shadow:
+0 25px 70px rgba(0,0,0,.45);
+
+}
+
+/* ======================================================
+TITLE
+====================================================== */
+
+.card-title{
+
+font-size:34px;
+font-weight:900;
+
+margin-bottom:28px;
+
+}
+
+/* ======================================================
+ROWS
+====================================================== */
+
+.row{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+gap:20px;
+
+padding:18px 0;
+
+border-bottom:
+1px solid rgba(255,255,255,.06);
+
+}
+
+.row:last-child{
+border-bottom:none;
+}
+
+.label{
+
+opacity:.65;
+
+font-size:15px;
+
+}
+
+.value{
+
+font-size:17px;
+font-weight:800;
+
+text-align:right;
+
+word-break:break-word;
+
+}
+
+.green{
+color:#4ade80;
+}
+
+/* ======================================================
+STATUS BOX
+====================================================== */
+
+.status-box{
+
+margin-top:28px;
+
+padding:24px;
+
+border-radius:28px;
+
+background:
+linear-gradient(
+90deg,
+#052e16,
+#064e3b
+);
+
+}
+
+.status-title{
+
+font-size:28px;
+font-weight:900;
+
+}
+
+.status-text{
+
+margin-top:14px;
+
+line-height:1.9;
+
+opacity:.92;
+
+font-size:16px;
+
+}
+
+/* ======================================================
+TIMELINE
+====================================================== */
+
+.timeline{
+
+margin-top:25px;
+
+}
+
+.step{
+
+display:flex;
+
+gap:18px;
+
+margin-top:26px;
+
+}
+
+.dot{
+
+width:24px;
+height:24px;
+
+border-radius:50%;
+
+margin-top:6px;
+
+background:#4ade80;
+
+box-shadow:
+0 0 18px rgba(74,222,128,.45);
+
+flex-shrink:0;
+
+}
+
+.step h3{
+
+font-size:18px;
+font-weight:800;
+
+}
+
+.step p{
+
+margin-top:8px;
+
+line-height:1.8;
+
+opacity:.72;
+
+font-size:15px;
+
+}
+
+/* ======================================================
+LOADER
+====================================================== */
+
+.loader{
+
+width:60px;
+height:60px;
+
+margin:40px auto 0;
+
+border-radius:50%;
+
+border:5px solid rgba(255,255,255,.08);
+
+border-top:
+5px solid #4ade80;
+
+animation:spin 1s linear infinite;
+
+}
+
+@keyframes spin{
+
+100%{
+transform:rotate(360deg);
+}
+
+}
+
+/* ======================================================
+BUTTONS
+====================================================== */
+
+.actions{
+
+display:flex;
+gap:18px;
+flex-wrap:wrap;
+
+margin-top:40px;
+
+}
+
+.btn{
+
+flex:1;
+
+min-width:220px;
+
+height:65px;
+
+border:none;
+
+border-radius:24px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+text-decoration:none;
+
+font-size:18px;
+font-weight:900;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.btn-primary{
+
+background:
+linear-gradient(
+90deg,
+#16a34a,
+#4ade80
+);
+
+color:white;
+
+}
+
+.btn-secondary{
+
+background:#081225;
+
+color:white;
+
+border:
+1px solid rgba(255,255,255,.08);
+
+}
+
+.btn:hover{
+transform:translateY(-4px);
+}
+
+/* ======================================================
+FOOTER NOTE
+====================================================== */
+
+.note{
+
+margin-top:40px;
+
+text-align:center;
+
+opacity:.58;
+
+font-size:14px;
+
+line-height:1.9;
+
+}
+
+/* ======================================================
+MOBILE
+====================================================== */
+
+@media(max-width:700px){
+
+h1{
+font-size:40px;
+}
+
+.icon{
+width:110px;
+height:110px;
+font-size:56px;
+}
+
+.card{
+padding:26px;
+}
+
+.card-title{
+font-size:28px;
+}
+
+.btn{
+width:100%;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- ======================================================
+TOPBAR
+====================================================== -->
+
+<div class="topbar">
+
+<div class="logo">
+Creator<span>Hub</span>
+</div>
+
+<div class="badge">
+Live Tracking
+</div>
+
+</div>
+
+<!-- ======================================================
+MAIN
+====================================================== -->
+
+<div class="main">
+
+<!-- ======================================================
+HEADER
+====================================================== -->
+
+<div class="header">
+
+<div class="icon">
+📦
+</div>
+
+<h1>
+Track Your Order
+</h1>
+
+<p class="desc">
+
+Your payment was completed successfully and your order has now entered the CreatorHub fulfillment system.
+
+Track live processing, Qikink fulfillment, and shipping updates in real-time.
+
+</p>
+
+</div>
+
+<!-- ======================================================
+GRID
+====================================================== -->
+
+<div class="grid">
+
+<!-- ======================================================
+LEFT
+====================================================== -->
+
+<div class="card">
+
+<div class="card-title">
+Order Details
+</div>
+
+<div class="row">
+
+<div class="label">
+Order ID
+</div>
+
+<div
+id="orderId"
+class="value">
+
+Loading...
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="label">
+Tracking ID
+</div>
+
+<div
+id="trackingId"
+class="value">
+
+Loading...
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="label">
+Payment Status
+</div>
+
+<div class="value green">
+PAID
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="label">
+Fulfillment
+</div>
+
+<div
+id="fulfillment"
+class="value">
+
+Connecting...
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="label">
+Delivery Region
+</div>
+
+<div class="value">
+India
+</div>
+
+</div>
+
+<div class="status-box">
+
+<div class="status-title">
+Live Fulfillment Status
+</div>
+
+<div
+id="statusText"
+class="status-text">
+
+Connecting to Qikink...
+
+</div>
+
+</div>
+
+<div
+class="loader"
+id="loader">
+</div>
+
+</div>
+
+<!-- ======================================================
+RIGHT
+====================================================== -->
+
+<div class="card">
+
+<div class="card-title">
+Order Timeline
+</div>
+
+<div class="timeline">
+
+<div class="step">
+
+<div class="dot"></div>
+
+<div>
+
+<h3>
+Payment Completed
+</h3>
+
+<p>
+Your payment has been verified successfully through Cashfree payment gateway.
+</p>
+
+</div>
+
+</div>
+
+<div class="step">
+
+<div class="dot"></div>
+
+<div>
+
+<h3>
+Order Sent To Qikink
+</h3>
+
+<p>
+Your order has been automatically forwarded to the Qikink fulfillment system.
+</p>
+
+</div>
+
+</div>
+
+<div class="step">
+
+<div class="dot"></div>
+
+<div>
+
+<h3>
+Fulfillment Processing
+</h3>
+
+<p>
+Printing, packaging, and preparation are currently in progress.
+</p>
+
+</div>
+
+</div>
+
+<div class="step">
+
+<div class="dot"></div>
+
+<div>
+
+<h3>
+Shipping Activation
+</h3>
+
+<p>
+Tracking details and courier information will appear once shipping starts.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="actions">
+
+<a
+href="index.html"
+class="btn btn-primary">
+
+Back To Home
+
+</a>
+
+<a
+href="mailto:support@creatorhub.com"
+class="btn btn-secondary">
+
+Contact Support
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="note">
+
+Please allow some time for fulfillment updates and courier tracking activation.
+
+</div>
+
+</div>
+
+<script>
+
+/* ======================================================
+API
+====================================================== */
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
+
+/* ======================================================
+GET ORDER ID
+====================================================== */
+
+const params =
+new URLSearchParams(
+window.location.search
+)
+
+let orderId =
+params.get("order_id")
+
+if(!orderId){
+
+orderId =
+localStorage.getItem("order_id")
+
+}
+
+/* ======================================================
+SHOW ORDER ID
+====================================================== */
+
+document.getElementById(
+"orderId"
+).innerHTML =
+orderId || "N/A"
+
+/* ======================================================
+LOAD TRACKING
+====================================================== */
+
+async function loadTracking(){
+
+try{
+
+if(!orderId){
+
+document.getElementById(
+"statusText"
+).innerHTML =
+"Invalid order ID"
+
+document.getElementById(
+"loader"
+).style.display="none"
+
+return
+
+}
+
+let res =
+await fetch(API_URL,{
+
+method:"POST",
+
+mode:"cors",
+
+headers:{
+"Content-Type":"text/plain;charset=utf-8"
+},
+
+body:JSON.stringify({
+
+action:"trackOrder",
+
+order_id:orderId
+
+})
+
+})
+
+let result =
+await res.json()
+
+if(!result.success){
+
+document.getElementById(
+"statusText"
+).innerHTML =
+"Tracking information not available yet"
+
+document.getElementById(
+"fulfillment"
+).innerHTML =
+"Pending"
+
+document.getElementById(
+"loader"
+).style.display="none"
+
+return
+
+}
+
+/* ======================================================
+TRACKING DATA
+====================================================== */
+
+let track =
+result.tracking
+
+document.getElementById(
+"trackingId"
+).innerHTML =
+track.tracking_id ||
+"N/A"
+
+document.getElementById(
+"fulfillment"
+).innerHTML =
+track.status ||
+"Processing"
+
+document.getElementById(
+"statusText"
+).innerHTML =
+
+"Your order is currently being processed by Qikink fulfillment and shipping preparation has started successfully."
+
+document.getElementById(
+"loader"
+).style.display="none"
+
+}catch(err){
+
+console.log(err)
+
+document.getElementById(
+"statusText"
+).innerHTML =
+"Server connection failed"
+
+document.getElementById(
+"loader"
+).style.display="none"
+
+}
+
+}
+
+/* ======================================================
+START
+====================================================== */
+
+loadTracking()
+
+</script>
+
+</body>
+</html>
