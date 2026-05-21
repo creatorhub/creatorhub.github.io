@@ -5,15 +5,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>
-CreatorHub Payment Success
-</title>
+<title>CreatorHub Payment Success</title>
 
 <link rel="preconnect"
 href="https://fonts.googleapis.com">
 
-<link href="
-https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
 rel="stylesheet">
 
 <style>
@@ -40,18 +37,22 @@ display:flex;
 align-items:center;
 justify-content:center;
 
-padding:20px;
+padding:25px;
 
 color:white;
 
-overflow:hidden;
+overflow-x:hidden;
 
 }
+
+/* ======================================================
+CARD
+====================================================== */
 
 .success-card{
 
 width:100%;
-max-width:650px;
+max-width:720px;
 
 background:#0f172a;
 
@@ -60,12 +61,12 @@ border:
 
 border-radius:40px;
 
-padding:50px;
+padding:60px 40px;
 
 text-align:center;
 
 box-shadow:
-0 30px 90px rgba(0,0,0,.5);
+0 30px 90px rgba(0,0,0,.55);
 
 position:relative;
 
@@ -73,24 +74,34 @@ overflow:hidden;
 
 }
 
+/* ======================================================
+GLOW
+====================================================== */
+
 .success-glow{
 
 position:absolute;
 
-width:500px;
-height:500px;
+width:600px;
+height:600px;
 
 background:
 radial-gradient(
 circle,
-rgba(34,197,94,.2),
+rgba(34,197,94,.22),
 transparent
 );
 
-top:-250px;
-right:-250px;
+top:-300px;
+right:-300px;
+
+pointer-events:none;
 
 }
+
+/* ======================================================
+ICON
+====================================================== */
 
 .icon{
 
@@ -105,7 +116,8 @@ display:flex;
 align-items:center;
 justify-content:center;
 
-font-size:70px;
+font-size:68px;
+font-weight:900;
 
 background:
 linear-gradient(
@@ -115,9 +127,9 @@ linear-gradient(
 );
 
 box-shadow:
-0 20px 50px rgba(34,197,94,.35);
+0 20px 60px rgba(34,197,94,.35);
 
-animation:pop .6s ease;
+animation:pop .7s ease;
 
 }
 
@@ -135,11 +147,15 @@ opacity:1;
 
 }
 
+/* ======================================================
+TITLE
+====================================================== */
+
 h1{
 
 margin-top:35px;
 
-font-size:48px;
+font-size:52px;
 font-weight:900;
 
 line-height:1.2;
@@ -154,21 +170,33 @@ font-size:17px;
 
 line-height:1.9;
 
-opacity:.78;
+opacity:.8;
+
+max-width:560px;
+
+margin-left:auto;
+margin-right:auto;
 
 }
 
+/* ======================================================
+ORDER BOX
+====================================================== */
+
 .order-box{
 
-margin-top:35px;
+margin-top:40px;
 
-padding:28px;
+padding:30px;
 
-border-radius:28px;
+border-radius:30px;
 
 background:#081225;
 
 text-align:left;
+
+border:
+1px solid rgba(255,255,255,.05);
 
 }
 
@@ -176,6 +204,9 @@ text-align:left;
 
 display:flex;
 justify-content:space-between;
+align-items:center;
+
+gap:20px;
 
 margin-top:18px;
 
@@ -193,25 +224,30 @@ opacity:.65;
 
 .value{
 font-weight:800;
+word-break:break-word;
 }
 
 .green{
 color:#4ade80;
 }
 
+/* ======================================================
+LOADER
+====================================================== */
+
 .loader{
 
-width:55px;
-height:55px;
+width:58px;
+height:58px;
 
 border-radius:50%;
 
-border:5px solid rgba(255,255,255,.1);
+border:5px solid rgba(255,255,255,.08);
 
 border-top:
 5px solid #4ade80;
 
-margin:35px auto 0;
+margin:40px auto 0;
 
 animation:spin 1s linear infinite;
 
@@ -225,16 +261,26 @@ transform:rotate(360deg);
 
 }
 
+/* ======================================================
+STATUS
+====================================================== */
+
 .status{
 
 margin-top:22px;
 
-font-size:17px;
+font-size:18px;
 font-weight:700;
 
 color:#4ade80;
 
+line-height:1.8;
+
 }
+
+/* ======================================================
+BUTTON
+====================================================== */
 
 .btn{
 
@@ -245,9 +291,9 @@ justify-content:center;
 
 margin-top:40px;
 
-height:65px;
+height:68px;
 
-padding:0 32px;
+padding:0 34px;
 
 border-radius:24px;
 
@@ -273,15 +319,54 @@ transition:.3s;
 transform:translateY(-4px);
 }
 
+/* ======================================================
+NOTE
+====================================================== */
+
 .note{
 
 margin-top:30px;
 
-opacity:.55;
+opacity:.58;
 
 font-size:14px;
 
-line-height:1.8;
+line-height:1.9;
+
+}
+
+/* ======================================================
+MOBILE
+====================================================== */
+
+@media(max-width:700px){
+
+.success-card{
+padding:45px 24px;
+border-radius:30px;
+}
+
+h1{
+font-size:38px;
+}
+
+.icon{
+width:110px;
+height:110px;
+font-size:58px;
+}
+
+.order-box{
+padding:24px;
+}
+
+.row{
+font-size:15px;
+}
+
+.btn{
+width:100%;
+}
 
 }
 
@@ -295,9 +380,17 @@ line-height:1.8;
 
 <div class="success-glow"></div>
 
+<!-- ======================================================
+ICON
+====================================================== -->
+
 <div class="icon">
 ✓
 </div>
+
+<!-- ======================================================
+TITLE
+====================================================== -->
 
 <h1>
 Payment Successful
@@ -307,9 +400,13 @@ Payment Successful
 
 Your payment has been processed successfully.
 
-Your order is now being prepared and automatically forwarded to the CreatorHub fulfillment system.
+Your order has been confirmed and forwarded automatically to the CreatorHub fulfillment system for processing and delivery.
 
 </p>
+
+<!-- ======================================================
+ORDER INFO
+====================================================== -->
 
 <div class="order-box">
 
@@ -347,8 +444,12 @@ PAID
 Fulfillment
 </div>
 
-<div class="value">
+<div
+id="fulfillment"
+class="value">
+
 Qikink Processing
+
 </div>
 
 </div>
@@ -356,7 +457,7 @@ Qikink Processing
 <div class="row">
 
 <div class="label">
-Delivery
+Delivery Region
 </div>
 
 <div class="value">
@@ -367,7 +468,18 @@ India
 
 </div>
 
-<div class="loader"></div>
+<!-- ======================================================
+LOADER
+====================================================== -->
+
+<div
+class="loader"
+id="loader">
+</div>
+
+<!-- ======================================================
+STATUS
+====================================================== -->
 
 <div
 id="status"
@@ -377,6 +489,10 @@ Confirming payment...
 
 </div>
 
+<!-- ======================================================
+BUTTON
+====================================================== -->
+
 <a
 href="index.html"
 class="btn">
@@ -385,9 +501,13 @@ Back To CreatorHub
 
 </a>
 
+<!-- ======================================================
+NOTE
+====================================================== -->
+
 <div class="note">
 
-Please do not close this page while we confirm your payment and activate tracking.
+Please do not close this page while we activate tracking and complete order confirmation.
 
 </div>
 
@@ -395,32 +515,44 @@ Please do not close this page while we confirm your payment and activate trackin
 
 <script>
 
-/* =======================================================
+/* ======================================================
 API
-======================================================= */
+====================================================== */
 
 const API_URL =
 "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
 
-/* =======================================================
+/* ======================================================
 GET ORDER ID
-======================================================= */
+====================================================== */
 
 const params =
 new URLSearchParams(
 window.location.search
 )
 
-const orderId =
+let orderId =
 params.get("order_id")
+
+if(!orderId){
+
+orderId =
+localStorage.getItem("order_id")
+
+}
+
+/* ======================================================
+SHOW ORDER ID
+====================================================== */
 
 document.getElementById(
 "orderId"
-).innerHTML = orderId || "N/A"
+).innerHTML =
+orderId || "N/A"
 
-/* =======================================================
-PAYMENT SUCCESS
-======================================================= */
+/* ======================================================
+CONFIRM PAYMENT
+====================================================== */
 
 async function confirmPayment(){
 
@@ -431,11 +563,19 @@ if(!orderId){
 document.getElementById(
 "status"
 ).innerHTML =
-"Invalid order"
+"Invalid order ID"
+
+document.getElementById(
+"loader"
+).style.display="none"
 
 return
 
 }
+
+/* ======================================================
+PAYMENT SUCCESS API
+====================================================== */
 
 let res =
 await fetch(API_URL,{
@@ -461,16 +601,29 @@ order_id:orderId
 let result =
 await res.json()
 
+/* ======================================================
+FAILED
+====================================================== */
+
 if(!result.success){
 
 document.getElementById(
 "status"
 ).innerHTML =
-result.message || "Payment confirmation failed"
+result.message ||
+"Payment confirmation failed"
+
+document.getElementById(
+"loader"
+).style.display="none"
 
 return
 
 }
+
+/* ======================================================
+SUCCESS
+====================================================== */
 
 document.getElementById(
 "status"
@@ -478,8 +631,32 @@ document.getElementById(
 
 "Order confirmed successfully"
 
+document.getElementById(
+"fulfillment"
+).innerHTML =
+
+"Qikink Order Created"
+
+document.getElementById(
+"loader"
+).style.display="none"
+
+/* ======================================================
+CLEAR STORAGE
+====================================================== */
+
 localStorage.removeItem(
 "order_id"
+)
+
+/* OPTIONAL */
+
+localStorage.removeItem(
+"shippingAddress"
+)
+
+localStorage.removeItem(
+"paymentBook"
 )
 
 }catch(err){
@@ -492,17 +669,21 @@ document.getElementById(
 
 "Server connection failed"
 
-}
+document.getElementById(
+"loader"
+).style.display="none"
 
 }
 
-/* =======================================================
+}
+
+/* ======================================================
 START
-======================================================= */
+====================================================== */
 
 confirmPayment()
 
 </script>
 
 </body>
-  </html>
+</html>
