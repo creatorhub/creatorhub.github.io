@@ -8,7 +8,7 @@
 content="width=device-width,initial-scale=1.0">
 
 <title>
-CreatorHub • Premium Ebook Marketplace
+CreatorHub • Premium Marketplace
 </title>
 
 <link rel="preconnect"
@@ -47,8 +47,18 @@ overflow-x:hidden;
 }
 
 /* ======================================================
-GLOW
+GLOBAL
 ====================================================== */
+
+.container{
+
+max-width:1500px;
+
+margin:auto;
+
+padding:0 20px;
+
+}
 
 .glow{
 
@@ -60,7 +70,7 @@ height:700px;
 background:
 radial-gradient(
 circle,
-rgba(34,197,94,.12),
+rgba(34,197,94,.13),
 transparent
 );
 
@@ -83,19 +93,29 @@ position:sticky;
 top:0;
 z-index:999;
 
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-padding:18px 24px;
-
 background:
-rgba(2,6,23,.85);
+rgba(2,6,23,.86);
 
 backdrop-filter:blur(18px);
 
 border-bottom:
 1px solid rgba(255,255,255,.05);
+
+}
+
+.topbar-inner{
+
+max-width:1500px;
+
+margin:auto;
+
+padding:18px 20px;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+gap:20px;
 
 }
 
@@ -113,8 +133,10 @@ color:#4ade80;
 .nav{
 
 display:flex;
-gap:24px;
 align-items:center;
+gap:24px;
+
+flex-wrap:wrap;
 
 }
 
@@ -146,10 +168,6 @@ padding:0 24px;
 
 border-radius:18px;
 
-display:flex;
-align-items:center;
-justify-content:center;
-
 background:
 linear-gradient(
 90deg,
@@ -157,9 +175,13 @@ linear-gradient(
 #4ade80
 );
 
-font-weight:900;
+display:flex;
+align-items:center;
+justify-content:center;
 
 color:white !important;
+
+font-weight:900;
 
 opacity:1 !important;
 
@@ -171,25 +193,21 @@ HERO
 
 .hero{
 
-max-width:1450px;
-
-margin:auto;
-
 padding:
-90px 20px 120px;
+90px 0 110px;
 
 display:grid;
 
 grid-template-columns:
 1.1fr .9fr;
 
-gap:40px;
+gap:50px;
 
 align-items:center;
 
 }
 
-@media(max-width:1000px){
+@media(max-width:1100px){
 
 .hero{
 grid-template-columns:1fr;
@@ -197,16 +215,12 @@ grid-template-columns:1fr;
 
 }
 
-/* ======================================================
-LEFT
-====================================================== */
-
 .hero-title{
 
-font-size:82px;
+font-size:88px;
 font-weight:900;
 
-line-height:1.05;
+line-height:1.03;
 
 }
 
@@ -216,15 +230,15 @@ color:#4ade80;
 
 .hero-desc{
 
-margin-top:28px;
+margin-top:30px;
 
 font-size:18px;
 
 line-height:2;
 
-opacity:.78;
+opacity:.76;
 
-max-width:720px;
+max-width:760px;
 
 }
 
@@ -254,13 +268,17 @@ justify-content:center;
 
 text-decoration:none;
 
-font-size:18px;
+font-size:17px;
 font-weight:900;
-
-transition:.3s;
 
 cursor:pointer;
 
+transition:.3s;
+
+}
+
+.btn:hover{
+transform:translateY(-4px);
 }
 
 .btn-primary{
@@ -287,18 +305,10 @@ color:white;
 
 }
 
-.btn:hover{
-transform:translateY(-4px);
-}
-
-/* ======================================================
-STATS
-====================================================== */
-
 .hero-stats{
 
 display:flex;
-gap:24px;
+gap:22px;
 flex-wrap:wrap;
 
 margin-top:45px;
@@ -307,20 +317,22 @@ margin-top:45px;
 
 .stat{
 
-padding:22px 26px;
+padding:24px;
 
-border-radius:26px;
+border-radius:28px;
 
 background:#0f172a;
 
 border:
 1px solid rgba(255,255,255,.06);
 
+min-width:180px;
+
 }
 
 .stat h2{
 
-font-size:34px;
+font-size:40px;
 font-weight:900;
 
 color:#4ade80;
@@ -336,7 +348,7 @@ opacity:.7;
 }
 
 /* ======================================================
-RIGHT
+HERO RIGHT
 ====================================================== */
 
 .hero-right{
@@ -358,7 +370,7 @@ grid-template-columns:1fr;
 
 }
 
-.book-card{
+.preview-card{
 
 background:#0f172a;
 
@@ -369,38 +381,27 @@ border-radius:34px;
 
 overflow:hidden;
 
-transition:.4s;
-
 box-shadow:
-0 25px 60px rgba(0,0,0,.4);
+0 25px 80px rgba(0,0,0,.4);
 
 }
 
-.book-card:hover{
-
-transform:
-translateY(-8px);
-
-}
-
-.book-cover{
+.preview-card img{
 
 width:100%;
 height:320px;
 
 object-fit:cover;
 
-background:#081225;
-
 }
 
-.book-content{
+.preview-content{
 
 padding:24px;
 
 }
 
-.book-content h3{
+.preview-content h3{
 
 font-size:24px;
 font-weight:900;
@@ -409,15 +410,17 @@ line-height:1.4;
 
 }
 
-.author{
+.preview-content p{
 
-margin-top:10px;
+margin-top:12px;
 
 opacity:.7;
 
+line-height:1.8;
+
 }
 
-.price{
+.preview-price{
 
 margin-top:18px;
 
@@ -428,52 +431,19 @@ color:#4ade80;
 
 }
 
-.buy-btn{
-
-width:100%;
-
-height:58px;
-
-margin-top:24px;
-
-border:none;
-
-border-radius:18px;
-
-background:
-linear-gradient(
-90deg,
-#16a34a,
-#4ade80
-);
-
-color:white;
-
-font-size:16px;
-font-weight:900;
-
-cursor:pointer;
-
-}
-
 /* ======================================================
 SECTION
 ====================================================== */
 
 .section{
 
-max-width:1450px;
-
-margin:auto;
-
-padding:
-0 20px 110px;
+padding-bottom:110px;
 
 }
 
 .section-title{
 
-font-size:58px;
+font-size:60px;
 font-weight:900;
 
 line-height:1.1;
@@ -488,9 +458,148 @@ font-size:17px;
 
 line-height:2;
 
-opacity:.76;
+opacity:.74;
 
-max-width:800px;
+max-width:850px;
+
+}
+
+/* ======================================================
+BOOKS
+====================================================== */
+
+.books-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(300px,1fr));
+
+gap:28px;
+
+margin-top:50px;
+
+}
+
+.book{
+
+background:#0f172a;
+
+border:
+1px solid rgba(255,255,255,.06);
+
+border-radius:36px;
+
+overflow:hidden;
+
+transition:.4s;
+
+box-shadow:
+0 25px 80px rgba(0,0,0,.4);
+
+}
+
+.book:hover{
+
+transform:
+translateY(-10px);
+
+}
+
+.book-cover{
+
+width:100%;
+height:390px;
+
+object-fit:cover;
+
+background:#081225;
+
+}
+
+.book-content{
+
+padding:28px;
+
+}
+
+.book-title{
+
+font-size:26px;
+font-weight:900;
+
+line-height:1.4;
+
+}
+
+.book-author{
+
+margin-top:12px;
+
+opacity:.7;
+
+font-size:15px;
+
+}
+
+.book-price{
+
+margin-top:20px;
+
+font-size:38px;
+font-weight:900;
+
+color:#4ade80;
+
+}
+
+.book-actions{
+
+display:flex;
+gap:14px;
+
+margin-top:24px;
+
+}
+
+.book-btn{
+
+flex:1;
+
+height:56px;
+
+border:none;
+
+border-radius:18px;
+
+font-size:15px;
+font-weight:900;
+
+cursor:pointer;
+
+}
+
+.buy{
+
+background:
+linear-gradient(
+90deg,
+#16a34a,
+#4ade80
+);
+
+color:white;
+
+}
+
+.details{
+
+background:#081225;
+
+border:
+1px solid rgba(255,255,255,.08);
+
+color:white;
 
 }
 
@@ -521,15 +630,6 @@ border-radius:34px;
 
 border:
 1px solid rgba(255,255,255,.06);
-
-transition:.4s;
-
-}
-
-.feature:hover{
-
-transform:
-translateY(-8px);
 
 }
 
@@ -570,7 +670,7 @@ margin-top:18px;
 
 line-height:2;
 
-opacity:.74;
+opacity:.75;
 
 }
 
@@ -580,9 +680,9 @@ SELL CTA
 
 .sell{
 
-margin-top:55px;
+margin-top:60px;
 
-padding:50px;
+padding:55px;
 
 border-radius:40px;
 
@@ -604,10 +704,10 @@ flex-wrap:wrap;
 
 .sell h2{
 
-font-size:52px;
+font-size:58px;
 font-weight:900;
 
-line-height:1.2;
+line-height:1.1;
 
 }
 
@@ -624,79 +724,116 @@ max-width:800px;
 }
 
 /* ======================================================
-REVIEWS
-====================================================== */
-
-.reviews{
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(300px,1fr));
-
-gap:24px;
-
-margin-top:55px;
-
-}
-
-.review{
-
-background:#0f172a;
-
-padding:34px;
-
-border-radius:34px;
-
-border:
-1px solid rgba(255,255,255,.05);
-
-}
-
-.review h3{
-
-font-size:28px;
-font-weight:900;
-
-}
-
-.review p{
-
-margin-top:20px;
-
-line-height:2;
-
-opacity:.76;
-
-}
-
-.review h4{
-
-margin-top:22px;
-
-color:#4ade80;
-
-}
-
-/* ======================================================
 FOOTER
 ====================================================== */
 
 .footer{
 
-margin-top:70px;
-
-padding:45px 20px;
-
-text-align:center;
-
 background:#081225;
+
+padding:70px 20px 40px;
+
+margin-top:50px;
+
+border-top:
+1px solid rgba(255,255,255,.05);
+
+}
+
+.footer-grid{
+
+max-width:1500px;
+
+margin:auto;
+
+display:grid;
+
+grid-template-columns:
+2fr 1fr 1fr 1fr;
+
+gap:40px;
+
+}
+
+@media(max-width:900px){
+
+.footer-grid{
+grid-template-columns:1fr;
+}
+
+}
+
+.footer-logo{
+
+font-size:40px;
+font-weight:900;
+
+}
+
+.footer-logo span{
+color:#4ade80;
+}
+
+.footer p{
+
+margin-top:20px;
 
 line-height:2;
 
-opacity:.72;
+opacity:.7;
 
-font-size:15px;
+}
+
+.footer h3{
+
+font-size:22px;
+font-weight:900;
+
+margin-bottom:18px;
+
+}
+
+.footer a{
+
+display:block;
+
+margin-top:14px;
+
+color:white;
+
+opacity:.7;
+
+text-decoration:none;
+
+transition:.3s;
+
+}
+
+.footer a:hover{
+opacity:1;
+color:#4ade80;
+}
+
+.footer-bottom{
+
+max-width:1500px;
+
+margin:auto;
+
+margin-top:55px;
+
+padding-top:30px;
+
+border-top:
+1px solid rgba(255,255,255,.06);
+
+text-align:center;
+
+opacity:.6;
+
+line-height:2;
+
+font-size:14px;
 
 }
 
@@ -714,28 +851,38 @@ TOPBAR
 
 <div class="topbar">
 
+<div class="topbar-inner">
+
 <div class="logo">
 Creator<span>Hub</span>
 </div>
 
 <div class="nav">
 
-<a href="#features">
-Features
-</a>
-
 <a href="#books">
 Books
+</a>
+
+<a href="#features">
+Features
 </a>
 
 <a href="wallet.html">
 Wallet
 </a>
 
+<a href="track.html">
+Track Order
+</a>
+
 <a href="upload.html"
 class="nav-btn">
+
 Start Selling
+
 </a>
+
+</div>
 
 </div>
 
@@ -744,6 +891,8 @@ Start Selling
 <!-- ======================================================
 HERO
 ====================================================== -->
+
+<div class="container">
 
 <div class="hero">
 
@@ -760,7 +909,7 @@ Sell & Discover
 
 <div class="hero-desc">
 
-CreatorHub helps creators sell ebooks, print books, manage wallets, receive automatic payments, and fulfill orders through integrated printing & delivery systems.
+CreatorHub is a complete creator economy platform with ebook selling, secure payments, automatic print fulfillment, seller wallets, order tracking, and nationwide delivery systems.
 
 </div>
 
@@ -776,7 +925,7 @@ Start Selling
 <a href="#books"
 class="btn btn-secondary">
 
-Explore Books
+Explore Marketplace
 
 </a>
 
@@ -826,63 +975,83 @@ Secure Payments
 
 <!-- RIGHT -->
 
-<div
-id="books"
-class="hero-right">
+<div class="hero-right">
 
-<div class="book-card">
+<div class="preview-card">
 
-<img
-class="book-cover"
-src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=1200&auto=format&fit=crop">
+<img src="
+https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=1200&auto=format&fit=crop">
 
-<div class="book-content">
+<div class="preview-content">
 
 <h3>
-Atomic Habits
+Premium Productivity
 </h3>
 
-<div class="author">
-by James Clear
-</div>
+<p>
+Best selling self improvement ebooks from top creators.
+</p>
 
-<div class="price">
+<div class="preview-price">
 ₹399
 </div>
 
-<button class="buy-btn">
-Buy Now
-</button>
-
 </div>
 
 </div>
 
-<div class="book-card">
+<div class="preview-card">
 
-<img
-class="book-cover"
-src="https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=1200&auto=format&fit=crop">
+<img src="
+https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=1200&auto=format&fit=crop">
 
-<div class="book-content">
+<div class="preview-content">
 
 <h3>
-Deep Work
+Deep Knowledge
 </h3>
 
-<div class="author">
-by Cal Newport
-</div>
+<p>
+Professional learning and growth ebooks marketplace.
+</p>
 
-<div class="price">
+<div class="preview-price">
 ₹299
 </div>
 
-<button class="buy-btn">
-Buy Now
-</button>
+</div>
 
 </div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ======================================================
+BOOKS
+====================================================== -->
+
+<div
+id="books"
+class="section">
+
+<div class="container">
+
+<div class="section-title">
+Trending Books
+</div>
+
+<div class="section-desc">
+
+Discover premium ebooks from creators around the world.
+
+</div>
+
+<div
+id="booksGrid"
+class="books-grid">
 
 </div>
 
@@ -898,6 +1067,8 @@ FEATURES
 id="features"
 class="section">
 
+<div class="container">
+
 <div class="section-title">
 
 Why CreatorHub?
@@ -906,7 +1077,7 @@ Why CreatorHub?
 
 <div class="section-desc">
 
-Everything creators need to launch, sell, print, fulfill, and grow a premium ebook business from one platform.
+Powerful systems for creators, sellers, readers, payments, printing, delivery, and automated order management.
 
 </div>
 
@@ -924,7 +1095,7 @@ Instant Payments
 
 <p>
 
-Secure Cashfree integration for fast and reliable payment processing.
+Secure Cashfree integration for fast payments and smooth checkout experiences.
 
 </p>
 
@@ -942,7 +1113,7 @@ Print Fulfillment
 
 <p>
 
-Automatic print and delivery workflows powered by Qikink fulfillment systems.
+Automatic printing and nationwide delivery powered by integrated fulfillment systems.
 
 </p>
 
@@ -960,7 +1131,7 @@ Seller Wallet
 
 <p>
 
-Track earnings, withdrawals, pending balances, and real-time settlements.
+Track earnings, withdrawals, pending balances, settlements, and transactions.
 
 </p>
 
@@ -978,7 +1149,7 @@ Live Tracking
 
 <p>
 
-Customers can track orders, printing, packaging, and courier progress live.
+Real-time printing, packaging, courier, and delivery tracking for every order.
 
 </p>
 
@@ -986,22 +1157,20 @@ Customers can track orders, printing, packaging, and courier progress live.
 
 </div>
 
-<!-- SELL CTA -->
-
 <div class="sell">
 
 <div>
 
 <h2>
 
-Turn Your Knowledge  
+Turn Knowledge  
 Into Income
 
 </h2>
 
 <p>
 
-Upload your ebook once and start earning forever with automated printing, secure checkout, wallet systems, and nationwide delivery.
+Upload your ebook once and start earning forever with automatic payments, wallets, printing, and fulfillment systems.
 
 </p>
 
@@ -1016,64 +1185,6 @@ Become A Seller
 
 </div>
 
-<!-- REVIEWS -->
-
-<div class="reviews">
-
-<div class="review">
-
-<h3>
-★★★★★
-</h3>
-
-<p>
-
-Amazing premium experience. Payments, tracking, and delivery work flawlessly.
-
-</p>
-
-<h4>
-Rahul Sharma
-</h4>
-
-</div>
-
-<div class="review">
-
-<h3>
-★★★★★
-</h3>
-
-<p>
-
-Best platform for ebook creators. The wallet system is smooth and professional.
-
-</p>
-
-<h4>
-Anjali Verma
-</h4>
-
-</div>
-
-<div class="review">
-
-<h3>
-★★★★★
-</h3>
-
-<p>
-
-Beautiful interface with powerful automation for creators and buyers.
-
-</p>
-
-<h4>
-Aman Gupta
-</h4>
-
-</div>
-
 </div>
 
 </div>
@@ -1084,14 +1195,251 @@ FOOTER
 
 <div class="footer">
 
+<div class="footer-grid">
+
+<div>
+
+<div class="footer-logo">
+Creator<span>Hub</span>
+</div>
+
+<p>
+
+Premium ebook marketplace for creators, readers, sellers, and publishers with integrated wallets, payments, printing, and fulfillment systems.
+
+</p>
+
+</div>
+
+<div>
+
+<h3>
+Marketplace
+</h3>
+
+<a href="index.html">
+Home
+</a>
+
+<a href="#books">
+Books
+</a>
+
+<a href="upload.html">
+Sell Ebook
+</a>
+
+<a href="wallet.html">
+Wallet
+</a>
+
+</div>
+
+<div>
+
+<h3>
+Orders
+</h3>
+
+<a href="track.html">
+Track Order
+</a>
+
+<a href="success1.html">
+Payment Status
+</a>
+
+<a href="checkout.html">
+Checkout
+</a>
+
+</div>
+
+<div>
+
+<h3>
+Support
+</h3>
+
+<a href="mailto:support@creatorhub.com">
+Contact Support
+</a>
+
+<a href="#">
+Privacy Policy
+</a>
+
+<a href="#">
+Terms & Conditions
+</a>
+
+</div>
+
+</div>
+
+<div class="footer-bottom">
+
 © 2025 CreatorHub  
-Premium Ebook Marketplace & Creator Economy Platform
+Premium Creator Marketplace
 
 <br><br>
 
-Secure Payments • Print Fulfillment • Seller Wallet • Live Tracking
+Secure Payments • Seller Wallet • Print Fulfillment • Live Tracking
 
 </div>
+
+</div>
+
+<script>
+
+/* ======================================================
+API
+====================================================== */
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
+
+/* ======================================================
+LOAD BOOKS
+====================================================== */
+
+async function loadBooks(){
+
+try{
+
+let res =
+await fetch(
+API_URL + "?action=products"
+)
+
+let data =
+await res.json()
+
+let books =
+data.products || []
+
+let grid =
+document.getElementById(
+"booksGrid"
+)
+
+if(books.length===0){
+
+grid.innerHTML=`
+
+<div style="
+padding:40px;
+background:#0f172a;
+border-radius:30px;
+text-align:center;
+">
+
+No books uploaded yet.
+
+</div>
+
+`
+
+return
+
+}
+
+grid.innerHTML=""
+
+books.reverse().forEach(book=>{
+
+let cover =
+book.front_cover ||
+book.cover ||
+""
+
+grid.innerHTML += `
+
+<div class="book">
+
+<img
+class="book-cover"
+src="${cover}">
+
+<div class="book-content">
+
+<div class="book-title">
+${book.title || "Untitled"}
+</div>
+
+<div class="book-author">
+by ${book.author || "Unknown"}
+</div>
+
+<div class="book-price">
+₹${book.price || 0}
+</div>
+
+<div class="book-actions">
+
+<button
+class="book-btn buy"
+onclick="buyBook('${book.id}')">
+
+Buy Now
+
+</button>
+
+<button
+class="book-btn details"
+onclick="viewBook('${book.id}')">
+
+View Details
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`
+
+})
+
+}catch(err){
+
+console.log(err)
+
+}
+
+}
+
+/* ======================================================
+BUY BOOK
+====================================================== */
+
+function buyBook(id){
+
+window.location.href =
+"checkout.html?id="+id
+
+}
+
+/* ======================================================
+VIEW BOOK
+====================================================== */
+
+function viewBook(id){
+
+window.location.href =
+"book.html?id="+id
+
+}
+
+/* ======================================================
+START
+====================================================== */
+
+loadBooks()
+
+</script>
 
 </body>
 </html>
