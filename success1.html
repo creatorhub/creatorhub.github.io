@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>
+CreatorHub Payment Success
+</title>
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link href="
+https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
+
+body{
+
+background:
+linear-gradient(
+180deg,
+#020617,
+#071120
+);
+
+min-height:100vh;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+padding:20px;
+
+color:white;
+
+overflow:hidden;
+
+}
+
+.success-card{
+
+width:100%;
+max-width:650px;
+
+background:#0f172a;
+
+border:
+1px solid rgba(255,255,255,.06);
+
+border-radius:40px;
+
+padding:50px;
+
+text-align:center;
+
+box-shadow:
+0 30px 90px rgba(0,0,0,.5);
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.success-glow{
+
+position:absolute;
+
+width:500px;
+height:500px;
+
+background:
+radial-gradient(
+circle,
+rgba(34,197,94,.2),
+transparent
+);
+
+top:-250px;
+right:-250px;
+
+}
+
+.icon{
+
+width:130px;
+height:130px;
+
+margin:auto;
+
+border-radius:50%;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:70px;
+
+background:
+linear-gradient(
+135deg,
+#16a34a,
+#4ade80
+);
+
+box-shadow:
+0 20px 50px rgba(34,197,94,.35);
+
+animation:pop .6s ease;
+
+}
+
+@keyframes pop{
+
+0%{
+transform:scale(.5);
+opacity:0;
+}
+
+100%{
+transform:scale(1);
+opacity:1;
+}
+
+}
+
+h1{
+
+margin-top:35px;
+
+font-size:48px;
+font-weight:900;
+
+line-height:1.2;
+
+}
+
+.desc{
+
+margin-top:20px;
+
+font-size:17px;
+
+line-height:1.9;
+
+opacity:.78;
+
+}
+
+.order-box{
+
+margin-top:35px;
+
+padding:28px;
+
+border-radius:28px;
+
+background:#081225;
+
+text-align:left;
+
+}
+
+.row{
+
+display:flex;
+justify-content:space-between;
+
+margin-top:18px;
+
+font-size:16px;
+
+}
+
+.row:first-child{
+margin-top:0;
+}
+
+.label{
+opacity:.65;
+}
+
+.value{
+font-weight:800;
+}
+
+.green{
+color:#4ade80;
+}
+
+.loader{
+
+width:55px;
+height:55px;
+
+border-radius:50%;
+
+border:5px solid rgba(255,255,255,.1);
+
+border-top:
+5px solid #4ade80;
+
+margin:35px auto 0;
+
+animation:spin 1s linear infinite;
+
+}
+
+@keyframes spin{
+
+100%{
+transform:rotate(360deg);
+}
+
+}
+
+.status{
+
+margin-top:22px;
+
+font-size:17px;
+font-weight:700;
+
+color:#4ade80;
+
+}
+
+.btn{
+
+display:inline-flex;
+
+align-items:center;
+justify-content:center;
+
+margin-top:40px;
+
+height:65px;
+
+padding:0 32px;
+
+border-radius:24px;
+
+background:
+linear-gradient(
+90deg,
+#16a34a,
+#4ade80
+);
+
+color:white;
+
+font-size:18px;
+font-weight:900;
+
+text-decoration:none;
+
+transition:.3s;
+
+}
+
+.btn:hover{
+transform:translateY(-4px);
+}
+
+.note{
+
+margin-top:30px;
+
+opacity:.55;
+
+font-size:14px;
+
+line-height:1.8;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="success-card">
+
+<div class="success-glow"></div>
+
+<div class="icon">
+✓
+</div>
+
+<h1>
+Payment Successful
+</h1>
+
+<p class="desc">
+
+Your payment has been processed successfully.
+
+Your order is now being prepared and automatically forwarded to the CreatorHub fulfillment system.
+
+</p>
+
+<div class="order-box">
+
+<div class="row">
+
+<div class="label">
+Order ID
+</div>
+
+<div
+id="orderId"
+class="value">
+
+Loading...
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="label">
+Payment Status
+</div>
+
+<div class="value green">
+PAID
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="label">
+Fulfillment
+</div>
+
+<div class="value">
+Qikink Processing
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="label">
+Delivery
+</div>
+
+<div class="value">
+India
+</div>
+
+</div>
+
+</div>
+
+<div class="loader"></div>
+
+<div
+id="status"
+class="status">
+
+Confirming payment...
+
+</div>
+
+<a
+href="index.html"
+class="btn">
+
+Back To CreatorHub
+
+</a>
+
+<div class="note">
+
+Please do not close this page while we confirm your payment and activate tracking.
+
+</div>
+
+</div>
+
+<script>
+
+/* =======================================================
+API
+======================================================= */
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
+
+/* =======================================================
+GET ORDER ID
+======================================================= */
+
+const params =
+new URLSearchParams(
+window.location.search
+)
+
+const orderId =
+params.get("order_id")
+
+document.getElementById(
+"orderId"
+).innerHTML = orderId || "N/A"
+
+/* =======================================================
+PAYMENT SUCCESS
+======================================================= */
+
+async function confirmPayment(){
+
+try{
+
+if(!orderId){
+
+document.getElementById(
+"status"
+).innerHTML =
+"Invalid order"
+
+return
+
+}
+
+let res =
+await fetch(API_URL,{
+
+method:"POST",
+
+mode:"cors",
+
+headers:{
+"Content-Type":"text/plain;charset=utf-8"
+},
+
+body:JSON.stringify({
+
+action:"paymentSuccess",
+
+order_id:orderId
+
+})
+
+})
+
+let result =
+await res.json()
+
+if(!result.success){
+
+document.getElementById(
+"status"
+).innerHTML =
+result.message || "Payment confirmation failed"
+
+return
+
+}
+
+document.getElementById(
+"status"
+).innerHTML =
+
+"Order confirmed successfully"
+
+localStorage.removeItem(
+"order_id"
+)
+
+}catch(err){
+
+console.log(err)
+
+document.getElementById(
+"status"
+).innerHTML =
+
+"Server connection failed"
+
+}
+
+}
+
+/* =======================================================
+START
+======================================================= */
+
+confirmPayment()
+
+</script>
+
+</body>
+  </html>
