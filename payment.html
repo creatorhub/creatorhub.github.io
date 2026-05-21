@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
@@ -35,6 +34,7 @@ overflow-x:hidden;
 
 :root{
 --green:#22c55e;
+--green2:#4ade80;
 --card:#0f172a;
 --border:#1e293b;
 }
@@ -74,6 +74,7 @@ background:
 rgba(34,197,94,.14);
 color:#4ade80;
 font-weight:bold;
+font-size:14px;
 }
 
 /* =========================================================
@@ -81,9 +82,16 @@ MAIN
 ========================================================= */
 
 .main{
-max-width:850px;
+max-width:1400px;
 margin:auto;
-padding:30px 18px 120px;
+padding:35px 18px 120px;
+}
+
+.layout{
+display:grid;
+grid-template-columns:1.2fr .8fr;
+gap:25px;
+align-items:start;
 }
 
 /* =========================================================
@@ -155,6 +163,17 @@ linear-gradient(
 );
 }
 
+.circle2{
+width:46px;
+height:46px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#081225;
+border:1px solid rgba(255,255,255,.06);
+}
+
 .line{
 width:70px;
 height:3px;
@@ -171,11 +190,11 @@ GRID
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:18px;
-margin-top:30px;
+margin-top:22px;
 }
 
 /* =========================================================
-GROUP
+INPUTS
 ========================================================= */
 
 .group{
@@ -187,10 +206,6 @@ margin-bottom:10px;
 font-weight:bold;
 opacity:.85;
 }
-
-/* =========================================================
-INPUT
-========================================================= */
 
 .input,
 .textarea,
@@ -217,32 +232,38 @@ box-shadow:
 }
 
 .textarea{
-min-height:140px;
+min-height:130px;
 resize:none;
 line-height:1.8;
 }
 
 /* =========================================================
-BOOK SUMMARY
+SUMMARY
 ========================================================= */
 
 .summary{
-margin-top:35px;
-padding:26px;
-border-radius:28px;
-background:#081225;
+background:#0f172a;
+border-radius:34px;
+padding:30px;
+border:
+1px solid rgba(255,255,255,.05);
+position:sticky;
+top:100px;
 }
 
 .summary-title{
-font-size:28px;
+font-size:30px;
 font-weight:900;
-margin-bottom:24px;
+margin-bottom:25px;
 }
 
 .book{
 display:flex;
 gap:18px;
 align-items:center;
+background:#081225;
+padding:18px;
+border-radius:24px;
 }
 
 .cover{
@@ -275,17 +296,20 @@ color:#4ade80;
 display:flex;
 justify-content:space-between;
 margin-top:18px;
-opacity:.82;
+opacity:.85;
+font-size:15px;
 }
 
 .total{
-margin-top:22px;
+margin-top:25px;
 padding-top:22px;
 border-top:
 1px solid rgba(255,255,255,.08);
-font-size:28px;
+font-size:30px;
 font-weight:900;
 color:#4ade80;
+display:flex;
+justify-content:space-between;
 }
 
 /* =========================================================
@@ -299,10 +323,12 @@ padding:24px;
 border-radius:28px;
 background:
 linear-gradient(
-90deg,
+135deg,
 #052e16,
 #064e3b
 );
+border:
+1px solid rgba(255,255,255,.06);
 }
 
 .ai-title{
@@ -322,7 +348,7 @@ BUTTON
 
 .btn{
 width:100%;
-height:64px;
+height:68px;
 border:none;
 border-radius:24px;
 margin-top:30px;
@@ -337,6 +363,8 @@ font-size:18px;
 font-weight:900;
 cursor:pointer;
 transition:.3s;
+box-shadow:
+0 15px 40px rgba(34,197,94,.25);
 }
 
 .btn:hover{
@@ -367,8 +395,49 @@ font-size:28px;
 }
 
 /* =========================================================
+LOADER
+========================================================= */
+
+.loader{
+width:22px;
+height:22px;
+border-radius:50%;
+border:3px solid rgba(255,255,255,.25);
+border-top:3px solid white;
+animation:spin 1s linear infinite;
+display:inline-block;
+vertical-align:middle;
+margin-right:10px;
+}
+
+@keyframes spin{
+
+0%{
+transform:rotate(0deg);
+}
+
+100%{
+transform:rotate(360deg);
+}
+
+}
+
+/* =========================================================
 MOBILE
 ========================================================= */
+
+@media(max-width:950px){
+
+.layout{
+grid-template-columns:1fr;
+}
+
+.summary{
+position:relative;
+top:0;
+}
+
+}
 
 @media(max-width:700px){
 
@@ -377,7 +446,7 @@ grid-template-columns:1fr;
 }
 
 .title{
-font-size:32px;
+font-size:30px;
 }
 
 .card{
@@ -391,7 +460,11 @@ align-items:flex-start;
 
 .cover{
 width:100%;
-height:300px;
+height:320px;
+}
+
+.summary{
+padding:22px;
 }
 
 }
@@ -424,6 +497,12 @@ Creator<span>Hub</span>
 
 <div class="main">
 
+<div class="layout">
+
+<!-- ===================================================== -->
+<!-- LEFT -->
+<!-- ===================================================== -->
+
 <div class="card">
 
 <!-- ===================================================== -->
@@ -448,16 +527,7 @@ Address
 
 <div class="step">
 
-<div style="
-width:46px;
-height:46px;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-background:#081225;
-border:1px solid rgba(255,255,255,.06);
-">
+<div class="circle2">
 2
 </div>
 
@@ -471,16 +541,7 @@ Payment
 
 <div class="step">
 
-<div style="
-width:46px;
-height:46px;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-background:#081225;
-border:1px solid rgba(255,255,255,.06);
-">
+<div class="circle2">
 3
 </div>
 
@@ -502,8 +563,8 @@ Delivery Address
 
 <div class="desc">
 
-Fill your shipping details carefully.
-CreatorHub AI automatically verifies all delivery addresses before payment processing.
+Fill your delivery details carefully.
+CreatorHub AI automatically verifies addresses before secure payment processing.
 
 </div>
 
@@ -537,6 +598,7 @@ Phone Number
 id="phone"
 class="input"
 placeholder="Enter mobile number"
+maxlength="10"
 >
 
 </div>
@@ -615,6 +677,7 @@ Pincode
 id="pincode"
 class="input"
 placeholder="Pincode"
+maxlength="6"
 >
 
 </div>
@@ -640,7 +703,44 @@ India
 </div>
 
 <!-- ===================================================== -->
-<!-- ORDER SUMMARY -->
+<!-- AI -->
+<!-- ===================================================== -->
+
+<div
+id="aiBox"
+class="ai-box">
+
+<div class="ai-title">
+🤖 AI Address Verification
+</div>
+
+<div
+id="aiMessage"
+class="ai-message">
+
+Checking address...
+
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- BUTTON -->
+<!-- ===================================================== -->
+
+<button
+id="continueBtn"
+class="btn"
+onclick="verifyAddress()">
+
+Continue To Payment
+
+</button>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- RIGHT -->
 <!-- ===================================================== -->
 
 <div class="summary">
@@ -714,16 +814,16 @@ Platform Fee
 <div class="row">
 
 <div>
-Delivery
+Shipping
 </div>
 
 <div>
-Qikink
+Qikink Fulfillment
 </div>
 
 </div>
 
-<div class="row total">
+<div class="total">
 
 <div>
 Total
@@ -734,42 +834,6 @@ Total
 </div>
 
 </div>
-
-</div>
-
-<!-- ===================================================== -->
-<!-- AI -->
-<!-- ===================================================== -->
-
-<div
-id="aiBox"
-class="ai-box">
-
-<div class="ai-title">
-🤖 AI Address Verification
-</div>
-
-<div
-id="aiMessage"
-class="ai-message">
-
-Checking address authenticity...
-
-</div>
-
-</div>
-
-<!-- ===================================================== -->
-<!-- BUTTON -->
-<!-- ===================================================== -->
-
-<button
-class="btn"
-onclick="verifyAddress()">
-
-Continue To Payment
-
-</button>
 
 <!-- ===================================================== -->
 <!-- TRUST -->
@@ -790,7 +854,7 @@ Secure Payments
 </h3>
 
 <p style="opacity:.7;margin-top:6px;">
-256-bit encrypted checkout protection
+256-bit encrypted payment protection
 </p>
 
 </div>
@@ -806,11 +870,11 @@ Secure Payments
 <div>
 
 <h3>
-Qikink Delivery
+Qikink Shipping
 </h3>
 
 <p style="opacity:.7;margin-top:6px;">
-Professional shipping fulfillment
+Professional order fulfillment system
 </p>
 
 </div>
@@ -826,11 +890,11 @@ Professional shipping fulfillment
 <div>
 
 <h3>
-Subscription Reading
+Premium Reading
 </h3>
 
 <p style="opacity:.7;margin-top:6px;">
-Read ebooks anytime with subscription
+Access ebooks anytime after purchase
 </p>
 
 </div>
@@ -843,7 +907,16 @@ Read ebooks anytime with subscription
 
 </div>
 
+</div>
+
 <script>
+
+/* =========================================================
+BACKEND API
+========================================================= */
+
+const API =
+"https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
 
 /* =========================================================
 BOOK
@@ -991,6 +1064,10 @@ let pincode =
 document.getElementById("pincode")
 .value.trim()
 
+/* =========================================================
+VALIDATION
+========================================================= */
+
 if(
 !name ||
 !phone ||
@@ -1009,63 +1086,93 @@ return
 
 }
 
+if(phone.length !== 10){
+
+alert(
+"Enter valid mobile number"
+)
+
+return
+
+}
+
+if(pincode.length !== 6){
+
+alert(
+"Enter valid pincode"
+)
+
+return
+
+}
+
+/* =========================================================
+AI BOX
+========================================================= */
+
 document.getElementById(
 "aiBox"
 ).style.display = "block"
 
 document.getElementById(
-"aiMessage"
+"continueBtn"
+).disabled = true
+
+document.getElementById(
+"continueBtn"
 ).innerHTML =
 
-"🤖 AI is verifying your address..."
-
-await new Promise(r=>
-setTimeout(r,2200)
-)
-
-if(address.length < 10){
+`<span class="loader"></span>
+Verifying Address...`
 
 document.getElementById(
 "aiMessage"
 ).innerHTML =
 
-"❌ Incomplete address detected"
+"🤖 AI is checking address authenticity..."
 
-return
+/* =========================================================
+API CALL
+========================================================= */
 
-}
+try{
 
-if(phone.length < 10){
+let res =
+await fetch(API,{
 
-document.getElementById(
-"aiMessage"
-).innerHTML =
+method:"POST",
 
-"❌ Invalid phone number"
+headers:{
+"Content-Type":
+"application/json"
+},
 
-return
+body:JSON.stringify({
 
-}
+action:"verifyAddress",
 
-if(pincode.length < 6){
+name,
+phone,
+email,
+address,
+city,
+state,
+pincode
 
-document.getElementById(
-"aiMessage"
-).innerHTML =
+})
 
-"❌ Invalid pincode"
+})
 
-return
+let data =
+await res.json()
 
-}
+if(data.success){
 
 document.getElementById(
 "aiMessage"
 ).innerHTML =
 
 "✅ Address verified successfully"
-
-/* SAVE */
 
 localStorage.setItem(
 "shippingAddress",
@@ -1087,14 +1194,54 @@ localStorage.setItem(
 JSON.stringify(BOOK)
 )
 
-/* NEXT */
-
 setTimeout(()=>{
 
 window.location.href =
 "payment1.html"
 
-},1200)
+},1400)
+
+}
+
+else{
+
+document.getElementById(
+"aiMessage"
+).innerHTML =
+
+"❌ " + data.message
+
+document.getElementById(
+"continueBtn"
+).disabled = false
+
+document.getElementById(
+"continueBtn"
+).innerHTML =
+
+"Continue To Payment"
+
+}
+
+}catch(err){
+
+document.getElementById(
+"aiMessage"
+).innerHTML =
+
+"❌ Server verification failed"
+
+document.getElementById(
+"continueBtn"
+).disabled = false
+
+document.getElementById(
+"continueBtn"
+).innerHTML =
+
+"Continue To Payment"
+
+}
 
 }
 
