@@ -451,6 +451,8 @@ opacity:.55;
 
 </style>
 
+<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+
 </head>
 
 <body>
@@ -1041,11 +1043,19 @@ orderData.order_id
 REDIRECT CASHFREE
 ========================================= */
 
-window.location.href =
+const cashfree = Cashfree({
+mode:"sandbox"
+})
 
-window.location.href =
-"https://payments.cashfree.com/forms?order_id="+orderData.order_id
+cashfree.checkout({
 
+paymentSessionId:
+orderData.payment_session_id,
+
+redirectTarget:"_self"
+
+})
+  
 }catch(err){
 
 console.log(err)
