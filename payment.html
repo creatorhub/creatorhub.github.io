@@ -937,17 +937,13 @@ try{
 
 let res =
 await fetch(API_URL,{
-
 method:"POST",
-
+mode:"cors",
 headers:{
-"Content-Type":"application/json"
+"Content-Type":"text/plain;charset=utf-8"
 },
-
 body:JSON.stringify({
-
 action:"verifyAddress",
-
 name,
 phone,
 email,
@@ -955,9 +951,7 @@ address,
 city,
 state,
 pincode
-
 })
-
 })
 
 let result =
