@@ -981,27 +981,7 @@ document.getElementById(
 ).innerHTML=
 "Address verified successfully"
 
-localStorage.setItem(
-"shippingAddress",
-JSON.stringify({
-name,
-phone,
-email,
-address,
-city,
-state,
-pincode
-})
-)
-
-localStorage.setItem(
-"paymentBook",
-JSON.stringify(BOOK)
-)
-
-setTimeout(()=>{
-
-  /* =========================================
+/* =========================================
 CREATE ORDER
 ========================================= */
 
@@ -1064,6 +1044,26 @@ REDIRECT CASHFREE
 window.location.href =
 
 "https://payments.cashfree.com/forms?order_id="+orderData.order_id
+
+localStorage.setItem(
+"shippingAddress",
+JSON.stringify({
+name,
+phone,
+email,
+address,
+city,
+state,
+pincode
+})
+)
+
+localStorage.setItem(
+"paymentBook",
+JSON.stringify(BOOK)
+)
+
+setTimeout(()=>{
 
 }catch(err){
 
