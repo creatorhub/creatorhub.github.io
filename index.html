@@ -62,10 +62,10 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 
-padding:18px 22px;
+padding:18px 20px;
 
 background:
-rgba(2,6,23,.88);
+rgba(2,6,23,.92);
 
 backdrop-filter:blur(18px);
 
@@ -88,8 +88,8 @@ color:#4ade80;
 .nav{
 
 display:flex;
-gap:26px;
 align-items:center;
+gap:24px;
 
 }
 
@@ -102,7 +102,7 @@ color:white;
 font-size:14px;
 font-weight:700;
 
-opacity:.8;
+opacity:.78;
 
 transition:.3s;
 
@@ -134,7 +134,7 @@ linear-gradient(
 
 color:white;
 
-font-weight:800;
+font-weight:900;
 
 cursor:pointer;
 
@@ -151,7 +151,7 @@ max-width:1450px;
 margin:auto;
 
 padding:
-40px 20px 120px;
+40px 18px 120px;
 
 }
 
@@ -161,33 +161,56 @@ HERO
 
 .hero{
 
-display:grid;
+background:#0f172a;
 
-grid-template-columns:
-1.1fr .9fr;
+border:
+1px solid rgba(255,255,255,.06);
 
-gap:40px;
+border-radius:38px;
 
-align-items:center;
+padding:50px 40px;
 
-padding:50px 0;
+position:relative;
+
+overflow:hidden;
+
+box-shadow:
+0 25px 80px rgba(0,0,0,.45);
 
 }
 
-@media(max-width:1000px){
+.hero::before{
 
-.hero{
-grid-template-columns:1fr;
-}
+content:"";
+
+position:absolute;
+
+width:500px;
+height:500px;
+
+background:
+radial-gradient(
+circle,
+rgba(34,197,94,.14),
+transparent
+);
+
+right:-250px;
+top:-250px;
 
 }
 
 .hero-title{
 
-font-size:76px;
+font-size:68px;
 font-weight:900;
 
 line-height:1.05;
+
+max-width:850px;
+
+position:relative;
+z-index:2;
 
 }
 
@@ -197,15 +220,18 @@ color:#4ade80;
 
 .hero-desc{
 
-margin-top:26px;
+margin-top:24px;
 
-font-size:18px;
+max-width:760px;
 
 line-height:2;
 
 opacity:.8;
 
-max-width:700px;
+font-size:18px;
+
+position:relative;
+z-index:2;
 
 }
 
@@ -215,7 +241,10 @@ display:flex;
 gap:18px;
 flex-wrap:wrap;
 
-margin-top:38px;
+margin-top:36px;
+
+position:relative;
+z-index:2;
 
 }
 
@@ -229,18 +258,18 @@ border:none;
 
 border-radius:22px;
 
-font-size:17px;
+font-size:16px;
 font-weight:900;
 
 cursor:pointer;
 
-transition:.3s;
-
-text-decoration:none;
-
 display:flex;
 align-items:center;
 justify-content:center;
+
+text-decoration:none;
+
+transition:.3s;
 
 }
 
@@ -272,58 +301,6 @@ color:white;
 
 }
 
-.hero-card{
-
-background:#0f172a;
-
-border:
-1px solid rgba(255,255,255,.06);
-
-border-radius:40px;
-
-padding:30px;
-
-box-shadow:
-0 25px 80px rgba(0,0,0,.45);
-
-}
-
-.hero-cover{
-
-width:100%;
-
-border-radius:28px;
-
-aspect-ratio:3/4;
-
-object-fit:cover;
-
-background:#081225;
-
-}
-
-.hero-book-title{
-
-margin-top:24px;
-
-font-size:32px;
-font-weight:900;
-
-line-height:1.4;
-
-}
-
-.hero-price{
-
-margin-top:16px;
-
-font-size:42px;
-font-weight:900;
-
-color:#4ade80;
-
-}
-
 /* =====================================================
 SECTION
 ===================================================== */
@@ -336,7 +313,7 @@ margin-top:90px;
 
 .section-title{
 
-font-size:56px;
+font-size:58px;
 font-weight:900;
 
 line-height:1.15;
@@ -347,7 +324,7 @@ line-height:1.15;
 
 margin-top:18px;
 
-opacity:.78;
+opacity:.8;
 
 line-height:1.9;
 
@@ -356,7 +333,7 @@ max-width:700px;
 }
 
 /* =====================================================
-BOOK GRID
+BOOKS GRID
 ===================================================== */
 
 .books-grid{
@@ -364,11 +341,29 @@ BOOK GRID
 display:grid;
 
 grid-template-columns:
-repeat(auto-fill,minmax(170px,1fr));
+repeat(2,1fr);
 
 gap:18px;
 
 margin-top:45px;
+
+}
+
+@media(min-width:700px){
+
+.books-grid{
+grid-template-columns:
+repeat(3,1fr);
+}
+
+}
+
+@media(min-width:1100px){
+
+.books-grid{
+grid-template-columns:
+repeat(5,1fr);
+}
 
 }
 
@@ -387,10 +382,12 @@ border-radius:24px;
 
 overflow:hidden;
 
+cursor:pointer;
+
 transition:.3s;
 
 box-shadow:
-0 10px 35px rgba(0,0,0,.35);
+0 12px 35px rgba(0,0,0,.35);
 
 }
 
@@ -398,6 +395,9 @@ box-shadow:
 
 transform:
 translateY(-6px);
+
+border-color:
+rgba(74,222,128,.35);
 
 }
 
@@ -415,17 +415,16 @@ background:#081225;
 
 .book-content{
 
-padding:16px;
+padding:14px;
 
 }
 
 .book-title{
 
-font-size:16px;
-
+font-size:15px;
 font-weight:800;
 
-line-height:1.45;
+line-height:1.5;
 
 display:-webkit-box;
 
@@ -453,73 +452,10 @@ opacity:.68;
 
 margin-top:14px;
 
-font-size:28px;
-
+font-size:30px;
 font-weight:900;
 
 color:#4ade80;
-
-}
-
-.book-actions{
-
-display:flex;
-
-flex-direction:column;
-
-gap:10px;
-
-margin-top:16px;
-
-}
-
-.book-btn{
-
-width:100%;
-
-height:46px;
-
-border:none;
-
-border-radius:14px;
-
-font-size:13px;
-
-font-weight:800;
-
-cursor:pointer;
-
-transition:.3s;
-
-}
-
-.book-btn:hover{
-
-transform:translateY(-2px);
-
-}
-
-.buy{
-
-background:
-linear-gradient(
-90deg,
-#16a34a,
-#4ade80
-);
-
-color:white;
-
-}
-
-.details{
-
-background:#081225;
-
-border:
-1px solid rgba(255,255,255,.08);
-
-color:white;
 
 }
 
@@ -555,8 +491,8 @@ border:
 
 .feature-icon{
 
-width:64px;
-height:64px;
+width:66px;
+height:66px;
 
 border-radius:20px;
 
@@ -595,6 +531,22 @@ opacity:.76;
 }
 
 /* =====================================================
+LOADING
+===================================================== */
+
+.loading{
+
+padding:50px;
+
+text-align:center;
+
+opacity:.7;
+
+font-size:18px;
+
+}
+
+/* =====================================================
 FOOTER
 ===================================================== */
 
@@ -626,7 +578,7 @@ gap:40px;
 
 .footer-logo{
 
-font-size:40px;
+font-size:42px;
 font-weight:900;
 
 }
@@ -705,6 +657,72 @@ font-size:14px;
 
 }
 
+/* =====================================================
+MOBILE
+===================================================== */
+
+@media(max-width:700px){
+
+.topbar{
+
+padding:16px 14px;
+
+}
+
+.logo{
+
+font-size:28px;
+
+}
+
+.nav{
+
+gap:12px;
+
+}
+
+.nav a{
+
+display:none;
+
+}
+
+.login-btn{
+
+height:46px;
+
+padding:0 18px;
+
+font-size:13px;
+
+}
+
+.hero{
+
+padding:36px 24px;
+
+}
+
+.hero-title{
+
+font-size:42px;
+
+}
+
+.hero-desc{
+
+font-size:15px;
+
+}
+
+.section-title{
+
+font-size:42px;
+
+}
+
+}
+
 </style>
 
 </head>
@@ -739,8 +757,14 @@ Wallet
 Track Order
 </a>
 
-<button class="login-btn">
+<button
+class="login-btn"
+onclick="
+window.location.href='login.html'
+">
+
 Login
+
 </button>
 
 </div>
@@ -759,17 +783,15 @@ HERO
 
 <div class="hero">
 
-<div>
-
 <div class="hero-title">
 
-Discover Premium <span>Ebooks</span> Built For Modern Readers
+Discover Premium <span>Ebooks</span> From Top Digital Creators
 
 </div>
 
 <div class="hero-desc">
 
-Browse trending ebooks from top creators, entrepreneurs, and digital experts. Buy instantly with secure checkout, live tracking, and professional fulfillment.
+Buy premium ebooks with secure checkout, live order tracking, automated fulfillment, and instant access through the CreatorHub marketplace ecosystem.
 
 </div>
 
@@ -787,37 +809,9 @@ Browse Marketplace
 href="track.html"
 class="hero-btn secondary">
 
-Track Order
+Track Your Order
 
 </a>
-
-</div>
-
-</div>
-
-<div class="hero-card">
-
-<img
-id="heroCover"
-class="hero-cover"
-src=""
->
-
-<div
-id="heroTitle"
-class="hero-book-title">
-
-Loading Featured Book...
-
-</div>
-
-<div
-id="heroPrice"
-class="hero-price">
-
-₹0
-
-</div>
 
 </div>
 
@@ -837,13 +831,17 @@ Trending Books
 
 <div class="section-desc">
 
-Browse the latest ebooks uploaded by creators on CreatorHub.
+Browse the latest premium ebooks uploaded by creators on CreatorHub.
 
 </div>
 
 <div
 id="booksGrid"
 class="books-grid">
+
+<div class="loading">
+Loading ebooks...
+</div>
 
 </div>
 
@@ -997,8 +995,8 @@ Support
 support@creatorhub.com
 </a>
 
-<a href="#">
-Help Center
+<a href="login.html">
+Creator Login
 </a>
 
 <a href="#">
@@ -1094,10 +1092,26 @@ API_URL + "?action=products"
 let data =
 await res.json()
 
+let grid =
+document.getElementById(
+"booksGrid"
+)
+
 if(
 !data.success ||
-!data.products
+!data.products ||
+data.products.length===0
 ){
+
+grid.innerHTML = `
+
+<div class="loading">
+
+No ebooks uploaded yet.
+
+</div>
+
+`
 
 return
 
@@ -1106,51 +1120,24 @@ return
 let books =
 data.products.reverse()
 
-/* HERO */
-
-if(books.length > 0){
-
-let hero = books[0]
-
-document.getElementById(
-"heroCover"
-).src =
-driveImage(
-hero.front_cover
-)
-
-document.getElementById(
-"heroTitle"
-).innerHTML =
-hero.title || "Untitled"
-
-document.getElementById(
-"heroPrice"
-).innerHTML =
-"₹"+Number(
-hero.price||0
-)
-
-}
-
-/* GRID */
-
-let grid =
-document.getElementById(
-"booksGrid"
-)
-
 grid.innerHTML = ""
 
 books.forEach(book=>{
 
 grid.innerHTML += `
 
-<div class="book">
+<div
+class="book"
+onclick="
+window.location.href=
+'book.html?id=${book.id}'
+"
+>
 
 <img
 class="book-cover"
 src="${driveImage(book.front_cover)}"
+loading="lazy"
 >
 
 <div class="book-content">
@@ -1167,32 +1154,6 @@ by ${book.author || "Unknown"}
 ₹${Number(book.price||0)}
 </div>
 
-<div class="book-actions">
-
-<button
-class="book-btn buy"
-onclick="
-window.location.href=
-'checkout.html?id=${book.id}'
-">
-
-Buy Now
-
-</button>
-
-<button
-class="book-btn details"
-onclick="
-window.location.href=
-'book.html?id=${book.id}'
-">
-
-View Details
-
-</button>
-
-</div>
-
 </div>
 
 </div>
@@ -1204,6 +1165,18 @@ View Details
 }catch(err){
 
 console.log(err)
+
+document.getElementById(
+"booksGrid"
+).innerHTML = `
+
+<div class="loading">
+
+Failed to load ebooks.
+
+</div>
+
+`
 
 }
 
