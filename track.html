@@ -8,7 +8,7 @@
 content="width=device-width,initial-scale=1.0">
 
 <title>
-CreatorHub Order Tracking
+CreatorHub Live Order Tracking
 </title>
 
 <link rel="preconnect"
@@ -103,12 +103,12 @@ MAIN
 
 .main{
 
-max-width:1200px;
+max-width:1400px;
 
 margin:auto;
 
 padding:
-40px 20px 100px;
+40px 20px 120px;
 
 }
 
@@ -120,14 +120,14 @@ HEADER
 
 text-align:center;
 
-margin-bottom:45px;
+margin-bottom:55px;
 
 }
 
 .icon{
 
-width:130px;
-height:130px;
+width:150px;
+height:150px;
 
 margin:auto;
 
@@ -137,7 +137,7 @@ display:flex;
 align-items:center;
 justify-content:center;
 
-font-size:64px;
+font-size:70px;
 
 background:
 linear-gradient(
@@ -147,7 +147,7 @@ linear-gradient(
 );
 
 box-shadow:
-0 20px 60px rgba(34,197,94,.35);
+0 25px 70px rgba(34,197,94,.35);
 
 animation:pop .6s ease;
 
@@ -171,7 +171,7 @@ h1{
 
 margin-top:35px;
 
-font-size:56px;
+font-size:62px;
 font-weight:900;
 
 line-height:1.2;
@@ -180,15 +180,15 @@ line-height:1.2;
 
 .desc{
 
-margin-top:18px;
+margin-top:20px;
 
-font-size:18px;
+font-size:19px;
 
-line-height:1.9;
+line-height:2;
 
-opacity:.78;
+opacity:.8;
 
-max-width:760px;
+max-width:900px;
 
 margin-left:auto;
 margin-right:auto;
@@ -206,13 +206,13 @@ display:grid;
 grid-template-columns:
 1fr 1fr;
 
-gap:28px;
+gap:30px;
 
-margin-top:45px;
+margin-top:55px;
 
 }
 
-@media(max-width:950px){
+@media(max-width:1000px){
 
 .grid{
 grid-template-columns:1fr;
@@ -228,15 +228,15 @@ CARD
 
 background:#0f172a;
 
-padding:34px;
+padding:38px;
 
-border-radius:34px;
+border-radius:38px;
 
 border:
 1px solid rgba(255,255,255,.05);
 
 box-shadow:
-0 25px 70px rgba(0,0,0,.45);
+0 25px 80px rgba(0,0,0,.45);
 
 }
 
@@ -246,10 +246,10 @@ TITLE
 
 .card-title{
 
-font-size:34px;
+font-size:38px;
 font-weight:900;
 
-margin-bottom:28px;
+margin-bottom:34px;
 
 }
 
@@ -265,7 +265,7 @@ align-items:center;
 
 gap:20px;
 
-padding:18px 0;
+padding:20px 0;
 
 border-bottom:
 1px solid rgba(255,255,255,.06);
@@ -305,11 +305,11 @@ STATUS BOX
 
 .status-box{
 
-margin-top:28px;
+margin-top:32px;
 
-padding:24px;
+padding:28px;
 
-border-radius:28px;
+border-radius:30px;
 
 background:
 linear-gradient(
@@ -322,73 +322,96 @@ linear-gradient(
 
 .status-title{
 
-font-size:28px;
+font-size:30px;
 font-weight:900;
 
 }
 
 .status-text{
 
-margin-top:14px;
+margin-top:16px;
 
-line-height:1.9;
+line-height:2;
 
-opacity:.92;
+opacity:.94;
 
 font-size:16px;
 
 }
 
 /* ======================================================
-TIMELINE
+TRACKING
 ====================================================== */
 
 .timeline{
-
-margin-top:25px;
-
+margin-top:10px;
 }
 
-.step{
+.track-step{
 
 display:flex;
-
 gap:18px;
 
-margin-top:26px;
+align-items:flex-start;
+
+opacity:.4;
+
+transition:.3s;
 
 }
 
-.dot{
+.track-step.active{
+opacity:1;
+}
 
-width:24px;
-height:24px;
+.track-icon{
+
+width:58px;
+height:58px;
 
 border-radius:50%;
 
-margin-top:6px;
+display:flex;
+align-items:center;
+justify-content:center;
 
-background:#4ade80;
+background:#081225;
 
-box-shadow:
-0 0 18px rgba(74,222,128,.45);
+font-size:24px;
+
+border:
+1px solid rgba(255,255,255,.08);
 
 flex-shrink:0;
 
 }
 
-.step h3{
+.track-step.active .track-icon{
 
-font-size:18px;
+background:
+linear-gradient(
+135deg,
+#16a34a,
+#4ade80
+);
+
+box-shadow:
+0 12px 35px rgba(34,197,94,.35);
+
+}
+
+.track-content h3{
+
+font-size:24px;
 font-weight:800;
 
 }
 
-.step p{
+.track-content p{
 
-margin-top:8px;
+margin-top:10px;
 
-line-height:1.8;
+line-height:1.9;
 
 opacity:.72;
 
@@ -396,33 +419,80 @@ font-size:15px;
 
 }
 
+.track-line{
+
+width:4px;
+height:48px;
+
+background:
+rgba(255,255,255,.08);
+
+margin-left:27px;
+
+border-radius:30px;
+
+}
+
+.track-line.active-line{
+
+background:
+linear-gradient(
+180deg,
+#16a34a,
+#4ade80
+);
+
+}
+
 /* ======================================================
-LOADER
+INFO BOXES
 ====================================================== */
 
-.loader{
+.info-grid{
 
-width:60px;
-height:60px;
+display:grid;
 
-margin:40px auto 0;
+grid-template-columns:
+repeat(2,1fr);
 
-border-radius:50%;
+gap:20px;
 
-border:5px solid rgba(255,255,255,.08);
-
-border-top:
-5px solid #4ade80;
-
-animation:spin 1s linear infinite;
+margin-top:35px;
 
 }
 
-@keyframes spin{
+@media(max-width:700px){
 
-100%{
-transform:rotate(360deg);
+.info-grid{
+grid-template-columns:1fr;
 }
+
+}
+
+.info-box{
+
+padding:24px;
+
+border-radius:26px;
+
+background:#081225;
+
+}
+
+.info-box h3{
+
+font-size:20px;
+font-weight:800;
+
+}
+
+.info-box p{
+
+margin-top:12px;
+
+line-height:1.9;
+
+opacity:.74;
 
 }
 
@@ -446,7 +516,7 @@ flex:1;
 
 min-width:220px;
 
-height:65px;
+height:68px;
 
 border:none;
 
@@ -496,50 +566,20 @@ transform:translateY(-4px);
 }
 
 /* ======================================================
-FOOTER NOTE
+FOOTER
 ====================================================== */
 
-.note{
+.footer{
 
-margin-top:40px;
+margin-top:60px;
 
 text-align:center;
 
 opacity:.58;
 
+line-height:2;
+
 font-size:14px;
-
-line-height:1.9;
-
-}
-
-/* ======================================================
-MOBILE
-====================================================== */
-
-@media(max-width:700px){
-
-h1{
-font-size:40px;
-}
-
-.icon{
-width:110px;
-height:110px;
-font-size:56px;
-}
-
-.card{
-padding:26px;
-}
-
-.card-title{
-font-size:28px;
-}
-
-.btn{
-width:100%;
-}
 
 }
 
@@ -587,9 +627,9 @@ Track Your Order
 
 <p class="desc">
 
-Your payment was completed successfully and your order has now entered the CreatorHub fulfillment system.
+Your order has been confirmed successfully and is now moving through the CreatorHub fulfillment network powered by Qikink.
 
-Track live processing, Qikink fulfillment, and shipping updates in real-time.
+Track live printing, packaging, shipping, courier updates, and delivery progress in real-time.
 
 </p>
 
@@ -658,12 +698,12 @@ PAID
 <div class="row">
 
 <div class="label">
-Fulfillment
+Fulfillment Status
 </div>
 
 <div
 id="fulfillment"
-class="value">
+class="value green">
 
 Connecting...
 
@@ -693,15 +733,62 @@ Live Fulfillment Status
 id="statusText"
 class="status-text">
 
-Connecting to Qikink...
+Connecting to Qikink fulfillment network...
 
 </div>
 
 </div>
 
-<div
-class="loader"
-id="loader">
+<div class="info-grid">
+
+<div class="info-box">
+
+<h3>
+Printing Facility
+</h3>
+
+<p>
+Your order has entered the automated print production queue and printing will begin shortly.
+</p>
+
+</div>
+
+<div class="info-box">
+
+<h3>
+Shipping Network
+</h3>
+
+<p>
+Courier assignment and shipping activation will happen automatically after packaging completes.
+</p>
+
+</div>
+
+<div class="info-box">
+
+<h3>
+Estimated Dispatch
+</h3>
+
+<p>
+Orders are usually dispatched within 24-48 hours after successful payment verification.
+</p>
+
+</div>
+
+<div class="info-box">
+
+<h3>
+Tracking Updates
+</h3>
+
+<p>
+Live courier tracking and delivery updates will appear automatically once shipping begins.
+</p>
+
+</div>
+
 </div>
 
 </div>
@@ -713,77 +800,171 @@ RIGHT
 <div class="card">
 
 <div class="card-title">
-Order Timeline
+Live Order Progress
 </div>
 
 <div class="timeline">
 
-<div class="step">
+<!-- STEP 1 -->
 
-<div class="dot"></div>
+<div class="track-step active">
 
-<div>
+<div class="track-icon">
+✓
+</div>
+
+<div class="track-content">
 
 <h3>
-Payment Completed
+Order Received
 </h3>
 
 <p>
-Your payment has been verified successfully through Cashfree payment gateway.
+Your order has been confirmed successfully by CreatorHub.
 </p>
 
 </div>
 
 </div>
 
-<div class="step">
+<div class="track-line active-line"></div>
 
-<div class="dot"></div>
+<!-- STEP 2 -->
 
-<div>
+<div class="track-step active">
+
+<div class="track-icon">
+💳
+</div>
+
+<div class="track-content">
 
 <h3>
-Order Sent To Qikink
+Payment Verified
 </h3>
 
 <p>
-Your order has been automatically forwarded to the Qikink fulfillment system.
+Cashfree payment gateway has verified your payment successfully.
 </p>
 
 </div>
 
 </div>
 
-<div class="step">
+<div class="track-line active-line"></div>
 
-<div class="dot"></div>
+<!-- STEP 3 -->
 
-<div>
+<div class="track-step active">
+
+<div class="track-icon">
+🖨️
+</div>
+
+<div class="track-content">
 
 <h3>
-Fulfillment Processing
+Printing Started
 </h3>
 
 <p>
-Printing, packaging, and preparation are currently in progress.
+Qikink has received your order and printing preparation has started.
 </p>
 
 </div>
 
 </div>
 
-<div class="step">
+<div class="track-line active-line"></div>
 
-<div class="dot"></div>
+<!-- STEP 4 -->
 
-<div>
+<div class="track-step active">
+
+<div class="track-icon">
+📦
+</div>
+
+<div class="track-content">
 
 <h3>
-Shipping Activation
+Packaging In Progress
 </h3>
 
 <p>
-Tracking details and courier information will appear once shipping starts.
+Your order is being packed securely for courier shipment.
+</p>
+
+</div>
+
+</div>
+
+<div class="track-line"></div>
+
+<!-- STEP 5 -->
+
+<div class="track-step">
+
+<div class="track-icon">
+🚚
+</div>
+
+<div class="track-content">
+
+<h3>
+Shipped
+</h3>
+
+<p>
+Courier pickup and shipment tracking will appear here once dispatched.
+</p>
+
+</div>
+
+</div>
+
+<div class="track-line"></div>
+
+<!-- STEP 6 -->
+
+<div class="track-step">
+
+<div class="track-icon">
+📍
+</div>
+
+<div class="track-content">
+
+<h3>
+Out For Delivery
+</h3>
+
+<p>
+The courier partner will deliver your order to your shipping address.
+</p>
+
+</div>
+
+</div>
+
+<div class="track-line"></div>
+
+<!-- STEP 7 -->
+
+<div class="track-step">
+
+<div class="track-icon">
+🎉
+</div>
+
+<div class="track-content">
+
+<h3>
+Delivered
+</h3>
+
+<p>
+Your order will be marked delivered after successful completion.
 </p>
 
 </div>
@@ -816,9 +997,13 @@ Contact Support
 
 </div>
 
-<div class="note">
+<div class="footer">
 
-Please allow some time for fulfillment updates and courier tracking activation.
+Live tracking updates are powered by CreatorHub fulfillment automation and Qikink shipping systems.
+
+<br>
+
+Courier updates may take some time to appear after dispatch.
 
 </div>
 
@@ -876,10 +1061,6 @@ document.getElementById(
 ).innerHTML =
 "Invalid order ID"
 
-document.getElementById(
-"loader"
-).style.display="none"
-
 return
 
 }
@@ -913,24 +1094,16 @@ if(!result.success){
 document.getElementById(
 "statusText"
 ).innerHTML =
-"Tracking information not available yet"
+"Tracking information is not available yet."
 
 document.getElementById(
 "fulfillment"
 ).innerHTML =
 "Pending"
 
-document.getElementById(
-"loader"
-).style.display="none"
-
 return
 
 }
-
-/* ======================================================
-TRACKING DATA
-====================================================== */
 
 let track =
 result.tracking
@@ -951,11 +1124,7 @@ document.getElementById(
 "statusText"
 ).innerHTML =
 
-"Your order is currently being processed by Qikink fulfillment and shipping preparation has started successfully."
-
-document.getElementById(
-"loader"
-).style.display="none"
+"Your order is currently active in the Qikink fulfillment network. Printing, packaging, and shipping updates will appear automatically as your order progresses."
 
 }catch(err){
 
@@ -964,11 +1133,7 @@ console.log(err)
 document.getElementById(
 "statusText"
 ).innerHTML =
-"Server connection failed"
-
-document.getElementById(
-"loader"
-).style.display="none"
+"Unable to connect to tracking server."
 
 }
 
@@ -983,4 +1148,4 @@ loadTracking()
 </script>
 
 </body>
-</html>
+  </html>
