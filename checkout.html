@@ -1001,10 +1001,69 @@ JSON.stringify(BOOK)
 
 setTimeout(()=>{
 
-window.location.href=
-"payment.html?id="+BOOK.id
+  /* =========================================
+CREATE ORDER
+========================================= */
 
-},1200)
+let orderRes =
+await fetch(API_URL,{
+
+method:"POST",
+
+mode:"cors",
+
+headers:{
+"Content-Type":"text/plain;charset=utf-8"
+},
+
+body:JSON.stringify({
+
+action:"createOrder",
+
+book_id:BOOK.id,
+
+name,
+phone,
+email,
+address,
+city,
+state,
+pincode
+
+})
+
+})
+
+let orderData =
+await orderRes.json()
+
+if(!orderData.success){
+
+document.getElementById(
+"verifyMessage"
+).innerHTML =
+orderData.message
+
+return
+
+}
+
+/* =========================================
+SAVE
+========================================= */
+
+localStorage.setItem(
+"order_id",
+orderData.order_id
+)
+
+/* =========================================
+REDIRECT CASHFREE
+========================================= */
+
+window.location.href =
+
+"https://payments.cashfree.com/forms?order_id="+orderData.order_id
 
 }catch(err){
 
