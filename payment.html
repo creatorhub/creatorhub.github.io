@@ -1405,15 +1405,27 @@ return "https://picsum.photos/400"
 
 }
 
+/* UC FORMAT */
+
+if(url.includes("uc?id=")){
+
+return url
+
+}
+
+/* /d/ FORMAT */
+
 if(url.includes("/d/")){
 
 let id =
 url.split("/d/")[1]
 .split("/")[0]
 
-return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`
+return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000"
 
 }
+
+/* id= FORMAT */
 
 if(url.includes("id=")){
 
@@ -1421,7 +1433,7 @@ let id =
 url.split("id=")[1]
 .split("&")[0]
 
-return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`
+return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000"
 
 }
 
@@ -1561,7 +1573,7 @@ JSON.stringify(BOOK)
 setTimeout(()=>{
 
 window.location.href=
-"payment.html?id="+book.id
+"payment.html?id="+BOOK.id
 
 },1200)
 
