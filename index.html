@@ -591,15 +591,24 @@ BOOK GRID
 display:grid;
 
 grid-template-columns:
-repeat(2,1fr);
+repeat(6,1fr);
 
-gap:14px;
+gap:16px;
 
 margin-top:35px;
 
 }
 
-@media(min-width:700px){
+@media(max-width:1200px){
+
+.books-grid{
+grid-template-columns:
+repeat(4,1fr);
+}
+
+}
+
+@media(max-width:800px){
 
 .books-grid{
 grid-template-columns:
@@ -608,11 +617,11 @@ repeat(3,1fr);
 
 }
 
-@media(min-width:1100px){
+@media(max-width:550px){
 
 .books-grid{
 grid-template-columns:
-repeat(6,1fr);
+repeat(2,1fr);
 }
 
 }
@@ -718,7 +727,7 @@ FEATURES
 display:grid;
 
 grid-template-columns:
-repeat(auto-fit,minmax(260px,1fr));
+repeat(3,1fr);
 
 gap:24px;
 
@@ -780,6 +789,23 @@ opacity:.76;
 
 }
 
+@media(max-width:1000px){
+
+.features{
+grid-template-columns:
+repeat(2,1fr);
+}
+
+}
+
+@media(max-width:700px){
+
+.features{
+grid-template-columns:1fr;
+}
+
+}
+
 /* =====================================================
 LOADING
 ===================================================== */
@@ -793,117 +819,6 @@ text-align:center;
 opacity:.7;
 
 font-size:18px;
-
-}
-
-/* =====================================================
-FOOTER
-===================================================== */
-
-.footer{
-
-margin-top:100px;
-
-padding:60px 20px;
-
-border-top:
-1px solid rgba(255,255,255,.06);
-
-}
-
-.footer-grid{
-
-max-width:1450px;
-
-margin:auto;
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(240px,1fr));
-
-gap:40px;
-
-}
-
-.footer-logo{
-
-font-size:42px;
-font-weight:900;
-
-}
-
-.footer-logo span{
-color:#4ade80;
-}
-
-.footer-text{
-
-margin-top:18px;
-
-line-height:2;
-
-opacity:.72;
-
-}
-
-.footer-title{
-
-font-size:22px;
-font-weight:900;
-
-margin-bottom:18px;
-
-}
-
-.footer-links{
-
-display:grid;
-gap:14px;
-
-}
-
-.footer-links a{
-
-text-decoration:none;
-
-color:white;
-
-opacity:.75;
-
-transition:.3s;
-
-}
-
-.footer-links a:hover{
-
-opacity:1;
-
-color:#4ade80;
-
-}
-
-.footer-bottom{
-
-max-width:1450px;
-
-margin:auto;
-
-margin-top:50px;
-
-padding-top:30px;
-
-border-top:
-1px solid rgba(255,255,255,.06);
-
-display:flex;
-justify-content:space-between;
-gap:20px;
-flex-wrap:wrap;
-
-opacity:.6;
-
-font-size:14px;
 
 }
 
@@ -969,15 +884,9 @@ font-size:42px;
 
 <body>
 
-<!-- =====================================================
-TOPBAR
-===================================================== -->
-
 <div class="topbar">
 
 <div class="topbar-left">
-
-<!-- PROFILE LEFT -->
 
 <div
 class="profile-wrap"
@@ -1050,15 +959,11 @@ Logout
 
 </div>
 
-<!-- LOGO -->
-
 <div class="logo">
 Creator<span>Hub</span>
 </div>
 
 </div>
-
-<!-- RIGHT -->
 
 <div class="nav">
 
@@ -1091,10 +996,6 @@ Login
 </div>
 
 </div>
-
-<!-- =====================================================
-MAIN
-===================================================== -->
 
 <div class="main">
 
@@ -1133,8 +1034,6 @@ Track Your Order
 </div>
 
 </div>
-
-<!-- BOOKS -->
 
 <div
 id="books"
@@ -1198,8 +1097,6 @@ Loading ebooks...
 
 </div>
 
-<!-- FEATURES -->
-
 <div
 id="features"
 class="section">
@@ -1213,6 +1110,8 @@ Why Readers Love CreatorHub
 A premium ebook buying experience with secure payments, live tracking, fulfillment systems, and trusted creators.
 
 </div>
+
+<div class="features">
 
 <div class="feature">
 
@@ -1310,11 +1209,15 @@ Find trending, high-rated, and recommended ebooks tailored to your interests and
 
 </div>
 
-<script>
+</div>
 
-/* =====================================================
-PROFILE
-===================================================== */
+</div>
+
+</div>
+
+<div id="footerContainer"></div>
+
+<script>
 
 const USER_NAME =
 localStorage.getItem("user_name")
@@ -1348,10 +1251,6 @@ document.getElementById(
 "menuEmail"
 ).innerHTML = USER_EMAIL
 
-/* =====================================================
-MENU
-===================================================== */
-
 function toggleProfileMenu(){
 
 document.getElementById(
@@ -1359,10 +1258,6 @@ document.getElementById(
 ).classList.toggle("show")
 
 }
-
-/* =====================================================
-OUTSIDE CLICK
-===================================================== */
 
 window.addEventListener(
 "click",
@@ -1384,10 +1279,6 @@ document.getElementById(
 }
 )
 
-/* =====================================================
-LOGOUT
-===================================================== */
-
 function logout(){
 
 localStorage.clear()
@@ -1397,16 +1288,8 @@ window.location.href =
 
 }
 
-/* =====================================================
-API
-===================================================== */
-
 const API_URL =
 "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
-
-/* =====================================================
-DRIVE IMAGE
-===================================================== */
 
 function driveImage(url){
 
@@ -1437,10 +1320,6 @@ return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000"
 return url
 
 }
-
-/* =====================================================
-LOAD BOOKS
-===================================================== */
 
 async function loadBooks(){
 
@@ -1506,10 +1385,6 @@ Failed to load ebooks.
 
 }
 
-/* =====================================================
-RENDER BOOKS
-===================================================== */
-
 function renderBooks(books){
 
 let grid =
@@ -1560,10 +1435,6 @@ by ${book.author || "Unknown"}
 })
 
 }
-
-/* =====================================================
-FILTER
-===================================================== */
 
 function filterBooks(type,button){
 
@@ -1627,19 +1498,7 @@ Number(b.price||0)<300
 
 }
 
-/* =====================================================
-START
-===================================================== */
-
 loadBooks()
-
-</script>
-
-<!-- FOOTER LOAD -->
-
-<div id="footerContainer"></div>
-
-<script>
 
 fetch("footer.html")
 .then(res=>res.text())
