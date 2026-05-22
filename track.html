@@ -1018,7 +1018,7 @@ API
 const API_URL =
 "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
 
-const API_URL =
+const TRACK_API =
 "https://script.google.com/macros/s/AKfycbz9g1ZxS8_var6e35p06AVDEiYRGu-cKE5boAtr762x4JA_6qMaKfso32cOfVkeTeUq/exec"
   
 /* ======================================================
@@ -1315,9 +1315,7 @@ lines.forEach((line,index)=>{
 
 if(index < active-1){
 
-line.classList.add(
-"active-line"
-)
+line.classList.add("active-line")
 
 }
 
@@ -1326,11 +1324,6 @@ line.classList.add(
 }catch(err){
 
 console.log(err)
-
-document.getElementById(
-"statusText"
-).innerHTML =
-"Unable to load order."
 
 }
 
