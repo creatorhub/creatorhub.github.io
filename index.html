@@ -150,6 +150,48 @@ border-color:#4ade80;
 
 }
 
+.profile-wrap{
+
+display:none;
+
+align-items:center;
+
+justify-content:center;
+
+}
+
+.profile-menu{
+
+display:none;
+
+}
+
+.profile-menu.show{
+
+display:block;
+
+animation:menuShow .25s ease;
+
+}
+
+@keyframes menuShow{
+
+0%{
+opacity:0;
+transform:
+translateY(10px)
+scale(.95);
+}
+
+100%{
+opacity:1;
+transform:
+translateY(0)
+scale(1);
+}
+
+}
+
 .profile-menu{
 
 position:absolute;
@@ -1002,13 +1044,14 @@ Creator<span>Hub</span>
 
 <div class="nav">
 
-<a href="#books">
-Books
+<a href="dashboard.html">
+Dashboard 
+</a>
+  
+<a href="subscription.html">
+Subscription
 </a>
 
-<a href="#features">
-Features
-</a>
 
 <a href="wallet.html">
 Wallet
@@ -1331,14 +1374,19 @@ document.querySelector(
 ".profile-wrap"
 )
 
+let menu =
+document.getElementById(
+"profileMenu"
+)
+
 if(
 wrap &&
 !wrap.contains(e.target)
 ){
 
-document.getElementById(
-"profileMenu"
-).classList.remove("show")
+menu.classList.remove(
+"show"
+)
 
 }
 
@@ -1420,6 +1468,8 @@ document.getElementById(
 
 if(email){
 
+/* USER LOGIN */
+
 loginBtn.style.display =
 "none"
 
@@ -1428,6 +1478,8 @@ profileWrap.style.display =
 
 }else{
 
+/* USER NOT LOGIN */
+
 loginBtn.style.display =
 "flex"
 
@@ -1437,7 +1489,7 @@ profileWrap.style.display =
 }
 
 }
-
+  
 /* =====================================================
 LOAD BOOKS
 ===================================================== */
