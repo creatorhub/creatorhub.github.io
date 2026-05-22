@@ -1018,6 +1018,9 @@ API
 const API_URL =
 "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
 
+const API_URL =
+"https://script.google.com/macros/s/AKfycbz9g1ZxS8_var6e35p06AVDEiYRGu-cKE5boAtr762x4JA_6qMaKfso32cOfVkeTeUq/exec"
+  
 /* ======================================================
 USER
 ====================================================== */
@@ -1025,7 +1028,8 @@ USER
 const userEmail =
 localStorage.getItem("user_email")
 
-let orderId = null
+let orderId =
+localStorage.getItem("order_id") || null
 
 /* ======================================================
 SHOW ORDER ID
@@ -1050,6 +1054,18 @@ document.getElementById(
 "statusText"
 ).innerHTML =
 "Please login first."
+
+return
+
+}
+
+/* =========================================
+OLD ORDER REDIRECT TRACKING
+========================================= */
+
+if(orderId){
+
+loadSingleOrder(orderId)
 
 return
 
@@ -1173,6 +1189,140 @@ line.classList.add("active-line")
 
 })
 
+/* ======================================================
+SINGLE ORDER TRACK
+====================================================== */
+
+async function loadSingleOrder(id){
+
+try{
+
+let res =
+await fetch(
+
+TRACK_API +
+
+"?action=trackOrder&order_id=" +
+
+encodeURIComponent(id)
+
+)
+
+let data =
+await res.json()
+
+if(!data.success){
+
+document.getElementById(
+"statusText"
+).innerHTML =
+"Order not found."
+
+return
+
+}
+
+let order =
+data.order || data.tracking
+
+/* =========================================
+UI
+========================================= */
+
+document.getElementById(
+"orderId"
+).innerHTML =
+
+order.id ||
+order.order_id ||
+"N/A"
+
+document.getElementById(
+"trackingId"
+).innerHTML =
+
+order.tracking_id ||
+"Preparing"
+
+document.getElementById(
+"fulfillment"
+).innerHTML =
+
+order.order_status ||
+order.status ||
+"Processing"
+
+document.getElementById(
+"statusText"
+).innerHTML =
+
+`Your order is currently
+${order.order_status || order.status}.
+Live courier updates will appear automatically.`
+
+/* =========================================
+TIMELINE
+========================================= */
+
+let status =
+String(
+order.order_status ||
+order.status ||
+""
+).toLowerCase()
+
+let active = 3
+
+if(status.includes("pack")){
+active = 4
+}
+
+if(status.includes("ship")){
+active = 5
+}
+
+if(status.includes("delivery")){
+active = 6
+}
+
+if(status.includes("deliver")){
+active = 7
+}
+
+let steps =
+document.querySelectorAll(
+".track-step"
+)
+
+let lines =
+document.querySelectorAll(
+".track-line"
+)
+
+steps.forEach((step,index)=>{
+
+if(index < active){
+
+step.classList.add(
+"active"
+)
+
+}
+
+})
+
+lines.forEach((line,index)=>{
+
+if(index < active-1){
+
+line.classList.add(
+"active-line"
+)
+
+}
+
+})
+
 }catch(err){
 
 console.log(err)
@@ -1180,7 +1330,7 @@ console.log(err)
 document.getElementById(
 "statusText"
 ).innerHTML =
-"Unable to connect to tracking server."
+"Unable to load order."
 
 }
 
