@@ -42,86 +42,11 @@ color:white;
 
 overflow-x:hidden;
 
-min-height:100vh;
-
 }
 
-/* =========================================
-GLOBAL
-========================================= */
-
-a{
-text-decoration:none;
-color:white;
-}
-
-img{
-display:block;
-max-width:100%;
-}
-
-::-webkit-scrollbar{
-width:6px;
-}
-
-::-webkit-scrollbar-thumb{
-background:#22c55e;
-border-radius:20px;
-}
-
-/* =========================================
-BACKGROUND
-========================================= */
-
-.bg1{
-
-position:fixed;
-
-top:-250px;
-right:-250px;
-
-width:700px;
-height:700px;
-
-border-radius:50%;
-
-background:
-radial-gradient(
-circle,
-rgba(34,197,94,.16),
-transparent
-);
-
-z-index:0;
-
-}
-
-.bg2{
-
-position:fixed;
-
-bottom:-250px;
-left:-250px;
-
-width:650px;
-height:650px;
-
-border-radius:50%;
-
-background:
-radial-gradient(
-circle,
-rgba(59,130,246,.12),
-transparent
-);
-
-z-index:0;
-
-}
-
-/* =========================================
+/* =========================
 TOPBAR
-========================================= */
+========================= */
 
 .topbar{
 
@@ -133,12 +58,12 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 
-padding:20px 26px;
+padding:18px 22px;
 
 background:
-rgba(2,6,23,.9);
+rgba(2,6,23,.92);
 
-backdrop-filter:blur(16px);
+backdrop-filter:blur(18px);
 
 border-bottom:
 1px solid rgba(255,255,255,.06);
@@ -147,7 +72,7 @@ border-bottom:
 
 .logo{
 
-font-size:38px;
+font-size:34px;
 font-weight:900;
 
 }
@@ -160,39 +85,38 @@ color:#4ade80;
 
 display:flex;
 align-items:center;
-gap:26px;
+gap:20px;
 
 }
 
 .nav a{
+
+color:white;
+text-decoration:none;
 
 font-size:14px;
 font-weight:700;
 
 opacity:.8;
 
-transition:.25s;
+transition:.3s;
 
 }
 
 .nav a:hover{
-
 opacity:1;
 color:#4ade80;
-
 }
 
 .back-btn{
 
-height:52px;
+height:48px;
 
-padding:0 24px;
+padding:0 22px;
 
-border-radius:18px;
+border:none;
 
-display:flex;
-align-items:center;
-justify-content:center;
+border-radius:16px;
 
 background:
 linear-gradient(
@@ -201,70 +125,120 @@ linear-gradient(
 #4ade80
 );
 
+color:white;
+
 font-weight:800;
+
+cursor:pointer;
 
 }
 
-/* =========================================
+/* =========================
 MAIN
-========================================= */
+========================= */
 
 .main{
 
-position:relative;
-z-index:2;
-
-max-width:1500px;
+max-width:1450px;
 
 margin:auto;
 
-padding:
-40px 20px 120px;
+padding:40px 16px 100px;
 
 }
 
-/* =========================================
-BOOK GRID
-========================================= */
+/* =========================
+LOADER
+========================= */
+
+.loading-book{
+
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+
+padding:140px 0;
+
+gap:18px;
+
+}
+
+.loader{
+
+width:70px;
+height:70px;
+
+border-radius:50%;
+
+border:6px solid
+rgba(255,255,255,.08);
+
+border-top:6px solid #4ade80;
+
+animation:spin 1s linear infinite;
+
+}
+
+@keyframes spin{
+
+0%{
+transform:rotate(0deg);
+}
+
+100%{
+transform:rotate(360deg);
+}
+
+}
+
+.loading-text{
+
+font-size:18px;
+font-weight:700;
+
+opacity:.8;
+
+}
+
+/* =========================
+BOOK HERO
+========================= */
 
 .book-layout{
 
 display:grid;
 
 grid-template-columns:
-420px 1fr;
+520px 1fr;
 
-gap:55px;
+gap:36px;
 
 align-items:start;
 
 }
 
-/* =========================================
-BOOK COVER
-========================================= */
+@media(max-width:1000px){
 
-.book-side{
-
-position:sticky;
-top:110px;
+.book-layout{
+grid-template-columns:1fr;
+}
 
 }
 
-.book-cover-wrap{
+.book-left{
 
-background:
-rgba(15,23,42,.92);
+background:#0f172a;
 
 border:
 1px solid rgba(255,255,255,.06);
 
-padding:22px;
+border-radius:36px;
 
-border-radius:34px;
+padding:24px;
 
-box-shadow:
-0 25px 80px rgba(0,0,0,.35);
+position:sticky;
+top:100px;
 
 }
 
@@ -272,30 +246,25 @@ box-shadow:
 
 width:100%;
 
-border-radius:24px;
-
-aspect-ratio:3/4;
+border-radius:28px;
 
 object-fit:cover;
 
-background:#081225;
+box-shadow:
+0 20px 60px rgba(0,0,0,.45);
 
 }
 
-/* =========================================
-SMALL INFO
-========================================= */
-
-.small-stats{
+.book-stats{
 
 display:grid;
 
 grid-template-columns:
 repeat(3,1fr);
 
-gap:12px;
+gap:14px;
 
-margin-top:20px;
+margin-top:18px;
 
 }
 
@@ -303,20 +272,17 @@ margin-top:20px;
 
 background:#081225;
 
-padding:16px;
+padding:18px;
 
-border-radius:20px;
+border-radius:18px;
 
 text-align:center;
-
-border:
-1px solid rgba(255,255,255,.05);
 
 }
 
 .stat-number{
 
-font-size:20px;
+font-size:24px;
 font-weight:900;
 
 color:#4ade80;
@@ -327,43 +293,34 @@ color:#4ade80;
 
 margin-top:6px;
 
-font-size:12px;
+font-size:13px;
 
 opacity:.7;
 
 }
 
-/* =========================================
-DETAILS
-========================================= */
+/* =========================
+RIGHT
+========================= */
 
-.book-details{
+.book-right{
 
-background:
-rgba(15,23,42,.82);
+background:#0f172a;
 
 border:
 1px solid rgba(255,255,255,.06);
 
-padding:42px;
-
 border-radius:36px;
 
-backdrop-filter:blur(14px);
+padding:38px;
 
 }
-
-/* =========================================
-BADGES
-========================================= */
 
 .badges{
 
 display:flex;
-gap:12px;
+gap:10px;
 flex-wrap:wrap;
-
-margin-bottom:22px;
 
 }
 
@@ -373,68 +330,47 @@ padding:10px 16px;
 
 border-radius:999px;
 
-font-size:13px;
-font-weight:800;
-
 background:#081225;
 
-border:
-1px solid rgba(255,255,255,.06);
+font-size:13px;
+font-weight:700;
 
 }
-
-.green{
-background:
-linear-gradient(
-90deg,
-#16a34a,
-#4ade80
-);
-}
-
-/* =========================================
-TITLE
-========================================= */
 
 .book-title{
 
-font-size:72px;
+margin-top:26px;
+
+font-size:58px;
 font-weight:900;
 
 line-height:1.05;
-
-max-width:900px;
 
 }
 
 .book-author{
 
-margin-top:18px;
+margin-top:16px;
 
 font-size:18px;
 
-opacity:.72;
+opacity:.7;
 
 }
 
-/* =========================================
-PRICE
-========================================= */
-
-.price-box{
+.price-wrap{
 
 margin-top:30px;
 
 display:flex;
 align-items:center;
-gap:18px;
-flex-wrap:wrap;
+gap:14px;
 
 }
 
-.book-price{
+.price{
 
-font-size:62px;
+font-size:64px;
 font-weight:900;
 
 color:#4ade80;
@@ -443,46 +379,49 @@ color:#4ade80;
 
 .old-price{
 
-font-size:28px;
+font-size:34px;
 
-opacity:.45;
+opacity:.35;
 
 text-decoration:line-through;
 
 }
 
-/* =========================================
-BUTTONS
-========================================= */
+.book-desc{
 
-.action-buttons{
+margin-top:30px;
 
-display:flex;
-gap:18px;
-flex-wrap:wrap;
+line-height:2;
 
-margin-top:34px;
+opacity:.82;
+
+font-size:16px;
 
 }
 
-.buy-btn{
+/* =========================
+BUTTONS
+========================= */
 
-height:70px;
+.actions{
+
+display:flex;
+gap:16px;
+flex-wrap:wrap;
+
+margin-top:38px;
+
+}
+
+.action-btn{
+
+height:66px;
 
 padding:0 34px;
 
 border:none;
 
-border-radius:22px;
-
-background:
-linear-gradient(
-90deg,
-#16a34a,
-#4ade80
-);
-
-color:white;
+border-radius:20px;
 
 font-size:16px;
 font-weight:900;
@@ -493,226 +432,78 @@ transition:.3s;
 
 }
 
-.buy-btn:hover{
+.buy-btn{
 
-transform:translateY(-4px);
+background:
+linear-gradient(
+90deg,
+#16a34a,
+#4ade80
+);
 
-box-shadow:
-0 15px 35px rgba(34,197,94,.22);
+color:white;
 
 }
 
 .preview-btn{
 
-height:70px;
-
-padding:0 34px;
-
-border:none;
-
-border-radius:22px;
-
 background:#081225;
-
-border:
-1px solid rgba(255,255,255,.08);
 
 color:white;
-
-font-size:16px;
-font-weight:900;
-
-cursor:pointer;
-
-}
-
-/* =========================================
-DESCRIPTION
-========================================= */
-
-.section{
-
-margin-top:55px;
-
-}
-
-.section-title{
-
-font-size:36px;
-font-weight:900;
-
-margin-bottom:18px;
-
-}
-
-.section-text{
-
-line-height:2;
-
-font-size:16px;
-
-opacity:.78;
-
-}
-
-/* =========================================
-FEATURES
-========================================= */
-
-.features{
-
-display:grid;
-
-grid-template-columns:
-repeat(2,1fr);
-
-gap:18px;
-
-margin-top:26px;
-
-}
-
-.feature{
-
-background:#081225;
-
-padding:24px;
-
-border-radius:26px;
-
-border:
-1px solid rgba(255,255,255,.05);
-
-}
-
-.feature h3{
-
-font-size:20px;
-font-weight:900;
-
-margin-top:16px;
-
-}
-
-.feature p{
-
-margin-top:12px;
-
-line-height:1.8;
-
-font-size:14px;
-
-opacity:.72;
-
-}
-
-.feature-icon{
-
-width:58px;
-height:58px;
-
-border-radius:18px;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-font-size:26px;
-
-background:
-linear-gradient(
-135deg,
-#16a34a,
-#4ade80
-);
-
-}
-
-/* =========================================
-AUTHOR BOX
-========================================= */
-
-.author-box{
-
-margin-top:30px;
-
-display:flex;
-align-items:center;
-
-gap:20px;
-
-padding:26px;
-
-border-radius:28px;
-
-background:#081225;
 
 border:
 1px solid rgba(255,255,255,.06);
 
 }
 
-.author-image{
+.action-btn:hover{
+transform:translateY(-4px);
+}
 
-width:90px;
-height:90px;
+/* =========================
+REVIEW
+========================= */
 
-border-radius:50%;
+.review-section{
 
-object-fit:cover;
-
-border:
-3px solid rgba(34,197,94,.25);
+margin-top:80px;
 
 }
 
-.author-name{
+.section-title{
 
-font-size:26px;
+font-size:42px;
 font-weight:900;
 
 }
 
-.author-bio{
-
-margin-top:10px;
-
-line-height:1.8;
-
-font-size:14px;
-
-opacity:.72;
-
-}
-
-/* =========================================
-REVIEWS
-========================================= */
-
-.reviews{
+.review-grid{
 
 display:grid;
 
-gap:18px;
+grid-template-columns:
+repeat(auto-fit,minmax(320px,1fr));
 
-margin-top:24px;
+gap:20px;
+
+margin-top:35px;
 
 }
 
 .review{
 
-background:#081225;
+background:#0f172a;
+
+border:
+1px solid rgba(255,255,255,.06);
+
+border-radius:26px;
 
 padding:24px;
 
-border-radius:24px;
-
-border:
-1px solid rgba(255,255,255,.05);
-
 }
 
-.review-head{
+.review-top{
 
 display:flex;
 justify-content:space-between;
@@ -720,218 +511,59 @@ align-items:center;
 
 }
 
-.review-name{
+.review-user{
 
 font-size:18px;
 font-weight:800;
 
 }
 
-.review-stars{
+.review-rating{
 
-color:#facc15;
+color:#4ade80;
 
-font-size:18px;
+font-weight:900;
 
 }
 
 .review-text{
 
+margin-top:18px;
+
+line-height:1.8;
+
+opacity:.82;
+
+}
+
+.read-more{
+
 margin-top:16px;
 
-line-height:1.9;
+color:#4ade80;
 
-font-size:14px;
-
-opacity:.75;
-
-}
-
-/* =========================================
-RELATED
-========================================= */
-
-.related-grid{
-
-display:grid;
-
-grid-template-columns:
-repeat(4,1fr);
-
-gap:18px;
-
-margin-top:28px;
-
-}
-
-.related-book{
-
-background:#081225;
-
-border:
-1px solid rgba(255,255,255,.05);
-
-border-radius:24px;
-
-overflow:hidden;
-
-transition:.25s;
+font-weight:700;
 
 cursor:pointer;
 
 }
 
-.related-book:hover{
+/* =========================
+FOOTER
+========================= */
 
-transform:translateY(-4px);
+.footer{
 
-border-color:
-rgba(74,222,128,.18);
+margin-top:100px;
 
-}
+padding:60px 20px;
 
-.related-cover{
-
-width:100%;
-
-aspect-ratio:3/4;
-
-object-fit:cover;
-
-}
-
-.related-content{
-
-padding:14px;
-
-}
-
-.related-title{
-
-font-size:14px;
-font-weight:800;
-
-line-height:1.5;
-
-}
-
-.related-price{
-
-margin-top:10px;
-
-font-size:24px;
-font-weight:900;
-
-color:#4ade80;
-
-}
-
-/* =========================================
-LOADER
-========================================= */
-
-.loader{
-
-padding:120px 20px;
+border-top:
+1px solid rgba(255,255,255,.06);
 
 text-align:center;
 
-font-size:18px;
-
-opacity:.7;
-
-}
-
-/* =========================================
-MOBILE
-========================================= */
-
-@media(max-width:1100px){
-
-.book-layout{
-
-grid-template-columns:1fr;
-
-}
-
-.book-side{
-
-position:relative;
-top:0;
-
-}
-
-.related-grid{
-
-grid-template-columns:
-repeat(2,1fr);
-
-}
-
-.book-title{
-
-font-size:52px;
-
-}
-
-}
-
-@media(max-width:700px){
-
-.topbar{
-
-padding:18px 14px;
-
-}
-
-.logo{
-
-font-size:30px;
-
-}
-
-.nav a{
-display:none;
-}
-
-.book-details{
-
-padding:28px 22px;
-
-border-radius:28px;
-
-}
-
-.book-title{
-
-font-size:42px;
-
-}
-
-.book-price{
-
-font-size:44px;
-
-}
-
-.features{
-
-grid-template-columns:1fr;
-
-}
-
-.related-grid{
-
-grid-template-columns:1fr;
-
-}
-
-.author-box{
-
-flex-direction:column;
-align-items:flex-start;
-
-}
+opacity:.6;
 
 }
 
@@ -940,13 +572,6 @@ align-items:flex-start;
 </head>
 
 <body>
-
-<div class="bg1"></div>
-<div class="bg2"></div>
-
-<!-- =========================================
-TOPBAR
-========================================= -->
 
 <div class="topbar">
 
@@ -960,56 +585,58 @@ Creator<span>Hub</span>
 Home
 </a>
 
-<a href="#">
-Marketplace
-</a>
-
-<a href="#">
+<a href="subscription.html">
 Subscriptions
 </a>
 
-<a href="#">
+<a href="support.html">
 Support
 </a>
 
-<a
-href="index.html"
-class="back-btn">
+<button
+class="back-btn"
+onclick="
+window.location.href='index.html'
+">
 Back Home
-</a>
+</button>
 
 </div>
 
 </div>
-
-<!-- =========================================
-MAIN
-========================================= -->
 
 <div class="main">
 
-<div
-id="bookContainer"
-class="loader">
+<div id="bookContainer">
 
+<div class="loading-book">
+
+<div class="loader"></div>
+
+<div class="loading-text">
 Loading Book...
+</div>
 
 </div>
+
+</div>
+
+</div>
+
+<div class="footer">
+
+© 2025 CreatorHub Marketplace
 
 </div>
 
 <script>
 
-/* =========================================
-API
-========================================= */
-
 const API =
 "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
 
-/* =========================================
-GET BOOK ID
-========================================= */
+/* =========================
+GET ID
+========================= */
 
 const params =
 new URLSearchParams(
@@ -1019,15 +646,13 @@ window.location.search
 const BOOK_ID =
 params.get("id")
 
-/* =========================================
+/* =========================
 DRIVE IMAGE
-========================================= */
+========================= */
 
 function driveImage(url){
 
-if(!url){
-return ""
-}
+if(!url) return ""
 
 if(url.includes("uc?id=")){
 
@@ -1053,9 +678,9 @@ return url
 
 }
 
-/* =========================================
+/* =========================
 LOAD BOOK
-========================================= */
+========================= */
 
 async function loadBook(){
 
@@ -1074,56 +699,65 @@ if(
 !data.products
 ){
 
-document.getElementById(
-"bookContainer"
-).innerHTML =
-"Book not found"
-
+showError()
 return
 
 }
 
+let books =
+data.products
+
 let book =
-data.products.find(
-x => String(x.id) === String(BOOK_ID)
+books.find(
+b => String(b.id) === String(BOOK_ID)
 )
 
 if(!book){
 
-document.getElementById(
-"bookContainer"
-).innerHTML =
-"Book not found"
-
+showError()
 return
 
 }
 
-renderBook(book,data.products)
+renderBook(book)
 
 }catch(err){
 
 console.log(err)
 
-document.getElementById(
-"bookContainer"
-).innerHTML =
-"Failed to load book"
+showError()
 
 }
 
 }
 
-/* =========================================
+/* =========================
 RENDER BOOK
-========================================= */
+========================= */
 
-function renderBook(book,allBooks){
+function renderBook(book){
 
-let related =
-allBooks
-.filter(x=>x.id!=book.id)
-.slice(0,4)
+let reviews = [
+
+{
+name:"Rahul Sharma",
+rating:"5.0 ★",
+text:"Amazing ebook. Very practical and easy to understand. Helped me improve my productivity and focus massively."
+},
+
+{
+name:"Priya Kumari",
+rating:"4.8 ★",
+text:"Premium quality content with real strategies. Worth every rupee for students and creators."
+},
+
+{
+name:"Aman Verma",
+rating:"4.9 ★",
+text:"Loved the design and explanations. One of the best ebooks I purchased online recently."
+}
+
+]
 
 document.getElementById(
 "bookContainer"
@@ -1131,23 +765,19 @@ document.getElementById(
 
 <div class="book-layout">
 
-<!-- LEFT -->
-
-<div class="book-side">
-
-<div class="book-cover-wrap">
+<div class="book-left">
 
 <img
 class="book-cover"
 src="${driveImage(book.front_cover)}"
 >
 
-<div class="small-stats">
+<div class="book-stats">
 
 <div class="stat">
 
 <div class="stat-number">
-₹${Number(book.price || 0)}
+₹${Number(book.price||0)}
 </div>
 
 <div class="stat-label">
@@ -1184,17 +814,11 @@ Format
 
 </div>
 
-</div>
-
-</div>
-
-<!-- RIGHT -->
-
-<div class="book-details">
+<div class="book-right">
 
 <div class="badges">
 
-<div class="badge green">
+<div class="badge">
 Trending Ebook
 </div>
 
@@ -1216,254 +840,76 @@ ${book.title || "Untitled"}
 by ${book.author || "Unknown Author"}
 </div>
 
-<div class="price-box">
+<div class="price-wrap">
 
-<div class="book-price">
+<div class="price">
 ₹${Number(book.price||0)}
 </div>
 
 <div class="old-price">
-₹${Number(book.price||0)+399}
+₹${Number(book.price||0)*2}
 </div>
 
 </div>
 
-<div class="action-buttons">
+<div class="book-desc">
 
-<button
-class="buy-btn"
-onclick="buyBook('${book.id}')"
->
+${book.description || "No description available."}
+
+</div>
+
+<div class="actions">
+
+<button class="action-btn buy-btn">
 Buy Now
 </button>
 
-<button
-class="preview-btn"
-onclick="previewBook()"
->
-Preview Book
+<button class="action-btn preview-btn">
+Read Preview
 </button>
 
 </div>
 
-<!-- DESCRIPTION -->
+</div>
 
-<div class="section">
+</div>
+
+<div class="review-section">
 
 <div class="section-title">
-About This Ebook
+Ratings & Reviews
 </div>
 
-<div class="section-text">
+<div class="review-grid">
 
-${book.description || "No description available for this ebook yet. Explore premium knowledge, actionable strategies, and high-value content created for readers, entrepreneurs and creators."}
-
-</div>
-
-</div>
-
-<!-- FEATURES -->
-
-<div class="section">
-
-<div class="section-title">
-What You'll Learn
-</div>
-
-<div class="features">
-
-<div class="feature">
-
-<div class="feature-icon">
-📘
-</div>
-
-<h3>
-Premium Knowledge
-</h3>
-
-<p>
-Learn practical concepts, strategies and insights from this ebook.
-</p>
-
-</div>
-
-<div class="feature">
-
-<div class="feature-icon">
-🚀
-</div>
-
-<h3>
-Actionable Strategies
-</h3>
-
-<p>
-Apply real-world methods and improve your skills effectively.
-</p>
-
-</div>
-
-<div class="feature">
-
-<div class="feature-icon">
-🎯
-</div>
-
-<h3>
-Easy To Understand
-</h3>
-
-<p>
-Simple explanations and structured chapters for every reader.
-</p>
-
-</div>
-
-<div class="feature">
-
-<div class="feature-icon">
-📚
-</div>
-
-<h3>
-Lifetime Access
-</h3>
-
-<p>
-Access your purchased ebook anytime from your library dashboard.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- AUTHOR -->
-
-<div class="section">
-
-<div class="section-title">
-About The Author
-</div>
-
-<div class="author-box">
-
-<img
-class="author-image"
-src="https://ui-avatars.com/api/?name=${encodeURIComponent(book.author || 'Author')}&background=22c55e&color=fff"
->
-
-<div>
-
-<div class="author-name">
-${book.author || "Unknown Author"}
-</div>
-
-<div class="author-bio">
-
-Digital creator, educator and ebook publisher on CreatorHub. Passionate about sharing high-value knowledge through premium content and practical learning experiences.
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- REVIEWS -->
-
-<div class="section">
-
-<div class="section-title">
-Reader Reviews
-</div>
-
-<div class="reviews">
+${reviews.map(r=>`
 
 <div class="review">
 
-<div class="review-head">
+<div class="review-top">
 
-<div class="review-name">
-Ayush Kumar
+<div class="review-user">
+${r.name}
 </div>
 
-<div class="review-stars">
-★★★★★
-</div>
-
-</div>
-
-<div class="review-text">
-
-Amazing ebook with premium quality content and easy explanations. Highly recommended for serious learners.
-
+<div class="review-rating">
+${r.rating}
 </div>
 
 </div>
 
-<div class="review">
+<div class="review-text" id="reviewText">
 
-<div class="review-head">
-
-<div class="review-name">
-Priyanka Sharma
-</div>
-
-<div class="review-stars">
-★★★★★
-</div>
+${r.text}
 
 </div>
-
-<div class="review-text">
-
-Very useful and practical. The design, structure and knowledge quality are excellent.
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- RELATED -->
-
-<div class="section">
-
-<div class="section-title">
-Related Ebooks
-</div>
-
-<div class="related-grid">
-
-${related.map(r=>`
 
 <div
-class="related-book"
-onclick="
-window.location.href='book.html?id=${r.id}'
-"
+class="read-more"
+onclick="alert('${r.text}')"
 >
 
-<img
-class="related-cover"
-src="${driveImage(r.front_cover)}"
->
-
-<div class="related-content">
-
-<div class="related-title">
-${r.title || "Untitled"}
-</div>
-
-<div class="related-price">
-₹${Number(r.price||0)}
-</div>
+Read Full Review
 
 </div>
 
@@ -1475,6 +921,24 @@ ${r.title || "Untitled"}
 
 </div>
 
+`
+
+}
+
+/* =========================
+ERROR
+========================= */
+
+function showError(){
+
+document.getElementById(
+"bookContainer"
+).innerHTML = `
+
+<div class="loading-book">
+
+<div class="loading-text">
+Book not found
 </div>
 
 </div>
@@ -1483,54 +947,9 @@ ${r.title || "Untitled"}
 
 }
 
-/* =========================================
-BUY
-========================================= */
-
-function buyBook(id){
-
-let email =
-localStorage.getItem(
-"user_email"
-)
-
-if(!email){
-
-alert(
-"Please login first"
-)
-
-window.location.href =
-"login.html"
-
-return
-
-}
-
-window.location.href =
-"checkout.html?id="+id
-
-}
-
-/* =========================================
-PREVIEW
-========================================= */
-
-function previewBook(){
-
-alert(
-"Preview feature coming soon"
-)
-
-}
-
-/* =========================================
-START
-========================================= */
-
 loadBook()
 
 </script>
 
 </body>
-  </html>
+</html>
