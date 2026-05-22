@@ -1736,10 +1736,89 @@ Number(b.price||0)<300
 }
 
 /* =====================================================
+CHECK LOGIN
+===================================================== */
+
+function checkLogin(){
+
+let email =
+localStorage.getItem(
+"user_email"
+)
+
+let name =
+localStorage.getItem(
+"user_name"
+)
+
+if(
+!email ||
+email === "" ||
+email === null
+){
+
+/* USER NOT LOGIN */
+
+document.getElementById(
+"loginBtn"
+).style.display = "flex"
+
+document.getElementById(
+"profileWrap"
+).style.display = "none"
+
+return
+
+}
+
+/* USER LOGIN */
+
+document.getElementById(
+"loginBtn"
+).style.display = "none"
+
+document.getElementById(
+"profileWrap"
+).style.display = "flex"
+
+/* USER DATA */
+
+document.getElementById(
+"menuName"
+).innerHTML =
+name || "CreatorHub User"
+
+document.getElementById(
+"menuEmail"
+).innerHTML =
+email
+
+/* PROFILE IMAGE */
+
+let image =
+localStorage.getItem(
+"user_image"
+)
+
+if(image){
+
+document.getElementById(
+"profileImage"
+).src = image
+
+document.getElementById(
+"menuProfileImage"
+).src = image
+
+}
+
+}
+
+/* =====================================================
 START
 ===================================================== */
 
-updateLoginUI()
+checkLogin()
 loadBooks()
 
 requestIdleCallback(()=>{
