@@ -1019,23 +1019,13 @@ const API_URL =
 "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
 
 /* ======================================================
-GET ORDER ID
+USER
 ====================================================== */
 
-const params =
-new URLSearchParams(
-window.location.search
-)
+const userEmail =
+localStorage.getItem("user_email")
 
-let orderId =
-params.get("order_id")
-
-if(!orderId){
-
-orderId =
-localStorage.getItem("order_id")
-
-}
+let orderId = null
 
 /* ======================================================
 SHOW ORDER ID
@@ -1054,77 +1044,134 @@ async function loadTracking(){
 
 try{
 
-if(!orderId){
+if(!userEmail){
 
 document.getElementById(
 "statusText"
 ).innerHTML =
-"Invalid order ID"
+"Please login first."
 
 return
 
 }
 
 let res =
-await fetch(API_URL,{
+await fetch(
+API_URL + "?action=getOrders&email=" +
+encodeURIComponent(userEmail)
+)
 
-method:"POST",
-
-mode:"cors",
-
-headers:{
-"Content-Type":"text/plain;charset=utf-8"
-},
-
-body:JSON.stringify({
-
-action:"trackOrder",
-
-order_id:orderId
-
-})
-
-})
-
-let result =
+let data =
 await res.json()
 
-if(!result.success){
+if(
+!data.success ||
+!data.orders ||
+!data.orders.length
+){
 
 document.getElementById(
 "statusText"
 ).innerHTML =
-"Tracking information is not available yet."
+"No active orders found."
 
 document.getElementById(
 "fulfillment"
 ).innerHTML =
-"Pending"
+"N/A"
 
 return
 
 }
 
-let track =
-result.tracking
+/* =========================================
+LATEST ORDER
+========================================= */
+
+let order =
+data.orders.reverse()[0]
+
+orderId =
+order.order_id || "N/A"
+
+/* =========================================
+UI UPDATE
+========================================= */
+
+document.getElementById(
+"orderId"
+).innerHTML =
+order.order_id || "N/A"
 
 document.getElementById(
 "trackingId"
 ).innerHTML =
-track.tracking_id ||
-"N/A"
+order.tracking_id || "Preparing"
 
 document.getElementById(
 "fulfillment"
 ).innerHTML =
-track.status ||
-"Processing"
+order.status || "Processing"
 
 document.getElementById(
 "statusText"
 ).innerHTML =
 
-"Your order is currently active in the Qikink fulfillment network. Printing, packaging, and shipping updates will appear automatically as your order progresses."
+`Your order for "${order.book_title || 'ebook'}"
+is currently ${order.status || 'processing'}.
+Live shipping and courier updates will appear automatically.`
+
+/* =========================================
+TRACK STEP
+========================================= */
+
+let steps =
+document.querySelectorAll(
+".track-step"
+)
+
+let lines =
+document.querySelectorAll(
+".track-line"
+)
+
+let status =
+String(order.status || "")
+.toLowerCase()
+
+let active = 3
+
+if(status.includes("shipped")){
+active = 5
+}
+
+if(status.includes("delivery")){
+active = 6
+}
+
+if(status.includes("delivered")){
+active = 7
+}
+
+steps.forEach((step,index)=>{
+
+if(index < active){
+
+step.classList.add("active")
+
+}
+
+})
+
+lines.forEach((line,index)=>{
+
+if(index < active-1){
+
+line.classList.add("active-line")
+
+}
+
+})
 
 }catch(err){
 
