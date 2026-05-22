@@ -1,88 +1,546 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CreatorHub Login</title>
+<meta charset="UTF-8">
 
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+CreatorHub • Login
+</title>
+
+<script
+src="https://accounts.google.com/gsi/client"
+async
+defer>
+</script>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+rel="stylesheet">
 
 <style>
 
-body{
+*{
 margin:0;
-font-family:Arial;
-background:#020617;
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
 }
+
+body{
+
+min-height:100vh;
+
+background:
+linear-gradient(
+180deg,
+#020617,
+#071120
+);
+
+overflow:hidden;
+
+color:white;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+position:relative;
+
+}
+
+/* BACKGROUND */
+
+.bg{
+
+position:absolute;
+inset:0;
+
+overflow:hidden;
+
+}
+
+.bg::before{
+
+content:"";
+
+position:absolute;
+
+width:600px;
+height:600px;
+
+background:
+radial-gradient(
+circle,
+rgba(34,197,94,.18),
+transparent
+);
+
+top:-250px;
+right:-200px;
+
+}
+
+.bg::after{
+
+content:"";
+
+position:absolute;
+
+width:500px;
+height:500px;
+
+background:
+radial-gradient(
+circle,
+rgba(59,130,246,.15),
+transparent
+);
+
+bottom:-250px;
+left:-180px;
+
+}
+
+/* CONTAINER */
+
+.container{
+
+position:relative;
+z-index:2;
+
+width:100%;
+max-width:1150px;
+
+display:grid;
+grid-template-columns:1fr 460px;
+
+gap:60px;
+
+padding:30px;
+
+align-items:center;
+
+}
+
+/* LEFT */
+
+.left{
+
+padding:20px;
+
+}
+
+.logo{
+
+font-size:48px;
+font-weight:900;
+
+margin-bottom:30px;
+
+}
+
+.logo span{
+color:#4ade80;
+}
+
+.heading{
+
+font-size:74px;
+font-weight:900;
+
+line-height:1.05;
+
+max-width:650px;
+
+}
+
+.heading span{
+color:#4ade80;
+}
+
+.desc{
+
+margin-top:24px;
+
+font-size:18px;
+
+line-height:2;
+
+opacity:.78;
+
+max-width:620px;
+
+}
+
+.points{
+
+margin-top:40px;
+
+display:grid;
+gap:20px;
+
+}
+
+.point{
+
+display:flex;
+align-items:center;
+
+gap:14px;
+
+font-size:16px;
+font-weight:700;
+
+}
+
+.icon{
+
+width:52px;
+height:52px;
+
+border-radius:16px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+background:
+linear-gradient(
+135deg,
+#16a34a,
+#4ade80
+);
+
+font-size:22px;
+
+}
+
+/* CARD */
 
 .card{
-background:#111827;
-padding:35px;
-border-radius:18px;
-width:90%;
-max-width:420px;
-box-shadow:0 10px 30px rgba(0,0,0,.8);
+
+background:
+rgba(15,23,42,.95);
+
+border:
+1px solid rgba(255,255,255,.08);
+
+backdrop-filter:blur(16px);
+
+border-radius:34px;
+
+padding:38px;
+
+box-shadow:
+0 25px 80px rgba(0,0,0,.5);
+
 position:relative;
+
 }
+
+/* BACK */
 
 .back{
+
 position:absolute;
-top:15px;
-left:15px;
-font-size:22px;
+
+top:22px;
+left:22px;
+
+width:44px;
+height:44px;
+
+border-radius:14px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+background:#081225;
+
 cursor:pointer;
-opacity:.8;
+
+font-size:20px;
+
+transition:.25s;
+
 }
 
-h2{
+.back:hover{
+
+transform:translateX(-3px);
+
+}
+
+/* TITLE */
+
+.card h2{
+
 text-align:center;
-color:#22c55e;
+
+font-size:38px;
+font-weight:900;
+
+margin-bottom:10px;
+
+}
+
+.sub{
+
+text-align:center;
+
+opacity:.72;
+
+margin-bottom:35px;
+
+line-height:1.7;
+
+}
+
+/* INPUT */
+
+.input-group{
+
+margin-bottom:18px;
+
+}
+
+.label{
+
+font-size:14px;
+font-weight:700;
+
+margin-bottom:10px;
+
+opacity:.85;
+
 }
 
 input{
+
 width:100%;
-padding:14px;
-margin-top:14px;
+
+height:62px;
+
+padding:0 18px;
+
 border:none;
-border-radius:12px;
+
+outline:none;
+
+border-radius:18px;
+
 background:#020617;
+
 color:white;
+
+font-size:15px;
+
+border:
+1px solid rgba(255,255,255,.06);
+
+transition:.25s;
+
 }
 
-button{
+input:focus{
+
+border-color:#4ade80;
+
+box-shadow:
+0 0 0 4px rgba(34,197,94,.12);
+
+}
+
+/* BUTTON */
+
+.btn{
+
 width:100%;
-padding:14px;
-margin-top:18px;
+
+height:62px;
+
 border:none;
-border-radius:12px;
-background:linear-gradient(90deg,#22c55e,#4ade80);
+
+border-radius:20px;
+
+margin-top:10px;
+
+background:
+linear-gradient(
+90deg,
+#16a34a,
+#4ade80
+);
+
 color:white;
-font-weight:bold;
+
+font-size:16px;
+font-weight:900;
+
 cursor:pointer;
+
+transition:.3s;
+
 }
 
-.google{
-margin-top:20px;
+.btn:hover{
+
+transform:translateY(-3px);
+
+}
+
+/* GOOGLE */
+
+.google-box{
+
+margin-top:24px;
+
 display:flex;
 justify-content:center;
+
+}
+
+/* DIVIDER */
+
+.divider{
+
+margin:28px 0;
+
+display:flex;
+align-items:center;
+
+gap:14px;
+
+opacity:.5;
+
+font-size:13px;
+
+}
+
+.divider::before,
+.divider::after{
+
+content:"";
+
+height:1px;
+flex:1;
+
+background:
+rgba(255,255,255,.08);
+
+}
+
+/* LINKS */
+
+.links{
+
+margin-top:28px;
+
+display:grid;
+
+gap:14px;
+
 }
 
 .link{
-margin-top:12px;
+
 text-align:center;
-opacity:.8;
-cursor:pointer;
+
 font-size:14px;
+
+opacity:.75;
+
+cursor:pointer;
+
+transition:.25s;
+
 }
 
 .link:hover{
-color:#22c55e;
+
+opacity:1;
+
+color:#4ade80;
+
+}
+
+/* LOADER */
+
+.loader{
+
+width:22px;
+height:22px;
+
+border-radius:50%;
+
+border:3px solid
+rgba(255,255,255,.2);
+
+border-top:
+3px solid white;
+
+animation:spin .7s linear infinite;
+
+display:none;
+
+margin:auto;
+
+}
+
+@keyframes spin{
+
+100%{
+transform:rotate(360deg);
+}
+
+}
+
+/* MOBILE */
+
+@media(max-width:980px){
+
+.container{
+
+grid-template-columns:1fr;
+
+gap:30px;
+
+}
+
+.left{
+
+display:none;
+
+}
+
+body{
+
+padding:20px;
+
+overflow:auto;
+
+}
+
+.card{
+
+padding:30px 24px;
+
+}
+
+.card h2{
+
+font-size:32px;
+
+}
+
 }
 
 </style>
@@ -91,215 +549,481 @@ color:#22c55e;
 
 <body>
 
+<div class="bg"></div>
+
+<div class="container">
+
+<!-- LEFT -->
+
+<div class="left">
+
+<div class="logo">
+Creator<span>Hub</span>
+</div>
+
+<div class="heading">
+
+Discover Premium <span>Ebooks</span> From Top Creators
+
+</div>
+
+<div class="desc">
+
+Join CreatorHub marketplace to explore premium ebooks,
+digital products, creator subscriptions, live order tracking,
+and secure instant access from trusted creators worldwide.
+
+</div>
+
+<div class="points">
+
+<div class="point">
+<div class="icon">📚</div>
+Premium Ebook Marketplace
+</div>
+
+<div class="point">
+<div class="icon">⚡</div>
+Instant Digital Delivery
+</div>
+
+<div class="point">
+<div class="icon">💰</div>
+Creator Earnings System
+</div>
+
+<div class="point">
+<div class="icon">🚚</div>
+Physical Book Tracking
+</div>
+
+</div>
+
+</div>
+
+<!-- LOGIN CARD -->
+
 <div class="card">
 
-<div class="back" onclick="location.href='index.html'">⬅</div>
+<div
+class="back"
+onclick="location.href='index.html'">
+⬅
+</div>
 
-<h2>CreatorHub Login</h2>
+<h2>
+Welcome Back
+</h2>
 
-<input id="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
+<div class="sub">
 
-<button onclick="login()">Login</button>
+Login to access your ebooks,
+wallet, subscriptions and orders.
 
-<div class="google">
+</div>
 
-<div id="g_id_onload"
+<!-- EMAIL -->
+
+<div class="input-group">
+
+<div class="label">
+Email Address
+</div>
+
+<input
+id="email"
+type="email"
+placeholder="Enter your email">
+
+</div>
+
+<!-- PASSWORD -->
+
+<div class="input-group">
+
+<div class="label">
+Password
+</div>
+
+<input
+id="password"
+type="password"
+placeholder="Enter your password">
+
+</div>
+
+<!-- BUTTON -->
+
+<button
+id="loginBtn"
+class="btn"
+onclick="login()">
+
+<span id="loginText">
+Login To CreatorHub
+</span>
+
+<div id="loader" class="loader"></div>
+
+</button>
+
+<!-- DIVIDER -->
+
+<div class="divider">
+OR CONTINUE WITH
+</div>
+
+<!-- GOOGLE -->
+
+<div class="google-box">
+
+<div
+id="g_id_onload"
 data-client_id="895144937824-ojsv6ca2nn67h2mmne6td4r0hr89kmok.apps.googleusercontent.com"
 data-callback="handleGoogleLogin">
 </div>
 
-<div class="g_id_signin"
+<div
+class="g_id_signin"
 data-type="standard"
-data-size="large">
+data-size="large"
+data-theme="filled_black"
+data-shape="pill"
+data-text="continue_with">
 </div>
 
 </div>
 
-<div class="link" onclick="location.href='register.html'">
-Create Account
+<!-- LINKS -->
+
+<div class="links">
+
+<div
+class="link"
+onclick="location.href='register.html'">
+
+Create New Account
+
 </div>
 
-<div class="link" onclick="location.href='forgot.html'">
+<div
+class="link"
+onclick="location.href='forgot.html'">
+
 Forgot Password
+
 </div>
 
-<div class="link" onclick="location.href='recovery.html'">
-Recover Account
+<div
+class="link"
+onclick="location.href='recovery.html'">
+
+Recover Deleted Account
+
+</div>
+
+</div>
+
 </div>
 
 </div>
 
 <script>
 
-const API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec";
+const API =
+"https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec"
 
-/* LOGIN */
+/* =====================================================
+LOADING
+===================================================== */
+
+function setLoading(state){
+
+let text =
+document.getElementById(
+"loginText"
+)
+
+let loader =
+document.getElementById(
+"loader"
+)
+
+let btn =
+document.getElementById(
+"loginBtn"
+)
+
+if(state){
+
+text.style.display =
+"none"
+
+loader.style.display =
+"block"
+
+btn.disabled = true
+
+btn.style.opacity = ".7"
+
+}else{
+
+text.style.display =
+"block"
+
+loader.style.display =
+"none"
+
+btn.disabled = false
+
+btn.style.opacity = "1"
+
+}
+
+}
+
+/* =====================================================
+SAVE USER
+===================================================== */
+
+function saveUser(data){
+
+localStorage.setItem(
+"user_name",
+data.user.name || ""
+)
+
+localStorage.setItem(
+"user_email",
+data.user.email || ""
+)
+
+localStorage.setItem(
+"user_token",
+data.token || ""
+)
+
+localStorage.setItem(
+"user_image",
+data.user.profile_image || ""
+)
+
+}
+
+/* =====================================================
+LOGIN
+===================================================== */
 
 async function login(){
 
-let email=document.getElementById("email").value.trim().toLowerCase();
-let password=document.getElementById("password").value.trim();
+let email =
+document.getElementById(
+"email"
+).value.trim().toLowerCase()
+
+let password =
+document.getElementById(
+"password"
+).value.trim()
 
 if(!email || !password){
-alert("Fill all fields");
-return;
+
+alert("Please fill all fields")
+return
+
 }
 
 try{
 
-let form=new FormData();
+setLoading(true)
 
-form.append("action","login");
-form.append("email",email);
-form.append("password",password);
+let form =
+new FormData()
 
-let res=await fetch(API,{
+form.append(
+"action",
+"login"
+)
+
+form.append(
+"email",
+email
+)
+
+form.append(
+"password",
+password
+)
+
+let res =
+await fetch(API,{
 method:"POST",
 body:form
-});
+})
 
-let text=await res.text();
-let data=JSON.parse(text);
+let text =
+await res.text()
+
+let data =
+JSON.parse(text)
+
+setLoading(false)
 
 if(!data.success){
 
-if(data.message=="Account deleted"){
-alert("Your account is deleted. You can recover it within 90 days.")
-}else{
-alert(data.message || "Login failed")
-}
+alert(
+data.message ||
+"Login failed"
+)
 
 return
+
 }
 
-localStorage.setItem("user",JSON.stringify({
-email: data.user.email,
-token: data.token
-}));
+/* SAVE */
 
-alert("Login Success ✅");
+saveUser(data)
 
-location.href="dashboard.html";
+alert("Login Success ✅")
+
+window.location.href =
+"index.html"
 
 }catch(e){
 
-console.error(e);
-alert("Server error");
+console.log(e)
+
+setLoading(false)
+
+alert("Server error")
 
 }
 
 }
 
-
-/* GOOGLE LOGIN */
+/* =====================================================
+GOOGLE LOGIN
+===================================================== */
 
 async function handleGoogleLogin(response){
 
-let gdata = parseJwt(response.credential);
-
-// 🔥 backend call
-let res = await fetch(API,{
-method:"POST",
-body:new URLSearchParams({
-action:"google_login",
-email:gdata.email,
-name:gdata.name
-})
-});
-
-let text = await res.text();
-let data = JSON.parse(text);
-
-// 🔐 TOKEN SAVE
-if(data.success){
-localStorage.setItem("user",JSON.stringify({
-email: data.user.email,
-token: data.token
-}));
-}
-
-location.href="dashboard.html";
-
-}
-
-/* ACCOUNT RECOVERY */
-
-async function sendRecoveryOTP(){
-
-let email=prompt("Enter your registered email");
-
-if(!email) return;
-
 try{
 
-let form=new FormData();
+let gdata =
+parseJwt(
+response.credential
+)
 
-form.append("action","send_otp");
-form.append("email",email);
+let form =
+new FormData()
 
-let res=await fetch(API,{
+form.append(
+"action",
+"google_login"
+)
+
+form.append(
+"email",
+gdata.email
+)
+
+form.append(
+"name",
+gdata.name
+)
+
+let res =
+await fetch(API,{
 method:"POST",
 body:form
-});
+})
 
-let data=await res.json();
+let text =
+await res.text()
+
+let data =
+JSON.parse(text)
 
 if(!data.success){
-alert("Failed to send OTP");
-return;
-}
 
-let otp=prompt("Enter OTP sent to your email");
-
-let verify=new FormData();
-
-verify.append("action","verify_otp");
-verify.append("email",email);
-verify.append("otp",otp);
-
-let vres=await fetch(API,{
-method:"POST",
-body:verify
-});
-
-let vdata=await vres.json();
-
-if(vdata.success){
-
-alert("Account verified. You can now login.");
-
-}else{
-
-alert("Invalid OTP");
+alert("Google login failed")
+return
 
 }
+
+/* SAVE */
+
+saveUser(data)
+
+window.location.href =
+"index.html"
 
 }catch(e){
 
-console.error(e);
-alert("Recovery failed");
+console.log(e)
+
+alert("Google login failed")
 
 }
 
 }
 
-
-/* JWT PARSER */
+/* =====================================================
+JWT PARSER
+===================================================== */
 
 function parseJwt(token){
 
-var base64Url = token.split('.')[1];
-var base64 = base64Url.replace(/-/g,'+').replace(/_/g,'/');
-var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c){
-return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-}).join(''));
+var base64Url =
+token.split('.')[1]
 
-return JSON.parse(jsonPayload);
+var base64 =
+base64Url
+.replace(/-/g,'+')
+.replace(/_/g,'/')
+
+var jsonPayload =
+decodeURIComponent(
+atob(base64)
+.split('')
+.map(function(c){
+
+return '%' +
+('00' +
+c.charCodeAt(0)
+.toString(16))
+.slice(-2)
+
+}).join('')
+)
+
+return JSON.parse(
+jsonPayload
+)
+
+}
+
+/* =====================================================
+AUTO LOGIN
+===================================================== */
+
+window.onload = function(){
+
+let email =
+localStorage.getItem(
+"user_email"
+)
+
+if(email){
+
+window.location.href =
+"index.html"
+
+}
 
 }
 
 </script>
 
 </body>
-</html>
+  </html>
