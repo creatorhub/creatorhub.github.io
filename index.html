@@ -388,6 +388,22 @@ cursor:pointer;
 
 }
 
+#profileWrap{
+
+display:none;
+
+margin-right:6px;
+
+}
+
+#loginBtn{
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+}
+
 /* =====================================================
 MAIN
 ===================================================== */
@@ -1454,7 +1470,9 @@ LOGIN UI
 function updateLoginUI(){
 
 let email =
-localStorage.getItem("user_email")
+localStorage.getItem(
+"user_email"
+)
 
 let loginBtn =
 document.getElementById(
@@ -1466,22 +1484,56 @@ document.getElementById(
 "profileWrap"
 )
 
-if(email){
+/* LOGIN USER */
 
-/* USER LOGIN */
+if(
+email &&
+email !== "" &&
+email !== null
+){
+
+/* HIDE LOGIN BUTTON */
 
 loginBtn.style.display =
 "none"
 
+/* SHOW PROFILE */
+
 profileWrap.style.display =
 "flex"
 
+/* ALIGN FIX */
+
+profileWrap.style.alignItems =
+"center"
+
+/* LOAD USER IMAGE */
+
+let image =
+localStorage.getItem(
+"user_image"
+)
+
+if(image){
+
+document.getElementById(
+"profileImage"
+).src = image
+
+document.getElementById(
+"menuProfileImage"
+).src = image
+
+}
+
 }else{
 
-/* USER NOT LOGIN */
+/* SHOW LOGIN BUTTON */
 
 loginBtn.style.display =
 "flex"
+
+/* HIDE PROFILE */
 
 profileWrap.style.display =
 "none"
