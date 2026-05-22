@@ -4,7 +4,8 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
+<meta
+name="viewport"
 content="width=device-width,initial-scale=1.0">
 
 <title>
@@ -46,6 +47,24 @@ overflow-x:hidden;
 
 min-height:100vh;
 
+}
+
+/* =====================================================
+PERFORMANCE
+===================================================== */
+
+img{
+display:block;
+max-width:100%;
+}
+
+::-webkit-scrollbar{
+width:6px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#22c55e;
+border-radius:20px;
 }
 
 /* =====================================================
@@ -103,6 +122,8 @@ position:relative;
 
 cursor:pointer;
 
+display:flex;
+
 }
 
 .profile-image{
@@ -128,10 +149,6 @@ transform:scale(1.05);
 border-color:#4ade80;
 
 }
-
-/* =====================================================
-PROFILE MENU
-===================================================== */
 
 .profile-menu{
 
@@ -267,9 +284,7 @@ transition:.3s;
 }
 
 .logout-btn:hover{
-
 transform:translateY(-3px);
-
 }
 
 /* =====================================================
@@ -497,9 +512,7 @@ SECTION
 ===================================================== */
 
 .section{
-
 margin-top:90px;
-
 }
 
 .section-title{
@@ -564,9 +577,7 @@ border:
 }
 
 .filter-btn:hover{
-
 transform:translateY(-3px);
-
 }
 
 .filter-active{
@@ -577,8 +588,6 @@ linear-gradient(
 #16a34a,
 #4ade80
 );
-
-border:none;
 
 }
 
@@ -648,6 +657,8 @@ transition:.3s;
 box-shadow:
 0 8px 25px rgba(0,0,0,.3);
 
+transform:translateZ(0);
+
 }
 
 .book:hover{
@@ -670,12 +681,14 @@ object-fit:cover;
 
 background:#081225;
 
+content-visibility:auto;
+
+contain-intrinsic-size:300px;
+
 }
 
 .book-content{
-
 padding:12px;
-
 }
 
 .book-title{
@@ -807,18 +820,51 @@ grid-template-columns:1fr;
 }
 
 /* =====================================================
-LOADING
+SKELETON LOADER
 ===================================================== */
 
-.loading{
+.skeleton-grid{
 
-padding:50px;
+display:grid;
 
-text-align:center;
+grid-template-columns:
+repeat(6,1fr);
 
-opacity:.7;
+gap:16px;
 
-font-size:18px;
+margin-top:35px;
+
+}
+
+.skeleton-card{
+
+height:320px;
+
+border-radius:20px;
+
+background:
+linear-gradient(
+90deg,
+#081225 25%,
+#13203b 50%,
+#081225 75%
+);
+
+background-size:400% 100%;
+
+animation:skeleton 1.2s ease infinite;
+
+}
+
+@keyframes skeleton{
+
+0%{
+background-position:100% 0;
+}
+
+100%{
+background-position:-100% 0;
+}
 
 }
 
@@ -829,94 +875,35 @@ MOBILE
 @media(max-width:700px){
 
 .topbar{
-
 padding:16px 14px;
-
 }
 
 .logo{
-
 font-size:28px;
-
 }
 
 .nav{
-
 gap:12px;
-
 }
 
 .nav a{
-
 display:none;
-
 }
 
 .hero{
-
 padding:36px 24px;
-
 }
 
 .hero-title{
-
 font-size:42px;
-
 }
 
 .hero-desc{
-
 font-size:15px;
-
 }
 
 .section-title{
-
 font-size:42px;
-
-}
-
-}
-
-/* =====================================================
-LOADER
-===================================================== */
-
-.loader-wrap{
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-padding:60px 0;
-
-}
-
-.loader{
-
-width:65px;
-height:65px;
-
-border-radius:50%;
-
-border:5px solid
-rgba(255,255,255,.08);
-
-border-top:
-5px solid #4ade80;
-
-animation:spin 1s linear infinite;
-
-}
-
-@keyframes spin{
-
-0%{
-transform:rotate(0deg);
-}
-
-100%{
-transform:rotate(360deg);
 }
 
 }
@@ -926,6 +913,10 @@ transform:rotate(360deg);
 </head>
 
 <body>
+
+<!-- =====================================================
+TOPBAR
+===================================================== -->
 
 <div class="topbar">
 
@@ -1011,12 +1002,12 @@ Creator<span>Hub</span>
 
 <div class="nav">
 
-<a href="dashboard.html">
-Dashboard 
+<a href="#books">
+Books
 </a>
 
-<a href="subscription.html">
-Subscription
+<a href="#features">
+Features
 </a>
 
 <a href="wallet.html">
@@ -1042,7 +1033,13 @@ Login
 
 </div>
 
+<!-- =====================================================
+MAIN
+===================================================== -->
+
 <div class="main">
+
+<!-- HERO -->
 
 <div class="hero">
 
@@ -1079,6 +1076,8 @@ Track Your Order
 </div>
 
 </div>
+
+<!-- BOOKS -->
 
 <div
 id="books"
@@ -1134,15 +1133,22 @@ Budget Reads
 id="booksGrid"
 class="books-grid">
 
-<div class="loader-wrap">
+<div class="skeleton-grid">
 
-<div class="loader"></div>
+<div class="skeleton-card"></div>
+<div class="skeleton-card"></div>
+<div class="skeleton-card"></div>
+<div class="skeleton-card"></div>
+<div class="skeleton-card"></div>
+<div class="skeleton-card"></div>
 
 </div>
 
 </div>
 
 </div>
+
+<!-- FEATURES -->
 
 <div
 id="features"
@@ -1235,7 +1241,7 @@ Massive Collection
 </h3>
 
 <p>
-Explore a growing collection of premium ebooks from creators, entrepreneurs, educators, and industry experts.
+Explore a growing collection of premium ebooks from creators and experts.
 </p>
 
 </div>
@@ -1251,7 +1257,7 @@ Personalized Discovery
 </h3>
 
 <p>
-Find trending, high-rated, and recommended ebooks tailored to your interests and reading preferences.
+Find trending and recommended ebooks tailored to your interests.
 </p>
 
 </div>
@@ -1262,9 +1268,15 @@ Find trending, high-rated, and recommended ebooks tailored to your interests and
 
 </div>
 
+<!-- FOOTER -->
+
 <div id="footerContainer"></div>
 
 <script>
+
+/* =====================================================
+PROFILE
+===================================================== */
 
 const USER_NAME =
 localStorage.getItem("user_name")
@@ -1298,6 +1310,10 @@ document.getElementById(
 "menuEmail"
 ).innerHTML = USER_EMAIL
 
+/* =====================================================
+MENU
+===================================================== */
+
 function toggleProfileMenu(){
 
 document.getElementById(
@@ -1315,7 +1331,10 @@ document.querySelector(
 ".profile-wrap"
 )
 
-if(!wrap.contains(e.target)){
+if(
+wrap &&
+!wrap.contains(e.target)
+){
 
 document.getElementById(
 "profileMenu"
@@ -1326,6 +1345,10 @@ document.getElementById(
 }
 )
 
+/* =====================================================
+LOGOUT
+===================================================== */
+
 function logout(){
 
 localStorage.clear()
@@ -1335,8 +1358,16 @@ window.location.href =
 
 }
 
+/* =====================================================
+API
+===================================================== */
+
 const API_URL =
 "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
+
+/* =====================================================
+DRIVE IMAGE
+===================================================== */
 
 function driveImage(url){
 
@@ -1393,7 +1424,7 @@ loginBtn.style.display =
 "none"
 
 profileWrap.style.display =
-"block"
+"flex"
 
 }else{
 
@@ -1407,13 +1438,20 @@ profileWrap.style.display =
 
 }
 
+/* =====================================================
+LOAD BOOKS
+===================================================== */
+
 async function loadBooks(){
 
 try{
 
 let res =
 await fetch(
-API_URL + "?action=products"
+API_URL + "?action=products",
+{
+cache:"force-cache"
+}
 )
 
 let data =
@@ -1471,6 +1509,10 @@ Failed to load ebooks.
 
 }
 
+/* =====================================================
+RENDER
+===================================================== */
+
 function renderBooks(books){
 
 let grid =
@@ -1496,6 +1538,7 @@ window.location.href=
 class="book-cover"
 src="${driveImage(book.front_cover)}"
 loading="lazy"
+decoding="async"
 >
 
 <div class="book-content">
@@ -1521,6 +1564,10 @@ by ${book.author || "Unknown"}
 })
 
 }
+
+/* =====================================================
+FILTER
+===================================================== */
 
 function filterBooks(type,button){
 
@@ -1584,8 +1631,14 @@ Number(b.price||0)<300
 
 }
 
+/* =====================================================
+START
+===================================================== */
+
 updateLoginUI()
 loadBooks()
+
+requestIdleCallback(()=>{
 
 fetch("footer.html")
 .then(res=>res.text())
@@ -1597,7 +1650,9 @@ document.getElementById(
 
 })
 
+})
+
 </script>
 
 </body>
-</html>
+  </html>
