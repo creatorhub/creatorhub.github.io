@@ -1286,86 +1286,6 @@ Protected transactions, encrypted systems, and trusted marketplace infrastructur
 
 </div>
 
-<!-- FOOTER -->
-
-<div class="footer">
-
-<div class="footer-grid">
-
-<div>
-
-<div class="footer-logo">
-Creator<span>Hub</span>
-</div>
-
-<div class="footer-text">
-
-Premium ebook marketplace with secure payments, live tracking, creator earnings, and automated fulfillment systems.
-
-</div>
-
-</div>
-
-<div>
-
-<div class="footer-title">
-Marketplace
-</div>
-
-<div class="footer-links">
-
-<a href="#books">
-Trending Books
-</a>
-
-<a href="wallet.html">
-Wallet Center
-</a>
-
-<a href="track.html">
-Track Order
-</a>
-
-</div>
-
-</div>
-
-<div>
-
-<div class="footer-title">
-Support
-</div>
-
-<div class="footer-links">
-
-<a href="mailto:support@creatorhub.com">
-support@creatorhub.com
-</a>
-
-<a href="login.html">
-Creator Login
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="footer-bottom">
-
-<div>
-© 2025 CreatorHub Marketplace
-</div>
-
-<div>
-Secure Payments • Live Tracking • Creator Earnings
-</div>
-
-</div>
-
-</div>
-
 <script>
 
 /* =====================================================
@@ -1688,6 +1608,24 @@ START
 ===================================================== */
 
 loadBooks()
+
+</script>
+
+<!-- FOOTER LOAD -->
+
+<div id="footerContainer"></div>
+
+<script>
+
+fetch("footer.html")
+.then(res=>res.text())
+.then(data=>{
+
+document.getElementById(
+"footerContainer"
+).innerHTML = data
+
+})
 
 </script>
 
