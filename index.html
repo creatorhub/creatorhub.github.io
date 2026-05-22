@@ -50,13 +50,8 @@ min-height:100vh;
 }
 
 /* =====================================================
-PERFORMANCE
+SCROLLBAR
 ===================================================== */
-
-img{
-display:block;
-max-width:100%;
-}
 
 ::-webkit-scrollbar{
 width:6px;
@@ -97,7 +92,7 @@ border-bottom:
 
 display:flex;
 align-items:center;
-gap:18px;
+gap:16px;
 
 }
 
@@ -120,9 +115,12 @@ PROFILE
 
 position:relative;
 
-cursor:pointer;
+display:none;
 
-display:flex;
+align-items:center;
+justify-content:center;
+
+cursor:pointer;
 
 }
 
@@ -150,47 +148,9 @@ border-color:#4ade80;
 
 }
 
-.profile-wrap{
-
-display:none;
-
-align-items:center;
-
-justify-content:center;
-
-}
-
-.profile-menu{
-
-display:none;
-
-}
-
-.profile-menu.show{
-
-display:block;
-
-animation:menuShow .25s ease;
-
-}
-
-@keyframes menuShow{
-
-0%{
-opacity:0;
-transform:
-translateY(10px)
-scale(.95);
-}
-
-100%{
-opacity:1;
-transform:
-translateY(0)
-scale(1);
-}
-
-}
+/* =====================================================
+PROFILE MENU
+===================================================== */
 
 .profile-menu{
 
@@ -220,7 +180,29 @@ z-index:999;
 }
 
 .profile-menu.show{
+
 display:block;
+
+animation:menuShow .25s ease;
+
+}
+
+@keyframes menuShow{
+
+0%{
+opacity:0;
+transform:
+translateY(10px)
+scale(.95);
+}
+
+100%{
+opacity:1;
+transform:
+translateY(0)
+scale(1);
+}
+
 }
 
 .profile-header{
@@ -337,7 +319,7 @@ NAV
 
 display:flex;
 align-items:center;
-gap:24px;
+gap:22px;
 
 }
 
@@ -386,21 +368,11 @@ font-weight:900;
 
 cursor:pointer;
 
-}
-
-#profileWrap{
-
-display:none;
-
-margin-right:6px;
-
-}
-
-#loginBtn{
-
 display:flex;
 align-items:center;
 justify-content:center;
+
+min-width:110px;
 
 }
 
@@ -715,8 +687,6 @@ transition:.3s;
 box-shadow:
 0 8px 25px rgba(0,0,0,.3);
 
-transform:translateZ(0);
-
 }
 
 .book:hover{
@@ -738,10 +708,6 @@ aspect-ratio:3/4;
 object-fit:cover;
 
 background:#081225;
-
-content-visibility:auto;
-
-contain-intrinsic-size:300px;
 
 }
 
@@ -878,7 +844,7 @@ grid-template-columns:1fr;
 }
 
 /* =====================================================
-SKELETON LOADER
+SKELETON
 ===================================================== */
 
 .skeleton-grid{
@@ -972,10 +938,6 @@ font-size:42px;
 
 <body>
 
-<!-- =====================================================
-TOPBAR
-===================================================== -->
-
 <div class="topbar">
 
 <div class="topbar-left">
@@ -1043,9 +1005,7 @@ user@email.com
 class="logout-btn"
 onclick="logout()"
 >
-
 Logout
-
 </div>
 
 </div>
@@ -1061,13 +1021,12 @@ Creator<span>Hub</span>
 <div class="nav">
 
 <a href="dashboard.html">
-Dashboard 
+Dashboard
 </a>
-  
+
 <a href="subscription.html">
 Subscription
 </a>
-
 
 <a href="wallet.html">
 Wallet
@@ -1083,35 +1042,23 @@ class="login-btn"
 onclick="
 window.location.href='login.html'
 ">
-
 Login
-
 </button>
 
 </div>
 
 </div>
 
-<!-- =====================================================
-MAIN
-===================================================== -->
-
 <div class="main">
-
-<!-- HERO -->
 
 <div class="hero">
 
 <div class="hero-title">
-
-Discover Premium <span>Ebooks</span> From Top Digital Creators
-
+Discover Premium <span>Ebooks</span>
 </div>
 
 <div class="hero-desc">
-
-Buy premium ebooks with secure checkout, live order tracking, automated fulfillment, and instant access through the CreatorHub marketplace ecosystem.
-
+Buy premium ebooks with secure checkout and instant access.
 </div>
 
 <div class="hero-actions">
@@ -1119,24 +1066,18 @@ Buy premium ebooks with secure checkout, live order tracking, automated fulfillm
 <a
 href="#books"
 class="hero-btn primary">
-
 Browse Marketplace
-
 </a>
 
 <a
 href="track.html"
 class="hero-btn secondary">
-
 Track Your Order
-
 </a>
 
 </div>
 
 </div>
-
-<!-- BOOKS -->
 
 <div
 id="books"
@@ -1147,9 +1088,7 @@ Featured Collection
 </div>
 
 <div class="section-desc">
-
-Browse the latest premium ebooks uploaded by creators on CreatorHub.
-
+Browse latest premium ebooks uploaded by creators.
 </div>
 
 <div class="filters">
@@ -1157,33 +1096,25 @@ Browse the latest premium ebooks uploaded by creators on CreatorHub.
 <button
 class="filter-btn filter-active"
 onclick="filterBooks('all',this)">
-
 All Books
-
 </button>
 
 <button
 class="filter-btn"
 onclick="filterBooks('trending',this)">
-
 Trending
-
 </button>
 
 <button
 class="filter-btn"
 onclick="filterBooks('high',this)">
-
 High Rated
-
 </button>
 
 <button
 class="filter-btn"
 onclick="filterBooks('low',this)">
-
 Budget Reads
-
 </button>
 
 </div>
@@ -1207,192 +1138,49 @@ class="books-grid">
 
 </div>
 
-<!-- FEATURES -->
-
-<div
-id="features"
-class="section">
-
-<div class="section-title">
-Why Readers Love CreatorHub
 </div>
-
-<div class="section-desc">
-
-A premium ebook buying experience with secure payments, live tracking, fulfillment systems, and trusted creators.
-
-</div>
-
-<div class="features">
-
-<div class="feature">
-
-<div class="feature-icon">
-⚡
-</div>
-
-<h3>
-Instant Checkout
-</h3>
-
-<p>
-Fast and secure payments powered by Cashfree payment systems.
-</p>
-
-</div>
-
-<div class="feature">
-
-<div class="feature-icon">
-📦
-</div>
-
-<h3>
-Print & Delivery
-</h3>
-
-<p>
-Automatic printing and nationwide delivery powered through fulfillment systems.
-</p>
-
-</div>
-
-<div class="feature">
-
-<div class="feature-icon">
-🚚
-</div>
-
-<h3>
-Live Tracking
-</h3>
-
-<p>
-Track printing, packaging, courier updates, and deliveries in real-time.
-</p>
-
-</div>
-
-<div class="feature">
-
-<div class="feature-icon">
-🔒
-</div>
-
-<h3>
-Secure Platform
-</h3>
-
-<p>
-Protected transactions, encrypted systems, and trusted marketplace infrastructure.
-</p>
-
-</div>
-
-<div class="feature">
-
-<div class="feature-icon">
-📚
-</div>
-
-<h3>
-Massive Collection
-</h3>
-
-<p>
-Explore a growing collection of premium ebooks from creators and experts.
-</p>
-
-</div>
-
-<div class="feature">
-
-<div class="feature-icon">
-🎯
-</div>
-
-<h3>
-Personalized Discovery
-</h3>
-
-<p>
-Find trending and recommended ebooks tailored to your interests.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- FOOTER -->
 
 <div id="footerContainer"></div>
 
 <script>
 
 /* =====================================================
-PROFILE
+API
 ===================================================== */
 
-const USER_NAME =
-localStorage.getItem("user_name")
-|| "CreatorHub User"
+const API_URL =
+"https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
 
-const USER_EMAIL =
-localStorage.getItem("user_email")
-|| "user@email.com"
-
-const USER_IMAGE =
-localStorage.getItem("user_image")
-||
-
-`https://ui-avatars.com/api/?name=${
-encodeURIComponent(USER_NAME)
-}&background=22c55e&color=fff`
-
-document.getElementById(
-"profileImage"
-).src = USER_IMAGE
-
-document.getElementById(
-"menuProfileImage"
-).src = USER_IMAGE
-
-document.getElementById(
-"menuName"
-).innerHTML = USER_NAME
-
-document.getElementById(
-"menuEmail"
-).innerHTML = USER_EMAIL
+const AUTH_API =
+"https://script.google.com/macros/s/AKfycbwg4Xxd1he7OWkjMgeaXhEtCG2mvW9MtceFA-vcKykLB_LODR4_RtIi7wWbv9sKiy1V/exec"
 
 /* =====================================================
-MENU
+PROFILE MENU
 ===================================================== */
 
 function toggleProfileMenu(){
 
-document.getElementById(
+document
+.getElementById(
 "profileMenu"
-).classList.toggle("show")
+)
+.classList.toggle(
+"show"
+)
 
 }
 
-window.addEventListener(
+/* =====================================================
+OUTSIDE CLICK
+===================================================== */
+
+document.addEventListener(
 "click",
 function(e){
 
-let wrap =
-document.querySelector(
-".profile-wrap"
-)
-
-let menu =
+const wrap =
 document.getElementById(
-"profileMenu"
+"profileWrap"
 )
 
 if(
@@ -1400,7 +1188,11 @@ wrap &&
 !wrap.contains(e.target)
 ){
 
-menu.classList.remove(
+document
+.getElementById(
+"profileMenu"
+)
+.classList.remove(
 "show"
 )
 
@@ -1423,15 +1215,128 @@ window.location.href =
 }
 
 /* =====================================================
-API
+CHECK LOGIN
 ===================================================== */
 
-const API_URL =
-"https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
+async function checkLogin(){
 
-const AUTH_API =
-"https://script.google.com/macros/s/AKfycbwg4Xxd1he7OWkjMgeaXhEtCG2mvW9MtceFA-vcKykLB_LODR4_RtIi7wWbv9sKiy1V/exec"
-  
+const email =
+localStorage.getItem(
+"user_email"
+)
+
+const loginBtn =
+document.getElementById(
+"loginBtn"
+)
+
+const profileWrap =
+document.getElementById(
+"profileWrap"
+)
+
+if(!email){
+
+loginBtn.style.display =
+"flex"
+
+profileWrap.style.display =
+"none"
+
+return
+
+}
+
+try{
+
+const res =
+await fetch(AUTH_API,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+action:"getUserProfile",
+
+email:email
+
+})
+
+})
+
+const data =
+await res.json()
+
+if(
+!data.success ||
+!data.user
+){
+
+localStorage.clear()
+
+loginBtn.style.display =
+"flex"
+
+profileWrap.style.display =
+"none"
+
+return
+
+}
+
+/* SUCCESS */
+
+loginBtn.style.display =
+"none"
+
+profileWrap.style.display =
+"flex"
+
+document.getElementById(
+"menuName"
+).innerHTML =
+data.user.username ||
+"CreatorHub User"
+
+document.getElementById(
+"menuEmail"
+).innerHTML =
+email
+
+let image =
+data.user.profile_image
+
+if(!image){
+
+image =
+`https://ui-avatars.com/api/?name=${
+encodeURIComponent(
+data.user.username
+)
+}&background=22c55e&color=fff`
+
+}
+
+document.getElementById(
+"profileImage"
+).src = image
+
+document.getElementById(
+"menuProfileImage"
+).src = image
+
+}catch(err){
+
+console.log(err)
+
+}
+
+}
+
 /* =====================================================
 DRIVE IMAGE
 ===================================================== */
@@ -1467,85 +1372,6 @@ return url
 }
 
 /* =====================================================
-LOGIN UI
-===================================================== */
-
-function updateLoginUI(){
-
-let email =
-localStorage.getItem(
-"user_email"
-)
-
-let loginBtn =
-document.getElementById(
-"loginBtn"
-)
-
-let profileWrap =
-document.getElementById(
-"profileWrap"
-)
-
-/* LOGIN USER */
-
-if(
-email &&
-email !== "" &&
-email !== null
-){
-
-/* HIDE LOGIN BUTTON */
-
-loginBtn.style.display =
-"none"
-
-/* SHOW PROFILE */
-
-profileWrap.style.display =
-"flex"
-
-/* ALIGN FIX */
-
-profileWrap.style.alignItems =
-"center"
-
-/* LOAD USER IMAGE */
-
-let image =
-localStorage.getItem(
-"user_image"
-)
-
-if(image){
-
-document.getElementById(
-"profileImage"
-).src = image
-
-document.getElementById(
-"menuProfileImage"
-).src = image
-
-}
-
-}else{
-
-/* SHOW LOGIN BUTTON */
-
-loginBtn.style.display =
-"flex"
-
-/* HIDE PROFILE */
-
-profileWrap.style.display =
-"none"
-
-}
-
-}
-  
-/* =====================================================
 LOAD BOOKS
 ===================================================== */
 
@@ -1555,10 +1381,7 @@ try{
 
 let res =
 await fetch(
-API_URL + "?action=products",
-{
-cache:"force-cache"
-}
+API_URL + "?action=products"
 )
 
 let data =
@@ -1575,49 +1398,30 @@ if(
 data.products.length===0
 ){
 
-grid.innerHTML = `
-
-<div class="loading">
-
-No ebooks uploaded yet.
-
-</div>
-
-`
+grid.innerHTML =
+"<div>No ebooks uploaded yet.</div>"
 
 return
 
 }
 
-let books =
+window.ALL_BOOKS =
 data.products.reverse()
 
-window.ALL_BOOKS = books
-
-renderBooks(books)
+renderBooks(
+window.ALL_BOOKS
+)
 
 }catch(err){
 
 console.log(err)
-
-document.getElementById(
-"booksGrid"
-).innerHTML = `
-
-<div class="loading">
-
-Failed to load ebooks.
-
-</div>
-
-`
 
 }
 
 }
 
 /* =====================================================
-RENDER
+RENDER BOOKS
 ===================================================== */
 
 function renderBooks(books){
@@ -1645,7 +1449,6 @@ window.location.href=
 class="book-cover"
 src="${driveImage(book.front_cover)}"
 loading="lazy"
-decoding="async"
 >
 
 <div class="book-content">
@@ -1739,132 +1542,16 @@ Number(b.price||0)<300
 }
 
 /* =====================================================
-CHECK LOGIN
-===================================================== */
-
-async function checkLogin(){
-
-let email =
-localStorage.getItem(
-"user_email"
-)
-
-let loginBtn =
-document.getElementById(
-"loginBtn"
-)
-
-let profileWrap =
-document.getElementById(
-"profileWrap"
-)
-
-if(!email){
-
-loginBtn.style.display =
-"flex"
-
-profileWrap.style.display =
-"none"
-
-return
-
-}
-
-try{
-
-let res =
-await fetch(AUTH_API,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-
-action:"getUserProfile",
-
-email:email
-
-})
-
-})
-
-let data =
-await res.json()
-
-if(
-!data.success ||
-!data.user
-){
-
-localStorage.clear()
-
-loginBtn.style.display =
-"flex"
-
-profileWrap.style.display =
-"none"
-
-return
-
-}
-
-/* SUCCESS */
-
-loginBtn.style.display =
-"none"
-
-profileWrap.style.display =
-"flex"
-
-/* USER */
-
-document.getElementById(
-"menuName"
-).innerHTML =
-data.user.name
-
-document.getElementById(
-"menuEmail"
-).innerHTML =
-data.user.email
-
-/* IMAGE */
-
-let image =
-data.user.profile_image
-
-if(image){
-
-document.getElementById(
-"profileImage"
-).src = image
-
-document.getElementById(
-"menuProfileImage"
-).src = image
-
-}
-
-}catch(err){
-
-console.log(err)
-
-}
-
-}
-
-/* =====================================================
 START
 ===================================================== */
 
-checkLogin()
-loadBooks()
+window.addEventListener(
+"load",
+async function(){
 
-requestIdleCallback(()=>{
+await checkLogin()
+
+loadBooks()
 
 fetch("footer.html")
 .then(res=>res.text())
@@ -1876,9 +1563,10 @@ document.getElementById(
 
 })
 
-})
+}
+)
 
 </script>
 
 </body>
-  </html>
+</html>
