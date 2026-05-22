@@ -1221,27 +1221,20 @@ CHECK LOGIN
 async function checkLogin(){
 
 const email =
-localStorage.getItem(
-"user_email"
-)
+localStorage.getItem("user_email")
 
 const loginBtn =
-document.getElementById(
-"loginBtn"
-)
+document.getElementById("loginBtn")
 
 const profileWrap =
-document.getElementById(
-"profileWrap"
-)
+document.getElementById("profileWrap")
+
+/* NO LOGIN */
 
 if(!email){
 
-loginBtn.style.display =
-"flex"
-
-profileWrap.style.display =
-"none"
+loginBtn.style.display = "flex"
+profileWrap.style.display = "none"
 
 return
 
@@ -1261,15 +1254,17 @@ headers:{
 body:JSON.stringify({
 
 action:"getUserProfile",
-
 email:email
 
 })
 
 })
 
-const data =
-await res.json()
+const data = await res.json()
+
+console.log(data)
+
+/* LOGIN FAILED */
 
 if(
 !data.success ||
@@ -1278,23 +1273,20 @@ if(
 
 localStorage.clear()
 
-loginBtn.style.display =
-"flex"
-
-profileWrap.style.display =
-"none"
+loginBtn.style.display = "flex"
+profileWrap.style.display = "none"
 
 return
 
 }
 
-/* SUCCESS */
+/* LOGIN SUCCESS */
 
-loginBtn.style.display =
-"none"
+loginBtn.style.display = "none"
 
-profileWrap.style.display =
-"flex"
+profileWrap.style.display = "flex"
+
+/* USERNAME */
 
 document.getElementById(
 "menuName"
@@ -1302,24 +1294,33 @@ document.getElementById(
 data.user.username ||
 "CreatorHub User"
 
+/* EMAIL */
+
 document.getElementById(
 "menuEmail"
 ).innerHTML =
 email
 
+/* PROFILE IMAGE */
+
 let image =
 data.user.profile_image
 
-if(!image){
+if(
+!image ||
+image==""
+){
 
 image =
 `https://ui-avatars.com/api/?name=${
 encodeURIComponent(
-data.user.username
+data.user.username || "User"
 )
 }&background=22c55e&color=fff`
 
 }
+
+/* SET IMAGE */
 
 document.getElementById(
 "profileImage"
@@ -1329,9 +1330,27 @@ document.getElementById(
 "menuProfileImage"
 ).src = image
 
+/* SAVE */
+
+localStorage.setItem(
+"user_image",
+image
+)
+
 }catch(err){
 
-console.log(err)
+console.log(
+"LOGIN CHECK ERROR",
+err
+)
+
+document.getElementById(
+"loginBtn"
+).style.display = "flex"
+
+document.getElementById(
+"profileWrap"
+).style.display = "none"
 
 }
 
