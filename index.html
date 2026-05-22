@@ -1429,6 +1429,9 @@ API
 const API_URL =
 "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
 
+const AUTH_API =
+"https://script.google.com/macros/s/AKfycbwg4Xxd1he7OWkjMgeaXhEtCG2mvW9MtceFA-vcKykLB_LODR4_RtIi7wWbv9sKiy1V/exec"
+  
 /* =====================================================
 DRIVE IMAGE
 ===================================================== */
@@ -1739,66 +1742,100 @@ Number(b.price||0)<300
 CHECK LOGIN
 ===================================================== */
 
-function checkLogin(){
+async function checkLogin(){
 
 let email =
 localStorage.getItem(
 "user_email"
 )
 
-let name =
-localStorage.getItem(
-"user_name"
-)
-
-if(
-!email ||
-email === "" ||
-email === null
-){
-
-/* USER NOT LOGIN */
-
+let loginBtn =
 document.getElementById(
 "loginBtn"
-).style.display = "flex"
+)
 
+let profileWrap =
 document.getElementById(
 "profileWrap"
-).style.display = "none"
+)
+
+if(!email){
+
+loginBtn.style.display =
+"flex"
+
+profileWrap.style.display =
+"none"
 
 return
 
 }
 
-/* USER LOGIN */
+try{
 
-document.getElementById(
-"loginBtn"
-).style.display = "none"
+let res =
+await fetch(AUTH_API,{
 
-document.getElementById(
-"profileWrap"
-).style.display = "flex"
+method:"POST",
 
-/* USER DATA */
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+action:"getUserProfile",
+
+email:email
+
+})
+
+})
+
+let data =
+await res.json()
+
+if(
+!data.success ||
+!data.user
+){
+
+localStorage.clear()
+
+loginBtn.style.display =
+"flex"
+
+profileWrap.style.display =
+"none"
+
+return
+
+}
+
+/* SUCCESS */
+
+loginBtn.style.display =
+"none"
+
+profileWrap.style.display =
+"flex"
+
+/* USER */
 
 document.getElementById(
 "menuName"
 ).innerHTML =
-name || "CreatorHub User"
+data.user.name
 
 document.getElementById(
 "menuEmail"
 ).innerHTML =
-email
+data.user.email
 
-/* PROFILE IMAGE */
+/* IMAGE */
 
 let image =
-localStorage.getItem(
-"user_image"
-)
+data.user.profile_image
 
 if(image){
 
@@ -1809,6 +1846,12 @@ document.getElementById(
 document.getElementById(
 "menuProfileImage"
 ).src = image
+
+}
+
+}catch(err){
+
+console.log(err)
 
 }
 
