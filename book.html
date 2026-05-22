@@ -29,6 +29,10 @@ box-sizing:border-box;
 font-family:'Inter',sans-serif;
 }
 
+html{
+scroll-behavior:smooth;
+}
+
 body{
 
 background:
@@ -45,11 +49,22 @@ overflow-x:hidden;
 }
 
 /* =========================
-SCROLLBAR
+GLOBAL
 ========================= */
+
+a{
+text-decoration:none;
+color:white;
+}
+
+img{
+display:block;
+max-width:100%;
+}
 
 ::-webkit-scrollbar{
 width:6px;
+height:4px;
 }
 
 ::-webkit-scrollbar-thumb{
@@ -98,27 +113,26 @@ color:#4ade80;
 
 display:flex;
 align-items:center;
-gap:20px;
+gap:24px;
 
 }
 
 .nav a{
 
-color:white;
-text-decoration:none;
-
 font-size:14px;
 font-weight:700;
 
-opacity:.8;
+opacity:.82;
 
 transition:.3s;
 
 }
 
 .nav a:hover{
+
 opacity:1;
 color:#4ade80;
+
 }
 
 .back-btn{
@@ -156,7 +170,8 @@ max-width:1450px;
 
 margin:auto;
 
-padding:40px 16px 100px;
+padding:
+40px 16px 100px;
 
 }
 
@@ -179,15 +194,15 @@ gap:18px;
 
 .loader{
 
-width:70px;
-height:70px;
+width:60px;
+height:60px;
 
 border-radius:50%;
 
-border:6px solid
+border:5px solid
 rgba(255,255,255,.08);
 
-border-top:6px solid #4ade80;
+border-top:5px solid #4ade80;
 
 animation:spin 1s linear infinite;
 
@@ -207,8 +222,8 @@ transform:rotate(360deg);
 
 .loading-text{
 
-font-size:18px;
-font-weight:800;
+font-size:16px;
+font-weight:700;
 
 opacity:.8;
 
@@ -223,19 +238,11 @@ BOOK SHOWCASE
 display:grid;
 
 grid-template-columns:
-420px 1fr;
+380px 1fr;
 
-gap:36px;
+gap:34px;
 
 align-items:start;
-
-}
-
-@media(max-width:1000px){
-
-.book-showcase{
-grid-template-columns:1fr;
-}
 
 }
 
@@ -246,7 +253,10 @@ LEFT
 .book-gallery{
 
 position:sticky;
-top:100px;
+
+top:95px;
+
+height:fit-content;
 
 }
 
@@ -254,11 +264,11 @@ top:100px;
 
 width:100%;
 
-max-height:650px;
+height:540px;
 
 object-fit:cover;
 
-border-radius:30px;
+border-radius:28px;
 
 background:#0f172a;
 
@@ -266,27 +276,34 @@ border:
 1px solid rgba(255,255,255,.06);
 
 box-shadow:
-0 25px 70px rgba(0,0,0,.45);
+0 20px 60px rgba(0,0,0,.45);
 
 }
 
 .thumb-row{
 
 display:flex;
-gap:14px;
 
-margin-top:18px;
+gap:12px;
+
+margin-top:16px;
+
+overflow-x:auto;
+
+padding-bottom:4px;
 
 }
 
 .thumb{
 
-width:90px;
-height:120px;
+min-width:78px;
+
+width:78px;
+height:100px;
 
 object-fit:cover;
 
-border-radius:18px;
+border-radius:16px;
 
 cursor:pointer;
 
@@ -295,16 +312,20 @@ border:
 
 transition:.3s;
 
-background:#0f172a;
+background:#081225;
 
 }
 
 .thumb:hover{
+
 transform:translateY(-3px);
+
 }
 
 .active-thumb{
+
 border-color:#4ade80;
+
 }
 
 /* =========================
@@ -318,13 +339,15 @@ background:#0f172a;
 border:
 1px solid rgba(255,255,255,.06);
 
-border-radius:36px;
+border-radius:34px;
 
-padding:38px;
+padding:36px;
 
 }
 
-.top-tags{
+/* TAGS */
+
+.tags{
 
 display:flex;
 gap:12px;
@@ -345,6 +368,13 @@ font-weight:800;
 
 }
 
+.green{
+background:#14532d;
+color:#86efac;
+}
+
+/* TITLE */
+
 .book-title{
 
 margin-top:24px;
@@ -352,41 +382,64 @@ margin-top:24px;
 font-size:58px;
 font-weight:900;
 
-line-height:1.05;
+line-height:1.08;
 
 }
 
 .book-author{
 
-margin-top:16px;
+margin-top:14px;
 
 font-size:18px;
 
-opacity:.7;
+opacity:.72;
 
 }
 
-.rating-row{
+/* STATS */
+
+.stats{
 
 display:flex;
 gap:14px;
 flex-wrap:wrap;
 
-margin-top:24px;
+margin-top:30px;
 
 }
 
-.rating-box{
-
-padding:14px 18px;
-
-border-radius:18px;
+.stat{
 
 background:#081225;
 
-font-weight:800;
+padding:18px 22px;
+
+border-radius:18px;
+
+min-width:130px;
 
 }
+
+.stat-number{
+
+font-size:22px;
+font-weight:900;
+
+color:#4ade80;
+
+}
+
+.stat-label{
+
+margin-top:6px;
+
+font-size:13px;
+
+opacity:.7;
+
+}
+
+/* PRICE */
 
 .price-row{
 
@@ -395,13 +448,13 @@ align-items:center;
 gap:16px;
 flex-wrap:wrap;
 
-margin-top:30px;
+margin-top:34px;
 
 }
 
-.main-price{
+.price{
 
-font-size:64px;
+font-size:62px;
 font-weight:900;
 
 color:#4ade80;
@@ -410,7 +463,7 @@ color:#4ade80;
 
 .old-price{
 
-font-size:34px;
+font-size:32px;
 
 opacity:.35;
 
@@ -422,56 +475,54 @@ text-decoration:line-through;
 
 padding:10px 14px;
 
-border-radius:14px;
+border-radius:12px;
 
-background:
-rgba(34,197,94,.15);
+background:#14532d;
 
-color:#4ade80;
-
+font-size:14px;
 font-weight:900;
+
+color:#86efac;
 
 }
 
-.book-description{
+/* DESCRIPTION */
+
+.desc{
 
 margin-top:34px;
 
 line-height:2;
 
-opacity:.82;
-
 font-size:16px;
+
+opacity:.82;
 
 }
 
-/* =========================
-BUTTONS
-========================= */
+/* BUTTONS */
 
-.action-grid{
+.actions{
 
 display:flex;
 gap:16px;
 flex-wrap:wrap;
 
-margin-top:38px;
+margin-top:36px;
 
 }
 
-.buy-btn,
-.cart-btn,
-.share-btn{
+.action-btn{
 
-height:64px;
+height:60px;
 
-padding:0 30px;
+padding:0 28px;
 
 border:none;
 
-border-radius:20px;
+border-radius:18px;
 
-font-size:16px;
+font-size:15px;
 font-weight:900;
 
 cursor:pointer;
@@ -480,7 +531,11 @@ transition:.3s;
 
 }
 
-.buy-btn{
+.action-btn:hover{
+transform:translateY(-3px);
+}
+
+.buy{
 
 background:
 linear-gradient(
@@ -493,41 +548,21 @@ color:white;
 
 }
 
-.cart-btn{
+.cart{
 
 background:#081225;
-
 color:white;
-
-border:
-1px solid rgba(255,255,255,.06);
-
 }
 
-.share-btn{
+.share{
 
-background:#0b1220;
-
+background:#081225;
 color:white;
-
-border:
-1px solid rgba(255,255,255,.06);
-
 }
 
-.buy-btn:hover,
-.cart-btn:hover,
-.share-btn:hover{
+/* INFO GRID */
 
-transform:translateY(-4px);
-
-}
-
-/* =========================
-DETAILS
-========================= */
-
-.extra-details{
+.info-grid{
 
 display:grid;
 
@@ -536,21 +571,21 @@ repeat(2,1fr);
 
 gap:18px;
 
-margin-top:40px;
+margin-top:42px;
 
 }
 
-.detail-card{
+.info-box{
 
 background:#081225;
 
-padding:22px;
+padding:24px;
 
 border-radius:22px;
 
 }
 
-.detail-title{
+.info-label{
 
 font-size:13px;
 
@@ -558,11 +593,11 @@ opacity:.65;
 
 }
 
-.detail-value{
+.info-value{
 
-margin-top:8px;
+margin-top:10px;
 
-font-size:22px;
+font-size:30px;
 font-weight:900;
 
 }
@@ -573,7 +608,7 @@ REVIEWS
 
 .review-section{
 
-margin-top:80px;
+margin-top:60px;
 
 }
 
@@ -589,11 +624,11 @@ font-weight:900;
 display:grid;
 
 grid-template-columns:
-repeat(auto-fit,minmax(320px,1fr));
+repeat(3,1fr);
 
 gap:22px;
 
-margin-top:35px;
+margin-top:30px;
 
 }
 
@@ -601,24 +636,35 @@ margin-top:35px;
 
 background:#0f172a;
 
+padding:28px;
+
+border-radius:26px;
+
 border:
 1px solid rgba(255,255,255,.06);
-
-border-radius:28px;
-
-padding:24px;
 
 }
 
 .review-top{
 
 display:flex;
-justify-content:space-between;
 align-items:center;
+gap:14px;
 
 }
 
-.review-user{
+.review-avatar{
+
+width:54px;
+height:54px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+}
+
+.review-name{
 
 font-size:18px;
 font-weight:800;
@@ -627,7 +673,9 @@ font-weight:800;
 
 .review-rating{
 
-font-weight:900;
+margin-top:3px;
+
+font-size:14px;
 
 color:#4ade80;
 
@@ -635,23 +683,11 @@ color:#4ade80;
 
 .review-text{
 
-margin-top:18px;
+margin-top:20px;
 
 line-height:1.9;
 
 opacity:.82;
-
-}
-
-.read-more{
-
-margin-top:16px;
-
-color:#4ade80;
-
-font-weight:800;
-
-cursor:pointer;
 
 }
 
@@ -661,7 +697,7 @@ RELATED
 
 .related-section{
 
-margin-top:90px;
+margin-top:80px;
 
 }
 
@@ -670,11 +706,11 @@ margin-top:90px;
 display:grid;
 
 grid-template-columns:
-repeat(auto-fit,minmax(220px,1fr));
+repeat(5,1fr);
 
-gap:20px;
+gap:18px;
 
-margin-top:35px;
+margin-top:26px;
 
 }
 
@@ -682,16 +718,16 @@ margin-top:35px;
 
 background:#0f172a;
 
-border:
-1px solid rgba(255,255,255,.06);
-
-border-radius:24px;
+border-radius:22px;
 
 overflow:hidden;
 
 cursor:pointer;
 
 transition:.3s;
+
+border:
+1px solid rgba(255,255,255,.05);
 
 }
 
@@ -701,11 +737,11 @@ transform:translateY(-5px);
 
 }
 
-.related-book img{
+.related-cover{
 
 width:100%;
 
-height:300px;
+aspect-ratio:3/4;
 
 object-fit:cover;
 
@@ -717,7 +753,7 @@ padding:14px;
 
 .related-title{
 
-font-size:15px;
+font-size:14px;
 font-weight:800;
 
 line-height:1.5;
@@ -736,29 +772,35 @@ color:#4ade80;
 }
 
 /* =========================
-FOOTER
-========================= */
-
-.footer{
-
-margin-top:100px;
-
-padding:60px 20px;
-
-border-top:
-1px solid rgba(255,255,255,.06);
-
-text-align:center;
-
-opacity:.65;
-
-}
-
-/* =========================
 MOBILE
 ========================= */
 
+@media(max-width:1000px){
+
+.book-showcase{
+grid-template-columns:1fr;
+}
+
+.book-gallery{
+position:relative;
+top:0;
+}
+
+.review-grid{
+grid-template-columns:1fr;
+}
+
+.related-grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
 @media(max-width:700px){
+
+.topbar{
+padding:16px 14px;
+}
 
 .logo{
 font-size:28px;
@@ -772,16 +814,21 @@ display:none;
 font-size:42px;
 }
 
-.main-price{
+.price{
 font-size:52px;
 }
 
-.extra-details{
+.main-book-image{
+height:auto;
+max-height:500px;
+}
+
+.info-grid{
 grid-template-columns:1fr;
 }
 
-.book-info{
-padding:28px;
+.section-title{
+font-size:34px;
 }
 
 }
@@ -816,8 +863,7 @@ Support
 class="back-btn"
 onclick="
 window.location.href='index.html'
-"
->
+">
 Back Home
 </button>
 
@@ -827,9 +873,10 @@ Back Home
 
 <div class="main">
 
-<div id="bookContainer">
-
-<div class="loading-book">
+<div
+id="bookContainer"
+class="loading-book"
+>
 
 <div class="loader"></div>
 
@@ -841,18 +888,18 @@ Loading Book...
 
 </div>
 
-</div>
-
-<div class="footer">
-
-© 2025 CreatorHub Marketplace
-
-</div>
-
 <script>
+
+/* =========================
+API
+========================= */
 
 const API =
 "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
+
+/* =========================
+GET ID
+========================= */
 
 const params =
 new URLSearchParams(
@@ -876,7 +923,9 @@ let id =
 url.split("id=")[1]
 .split("&")[0]
 
-return "https://drive.google.com/thumbnail?id="+id+"&sz=w1200"
+return `
+https://drive.google.com/thumbnail?id=${id}&sz=w1200
+`
 
 }
 
@@ -886,11 +935,39 @@ let id =
 url.split("/d/")[1]
 .split("/")[0]
 
-return "https://drive.google.com/thumbnail?id="+id+"&sz=w1200"
+return `
+https://drive.google.com/thumbnail?id=${id}&sz=w1200
+`
 
 }
 
 return url
+
+}
+
+/* =========================
+CHANGE PREVIEW
+========================= */
+
+function changePreview(el){
+
+document.getElementById(
+"mainBookImage"
+).src = el.src
+
+document
+.querySelectorAll(".thumb")
+.forEach(t=>{
+
+t.classList.remove(
+"active-thumb"
+)
+
+})
+
+el.classList.add(
+"active-thumb"
+)
 
 }
 
@@ -924,8 +1001,8 @@ let books =
 data.products
 
 let book =
-books.find(
-b => String(b.id) === String(BOOK_ID)
+books.find(b=>
+String(b.id)===String(BOOK_ID)
 )
 
 if(!book){
@@ -935,50 +1012,82 @@ return
 
 }
 
-renderBook(book,books)
-
-}catch(err){
-
-console.log(err)
-
-showError()
-
-}
-
-}
-
-/* =========================
-RENDER
-========================= */
-
-function renderBook(book,allBooks){
+/* RELATED */
 
 let related =
-allBooks
-.filter(x=>x.id != book.id)
-.slice(0,4)
+books.filter(x=>
+
+x.category===book.category &&
+x.id!==book.id
+
+).slice(0,5)
+
+/* REAL DATA */
+
+let title =
+book.title || "Untitled"
+
+let author =
+book.author || "Unknown Author"
+
+let price =
+Number(book.price || 0)
+
+let oldPrice =
+price + 399
+
+let discount =
+Math.round(
+((oldPrice-price)/oldPrice)*100
+)
+
+let rating =
+book.rating || "4.8"
+
+let readers =
+book.readers || "12K+"
+
+let language =
+book.language || "English"
+
+let pages =
+book.pages || "120"
+
+let category =
+book.category || "Ebook"
+
+let description =
+book.description ||
+"Premium ebook available on CreatorHub."
+
+/* REVIEWS */
 
 let reviews = [
 
 {
-name:"Rahul Sharma",
-rating:"5.0 ★",
-text:"Amazing ebook. Very practical and easy to understand. Helped me improve productivity and focus."
+name:"Rahul Kumar",
+rating:"5.0",
+text:"Very detailed and practical ebook. I learned many new concepts from this book.",
+image:"https://i.pravatar.cc/150?img=12"
 },
 
 {
-name:"Priya Kumari",
-rating:"4.8 ★",
-text:"Premium quality content with real examples. One of the best ebooks I purchased online."
+name:"Anjali Singh",
+rating:"4.9",
+text:"Excellent content quality and easy explanations. Highly recommended for beginners.",
+image:"https://i.pravatar.cc/150?img=32"
 },
 
 {
-name:"Aman Verma",
-rating:"4.9 ★",
-text:"Loved the explanations and presentation. Worth every rupee for creators and students."
+name:"Aman Raj",
+rating:"4.8",
+text:"One of the best premium ebooks I have purchased recently on CreatorHub.",
+image:"https://i.pravatar.cc/150?img=22"
 }
 
 ]
+
+/* RENDER */
 
 document.getElementById(
 "bookContainer"
@@ -1018,9 +1127,9 @@ onclick="changePreview(this)"
 
 <div class="book-info">
 
-<div class="top-tags">
+<div class="tags">
 
-<div class="tag">
+<div class="tag green">
 🔥 Bestseller
 </div>
 
@@ -1035,65 +1144,91 @@ onclick="changePreview(this)"
 </div>
 
 <div class="book-title">
-${book.title || "Untitled"}
+${title}
 </div>
 
 <div class="book-author">
-by ${book.author || "Unknown"}
+by ${author}
 </div>
 
-<div class="rating-row">
+<div class="stats">
 
-<div class="rating-box">
-⭐ 4.9 Rating
+<div class="stat">
+
+<div class="stat-number">
+⭐ ${rating}
 </div>
 
-<div class="rating-box">
-12K+ Readers
+<div class="stat-label">
+Rating
 </div>
 
-<div class="rating-box">
-${book.language || "PDF"}
+</div>
+
+<div class="stat">
+
+<div class="stat-number">
+${readers}
+</div>
+
+<div class="stat-label">
+Readers
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-number">
+${language}
+</div>
+
+<div class="stat-label">
+Language
+</div>
+
 </div>
 
 </div>
 
 <div class="price-row">
 
-<div class="main-price">
-₹${Number(book.price || 0)}
+<div class="price">
+₹${price}
 </div>
 
 <div class="old-price">
-₹${Number(book.price || 0)*2}
+₹${oldPrice}
 </div>
 
 <div class="discount">
-50% OFF
+${discount}% OFF
 </div>
 
 </div>
 
-<div class="book-description">
-
-${book.description || "No description available."}
-
+<div class="desc">
+${description}
 </div>
 
-<div class="action-grid">
+<div class="actions">
 
-<button class="buy-btn">
+<button
+class="action-btn buy"
+onclick="buyBook()"
+>
 Buy Now
 </button>
 
-<button class="cart-btn"
-onclick="addToCart('${book.id}')"
+<button
+class="action-btn cart"
+onclick="addToCart()"
 >
 Add To Cart
 </button>
 
 <button
-class="share-btn"
+class="action-btn share"
 onclick="shareBook()"
 >
 Share
@@ -1101,51 +1236,51 @@ Share
 
 </div>
 
-<div class="extra-details">
+<div class="info-grid">
 
-<div class="detail-card">
+<div class="info-box">
 
-<div class="detail-title">
+<div class="info-label">
 Category
 </div>
 
-<div class="detail-value">
-${book.category || "Ebook"}
+<div class="info-value">
+${category}
 </div>
 
 </div>
 
-<div class="detail-card">
+<div class="info-box">
 
-<div class="detail-title">
+<div class="info-label">
 Pages
 </div>
 
-<div class="detail-value">
-${book.pages || "120+"}
+<div class="info-value">
+${pages}
 </div>
 
 </div>
 
-<div class="detail-card">
+<div class="info-box">
 
-<div class="detail-title">
+<div class="info-label">
 Language
 </div>
 
-<div class="detail-value">
-${book.language || "English"}
+<div class="info-value">
+${language}
 </div>
 
 </div>
 
-<div class="detail-card">
+<div class="info-box">
 
-<div class="detail-title">
+<div class="info-label">
 Access
 </div>
 
-<div class="detail-value">
+<div class="info-value">
 Lifetime
 </div>
 
@@ -1160,7 +1295,7 @@ Lifetime
 <div class="review-section">
 
 <div class="section-title">
-Ratings & Reviews
+Reader Reviews
 </div>
 
 <div class="review-grid">
@@ -1171,29 +1306,27 @@ ${reviews.map(r=>`
 
 <div class="review-top">
 
-<div class="review-user">
+<img
+class="review-avatar"
+src="${r.image}"
+>
+
+<div>
+
+<div class="review-name">
 ${r.name}
 </div>
 
 <div class="review-rating">
-${r.rating}
+⭐ ${r.rating}
+</div>
+
 </div>
 
 </div>
 
 <div class="review-text">
-
 ${r.text}
-
-</div>
-
-<div
-class="read-more"
-onclick="alert('${r.text}')"
->
-
-Read Full Review
-
 </div>
 
 </div>
@@ -1212,28 +1345,29 @@ Related Books
 
 <div class="related-grid">
 
-${related.map(b=>`
+${related.map(r=>`
 
 <div
 class="related-book"
 onclick="
 window.location.href=
-'book.html?id=${b.id}'
+'book.html?id=${r.id}'
 "
 >
 
 <img
-src="${driveImage(b.front_cover)}"
+class="related-cover"
+src="${driveImage(r.front_cover)}"
 >
 
 <div class="related-content">
 
 <div class="related-title">
-${b.title || "Untitled"}
+${r.title || "Untitled"}
 </div>
 
 <div class="related-price">
-₹${Number(b.price||0)}
+₹${Number(r.price||0)}
 </div>
 
 </div>
@@ -1248,74 +1382,13 @@ ${b.title || "Untitled"}
 
 `
 
-}
+}catch(e){
 
-/* =========================
-PREVIEW
-========================= */
+console.log(e)
 
-function changePreview(el){
-
-document
-.getElementById("mainBookImage")
-.src = el.src
-
-document
-.querySelectorAll(".thumb")
-.forEach(x=>{
-
-x.classList.remove(
-"active-thumb"
-)
-
-})
-
-el.classList.add(
-"active-thumb"
-)
+showError()
 
 }
-
-/* =========================
-CART
-========================= */
-
-function addToCart(id){
-
-let cart =
-JSON.parse(
-localStorage.getItem("cart")
-|| "[]"
-)
-
-if(!cart.includes(id)){
-cart.push(id)
-}
-
-localStorage.setItem(
-"cart",
-JSON.stringify(cart)
-)
-
-alert("Added to cart ✅")
-
-}
-
-/* =========================
-SHARE
-========================= */
-
-function shareBook(){
-
-navigator.share({
-
-title:"CreatorHub Ebook",
-
-text:"Check out this premium ebook",
-
-url:window.location.href
-
-})
 
 }
 
@@ -1329,17 +1402,100 @@ document.getElementById(
 "bookContainer"
 ).innerHTML = `
 
-<div class="loading-book">
+<div
+style="
+padding:120px 20px;
+text-align:center;
+"
+>
 
-<div class="loading-text">
-Book not found
-</div>
+<h1>
+Book Not Found
+</h1>
+
+<p
+style="
+margin-top:14px;
+opacity:.7;
+"
+>
+This ebook may have been removed.
+</p>
 
 </div>
 
 `
 
 }
+
+/* =========================
+BUY
+========================= */
+
+function buyBook(){
+
+alert(
+"Redirecting to secure checkout..."
+)
+
+}
+
+/* =========================
+CART
+========================= */
+
+function addToCart(){
+
+let cart =
+JSON.parse(
+localStorage.getItem("cart")
+|| "[]"
+)
+
+if(!cart.includes(BOOK_ID)){
+
+cart.push(BOOK_ID)
+
+localStorage.setItem(
+"cart",
+JSON.stringify(cart)
+)
+
+}
+
+alert("Book added to cart")
+
+}
+
+/* =========================
+SHARE
+========================= */
+
+async function shareBook(){
+
+let url =
+window.location.href
+
+if(navigator.share){
+
+navigator.share({
+title:"CreatorHub Ebook",
+url:url
+})
+
+}else{
+
+navigator.clipboard.writeText(url)
+
+alert("Book link copied")
+
+}
+
+}
+
+/* =========================
+START
+========================= */
 
 loadBook()
 
