@@ -1147,11 +1147,11 @@ src="${driveImage(book.front_cover)}"
 <div class="stat">
 
 <div class="stat-number">
-4.9
+₹${Number(book.price || 0)}
 </div>
 
 <div class="stat-label">
-Rating
+Price
 </div>
 
 </div>
@@ -1159,11 +1159,11 @@ Rating
 <div class="stat">
 
 <div class="stat-number">
-12K+
+${book.category || "Ebook"}
 </div>
 
 <div class="stat-label">
-Readers
+Category
 </div>
 
 </div>
@@ -1171,11 +1171,13 @@ Readers
 <div class="stat">
 
 <div class="stat-number">
-PDF
+${book.language || "PDF"}
 </div>
 
 <div class="stat-label">
 Format
+</div>
+
 </div>
 
 </div>
