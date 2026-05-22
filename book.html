@@ -10,7 +10,7 @@ name="viewport"
 content="width=device-width,initial-scale=1.0">
 
 <title>
-CreatorHub • Book Details
+CreatorHub • Ebook Details
 </title>
 
 <link rel="preconnect"
@@ -48,9 +48,9 @@ overflow-x:hidden;
 
 }
 
-/* =========================
+/* =====================================================
 GLOBAL
-========================= */
+===================================================== */
 
 a{
 text-decoration:none;
@@ -72,9 +72,9 @@ background:#22c55e;
 border-radius:20px;
 }
 
-/* =========================
+/* =====================================================
 TOPBAR
-========================= */
+===================================================== */
 
 .topbar{
 
@@ -160,9 +160,9 @@ cursor:pointer;
 
 }
 
-/* =========================
+/* =====================================================
 MAIN
-========================= */
+===================================================== */
 
 .main{
 
@@ -175,9 +175,9 @@ padding:
 
 }
 
-/* =========================
-LOADING
-========================= */
+/* =====================================================
+LOADER
+===================================================== */
 
 .loading-book{
 
@@ -186,7 +186,7 @@ flex-direction:column;
 align-items:center;
 justify-content:center;
 
-padding:140px 0;
+padding:150px 0;
 
 gap:18px;
 
@@ -194,8 +194,8 @@ gap:18px;
 
 .loader{
 
-width:60px;
-height:60px;
+width:62px;
+height:62px;
 
 border-radius:50%;
 
@@ -205,6 +205,9 @@ rgba(255,255,255,.08);
 border-top:5px solid #4ade80;
 
 animation:spin 1s linear infinite;
+
+box-shadow:
+0 0 40px rgba(74,222,128,.2);
 
 }
 
@@ -229,34 +232,36 @@ opacity:.8;
 
 }
 
-/* =========================
-BOOK SHOWCASE
-========================= */
+/* =====================================================
+SHOWCASE
+===================================================== */
 
 .book-showcase{
 
 display:grid;
 
 grid-template-columns:
-380px 1fr;
+340px 1fr;
 
-gap:34px;
+gap:40px;
 
 align-items:start;
 
 }
 
-/* =========================
+/* =====================================================
 LEFT
-========================= */
+===================================================== */
 
 .book-gallery{
 
 position:sticky;
 
-top:95px;
+top:90px;
 
-height:fit-content;
+display:flex;
+flex-direction:column;
+align-items:center;
 
 }
 
@@ -264,13 +269,13 @@ height:fit-content;
 
 width:100%;
 
-max-width:320px;
+max-width:300px;
 
-height:430px;
+height:420px;
 
 object-fit:cover;
 
-border-radius:24px;
+border-radius:26px;
 
 background:#0f172a;
 
@@ -278,50 +283,7 @@ border:
 1px solid rgba(255,255,255,.06);
 
 box-shadow:
-0 20px 60px rgba(0,0,0,.45);
-
-margin:auto;
-
-}
-
-/* GALLERY CENTER */
-
-.book-gallery{
-
-position:sticky;
-
-top:95px;
-
-height:fit-content;
-
-display:flex;
-
-flex-direction:column;
-
-align-items:center;
-
-}
-
-/* MOBILE */
-
-@media(max-width:700px){
-
-.main-book-image{
-
-max-width:220px;
-
-height:300px;
-
-}
-
-.thumb{
-
-width:58px;
-height:78px;
-
-min-width:58px;
-
-}
+0 25px 70px rgba(0,0,0,.45);
 
 }
 
@@ -331,20 +293,22 @@ display:flex;
 
 gap:12px;
 
-margin-top:16px;
+margin-top:18px;
 
 overflow-x:auto;
 
 padding-bottom:4px;
 
+max-width:320px;
+
 }
 
 .thumb{
 
-min-width:78px;
+width:70px;
+height:90px;
 
-width:78px;
-height:100px;
+min-width:70px;
 
 object-fit:cover;
 
@@ -373,9 +337,9 @@ border-color:#4ade80;
 
 }
 
-/* =========================
+/* =====================================================
 RIGHT
-========================= */
+===================================================== */
 
 .book-info{
 
@@ -386,7 +350,7 @@ border:
 
 border-radius:34px;
 
-padding:36px;
+padding:40px;
 
 }
 
@@ -427,7 +391,7 @@ margin-top:24px;
 font-size:58px;
 font-weight:900;
 
-line-height:1.08;
+line-height:1.05;
 
 }
 
@@ -459,7 +423,7 @@ background:#081225;
 
 padding:18px 22px;
 
-border-radius:18px;
+border-radius:20px;
 
 min-width:130px;
 
@@ -605,7 +569,7 @@ background:#081225;
 color:white;
 }
 
-/* INFO GRID */
+/* INFO */
 
 .info-grid{
 
@@ -647,19 +611,19 @@ font-weight:900;
 
 }
 
-/* =========================
+/* =====================================================
 REVIEWS
-========================= */
+===================================================== */
 
 .review-section{
 
-margin-top:60px;
+margin-top:80px;
 
 }
 
 .section-title{
 
-font-size:44px;
+font-size:46px;
 font-weight:900;
 
 }
@@ -736,13 +700,13 @@ opacity:.82;
 
 }
 
-/* =========================
+/* =====================================================
 RELATED
-========================= */
+===================================================== */
 
 .related-section{
 
-margin-top:80px;
+margin-top:90px;
 
 }
 
@@ -755,7 +719,7 @@ repeat(5,1fr);
 
 gap:18px;
 
-margin-top:26px;
+margin-top:28px;
 
 }
 
@@ -816,9 +780,9 @@ color:#4ade80;
 
 }
 
-/* =========================
+/* =====================================================
 MOBILE
-========================= */
+===================================================== */
 
 @media(max-width:1000px){
 
@@ -864,8 +828,20 @@ font-size:52px;
 }
 
 .main-book-image{
-height:auto;
-max-height:500px;
+
+max-width:220px;
+
+height:300px;
+
+}
+
+.thumb{
+
+width:58px;
+height:78px;
+
+min-width:58px;
+
 }
 
 .info-grid{
@@ -874,6 +850,10 @@ grid-template-columns:1fr;
 
 .section-title{
 font-size:34px;
+}
+
+.book-info{
+padding:28px;
 }
 
 }
@@ -935,16 +915,16 @@ Loading Book...
 
 <script>
 
-/* =========================
+/* =====================================================
 API
-========================= */
+===================================================== */
 
 const API =
-"https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
+"https://script.google.com/macros/s/AKfycbwVRER7JHaZkSAvVS_etfLYI7FxL4atwB_FYqIxZeYmz5ICoo42FMFzd9B5lyFEsCMC8g/exec"
 
-/* =========================
-GET ID
-========================= */
+/* =====================================================
+BOOK ID
+===================================================== */
 
 const params =
 new URLSearchParams(
@@ -954,9 +934,9 @@ window.location.search
 const BOOK_ID =
 params.get("id")
 
-/* =========================
+/* =====================================================
 DRIVE IMAGE
-========================= */
+===================================================== */
 
 function driveImage(url){
 
@@ -990,9 +970,9 @@ return url
 
 }
 
-/* =========================
-CHANGE PREVIEW
-========================= */
+/* =====================================================
+CHANGE IMAGE
+===================================================== */
 
 function changePreview(el){
 
@@ -1016,9 +996,9 @@ el.classList.add(
 
 }
 
-/* =========================
+/* =====================================================
 LOAD BOOK
-========================= */
+===================================================== */
 
 async function loadBook(){
 
@@ -1026,7 +1006,9 @@ try{
 
 let res =
 await fetch(
-API + "?action=products"
+
+API + "?action=book&id=" + BOOK_ID
+
 )
 
 let data =
@@ -1034,7 +1016,7 @@ await res.json()
 
 if(
 !data.success ||
-!data.products
+!data.book
 ){
 
 showError()
@@ -1042,38 +1024,25 @@ return
 
 }
 
-let books =
-data.products
+let book = data.book
 
-let book =
-books.find(b=>
-String(b.id)===String(BOOK_ID)
-)
-
-if(!book){
-
-showError()
-return
-
-}
-
-/* RELATED */
+let reviews =
+data.reviews || []
 
 let related =
-books.filter(x=>
+data.related || []
 
-x.category===book.category &&
-x.id!==book.id
+let rating =
+data.rating || "0"
 
-).slice(0,5)
-
-/* REAL DATA */
+let totalReviews =
+data.total_reviews || 0
 
 let title =
 book.title || "Untitled"
 
 let author =
-book.author || "Unknown Author"
+book.author || "Unknown"
 
 let price =
 Number(book.price || 0)
@@ -1086,12 +1055,6 @@ Math.round(
 ((oldPrice-price)/oldPrice)*100
 )
 
-let rating =
-book.rating || "4.8"
-
-let readers =
-book.readers || "12K+"
-
 let language =
 book.language || "English"
 
@@ -1103,36 +1066,30 @@ book.category || "Ebook"
 
 let description =
 book.description ||
-"Premium ebook available on CreatorHub."
+"No description available."
 
-/* REVIEWS */
+let readers =
+book.views || 0
 
-let reviews = [
+/* ADD VIEW */
 
-{
-name:"Rahul Kumar",
-rating:"5.0",
-text:"Very detailed and practical ebook. I learned many new concepts from this book.",
-image:"https://i.pravatar.cc/150?img=12"
+fetch(API,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
 },
 
-{
-name:"Anjali Singh",
-rating:"4.9",
-text:"Excellent content quality and easy explanations. Highly recommended for beginners.",
-image:"https://i.pravatar.cc/150?img=32"
-},
+body:JSON.stringify({
 
-{
-name:"Aman Raj",
-rating:"4.8",
-text:"One of the best premium ebooks I have purchased recently on CreatorHub.",
-image:"https://i.pravatar.cc/150?img=22"
-}
+action:"add_view",
 
-]
+book_id:book.id
 
-/* RENDER */
+})
+
+})
 
 document.getElementById(
 "bookContainer"
@@ -1205,7 +1162,7 @@ by ${author}
 </div>
 
 <div class="stat-label">
-Rating
+${totalReviews} Reviews
 </div>
 
 </div>
@@ -1267,7 +1224,7 @@ Buy Now
 
 <button
 class="action-btn cart"
-onclick="addToCart()"
+onclick="addToCart('${book.id}')"
 >
 Add To Cart
 </button>
@@ -1337,6 +1294,8 @@ Lifetime
 
 </div>
 
+<!-- REVIEWS -->
+
 <div class="review-section">
 
 <div class="section-title">
@@ -1345,7 +1304,12 @@ Reader Reviews
 
 <div class="review-grid">
 
-${reviews.map(r=>`
+${
+reviews.length > 0
+
+?
+
+reviews.map(r=>`
 
 <div class="review">
 
@@ -1353,7 +1317,9 @@ ${reviews.map(r=>`
 
 <img
 class="review-avatar"
-src="${r.image}"
+src="
+https://ui-avatars.com/api/?name=${encodeURIComponent(r.name)}&background=22c55e&color=fff
+"
 >
 
 <div>
@@ -1371,16 +1337,37 @@ ${r.name}
 </div>
 
 <div class="review-text">
-${r.text}
+${r.review}
 </div>
 
 </div>
 
-`).join("")}
+`).join("")
+
+:
+
+`
+
+<div
+style="
+opacity:.7;
+padding:20px;
+"
+>
+
+No reviews yet.
+
+</div>
+
+`
+
+}
 
 </div>
 
 </div>
+
+<!-- RELATED -->
 
 <div class="related-section">
 
@@ -1437,9 +1424,9 @@ showError()
 
 }
 
-/* =========================
+/* =====================================================
 ERROR
-========================= */
+===================================================== */
 
 function showError(){
 
@@ -1473,48 +1460,71 @@ This ebook may have been removed.
 
 }
 
-/* =========================
+/* =====================================================
 BUY
-========================= */
+===================================================== */
 
 function buyBook(){
 
 alert(
-"Redirecting to secure checkout..."
+"Secure checkout coming soon."
 )
 
 }
 
-/* =========================
+/* =====================================================
 CART
-========================= */
+===================================================== */
 
-function addToCart(){
+async function addToCart(bookId){
 
-let cart =
+let user =
 JSON.parse(
-localStorage.getItem("cart")
-|| "[]"
+localStorage.getItem("user")
+|| "{}"
 )
 
-if(!cart.includes(BOOK_ID)){
+if(!user.email){
 
-cart.push(BOOK_ID)
+alert("Please login first")
+return
 
-localStorage.setItem(
-"cart",
-JSON.stringify(cart)
+}
+
+let res =
+await fetch(API,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+action:"add_cart",
+
+email:user.email,
+
+book_id:bookId
+
+})
+
+})
+
+let data =
+await res.json()
+
+alert(
+data.message ||
+"Added to cart"
 )
 
 }
 
-alert("Book added to cart")
-
-}
-
-/* =========================
+/* =====================================================
 SHARE
-========================= */
+===================================================== */
 
 async function shareBook(){
 
@@ -1538,9 +1548,9 @@ alert("Book link copied")
 
 }
 
-/* =========================
+/* =====================================================
 START
-========================= */
+===================================================== */
 
 loadBook()
 
