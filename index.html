@@ -932,6 +932,7 @@ transform:rotate(360deg);
 <div class="topbar-left">
 
 <div
+id="profileWrap"
 class="profile-wrap"
 onclick="toggleProfileMenu()"
 >
@@ -1027,6 +1028,7 @@ Track
 </a>
 
 <button
+id="loginBtn"
 class="login-btn"
 onclick="
 window.location.href='login.html'
@@ -1366,6 +1368,45 @@ return url
 
 }
 
+/* =====================================================
+LOGIN UI
+===================================================== */
+
+function updateLoginUI(){
+
+let email =
+localStorage.getItem("user_email")
+
+let loginBtn =
+document.getElementById(
+"loginBtn"
+)
+
+let profileWrap =
+document.getElementById(
+"profileWrap"
+)
+
+if(email){
+
+loginBtn.style.display =
+"none"
+
+profileWrap.style.display =
+"block"
+
+}else{
+
+loginBtn.style.display =
+"flex"
+
+profileWrap.style.display =
+"none"
+
+}
+
+}
+
 async function loadBooks(){
 
 try{
@@ -1543,6 +1584,7 @@ Number(b.price||0)<300
 
 }
 
+updateLoginUI()
 loadBooks()
 
 fetch("footer.html")
