@@ -50,8 +50,17 @@ min-height:100vh;
 }
 
 /* =====================================================
-SCROLLBAR
+GLOBAL
 ===================================================== */
+
+img{
+display:block;
+max-width:100%;
+}
+
+a{
+text-decoration:none;
+}
 
 ::-webkit-scrollbar{
 width:6px;
@@ -100,6 +109,8 @@ gap:16px;
 
 font-size:34px;
 font-weight:900;
+
+color:white;
 
 }
 
@@ -227,6 +238,8 @@ height:58px;
 
 border-radius:50%;
 
+object-fit:cover;
+
 }
 
 #menuName{
@@ -260,8 +273,6 @@ height:54px;
 padding:0 16px;
 
 border-radius:16px;
-
-text-decoration:none;
 
 color:white;
 
@@ -319,13 +330,11 @@ NAV
 
 display:flex;
 align-items:center;
-gap:22px;
+gap:24px;
 
 }
 
 .nav a{
-
-text-decoration:none;
 
 color:white;
 
@@ -367,12 +376,6 @@ color:white;
 font-weight:900;
 
 cursor:pointer;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-min-width:110px;
 
 }
 
@@ -502,8 +505,6 @@ cursor:pointer;
 display:flex;
 align-items:center;
 justify-content:center;
-
-text-decoration:none;
 
 transition:.3s;
 
@@ -783,6 +784,17 @@ border-radius:30px;
 border:
 1px solid rgba(255,255,255,.06);
 
+transition:.3s;
+
+}
+
+.feature:hover{
+
+transform:translateY(-5px);
+
+border-color:
+rgba(74,222,128,.2);
+
 }
 
 .feature-icon{
@@ -893,6 +905,125 @@ background-position:-100% 0;
 }
 
 /* =====================================================
+FOOTER
+===================================================== */
+
+.footer{
+
+margin-top:100px;
+
+padding:60px 20px;
+
+border-top:
+1px solid rgba(255,255,255,.06);
+
+}
+
+.footer-grid{
+
+max-width:1450px;
+
+margin:auto;
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+
+gap:40px;
+
+}
+
+.footer-logo{
+
+font-size:42px;
+font-weight:900;
+
+}
+
+.footer-logo span{
+color:#4ade80;
+}
+
+.footer-text{
+
+margin-top:18px;
+
+line-height:1.9;
+
+opacity:.72;
+
+max-width:260px;
+
+}
+
+.footer-title{
+
+font-size:22px;
+font-weight:900;
+
+margin-bottom:18px;
+
+color:#4ade80;
+
+}
+
+.footer-links{
+
+display:grid;
+
+gap:12px;
+
+}
+
+.footer-links a{
+
+color:white;
+
+opacity:.72;
+
+transition:.25s;
+
+}
+
+.footer-links a:hover{
+
+opacity:1;
+
+color:#4ade80;
+
+transform:translateX(3px);
+
+}
+
+.footer-bottom{
+
+max-width:1450px;
+
+margin:auto;
+
+margin-top:45px;
+
+padding-top:25px;
+
+border-top:
+1px solid rgba(255,255,255,.06);
+
+display:flex;
+
+justify-content:space-between;
+
+flex-wrap:wrap;
+
+gap:20px;
+
+opacity:.6;
+
+font-size:14px;
+
+}
+
+/* =====================================================
 MOBILE
 ===================================================== */
 
@@ -928,6 +1059,10 @@ font-size:15px;
 
 .section-title{
 font-size:42px;
+}
+
+.footer{
+padding:50px 16px;
 }
 
 }
@@ -1020,12 +1155,12 @@ Creator<span>Hub</span>
 
 <div class="nav">
 
-<a href="dashboard.html">
-Dashboard
+<a href="#books">
+Books
 </a>
 
-<a href="subscription.html">
-Subscription
+<a href="#features">
+Features
 </a>
 
 <a href="wallet.html">
@@ -1054,11 +1189,11 @@ Login
 <div class="hero">
 
 <div class="hero-title">
-Discover Premium <span>Ebooks</span>
+Discover Premium <span>Ebooks</span> From Top Digital Creators
 </div>
 
 <div class="hero-desc">
-Buy premium ebooks with secure checkout and instant access.
+Buy premium ebooks with secure checkout, live order tracking, automated fulfillment, and instant access through the CreatorHub marketplace ecosystem.
 </div>
 
 <div class="hero-actions">
@@ -1138,227 +1273,284 @@ class="books-grid">
 
 </div>
 
+<div
+id="features"
+class="section">
+
+<div class="section-title">
+Why Readers Love CreatorHub
 </div>
 
-<div id="footerContainer"></div>
+<div class="section-desc">
+A premium ebook buying experience with secure payments, live tracking, fulfillment systems, and trusted creators.
+</div>
+
+<div class="features">
+
+<div class="feature">
+
+<div class="feature-icon">
+⚡
+</div>
+
+<h3>
+Instant Checkout
+</h3>
+
+<p>
+Fast and secure payments powered by Cashfree payment systems.
+</p>
+
+</div>
+
+<div class="feature">
+
+<div class="feature-icon">
+📦
+</div>
+
+<h3>
+Print & Delivery
+</h3>
+
+<p>
+Automatic printing and nationwide delivery powered through fulfillment systems.
+</p>
+
+</div>
+
+<div class="feature">
+
+<div class="feature-icon">
+🚚
+</div>
+
+<h3>
+Live Tracking
+</h3>
+
+<p>
+Track printing, packaging, courier updates, and deliveries in real-time.
+</p>
+
+</div>
+
+<div class="feature">
+
+<div class="feature-icon">
+🔒
+</div>
+
+<h3>
+Secure Platform
+</h3>
+
+<p>
+Protected transactions, encrypted systems, and trusted marketplace infrastructure.
+</p>
+
+</div>
+
+<div class="feature">
+
+<div class="feature-icon">
+📚
+</div>
+
+<h3>
+Massive Collection
+</h3>
+
+<p>
+Explore a growing collection of premium ebooks from creators and experts.
+</p>
+
+</div>
+
+<div class="feature">
+
+<div class="feature-icon">
+🎯
+</div>
+
+<h3>
+Personalized Discovery
+</h3>
+
+<p>
+Find trending and recommended ebooks tailored to your interests.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<footer class="footer">
+
+<div class="footer-grid">
+
+<div>
+
+<div class="footer-logo">
+Creator<span>Hub</span>
+</div>
+
+<div class="footer-text">
+
+Buy • Sell • Earn From Digital Products
+
+<br><br>
+
+CreatorHub is a digital ebook marketplace where independent creators upload and sell digital products globally.
+
+</div>
+
+</div>
+
+<div>
+
+<div class="footer-title">
+Discover
+</div>
+
+<div class="footer-links">
+
+<a href="#">
+Trending Books
+</a>
+
+<a href="#">
+Top Selling Books
+</a>
+
+<a href="#">
+Highest Rated Books
+</a>
+
+<a href="#">
+Authors
+</a>
+
+<a href="#">
+Blog
+</a>
+
+</div>
+
+</div>
+
+<div>
+
+<div class="footer-title">
+Learn
+</div>
+
+<div class="footer-links">
+
+<a href="#">
+Guides
+</a>
+
+<a href="#">
+Learning Center
+</a>
+
+<a href="#">
+Earning Tips
+</a>
+
+<a href="#">
+Editorial Policy
+</a>
+
+</div>
+
+</div>
+
+<div>
+
+<div class="footer-title">
+Legal
+</div>
+
+<div class="footer-links">
+
+<a href="#">
+About
+</a>
+
+<a href="#">
+Privacy Policy
+</a>
+
+<a href="#">
+Terms & Conditions
+</a>
+
+<a href="#">
+Platform Rules
+</a>
+
+<a href="#">
+Disclaimer
+</a>
+
+</div>
+
+</div>
+
+<div>
+
+<div class="footer-title">
+Support
+</div>
+
+<div class="footer-links">
+
+<a href="#">
+FAQ
+</a>
+
+<a href="#">
+Support Center
+</a>
+
+<a href="#">
+Contact
+</a>
+
+<a href="#">
+Sitemap
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="footer-bottom">
+
+<div>
+© 2025 CreatorHub Marketplace
+</div>
+
+<div>
+Secure Payments • Live Tracking • Creator Earnings
+</div>
+
+</div>
+
+</footer>
 
 <script>
 
-/* =====================================================
-API
-===================================================== */
-
 const API_URL =
 "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
-
-const AUTH_API =
-"https://script.google.com/macros/s/AKfycbwg4Xxd1he7OWkjMgeaXhEtCG2mvW9MtceFA-vcKykLB_LODR4_RtIi7wWbv9sKiy1V/exec"
-
-/* =====================================================
-PROFILE MENU
-===================================================== */
-
-function toggleProfileMenu(){
-
-document
-.getElementById(
-"profileMenu"
-)
-.classList.toggle(
-"show"
-)
-
-}
-
-/* =====================================================
-OUTSIDE CLICK
-===================================================== */
-
-document.addEventListener(
-"click",
-function(e){
-
-const wrap =
-document.getElementById(
-"profileWrap"
-)
-
-if(
-wrap &&
-!wrap.contains(e.target)
-){
-
-document
-.getElementById(
-"profileMenu"
-)
-.classList.remove(
-"show"
-)
-
-}
-
-}
-)
-
-/* =====================================================
-LOGOUT
-===================================================== */
-
-function logout(){
-
-localStorage.clear()
-
-window.location.href =
-"login.html"
-
-}
-
-/* =====================================================
-CHECK LOGIN
-===================================================== */
-
-async function checkLogin(){
-
-const email =
-localStorage.getItem("user_email")
-
-const loginBtn =
-document.getElementById("loginBtn")
-
-const profileWrap =
-document.getElementById("profileWrap")
-
-/* NO LOGIN */
-
-if(!email){
-
-loginBtn.style.display = "flex"
-profileWrap.style.display = "none"
-
-return
-
-}
-
-try{
-
-const res =
-await fetch(AUTH_API,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-
-action:"getUserProfile",
-email:email
-
-})
-
-})
-
-const data = await res.json()
-
-console.log(data)
-
-/* LOGIN FAILED */
-
-if(
-!data.success ||
-!data.user
-){
-
-localStorage.clear()
-
-loginBtn.style.display = "flex"
-profileWrap.style.display = "none"
-
-return
-
-}
-
-/* LOGIN SUCCESS */
-
-loginBtn.style.display = "none"
-
-profileWrap.style.display = "flex"
-
-/* USERNAME */
-
-document.getElementById(
-"menuName"
-).innerHTML =
-data.user.username ||
-"CreatorHub User"
-
-/* EMAIL */
-
-document.getElementById(
-"menuEmail"
-).innerHTML =
-email
-
-/* PROFILE IMAGE */
-
-let image =
-data.user.profile_image
-
-if(
-!image ||
-image==""
-){
-
-image =
-`https://ui-avatars.com/api/?name=${
-encodeURIComponent(
-data.user.username || "User"
-)
-}&background=22c55e&color=fff`
-
-}
-
-/* SET IMAGE */
-
-document.getElementById(
-"profileImage"
-).src = image
-
-document.getElementById(
-"menuProfileImage"
-).src = image
-
-/* SAVE */
-
-localStorage.setItem(
-"user_image",
-image
-)
-
-}catch(err){
-
-console.log(
-"LOGIN CHECK ERROR",
-err
-)
-
-document.getElementById(
-"loginBtn"
-).style.display = "flex"
-
-document.getElementById(
-"profileWrap"
-).style.display = "none"
-
-}
-
-}
-
-/* =====================================================
-DRIVE IMAGE
-===================================================== */
 
 function driveImage(url){
 
@@ -1390,9 +1582,102 @@ return url
 
 }
 
-/* =====================================================
-LOAD BOOKS
-===================================================== */
+function toggleProfileMenu(){
+
+document
+.getElementById("profileMenu")
+.classList.toggle("show")
+
+}
+
+window.addEventListener(
+"click",
+function(e){
+
+let wrap =
+document.querySelector(".profile-wrap")
+
+if(
+wrap &&
+!wrap.contains(e.target)
+){
+
+document
+.getElementById("profileMenu")
+.classList.remove("show")
+
+}
+
+}
+)
+
+function logout(){
+
+localStorage.clear()
+
+window.location.href =
+"login.html"
+
+}
+
+function updateLoginUI(){
+
+let email =
+localStorage.getItem("user_email")
+
+let loginBtn =
+document.getElementById("loginBtn")
+
+let profileWrap =
+document.getElementById("profileWrap")
+
+if(email){
+
+loginBtn.style.display =
+"none"
+
+profileWrap.style.display =
+"flex"
+
+let name =
+localStorage.getItem("user_name")
+|| "CreatorHub User"
+
+let image =
+localStorage.getItem("user_image")
+||
+
+`https://ui-avatars.com/api/?name=${
+encodeURIComponent(name)
+}&background=22c55e&color=fff`
+
+document.getElementById(
+"profileImage"
+).src = image
+
+document.getElementById(
+"menuProfileImage"
+).src = image
+
+document.getElementById(
+"menuName"
+).innerHTML = name
+
+document.getElementById(
+"menuEmail"
+).innerHTML = email
+
+}else{
+
+loginBtn.style.display =
+"flex"
+
+profileWrap.style.display =
+"none"
+
+}
+
+}
 
 async function loadBooks(){
 
@@ -1413,35 +1698,33 @@ document.getElementById(
 
 if(
 !data.success ||
-!data.products ||
-data.products.length===0
+!data.products
 ){
 
 grid.innerHTML =
-"<div>No ebooks uploaded yet.</div>"
+"<div>No ebooks found</div>"
 
 return
 
 }
 
-window.ALL_BOOKS =
+let books =
 data.products.reverse()
 
-renderBooks(
-window.ALL_BOOKS
-)
+window.ALL_BOOKS = books
+
+renderBooks(books)
 
 }catch(err){
 
-console.log(err)
+document.getElementById(
+"booksGrid"
+).innerHTML =
+"<div>Failed to load ebooks</div>"
 
 }
 
 }
-
-/* =====================================================
-RENDER BOOKS
-===================================================== */
 
 function renderBooks(books){
 
@@ -1493,10 +1776,6 @@ by ${book.author || "Unknown"}
 })
 
 }
-
-/* =====================================================
-FILTER
-===================================================== */
 
 function filterBooks(type,button){
 
@@ -1560,30 +1839,8 @@ Number(b.price||0)<300
 
 }
 
-/* =====================================================
-START
-===================================================== */
-
-window.addEventListener(
-"load",
-async function(){
-
-await checkLogin()
-
+updateLoginUI()
 loadBooks()
-
-fetch("footer.html")
-.then(res=>res.text())
-.then(data=>{
-
-document.getElementById(
-"footerContainer"
-).innerHTML = data
-
-})
-
-}
-)
 
 </script>
 
