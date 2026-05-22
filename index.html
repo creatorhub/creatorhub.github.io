@@ -1623,15 +1623,26 @@ window.location.href =
 function updateLoginUI(){
 
 let email =
-localStorage.getItem("user_email")
+localStorage.getItem(
+"user_email"
+)
+
+let token =
+localStorage.getItem(
+"user_token"
+)
 
 let loginBtn =
-document.getElementById("loginBtn")
+document.getElementById(
+"loginBtn"
+)
 
 let profileWrap =
-document.getElementById("profileWrap")
+document.getElementById(
+"profileWrap"
+)
 
-if(email){
+if(email && token){
 
 loginBtn.style.display =
 "none"
@@ -1640,16 +1651,23 @@ profileWrap.style.display =
 "flex"
 
 let name =
-localStorage.getItem("user_name")
-|| "CreatorHub User"
+localStorage.getItem(
+"user_name"
+) || "User"
 
 let image =
-localStorage.getItem("user_image")
-||
+localStorage.getItem(
+"user_image"
+)
 
+if(!image || image==""){
+
+image =
 `https://ui-avatars.com/api/?name=${
 encodeURIComponent(name)
 }&background=22c55e&color=fff`
+
+}
 
 document.getElementById(
 "profileImage"
@@ -1678,7 +1696,7 @@ profileWrap.style.display =
 }
 
 }
-
+  
 async function loadBooks(){
 
 try{
