@@ -794,37 +794,110 @@ TOPBAR
 
 <div class="topbar">
 
+<!-- LEFT -->
+
+<div class="topbar-left">
+
 <div class="logo">
 Creator<span>Hub</span>
 </div>
 
+<!-- PROFILE -->
+
+<div
+class="profile-wrap"
+onclick="toggleProfileMenu()"
+>
+
+<img
+id="profileImage"
+src="https://ui-avatars.com/api/?name=User&background=22c55e&color=fff"
+class="profile-image"
+>
+
+<!-- MENU -->
+
+<div
+id="profileMenu"
+class="profile-menu"
+>
+
+<div class="profile-header">
+
+<img
+id="menuProfileImage"
+src="https://ui-avatars.com/api/?name=User&background=22c55e&color=fff"
+class="menu-profile-image"
+>
+
+<div>
+
+<div id="menuName">
+CreatorHub User
+</div>
+
+<div id="menuEmail">
+user@email.com
+</div>
+
+</div>
+
+</div>
+
+<a href="profile.html">
+👤 My Profile
+</a>
+
+<a href="wallet.html">
+💰 Wallet
+</a>
+
+<a href="orders.html">
+📦 My Orders
+</a>
+
+<a href="track.html">
+🚚 Track Order
+</a>
+
+<a href="seller.html">
+📚 Seller Dashboard
+</a>
+
+<div
+class="logout-btn"
+onclick="logout()"
+>
+
+Logout
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- RIGHT -->
+
 <div class="nav">
 
 <a href="#books">
-Marketplace
+All eBooks
 </a>
 
-<a href="#features">
-Features
+<a href="#trending">
+Trending
+</a>
+
+<a href="#highrated">
+High Rated
 </a>
 
 <a href="wallet.html">
 Wallet
 </a>
-
-<a href="track.html">
-Track Order
-</a>
-
-<button
-class="login-btn"
-onclick="
-window.location.href='login.html'
-">
-
-Login
-
-</button>
 
 </div>
 
