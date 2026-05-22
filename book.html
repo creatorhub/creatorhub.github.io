@@ -870,9 +870,35 @@ No reviews yet
 
 let relatedHTML = ""
 
-books
-.filter(b=>b.id!=book.id)
-.slice(0,4)
+let relatedBooks = books.filter(b=>{
+
+return (
+
+b.id != book.id &&
+
+b.status == "approved" &&
+
+b.category == book.category
+
+)
+
+})
+
+if(relatedBooks.length < 4){
+
+relatedBooks = books.filter(b=>{
+
+return (
+b.id != book.id &&
+b.status == "approved"
+)
+
+})
+
+}
+
+relatedBooks
+.slice(0,8)
 .forEach(r=>{
 
 relatedHTML += `
@@ -891,11 +917,21 @@ src="${driveImage(r.front_cover)}"
 <div class="related-content">
 
 <div class="related-title">
-${r.title}
+${r.title || "Untitled"}
+</div>
+
+<div
+style="
+margin-top:6px;
+opacity:.7;
+font-size:13px;
+"
+>
+${r.author || "Unknown"}
 </div>
 
 <div class="related-price">
-₹${r.price}
+₹${r.price || 0}
 </div>
 
 </div>
