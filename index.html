@@ -62,7 +62,7 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 
-padding:18px 18px;
+padding:18px 22px;
 
 background:
 rgba(2,6,23,.92);
@@ -74,9 +74,17 @@ border-bottom:
 
 }
 
+.topbar-left{
+
+display:flex;
+align-items:center;
+gap:18px;
+
+}
+
 .logo{
 
-font-size:32px;
+font-size:34px;
 font-weight:900;
 
 }
@@ -85,11 +93,194 @@ font-weight:900;
 color:#4ade80;
 }
 
+/* =====================================================
+PROFILE
+===================================================== */
+
+.profile-wrap{
+
+position:relative;
+
+cursor:pointer;
+
+}
+
+.profile-image{
+
+width:52px;
+height:52px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+border:
+3px solid rgba(34,197,94,.3);
+
+transition:.3s;
+
+}
+
+.profile-image:hover{
+
+transform:scale(1.05);
+
+border-color:#4ade80;
+
+}
+
+/* =====================================================
+PROFILE MENU
+===================================================== */
+
+.profile-menu{
+
+position:absolute;
+
+top:72px;
+left:0;
+
+width:290px;
+
+background:#0f172a;
+
+border:
+1px solid rgba(255,255,255,.06);
+
+border-radius:28px;
+
+padding:22px;
+
+display:none;
+
+box-shadow:
+0 30px 70px rgba(0,0,0,.55);
+
+z-index:999;
+
+}
+
+.profile-menu.show{
+display:block;
+}
+
+.profile-header{
+
+display:flex;
+align-items:center;
+gap:14px;
+
+padding-bottom:18px;
+
+border-bottom:
+1px solid rgba(255,255,255,.06);
+
+margin-bottom:18px;
+
+}
+
+.menu-profile-image{
+
+width:58px;
+height:58px;
+
+border-radius:50%;
+
+}
+
+#menuName{
+
+font-size:18px;
+font-weight:800;
+
+}
+
+#menuEmail{
+
+margin-top:4px;
+
+font-size:13px;
+
+opacity:.65;
+
+word-break:break-word;
+
+}
+
+.profile-menu a{
+
+display:flex;
+align-items:center;
+
+gap:12px;
+
+height:54px;
+
+padding:0 16px;
+
+border-radius:16px;
+
+text-decoration:none;
+
+color:white;
+
+font-size:15px;
+font-weight:700;
+
+transition:.3s;
+
+}
+
+.profile-menu a:hover{
+
+background:#081225;
+
+transform:translateX(4px);
+
+}
+
+.logout-btn{
+
+margin-top:16px;
+
+height:56px;
+
+border-radius:18px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+background:
+linear-gradient(
+90deg,
+#ef4444,
+#dc2626
+);
+
+font-weight:900;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.logout-btn:hover{
+
+transform:translateY(-3px);
+
+}
+
+/* =====================================================
+NAV
+===================================================== */
+
 .nav{
 
 display:flex;
 align-items:center;
-gap:22px;
+gap:24px;
 
 }
 
@@ -102,7 +293,7 @@ color:white;
 font-size:14px;
 font-weight:700;
 
-opacity:.78;
+opacity:.8;
 
 transition:.3s;
 
@@ -746,16 +937,6 @@ display:none;
 
 }
 
-.login-btn{
-
-height:46px;
-
-padding:0 18px;
-
-font-size:13px;
-
-}
-
 .hero{
 
 padding:36px 24px;
@@ -782,259 +963,6 @@ font-size:42px;
 
 }
 
-/* =====================================================
-TOPBAR
-===================================================== */
-
-.topbar{
-
-position:sticky;
-top:0;
-z-index:999;
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-padding:18px 24px;
-
-background:
-rgba(2,6,23,.92);
-
-backdrop-filter:blur(18px);
-
-border-bottom:
-1px solid rgba(255,255,255,.06);
-
-}
-
-.topbar-left{
-
-display:flex;
-align-items:center;
-gap:18px;
-
-}
-
-.logo{
-
-font-size:34px;
-font-weight:900;
-
-}
-
-.logo span{
-color:#4ade80;
-}
-
-.nav{
-
-display:flex;
-align-items:center;
-gap:24px;
-
-}
-
-.nav a{
-
-color:white;
-
-text-decoration:none;
-
-font-weight:700;
-
-opacity:.8;
-
-transition:.3s;
-
-}
-
-.nav a:hover{
-
-opacity:1;
-color:#4ade80;
-
-}
-
-/* =====================================================
-PROFILE
-===================================================== */
-
-.profile-wrap{
-
-position:relative;
-
-cursor:pointer;
-
-}
-
-.profile-image{
-
-width:52px;
-height:52px;
-
-border-radius:50%;
-
-object-fit:cover;
-
-border:
-3px solid rgba(34,197,94,.3);
-
-transition:.3s;
-
-}
-
-.profile-image:hover{
-
-transform:scale(1.05);
-
-border-color:#4ade80;
-
-}
-
-/* =====================================================
-PROFILE MENU
-===================================================== */
-
-.profile-menu{
-
-position:absolute;
-
-top:72px;
-left:0;
-
-width:280px;
-
-background:#0f172a;
-
-border:
-1px solid rgba(255,255,255,.06);
-
-border-radius:28px;
-
-padding:22px;
-
-display:none;
-
-box-shadow:
-0 30px 70px rgba(0,0,0,.55);
-
-z-index:999;
-
-}
-
-.profile-menu.show{
-display:block;
-}
-
-.profile-header{
-
-display:flex;
-align-items:center;
-gap:14px;
-
-padding-bottom:18px;
-
-border-bottom:
-1px solid rgba(255,255,255,.06);
-
-margin-bottom:18px;
-
-}
-
-.menu-profile-image{
-
-width:58px;
-height:58px;
-
-border-radius:50%;
-
-}
-
-#menuName{
-
-font-size:18px;
-font-weight:800;
-
-}
-
-#menuEmail{
-
-margin-top:4px;
-
-font-size:13px;
-
-opacity:.65;
-
-word-break:break-word;
-
-}
-
-.profile-menu a{
-
-display:flex;
-align-items:center;
-
-gap:12px;
-
-height:54px;
-
-padding:0 16px;
-
-border-radius:16px;
-
-text-decoration:none;
-
-color:white;
-
-font-size:15px;
-font-weight:700;
-
-transition:.3s;
-
-}
-
-.profile-menu a:hover{
-
-background:#081225;
-
-transform:translateX(4px);
-
-}
-
-.logout-btn{
-
-margin-top:16px;
-
-height:56px;
-
-border-radius:18px;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-background:
-linear-gradient(
-90deg,
-#ef4444,
-#dc2626
-);
-
-font-weight:900;
-
-cursor:pointer;
-
-transition:.3s;
-
-}
-
-.logout-btn:hover{
-
-transform:translateY(-3px);
-
-}
-
 </style>
 
 </head>
@@ -1047,15 +975,9 @@ TOPBAR
 
 <div class="topbar">
 
-<!-- LEFT -->
-
 <div class="topbar-left">
 
-<div class="logo">
-Creator<span>Hub</span>
-</div>
-
-<!-- PROFILE -->
+<!-- PROFILE LEFT -->
 
 <div
 class="profile-wrap"
@@ -1067,8 +989,6 @@ id="profileImage"
 src="https://ui-avatars.com/api/?name=User&background=22c55e&color=fff"
 class="profile-image"
 >
-
-<!-- MENU -->
 
 <div
 id="profileMenu"
@@ -1130,6 +1050,12 @@ Logout
 
 </div>
 
+<!-- LOGO -->
+
+<div class="logo">
+Creator<span>Hub</span>
+</div>
+
 </div>
 
 <!-- RIGHT -->
@@ -1140,17 +1066,27 @@ Logout
 All eBooks
 </a>
 
-<a href="#trending">
-Trending
-</a>
-
-<a href="#highrated">
-High Rated
+<a href="#features">
+Features
 </a>
 
 <a href="wallet.html">
 Wallet
 </a>
+
+<a href="track.html">
+Track
+</a>
+
+<button
+class="login-btn"
+onclick="
+window.location.href='login.html'
+">
+
+Login
+
+</button>
 
 </div>
 
@@ -1161,10 +1097,6 @@ MAIN
 ===================================================== -->
 
 <div class="main">
-
-<!-- =====================================================
-HERO
-===================================================== -->
 
 <div class="hero">
 
@@ -1202,9 +1134,7 @@ Track Your Order
 
 </div>
 
-<!-- =====================================================
-BOOKS
-===================================================== -->
+<!-- BOOKS -->
 
 <div
 id="books"
@@ -1268,9 +1198,7 @@ Loading ebooks...
 
 </div>
 
-<!-- =====================================================
-FEATURES
-===================================================== -->
+<!-- FEATURES -->
 
 <div
 id="features"
@@ -1358,9 +1286,7 @@ Protected transactions, encrypted systems, and trusted marketplace infrastructur
 
 </div>
 
-<!-- =====================================================
-FOOTER
-===================================================== -->
+<!-- FOOTER -->
 
 <div class="footer">
 
@@ -1420,10 +1346,6 @@ support@creatorhub.com
 Creator Login
 </a>
 
-<a href="#">
-Privacy Policy
-</a>
-
 </div>
 
 </div>
@@ -1443,6 +1365,8 @@ Secure Payments • Live Tracking • Creator Earnings
 </div>
 
 </div>
+
+<script>
 
 /* =====================================================
 PROFILE
@@ -1529,8 +1453,6 @@ window.location.href =
 
 }
 
-<script>
-
 /* =====================================================
 API
 ===================================================== */
@@ -1563,16 +1485,6 @@ if(url.includes("/d/")){
 let id =
 url.split("/d/")[1]
 .split("/")[0]
-
-return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000"
-
-}
-
-if(url.includes("id=")){
-
-let id =
-url.split("id=")[1]
-.split("&")[0]
 
 return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000"
 
@@ -1706,7 +1618,7 @@ by ${book.author || "Unknown"}
 }
 
 /* =====================================================
-FILTER BOOKS
+FILTER
 ===================================================== */
 
 function filterBooks(type,button){
@@ -1737,44 +1649,35 @@ return
 
 if(type==="trending"){
 
-let trending =
-books.filter(book=>
-
-Number(book.price||0) >= 300
-
+renderBooks(
+books.filter(b=>
+Number(b.price||0)>=300
+)
 )
 
-renderBooks(trending)
 return
 
 }
 
 if(type==="high"){
 
-let high =
-books.filter(book=>
-
-String(book.title||"")
-.length > 15
-
+renderBooks(
+books.filter(b=>
+String(b.title||"").length>15
+)
 )
 
-renderBooks(high)
 return
 
 }
 
 if(type==="low"){
 
-let low =
-books.filter(book=>
-
-Number(book.price||0) < 300
-
+renderBooks(
+books.filter(b=>
+Number(b.price||0)<300
 )
-
-renderBooks(low)
-return
+)
 
 }
 
