@@ -1189,6 +1189,19 @@ line.classList.add("active-line")
 
 })
 
+}catch(err){
+
+console.log(err)
+
+document.getElementById(
+"statusText"
+).innerHTML =
+"Unable to connect to tracking server."
+
+}
+
+}
+
 /* ======================================================
 SINGLE ORDER TRACK
 ====================================================== */
@@ -1328,6 +1341,21 @@ console.log(err)
 }
 
 }
+
+})
+
+}catch(err){
+
+console.log(err)
+
+document.getElementById(
+"statusText"
+).innerHTML =
+"Unable to load order."
+
+}
+
+  }
 
 /* ======================================================
 START
