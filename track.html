@@ -3,20 +3,13 @@
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0">
+<title>CreatorHub Order Tracking</title>
 
-<title>
-CreatorHub Live Order Tracking
-</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
-<link rel="preconnect"
-href="https://fonts.googleapis.com">
-
-<link href="
-https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 
@@ -36,17 +29,15 @@ linear-gradient(
 #071120
 );
 
-min-height:100vh;
-
 color:white;
-
+min-height:100vh;
 overflow-x:hidden;
 
 }
 
-/* ======================================================
+/* =========================
 TOPBAR
-====================================================== */
+========================= */
 
 .topbar{
 
@@ -58,12 +49,11 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 
-padding:18px 24px;
+padding:18px 22px;
 
-background:
-rgba(2,6,23,.88);
+background:rgba(2,6,23,.92);
 
-backdrop-filter:blur(18px);
+backdrop-filter:blur(16px);
 
 border-bottom:
 1px solid rgba(255,255,255,.05);
@@ -72,7 +62,7 @@ border-bottom:
 
 .logo{
 
-font-size:34px;
+font-size:32px;
 font-weight:900;
 
 }
@@ -83,61 +73,61 @@ color:#4ade80;
 
 .badge{
 
-padding:14px 18px;
+padding:10px 16px;
 
-border-radius:18px;
+border-radius:14px;
 
 background:
-rgba(34,197,94,.12);
+rgba(74,222,128,.12);
 
 color:#4ade80;
 
-font-weight:700;
 font-size:14px;
+font-weight:700;
 
 }
 
-/* ======================================================
+/* =========================
 MAIN
-====================================================== */
+========================= */
 
 .main{
 
-max-width:1400px;
+max-width:1350px;
 
 margin:auto;
 
 padding:
-40px 20px 120px;
+40px 18px 120px;
 
 }
 
-/* ======================================================
+/* =========================
 HEADER
-====================================================== */
+========================= */
 
 .header{
 
 text-align:center;
 
-margin-bottom:55px;
+margin-bottom:50px;
 
 }
 
 .icon{
 
-width:150px;
-height:150px;
+width:120px;
+height:120px;
 
 margin:auto;
-
-border-radius:50%;
 
 display:flex;
 align-items:center;
 justify-content:center;
 
-font-size:70px;
+border-radius:50%;
+
+font-size:55px;
 
 background:
 linear-gradient(
@@ -147,57 +137,36 @@ linear-gradient(
 );
 
 box-shadow:
-0 25px 70px rgba(34,197,94,.35);
-
-animation:pop .6s ease;
+0 20px 60px rgba(74,222,128,.35);
 
 }
 
-@keyframes pop{
+.header h1{
 
-0%{
-transform:scale(.5);
-opacity:0;
-}
-
-100%{
-transform:scale(1);
-opacity:1;
-}
-
-}
-
-h1{
-
-margin-top:35px;
-
-font-size:62px;
+font-size:58px;
 font-weight:900;
 
-line-height:1.2;
+margin-top:28px;
 
 }
 
 .desc{
 
+max-width:850px;
+
+margin:auto;
 margin-top:20px;
 
-font-size:19px;
-
 line-height:2;
-
 opacity:.8;
 
-max-width:900px;
-
-margin-left:auto;
-margin-right:auto;
+font-size:17px;
 
 }
 
-/* ======================================================
+/* =========================
 GRID
-====================================================== */
+========================= */
 
 .grid{
 
@@ -206,9 +175,9 @@ display:grid;
 grid-template-columns:
 1fr 1fr;
 
-gap:30px;
+gap:28px;
 
-margin-top:55px;
+margin-top:50px;
 
 }
 
@@ -218,44 +187,44 @@ margin-top:55px;
 grid-template-columns:1fr;
 }
 
+.header h1{
+font-size:40px;
 }
 
-/* ======================================================
+}
+
+/* =========================
 CARD
-====================================================== */
+========================= */
 
 .card{
 
 background:#0f172a;
 
-padding:38px;
-
-border-radius:38px;
-
 border:
 1px solid rgba(255,255,255,.05);
 
+border-radius:32px;
+
+padding:34px;
+
 box-shadow:
-0 25px 80px rgba(0,0,0,.45);
+0 20px 70px rgba(0,0,0,.4);
 
 }
-
-/* ======================================================
-TITLE
-====================================================== */
 
 .card-title{
 
-font-size:38px;
+font-size:34px;
 font-weight:900;
 
-margin-bottom:34px;
+margin-bottom:30px;
 
 }
 
-/* ======================================================
+/* =========================
 ROWS
-====================================================== */
+========================= */
 
 .row{
 
@@ -263,12 +232,12 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 
-gap:20px;
-
-padding:20px 0;
+padding:18px 0;
 
 border-bottom:
 1px solid rgba(255,255,255,.06);
+
+gap:20px;
 
 }
 
@@ -278,9 +247,8 @@ border-bottom:none;
 
 .label{
 
+font-size:14px;
 opacity:.65;
-
-font-size:15px;
 
 }
 
@@ -290,7 +258,6 @@ font-size:17px;
 font-weight:800;
 
 text-align:right;
-
 word-break:break-word;
 
 }
@@ -299,17 +266,17 @@ word-break:break-word;
 color:#4ade80;
 }
 
-/* ======================================================
+/* =========================
 STATUS BOX
-====================================================== */
+========================= */
 
 .status-box{
 
-margin-top:32px;
+margin-top:28px;
 
-padding:28px;
+padding:24px;
 
-border-radius:30px;
+border-radius:24px;
 
 background:
 linear-gradient(
@@ -322,26 +289,23 @@ linear-gradient(
 
 .status-title{
 
-font-size:30px;
+font-size:26px;
 font-weight:900;
 
 }
 
 .status-text{
 
-margin-top:16px;
+margin-top:12px;
 
-line-height:2;
-
-opacity:.94;
-
-font-size:16px;
+line-height:1.9;
+opacity:.95;
 
 }
 
-/* ======================================================
-TRACKING
-====================================================== */
+/* =========================
+TIMELINE
+========================= */
 
 .timeline{
 margin-top:10px;
@@ -352,9 +316,7 @@ margin-top:10px;
 display:flex;
 gap:18px;
 
-align-items:flex-start;
-
-opacity:.4;
+opacity:.35;
 
 transition:.3s;
 
@@ -366,8 +328,8 @@ opacity:1;
 
 .track-icon{
 
-width:58px;
-height:58px;
+width:54px;
+height:54px;
 
 border-radius:50%;
 
@@ -377,10 +339,10 @@ justify-content:center;
 
 background:#081225;
 
-font-size:24px;
-
 border:
 1px solid rgba(255,255,255,.08);
+
+font-size:22px;
 
 flex-shrink:0;
 
@@ -396,38 +358,37 @@ linear-gradient(
 );
 
 box-shadow:
-0 12px 35px rgba(34,197,94,.35);
+0 10px 30px rgba(74,222,128,.3);
 
 }
 
 .track-content h3{
 
-font-size:24px;
+font-size:22px;
 font-weight:800;
 
 }
 
 .track-content p{
 
-margin-top:10px;
+margin-top:8px;
 
-line-height:1.9;
-
+line-height:1.8;
 opacity:.72;
 
-font-size:15px;
+font-size:14px;
 
 }
 
 .track-line{
 
 width:4px;
-height:48px;
+height:42px;
+
+margin-left:25px;
 
 background:
 rgba(255,255,255,.08);
-
-margin-left:27px;
 
 border-radius:30px;
 
@@ -444,9 +405,9 @@ linear-gradient(
 
 }
 
-/* ======================================================
-INFO BOXES
-====================================================== */
+/* =========================
+INFO BOX
+========================= */
 
 .info-grid{
 
@@ -455,9 +416,9 @@ display:grid;
 grid-template-columns:
 repeat(2,1fr);
 
-gap:20px;
+gap:18px;
 
-margin-top:35px;
+margin-top:28px;
 
 }
 
@@ -471,9 +432,9 @@ grid-template-columns:1fr;
 
 .info-box{
 
-padding:24px;
+padding:22px;
 
-border-radius:26px;
+border-radius:22px;
 
 background:#081225;
 
@@ -481,32 +442,34 @@ background:#081225;
 
 .info-box h3{
 
-font-size:20px;
+font-size:19px;
 font-weight:800;
 
 }
 
 .info-box p{
 
-margin-top:12px;
+margin-top:10px;
 
-line-height:1.9;
+line-height:1.8;
+opacity:.72;
 
-opacity:.74;
+font-size:14px;
 
 }
 
-/* ======================================================
+/* =========================
 BUTTONS
-====================================================== */
+========================= */
 
 .actions{
 
 display:flex;
 gap:18px;
+
 flex-wrap:wrap;
 
-margin-top:40px;
+margin-top:35px;
 
 }
 
@@ -514,24 +477,20 @@ margin-top:40px;
 
 flex:1;
 
-min-width:220px;
+min-width:200px;
 
-height:68px;
-
-border:none;
-
-border-radius:24px;
+height:62px;
 
 display:flex;
 align-items:center;
 justify-content:center;
 
+border-radius:20px;
+
 text-decoration:none;
 
-font-size:18px;
-font-weight:900;
-
-cursor:pointer;
+font-weight:800;
+font-size:17px;
 
 transition:.3s;
 
@@ -554,30 +513,29 @@ color:white;
 
 background:#081225;
 
-color:white;
-
 border:
 1px solid rgba(255,255,255,.08);
+
+color:white;
 
 }
 
 .btn:hover{
-transform:translateY(-4px);
+transform:translateY(-3px);
 }
 
-/* ======================================================
+/* =========================
 FOOTER
-====================================================== */
+========================= */
 
 .footer{
 
-margin-top:60px;
+margin-top:70px;
 
 text-align:center;
 
-opacity:.58;
-
 line-height:2;
+opacity:.55;
 
 font-size:14px;
 
@@ -589,9 +547,9 @@ font-size:14px;
 
 <body>
 
-<!-- ======================================================
+<!-- =========================
 TOPBAR
-====================================================== -->
+========================= -->
 
 <div class="topbar">
 
@@ -605,15 +563,15 @@ Live Tracking
 
 </div>
 
-<!-- ======================================================
+<!-- =========================
 MAIN
-====================================================== -->
+========================= -->
 
 <div class="main">
 
-<!-- ======================================================
+<!-- =========================
 HEADER
-====================================================== -->
+========================= -->
 
 <div class="header">
 
@@ -627,23 +585,21 @@ Track Your Order
 
 <p class="desc">
 
-Your order has been confirmed successfully and is now moving through the CreatorHub fulfillment network powered by Qikink.
-
-Track live printing, packaging, shipping, courier updates, and delivery progress in real-time.
+Track your CreatorHub orders in real-time including payment verification, printing progress, packaging, shipping and delivery updates powered by Qikink.
 
 </p>
 
 </div>
 
-<!-- ======================================================
+<!-- =========================
 GRID
-====================================================== -->
+========================= -->
 
 <div class="grid">
 
-<!-- ======================================================
-LEFT
-====================================================== -->
+<!-- =========================
+LEFT CARD
+========================= -->
 
 <div class="card">
 
@@ -652,75 +608,33 @@ Order Details
 </div>
 
 <div class="row">
-
-<div class="label">
-Order ID
-</div>
-
-<div
-id="orderId"
-class="value">
-
-Loading...
-
-</div>
-
+<div class="label">Order ID</div>
+<div id="orderId" class="value">Loading...</div>
 </div>
 
 <div class="row">
-
-<div class="label">
-Tracking ID
-</div>
-
-<div
-id="trackingId"
-class="value">
-
-Loading...
-
-</div>
-
+<div class="label">Book Name</div>
+<div id="bookTitle" class="value">Loading...</div>
 </div>
 
 <div class="row">
-
-<div class="label">
-Payment Status
-</div>
-
-<div class="value green">
-PAID
-</div>
-
+<div class="label">Tracking ID</div>
+<div id="trackingId" class="value">Preparing...</div>
 </div>
 
 <div class="row">
-
-<div class="label">
-Fulfillment Status
-</div>
-
-<div
-id="fulfillment"
-class="value green">
-
-Connecting...
-
-</div>
-
+<div class="label">Payment Status</div>
+<div id="paymentStatus" class="value green">Pending</div>
 </div>
 
 <div class="row">
-
-<div class="label">
-Delivery Region
+<div class="label">Fulfillment Status</div>
+<div id="fulfillment" class="value green">Processing</div>
 </div>
 
-<div class="value">
-India
-</div>
-
+<div class="row">
+<div class="label">Delivery Region</div>
+<div id="region" class="value">India</div>
 </div>
 
 <div class="status-box">
@@ -729,11 +643,9 @@ India
 Live Fulfillment Status
 </div>
 
-<div
-id="statusText"
-class="status-text">
+<div id="statusText" class="status-text">
 
-Connecting to Qikink fulfillment network...
+Loading latest order updates...
 
 </div>
 
@@ -742,60 +654,40 @@ Connecting to Qikink fulfillment network...
 <div class="info-grid">
 
 <div class="info-box">
-
-<h3>
-Printing Facility
-</h3>
-
+<h3>Printing Facility</h3>
 <p>
-Your order has entered the automated print production queue and printing will begin shortly.
+Your order is being prepared for automated print production.
 </p>
-
 </div>
 
 <div class="info-box">
-
-<h3>
-Shipping Network
-</h3>
-
+<h3>Shipping Network</h3>
 <p>
-Courier assignment and shipping activation will happen automatically after packaging completes.
+Courier partner assignment will happen automatically.
 </p>
-
 </div>
 
 <div class="info-box">
-
-<h3>
-Estimated Dispatch
-</h3>
-
+<h3>Estimated Dispatch</h3>
 <p>
-Orders are usually dispatched within 24-48 hours after successful payment verification.
+Orders usually dispatch within 24-48 hours.
 </p>
-
 </div>
 
 <div class="info-box">
-
-<h3>
-Tracking Updates
-</h3>
-
+<h3>Tracking Updates</h3>
 <p>
-Live courier tracking and delivery updates will appear automatically once shipping begins.
+Shipping updates will appear here automatically.
 </p>
-
 </div>
 
 </div>
 
 </div>
 
-<!-- ======================================================
-RIGHT
-====================================================== -->
+<!-- =========================
+RIGHT CARD
+========================= -->
 
 <div class="card">
 
@@ -805,190 +697,84 @@ Live Order Progress
 
 <div class="timeline">
 
-<!-- STEP 1 -->
-
-<div class="track-step active">
-
-<div class="track-icon">
-✓
-</div>
-
+<div class="track-step">
+<div class="track-icon">✓</div>
 <div class="track-content">
-
-<h3>
-Order Received
-</h3>
-
-<p>
-Your order has been confirmed successfully by CreatorHub.
-</p>
-
+<h3>Order Received</h3>
+<p>Your order has been confirmed successfully.</p>
 </div>
-
-</div>
-
-<div class="track-line active-line"></div>
-
-<!-- STEP 2 -->
-
-<div class="track-step active">
-
-<div class="track-icon">
-
-</div>
-
-<div class="track-content">
-
-<h3>
-Payment Verified
-</h3>
-
-<p>
-Cashfree payment gateway has verified your payment successfully.
-</p>
-
-</div>
-
-</div>
-
-<div class="track-line active-line"></div>
-
-<!-- STEP 3 -->
-
-<div class="track-step active">
-
-<div class="track-icon">
-
-</div>
-
-<div class="track-content">
-
-<h3>
-Printing Started
-</h3>
-
-<p>
-Qikink has received your order and printing preparation has started.
-</p>
-
-</div>
-
-</div>
-
-<div class="track-line active-line"></div>
-
-<!-- STEP 4 -->
-
-<div class="track-step active">
-
-<div class="track-icon">
-
-</div>
-
-<div class="track-content">
-
-<h3>
-Packaging In Progress
-</h3>
-
-<p>
-Your order is being packed securely for courier shipment.
-</p>
-
-</div>
-
 </div>
 
 <div class="track-line"></div>
 
-<!-- STEP 5 -->
-
 <div class="track-step">
-
-<div class="track-icon">
-
-</div>
-
+<div class="track-icon"></div>
 <div class="track-content">
-
-<h3>
-Shipped
-</h3>
-
-<p>
-Courier pickup and shipment tracking will appear here once dispatched.
-</p>
-
+<h3>Payment Verified</h3>
+<p>Payment verification completed successfully.</p>
 </div>
-
 </div>
 
 <div class="track-line"></div>
 
-<!-- STEP 6 -->
-
 <div class="track-step">
-
-<div class="track-icon">
-
-</div>
-
+<div class="track-icon"></div>
 <div class="track-content">
-
-<h3>
-Out For Delivery
-</h3>
-
-<p>
-The courier partner will deliver your order to your shipping address.
-</p>
-
+<h3>Printing Started</h3>
+<p>Your order entered print production queue.</p>
 </div>
-
 </div>
 
 <div class="track-line"></div>
 
-<!-- STEP 7 -->
+<div class="track-step">
+<div class="track-icon"></div>
+<div class="track-content">
+<h3>Packaging</h3>
+<p>Your order is being securely packed.</p>
+</div>
+</div>
+
+<div class="track-line"></div>
 
 <div class="track-step">
-
-<div class="track-icon">
-
-</div>
-
+<div class="track-icon"></div>
 <div class="track-content">
-
-<h3>
-Delivered
-</h3>
-
-<p>
-Your order will be marked delivered after successful completion.
-</p>
-
+<h3>Shipped</h3>
+<p>Your package has been shipped.</p>
+</div>
 </div>
 
+<div class="track-line"></div>
+
+<div class="track-step">
+<div class="track-icon"></div>
+<div class="track-content">
+<h3>Out For Delivery</h3>
+<p>Courier partner is delivering your package.</p>
+</div>
+</div>
+
+<div class="track-line"></div>
+
+<div class="track-step">
+<div class="track-icon"></div>
+<div class="track-content">
+<h3>Delivered</h3>
+<p>Your order has been delivered successfully.</p>
+</div>
 </div>
 
 </div>
 
 <div class="actions">
 
-<a
-href="index.html"
-class="btn btn-primary">
-
+<a href="index.html" class="btn btn-primary">
 Back To Home
-
 </a>
 
-<a
-href="mailto:support@creatorhub.com"
-class="btn btn-secondary">
-
+<a href="mailto:support@creatorhub.com" class="btn btn-secondary">
 Contact Support
-
 </a>
 
 </div>
@@ -999,11 +785,7 @@ Contact Support
 
 <div class="footer">
 
-Live tracking updates are powered by CreatorHub fulfillment automation and Qikink shipping systems.
-
-<br>
-
-Courier updates may take some time to appear after dispatch.
+Live tracking updates powered by CreatorHub & Qikink fulfillment systems.
 
 </div>
 
@@ -1011,19 +793,19 @@ Courier updates may take some time to appear after dispatch.
 
 <script>
 
-/* ======================================================
-API
-====================================================== */
+/* =========================
+APIS
+========================= */
 
 const API_URL =
 "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
 
 const TRACK_API =
 "https://script.google.com/macros/s/AKfycbz9g1ZxS8_var6e35p06AVDEiYRGu-cKE5boAtr762x4JA_6qMaKfso32cOfVkeTeUq/exec"
-  
-/* ======================================================
+
+/* =========================
 USER
-====================================================== */
+========================= */
 
 let USER =
 JSON.parse(
@@ -1033,21 +815,16 @@ localStorage.getItem("user") || "{}"
 const userEmail =
 USER.email || ""
 
+/* =========================
+ORDER ID
+========================= */
+
 let orderId =
 localStorage.getItem("order_id") || null
 
-/* ======================================================
-SHOW ORDER ID
-====================================================== */
-
-document.getElementById(
-"orderId"
-).innerHTML =
-orderId || "N/A"
-
-/* ======================================================
+/* =========================
 LOAD TRACKING
-====================================================== */
+========================= */
 
 async function loadTracking(){
 
@@ -1064,22 +841,31 @@ return
 
 }
 
-/* =========================================
-OLD ORDER REDIRECT TRACKING
-========================================= */
+/* =========================
+IF ORDER ID EXISTS
+========================= */
 
 if(orderId){
 
-loadSingleOrder(orderId)
+await loadSingleOrder(orderId)
 
 return
 
 }
 
+/* =========================
+LOAD USER ORDERS
+========================= */
+
 let res =
 await fetch(
-API_URL + "?action=getOrders&email=" +
+
+API_URL +
+
+"?action=getOrders&email=" +
+
 encodeURIComponent(userEmail)
+
 )
 
 let data =
@@ -1096,103 +882,18 @@ document.getElementById(
 ).innerHTML =
 "No active orders found."
 
-document.getElementById(
-"fulfillment"
-).innerHTML =
-"N/A"
-
 return
 
 }
 
-/* =========================================
+/* =========================
 LATEST ORDER
-========================================= */
+========================= */
 
 let order =
 data.orders.reverse()[0]
 
-orderId =
-order.order_id || "N/A"
-
-/* =========================================
-UI UPDATE
-========================================= */
-
-document.getElementById(
-"orderId"
-).innerHTML =
-order.order_id || "N/A"
-
-document.getElementById(
-"trackingId"
-).innerHTML =
-order.tracking_id || "Preparing"
-
-document.getElementById(
-"fulfillment"
-).innerHTML =
-order.status || "Processing"
-
-document.getElementById(
-"statusText"
-).innerHTML =
-
-`Your order for "${order.book_title || 'ebook'}"
-is currently ${order.status || 'processing'}.
-Live shipping and courier updates will appear automatically.`
-
-/* =========================================
-TRACK STEP
-========================================= */
-
-let steps =
-document.querySelectorAll(
-".track-step"
-)
-
-let lines =
-document.querySelectorAll(
-".track-line"
-)
-
-let status =
-String(order.status || "")
-.toLowerCase()
-
-let active = 3
-
-if(status.includes("shipped")){
-active = 5
-}
-
-if(status.includes("delivery")){
-active = 6
-}
-
-if(status.includes("delivered")){
-active = 7
-}
-
-steps.forEach((step,index)=>{
-
-if(index < active){
-
-step.classList.add("active")
-
-}
-
-})
-
-lines.forEach((line,index)=>{
-
-if(index < active-1){
-
-line.classList.add("active-line")
-
-}
-
-})
+await updateUI(order)
 
 }catch(err){
 
@@ -1201,15 +902,15 @@ console.log(err)
 document.getElementById(
 "statusText"
 ).innerHTML =
-"Unable to connect to tracking server."
+"Unable to connect to server."
 
 }
 
 }
 
-/* ======================================================
-SINGLE ORDER TRACK
-====================================================== */
+/* =========================
+LOAD SINGLE ORDER
+========================= */
 
 async function loadSingleOrder(id){
 
@@ -1243,9 +944,33 @@ return
 let order =
 data.order || data.tracking
 
-/* =========================================
-UI
-========================================= */
+await updateUI(order)
+
+}catch(err){
+
+console.log(err)
+
+document.getElementById(
+"statusText"
+).innerHTML =
+"Unable to load tracking."
+
+}
+
+}
+
+/* =========================
+UPDATE UI
+========================= */
+
+async function updateUI(order){
+
+let status =
+String(
+order.order_status ||
+order.status ||
+"processing"
+).toLowerCase()
 
 document.getElementById(
 "orderId"
@@ -1256,11 +981,25 @@ order.order_id ||
 "N/A"
 
 document.getElementById(
+"bookTitle"
+).innerHTML =
+
+order.book_title ||
+"N/A"
+
+document.getElementById(
 "trackingId"
 ).innerHTML =
 
 order.tracking_id ||
 "Preparing"
+
+document.getElementById(
+"paymentStatus"
+).innerHTML =
+
+order.payment_status ||
+"Pending"
 
 document.getElementById(
 "fulfillment"
@@ -1271,23 +1010,23 @@ order.status ||
 "Processing"
 
 document.getElementById(
+"region"
+).innerHTML =
+
+order.country ||
+"India"
+
+document.getElementById(
 "statusText"
 ).innerHTML =
 
-`Your order is currently
-${order.order_status || order.status}.
+`Your order for "${order.book_title || 'ebook'}"
+is currently ${status}.
 Live courier updates will appear automatically.`
 
-/* =========================================
+/* =========================
 TIMELINE
-========================================= */
-
-let status =
-String(
-order.order_status ||
-order.status ||
-""
-).toLowerCase()
+========================= */
 
 let active = 3
 
@@ -1308,22 +1047,16 @@ active = 7
 }
 
 let steps =
-document.querySelectorAll(
-".track-step"
-)
+document.querySelectorAll(".track-step")
 
 let lines =
-document.querySelectorAll(
-".track-line"
-)
+document.querySelectorAll(".track-line")
 
 steps.forEach((step,index)=>{
 
 if(index < active){
 
-step.classList.add(
-"active"
-)
+step.classList.add("active")
 
 }
 
@@ -1339,17 +1072,11 @@ line.classList.add("active-line")
 
 })
 
-}catch(err){
-
-console.log(err)
-
 }
 
-}
-
-/* ======================================================
+/* =========================
 START
-====================================================== */
+========================= */
 
 loadTracking()
 
