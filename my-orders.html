@@ -9,7 +9,7 @@ name="viewport"
 content="width=device-width, initial-scale=1.0">
 
 <title>
-CreatorHub - My Orders
+CreatorHub • My Orders
 </title>
 
 <link
@@ -29,20 +29,53 @@ box-sizing:border-box;
 font-family:'Inter',sans-serif;
 }
 
+html{
+scroll-behavior:smooth;
+}
+
 body{
 
 background:
 linear-gradient(
 180deg,
-#020617,
-#071120
+#020617 0%,
+#071120 100%
 );
-
-min-height:100vh;
 
 color:white;
 
+min-height:100vh;
+
 overflow-x:hidden;
+
+}
+
+/* =========================================
+BACKGROUND
+========================================= */
+
+.bg{
+
+position:fixed;
+inset:0;
+
+pointer-events:none;
+
+z-index:-1;
+
+background:
+
+radial-gradient(
+circle at top left,
+rgba(34,197,94,.14),
+transparent 30%
+),
+
+radial-gradient(
+circle at bottom right,
+rgba(59,130,246,.08),
+transparent 30%
+);
 
 }
 
@@ -60,12 +93,12 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 
-padding:18px 24px;
+padding:18px 22px;
 
 background:
-rgba(2,6,23,.9);
+rgba(2,6,23,.82);
 
-backdrop-filter:blur(16px);
+backdrop-filter:blur(18px);
 
 border-bottom:
 1px solid rgba(255,255,255,.05);
@@ -77,22 +110,43 @@ border-bottom:
 font-size:34px;
 font-weight:900;
 
+letter-spacing:-1px;
+
 }
 
 .logo span{
 color:#4ade80;
 }
 
+.top-actions{
+
+display:flex;
+gap:12px;
+
+}
+
 .top-btn{
 
-padding:14px 22px;
+height:50px;
 
-border-radius:16px;
+padding:0 20px;
+
+display:flex;
+align-items:center;
+justify-content:center;
 
 text-decoration:none;
 
+border-radius:16px;
+
 font-size:14px;
 font-weight:800;
+
+transition:.3s;
+
+}
+
+.btn-home{
 
 background:
 linear-gradient(
@@ -105,18 +159,33 @@ color:white;
 
 }
 
+.btn-home:hover{
+transform:translateY(-3px);
+}
+
+.btn-track{
+
+background:#081225;
+
+border:
+1px solid rgba(255,255,255,.08);
+
+color:white;
+
+}
+
 /* =========================================
 MAIN
 ========================================= */
 
 .main{
 
-max-width:1400px;
+max-width:1450px;
 
 margin:auto;
 
 padding:
-40px 20px 120px;
+40px 18px 120px;
 
 }
 
@@ -128,14 +197,14 @@ HEADER
 
 text-align:center;
 
-margin-bottom:55px;
+margin-bottom:45px;
 
 }
 
-.header-icon{
+.hero-icon{
 
-width:130px;
-height:130px;
+width:140px;
+height:140px;
 
 margin:auto;
 
@@ -145,7 +214,7 @@ display:flex;
 align-items:center;
 justify-content:center;
 
-font-size:58px;
+font-size:60px;
 
 background:
 linear-gradient(
@@ -155,7 +224,7 @@ linear-gradient(
 );
 
 box-shadow:
-0 25px 70px rgba(34,197,94,.35);
+0 25px 80px rgba(34,197,94,.35);
 
 }
 
@@ -163,27 +232,27 @@ box-shadow:
 
 margin-top:30px;
 
-font-size:58px;
+font-size:64px;
 font-weight:900;
 
-line-height:1.2;
+line-height:1.1;
+
+letter-spacing:-2px;
 
 }
 
 .header p{
 
-margin-top:20px;
+max-width:850px;
 
-font-size:18px;
+margin:
+20px auto 0;
 
 line-height:2;
 
-opacity:.78;
+font-size:18px;
 
-max-width:850px;
-
-margin-left:auto;
-margin-right:auto;
+opacity:.75;
 
 }
 
@@ -198,13 +267,14 @@ display:grid;
 grid-template-columns:
 repeat(3,1fr);
 
-gap:20px;
+gap:22px;
 
-margin-bottom:40px;
+margin-top:40px;
+margin-bottom:45px;
 
 }
 
-@media(max-width:800px){
+@media(max-width:850px){
 
 .stats{
 grid-template-columns:1fr;
@@ -218,26 +288,29 @@ background:#0f172a;
 
 padding:28px;
 
-border-radius:28px;
+border-radius:30px;
 
 border:
 1px solid rgba(255,255,255,.05);
+
+box-shadow:
+0 15px 40px rgba(0,0,0,.25);
 
 }
 
 .stat-title{
 
-opacity:.7;
-
 font-size:15px;
+
+opacity:.7;
 
 }
 
 .stat-value{
 
-margin-top:10px;
+margin-top:12px;
 
-font-size:42px;
+font-size:48px;
 font-weight:900;
 
 }
@@ -253,7 +326,7 @@ ORDERS
 .orders{
 
 display:grid;
-gap:26px;
+gap:28px;
 
 }
 
@@ -261,23 +334,48 @@ gap:26px;
 
 background:#0f172a;
 
-border-radius:34px;
+border-radius:38px;
 
-padding:32px;
+padding:34px;
 
 border:
 1px solid rgba(255,255,255,.05);
 
 box-shadow:
-0 20px 60px rgba(0,0,0,.35);
+0 25px 80px rgba(0,0,0,.35);
 
-transition:.3s;
+transition:.35s;
+
+overflow:hidden;
+
+position:relative;
 
 }
 
 .order-card:hover{
 
-transform:translateY(-5px);
+transform:translateY(-6px);
+
+}
+
+.order-card::before{
+
+content:"";
+
+position:absolute;
+
+top:0;
+left:0;
+right:0;
+
+height:4px;
+
+background:
+linear-gradient(
+90deg,
+#16a34a,
+#4ade80
+);
 
 }
 
@@ -293,32 +391,42 @@ flex-wrap:wrap;
 
 }
 
-.book-info{
+.book{
 
 display:flex;
-gap:20px;
+gap:22px;
 
 }
 
-.book-image{
+.book-cover{
 
-width:120px;
-height:160px;
+width:130px;
+height:180px;
 
-border-radius:22px;
+border-radius:24px;
 
 object-fit:cover;
 
 background:#081225;
 
+flex-shrink:0;
+
+}
+
+.book-content{
+
+flex:1;
+
 }
 
 .book-title{
 
-font-size:32px;
+font-size:34px;
 font-weight:900;
 
-line-height:1.3;
+line-height:1.2;
+
+letter-spacing:-1px;
 
 }
 
@@ -326,20 +434,34 @@ line-height:1.3;
 
 margin-top:10px;
 
-opacity:.72;
-
 font-size:16px;
+
+opacity:.75;
 
 }
 
-.status{
+.order-badges{
 
-padding:14px 22px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
 
-border-radius:18px;
+margin-top:18px;
 
-font-size:15px;
+}
+
+.badge{
+
+padding:10px 16px;
+
+border-radius:16px;
+
+font-size:13px;
 font-weight:800;
+
+}
+
+.badge-green{
 
 background:
 rgba(34,197,94,.12);
@@ -348,8 +470,33 @@ color:#4ade80;
 
 }
 
+.badge-blue{
+
+background:
+rgba(59,130,246,.12);
+
+color:#60a5fa;
+
+}
+
+.order-status{
+
+padding:14px 22px;
+
+border-radius:20px;
+
+background:
+rgba(34,197,94,.12);
+
+color:#4ade80;
+
+font-size:15px;
+font-weight:900;
+
+}
+
 /* =========================================
-INFO GRID
+GRID
 ========================================= */
 
 .info-grid{
@@ -359,13 +506,13 @@ display:grid;
 grid-template-columns:
 repeat(4,1fr);
 
-gap:20px;
+gap:18px;
 
 margin-top:30px;
 
 }
 
-@media(max-width:1000px){
+@media(max-width:1100px){
 
 .info-grid{
 grid-template-columns:1fr 1fr;
@@ -373,7 +520,7 @@ grid-template-columns:1fr 1fr;
 
 }
 
-@media(max-width:600px){
+@media(max-width:650px){
 
 .info-grid{
 grid-template-columns:1fr;
@@ -385,17 +532,17 @@ grid-template-columns:1fr;
 
 background:#081225;
 
-padding:22px;
+padding:24px;
 
-border-radius:24px;
+border-radius:26px;
 
 }
 
 .info-label{
 
-opacity:.6;
-
 font-size:14px;
+
+opacity:.62;
 
 }
 
@@ -403,8 +550,8 @@ font-size:14px;
 
 margin-top:10px;
 
-font-size:22px;
-font-weight:800;
+font-size:24px;
+font-weight:900;
 
 word-break:break-word;
 
@@ -420,13 +567,13 @@ display:flex;
 gap:16px;
 flex-wrap:wrap;
 
-margin-top:35px;
+margin-top:32px;
 
 }
 
-.btn{
+.action-btn{
 
-height:60px;
+height:62px;
 
 padding:0 28px;
 
@@ -439,13 +586,13 @@ justify-content:center;
 text-decoration:none;
 
 font-size:16px;
-font-weight:800;
+font-weight:900;
 
 transition:.3s;
 
 }
 
-.btn-track{
+.track-btn{
 
 background:
 linear-gradient(
@@ -458,18 +605,18 @@ color:white;
 
 }
 
-.btn-track:hover{
+.track-btn:hover{
 transform:translateY(-4px);
 }
 
-.btn-home{
+.view-btn{
 
 background:#081225;
 
-color:white;
-
 border:
 1px solid rgba(255,255,255,.08);
+
+color:white;
 
 }
 
@@ -479,19 +626,30 @@ EMPTY
 
 .empty{
 
-text-align:center;
-
-padding:100px 20px;
-
 background:#0f172a;
 
-border-radius:34px;
+padding:100px 30px;
+
+border-radius:40px;
+
+text-align:center;
+
+border:
+1px solid rgba(255,255,255,.05);
+
+}
+
+.empty-icon{
+
+font-size:70px;
 
 }
 
 .empty h2{
 
-font-size:42px;
+margin-top:25px;
+
+font-size:50px;
 font-weight:900;
 
 }
@@ -500,11 +658,11 @@ font-weight:900;
 
 margin-top:20px;
 
+line-height:2;
+
 opacity:.7;
 
 font-size:18px;
-
-line-height:2;
 
 }
 
@@ -514,11 +672,45 @@ LOADER
 
 .loader{
 
-text-align:center;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
 
-padding:80px 20px;
+padding:90px 20px;
 
-font-size:20px;
+}
+
+.spinner{
+
+width:65px;
+height:65px;
+
+border-radius:50%;
+
+border:
+5px solid rgba(255,255,255,.08);
+
+border-top:
+5px solid #4ade80;
+
+animation:spin 1s linear infinite;
+
+}
+
+@keyframes spin{
+
+100%{
+transform:rotate(360deg);
+}
+
+}
+
+.loader p{
+
+margin-top:22px;
+
+font-size:18px;
 
 opacity:.7;
 
@@ -534,9 +726,9 @@ margin-top:70px;
 
 text-align:center;
 
-opacity:.55;
-
 font-size:14px;
+
+opacity:.5;
 
 line-height:2;
 
@@ -548,6 +740,8 @@ line-height:2;
 
 <body>
 
+<div class="bg"></div>
+
 <!-- =========================================
 TOPBAR
 ========================================= -->
@@ -558,13 +752,25 @@ TOPBAR
 Creator<span>Hub</span>
 </div>
 
+<div class="top-actions">
+
 <a
 href="index.html"
-class="top-btn">
+class="top-btn btn-home">
 
 Back Home
 
 </a>
+
+<a
+href="track.html"
+class="top-btn btn-track">
+
+Track Order
+
+</a>
+
+</div>
 
 </div>
 
@@ -580,7 +786,7 @@ HEADER
 
 <div class="header">
 
-<div class="header-icon">
+<div class="hero-icon">
 📚
 </div>
 
@@ -590,7 +796,7 @@ My Orders
 
 <p>
 
-View all your CreatorHub purchases, track live delivery updates, monitor fulfillment progress, and access your premium ebook orders in one place.
+Manage your CreatorHub ebook purchases, view premium order details, monitor payment status, and track live fulfillment updates in real-time.
 
 </p>
 
@@ -661,7 +867,13 @@ id="orders"
 class="orders">
 
 <div class="loader">
-Loading your orders...
+
+<div class="spinner"></div>
+
+<p>
+Loading your premium orders...
+</p>
+
 </div>
 
 </div>
@@ -672,11 +884,11 @@ FOOTER
 
 <div class="footer">
 
-CreatorHub secure order management system powered by real-time fulfillment automation.
+CreatorHub secure ecommerce infrastructure powered by automated order synchronization and real-time tracking systems.
 
 <br>
 
-All purchases and tracking updates are synced automatically.
+All orders are loaded directly from your live backend database.
 
 </div>
 
@@ -685,7 +897,7 @@ All purchases and tracking updates are synced automatically.
 <script>
 
 /* =========================================
-API
+LIVE API
 ========================================= */
 
 const API_URL =
@@ -720,12 +932,16 @@ document.getElementById(
 `
 <div class="empty">
 
+<div class="empty-icon">
+🔐
+</div>
+
 <h2>
-Please Login
+Login Required
 </h2>
 
 <p>
-You need to login to view your orders.
+Please login to view your CreatorHub orders.
 </p>
 
 </div>
@@ -735,12 +951,16 @@ return
 
 }
 
+/* =========================================
+FETCH
+========================================= */
+
 let res =
 await fetch(
 
 API_URL +
 
-"?action=getOrders&email=" +
+"?action=getOrders&buyer_email=" +
 
 encodeURIComponent(userEmail)
 
@@ -749,11 +969,22 @@ encodeURIComponent(userEmail)
 let data =
 await res.json()
 
-if(
-!data.success ||
-!data.orders ||
-!data.orders.length
-){
+console.log(data)
+
+/* =========================================
+GET ARRAY
+========================================= */
+
+let orders =
+data.orders ||
+data.data ||
+[]
+
+/* =========================================
+NO ORDERS
+========================================= */
+
+if(!orders.length){
 
 document.getElementById(
 "orders"
@@ -761,6 +992,10 @@ document.getElementById(
 
 `
 <div class="empty">
+
+<div class="empty-icon">
+📦
+</div>
 
 <h2>
 No Orders Found
@@ -778,11 +1013,10 @@ return
 }
 
 /* =========================================
-SORT LATEST FIRST
+LATEST FIRST
 ========================================= */
 
-let orders =
-data.orders.reverse()
+orders = orders.reverse()
 
 /* =========================================
 STATS
@@ -795,9 +1029,17 @@ orders.length
 
 let completed =
 orders.filter(order=>
+
 String(
-order.status || ""
-).toLowerCase().includes("deliver")
+order.order_status ||
+order.status ||
+""
+)
+
+.toLowerCase()
+
+.includes("deliver")
+
 ).length
 
 document.getElementById(
@@ -835,17 +1077,17 @@ html += `
 
 <div class="order-top">
 
-<div class="book-info">
+<div class="book">
 
 <img
-class="book-image"
+class="book-cover"
 src="${
-order.back_cover ||
 order.front_cover ||
+order.back_cover ||
 'https://placehold.co/400x600/png'
 }">
 
-<div>
+<div class="book-content">
 
 <div class="book-title">
 ${order.book_title || 'Premium Ebook'}
@@ -853,20 +1095,32 @@ ${order.book_title || 'Premium Ebook'}
 
 <div class="book-author">
 Order ID:
-${order.order_id || 'N/A'}
+${order.id || order.order_id || 'N/A'}
 </div>
 
 <div class="book-author">
-Purchased from CreatorHub
+Purchased securely from CreatorHub
+</div>
+
+<div class="order-badges">
+
+<div class="badge badge-green">
+Premium Ebook
+</div>
+
+<div class="badge badge-blue">
+Instant Access
 </div>
 
 </div>
 
 </div>
 
-<div class="status">
+</div>
 
-${order.status || 'Processing'}
+<div class="order-status">
+
+${order.order_status || order.status || 'Processing'}
 
 </div>
 
@@ -877,7 +1131,7 @@ ${order.status || 'Processing'}
 <div class="info-box">
 
 <div class="info-label">
-Amount
+Total Amount
 </div>
 
 <div class="info-value">
@@ -889,7 +1143,7 @@ Amount
 <div class="info-box">
 
 <div class="info-label">
-Payment
+Payment Status
 </div>
 
 <div class="info-value">
@@ -913,11 +1167,11 @@ ${order.tracking_id || 'Preparing'}
 <div class="info-box">
 
 <div class="info-label">
-Delivery
+Country
 </div>
 
 <div class="info-value">
-India
+${order.country || 'India'}
 </div>
 
 </div>
@@ -927,16 +1181,16 @@ India
 <div class="actions">
 
 <a
-class="btn btn-track"
-href="track.html?order_id=${order.order_id}">
+class="action-btn track-btn"
+href="track.html?order_id=${order.id || order.order_id}">
 
 Track Order
 
 </a>
 
 <a
-class="btn btn-home"
-href="book.html?id=${order.book_id}">
+class="action-btn view-btn"
+href="book.html?id=${order.book_id || ''}">
 
 View Book
 
@@ -965,11 +1219,16 @@ document.getElementById(
 `
 <div class="empty">
 
+<div class="empty-icon">
+⚠️
+</div>
+
 <h2>
 Unable To Load Orders
 </h2>
 
 <p>
+Failed to connect with CreatorHub servers.
 Please try again later.
 </p>
 
@@ -980,9 +1239,13 @@ Please try again later.
 
 }
 
+/* =========================================
+START
+========================================= */
+
 loadOrders()
 
 </script>
 
 </body>
-  </html>
+</html>
