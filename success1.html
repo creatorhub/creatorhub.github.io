@@ -631,10 +631,15 @@ document.getElementById(
 
 "Order confirmed successfully"
 
+localStorage.setItem(
+"order_id",
+orderId
+)
+
 setTimeout(()=>{
 
-window.location.href=
-"track.html?order_id="+orderId
+window.location.href =
+"track.html"
 
 },2500)
 
