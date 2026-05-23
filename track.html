@@ -1025,8 +1025,13 @@ const TRACK_API =
 USER
 ====================================================== */
 
+let USER =
+JSON.parse(
+localStorage.getItem("user") || "{}"
+)
+
 const userEmail =
-localStorage.getItem("user_email")
+USER.email || ""
 
 let orderId =
 localStorage.getItem("order_id") || null
