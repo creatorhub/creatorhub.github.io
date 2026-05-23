@@ -819,9 +819,19 @@ USER.email || ""
 ORDER ID
 ========================= */
 
-let orderId =
-localStorage.getItem("order_id") || null
+const params =
+new URLSearchParams(
+window.location.search
+)
 
+let orderId =
+
+params.get("order_id") ||
+
+localStorage.getItem("order_id") ||
+
+null
+  
 /* =========================
 LOAD TRACKING
 ========================= */
@@ -921,7 +931,7 @@ await fetch(
 
 TRACK_API +
 
-"?action=track&order_id=" +
+"?action=trackOrder&order_id="
 
 encodeURIComponent(id)
 
@@ -941,8 +951,7 @@ return
 
 }
 
-let order =
-data.order || data.tracking
+let order = data.order
 
 await updateUI(order)
 
