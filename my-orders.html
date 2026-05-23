@@ -3,13 +3,20 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>My Orders - CreatorHub</title>
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<title>
+My Orders - CreatorHub
+</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link href="
+https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+rel="stylesheet">
 
 <style>
 
@@ -29,9 +36,9 @@ linear-gradient(
 #071120
 );
 
-color:white;
 min-height:100vh;
 overflow-x:hidden;
+color:white;
 
 }
 
@@ -41,15 +48,15 @@ TOPBAR
 
 .topbar{
 
+position:sticky;
+top:0;
+z-index:999;
+
 display:flex;
 justify-content:space-between;
 align-items:center;
 
 padding:18px 22px;
-
-position:sticky;
-top:0;
-z-index:999;
 
 background:
 rgba(2,6,23,.9);
@@ -72,9 +79,9 @@ font-weight:900;
 color:#4ade80;
 }
 
-.home-btn{
+.back-btn{
 
-padding:13px 18px;
+padding:14px 18px;
 
 border-radius:16px;
 
@@ -88,8 +95,9 @@ linear-gradient(
 );
 
 color:white;
-font-weight:800;
+
 font-size:14px;
+font-weight:800;
 
 }
 
@@ -99,7 +107,8 @@ MAIN
 
 .main{
 
-max-width:1300px;
+max-width:1400px;
+
 margin:auto;
 
 padding:
@@ -114,22 +123,23 @@ HEADER
 .header{
 
 text-align:center;
+
 margin-bottom:50px;
 
 }
 
-.icon{
+.header-icon{
 
 width:120px;
 height:120px;
+
+margin:auto;
 
 border-radius:50%;
 
 display:flex;
 align-items:center;
 justify-content:center;
-
-margin:auto;
 
 font-size:58px;
 
@@ -164,7 +174,7 @@ font-size:18px;
 
 line-height:2;
 
-max-width:850px;
+max-width:900px;
 
 margin-left:auto;
 margin-right:auto;
@@ -182,9 +192,8 @@ display:grid;
 grid-template-columns:
 repeat(3,1fr);
 
-gap:20px;
+gap:22px;
 
-margin-top:40px;
 margin-bottom:40px;
 
 }
@@ -197,22 +206,23 @@ grid-template-columns:1fr;
 
 }
 
-.stat-card{
+.stat{
 
 background:#0f172a;
 
 padding:30px;
 
-border-radius:28px;
+border-radius:30px;
 
 border:
 1px solid rgba(255,255,255,.05);
 
 }
 
-.stat-label{
+.stat-title{
 
 opacity:.65;
+
 font-size:14px;
 
 }
@@ -221,7 +231,7 @@ font-size:14px;
 
 margin-top:12px;
 
-font-size:46px;
+font-size:50px;
 font-weight:900;
 
 }
@@ -231,27 +241,27 @@ color:#4ade80;
 }
 
 /* =========================================
-ORDERS GRID
+ORDERS
 ========================================= */
 
 .orders{
 
 display:grid;
-gap:28px;
+gap:30px;
 
 }
 
 /* =========================================
-ORDER CARD
+CARD
 ========================================= */
 
 .order-card{
 
 background:#0f172a;
 
-padding:30px;
+padding:32px;
 
-border-radius:34px;
+border-radius:36px;
 
 border:
 1px solid rgba(255,255,255,.05);
@@ -260,16 +270,17 @@ box-shadow:
 0 25px 80px rgba(0,0,0,.35);
 
 transition:.3s;
+
 cursor:pointer;
 
 }
 
 .order-card:hover{
 
-transform:translateY(-6px);
+transform:translateY(-5px);
 
 border-color:
-rgba(74,222,128,.3);
+rgba(74,222,128,.25);
 
 }
 
@@ -282,6 +293,7 @@ TOP
 display:flex;
 justify-content:space-between;
 align-items:flex-start;
+
 gap:20px;
 
 }
@@ -297,7 +309,7 @@ line-height:1.4;
 
 .order-id{
 
-margin-top:10px;
+margin-top:12px;
 
 opacity:.6;
 
@@ -324,7 +336,7 @@ white-space:nowrap;
 
 }
 
-.badge.processing{
+.processing{
 
 background:
 rgba(59,130,246,.15);
@@ -333,7 +345,7 @@ color:#60a5fa;
 
 }
 
-.badge.shipped{
+.shipped{
 
 background:
 rgba(234,179,8,.15);
@@ -342,7 +354,7 @@ color:#facc15;
 
 }
 
-.badge.delivered{
+.delivered{
 
 background:
 rgba(34,197,94,.15);
@@ -351,7 +363,7 @@ color:#4ade80;
 
 }
 
-.badge.expired{
+.expired{
 
 background:
 rgba(239,68,68,.15);
@@ -387,7 +399,7 @@ grid-template-columns:1fr;
 
 .info{
 
-padding:20px;
+padding:22px;
 
 border-radius:24px;
 
@@ -406,7 +418,7 @@ font-size:13px;
 
 margin-top:10px;
 
-font-size:19px;
+font-size:18px;
 font-weight:800;
 
 word-break:break-word;
@@ -414,7 +426,7 @@ word-break:break-word;
 }
 
 /* =========================================
-BUTTON
+TRACK BTN
 ========================================= */
 
 .track-btn{
@@ -476,7 +488,7 @@ font-size:70px;
 
 margin-top:25px;
 
-font-size:48px;
+font-size:50px;
 font-weight:900;
 
 }
@@ -527,7 +539,7 @@ TOPBAR
 Creator<span>Hub</span>
 </div>
 
-<a href="index.html" class="home-btn">
+<a href="index.html" class="back-btn">
 Back Home
 </a>
 
@@ -545,7 +557,7 @@ HEADER
 
 <div class="header">
 
-<div class="icon">
+<div class="header-icon">
 📚
 </div>
 
@@ -567,38 +579,47 @@ STATS
 
 <div class="stats">
 
-<div class="stat-card">
+<div class="stat">
 
-<div class="stat-label">
+<div class="stat-title">
 Total Orders
 </div>
 
-<div class="stat-value" id="totalOrders">
+<div class="stat-value"
+id="totalOrders">
+
 0
-</div>
 
 </div>
 
-<div class="stat-card">
-
-<div class="stat-label">
-Delivered Orders
 </div>
 
-<div class="stat-value green" id="completedOrders">
+<div class="stat">
+
+<div class="stat-title">
+Active Orders
+</div>
+
+<div class="stat-value green"
+id="activeOrders">
+
 0
-</div>
 
 </div>
 
-<div class="stat-card">
+</div>
 
-<div class="stat-label">
+<div class="stat">
+
+<div class="stat-title">
 Total Spent
 </div>
 
-<div class="stat-value" id="totalSpent">
+<div class="stat-value"
+id="totalSpent">
+
 ₹0
+
 </div>
 
 </div>
@@ -609,7 +630,8 @@ Total Spent
 ORDERS
 ========================================= -->
 
-<div class="orders" id="ordersContainer">
+<div class="orders"
+id="ordersContainer">
 
 <div class="empty">
 
@@ -622,7 +644,7 @@ Loading Orders...
 </h2>
 
 <p>
-Fetching your purchases from CreatorHub servers.
+Fetching your live orders from CreatorHub servers.
 </p>
 
 </div>
@@ -635,7 +657,7 @@ FOOTER
 
 <div class="footer">
 
-CreatorHub secure ecommerce infrastructure powered by automated order synchronization and real-time fulfillment systems.
+CreatorHub secure ecommerce infrastructure powered by automated order synchronization and real-time tracking systems.
 
 <br>
 
@@ -648,11 +670,11 @@ All orders are loaded directly from your live backend database.
 <script>
 
 /* =========================================
-API
+NEW API
 ========================================= */
 
-const API_URL =
-"https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
+const TRACK_API =
+"https://script.google.com/macros/s/AKfycbz9g1ZxS8_var6e35p06AVDEiYRGu-cKE5boAtr762x4JA_6qMaKfso32cOfVkeTeUq/exec"
 
 /* =========================================
 USER
@@ -682,6 +704,10 @@ LOAD ORDERS
 async function loadOrders(){
 
 try{
+
+/* =========================================
+LOGIN CHECK
+========================================= */
 
 if(!userEmail){
 
@@ -716,7 +742,7 @@ FETCH
 let res =
 await fetch(
 
-API_URL +
+TRACK_API +
 
 "?action=getOrders&email=" +
 
@@ -733,8 +759,42 @@ console.log(data)
 ORDERS ARRAY
 ========================================= */
 
-let orders =
-data.orders || []
+let orders = []
+
+if(Array.isArray(data.orders)){
+
+orders = data.orders
+
+}
+else if(Array.isArray(data.data)){
+
+orders = data.data
+
+}
+else if(Array.isArray(data.result)){
+
+orders = data.result
+
+}
+else if(Array.isArray(data)){
+
+orders = data
+
+}
+
+/* =========================================
+FILTER USER ORDERS
+========================================= */
+
+orders =
+orders.filter(order =>
+
+String(
+order.buyer_email || ""
+).toLowerCase() ===
+userEmail.toLowerCase()
+
+)
 
 /* =========================================
 NO ORDERS
@@ -775,27 +835,30 @@ document.getElementById(
 ).innerHTML =
 orders.length
 
-let delivered =
-orders.filter(o=>
+let active =
+orders.filter(order=>{
 
+let status =
 String(
-o.order_status || ""
-)
-.toLowerCase()
-.includes("deliver")
+order.order_status ||
+order.status ||
+""
+).toLowerCase()
 
-).length
+return !status.includes("expire")
+
+}).length
 
 document.getElementById(
-"completedOrders"
+"activeOrders"
 ).innerHTML =
-delivered
+active
 
 let spent =
-orders.reduce((sum,o)=>
+orders.reduce((sum,order)=>
 
 sum + Number(
-o.total_amount || 0
+order.total_amount || 0
 )
 
 ,0)
@@ -806,13 +869,13 @@ document.getElementById(
 "₹" + spent
 
 /* =========================================
-REVERSE LATEST FIRST
+LATEST FIRST
 ========================================= */
 
 orders.reverse()
 
 /* =========================================
-HTML
+RENDER
 ========================================= */
 
 ordersContainer.innerHTML =
@@ -821,7 +884,9 @@ orders.map(order=>{
 
 let status =
 String(
-order.order_status || "processing"
+order.order_status ||
+order.status ||
+"processing"
 ).toLowerCase()
 
 let badgeClass =
@@ -859,14 +924,14 @@ badgeText =
 }
 
 /* =========================================
-RETURN CARD
+RETURN
 ========================================= */
 
 return `
 
 <div class="order-card"
 
-onclick="openTracking('${order.id}')">
+onclick="openTracking('${order.id || order.order_id}')">
 
 <div class="order-top">
 
@@ -874,14 +939,14 @@ onclick="openTracking('${order.id}')">
 
 <div class="book-name">
 
-${order.book_title || "Premium Ebook"}
+${order.book_title || order.book_name || "Premium Ebook"}
 
 </div>
 
 <div class="order-id">
 
 Order ID:
-${order.id || "N/A"}
+${order.id || order.order_id || "N/A"}
 
 </div>
 
@@ -914,26 +979,12 @@ ${order.payment_status || "Pending"}
 <div class="info">
 
 <div class="info-label">
-Amount
+Total Amount
 </div>
 
 <div class="info-value">
 
 ₹${order.total_amount || 0}
-
-</div>
-
-</div>
-
-<div class="info">
-
-<div class="info-label">
-Delivery Region
-</div>
-
-<div class="info-value">
-
-${order.country || "India"}
 
 </div>
 
@@ -948,6 +999,20 @@ Tracking ID
 <div class="info-value">
 
 ${order.tracking_id || "Preparing"}
+
+</div>
+
+</div>
+
+<div class="info">
+
+<div class="info-label">
+Delivery Region
+</div>
+
+<div class="info-value">
+
+${order.country || "India"}
 
 </div>
 
@@ -996,7 +1061,7 @@ Please try again later.
 }
 
 /* =========================================
-OPEN TRACKING
+OPEN TRACK
 ========================================= */
 
 function openTracking(orderId){
@@ -1020,4 +1085,4 @@ loadOrders()
 </script>
 
 </body>
-  </html>
+</html>
