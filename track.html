@@ -800,9 +800,6 @@ APIS
 const API_URL =
 "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
 
-const TRACK_API =
-"https://script.google.com/macros/s/AKfycbz9g1ZxS8_var6e35p06AVDEiYRGu-cKE5boAtr762x4JA_6qMaKfso32cOfVkeTeUq/exec"
-
 /* =========================
 USER
 ========================= */
@@ -929,18 +926,38 @@ try{
 let res =
 await fetch(
 
-TRACK_API +
+API_URL +
 
-"?action=trackOrder&order_id=" +
-
-encodeURIComponent(id)
+"?action=orders"
 
 )
 
 let data =
 await res.json()
 
-if(!data.success){
+if(
+!data.success ||
+!data.orders
+){
+
+document.getElementById(
+"statusText"
+).innerHTML =
+"Unable to load orders."
+
+return
+
+}
+
+let order =
+data.orders.find(o=>
+
+String(o.id) ===
+String(id)
+
+)
+
+if(!order){
 
 document.getElementById(
 "statusText"
@@ -950,8 +967,6 @@ document.getElementById(
 return
 
 }
-
-let order = data.order
 
 await updateUI(order)
 
@@ -967,7 +982,7 @@ document.getElementById(
 }
 
 }
-
+  
 /* =========================
 UPDATE UI
 ========================= */
