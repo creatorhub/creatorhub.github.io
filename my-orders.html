@@ -658,6 +658,39 @@ API
 const API_URL =
 "https://script.google.com/macros/s/AKfycbz9g1ZxS8_var6e35p06AVDEiYRGu-cKE5boAtr762x4JA_6qMaKfso32cOfVkeTeUq/exec"
 
+const PRODUCT_API =
+"https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
+
+function driveImage(url){
+
+if(!url){
+return ""
+}
+
+if(url.includes("uc?id=")){
+
+let id =
+url.split("id=")[1]
+.split("&")[0]
+
+return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000"
+
+}
+
+if(url.includes("/d/")){
+
+let id =
+url.split("/d/")[1]
+.split("/")[0]
+
+return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000"
+
+}
+
+return url
+
+}
+  
 /* =========================================
 USER
 ========================================= */
@@ -764,6 +797,21 @@ let orders =
 data.orders.reverse()
 
 /* =========================================
+LOAD PRODUCTS
+========================================= */
+
+let productsRes =
+await fetch(
+PRODUCT_API + "?action=products"
+)
+
+let productsData =
+await productsRes.json()
+
+let ALL_PRODUCTS =
+productsData.products || []
+
+/* =========================================
 STATS
 ========================================= */
 
@@ -808,6 +856,19 @@ let html = ""
 
 orders.forEach(order=>{
 
+let product =
+ALL_PRODUCTS.find(p=>
+
+String(p.id) ===
+String(order.book_id)
+
+)
+
+let image =
+driveImage(
+product?.front_cover || ""
+)
+
 let expired = false
 
 if(order.release_date){
@@ -827,7 +888,7 @@ html += `
 
 <img
 src="${
-order.book_image ||
+image ||
 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400'
 }"
 class="book-image"
