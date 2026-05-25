@@ -661,8 +661,8 @@ Please wait
 
 <div class="row">
 <div>Delivery</div>
-<div>Qikink Fulfillment</div>
-</div>
+<div id="delivery">₹70</div>
+</div>>
 
 <div class="row total">
 <div>Total</div>
@@ -805,11 +805,12 @@ BOOK.back_cover ||
 BOOK.cover
 )
 
-let price =
-Number(BOOK.price || 0)
+let price = Number(BOOK.price || 0)
 
-let total =
-price + 29
+let platformFee = 29
+let deliveryFee = 70
+
+let total = price + platformFee + deliveryFee
 
 document.getElementById(
 "price"
