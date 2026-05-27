@@ -932,9 +932,14 @@ const API_URL =
 EMAIL
 ===================================================== */
 
-const USER_EMAIL =
-localStorage.getItem("user_email")
+let USER =
+JSON.parse(
+localStorage.getItem("user") || "{}"
+)
 
+const USER_EMAIL =
+USER.email || ""
+  
 /* =====================================================
 LOAD WALLET
 ===================================================== */
@@ -1013,6 +1018,22 @@ LOAD TRANSACTIONS
 ===================================================== */
 
 async function loadTransactions(){
+
+if(!USER_EMAIL){
+
+document.getElementById(
+"transactions"
+).innerHTML = `
+
+<div class="empty">
+Please login first.
+</div>
+
+`
+
+return
+
+}
 
 try{
 
