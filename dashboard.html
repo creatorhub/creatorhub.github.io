@@ -1115,6 +1115,19 @@ style="margin-top:24px">
 Recent Orders
 </h2>
 
+<a
+href="my-orders.html"
+style="
+color:#22c55e;
+font-size:15px;
+font-weight:800;
+text-decoration:none;
+">
+
+See All →
+
+</a>
+
 </div>
 
 <div
@@ -1197,9 +1210,31 @@ style="margin-top:24px">
 
 <div class="cardHeader">
 
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+width:100%;
+">
+
 <h2 class="cardTitle">
 Transactions
 </h2>
+
+<a
+href="transactions.html"
+style="
+color:#22c55e;
+font-size:15px;
+font-weight:800;
+text-decoration:none;
+">
+
+See All →
+
+</a>
+
+</div>
 
 </div>
 
@@ -1473,8 +1508,9 @@ data.recent_orders &&
 data.recent_orders.length
 ){
 
-data.recent_orders.forEach(order=>{
-
+data.recent_orders
+.slice(0,5)
+.forEach(order=>{
 ordersHTML += `
 
 <div class="order">
@@ -1555,9 +1591,9 @@ data.transactions.length
 
 data.transactions
 .reverse()
-.slice(0,8)
+.slice(0,5)
 .forEach(tx=>{
-
+  
 txHTML += `
 
 <div style="
