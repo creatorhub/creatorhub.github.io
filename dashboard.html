@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 
 <meta name="viewport"
-content="width=device-width,initial-scale=1.0" />
+content="width=device-width,initial-scale=1.0">
 
 <title>
 CreatorHub Dashboard
@@ -61,7 +61,7 @@ padding:18px 24px;
 background:
 rgba(2,6,23,.92);
 
-backdrop-filter:blur(20px);
+backdrop-filter:blur(18px);
 
 border-bottom:
 1px solid rgba(255,255,255,.05);
@@ -79,11 +79,11 @@ font-weight:900;
 color:#4ade80;
 }
 
-.topActions{
+.topRight{
 
 display:flex;
 align-items:center;
-gap:14px;
+gap:16px;
 
 }
 
@@ -95,7 +95,7 @@ gap:12px;
 
 background:#0f172a;
 
-padding:10px 16px;
+padding:10px 14px;
 
 border-radius:18px;
 
@@ -106,8 +106,8 @@ border:
 
 .profile img{
 
-width:45px;
-height:45px;
+width:48px;
+height:48px;
 
 border-radius:50%;
 object-fit:cover;
@@ -116,13 +116,17 @@ background:#081225;
 
 }
 
-.profileInfo h4{
+.profile h4{
 font-size:15px;
 }
 
-.profileInfo p{
+.profile p{
+
 font-size:12px;
 opacity:.6;
+
+margin-top:4px;
+
 }
 
 /* =====================================
@@ -141,7 +145,7 @@ padding:
 }
 
 /* =====================================
-HEADER
+HERO
 ===================================== */
 
 .hero{
@@ -154,19 +158,18 @@ gap:30px;
 
 flex-wrap:wrap;
 
-margin-bottom:45px;
-
 }
 
-.heroLeft h1{
+.hero h1{
 
-font-size:58px;
+font-size:64px;
 font-weight:900;
+
 line-height:1.1;
 
 }
 
-.heroLeft p{
+.hero p{
 
 margin-top:18px;
 
@@ -183,9 +186,10 @@ max-width:760px;
 
 display:flex;
 gap:16px;
+
 flex-wrap:wrap;
 
-margin-top:30px;
+margin-top:32px;
 
 }
 
@@ -195,20 +199,16 @@ height:58px;
 
 padding:0 28px;
 
-border:none;
-
 border-radius:20px;
-
-font-size:16px;
-font-weight:800;
-
-cursor:pointer;
-
-text-decoration:none;
 
 display:flex;
 align-items:center;
 justify-content:center;
+
+text-decoration:none;
+
+font-size:16px;
+font-weight:800;
 
 transition:.3s;
 
@@ -231,10 +231,10 @@ color:white;
 
 background:#0f172a;
 
-color:white;
-
 border:
 1px solid rgba(255,255,255,.05);
+
+color:white;
 
 }
 
@@ -255,7 +255,7 @@ repeat(4,1fr);
 
 gap:22px;
 
-margin-top:35px;
+margin-top:45px;
 
 }
 
@@ -273,7 +273,7 @@ grid-template-columns:1fr 1fr;
 grid-template-columns:1fr;
 }
 
-.heroLeft h1{
+.hero h1{
 font-size:42px;
 }
 
@@ -283,19 +283,19 @@ font-size:42px;
 
 background:#0f172a;
 
-padding:28px;
+padding:30px;
 
-border-radius:30px;
+border-radius:32px;
 
 border:
 1px solid rgba(255,255,255,.05);
 
-box-shadow:
-0 15px 50px rgba(0,0,0,.3);
-
 position:relative;
 
 overflow:hidden;
+
+box-shadow:
+0 15px 60px rgba(0,0,0,.35);
 
 }
 
@@ -327,9 +327,9 @@ opacity:.65;
 
 .statValue{
 
-margin-top:16px;
+margin-top:18px;
 
-font-size:46px;
+font-size:48px;
 font-weight:900;
 
 }
@@ -383,12 +383,65 @@ box-shadow:
 
 }
 
-.cardTitle{
+/* =====================================
+CARD HEADER
+===================================== */
 
-font-size:32px;
-font-weight:900;
+.cardHeader{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+gap:20px;
 
 margin-bottom:28px;
+
+flex-wrap:wrap;
+
+}
+
+.cardTitle{
+
+font-size:34px;
+font-weight:900;
+
+}
+
+.cardDesc{
+
+margin-top:8px;
+
+font-size:14px;
+opacity:.6;
+
+}
+
+.viewBtn{
+
+height:48px;
+
+padding:0 22px;
+
+border-radius:16px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+background:
+linear-gradient(
+90deg,
+#16a34a,
+#4ade80
+);
+
+color:white;
+
+text-decoration:none;
+
+font-size:14px;
+font-weight:800;
 
 }
 
@@ -396,70 +449,79 @@ margin-bottom:28px;
 RECENT ORDERS
 ===================================== */
 
-.order{
+.ordersWrap{
 
 display:flex;
-gap:18px;
+flex-direction:column;
+gap:22px;
 
-padding:18px;
+}
 
-border-radius:24px;
+.orderCard{
+
+display:flex;
+gap:20px;
+
+padding:22px;
+
+border-radius:28px;
 
 background:#081225;
 
-margin-bottom:18px;
+border:
+1px solid rgba(255,255,255,.05);
 
 align-items:center;
 
+transition:.3s;
+
 }
 
-.order:last-child{
-margin-bottom:0;
+.orderCard:hover{
+
+transform:translateY(-3px);
+
+box-shadow:
+0 15px 50px rgba(0,0,0,.35);
+
 }
 
-.order img{
+.orderImage{
 
-width:90px;
-height:120px;
+width:110px;
+height:150px;
 
 object-fit:cover;
 
-border-radius:18px;
+border-radius:22px;
 
 background:#111827;
 
+flex-shrink:0;
+
 }
 
-.orderInfo{
+.orderContent{
 flex:1;
 }
 
-.orderInfo h3{
+.orderTitle{
 
-font-size:22px;
-font-weight:800;
+font-size:24px;
+font-weight:900;
 
 line-height:1.5;
 
 }
 
-.orderInfo p{
-
-margin-top:8px;
-
-opacity:.65;
-
-font-size:13px;
-
-}
-
 .orderMeta{
 
-margin-top:14px;
-
 display:flex;
-gap:12px;
+gap:10px;
+
 flex-wrap:wrap;
+
+margin-top:12px;
 
 }
 
@@ -469,18 +531,65 @@ padding:10px 16px;
 
 border-radius:999px;
 
-font-size:12px;
-font-weight:800;
-
 background:
 rgba(34,197,94,.14);
 
 color:#4ade80;
 
+font-size:12px;
+font-weight:800;
+
+}
+
+.orderBottom{
+
+margin-top:18px;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+gap:16px;
+
+flex-wrap:wrap;
+
+}
+
+.orderPrice{
+
+font-size:30px;
+font-weight:900;
+
+}
+
+.trackBtn{
+
+height:54px;
+
+padding:0 24px;
+
+border:none;
+
+border-radius:18px;
+
+background:
+linear-gradient(
+90deg,
+#16a34a,
+#4ade80
+);
+
+color:white;
+
+font-size:15px;
+font-weight:900;
+
+cursor:pointer;
+
 }
 
 /* =====================================
-TRANSACTION
+TRANSACTIONS
 ===================================== */
 
 .tx{
@@ -500,14 +609,14 @@ border-bottom:
 border-bottom:none;
 }
 
-.txLeft h4{
+.tx h4{
 
 font-size:16px;
-font-weight:700;
+font-weight:800;
 
 }
 
-.txLeft p{
+.tx p{
 
 margin-top:6px;
 
@@ -518,7 +627,7 @@ opacity:.6;
 
 .txAmount{
 
-font-size:22px;
+font-size:24px;
 font-weight:900;
 
 }
@@ -541,6 +650,36 @@ opacity:.55;
 
 }
 
+/* =====================================
+MOBILE
+===================================== */
+
+@media(max-width:700px){
+
+.orderCard{
+
+flex-direction:column;
+align-items:flex-start;
+
+}
+
+.orderImage{
+
+width:100%;
+height:240px;
+
+}
+
+.orderBottom{
+width:100%;
+}
+
+.trackBtn{
+width:100%;
+}
+
+}
+
 </style>
 
 </head>
@@ -557,7 +696,7 @@ TOPBAR
 Creator<span>Hub</span>
 </div>
 
-<div class="topActions">
+<div class="topRight">
 
 <div class="profile">
 
@@ -565,7 +704,7 @@ Creator<span>Hub</span>
 id="profileImage"
 src="https://ui-avatars.com/api/?name=CreatorHub&background=22c55e&color=fff">
 
-<div class="profileInfo">
+<div>
 
 <h4 id="profileName">
 Loading...
@@ -595,7 +734,7 @@ HERO
 
 <div class="hero">
 
-<div class="heroLeft">
+<div>
 
 <h1>
 Creator Dashboard
@@ -603,9 +742,9 @@ Creator Dashboard
 
 <p>
 
-Monitor your earnings, wallet balance,
-ebook performance, orders, transactions,
-and CreatorHub marketplace analytics in real-time.
+Monitor your wallet balance, earnings,
+ebook sales, recent marketplace orders,
+and CreatorHub analytics in real-time.
 
 </p>
 
@@ -718,16 +857,36 @@ GRID
 <div class="grid">
 
 <!-- =====================================
-LEFT
+RECENT ORDERS
 ===================================== -->
 
 <div class="card">
 
-<div class="cardTitle">
+<div class="cardHeader">
+
+<div>
+
+<h2 class="cardTitle">
 Recent Orders
+</h2>
+
+<p class="cardDesc">
+Live marketplace order tracking
+</p>
+
 </div>
 
-<div id="recentOrders">
+<a href="my-orders.html"
+class="viewBtn">
+
+View All
+
+</a>
+
+</div>
+
+<div id="recentOrders"
+class="ordersWrap">
 
 Loading orders...
 
@@ -736,13 +895,25 @@ Loading orders...
 </div>
 
 <!-- =====================================
-RIGHT
+TRANSACTIONS
 ===================================== -->
 
 <div class="card">
 
-<div class="cardTitle">
-Transaction History
+<div class="cardHeader">
+
+<div>
+
+<h2 class="cardTitle">
+Transactions
+</h2>
+
+<p class="cardDesc">
+Wallet activity & earnings
+</p>
+
+</div>
+
 </div>
 
 <div id="transactions">
@@ -761,7 +932,7 @@ FOOTER
 
 <div class="footer">
 
-CreatorHub secure creator dashboard powered by live marketplace APIs and real-time synchronization systems.
+CreatorHub secure creator dashboard powered by live marketplace APIs and real-time backend synchronization systems.
 
 </div>
 
@@ -789,6 +960,40 @@ const EMAIL =
 USER.email || ""
 
 /* =====================================
+DRIVE IMAGE
+===================================== */
+
+function driveImage(url){
+
+if(!url){
+return ""
+}
+
+if(url.includes("uc?id=")){
+
+let id =
+url.split("id=")[1]
+.split("&")[0]
+
+return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000"
+
+}
+
+if(url.includes("/d/")){
+
+let id =
+url.split("/d/")[1]
+.split("/")[0]
+
+return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000"
+
+}
+
+return url
+
+}
+
+/* =====================================
 LOAD DASHBOARD
 ===================================== */
 
@@ -798,7 +1003,7 @@ try{
 
 if(!EMAIL){
 
-alert("Login required")
+alert("Please login first")
 return
 
 }
@@ -836,19 +1041,22 @@ document.getElementById(
 "profileEmail"
 ).innerHTML =
 
-data.profile.email || ""
+data.profile.email || EMAIL
 
 if(data.profile.image){
 
 document.getElementById(
 "profileImage"
 ).src =
+
+driveImage(
 data.profile.image
+)
 
 }
 
 /* =====================================
-WALLET
+STATS
 ===================================== */
 
 document.getElementById(
@@ -879,10 +1087,10 @@ document.getElementById(
 (data.wallet.total_earnings || 0)
 
 /* =====================================
-ORDERS
+RECENT ORDERS
 ===================================== */
 
-let ordersHTML = ""
+let html = ""
 
 if(
 data.recent_orders &&
@@ -891,39 +1099,84 @@ data.recent_orders.length
 
 data.recent_orders.forEach(order=>{
 
-ordersHTML += `
+html += `
 
-<div class="order">
+<div class="orderCard">
 
-<img src="
-${order.front_cover ||
-'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400'}
-">
+<img
+src="
+${driveImage(order.front_cover) ||
+'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600'}
+"
+class="orderImage"
+>
 
-<div class="orderInfo">
+<div class="orderContent">
 
-<h3>
+<h2 class="orderTitle">
+
 ${order.book_title || 'Premium Ebook'}
-</h3>
 
-<p>
-Order ID:
-${order.id}
-</p>
+</h2>
 
 <div class="orderMeta">
-
-<div class="tag">
-${order.order_status || 'processing'}
-</div>
 
 <div class="tag">
 ${order.payment_status || 'paid'}
 </div>
 
 <div class="tag">
-₹${order.total_amount || 0}
+${order.order_status || 'processing'}
 </div>
+
+<div class="tag">
+${order.tracking_id || 'Preparing'}
+</div>
+
+</div>
+
+<div class="orderBottom">
+
+<div>
+
+<div style="
+font-size:13px;
+opacity:.6;
+margin-bottom:6px;
+">
+
+Order ID
+
+</div>
+
+<div style="
+font-size:15px;
+font-weight:800;
+">
+
+${order.id}
+
+</div>
+
+</div>
+
+<div class="orderPrice">
+
+₹${order.total_amount || 0}
+
+</div>
+
+<button
+class="trackBtn"
+onclick="
+trackOrder(
+'${order.id}'
+)
+">
+
+Track Order
+
+</button>
 
 </div>
 
@@ -937,7 +1190,7 @@ ${order.payment_status || 'paid'}
 
 }else{
 
-ordersHTML =
+html =
 `
 <div style="opacity:.7">
 No recent orders found.
@@ -948,8 +1201,7 @@ No recent orders found.
 
 document.getElementById(
 "recentOrders"
-).innerHTML =
-ordersHTML
+).innerHTML = html
 
 /* =====================================
 TRANSACTIONS
@@ -1000,12 +1252,14 @@ html += `
 
 <div class="tx">
 
-<div class="txLeft">
+<div>
 
 <h4>
+
 ${tx.type === 'sale'
 ? 'Ebook Sale'
 : 'Withdrawal'}
+
 </h4>
 
 <p>
@@ -1043,14 +1297,29 @@ No transactions found.
 
 document.getElementById(
 "transactions"
-).innerHTML =
-html
+).innerHTML = html
 
 }catch(err){
 
 console.log(err)
 
 }
+
+}
+
+/* =====================================
+TRACK ORDER
+===================================== */
+
+function trackOrder(id){
+
+localStorage.setItem(
+"order_id",
+id
+)
+
+window.location.href =
+"track.html"
 
 }
 
