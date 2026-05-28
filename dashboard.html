@@ -350,8 +350,8 @@ Main
 🛒 Orders
 </a>
 
-<a href="earnings.html">
-💰 Earnings
+<a href="wallet.html">
+💰 Wallet
 </a>
 
 <a href="reviews.html">
@@ -360,30 +360,6 @@ Main
 
 <a href="profile.html">
 👤 Profile
-</a>
-
-<a href="settings.html">
-⚙ Settings
-</a>
-
-</div>
-
-<div class="menu-title">
-Tools
-</div>
-
-<div class="menu">
-
-<a href="messages.html">
-📩 Messages
-</a>
-
-<a href="analytics.html">
-📊 Analytics
-</a>
-
-<a href="upgrade.html">
-🚀 Upgrade
 </a>
 
 </div>
@@ -395,10 +371,6 @@ MAIN
 ====================================== -->
 
 <div class="main">
-
-<!-- ======================================
-TOPBAR
-====================================== -->
 
 <div class="topbar">
 
@@ -572,10 +544,6 @@ Latest Reviews
 
 </div>
 
-<!-- ======================================
-SCRIPT
-====================================== -->
-
 <script>
 
 /* ======================================
@@ -586,22 +554,16 @@ const API_URL =
 "https://script.google.com/macros/s/AKfycbxj1Ch941zvniDEzIs__cYVmGBaECx6GPmmEw5PPyehtU2_KxQ_o3TS6jhuoZS0AKUv8w/exec"
 
 /* ======================================
-TEST EMAIL
+USER
 ====================================== */
 
-if(!localStorage.getItem("creatorhub_email")){
-
-localStorage.setItem(
-"creatorhub_email",
-"test@gmail.com"
+let USER =
+JSON.parse(
+localStorage.getItem("user") || "{}"
 )
-
-}
 
 const currentUserEmail =
-localStorage.getItem(
-"creatorhub_email"
-)
+USER.email || "test@gmail.com"
 
 /* ======================================
 LOAD DASHBOARD
@@ -614,7 +576,7 @@ try{
 const response =
 await fetch(
 
-`${API_URL}?action=dashboard&email=${currentUserEmail}`
+`${API_URL}?action=dashboard&email=${encodeURIComponent(currentUserEmail)}`
 
 )
 
@@ -711,7 +673,51 @@ ordersHTML += `
 <tr>
 
 <td>
+
+<div style="
+display:flex;
+align-items:center;
+gap:14px;
+">
+
+<img
+src="${
+order.image ||
+'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400'
+}"
+style="
+width:55px;
+height:70px;
+border-radius:12px;
+object-fit:cover;
+background:#111827;
+"
+/>
+
+<div>
+
+<div style="
+font-weight:700;
+margin-bottom:4px;
+">
+
 ${order.book_title || "Untitled"}
+
+</div>
+
+<div style="
+font-size:12px;
+color:#94a3b8;
+">
+
+${order.id || ""}
+
+</div>
+
+</div>
+
+</div>
+
 </td>
 
 <td>
@@ -767,6 +773,29 @@ ordersHTML
 REVIEWS
 ====================================== */
 
+if(!data.reviews){
+
+data.reviews = [
+
+{
+user_name:"Aarav",
+review:"Amazing quality and fast delivery."
+},
+
+{
+user_name:"Rahul",
+review:"Dashboard and ebook system working perfectly."
+},
+
+{
+user_name:"Priya",
+review:"Best creator marketplace experience."
+}
+
+]
+
+}
+
 const reviews =
 data.reviews || []
 
@@ -800,7 +829,7 @@ document.getElementById("reviewsContainer").innerHTML =
 reviewsHTML
 
 /* ======================================
-SAFE CHART
+CHART
 ====================================== */
 
 const sales =
@@ -895,8 +924,6 @@ color:'rgba(255,255,255,0.05)'
 }
 
 })
-
-console.log("Dashboard loaded")
 
 }catch(err){
 
