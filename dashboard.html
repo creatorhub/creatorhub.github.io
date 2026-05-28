@@ -1,16 +1,15 @@
-# CreatorHub Modern Dashboard (Full Working HTML)
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CreatorHub Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
+
 *{
 margin:0;
 padding:0;
@@ -19,53 +18,57 @@ font-family:'Inter',sans-serif;
 }
 
 body{
-background:#0f172a;
+background:#0b1120;
 color:white;
 display:flex;
 min-height:100vh;
 overflow:hidden;
 }
 
+/* =========================
+SIDEBAR
+========================= */
+
 .sidebar{
-width:270px;
+width:280px;
 background:linear-gradient(180deg,#111827,#0f172a);
-padding:25px;
-border-right:1px solid rgba(255,255,255,0.06);
+padding:30px 20px;
+border-right:1px solid rgba(255,255,255,0.05);
 position:fixed;
-left:0;
 top:0;
+left:0;
 bottom:0;
 overflow-y:auto;
 }
 
 .logo{
-font-size:28px;
+font-size:30px;
 font-weight:800;
 margin-bottom:40px;
-background:linear-gradient(90deg,#7c3aed,#06b6d4);
+background:linear-gradient(90deg,#8b5cf6,#06b6d4);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
 
 .menu-title{
 font-size:12px;
-text-transform:uppercase;
 letter-spacing:2px;
-opacity:.5;
-margin-top:30px;
-margin-bottom:10px;
+text-transform:uppercase;
+color:#64748b;
+margin-bottom:12px;
+margin-top:25px;
 }
 
 .menu a{
 display:flex;
 align-items:center;
 gap:14px;
-padding:14px 16px;
+padding:15px;
+border-radius:16px;
 text-decoration:none;
 color:#cbd5e1;
-border-radius:14px;
 margin-bottom:10px;
-transition:.3s;
+transition:0.3s;
 font-weight:600;
 }
 
@@ -76,13 +79,16 @@ color:white;
 transform:translateX(5px);
 }
 
+/* =========================
+MAIN
+========================= */
+
 .main{
-margin-left:270px;
-width:calc(100% - 270px);
+margin-left:280px;
+width:calc(100% - 280px);
 padding:30px;
 overflow-y:auto;
 height:100vh;
-background:#0b1120;
 }
 
 .topbar{
@@ -92,17 +98,17 @@ align-items:center;
 margin-bottom:30px;
 }
 
-.welcome h1{
-font-size:32px;
+.topbar h1{
+font-size:34px;
 font-weight:800;
-margin-bottom:6px;
+margin-bottom:8px;
 }
 
-.welcome p{
+.topbar p{
 color:#94a3b8;
 }
 
-.profile{
+.profile-box{
 display:flex;
 align-items:center;
 gap:15px;
@@ -112,14 +118,18 @@ border-radius:18px;
 border:1px solid rgba(255,255,255,0.05);
 }
 
-.profile img{
-width:48px;
-height:48px;
+.profile-box img{
+width:52px;
+height:52px;
 border-radius:50%;
 object-fit:cover;
 }
 
-.grid{
+/* =========================
+CARDS
+========================= */
+
+.stats-grid{
 display:grid;
 grid-template-columns:repeat(4,1fr);
 gap:20px;
@@ -130,20 +140,20 @@ margin-bottom:25px;
 background:linear-gradient(180deg,#111827,#1e293b);
 border-radius:24px;
 padding:24px;
-box-shadow:0 10px 30px rgba(0,0,0,.3);
 border:1px solid rgba(255,255,255,0.05);
+box-shadow:0 10px 30px rgba(0,0,0,0.25);
 }
 
 .card h3{
 font-size:14px;
 color:#94a3b8;
-margin-bottom:14px;
+margin-bottom:12px;
 }
 
 .card h2{
 font-size:34px;
 font-weight:800;
-margin-bottom:10px;
+margin-bottom:8px;
 }
 
 .growth{
@@ -152,10 +162,14 @@ font-size:14px;
 font-weight:600;
 }
 
+/* =========================
+CONTENT GRID
+========================= */
+
 .content-grid{
 display:grid;
 grid-template-columns:2fr 1fr;
-gap:25px;
+gap:20px;
 margin-bottom:25px;
 }
 
@@ -163,71 +177,106 @@ margin-bottom:25px;
 height:420px;
 }
 
-.right-card ul{
+.wallet-list{
 list-style:none;
 }
 
-.right-card li{
+.wallet-list li{
 display:flex;
 justify-content:space-between;
-align-items:center;
-padding:15px 0;
-border-bottom:1px solid rgba(255,255,255,.06);
+padding:16px 0;
+border-bottom:1px solid rgba(255,255,255,0.05);
 }
 
-.right-card li:last-child{
+.wallet-list li:last-child{
 border:none;
 }
 
-.table-card table{
+/* =========================
+TABLE
+========================= */
+
+.table-card{
+margin-bottom:25px;
+overflow-x:auto;
+}
+
+table{
 width:100%;
 border-collapse:collapse;
 }
 
-.table-card th,
-.table-card td{
-padding:16px;
+th{
 text-align:left;
-border-bottom:1px solid rgba(255,255,255,.06);
-}
-
-.table-card th{
+padding:18px;
 color:#94a3b8;
 font-size:14px;
+border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+td{
+padding:18px;
+border-bottom:1px solid rgba(255,255,255,0.05);
 }
 
 .badge{
-padding:7px 12px;
+padding:8px 14px;
 border-radius:999px;
 font-size:12px;
 font-weight:700;
 }
 
 .paid{
-background:rgba(34,197,94,.15);
+background:rgba(34,197,94,0.15);
 color:#22c55e;
 }
 
 .pending{
-background:rgba(251,191,36,.15);
+background:rgba(251,191,36,0.15);
 color:#facc15;
 }
 
-.footer-space{
-height:40px;
+/* =========================
+REVIEWS
+========================= */
+
+.review-item{
+padding:16px 0;
+border-bottom:1px solid rgba(255,255,255,0.05);
 }
 
+.review-item:last-child{
+border:none;
+}
+
+.review-user{
+font-weight:700;
+margin-bottom:6px;
+}
+
+.review-text{
+color:#cbd5e1;
+font-size:14px;
+}
+
+/* =========================
+MOBILE
+========================= */
+
 @media(max-width:1200px){
-.grid{
+
+.stats-grid{
 grid-template-columns:repeat(2,1fr);
 }
 
 .content-grid{
 grid-template-columns:1fr;
 }
+
 }
 
 @media(max-width:768px){
+
 .sidebar{
 display:none;
 }
@@ -238,7 +287,7 @@ width:100%;
 padding:20px;
 }
 
-.grid{
+.stats-grid{
 grid-template-columns:1fr;
 }
 
@@ -247,15 +296,23 @@ flex-direction:column;
 align-items:flex-start;
 gap:20px;
 }
+
 }
+
 </style>
 </head>
 <body>
 
+<!-- =========================
+SIDEBAR
+========================= -->
+
 <div class="sidebar">
+
 <div class="logo">CreatorHub</div>
 
-<div class="menu-title">Dashboard</div>
+<div class="menu-title">Main</div>
+
 <div class="menu">
 <a href="#" class="active">🏠 Dashboard</a>
 <a href="#">📚 Products</a>
@@ -266,72 +323,93 @@ gap:20px;
 <a href="#">⚙ Settings</a>
 </div>
 
-<div class="menu-title">Support</div>
+<div class="menu-title">Other</div>
+
 <div class="menu">
 <a href="#">📩 Messages</a>
 <a href="#">📊 Analytics</a>
 <a href="#">🚀 Upgrade</a>
 </div>
+
 </div>
+
+<!-- =========================
+MAIN
+========================= -->
 
 <div class="main">
 
 <div class="topbar">
-<div class="welcome">
+
+<div>
 <h1>Dashboard</h1>
-<p>Welcome back to your CreatorHub panel</p>
+<p>Welcome back to your CreatorHub dashboard</p>
 </div>
 
-<div class="profile">
-<img id="profileImage" src="https://i.pravatar.cc/100" />
+<div class="profile-box">
+<img id="profileImage" src="https://i.pravatar.cc/100">
 <div>
 <div id="userName">Loading...</div>
-<small id="userEmail" style="color:#94a3b8">Please wait</small>
-</div>
+<small id="userEmail" style="color:#94a3b8">Please wait...</small>
 </div>
 </div>
 
-<div class="grid">
+</div>
+
+<!-- =========================
+STATS
+========================= -->
+
+<div class="stats-grid">
 
 <div class="card">
 <h3>Total Sales</h3>
 <h2 id="totalSales">₹0</h2>
-<div class="growth">+12% this month</div>
+<div class="growth">Live sales data</div>
 </div>
 
 <div class="card">
 <h3>Total Profit</h3>
 <h2 id="totalProfit">₹0</h2>
-<div class="growth">+18% growth</div>
+<div class="growth">Real earnings</div>
 </div>
 
 <div class="card">
 <h3>Total Orders</h3>
 <h2 id="totalOrders">0</h2>
-<div class="growth">+7 new today</div>
+<div class="growth">Real orders count</div>
 </div>
 
 <div class="card">
 <h3>Total Products</h3>
 <h2 id="totalBooks">0</h2>
-<div class="growth">Creator products</div>
+<div class="growth">Uploaded products</div>
 </div>
 
 </div>
+
+<!-- =========================
+CHART + WALLET
+========================= -->
 
 <div class="content-grid">
 
 <div class="card chart-card">
-<h3 style="margin-bottom:20px">Monthly Sales</h3>
+
+<h3 style="margin-bottom:20px;">Monthly Sales</h3>
+
 <canvas id="salesChart"></canvas>
+
 </div>
 
-<div class="card right-card">
-<h3 style="margin-bottom:20px">Wallet Overview</h3>
+<div class="card">
 
-<ul>
+<h3 style="margin-bottom:20px;">Wallet Overview</h3>
+
+<ul class="wallet-list">
+
 <li>
-<span>Available Balance</span>
+<span>Available</span>
 <strong id="walletAvailable">₹0</strong>
 </li>
 
@@ -346,19 +424,28 @@ gap:20px;
 </li>
 
 <li>
-<span>Lifetime Earnings</span>
+<span>Lifetime</span>
 <strong id="walletLifetime">₹0</strong>
 </li>
+
 </ul>
+
 </div>
 
 </div>
+
+<!-- =========================
+ORDERS TABLE
+========================= -->
 
 <div class="card table-card">
-<h3 style="margin-bottom:20px">Recent Orders</h3>
+
+<h3 style="margin-bottom:20px;">Recent Orders</h3>
 
 <table>
+
 <thead>
+
 <tr>
 <th>Book</th>
 <th>Amount</th>
@@ -366,156 +453,286 @@ gap:20px;
 <th>Status</th>
 <th>Date</th>
 </tr>
+
 </thead>
 
 <tbody id="ordersTable">
+
 </tbody>
+
 </table>
+
 </div>
 
-<div class="footer-space"></div>
+<!-- =========================
+REVIEWS
+========================= -->
+
+<div class="card">
+
+<h3 style="margin-bottom:20px;">Latest Reviews</h3>
+
+<div id="reviewsContainer"></div>
+
+</div>
+
 </div>
 
 <script>
 
-/* =========================================
-YOUR GOOGLE APPS SCRIPT API
-========================================= */
+/* =========================
+YOUR REAL API
+========================= */
 
-const API_URL = "PASTE_YOUR_GOOGLE_SCRIPT_WEBAPP_URL_HERE";
+const API_URL =
+"https://script.google.com/macros/s/AKfycbxj1Ch941zvniDEzIs__cYVmGBaECx6GPmmEw5PPyehtU2_KxQ_o3TS6jhuoZS0AKUv8w/exec"
 
-/* =========================================
+/* =========================
 CURRENT USER EMAIL
-========================================= */
+========================= */
 
-const currentUserEmail = localStorage.getItem("creatorhub_email") || "demo@gmail.com";
+const currentUserEmail =
+localStorage.getItem("creatorhub_email") ||
+"demo@gmail.com"
 
-/* =========================================
+/* =========================
 LOAD DASHBOARD
-========================================= */
+========================= */
 
 async function loadDashboard(){
 
 try{
 
-const response = await fetch(`${API_URL}?action=dashboard&email=${currentUserEmail}`)
-const data = await response.json()
+const response =
+await fetch(
+`${API_URL}?action=dashboard&email=${currentUserEmail}`
+)
+
+const data =
+await response.json()
+
+console.log(data)
 
 if(!data.success){
+
 alert(data.message)
 return
+
 }
 
-/* =========================================
+/* =========================
 USER
-========================================= */
+========================= */
 
-document.getElementById("userName").innerText = data.user.name
+document.getElementById("userName").innerText =
+data.user.name
 
-document.getElementById("userEmail").innerText = data.user.email
+document.getElementById("userEmail").innerText =
+data.user.email
 
 if(data.profile.image){
-document.getElementById("profileImage").src = data.profile.image
+
+document.getElementById("profileImage").src =
+data.profile.image
+
 }
 
-/* =========================================
+/* =========================
 STATS
-========================================= */
+========================= */
 
-document.getElementById("totalSales").innerText = `₹${Number(data.stats.total_sales).toLocaleString()}`
+document.getElementById("totalSales").innerText =
+`₹${Number(data.stats.total_sales).toLocaleString()}`
 
-document.getElementById("totalProfit").innerText = `₹${Number(data.stats.total_profit).toLocaleString()}`
+document.getElementById("totalProfit").innerText =
+`₹${Number(data.stats.total_profit).toLocaleString()}`
 
-document.getElementById("totalOrders").innerText = data.stats.total_orders
+document.getElementById("totalOrders").innerText =
+data.stats.total_orders
 
-document.getElementById("totalBooks").innerText = data.stats.total_books
+document.getElementById("totalBooks").innerText =
+data.stats.total_books
 
-/* =========================================
+/* =========================
 WALLET
-========================================= */
+========================= */
 
-document.getElementById("walletAvailable").innerText = `₹${Number(data.wallet.available).toLocaleString()}`
+document.getElementById("walletAvailable").innerText =
+`₹${Number(data.wallet.available).toLocaleString()}`
 
-document.getElementById("walletPending").innerText = `₹${Number(data.wallet.pending).toLocaleString()}`
+document.getElementById("walletPending").innerText =
+`₹${Number(data.wallet.pending).toLocaleString()}`
 
-document.getElementById("walletWithdrawn").innerText = `₹${Number(data.wallet.withdrawn).toLocaleString()}`
+document.getElementById("walletWithdrawn").innerText =
+`₹${Number(data.wallet.withdrawn).toLocaleString()}`
 
-document.getElementById("walletLifetime").innerText = `₹${Number(data.wallet.lifetime).toLocaleString()}`
+document.getElementById("walletLifetime").innerText =
+`₹${Number(data.wallet.lifetime).toLocaleString()}`
 
-/* =========================================
+/* =========================
 ORDERS
-========================================= */
+========================= */
 
 let ordersHTML = ""
 
 data.recent_orders.forEach(order=>{
 
 ordersHTML += `
+
 <tr>
+
 <td>${order.book_title || "Untitled"}</td>
-<td>₹${Number(order.total_amount).toLocaleString()}</td>
-<td>₹${Number(order.seller_profit).toLocaleString()}</td>
+
 <td>
-<span class="badge ${String(order.payment_status).toLowerCase()==='paid'?'paid':'pending'}">
-${order.payment_status}
-</span>
+₹${Number(order.total_amount).toLocaleString()}
 </td>
-<td>${new Date(order.created_at).toLocaleDateString()}</td>
+
+<td>
+₹${Number(order.seller_profit).toLocaleString()}
+</td>
+
+<td>
+
+<span class="badge ${
+String(order.payment_status).toLowerCase()==='paid'
+?
+'paid'
+:
+'pending'
+}">
+
+${order.payment_status}
+
+</span>
+
+</td>
+
+<td>
+${new Date(order.created_at).toLocaleDateString()}
+</td>
+
 </tr>
+
 `
 
 })
 
-document.getElementById("ordersTable").innerHTML = ordersHTML
+document.getElementById("ordersTable").innerHTML =
+ordersHTML
 
-/* =========================================
-CHART
-========================================= */
+/* =========================
+REVIEWS
+========================= */
 
-const labels = data.monthly_sales.map(item=>`Day ${item.day}`)
+let reviewsHTML = ""
 
-const amounts = data.monthly_sales.map(item=>item.amount)
+data.reviews.forEach(review=>{
 
-new Chart(document.getElementById('salesChart'), {
- type: 'line',
- data: {
-   labels: labels,
-   datasets: [{
-     label: 'Sales',
-     data: amounts,
-     borderColor: '#8b5cf6',
-     backgroundColor: 'rgba(139,92,246,0.2)',
-     fill: true,
-     tension: 0.4,
-     pointRadius: 3
-   }]
- },
- options: {
-   responsive:true,
-   maintainAspectRatio:false,
-   plugins:{
-     legend:{
-       labels:{
-         color:'white'
-       }
-     }
-   },
-   scales:{
-     x:{
-       ticks:{color:'#94a3b8'},
-       grid:{color:'rgba(255,255,255,0.05)'}
-     },
-     y:{
-       ticks:{color:'#94a3b8'},
-       grid:{color:'rgba(255,255,255,0.05)'}
-     }
-   }
- }
+reviewsHTML += `
+
+<div class="review-item">
+
+<div class="review-user">
+${review.user_name || "Customer"}
+</div>
+
+<div class="review-text">
+${review.review || "Amazing product"}
+</div>
+
+</div>
+
+`
+
+})
+
+document.getElementById("reviewsContainer").innerHTML =
+reviewsHTML
+
+/* =========================
+REAL CHART DATA
+========================= */
+
+const labels =
+data.monthly_sales.map(item=>`Day ${item.day}`)
+
+const amounts =
+data.monthly_sales.map(item=>item.amount)
+
+new Chart(
+document.getElementById('salesChart'),
+
+{
+type:'line',
+
+data:{
+labels:labels,
+
+datasets:[{
+
+label:'Sales',
+
+data:amounts,
+
+borderColor:'#8b5cf6',
+
+backgroundColor:'rgba(139,92,246,0.2)',
+
+fill:true,
+
+tension:0.4,
+
+pointRadius:3
+
+}]
+},
+
+options:{
+
+responsive:true,
+
+maintainAspectRatio:false,
+
+plugins:{
+legend:{
+labels:{
+color:'white'
+}
+}
+},
+
+scales:{
+
+x:{
+ticks:{
+color:'#94a3b8'
+},
+grid:{
+color:'rgba(255,255,255,0.05)'
+}
+},
+
+y:{
+ticks:{
+color:'#94a3b8'
+},
+grid:{
+color:'rgba(255,255,255,0.05)'
+}
+}
+
+}
+
+}
+
 })
 
 }catch(err){
+
 console.log(err)
-alert("Dashboard loading failed")
+
+alert("Dashboard load failed")
+
 }
 
 }
@@ -523,56 +740,6 @@ alert("Dashboard loading failed")
 loadDashboard()
 
 </script>
+
 </body>
 </html>
-```
-
----
-
-# IMPORTANT
-
-## Replace This:
-
-```js
-const API_URL = "PASTE_YOUR_GOOGLE_SCRIPT_WEBAPP_URL_HERE";
-```
-
-## With Your Current API URL
-
-Example:
-
-```js
-const API_URL = "https://script.google.com/macros/s/AKfycbxxxxxxxxxxx/exec";
-```
-
----
-
-# This Dashboard Includes
-
-✅ Real API Data
-✅ Real Orders
-✅ Real Wallet
-✅ Real Sales
-✅ Real User Profile
-✅ Real Products Count
-✅ Chart.js Graph
-✅ Responsive Mobile Design
-✅ Modern Dark UI
-✅ Same Style Like Image
-✅ Your Existing Backend Compatible
-✅ No Backend Changes Needed
-
----
-
-# Your Backend Already Supports
-
-* dashboard
-* updateProfile
-* wallet
-* products
-* orders
-* reviews
-
-So this frontend works directly with your current API.
-
-Backend reference: fileciteturn0file0
