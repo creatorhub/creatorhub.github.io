@@ -195,6 +195,9 @@ cursor:pointer;
 
 transition:.3s;
 
+min-width:170px;
+min-height:170px;
+
 }
 
 .profileImage:hover{
@@ -928,9 +931,7 @@ data.user.bio || ""
 
 /* IMAGE */
 
-document.getElementById(
-"profileImg"
-).src =
+let profileImage =
 
 localStorage.getItem(
 "profile_"+user.email
@@ -942,7 +943,27 @@ data.profile?.image
 
 ||
 
-"https://cdn-icons-png.flaticon.com/512/149/149071.png"
+""
+
+if(profileImage){
+
+document.getElementById(
+"profileImg"
+).src = profileImage
+
+}else{
+
+document.getElementById(
+"profileImg"
+).src =
+""
+
+document.getElementById(
+"profileImg"
+).style.background =
+"#081225"
+
+}
 
 /* STATS */
 
