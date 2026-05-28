@@ -30,15 +30,21 @@ font-family:'Inter',sans-serif;
 }
 
 body{
-background:linear-gradient(180deg,#020617,#071120);
+background:
+linear-gradient(
+180deg,
+#020617,
+#071120
+);
+
 color:white;
 min-height:100vh;
 overflow-x:hidden;
 }
 
-/* =========================================
+/* ===============================
 TOPBAR
-========================================= */
+=============================== */
 
 .topbar{
 
@@ -50,9 +56,10 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 
-padding:18px 22px;
+padding:20px 24px;
 
-background:rgba(2,6,23,.9);
+background:
+rgba(2,6,23,.92);
 
 backdrop-filter:blur(16px);
 
@@ -74,9 +81,9 @@ color:var(--accent);
 
 .backBtn{
 
-padding:12px 20px;
+padding:14px 24px;
 
-border-radius:16px;
+border-radius:18px;
 
 background:
 linear-gradient(
@@ -94,25 +101,25 @@ font-weight:800;
 
 }
 
-/* =========================================
+/* ===============================
 MAIN
-========================================= */
+=============================== */
 
 .main{
-max-width:1350px;
+max-width:1400px;
 margin:auto;
-padding:35px 18px 100px;
+padding:35px 18px 120px;
 }
 
-/* =========================================
+/* ===============================
 COVER
-========================================= */
+=============================== */
 
 .cover{
 
-height:280px;
+height:320px;
 
-border-radius:34px;
+border-radius:36px;
 
 background:
 linear-gradient(
@@ -130,7 +137,7 @@ border:
 1px solid rgba(255,255,255,.05);
 
 box-shadow:
-0 20px 60px rgba(0,0,0,.4);
+0 20px 70px rgba(0,0,0,.4);
 
 }
 
@@ -138,8 +145,8 @@ box-shadow:
 
 position:absolute;
 
-width:500px;
-height:500px;
+width:650px;
+height:650px;
 
 background:
 radial-gradient(
@@ -148,60 +155,57 @@ rgba(34,197,94,.18),
 transparent
 );
 
-top:-250px;
-right:-250px;
+top:-320px;
+right:-320px;
 
 }
 
-/* =========================================
+/* ===============================
 PROFILE
-========================================= */
+=============================== */
 
 .profileWrap{
 
-margin-top:-90px;
+margin-top:-100px;
 
 position:relative;
 z-index:2;
 
 display:flex;
-gap:30px;
+gap:35px;
 
 align-items:flex-end;
 
 flex-wrap:wrap;
 
-padding:0 30px;
+padding:0 35px;
 
 }
 
 .profileImage{
 
-width:170px;
-height:170px;
+width:190px;
+height:190px;
 
 border-radius:50%;
 
 object-fit:cover;
 
-border:6px solid #0f172a;
-
 background:#081225;
 
+border:6px solid #0f172a;
+
 box-shadow:
-0 10px 40px rgba(0,0,0,.45);
+0 15px 50px rgba(0,0,0,.5);
 
 cursor:pointer;
 
 transition:.3s;
 
-min-width:170px;
-min-height:170px;
-
 }
 
 .profileImage:hover{
-transform:scale(1.03);
+transform:scale(1.04);
 }
 
 .profileInfo{
@@ -210,20 +214,20 @@ flex:1;
 
 .profileInfo h1{
 
-font-size:48px;
+font-size:56px;
 font-weight:900;
 
 display:flex;
 align-items:center;
 gap:14px;
 
+flex-wrap:wrap;
+
 }
 
 .verify{
 
-font-size:18px;
-
-padding:8px 14px;
+padding:8px 16px;
 
 border-radius:999px;
 
@@ -232,17 +236,18 @@ rgba(34,197,94,.14);
 
 color:var(--accent);
 
+font-size:16px;
 font-weight:800;
 
 }
 
 .bio{
 
-margin-top:14px;
+margin-top:18px;
 
-font-size:16px;
+font-size:17px;
 
-line-height:1.9;
+line-height:2;
 
 color:var(--muted);
 
@@ -254,20 +259,21 @@ max-width:850px;
 
 display:flex;
 gap:16px;
-margin-top:25px;
 flex-wrap:wrap;
+
+margin-top:28px;
 
 }
 
 .btn{
 
-height:58px;
+height:60px;
 
 padding:0 30px;
 
 border:none;
 
-border-radius:18px;
+border-radius:20px;
 
 font-size:16px;
 font-weight:900;
@@ -312,9 +318,9 @@ color:white;
 transform:translateY(-3px);
 }
 
-/* =========================================
+/* ===============================
 GRID
-========================================= */
+=============================== */
 
 .grid{
 
@@ -325,7 +331,7 @@ repeat(4,1fr);
 
 gap:22px;
 
-margin-top:40px;
+margin-top:45px;
 
 }
 
@@ -344,33 +350,44 @@ grid-template-columns:1fr;
 }
 
 .profileInfo h1{
-font-size:34px;
+font-size:38px;
 }
 
 .profileWrap{
 padding:0 15px;
 }
 
+.profileImage{
+width:150px;
+height:150px;
 }
 
-/* =========================================
-STAT CARD
-========================================= */
+}
+
+/* ===============================
+STAT
+=============================== */
 
 .stat{
 
 background:var(--card);
 
-padding:28px;
+padding:30px;
 
-border-radius:28px;
+border-radius:30px;
 
 border:
 1px solid rgba(255,255,255,.05);
 
 box-shadow:
-0 10px 40px rgba(0,0,0,.3);
+0 15px 50px rgba(0,0,0,.35);
 
+transition:.3s;
+
+}
+
+.stat:hover{
+transform:translateY(-5px);
 }
 
 .statLabel{
@@ -382,16 +399,16 @@ opacity:.65;
 
 .statValue{
 
-margin-top:14px;
+margin-top:15px;
 
-font-size:46px;
+font-size:50px;
 font-weight:900;
 
 }
 
-/* =========================================
+/* ===============================
 SECTION
-========================================= */
+=============================== */
 
 .section{
 
@@ -399,171 +416,40 @@ margin-top:40px;
 
 background:var(--card);
 
-border-radius:34px;
+padding:34px;
 
-padding:32px;
+border-radius:34px;
 
 border:
 1px solid rgba(255,255,255,.05);
 
 box-shadow:
-0 20px 60px rgba(0,0,0,.35);
+0 20px 70px rgba(0,0,0,.35);
 
 }
 
 .sectionTitle{
 
-font-size:34px;
+font-size:36px;
 font-weight:900;
 
 margin-bottom:28px;
 
 }
 
-/* =========================================
-BOOKS
-========================================= */
-
-.books{
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fill,minmax(220px,1fr));
-
-gap:22px;
-
-}
-
-.book{
-
-background:#081225;
-
-border-radius:24px;
-
-overflow:hidden;
-
-transition:.3s;
-
-}
-
-.book:hover{
-transform:translateY(-6px);
-}
-
-.book img{
-
-width:100%;
-height:280px;
-
-object-fit:cover;
-
-}
-
-.bookContent{
-padding:18px;
-}
-
-.bookTitle{
-
-font-size:18px;
-font-weight:800;
-
-line-height:1.5;
-
-}
-
-.bookPrice{
-
-margin-top:10px;
-
-font-size:24px;
-font-weight:900;
-
-color:var(--accent);
-
-}
-
-/* =========================================
-ORDERS
-========================================= */
-
-.order{
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-padding:18px 0;
-
-border-bottom:
-1px solid rgba(255,255,255,.06);
-
-gap:20px;
-
-}
-
-.order:last-child{
-border-bottom:none;
-}
-
-.orderLeft{
-
-display:flex;
-gap:16px;
-align-items:center;
-
-}
-
-.orderImg{
-
-width:70px;
-height:90px;
-
-border-radius:14px;
-
-object-fit:cover;
-
-}
-
-.orderName{
-
-font-size:18px;
-font-weight:800;
-
-}
-
-.orderMeta{
-
-margin-top:6px;
-
-font-size:13px;
-opacity:.65;
-
-}
-
-.orderAmount{
-
-font-size:22px;
-font-weight:900;
-
-color:var(--accent);
-
-}
-
-/* =========================================
+/* ===============================
 INPUT
-========================================= */
+=============================== */
 
 input,textarea{
 
 width:100%;
 
-padding:16px;
+padding:18px;
 
-margin-top:16px;
+margin-top:18px;
 
-border-radius:18px;
+border-radius:20px;
 
 background:#081225;
 
@@ -577,13 +463,114 @@ font-size:15px;
 }
 
 textarea{
-min-height:120px;
+min-height:140px;
 resize:none;
 }
 
-/* =========================================
+/* ===============================
+SOCIALS
+=============================== */
+
+.socials{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(240px,1fr));
+
+gap:20px;
+
+}
+
+.social{
+
+background:#081225;
+
+padding:26px;
+
+border-radius:24px;
+
+transition:.3s;
+
+}
+
+.social:hover{
+transform:translateY(-5px);
+}
+
+.social h3{
+
+font-size:24px;
+font-weight:900;
+
+}
+
+.social p{
+
+margin-top:12px;
+
+font-size:15px;
+opacity:.7;
+
+line-height:1.8;
+
+}
+
+/* ===============================
+ACHIEVEMENTS
+=============================== */
+
+.achievements{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
+
+gap:22px;
+
+}
+
+.badge{
+
+background:#081225;
+
+padding:28px;
+
+border-radius:26px;
+
+text-align:center;
+
+}
+
+.badgeIcon{
+
+font-size:50px;
+
+}
+
+.badge h3{
+
+margin-top:18px;
+
+font-size:24px;
+font-weight:900;
+
+}
+
+.badge p{
+
+margin-top:12px;
+
+opacity:.7;
+
+line-height:1.8;
+
+}
+
+/* ===============================
 FOOTER
-========================================= */
+=============================== */
 
 .footer{
 
@@ -599,9 +586,9 @@ font-size:14px;
 
 }
 
-/* =========================================
+/* ===============================
 TOAST
-========================================= */
+=============================== */
 
 .toast{
 
@@ -612,9 +599,9 @@ left:50%;
 
 transform:translateX(-50%);
 
-padding:14px 22px;
+padding:14px 24px;
 
-border-radius:14px;
+border-radius:16px;
 
 background:#111827;
 
@@ -632,14 +619,17 @@ animation:fade .3s ease;
 }
 
 @keyframes fade{
+
 from{
 opacity:0;
 transform:translate(-50%,20px);
 }
+
 to{
 opacity:1;
 transform:translate(-50%,0);
 }
+
 }
 
 </style>
@@ -647,9 +637,7 @@ transform:translate(-50%,0);
 
 <body>
 
-<!-- =========================================
-TOPBAR
-========================================= -->
+<!-- TOPBAR -->
 
 <div class="topbar">
 
@@ -663,9 +651,7 @@ Back Dashboard
 
 </div>
 
-<!-- =========================================
-MAIN
-========================================= -->
+<!-- MAIN -->
 
 <div class="main">
 
@@ -680,6 +666,7 @@ MAIN
 <div class="profileWrap">
 
 <div>
+
 <img
 id="profileImg"
 class="profileImage"
@@ -692,6 +679,7 @@ id="imgUpload"
 accept="image/*"
 style="display:none"
 >
+
 </div>
 
 <div class="profileInfo">
@@ -701,14 +689,14 @@ style="display:none"
 Loading...
 
 <span class="verify">
-✔ Verified
+✔ Verified Creator
 </span>
 
 </h1>
 
-<p class="bio">
+<p class="bio" id="profileBio">
 
-Digital creator selling premium ebooks globally through CreatorHub marketplace.
+Professional digital creator selling premium ebooks globally through CreatorHub marketplace.
 
 </p>
 
@@ -722,10 +710,10 @@ Save Profile
 </button>
 
 <a
-href="upload.html"
+href="wallet.html"
 class="btn btnSecondary"
 >
-Upload Ebook
+Open Wallet
 </a>
 
 </div>
@@ -740,7 +728,7 @@ Upload Ebook
 
 <div class="stat">
 <div class="statLabel">
-Total Books
+Uploaded Books
 </div>
 <div class="statValue" id="totalBooks">
 0
@@ -781,44 +769,120 @@ Wallet Balance
 <div class="section">
 
 <div class="sectionTitle">
-Edit Profile
+Edit Creator Profile
 </div>
 
 <input
 id="nameInput"
-placeholder="Your Name"
+placeholder="Creator Name"
 >
 
 <textarea
 id="bioInput"
-placeholder="Write creator bio..."
+placeholder="Write your creator bio..."
 ></textarea>
 
 </div>
 
-<!-- BOOKS -->
+<!-- SOCIAL -->
 
 <div class="section">
 
 <div class="sectionTitle">
-Uploaded Ebooks
+Creator Presence
 </div>
 
-<div class="books" id="booksContainer">
+<div class="socials">
 
+<div class="social">
+<h3>Instagram</h3>
+<p>
+Build your audience and connect with readers globally.
+</p>
+</div>
+
+<div class="social">
+<h3>YouTube</h3>
+<p>
+Share learning content and grow your ebook sales.
+</p>
+</div>
+
+<div class="social">
+<h3>Telegram</h3>
+<p>
+Create premium communities and direct engagement.
+</p>
+</div>
+
+<div class="social">
+<h3>Discord</h3>
+<p>
+Build a strong creator ecosystem and discussions.
+</p>
 </div>
 
 </div>
 
-<!-- ORDERS -->
+</div>
+
+<!-- ACHIEVEMENTS -->
 
 <div class="section">
 
 <div class="sectionTitle">
-Recent Orders
+Creator Achievements
 </div>
 
-<div id="ordersContainer">
+<div class="achievements">
+
+<div class="badge">
+<div class="badgeIcon">
+🏆
+</div>
+<h3>
+Verified Creator
+</h3>
+<p>
+Your creator account is verified successfully.
+</p>
+</div>
+
+<div class="badge">
+<div class="badgeIcon">
+📚
+</div>
+<h3 id="badgeBooks">
+0 Books
+</h3>
+<p>
+Premium ebooks uploaded successfully.
+</p>
+</div>
+
+<div class="badge">
+<div class="badgeIcon">
+💰
+</div>
+<h3 id="badgeProfit">
+₹0
+</h3>
+<p>
+Total creator earnings generated.
+</p>
+</div>
+
+<div class="badge">
+<div class="badgeIcon">
+🚀
+</div>
+<h3>
+PRO LEVEL
+</h3>
+<p>
+You are now a professional CreatorHub seller.
+</p>
+</div>
 
 </div>
 
@@ -826,7 +890,7 @@ Recent Orders
 
 <div class="footer">
 
-CreatorHub Creator Profile • Real-Time Marketplace System
+CreatorHub Creator Profile • Premium Creator Marketplace
 
 </div>
 
@@ -855,40 +919,6 @@ location.href="login.html"
 }
 
 /* =========================================
-DRIVE IMAGE
-========================================= */
-
-function driveImage(url){
-
-if(!url){
-return "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-}
-
-if(url.includes("/d/")){
-
-let id =
-url.split("/d/")[1]
-.split("/")[0]
-
-return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`
-
-}
-
-if(url.includes("id=")){
-
-let id =
-url.split("id=")[1]
-.split("&")[0]
-
-return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`
-
-}
-
-return url
-
-}
-
-/* =========================================
 LOAD PROFILE
 ========================================= */
 
@@ -905,7 +935,7 @@ encodeURIComponent(user.email)
 let data =
 await res.json()
 
-/* PROFILE */
+/* NAME */
 
 document.getElementById(
 "profileName"
@@ -915,9 +945,21 @@ document.getElementById(
 ${data.user.name || "Creator"}
 
 <span class="verify">
-✔ Verified
+✔ Verified Creator
 </span>
 `
+
+/* BIO */
+
+document.getElementById(
+"profileBio"
+).innerHTML =
+
+data.user.bio ||
+
+"Professional digital creator selling premium ebooks globally through CreatorHub marketplace."
+
+/* INPUTS */
 
 document.getElementById(
 "nameInput"
@@ -929,7 +971,7 @@ document.getElementById(
 ).value =
 data.user.bio || ""
 
-/* IMAGE */
+/* PROFILE IMAGE */
 
 let profileImage =
 
@@ -952,11 +994,6 @@ document.getElementById(
 ).src = profileImage
 
 }else{
-
-document.getElementById(
-"profileImg"
-).src =
-""
 
 document.getElementById(
 "profileImg"
@@ -987,113 +1024,17 @@ document.getElementById(
 ).innerHTML =
 "₹"+(data.wallet.available || 0)
 
-/* BOOKS */
-
-let booksHTML = ""
-
-if(data.books && data.books.length){
-
-data.books.forEach(book=>{
-
-booksHTML += `
-
-<div class="book">
-
-<img src="
-${driveImage(book.front_cover)}
-">
-
-<div class="bookContent">
-
-<div class="bookTitle">
-${book.title || "Premium Ebook"}
-</div>
-
-<div class="bookPrice">
-₹${book.price || 0}
-</div>
-
-</div>
-
-</div>
-
-`
-
-})
-
-}else{
-
-booksHTML = `
-<p style="opacity:.6;">
-No ebooks uploaded yet.
-</p>
-`
-
-}
+/* BADGES */
 
 document.getElementById(
-"booksContainer"
+"badgeBooks"
 ).innerHTML =
-booksHTML
-
-/* ORDERS */
-
-let ordersHTML = ""
-
-if(data.recent_orders && data.recent_orders.length){
-
-data.recent_orders.forEach(order=>{
-
-ordersHTML += `
-
-<div class="order">
-
-<div class="orderLeft">
-
-<img
-class="orderImg"
-src="
-${driveImage(order.front_cover)}
-">
-
-<div>
-
-<div class="orderName">
-${order.book_title}
-</div>
-
-<div class="orderMeta">
-${order.buyer_email}
-</div>
-
-</div>
-
-</div>
-
-<div class="orderAmount">
-₹${order.total_amount}
-</div>
-
-</div>
-
-`
-
-})
-
-}else{
-
-ordersHTML = `
-<p style="opacity:.6;">
-No recent orders found.
-</p>
-`
-
-}
+(data.stats.total_books || 0) + " Books"
 
 document.getElementById(
-"ordersContainer"
+"badgeProfit"
 ).innerHTML =
-ordersHTML
+"₹"+(data.stats.total_profit || 0)
 
 }catch(err){
 
@@ -1206,21 +1147,11 @@ localStorage.setItem(
 JSON.stringify(user)
 )
 
-document.getElementById(
-"profileName"
-).innerHTML =
-
-`
-${name}
-
-<span class="verify">
-✔ Verified
-</span>
-`
-
 showToast(
 "Profile Updated Successfully"
 )
+
+loadProfile()
 
 }else{
 
@@ -1235,7 +1166,7 @@ data.message || "Update failed"
 console.log(err)
 
 showToast(
-"Server error"
+"Server Error"
 )
 
 }
