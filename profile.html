@@ -837,10 +837,11 @@ Creator Achievements
 🏆
 </div>
 <h3>
-Verified Creator
+Premium Creator
 </h3>
+
 <p>
-Your creator account is verified successfully.
+Professional CreatorHub marketplace seller profile.
 </p>
 </div>
 
@@ -1122,8 +1123,8 @@ localStorage.getItem(
 
 ||
 
-data.profile?.image
-
+data.user?.profile_image
+  
 ||
 
 ""
@@ -1237,9 +1238,6 @@ e.target.result
 )
 
 showToast(
-"Image Selected"
-)
-showToast(
 "Image Updated"
 )
 
@@ -1315,8 +1313,12 @@ name:name,
 bio:bio,
 
 profile_image:
-profileImg.src || ""
-
+window.currentProfileImage
+||
+profileImg.src
+||
+""
+  
 })
 
 })
