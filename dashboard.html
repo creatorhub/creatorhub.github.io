@@ -658,15 +658,11 @@ Latest Reviews
 
 <script>
 
-/* =========================================
-REAL API
-========================================= */
-
 const API_URL =
 "https://script.google.com/macros/s/AKfycbxj1Ch941zvniDEzIs__cYVmGBaECx6GPmmEw5PPyehtU2_KxQ_o3TS6jhuoZS0AKUv8w/exec"
 
 /* =========================================
-AUTO LOGIN EMAIL
+TEMP LOGIN
 ========================================= */
 
 if(!localStorage.getItem("creatorhub_email")){
@@ -684,12 +680,14 @@ localStorage.getItem(
 )
 
 /* =========================================
-FETCH DATA
+LOAD DASHBOARD
 ========================================= */
 
-async function fetchDashboard(){
+async function loadDashboard(){
 
 try{
+
+console.log("Loading dashboard...")
 
 const response =
 await fetch(
@@ -697,8 +695,7 @@ await fetch(
 `${API_URL}?action=dashboard&email=${currentUserEmail}`,
 
 {
-method:"GET",
-cache:"no-cache"
+method:"GET"
 }
 
 )
@@ -706,40 +703,29 @@ cache:"no-cache"
 const data =
 await response.json()
 
-return data
+console.log(data)
 
-}catch(err){
+/* =========================================
+HIDE LOADER
+========================================= */
 
-console.log(err)
+const loader =
+document.getElementById("loader")
 
-return null
+if(loader){
 
-}
+loader.style.display = "none"
 
 }
 
 /* =========================================
-LOAD DASHBOARD
+CHECK SUCCESS
 ========================================= */
-
-async function loadDashboard(){
-
-const data =
-await fetchDashboard()
-
-document.getElementById("loader").style.display =
-"none"
-
-if(!data){
-
-alert("API Error")
-return
-
-}
 
 if(!data.success){
 
-alert(data.message)
+alert(data.message || "API Error")
+
 return
 
 }
@@ -749,12 +735,12 @@ PROFILE
 ========================================= */
 
 document.getElementById("userName").innerText =
-data.user.name || "Creator"
+data.user?.name || "Creator"
 
 document.getElementById("userEmail").innerText =
-data.user.email || ""
+data.user?.email || ""
 
-if(data.profile.image){
+if(data.profile?.image){
 
 document.getElementById("profileImage").src =
 data.profile.image
@@ -767,22 +753,22 @@ STATS
 
 document.getElementById("totalSales").innerText =
 `₹${Number(
-data.stats.total_sales || 0
+data.stats?.total_sales || 0
 ).toLocaleString()}`
 
 document.getElementById("totalProfit").innerText =
 `₹${Number(
-data.stats.total_profit || 0
+data.stats?.total_profit || 0
 ).toLocaleString()}`
 
 document.getElementById("totalOrders").innerText =
 Number(
-data.stats.total_orders || 0
+data.stats?.total_orders || 0
 ).toLocaleString()
 
 document.getElementById("totalBooks").innerText =
 Number(
-data.stats.total_books || 0
+data.stats?.total_books || 0
 ).toLocaleString()
 
 /* =========================================
@@ -791,31 +777,34 @@ WALLET
 
 document.getElementById("walletAvailable").innerText =
 `₹${Number(
-data.wallet.available || 0
+data.wallet?.available || 0
 ).toLocaleString()}`
 
 document.getElementById("walletPending").innerText =
 `₹${Number(
-data.wallet.pending || 0
+data.wallet?.pending || 0
 ).toLocaleString()}`
 
 document.getElementById("walletWithdrawn").innerText =
 `₹${Number(
-data.wallet.withdrawn || 0
+data.wallet?.withdrawn || 0
 ).toLocaleString()}`
 
 document.getElementById("walletLifetime").innerText =
 `₹${Number(
-data.wallet.lifetime || 0
+data.wallet?.lifetime || 0
 ).toLocaleString()}`
 
 /* =========================================
 ORDERS
 ========================================= */
 
+const orders =
+data.recent_orders || []
+
 let ordersHTML = ""
 
-data.recent_orders.forEach(order=>{
+orders.forEach(order=>{
 
 ordersHTML += `
 
@@ -840,7 +829,7 @@ order.seller_profit || 0
 <td>
 
 <span class="badge ${
-String(order.payment_status)
+String(order.payment_status || "")
 .toLowerCase()==='paid'
 ?
 'paid'
@@ -848,7 +837,7 @@ String(order.payment_status)
 'pending'
 }">
 
-${order.payment_status}
+${order.payment_status || "pending"}
 
 </span>
 
@@ -856,9 +845,12 @@ ${order.payment_status}
 
 <td>
 
-${new Date(
-order.created_at
-).toLocaleDateString()}
+${order.created_at
+?
+new Date(order.created_at).toLocaleDateString()
+:
+"-"
+}
 
 </td>
 
@@ -875,9 +867,12 @@ ordersHTML
 REVIEWS
 ========================================= */
 
+const reviews =
+data.reviews || []
+
 let reviewsHTML = ""
 
-data.reviews.forEach(review=>{
+reviews.forEach(review=>{
 
 reviewsHTML += `
 
@@ -905,18 +900,25 @@ document.getElementById("reviewsContainer").innerHTML =
 reviewsHTML
 
 /* =========================================
-CHART
+SAFE CHART
 ========================================= */
 
+const sales =
+data.monthly_sales || []
+
 const labels =
-data.monthly_sales.map(
-item=>`Day ${item.day}`
-)
+sales.map(item=>`Day ${item.day}`)
 
 const amounts =
-data.monthly_sales.map(
-item=>item.amount
-)
+sales.map(item=>item.amount || 0)
+
+if(window.salesChart){
+
+window.salesChart.destroy()
+
+}
+
+window.salesChart =
 
 new Chart(
 
@@ -990,6 +992,18 @@ color:'rgba(255,255,255,0.05)'
 
 })
 
+console.log("Dashboard loaded successfully")
+
+}catch(err){
+
+console.log(err)
+
+alert(
+"Dashboard Error: " + err.message
+)
+
+}
+
 }
 
 /* =========================================
@@ -998,17 +1012,6 @@ AUTO LOAD
 
 loadDashboard()
 
-/* =========================================
-AUTO REFRESH
-========================================= */
-
-setInterval(()=>{
-
-loadDashboard()
-
-},30000)
-
 </script>
-
 </body>
 </html>
