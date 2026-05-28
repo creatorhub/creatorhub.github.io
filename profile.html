@@ -895,7 +895,7 @@ CreatorHub Creator Profile • Premium Creator Marketplace
 <script>
 
 /* =========================================
-API
+FAST PROFILE SYSTEM
 ========================================= */
 
 const API =
@@ -915,7 +915,159 @@ location.href="login.html"
 }
 
 /* =========================================
-LOAD PROFILE
+DOM CACHE
+========================================= */
+
+const profileImg =
+document.getElementById("profileImg")
+
+const profileName =
+document.getElementById("profileName")
+
+const profileBio =
+document.getElementById("profileBio")
+
+const nameInput =
+document.getElementById("nameInput")
+
+const bioInput =
+document.getElementById("bioInput")
+
+const totalBooks =
+document.getElementById("totalBooks")
+
+const totalOrders =
+document.getElementById("totalOrders")
+
+const totalProfit =
+document.getElementById("totalProfit")
+
+const walletBalance =
+document.getElementById("walletBalance")
+
+const badgeBooks =
+document.getElementById("badgeBooks")
+
+const badgeProfit =
+document.getElementById("badgeProfit")
+
+/* =========================================
+INSTANT LOAD
+========================================= */
+
+loadInstantUI()
+
+/* =========================================
+BACKGROUND FETCH
+========================================= */
+
+loadProfile()
+
+/* =========================================
+SHOW LOCAL DATA FAST
+========================================= */
+
+function loadInstantUI(){
+
+/* NAME */
+
+profileName.innerHTML =
+user.name || "Creator"
+
+/* BIO */
+
+profileBio.innerHTML =
+
+localStorage.getItem(
+"bio_"+user.email
+)
+
+||
+
+"Professional digital creator selling premium ebooks globally through CreatorHub marketplace."
+
+/* INPUTS */
+
+nameInput.value =
+user.name || ""
+
+bioInput.value =
+localStorage.getItem(
+"bio_"+user.email
+) || ""
+
+/* IMAGE */
+
+let img =
+
+localStorage.getItem(
+"profile_"+user.email
+)
+
+||
+
+""
+
+if(img){
+
+profileImg.src = img
+
+}else{
+
+profileImg.style.background =
+"#081225"
+
+}
+
+/* STATS CACHE */
+
+totalBooks.innerHTML =
+localStorage.getItem(
+"books_"+user.email
+) || 0
+
+totalOrders.innerHTML =
+localStorage.getItem(
+"orders_"+user.email
+) || 0
+
+totalProfit.innerHTML =
+"₹"+
+(
+localStorage.getItem(
+"profit_"+user.email
+) || 0
+)
+
+walletBalance.innerHTML =
+"₹"+
+(
+localStorage.getItem(
+"wallet_"+user.email
+) || 0
+)
+
+badgeBooks.innerHTML =
+(
+localStorage.getItem(
+"books_"+user.email
+) || 0
+)
++
+" Books"
+
+badgeProfit.innerHTML =
+"₹"+
+(
+localStorage.getItem(
+"profit_"+user.email
+) || 0
+)
+
+}
+
+/* =========================================
+REAL API LOAD
 ========================================= */
 
 async function loadProfile(){
@@ -924,47 +1076,45 @@ try{
 
 let res =
 await fetch(
-API + "?action=dashboard&email=" +
+
+API +
+
+"?action=dashboard&email=" +
+
 encodeURIComponent(user.email)
+
 )
 
 let data =
 await res.json()
 
+if(!data.success){
+return
+}
+
 /* NAME */
 
-document.getElementById(
-"profileName"
-).innerHTML =
+profileName.innerHTML =
+data.user.name || "Creator"
 
-`
-${data.user.name || "Creator"}
+nameInput.value =
+data.user.name || ""
 
 /* BIO */
 
-document.getElementById(
-"profileBio"
-).innerHTML =
+let bio =
 
 data.user.bio ||
 
 "Professional digital creator selling premium ebooks globally through CreatorHub marketplace."
 
-/* INPUTS */
+profileBio.innerHTML = bio
 
-document.getElementById(
-"nameInput"
-).value =
-data.user.name || ""
+bioInput.value = bio
 
-document.getElementById(
-"bioInput"
-).value =
-data.user.bio || ""
+/* IMAGE */
 
-/* PROFILE IMAGE */
-
-let profileImage =
+let image =
 
 localStorage.getItem(
 "profile_"+user.email
@@ -978,80 +1128,87 @@ data.profile?.image
 
 ""
 
-if(profileImage){
+if(image){
 
-document.getElementById(
-"profileImg"
-).src = profileImage
-
-}else{
-
-document.getElementById(
-"profileImg"
-).style.background =
-"#081225"
+profileImg.src = image
 
 }
 
 /* STATS */
 
-document.getElementById(
-"totalBooks"
-).innerHTML =
+let books =
 data.stats.total_books || 0
 
-document.getElementById(
-"totalOrders"
-).innerHTML =
+let orders =
 data.stats.total_orders || 0
 
-document.getElementById(
-"totalProfit"
-).innerHTML =
-"₹"+(data.stats.total_profit || 0)
+let profit =
+data.stats.total_profit || 0
 
-document.getElementById(
-"walletBalance"
-).innerHTML =
-"₹"+(data.wallet.available || 0)
+let wallet =
+data.wallet.available || 0
 
-/* BADGES */
+totalBooks.innerHTML = books
+totalOrders.innerHTML = orders
+totalProfit.innerHTML = "₹"+profit
+walletBalance.innerHTML = "₹"+wallet
 
-document.getElementById(
-"badgeBooks"
-).innerHTML =
-(data.stats.total_books || 0) + " Books"
+badgeBooks.innerHTML =
+books + " Books"
 
-document.getElementById(
-"badgeProfit"
-).innerHTML =
-"₹"+(data.stats.total_profit || 0)
+badgeProfit.innerHTML =
+"₹"+profit
+
+/* SAVE CACHE */
+
+localStorage.setItem(
+"books_"+user.email,
+books
+)
+
+localStorage.setItem(
+"orders_"+user.email,
+orders
+)
+
+localStorage.setItem(
+"profit_"+user.email,
+profit
+)
+
+localStorage.setItem(
+"wallet_"+user.email,
+wallet
+)
+
+localStorage.setItem(
+"bio_"+user.email,
+bio
+)
 
 }catch(err){
 
 console.log(err)
-
-showToast(
-"Unable to load profile"
-)
 
 }
 
 }
 
 /* =========================================
-IMAGE UPLOAD
+IMAGE CLICK
 ========================================= */
 
-document.getElementById(
-"profileImg"
-).onclick = function(){
+profileImg.onclick = function(){
 
 document.getElementById(
 "imgUpload"
 ).click()
 
 }
+
+/* =========================================
+IMAGE UPLOAD
+========================================= */
 
 document.getElementById(
 "imgUpload"
@@ -1065,13 +1222,19 @@ let reader = new FileReader()
 
 reader.onload = function(e){
 
-document.getElementById(
-"profileImg"
-).src = e.target.result
+profileImg.src =
+e.target.result
 
 localStorage.setItem(
+
 "profile_"+user.email,
+
 e.target.result
+
+)
+
+showToast(
+"Image Updated"
 )
 
 }
@@ -1089,14 +1252,42 @@ async function saveProfile(){
 try{
 
 let name =
-document.getElementById(
-"nameInput"
-).value.trim()
+nameInput.value.trim()
 
 let bio =
-document.getElementById(
-"bioInput"
-).value.trim()
+bioInput.value.trim()
+
+if(!name){
+
+showToast(
+"Enter Name"
+)
+
+return
+
+}
+
+/* INSTANT UPDATE */
+
+profileName.innerHTML =
+name
+
+profileBio.innerHTML =
+bio
+
+user.name = name
+
+localStorage.setItem(
+"user",
+JSON.stringify(user)
+)
+
+localStorage.setItem(
+"bio_"+user.email,
+bio
+)
+
+/* API */
 
 let res =
 await fetch(API,{
@@ -1118,9 +1309,7 @@ name:name,
 bio:bio,
 
 profile_image:
-document.getElementById(
-"profileImg"
-).src
+profileImg.src || ""
 
 })
 
@@ -1131,23 +1320,14 @@ await res.json()
 
 if(data.success){
 
-user.name = name
-
-localStorage.setItem(
-"user",
-JSON.stringify(user)
-)
-
 showToast(
-"Profile Updated Successfully"
+"Profile Saved Successfully"
 )
-
-loadProfile()
 
 }else{
 
 showToast(
-data.message || "Update failed"
+data.message || "Update Failed"
 )
 
 }
@@ -1186,12 +1366,6 @@ div.remove()
 },3000)
 
 }
-
-/* =========================================
-START
-========================================= */
-
-loadProfile()
 
 </script>
 
