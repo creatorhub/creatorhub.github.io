@@ -1225,6 +1225,9 @@ reader.onload = function(e){
 profileImg.src =
 e.target.result
 
+window.currentProfileImage =
+e.target.result
+
 localStorage.setItem(
 
 "profile_"+user.email,
@@ -1233,6 +1236,9 @@ e.target.result
 
 )
 
+showToast(
+"Image Selected"
+)
 showToast(
 "Image Updated"
 )
@@ -1295,7 +1301,7 @@ await fetch(API,{
 method:"POST",
 
 headers:{
-"Content-Type":"application/json"
+"Content-Type":"text/plain;charset=utf-8"
 },
 
 body:JSON.stringify({
