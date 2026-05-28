@@ -1,278 +1,1120 @@
-<!DOCTYPE html><html lang="en">
-<head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Profile</title><style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>CreatorHub Profile</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
 
 :root{
 --bg:#020617;
---card:#111827;
+--card:#0f172a;
+--card2:#111827;
 --accent:#22c55e;
+--text:#ffffff;
+--muted:#94a3b8;
 }
 
 body{
-margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:var(--bg);
+background:linear-gradient(180deg,#020617,#071120);
 color:white;
-animation:fadePage .6s ease;
+min-height:100vh;
+overflow-x:hidden;
 }
 
-/* HEADER */
+/* =========================================
+TOPBAR
+========================================= */
 
 .topbar{
-display:flex;
-align-items:center;
-padding:16px;
-border-bottom:1px solid #1f2937;
-background:#020617;
+
 position:sticky;
 top:0;
+z-index:999;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:18px 22px;
+
+background:rgba(2,6,23,.9);
+
+backdrop-filter:blur(16px);
+
+border-bottom:
+1px solid rgba(255,255,255,.05);
+
 }
 
-.back{
-font-size:22px;
-cursor:pointer;
-margin-right:10px;
-transition:.2s;
+.logo{
+
+font-size:34px;
+font-weight:900;
+
 }
 
-.back:hover{
-transform:scale(1.1);
-}
-
-.title{
-flex:1;
-text-align:center;
+.logo span{
 color:var(--accent);
-font-weight:bold;
 }
 
-/* CONTAINER */
+.backBtn{
 
-.container{
-max-width:500px;
+padding:12px 20px;
+
+border-radius:16px;
+
+background:
+linear-gradient(
+90deg,
+#16a34a,
+#4ade80
+);
+
+color:white;
+
+text-decoration:none;
+
+font-size:14px;
+font-weight:800;
+
+}
+
+/* =========================================
+MAIN
+========================================= */
+
+.main{
+max-width:1350px;
 margin:auto;
-padding:25px;
+padding:35px 18px 100px;
 }
 
-/* CARD */
+/* =========================================
+COVER
+========================================= */
 
-.card{
+.cover{
 
-background:linear-gradient(145deg,#111827,#020617);
+height:280px;
 
-padding:28px;
+border-radius:34px;
 
-border-radius:18px;
+background:
+linear-gradient(
+135deg,
+#0f172a,
+#111827,
+#1e293b
+);
 
-border:1px solid #1f2937;
+position:relative;
 
-box-shadow:0 10px 30px rgba(0,0,0,0.6);
+overflow:hidden;
 
-text-align:center;
+border:
+1px solid rgba(255,255,255,.05);
 
-transition:.3s;
+box-shadow:
+0 20px 60px rgba(0,0,0,.4);
 
 }
 
-.card:hover{
-box-shadow:0 0 12px rgba(34,197,94,.4);
+.coverGlow{
+
+position:absolute;
+
+width:500px;
+height:500px;
+
+background:
+radial-gradient(
+circle,
+rgba(34,197,94,.18),
+transparent
+);
+
+top:-250px;
+right:-250px;
+
 }
 
-/* IMAGE */
+/* =========================================
+PROFILE
+========================================= */
 
-.profileImg{
+.profileWrap{
 
-width:120px;
+margin-top:-90px;
 
-height:120px;
+position:relative;
+z-index:2;
+
+display:flex;
+gap:30px;
+
+align-items:flex-end;
+
+flex-wrap:wrap;
+
+padding:0 30px;
+
+}
+
+.profileImage{
+
+width:170px;
+height:170px;
 
 border-radius:50%;
 
 object-fit:cover;
 
-border:3px solid var(--accent);
+border:6px solid #0f172a;
 
-margin-bottom:15px;
+background:#081225;
+
+box-shadow:
+0 10px 40px rgba(0,0,0,.45);
 
 cursor:pointer;
 
-transition:.2s;
+transition:.3s;
 
 }
 
-.profileImg:hover{
-transform:scale(1.05);
+.profileImage:hover{
+transform:scale(1.03);
 }
 
-/* INPUT */
+.profileInfo{
+flex:1;
+}
 
-input{
+.profileInfo h1{
 
-width:100%;
+font-size:48px;
+font-weight:900;
 
-padding:14px;
+display:flex;
+align-items:center;
+gap:14px;
 
-margin-top:12px;
+}
+
+.verify{
+
+font-size:18px;
+
+padding:8px 14px;
+
+border-radius:999px;
+
+background:
+rgba(34,197,94,.14);
+
+color:var(--accent);
+
+font-weight:800;
+
+}
+
+.bio{
+
+margin-top:14px;
+
+font-size:16px;
+
+line-height:1.9;
+
+color:var(--muted);
+
+max-width:850px;
+
+}
+
+.actions{
+
+display:flex;
+gap:16px;
+margin-top:25px;
+flex-wrap:wrap;
+
+}
+
+.btn{
+
+height:58px;
+
+padding:0 30px;
 
 border:none;
 
-border-radius:12px;
+border-radius:18px;
 
-background:#020617;
+font-size:16px;
+font-weight:900;
+
+cursor:pointer;
+
+transition:.3s;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+text-decoration:none;
+
+}
+
+.btnPrimary{
+
+background:
+linear-gradient(
+90deg,
+#16a34a,
+#4ade80
+);
 
 color:white;
 
-border:1px solid #1f2937;
+}
 
-transition:.2s;
+.btnSecondary{
+
+background:#111827;
+
+border:
+1px solid rgba(255,255,255,.06);
+
+color:white;
 
 }
 
-input:focus{
-outline:none;
-border:1px solid var(--accent);
-box-shadow:0 0 8px rgba(34,197,94,.4);
+.btn:hover{
+transform:translateY(-3px);
 }
 
-/* BUTTON */
+/* =========================================
+GRID
+========================================= */
 
-button{
+.grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(4,1fr);
+
+gap:22px;
+
+margin-top:40px;
+
+}
+
+@media(max-width:1100px){
+
+.grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+@media(max-width:700px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.profileInfo h1{
+font-size:34px;
+}
+
+.profileWrap{
+padding:0 15px;
+}
+
+}
+
+/* =========================================
+STAT CARD
+========================================= */
+
+.stat{
+
+background:var(--card);
+
+padding:28px;
+
+border-radius:28px;
+
+border:
+1px solid rgba(255,255,255,.05);
+
+box-shadow:
+0 10px 40px rgba(0,0,0,.3);
+
+}
+
+.statLabel{
+
+font-size:14px;
+opacity:.65;
+
+}
+
+.statValue{
+
+margin-top:14px;
+
+font-size:46px;
+font-weight:900;
+
+}
+
+/* =========================================
+SECTION
+========================================= */
+
+.section{
+
+margin-top:40px;
+
+background:var(--card);
+
+border-radius:34px;
+
+padding:32px;
+
+border:
+1px solid rgba(255,255,255,.05);
+
+box-shadow:
+0 20px 60px rgba(0,0,0,.35);
+
+}
+
+.sectionTitle{
+
+font-size:34px;
+font-weight:900;
+
+margin-bottom:28px;
+
+}
+
+/* =========================================
+BOOKS
+========================================= */
+
+.books{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fill,minmax(220px,1fr));
+
+gap:22px;
+
+}
+
+.book{
+
+background:#081225;
+
+border-radius:24px;
+
+overflow:hidden;
+
+transition:.3s;
+
+}
+
+.book:hover{
+transform:translateY(-6px);
+}
+
+.book img{
+
+width:100%;
+height:280px;
+
+object-fit:cover;
+
+}
+
+.bookContent{
+padding:18px;
+}
+
+.bookTitle{
+
+font-size:18px;
+font-weight:800;
+
+line-height:1.5;
+
+}
+
+.bookPrice{
+
+margin-top:10px;
+
+font-size:24px;
+font-weight:900;
+
+color:var(--accent);
+
+}
+
+/* =========================================
+ORDERS
+========================================= */
+
+.order{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:18px 0;
+
+border-bottom:
+1px solid rgba(255,255,255,.06);
+
+gap:20px;
+
+}
+
+.order:last-child{
+border-bottom:none;
+}
+
+.orderLeft{
+
+display:flex;
+gap:16px;
+align-items:center;
+
+}
+
+.orderImg{
+
+width:70px;
+height:90px;
+
+border-radius:14px;
+
+object-fit:cover;
+
+}
+
+.orderName{
+
+font-size:18px;
+font-weight:800;
+
+}
+
+.orderMeta{
+
+margin-top:6px;
+
+font-size:13px;
+opacity:.65;
+
+}
+
+.orderAmount{
+
+font-size:22px;
+font-weight:900;
+
+color:var(--accent);
+
+}
+
+/* =========================================
+INPUT
+========================================= */
+
+input,textarea{
 
 width:100%;
 
-padding:14px;
+padding:16px;
 
-margin-top:18px;
+margin-top:16px;
 
-border:none;
+border-radius:18px;
 
-border-radius:12px;
+background:#081225;
 
-background:linear-gradient(90deg,#22c55e,#4ade80);
+border:
+1px solid rgba(255,255,255,.06);
 
-color:black;
+color:white;
 
-font-weight:bold;
-
-cursor:pointer;
-
-transition:.2s;
+font-size:15px;
 
 }
 
-button:hover{
-transform:translateY(-2px);
-box-shadow:0 0 10px rgba(34,197,94,.5);
+textarea{
+min-height:120px;
+resize:none;
 }
 
-/* TOAST */
+/* =========================================
+FOOTER
+========================================= */
+
+.footer{
+
+margin-top:70px;
+
+text-align:center;
+
+line-height:2;
+
+opacity:.5;
+
+font-size:14px;
+
+}
+
+/* =========================================
+TOAST
+========================================= */
 
 .toast{
 
 position:fixed;
 
 bottom:20px;
-
 left:50%;
 
 transform:translateX(-50%);
 
+padding:14px 22px;
+
+border-radius:14px;
+
 background:#111827;
 
-padding:12px 20px;
-
-border-radius:10px;
-
-border:1px solid var(--accent);
+border:
+1px solid var(--accent);
 
 color:var(--accent);
 
-font-weight:bold;
+font-weight:800;
 
-box-shadow:0 0 10px rgba(34,197,94,.4);
+z-index:9999;
 
-animation:fadeToast .4s ease;
+animation:fade .3s ease;
 
 }
 
-/* ANIMATION */
-
-@keyframes fadePage{
-from{opacity:0;transform:translateY(20px);}
-to{opacity:1;transform:translateY(0);}
+@keyframes fade{
+from{
+opacity:0;
+transform:translate(-50%,20px);
+}
+to{
+opacity:1;
+transform:translate(-50%,0);
+}
 }
 
-@keyframes fadeToast{
-from{opacity:0;transform:translate(-50%,20px);}
-to{opacity:1;transform:translate(-50%,0);}
-}
+</style>
+</head>
 
-</style></head><body><div class="topbar"><div class="back"
-onclick="location.href='dashboard.html'">
-⬅
-</div><div class="title">
-My Profile
-</div></div><div class="container"><div class="card"><img id="profileImg"
-class="profileImg">
+<body>
 
-<input type="file"
+<!-- =========================================
+TOPBAR
+========================================= -->
+
+<div class="topbar">
+
+<div class="logo">
+Creator<span>Hub</span>
+</div>
+
+<a href="dashboard.html" class="backBtn">
+Back Dashboard
+</a>
+
+</div>
+
+<!-- =========================================
+MAIN
+========================================= -->
+
+<div class="main">
+
+<!-- COVER -->
+
+<div class="cover">
+<div class="coverGlow"></div>
+</div>
+
+<!-- PROFILE -->
+
+<div class="profileWrap">
+
+<div>
+<img
+id="profileImg"
+class="profileImage"
+src=""
+>
+
+<input
+type="file"
 id="imgUpload"
+accept="image/*"
 style="display:none"
-accept="image/*">
+>
+</div>
 
-<input id="name"
-placeholder="Your Name">
+<div class="profileInfo">
 
-<button onclick="saveProfile()">
+<h1 id="profileName">
+
+Loading...
+
+<span class="verify">
+✔ Verified
+</span>
+
+</h1>
+
+<p class="bio">
+
+Digital creator selling premium ebooks globally through CreatorHub marketplace.
+
+</p>
+
+<div class="actions">
+
+<button
+class="btn btnPrimary"
+onclick="saveProfile()"
+>
 Save Profile
-</button></div></div><script>
+</button>
 
-/* MAIN API */
+<a
+href="upload.html"
+class="btn btnSecondary"
+>
+Upload Ebook
+</a>
 
-const API=
-"https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
+</div>
 
-/* USER */
+</div>
 
-let user=
-JSON.parse(localStorage.getItem("user")||"null")
+</div>
+
+<!-- STATS -->
+
+<div class="grid">
+
+<div class="stat">
+<div class="statLabel">
+Total Books
+</div>
+<div class="statValue" id="totalBooks">
+0
+</div>
+</div>
+
+<div class="stat">
+<div class="statLabel">
+Total Orders
+</div>
+<div class="statValue" id="totalOrders">
+0
+</div>
+</div>
+
+<div class="stat">
+<div class="statLabel">
+Total Profit
+</div>
+<div class="statValue" id="totalProfit">
+₹0
+</div>
+</div>
+
+<div class="stat">
+<div class="statLabel">
+Wallet Balance
+</div>
+<div class="statValue" id="walletBalance">
+₹0
+</div>
+</div>
+
+</div>
+
+<!-- EDIT -->
+
+<div class="section">
+
+<div class="sectionTitle">
+Edit Profile
+</div>
+
+<input
+id="nameInput"
+placeholder="Your Name"
+>
+
+<textarea
+id="bioInput"
+placeholder="Write creator bio..."
+></textarea>
+
+</div>
+
+<!-- BOOKS -->
+
+<div class="section">
+
+<div class="sectionTitle">
+Uploaded Ebooks
+</div>
+
+<div class="books" id="booksContainer">
+
+</div>
+
+</div>
+
+<!-- ORDERS -->
+
+<div class="section">
+
+<div class="sectionTitle">
+Recent Orders
+</div>
+
+<div id="ordersContainer">
+
+</div>
+
+</div>
+
+<div class="footer">
+
+CreatorHub Creator Profile • Real-Time Marketplace System
+
+</div>
+
+</div>
+
+<script>
+
+/* =========================================
+API
+========================================= */
+
+const API =
+"https://script.google.com/macros/s/AKfycbxj1Ch941zvniDEzIs__cYVmGBaECx6GPmmEw5PPyehtU2_KxQ_o3TS6jhuoZS0AKUv8w/exec"
+
+/* =========================================
+USER
+========================================= */
+
+let user =
+JSON.parse(
+localStorage.getItem("user") || "null"
+)
 
 if(!user){
 location.href="login.html"
 }
 
-/* LOAD DATA */
+/* =========================================
+DRIVE IMAGE
+========================================= */
 
-document.getElementById("name").value=
-user.name || ""
+function driveImage(url){
 
-let profileImg=document.getElementById("profileImg")
+if(!url){
+return "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+}
 
-profileImg.src=
-localStorage.getItem("profile_"+user.email) ||
-"https://cdn-icons-png.flaticon.com/512/149/149071.png"
+if(url.includes("/d/")){
 
-/* IMAGE CLICK */
+let id =
+url.split("/d/")[1]
+.split("/")[0]
 
-profileImg.onclick=function(){
-
-document.getElementById("imgUpload").click()
+return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`
 
 }
 
-/* IMAGE UPLOAD */
+if(url.includes("id=")){
 
-document.getElementById("imgUpload").onchange=function(){
+let id =
+url.split("id=")[1]
+.split("&")[0]
 
-let file=this.files[0]
+return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`
+
+}
+
+return url
+
+}
+
+/* =========================================
+LOAD PROFILE
+========================================= */
+
+async function loadProfile(){
+
+try{
+
+let res =
+await fetch(
+API + "?action=dashboard&email=" +
+encodeURIComponent(user.email)
+)
+
+let data =
+await res.json()
+
+/* PROFILE */
+
+document.getElementById(
+"profileName"
+).innerHTML =
+
+`
+${data.user.name || "Creator"}
+
+<span class="verify">
+✔ Verified
+</span>
+`
+
+document.getElementById(
+"nameInput"
+).value =
+data.user.name || ""
+
+document.getElementById(
+"bioInput"
+).value =
+data.user.bio || ""
+
+/* IMAGE */
+
+document.getElementById(
+"profileImg"
+).src =
+
+localStorage.getItem(
+"profile_"+user.email
+)
+
+||
+
+data.profile?.image
+
+||
+
+"https://cdn-icons-png.flaticon.com/512/149/149071.png"
+
+/* STATS */
+
+document.getElementById(
+"totalBooks"
+).innerHTML =
+data.stats.total_books || 0
+
+document.getElementById(
+"totalOrders"
+).innerHTML =
+data.stats.total_orders || 0
+
+document.getElementById(
+"totalProfit"
+).innerHTML =
+"₹"+(data.stats.total_profit || 0)
+
+document.getElementById(
+"walletBalance"
+).innerHTML =
+"₹"+(data.wallet.available || 0)
+
+/* BOOKS */
+
+let booksHTML = ""
+
+if(data.books && data.books.length){
+
+data.books.forEach(book=>{
+
+booksHTML += `
+
+<div class="book">
+
+<img src="
+${driveImage(book.front_cover)}
+">
+
+<div class="bookContent">
+
+<div class="bookTitle">
+${book.title || "Premium Ebook"}
+</div>
+
+<div class="bookPrice">
+₹${book.price || 0}
+</div>
+
+</div>
+
+</div>
+
+`
+
+})
+
+}else{
+
+booksHTML = `
+<p style="opacity:.6;">
+No ebooks uploaded yet.
+</p>
+`
+
+}
+
+document.getElementById(
+"booksContainer"
+).innerHTML =
+booksHTML
+
+/* ORDERS */
+
+let ordersHTML = ""
+
+if(data.recent_orders && data.recent_orders.length){
+
+data.recent_orders.forEach(order=>{
+
+ordersHTML += `
+
+<div class="order">
+
+<div class="orderLeft">
+
+<img
+class="orderImg"
+src="
+${driveImage(order.front_cover)}
+">
+
+<div>
+
+<div class="orderName">
+${order.book_title}
+</div>
+
+<div class="orderMeta">
+${order.buyer_email}
+</div>
+
+</div>
+
+</div>
+
+<div class="orderAmount">
+₹${order.total_amount}
+</div>
+
+</div>
+
+`
+
+})
+
+}else{
+
+ordersHTML = `
+<p style="opacity:.6;">
+No recent orders found.
+</p>
+`
+
+}
+
+document.getElementById(
+"ordersContainer"
+).innerHTML =
+ordersHTML
+
+}catch(err){
+
+console.log(err)
+
+showToast(
+"Unable to load profile"
+)
+
+}
+
+}
+
+/* =========================================
+IMAGE UPLOAD
+========================================= */
+
+document.getElementById(
+"profileImg"
+).onclick = function(){
+
+document.getElementById(
+"imgUpload"
+).click()
+
+}
+
+document.getElementById(
+"imgUpload"
+).onchange = function(){
+
+let file = this.files[0]
 
 if(!file) return
 
-let reader=new FileReader()
+let reader = new FileReader()
 
-reader.onload=function(e){
+reader.onload = function(e){
 
-profileImg.src=e.target.result
+document.getElementById(
+"profileImg"
+).src = e.target.result
 
 localStorage.setItem(
 "profile_"+user.email,
@@ -285,24 +1127,26 @@ reader.readAsDataURL(file)
 
 }
 
-/* SAVE PROFILE */
+/* =========================================
+SAVE PROFILE
+========================================= */
 
 async function saveProfile(){
 
-let newName=
-document.getElementById("name").value.trim()
-
-if(!newName){
-
-showToast("Enter name")
-
-return
-
-}
-
 try{
 
-let res=await fetch(API,{
+let name =
+document.getElementById(
+"nameInput"
+).value.trim()
+
+let bio =
+document.getElementById(
+"bioInput"
+).value.trim()
+
+let res =
+await fetch(API,{
 
 method:"POST",
 
@@ -316,56 +1160,92 @@ action:"update_profile",
 
 email:user.email,
 
-name:newName
+name:name,
+
+bio:bio
 
 })
 
 })
 
-let data=await res.json()
+let data =
+await res.json()
 
 if(data.success){
 
-user.name=newName
+user.name = name
 
 localStorage.setItem(
 "user",
 JSON.stringify(user)
 )
 
-showToast("Profile updated ✅")
+document.getElementById(
+"profileName"
+).innerHTML =
+
+`
+${name}
+
+<span class="verify">
+✔ Verified
+</span>
+`
+
+showToast(
+"Profile Updated Successfully"
+)
 
 }else{
 
-showToast(data.message || "Update failed")
+showToast(
+data.message || "Update failed"
+)
 
 }
 
-}catch{
+}catch(err){
 
-showToast("Server error")
+console.log(err)
+
+showToast(
+"Server error"
+)
 
 }
 
 }
 
-/* TOAST */
+/* =========================================
+TOAST
+========================================= */
 
 function showToast(msg){
 
-let div=document.createElement("div")
+let div =
+document.createElement("div")
 
-div.className="toast"
+div.className = "toast"
 
-div.innerText=msg
+div.innerText = msg
 
 document.body.appendChild(div)
 
 setTimeout(()=>{
+
 div.remove()
+
 },3000)
 
 }
 
-</script></body>
+/* =========================================
+START
+========================================= */
+
+loadProfile()
+
+</script>
+
+</body>
 </html>
