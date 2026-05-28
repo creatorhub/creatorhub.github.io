@@ -42,9 +42,9 @@ min-height:100vh;
 overflow-x:hidden;
 }
 
-/* ===============================
+/* =========================
 TOPBAR
-=============================== */
+========================= */
 
 .topbar{
 
@@ -101,9 +101,9 @@ font-weight:800;
 
 }
 
-/* ===============================
+/* =========================
 MAIN
-=============================== */
+========================= */
 
 .main{
 max-width:1400px;
@@ -111,9 +111,9 @@ margin:auto;
 padding:35px 18px 120px;
 }
 
-/* ===============================
+/* =========================
 COVER
-=============================== */
+========================= */
 
 .cover{
 
@@ -160,9 +160,9 @@ right:-320px;
 
 }
 
-/* ===============================
+/* =========================
 PROFILE
-=============================== */
+========================= */
 
 .profileWrap{
 
@@ -216,28 +216,6 @@ flex:1;
 
 font-size:56px;
 font-weight:900;
-
-display:flex;
-align-items:center;
-gap:14px;
-
-flex-wrap:wrap;
-
-}
-
-.verify{
-
-padding:8px 16px;
-
-border-radius:999px;
-
-background:
-rgba(34,197,94,.14);
-
-color:var(--accent);
-
-font-size:16px;
-font-weight:800;
 
 }
 
@@ -318,9 +296,9 @@ color:white;
 transform:translateY(-3px);
 }
 
-/* ===============================
+/* =========================
 GRID
-=============================== */
+========================= */
 
 .grid{
 
@@ -364,9 +342,9 @@ height:150px;
 
 }
 
-/* ===============================
+/* =========================
 STAT
-=============================== */
+========================= */
 
 .stat{
 
@@ -406,9 +384,9 @@ font-weight:900;
 
 }
 
-/* ===============================
+/* =========================
 SECTION
-=============================== */
+========================= */
 
 .section{
 
@@ -437,9 +415,9 @@ margin-bottom:28px;
 
 }
 
-/* ===============================
+/* =========================
 INPUT
-=============================== */
+========================= */
 
 input,textarea{
 
@@ -467,58 +445,9 @@ min-height:140px;
 resize:none;
 }
 
-/* ===============================
-SOCIALS
-=============================== */
-
-.socials{
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(240px,1fr));
-
-gap:20px;
-
-}
-
-.social{
-
-background:#081225;
-
-padding:26px;
-
-border-radius:24px;
-
-transition:.3s;
-
-}
-
-.social:hover{
-transform:translateY(-5px);
-}
-
-.social h3{
-
-font-size:24px;
-font-weight:900;
-
-}
-
-.social p{
-
-margin-top:12px;
-
-font-size:15px;
-opacity:.7;
-
-line-height:1.8;
-
-}
-
-/* ===============================
-ACHIEVEMENTS
-=============================== */
+/* =========================
+BADGES
+========================= */
 
 .achievements{
 
@@ -568,9 +497,9 @@ line-height:1.8;
 
 }
 
-/* ===============================
+/* =========================
 FOOTER
-=============================== */
+========================= */
 
 .footer{
 
@@ -586,9 +515,9 @@ font-size:14px;
 
 }
 
-/* ===============================
+/* =========================
 TOAST
-=============================== */
+========================= */
 
 .toast{
 
@@ -655,13 +584,9 @@ Back Dashboard
 
 <div class="main">
 
-<!-- COVER -->
-
 <div class="cover">
 <div class="coverGlow"></div>
 </div>
-
-<!-- PROFILE -->
 
 <div class="profileWrap">
 
@@ -670,7 +595,7 @@ Back Dashboard
 <img
 id="profileImg"
 class="profileImage"
-src=""
+src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
 >
 
 <input
@@ -685,15 +610,11 @@ style="display:none"
 <div class="profileInfo">
 
 <h1 id="profileName">
-
-Creatorhub
-
+Loading...
 </h1>
 
 <p class="bio" id="profileBio">
-
-Professional digital creator selling premium ebooks globally through CreatorHub marketplace.
-
+Loading creator profile...
 </p>
 
 <div class="actions">
@@ -723,39 +644,23 @@ Open Wallet
 <div class="grid">
 
 <div class="stat">
-<div class="statLabel">
-Uploaded Books
-</div>
-<div class="statValue" id="totalBooks">
-0
-</div>
+<div class="statLabel">Uploaded Books</div>
+<div class="statValue" id="totalBooks">0</div>
 </div>
 
 <div class="stat">
-<div class="statLabel">
-Total Orders
-</div>
-<div class="statValue" id="totalOrders">
-0
-</div>
+<div class="statLabel">Total Orders</div>
+<div class="statValue" id="totalOrders">0</div>
 </div>
 
 <div class="stat">
-<div class="statLabel">
-Total Profit
-</div>
-<div class="statValue" id="totalProfit">
-₹0
-</div>
+<div class="statLabel">Total Profit</div>
+<div class="statValue" id="totalProfit">₹0</div>
 </div>
 
 <div class="stat">
-<div class="statLabel">
-Wallet Balance
-</div>
-<div class="statValue" id="walletBalance">
-₹0
-</div>
+<div class="statLabel">Wallet Balance</div>
+<div class="statValue" id="walletBalance">₹0</div>
 </div>
 
 </div>
@@ -780,48 +685,6 @@ placeholder="Write your creator bio..."
 
 </div>
 
-<!-- SOCIAL -->
-
-<div class="section">
-
-<div class="sectionTitle">
-Creator Presence
-</div>
-
-<div class="socials">
-
-<div class="social">
-<h3>Instagram</h3>
-<p>
-Build your audience and connect with readers globally.
-</p>
-</div>
-
-<div class="social">
-<h3>YouTube</h3>
-<p>
-Share learning content and grow your ebook sales.
-</p>
-</div>
-
-<div class="social">
-<h3>Telegram</h3>
-<p>
-Create premium communities and direct engagement.
-</p>
-</div>
-
-<div class="social">
-<h3>Discord</h3>
-<p>
-Build a strong creator ecosystem and discussions.
-</p>
-</div>
-
-</div>
-
-</div>
-
 <!-- ACHIEVEMENTS -->
 
 <div class="section">
@@ -833,49 +696,32 @@ Creator Achievements
 <div class="achievements">
 
 <div class="badge">
-<div class="badgeIcon">
-🏆
-</div>
-<h3>
-Premium Creator
-</h3>
-
+<div class="badgeIcon">⭐</div>
+<h3>Premium Creator</h3>
 <p>
 Professional CreatorHub marketplace seller profile.
 </p>
 </div>
 
 <div class="badge">
-<div class="badgeIcon">
-📚
-</div>
-<h3 id="badgeBooks">
-0 Books
-</h3>
+<div class="badgeIcon">📚</div>
+<h3 id="badgeBooks">0 Books</h3>
 <p>
 Premium ebooks uploaded successfully.
 </p>
 </div>
 
 <div class="badge">
-<div class="badgeIcon">
-💰
-</div>
-<h3 id="badgeProfit">
-₹0
-</h3>
+<div class="badgeIcon">💰</div>
+<h3 id="badgeProfit">₹0</h3>
 <p>
 Total creator earnings generated.
 </p>
 </div>
 
 <div class="badge">
-<div class="badgeIcon">
-🚀
-</div>
-<h3>
-PRO LEVEL
-</h3>
+<div class="badgeIcon">🚀</div>
+<h3>PRO LEVEL</h3>
 <p>
 You are now a professional CreatorHub seller.
 </p>
@@ -886,25 +732,26 @@ You are now a professional CreatorHub seller.
 </div>
 
 <div class="footer">
-
 CreatorHub Creator Profile • Premium Creator Marketplace
-
 </div>
 
 </div>
 
 <script>
 
-/* =========================================
-FAST PROFILE SYSTEM
-========================================= */
+/* =========================
+API
+========================= */
 
 const API =
 "https://script.google.com/macros/s/AKfycbxj1Ch941zvniDEzIs__cYVmGBaECx6GPmmEw5PPyehtU2_KxQ_o3TS6jhuoZS0AKUv8w/exec"
 
-/* =========================================
+const UPLOAD_API =
+"https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec"
+
+/* =========================
 USER
-========================================= */
+========================= */
 
 let user =
 JSON.parse(
@@ -915,9 +762,9 @@ if(!user){
 location.href="login.html"
 }
 
-/* =========================================
-DOM CACHE
-========================================= */
+/* =========================
+ELEMENTS
+========================= */
 
 const profileImg =
 document.getElementById("profileImg")
@@ -934,142 +781,44 @@ document.getElementById("nameInput")
 const bioInput =
 document.getElementById("bioInput")
 
-const totalBooks =
-document.getElementById("totalBooks")
-
-const totalOrders =
-document.getElementById("totalOrders")
-
-const totalProfit =
-document.getElementById("totalProfit")
-
-const walletBalance =
-document.getElementById("walletBalance")
-
-const badgeBooks =
-document.getElementById("badgeBooks")
-
-const badgeProfit =
-document.getElementById("badgeProfit")
-
-/* =========================================
-INSTANT LOAD
-========================================= */
-
-loadInstantUI()
-
-/* =========================================
-BACKGROUND FETCH
-========================================= */
-
-loadProfile()
-
-/* =========================================
-SHOW LOCAL DATA FAST
-========================================= */
-
-function loadInstantUI(){
-
-/* NAME */
+/* =========================
+FAST LOAD
+========================= */
 
 profileName.innerHTML =
 user.name || "Creator"
 
-/* BIO */
+nameInput.value =
+user.name || ""
 
 profileBio.innerHTML =
-
 localStorage.getItem(
 "bio_"+user.email
 )
-
 ||
-
-"Professional digital creator selling premium ebooks globally through CreatorHub marketplace."
-
-/* INPUTS */
-
-nameInput.value =
-user.name || ""
+"Professional digital creator selling premium ebooks globally."
 
 bioInput.value =
 localStorage.getItem(
 "bio_"+user.email
-) || ""
+)
+||
+""
 
-/* IMAGE */
-
-let img =
-
+let cachedImage =
 localStorage.getItem(
 "profile_"+user.email
 )
 
-||
-
-""
-
-if(img){
-
-profileImg.src = img
-
-}else{
-
-profileImg.style.background =
-"#081225"
-
+if(cachedImage){
+profileImg.src = cachedImage
 }
 
-/* STATS CACHE */
+/* =========================
+LOAD REAL DATA
+========================= */
 
-totalBooks.innerHTML =
-localStorage.getItem(
-"books_"+user.email
-) || 0
-
-totalOrders.innerHTML =
-localStorage.getItem(
-"orders_"+user.email
-) || 0
-
-totalProfit.innerHTML =
-"₹"+
-(
-localStorage.getItem(
-"profit_"+user.email
-) || 0
-)
-
-walletBalance.innerHTML =
-"₹"+
-(
-localStorage.getItem(
-"wallet_"+user.email
-) || 0
-)
-
-badgeBooks.innerHTML =
-(
-localStorage.getItem(
-"books_"+user.email
-) || 0
-)
-+
-" Books"
-
-badgeProfit.innerHTML =
-"₹"+
-(
-localStorage.getItem(
-"profit_"+user.email
-) || 0
-)
-
-}
-
-/* =========================================
-REAL API LOAD
-========================================= */
+loadProfile()
 
 async function loadProfile(){
 
@@ -1093,99 +842,71 @@ if(!data.success){
 return
 }
 
-/* NAME */
+/* PROFILE */
 
 profileName.innerHTML =
 data.user.name || "Creator"
 
+profileBio.innerHTML =
+data.user.bio ||
+"Professional Creator"
+
 nameInput.value =
 data.user.name || ""
 
-/* BIO */
-
-let bio =
-
-data.user.bio ||
-
-"Professional digital creator selling premium ebooks globally through CreatorHub marketplace."
-
-profileBio.innerHTML = bio
-
-bioInput.value = bio
+bioInput.value =
+data.user.bio || ""
 
 /* IMAGE */
 
-let image =
+if(data.user.profile_image){
 
-localStorage.getItem(
-"profile_"+user.email
+profileImg.src =
+data.user.profile_image
+
+localStorage.setItem(
+"profile_"+user.email,
+data.user.profile_image
 )
-
-||
-
-data.user?.profile_image
-  
-||
-
-""
-
-if(image){
-
-profileImg.src = image
 
 }
 
 /* STATS */
 
-let books =
+document.getElementById(
+"totalBooks"
+).innerHTML =
 data.stats.total_books || 0
 
-let orders =
+document.getElementById(
+"totalOrders"
+).innerHTML =
 data.stats.total_orders || 0
 
-let profit =
-data.stats.total_profit || 0
+document.getElementById(
+"totalProfit"
+).innerHTML =
+"₹"+
+(data.stats.total_profit || 0)
 
-let wallet =
-data.wallet.available || 0
+document.getElementById(
+"walletBalance"
+).innerHTML =
+"₹"+
+(data.wallet.available || 0)
 
-totalBooks.innerHTML = books
-totalOrders.innerHTML = orders
-totalProfit.innerHTML = "₹"+profit
-walletBalance.innerHTML = "₹"+wallet
+document.getElementById(
+"badgeBooks"
+).innerHTML =
+(data.stats.total_books || 0)
++
+" Books"
 
-badgeBooks.innerHTML =
-books + " Books"
-
-badgeProfit.innerHTML =
-"₹"+profit
-
-/* SAVE CACHE */
-
-localStorage.setItem(
-"books_"+user.email,
-books
-)
-
-localStorage.setItem(
-"orders_"+user.email,
-orders
-)
-
-localStorage.setItem(
-"profit_"+user.email,
-profit
-)
-
-localStorage.setItem(
-"wallet_"+user.email,
-wallet
-)
-
-localStorage.setItem(
-"bio_"+user.email,
-bio
-)
+document.getElementById(
+"badgeProfit"
+).innerHTML =
+"₹"+
+(data.stats.total_profit || 0)
 
 }catch(err){
 
@@ -1195,9 +916,9 @@ console.log(err)
 
 }
 
-/* =========================================
+/* =========================
 IMAGE CLICK
-========================================= */
+========================= */
 
 profileImg.onclick = function(){
 
@@ -1207,49 +928,84 @@ document.getElementById(
 
 }
 
-/* =========================================
+/* =========================
 IMAGE UPLOAD
-========================================= */
+========================= */
 
 document.getElementById(
 "imgUpload"
-).onchange = function(){
+).onchange = async function(){
 
 let file = this.files[0]
 
 if(!file) return
 
-let reader = new FileReader()
+showToast(
+"Uploading Image..."
+)
 
-reader.onload = function(e){
+try{
+
+let formData =
+new FormData()
+
+formData.append(
+"file",
+file
+)
+
+let res =
+await fetch(UPLOAD_API,{
+
+method:"POST",
+
+body:formData
+
+})
+
+let data =
+await res.json()
+
+if(data.url){
 
 profileImg.src =
-e.target.result
+data.url
 
 window.currentProfileImage =
-e.target.result
+data.url
 
 localStorage.setItem(
-
 "profile_"+user.email,
-
-e.target.result
-
+data.url
 )
 
 showToast(
-"Image Updated"
+"Image Uploaded"
+)
+
+}else{
+
+showToast(
+"Upload Failed"
 )
 
 }
 
-reader.readAsDataURL(file)
+}catch(err){
+
+console.log(err)
+
+showToast(
+"Upload Failed"
+)
 
 }
 
-/* =========================================
+}
+
+/* =========================
 SAVE PROFILE
-========================================= */
+========================= */
 
 async function saveProfile(){
 
@@ -1271,13 +1027,10 @@ return
 
 }
 
-/* INSTANT UPDATE */
+/* FAST UI */
 
-profileName.innerHTML =
-name
-
-profileBio.innerHTML =
-bio
+profileName.innerHTML = name
+profileBio.innerHTML = bio
 
 user.name = name
 
@@ -1318,7 +1071,7 @@ window.currentProfileImage
 profileImg.src
 ||
 ""
-  
+
 })
 
 })
@@ -1354,9 +1107,9 @@ showToast(
 
 }
 
-/* =========================================
+/* =========================
 TOAST
-========================================= */
+========================= */
 
 function showToast(msg){
 
