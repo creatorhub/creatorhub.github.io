@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
+
 <meta
 name="viewport"
 content="width=device-width, initial-scale=1.0"
@@ -19,19 +20,15 @@ rel="stylesheet"
 
 <style>
 
-/* ===================================================
+/* =========================================
 GLOBAL
-=================================================== */
+========================================= */
 
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
 font-family:'Inter',sans-serif;
-}
-
-html{
-scroll-behavior:smooth;
 }
 
 body{
@@ -42,12 +39,12 @@ min-height:100vh;
 overflow:hidden;
 }
 
-/* ===================================================
+/* =========================================
 SIDEBAR
-=================================================== */
+========================================= */
 
 .sidebar{
-width:290px;
+width:280px;
 background:linear-gradient(180deg,#111827,#0f172a);
 padding:30px 20px;
 position:fixed;
@@ -56,7 +53,6 @@ top:0;
 bottom:0;
 overflow-y:auto;
 border-right:1px solid rgba(255,255,255,0.06);
-z-index:100;
 }
 
 .logo{
@@ -73,19 +69,19 @@ font-size:12px;
 letter-spacing:2px;
 text-transform:uppercase;
 color:#64748b;
-margin-top:30px;
+margin-top:25px;
 margin-bottom:15px;
 }
 
 .menu a{
 display:flex;
 align-items:center;
-gap:15px;
+gap:14px;
 padding:15px 18px;
 border-radius:18px;
 text-decoration:none;
 color:#cbd5e1;
-margin-bottom:12px;
+margin-bottom:10px;
 transition:0.3s;
 font-weight:600;
 }
@@ -93,26 +89,25 @@ font-weight:600;
 .menu a:hover,
 .menu a.active{
 background:linear-gradient(90deg,#7c3aed,#2563eb);
-color:white;
 transform:translateX(5px);
-box-shadow:0 10px 25px rgba(124,58,237,0.35);
+color:white;
 }
 
-/* ===================================================
+/* =========================================
 MAIN
-=================================================== */
+========================================= */
 
 .main{
-margin-left:290px;
-width:calc(100% - 290px);
+margin-left:280px;
+width:calc(100% - 280px);
 padding:30px;
 overflow-y:auto;
 height:100vh;
 }
 
-/* ===================================================
+/* =========================================
 TOPBAR
-=================================================== */
+========================================= */
 
 .topbar{
 display:flex;
@@ -122,64 +117,37 @@ margin-bottom:30px;
 gap:20px;
 }
 
-.topbar-left h1{
+.topbar h1{
 font-size:38px;
 font-weight:800;
 margin-bottom:8px;
 }
 
-.topbar-left p{
+.topbar p{
 color:#94a3b8;
-font-size:15px;
-}
-
-.topbar-right{
-display:flex;
-align-items:center;
-gap:18px;
-}
-
-.search-box{
-background:#111827;
-padding:14px 18px;
-border-radius:18px;
-border:1px solid rgba(255,255,255,0.05);
-width:280px;
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-.search-box input{
-background:none;
-border:none;
-outline:none;
-color:white;
-width:100%;
-font-size:14px;
 }
 
 .profile-box{
 display:flex;
 align-items:center;
-gap:14px;
+gap:15px;
 background:#111827;
-padding:12px 16px;
+padding:12px 18px;
 border-radius:18px;
 border:1px solid rgba(255,255,255,0.05);
 }
 
 .profile-box img{
-width:52px;
-height:52px;
+width:55px;
+height:55px;
 border-radius:50%;
 object-fit:cover;
 border:2px solid #8b5cf6;
 }
 
-/* ===================================================
-STATS
-=================================================== */
+/* =========================================
+CARDS
+========================================= */
 
 .stats-grid{
 display:grid;
@@ -190,38 +158,33 @@ margin-bottom:25px;
 
 .card{
 background:linear-gradient(180deg,#111827,#1e293b);
-border-radius:24px;
 padding:25px;
+border-radius:24px;
 border:1px solid rgba(255,255,255,0.05);
 box-shadow:0 10px 30px rgba(0,0,0,0.3);
-transition:0.3s;
-}
-
-.card:hover{
-transform:translateY(-5px);
 }
 
 .card h3{
 font-size:14px;
 color:#94a3b8;
-margin-bottom:15px;
-}
-
-.card h2{
-font-size:36px;
-font-weight:800;
 margin-bottom:12px;
 }
 
+.card h2{
+font-size:34px;
+font-weight:800;
+margin-bottom:10px;
+}
+
 .growth{
-color:#22c55e;
 font-size:14px;
+color:#22c55e;
 font-weight:600;
 }
 
-/* ===================================================
+/* =========================================
 GRID
-=================================================== */
+========================================= */
 
 .content-grid{
 display:grid;
@@ -243,16 +206,15 @@ display:flex;
 justify-content:space-between;
 padding:16px 0;
 border-bottom:1px solid rgba(255,255,255,0.05);
-font-size:15px;
 }
 
 .wallet-list li:last-child{
 border:none;
 }
 
-/* ===================================================
+/* =========================================
 TABLE
-=================================================== */
+========================================= */
 
 .table-card{
 overflow-x:auto;
@@ -267,8 +229,8 @@ border-collapse:collapse;
 th{
 padding:18px;
 text-align:left;
-color:#94a3b8;
 font-size:14px;
+color:#94a3b8;
 border-bottom:1px solid rgba(255,255,255,0.05);
 }
 
@@ -295,9 +257,9 @@ background:rgba(251,191,36,0.15);
 color:#facc15;
 }
 
-/* ===================================================
+/* =========================================
 REVIEWS
-=================================================== */
+========================================= */
 
 .review-item{
 padding:16px 0;
@@ -314,14 +276,14 @@ margin-bottom:6px;
 }
 
 .review-text{
-color:#cbd5e1;
 font-size:14px;
+color:#cbd5e1;
 line-height:1.6;
 }
 
-/* ===================================================
+/* =========================================
 LOADER
-=================================================== */
+========================================= */
 
 .loader{
 position:fixed;
@@ -339,7 +301,7 @@ z-index:99999;
 .spinner{
 width:70px;
 height:70px;
-border:5px solid rgba(255,255,255,0.08);
+border:5px solid rgba(255,255,255,0.1);
 border-top:5px solid #8b5cf6;
 border-radius:50%;
 animation:spin 1s linear infinite;
@@ -357,22 +319,9 @@ transform:rotate(360deg);
 
 }
 
-/* ===================================================
-SCROLLBAR
-=================================================== */
-
-::-webkit-scrollbar{
-width:8px;
-}
-
-::-webkit-scrollbar-thumb{
-background:#374151;
-border-radius:999px;
-}
-
-/* ===================================================
+/* =========================================
 MOBILE
-=================================================== */
+========================================= */
 
 @media(max-width:1200px){
 
@@ -407,16 +356,6 @@ flex-direction:column;
 align-items:flex-start;
 }
 
-.topbar-right{
-width:100%;
-flex-direction:column;
-align-items:stretch;
-}
-
-.search-box{
-width:100%;
-}
-
 }
 
 </style>
@@ -425,17 +364,17 @@ width:100%;
 
 <body>
 
-<!-- ===================================================
+<!-- =========================================
 LOADER
-=================================================== -->
+========================================= -->
 
 <div id="loader" class="loader">
 <div class="spinner"></div>
 </div>
 
-<!-- ===================================================
+<!-- =========================================
 SIDEBAR
-=================================================== -->
+========================================= -->
 
 <div class="sidebar">
 
@@ -501,19 +440,19 @@ Tools
 
 </div>
 
-<!-- ===================================================
+<!-- =========================================
 MAIN
-=================================================== -->
+========================================= -->
 
 <div class="main">
 
-<!-- ===================================================
+<!-- =========================================
 TOPBAR
-=================================================== -->
+========================================= -->
 
 <div class="topbar">
 
-<div class="topbar-left">
+<div>
 
 <h1>
 Dashboard
@@ -522,19 +461,6 @@ Dashboard
 <p>
 Welcome back to CreatorHub
 </p>
-
-</div>
-
-<div class="topbar-right">
-
-<div class="search-box">
-
-<span>🔍</span>
-
-<input
-type="text"
-placeholder="Search anything..."
-/>
 
 </div>
 
@@ -566,11 +492,9 @@ Please wait...
 
 </div>
 
-</div>
-
-<!-- ===================================================
+<!-- =========================================
 STATS
-=================================================== -->
+========================================= -->
 
 <div class="stats-grid">
 
@@ -583,7 +507,7 @@ STATS
 </h2>
 
 <div class="growth">
-Live sales data
+Live sales
 </div>
 
 </div>
@@ -611,7 +535,7 @@ Real earnings
 </h2>
 
 <div class="growth">
-Real order count
+Orders count
 </div>
 
 </div>
@@ -625,16 +549,16 @@ Real order count
 </h2>
 
 <div class="growth">
-Uploaded products
+Products uploaded
 </div>
 
 </div>
 
 </div>
 
-<!-- ===================================================
+<!-- =========================================
 CONTENT GRID
-=================================================== -->
+========================================= -->
 
 <div class="content-grid">
 
@@ -657,12 +581,12 @@ Wallet Overview
 <ul class="wallet-list">
 
 <li>
-<span>Available Balance</span>
+<span>Available</span>
 <strong id="walletAvailable">₹0</strong>
 </li>
 
 <li>
-<span>Pending Balance</span>
+<span>Pending</span>
 <strong id="walletPending">₹0</strong>
 </li>
 
@@ -672,7 +596,7 @@ Wallet Overview
 </li>
 
 <li>
-<span>Lifetime Earnings</span>
+<span>Lifetime</span>
 <strong id="walletLifetime">₹0</strong>
 </li>
 
@@ -682,9 +606,9 @@ Wallet Overview
 
 </div>
 
-<!-- ===================================================
+<!-- =========================================
 ORDERS
-=================================================== -->
+========================================= -->
 
 <div class="card table-card">
 
@@ -716,9 +640,9 @@ Recent Orders
 
 </div>
 
-<!-- ===================================================
+<!-- =========================================
 REVIEWS
-=================================================== -->
+========================================= -->
 
 <div class="card">
 
@@ -732,32 +656,36 @@ Latest Reviews
 
 </div>
 
-<!-- ===================================================
-SCRIPT
-=================================================== -->
-
 <script>
 
-/* ===================================================
-API
-=================================================== */
+/* =========================================
+REAL API
+========================================= */
 
 const API_URL =
 "https://script.google.com/macros/s/AKfycbxj1Ch941zvniDEzIs__cYVmGBaECx6GPmmEw5PPyehtU2_KxQ_o3TS6jhuoZS0AKUv8w/exec"
 
-/* ===================================================
-USER EMAIL
-=================================================== */
+/* =========================================
+AUTO LOGIN EMAIL
+========================================= */
+
+if(!localStorage.getItem("creatorhub_email")){
+
+localStorage.setItem(
+"creatorhub_email",
+"test@gmail.com"
+)
+
+}
 
 const currentUserEmail =
-localStorage.getItem("creatorhub_email")
+localStorage.getItem(
+"creatorhub_email"
+)
 
-||
-"demo@gmail.com"
-
-/* ===================================================
-FETCH DASHBOARD
-=================================================== */
+/* =========================================
+FETCH DATA
+========================================= */
 
 async function fetchDashboard(){
 
@@ -790,9 +718,9 @@ return null
 
 }
 
-/* ===================================================
+/* =========================================
 LOAD DASHBOARD
-=================================================== */
+========================================= */
 
 async function loadDashboard(){
 
@@ -804,7 +732,7 @@ document.getElementById("loader").style.display =
 
 if(!data){
 
-alert("Dashboard failed to load")
+alert("API Error")
 return
 
 }
@@ -816,9 +744,9 @@ return
 
 }
 
-/* ===================================================
+/* =========================================
 PROFILE
-=================================================== */
+========================================= */
 
 document.getElementById("userName").innerText =
 data.user.name || "Creator"
@@ -833,9 +761,9 @@ data.profile.image
 
 }
 
-/* ===================================================
+/* =========================================
 STATS
-=================================================== */
+========================================= */
 
 document.getElementById("totalSales").innerText =
 `₹${Number(
@@ -857,9 +785,9 @@ Number(
 data.stats.total_books || 0
 ).toLocaleString()
 
-/* ===================================================
+/* =========================================
 WALLET
-=================================================== */
+========================================= */
 
 document.getElementById("walletAvailable").innerText =
 `₹${Number(
@@ -881,9 +809,9 @@ document.getElementById("walletLifetime").innerText =
 data.wallet.lifetime || 0
 ).toLocaleString()}`
 
-/* ===================================================
+/* =========================================
 ORDERS
-=================================================== */
+========================================= */
 
 let ordersHTML = ""
 
@@ -943,9 +871,9 @@ order.created_at
 document.getElementById("ordersTable").innerHTML =
 ordersHTML
 
-/* ===================================================
+/* =========================================
 REVIEWS
-=================================================== */
+========================================= */
 
 let reviewsHTML = ""
 
@@ -976,9 +904,9 @@ ${review.review || "Amazing product"}
 document.getElementById("reviewsContainer").innerHTML =
 reviewsHTML
 
-/* ===================================================
+/* =========================================
 CHART
-=================================================== */
+========================================= */
 
 const labels =
 data.monthly_sales.map(
@@ -1029,13 +957,11 @@ responsive:true,
 maintainAspectRatio:false,
 
 plugins:{
-
 legend:{
 labels:{
 color:'white'
 }
 }
-
 },
 
 scales:{
@@ -1066,15 +992,15 @@ color:'rgba(255,255,255,0.05)'
 
 }
 
-/* ===================================================
+/* =========================================
 AUTO LOAD
-=================================================== */
+========================================= */
 
 loadDashboard()
 
-/* ===================================================
+/* =========================================
 AUTO REFRESH
-=================================================== */
+========================================= */
 
 setInterval(()=>{
 
