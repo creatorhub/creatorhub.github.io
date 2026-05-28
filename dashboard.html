@@ -2,10 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+/>
+
 <title>CreatorHub Dashboard</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link
+href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet"
+/>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
@@ -25,20 +33,20 @@ min-height:100vh;
 overflow:hidden;
 }
 
-/* =========================
+/* ======================================
 SIDEBAR
-========================= */
+====================================== */
 
 .sidebar{
 width:280px;
 background:linear-gradient(180deg,#111827,#0f172a);
 padding:30px 20px;
-border-right:1px solid rgba(255,255,255,0.05);
 position:fixed;
-top:0;
 left:0;
+top:0;
 bottom:0;
 overflow-y:auto;
+border-right:1px solid rgba(255,255,255,0.05);
 }
 
 .logo{
@@ -55,14 +63,14 @@ font-size:12px;
 letter-spacing:2px;
 text-transform:uppercase;
 color:#64748b;
-margin-bottom:12px;
-margin-top:25px;
+margin-bottom:15px;
+margin-top:30px;
 }
 
 .menu a{
 display:flex;
 align-items:center;
-gap:14px;
+gap:15px;
 padding:15px;
 border-radius:16px;
 text-decoration:none;
@@ -79,9 +87,9 @@ color:white;
 transform:translateX(5px);
 }
 
-/* =========================
+/* ======================================
 MAIN
-========================= */
+====================================== */
 
 .main{
 margin-left:280px;
@@ -99,7 +107,7 @@ margin-bottom:30px;
 }
 
 .topbar h1{
-font-size:34px;
+font-size:36px;
 font-weight:800;
 margin-bottom:8px;
 }
@@ -125,9 +133,9 @@ border-radius:50%;
 object-fit:cover;
 }
 
-/* =========================
+/* ======================================
 CARDS
-========================= */
+====================================== */
 
 .stats-grid{
 display:grid;
@@ -153,7 +161,7 @@ margin-bottom:12px;
 .card h2{
 font-size:34px;
 font-weight:800;
-margin-bottom:8px;
+margin-bottom:10px;
 }
 
 .growth{
@@ -162,9 +170,9 @@ font-size:14px;
 font-weight:600;
 }
 
-/* =========================
-CONTENT GRID
-========================= */
+/* ======================================
+GRID
+====================================== */
 
 .content-grid{
 display:grid;
@@ -192,13 +200,13 @@ border-bottom:1px solid rgba(255,255,255,0.05);
 border:none;
 }
 
-/* =========================
+/* ======================================
 TABLE
-========================= */
+====================================== */
 
 .table-card{
-margin-bottom:25px;
 overflow-x:auto;
+margin-bottom:25px;
 }
 
 table{
@@ -236,17 +244,13 @@ background:rgba(251,191,36,0.15);
 color:#facc15;
 }
 
-/* =========================
+/* ======================================
 REVIEWS
-========================= */
+====================================== */
 
 .review-item{
 padding:16px 0;
 border-bottom:1px solid rgba(255,255,255,0.05);
-}
-
-.review-item:last-child{
-border:none;
 }
 
 .review-user{
@@ -259,9 +263,47 @@ color:#cbd5e1;
 font-size:14px;
 }
 
-/* =========================
+/* ======================================
+LOADER
+====================================== */
+
+.loader{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#0b1120;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:99999;
+}
+
+.spinner{
+width:70px;
+height:70px;
+border:5px solid rgba(255,255,255,0.1);
+border-top:5px solid #8b5cf6;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+
+0%{
+transform:rotate(0deg);
+}
+
+100%{
+transform:rotate(360deg);
+}
+
+}
+
+/* ======================================
 MOBILE
-========================= */
+====================================== */
 
 @media(max-width:1200px){
 
@@ -301,41 +343,84 @@ gap:20px;
 
 </style>
 </head>
+
 <body>
 
-<!-- =========================
+<div id="loader" class="loader">
+<div class="spinner"></div>
+</div>
+
+<!-- ======================================
 SIDEBAR
-========================= -->
+====================================== -->
 
 <div class="sidebar">
 
-<div class="logo">CreatorHub</div>
+<div class="logo">
+CreatorHub
+</div>
 
-<div class="menu-title">Main</div>
+<div class="menu-title">
+Main
+</div>
 
 <div class="menu">
-<a href="#" class="active">🏠 Dashboard</a>
-<a href="#">📚 Products</a>
-<a href="#">🛒 Orders</a>
-<a href="#">💰 Earnings</a>
-<a href="#">⭐ Reviews</a>
-<a href="#">👤 Profile</a>
-<a href="#">⚙ Settings</a>
+
+<a href="#" class="active">
+🏠 Dashboard
+</a>
+
+<a href="products.html">
+📚 Products
+</a>
+
+<a href="orders.html">
+🛒 Orders
+</a>
+
+<a href="earnings.html">
+💰 Earnings
+</a>
+
+<a href="reviews.html">
+⭐ Reviews
+</a>
+
+<a href="profile.html">
+👤 Profile
+</a>
+
+<a href="settings.html">
+⚙ Settings
+</a>
+
 </div>
 
-<div class="menu-title">Other</div>
+<div class="menu-title">
+Other
+</div>
 
 <div class="menu">
-<a href="#">📩 Messages</a>
-<a href="#">📊 Analytics</a>
-<a href="#">🚀 Upgrade</a>
-</div>
+
+<a href="messages.html">
+📩 Messages
+</a>
+
+<a href="analytics.html">
+📊 Analytics
+</a>
+
+<a href="upgrade.html">
+🚀 Upgrade
+</a>
 
 </div>
 
-<!-- =========================
+</div>
+
+<!-- ======================================
 MAIN
-========================= -->
+====================================== -->
 
 <div class="main">
 
@@ -347,56 +432,105 @@ MAIN
 </div>
 
 <div class="profile-box">
-<img id="profileImage" src="https://i.pravatar.cc/100">
+
+<img
+id="profileImage"
+src="https://i.pravatar.cc/100"
+/>
+
 <div>
-<div id="userName">Loading...</div>
-<small id="userEmail" style="color:#94a3b8">Please wait...</small>
+<div id="userName">
+Loading...
 </div>
+
+<small
+id="userEmail"
+style="color:#94a3b8"
+>
+Please wait...
+</small>
+
+</div>
+
 </div>
 
 </div>
 
-<!-- =========================
+<!-- ======================================
 STATS
-========================= -->
+====================================== -->
 
 <div class="stats-grid">
 
 <div class="card">
+
 <h3>Total Sales</h3>
-<h2 id="totalSales">₹0</h2>
-<div class="growth">Live sales data</div>
+
+<h2 id="totalSales">
+₹0
+</h2>
+
+<div class="growth">
+Live sales data
+</div>
+
 </div>
 
 <div class="card">
+
 <h3>Total Profit</h3>
-<h2 id="totalProfit">₹0</h2>
-<div class="growth">Real earnings</div>
+
+<h2 id="totalProfit">
+₹0
+</h2>
+
+<div class="growth">
+Real earnings
+</div>
+
 </div>
 
 <div class="card">
+
 <h3>Total Orders</h3>
-<h2 id="totalOrders">0</h2>
-<div class="growth">Real orders count</div>
+
+<h2 id="totalOrders">
+0
+</h2>
+
+<div class="growth">
+Real order count
+</div>
+
 </div>
 
 <div class="card">
+
 <h3>Total Products</h3>
-<h2 id="totalBooks">0</h2>
-<div class="growth">Uploaded products</div>
+
+<h2 id="totalBooks">
+0
+</h2>
+
+<div class="growth">
+Uploaded products
 </div>
 
 </div>
 
-<!-- =========================
-CHART + WALLET
-========================= -->
+</div>
+
+<!-- ======================================
+GRID
+====================================== -->
 
 <div class="content-grid">
 
 <div class="card chart-card">
 
-<h3 style="margin-bottom:20px;">Monthly Sales</h3>
+<h3 style="margin-bottom:20px;">
+Monthly Sales
+</h3>
 
 <canvas id="salesChart"></canvas>
 
@@ -404,7 +538,9 @@ CHART + WALLET
 
 <div class="card">
 
-<h3 style="margin-bottom:20px;">Wallet Overview</h3>
+<h3 style="margin-bottom:20px;">
+Wallet Overview
+</h3>
 
 <ul class="wallet-list">
 
@@ -434,24 +570,28 @@ CHART + WALLET
 
 </div>
 
-<!-- =========================
-ORDERS TABLE
-========================= -->
+<!-- ======================================
+ORDERS
+====================================== -->
 
 <div class="card table-card">
 
-<h3 style="margin-bottom:20px;">Recent Orders</h3>
+<h3 style="margin-bottom:20px;">
+Recent Orders
+</h3>
 
 <table>
 
 <thead>
 
 <tr>
+
 <th>Book</th>
 <th>Amount</th>
 <th>Profit</th>
 <th>Status</th>
 <th>Date</th>
+
 </tr>
 
 </thead>
@@ -464,13 +604,15 @@ ORDERS TABLE
 
 </div>
 
-<!-- =========================
+<!-- ======================================
 REVIEWS
-========================= -->
+====================================== -->
 
 <div class="card">
 
-<h3 style="margin-bottom:20px;">Latest Reviews</h3>
+<h3 style="margin-bottom:20px;">
+Latest Reviews
+</h3>
 
 <div id="reviewsContainer"></div>
 
@@ -478,40 +620,81 @@ REVIEWS
 
 </div>
 
+<!-- ======================================
+SCRIPT
+====================================== -->
+
 <script>
 
-/* =========================
-YOUR REAL API
-========================= */
+/* ======================================
+REAL API
+====================================== */
 
 const API_URL =
 "https://script.google.com/macros/s/AKfycbxj1Ch941zvniDEzIs__cYVmGBaECx6GPmmEw5PPyehtU2_KxQ_o3TS6jhuoZS0AKUv8w/exec"
 
-/* =========================
-CURRENT USER EMAIL
-========================= */
+/* ======================================
+USER EMAIL
+====================================== */
 
 const currentUserEmail =
-localStorage.getItem("creatorhub_email") ||
+localStorage.getItem("creatorhub_email")
+||
 "demo@gmail.com"
 
-/* =========================
-LOAD DASHBOARD
-========================= */
+/* ======================================
+FETCH DATA
+====================================== */
 
-async function loadDashboard(){
+async function fetchDashboardData(){
 
 try{
 
 const response =
 await fetch(
-`${API_URL}?action=dashboard&email=${currentUserEmail}`
+
+`${API_URL}?action=dashboard&email=${currentUserEmail}`,
+
+{
+method:"GET",
+cache:"no-cache"
+}
+
 )
 
 const data =
 await response.json()
 
-console.log(data)
+return data
+
+}catch(err){
+
+console.log(err)
+
+return null
+
+}
+
+}
+
+/* ======================================
+LOAD DASHBOARD
+====================================== */
+
+async function loadDashboard(){
+
+const data =
+await fetchDashboardData()
+
+document.getElementById("loader").style.display =
+"none"
+
+if(!data){
+
+alert("Dashboard failed to load")
+return
+
+}
 
 if(!data.success){
 
@@ -520,15 +703,15 @@ return
 
 }
 
-/* =========================
-USER
-========================= */
+/* ======================================
+PROFILE
+====================================== */
 
 document.getElementById("userName").innerText =
-data.user.name
+data.user.name || "Creator"
 
 document.getElementById("userEmail").innerText =
-data.user.email
+data.user.email || ""
 
 if(data.profile.image){
 
@@ -537,41 +720,41 @@ data.profile.image
 
 }
 
-/* =========================
+/* ======================================
 STATS
-========================= */
+====================================== */
 
 document.getElementById("totalSales").innerText =
-`₹${Number(data.stats.total_sales).toLocaleString()}`
+`₹${Number(data.stats.total_sales || 0).toLocaleString()}`
 
 document.getElementById("totalProfit").innerText =
-`₹${Number(data.stats.total_profit).toLocaleString()}`
+`₹${Number(data.stats.total_profit || 0).toLocaleString()}`
 
 document.getElementById("totalOrders").innerText =
-data.stats.total_orders
+Number(data.stats.total_orders || 0).toLocaleString()
 
 document.getElementById("totalBooks").innerText =
-data.stats.total_books
+Number(data.stats.total_books || 0).toLocaleString()
 
-/* =========================
+/* ======================================
 WALLET
-========================= */
+====================================== */
 
 document.getElementById("walletAvailable").innerText =
-`₹${Number(data.wallet.available).toLocaleString()}`
+`₹${Number(data.wallet.available || 0).toLocaleString()}`
 
 document.getElementById("walletPending").innerText =
-`₹${Number(data.wallet.pending).toLocaleString()}`
+`₹${Number(data.wallet.pending || 0).toLocaleString()}`
 
 document.getElementById("walletWithdrawn").innerText =
-`₹${Number(data.wallet.withdrawn).toLocaleString()}`
+`₹${Number(data.wallet.withdrawn || 0).toLocaleString()}`
 
 document.getElementById("walletLifetime").innerText =
-`₹${Number(data.wallet.lifetime).toLocaleString()}`
+`₹${Number(data.wallet.lifetime || 0).toLocaleString()}`
 
-/* =========================
+/* ======================================
 ORDERS
-========================= */
+====================================== */
 
 let ordersHTML = ""
 
@@ -581,14 +764,16 @@ ordersHTML += `
 
 <tr>
 
-<td>${order.book_title || "Untitled"}</td>
-
 <td>
-₹${Number(order.total_amount).toLocaleString()}
+${order.book_title || "Untitled"}
 </td>
 
 <td>
-₹${Number(order.seller_profit).toLocaleString()}
+₹${Number(order.total_amount || 0).toLocaleString()}
+</td>
+
+<td>
+₹${Number(order.seller_profit || 0).toLocaleString()}
 </td>
 
 <td>
@@ -608,7 +793,9 @@ ${order.payment_status}
 </td>
 
 <td>
+
 ${new Date(order.created_at).toLocaleDateString()}
+
 </td>
 
 </tr>
@@ -620,9 +807,9 @@ ${new Date(order.created_at).toLocaleDateString()}
 document.getElementById("ordersTable").innerHTML =
 ordersHTML
 
-/* =========================
+/* ======================================
 REVIEWS
-========================= */
+====================================== */
 
 let reviewsHTML = ""
 
@@ -633,11 +820,15 @@ reviewsHTML += `
 <div class="review-item">
 
 <div class="review-user">
+
 ${review.user_name || "Customer"}
+
 </div>
 
 <div class="review-text">
+
 ${review.review || "Amazing product"}
+
 </div>
 
 </div>
@@ -649,9 +840,9 @@ ${review.review || "Amazing product"}
 document.getElementById("reviewsContainer").innerHTML =
 reviewsHTML
 
-/* =========================
-REAL CHART DATA
-========================= */
+/* ======================================
+CHART
+====================================== */
 
 const labels =
 data.monthly_sales.map(item=>`Day ${item.day}`)
@@ -660,12 +851,15 @@ const amounts =
 data.monthly_sales.map(item=>item.amount)
 
 new Chart(
-document.getElementById('salesChart'),
+
+document.getElementById("salesChart"),
 
 {
+
 type:'line',
 
 data:{
+
 labels:labels,
 
 datasets:[{
@@ -682,9 +876,10 @@ fill:true,
 
 tension:0.4,
 
-pointRadius:3
+pointRadius:4
 
 }]
+
 },
 
 options:{
@@ -727,17 +922,23 @@ color:'rgba(255,255,255,0.05)'
 
 })
 
-}catch(err){
-
-console.log(err)
-
-alert("Dashboard load failed")
-
 }
 
-}
+/* ======================================
+AUTO LOAD
+====================================== */
 
 loadDashboard()
+
+/* ======================================
+AUTO REFRESH
+====================================== */
+
+setInterval(()=>{
+
+loadDashboard()
+
+},30000)
 
 </script>
 
