@@ -1,1087 +1,657 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CreatorHub Profile</title>
-  <style>
-    :root {
-      --bg: #080f1f;
-      --sidebar: #0d1628;
-      --panel: #121d30;
-      --panel-2: #19263a;
-      --line: #24344d;
-      --text: #ffffff;
-      --muted: #9fb4d2;
-      --soft: #c7d2e5;
-      --green: #16e56b;
-      --blue: #2f6af4;
-      --purple: #7c4dff;
-      --cyan: #1fb9ff;
-      --danger: #ff4d5f;
-      --shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
-      --radius: 22px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      letter-spacing: 0;
-    }
-
-    button,
-    input,
-    textarea,
-    select {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .app {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 350px minmax(0, 1fr);
-    }
-
-    .sidebar {
-      min-height: 100vh;
-      background: var(--sidebar);
-      border-right: 1px solid var(--line);
-      padding: 38px 20px;
-      position: sticky;
-      top: 0;
-      align-self: start;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      min-height: 52px;
-      font-size: 40px;
-      line-height: 1;
-      font-weight: 950;
-      background: linear-gradient(90deg, #8b5cf6, #26b8ff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      margin: 4px 6px 54px;
-    }
-
-    .side-title {
-      margin: 0 4px 18px;
-      color: #7d8da8;
-      font-size: 16px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-    }
-
-    .nav {
-      display: grid;
-      gap: 18px;
-    }
-
-    .nav a {
-      min-height: 65px;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 0 26px;
-      color: #cfd7e6;
-      font-size: 21px;
-      font-weight: 850;
-    }
-
-    .nav a.active,
-    .nav a:hover {
-      background: linear-gradient(90deg, #7c3cff, #2f6af4);
-      color: #fff;
-    }
-
-    .nav-icon {
-      width: 25px;
-      text-align: center;
-      flex: 0 0 auto;
-    }
-
-    .main {
-      min-width: 0;
-      padding: 38px;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: start;
-      justify-content: space-between;
-      gap: 22px;
-      margin-bottom: 34px;
-    }
-
-    .title h1 {
-      margin: 0;
-      font-size: clamp(42px, 5vw, 58px);
-      line-height: 1;
-      font-weight: 950;
-    }
-
-    .title p {
-      margin: 14px 0 0;
-      color: var(--muted);
-      font-size: 22px;
-    }
-
-    .profile-mini {
-      min-width: 240px;
-      border: 1px solid var(--line);
-      background: #0f182a;
-      border-radius: 24px;
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      box-shadow: var(--shadow);
-    }
-
-    .mini-avatar {
-      width: 68px;
-      height: 68px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid #8358ff;
-      background: #d8e0eb;
-      flex: 0 0 auto;
-    }
-
-    .profile-mini strong {
-      display: block;
-      font-size: 20px;
-      overflow-wrap: anywhere;
-    }
-
-    .profile-mini span {
-      display: block;
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 17px;
-      overflow-wrap: anywhere;
-    }
-
-    .actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 30px;
-    }
-
-    .btn {
-      min-height: 54px;
-      border: 0;
-      border-radius: 16px;
-      padding: 0 24px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      color: #fff;
-      font-size: 18px;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .btn:disabled {
-      opacity: 0.7;
-      cursor: wait;
-    }
-
-    .btn-primary {
-      background: linear-gradient(90deg, #7c3cff, #2f6af4);
-      box-shadow: 0 16px 34px rgba(47, 106, 244, 0.3);
-    }
-
-    .btn-dark {
-      background: var(--panel);
-      border: 1px solid var(--line);
-    }
-
-    .hero {
-      border: 1px solid var(--line);
-      background: var(--panel);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      margin-bottom: 30px;
-    }
-
-    .cover {
-      min-height: 290px;
-      position: relative;
-      background:
-        linear-gradient(110deg, rgba(124, 60, 255, 0.9), rgba(47, 106, 244, 0.84), rgba(20, 184, 166, 0.7)),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1500' height='520' viewBox='0 0 1500 520'%3E%3Crect width='1500' height='520' fill='%23080f1f'/%3E%3Cpath fill='%23fff' fill-opacity='.09' d='M0 360c180-115 365-127 555-36s384 82 590-19 287-74 355-17v232H0z'/%3E%3Cpath fill='%23fff' fill-opacity='.07' d='M0 150c170 58 338 55 505-11s340-70 520 2 340 97 475 21v358H0z'/%3E%3Ccircle cx='320' cy='95' r='105' fill='%23fff' fill-opacity='.08'/%3E%3Ccircle cx='1210' cy='110' r='145' fill='%23fff' fill-opacity='.08'/%3E%3C/svg%3E");
-      background-size: cover;
-      background-position: center;
-    }
-
-    .cover-tools {
-      position: absolute;
-      right: 24px;
-      bottom: 22px;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .file-btn {
-      min-height: 50px;
-      border-radius: 14px;
-      padding: 0 18px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: rgba(8, 15, 31, 0.78);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #fff;
-      font-weight: 900;
-    }
-
-    .file-btn input {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .identity {
-      padding: 0 30px 30px;
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr) auto;
-      gap: 24px;
-      align-items: end;
-    }
-
-    .avatar {
-      width: 142px;
-      height: 142px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: #d8e0eb;
-      border: 6px solid #fff;
-      margin-top: -70px;
-      box-shadow: 0 22px 45px rgba(0, 0, 0, 0.35);
-      position: relative;
-      z-index: 2;
-    }
-
-    .identity h2 {
-      margin: 0;
-      font-size: clamp(34px, 4vw, 48px);
-      line-height: 1;
-      overflow-wrap: anywhere;
-    }
-
-    .identity p {
-      margin: 12px 0 0;
-      color: var(--muted);
-      font-size: 20px;
-      overflow-wrap: anywhere;
-    }
-
-    .chips {
-      display: flex;
-      gap: 10px;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-    }
-
-    .chip {
-      min-height: 38px;
-      border-radius: 999px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 16px;
-      background: #162238;
-      color: #a9c4ff;
-      font-size: 15px;
-      font-weight: 900;
-    }
-
-    .chip.green {
-      color: var(--green);
-      background: rgba(22, 229, 107, 0.1);
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
-      gap: 26px;
-      align-items: start;
-    }
-
-    .panel {
-      border: 1px solid var(--line);
-      background: var(--panel);
-      border-radius: var(--radius);
-      padding: 30px;
-      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.2);
-    }
-
-    .panel h3 {
-      margin: 0;
-      font-size: 24px;
-      line-height: 1.1;
-    }
-
-    .panel p {
-      margin: 8px 0 24px;
-      color: var(--muted);
-      font-size: 17px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .field {
-      display: grid;
-      gap: 9px;
-    }
-
-    .field.full {
-      grid-column: 1 / -1;
-    }
-
-    label {
-      color: var(--soft);
-      font-size: 15px;
-      font-weight: 900;
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      min-height: 56px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: #0c1425;
-      color: #fff;
-      outline: none;
-      padding: 13px 16px;
-    }
-
-    textarea {
-      min-height: 128px;
-      line-height: 1.5;
-      resize: vertical;
-    }
-
-    input::placeholder,
-    textarea::placeholder {
-      color: #6f819d;
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 4px rgba(47, 106, 244, 0.16);
-    }
-
-    .stat-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .stat {
-      min-height: 146px;
-      border: 1px solid var(--line);
-      background: var(--panel-2);
-      border-radius: 20px;
-      padding: 24px;
-      display: grid;
-      align-content: space-between;
-    }
-
-    .stat span {
-      color: var(--muted);
-      font-size: 16px;
-      font-weight: 900;
-    }
-
-    .stat strong {
-      font-size: clamp(34px, 4vw, 46px);
-      line-height: 1;
-      overflow-wrap: anywhere;
-    }
-
-    .stat small {
-      color: var(--green);
-      font-size: 17px;
-      font-weight: 900;
-    }
-
-    .mini-form {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-      margin-top: 22px;
-    }
-
-    .link-preview {
-      display: grid;
-      gap: 12px;
-      margin-top: 22px;
-    }
-
-    .link-item {
-      min-height: 58px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: #0c1425;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 0 18px;
-    }
-
-    .link-item strong {
-      color: #fff;
-      font-size: 17px;
-    }
-
-    .link-item span {
-      min-width: 0;
-      color: var(--muted);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      text-align: right;
-    }
-
-    .toast {
-      position: fixed;
-      right: 24px;
-      bottom: 24px;
-      max-width: min(470px, calc(100vw - 48px));
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 16px 18px;
-      background: #101a2d;
-      color: #fff;
-      box-shadow: var(--shadow);
-      opacity: 0;
-      transform: translateY(18px);
-      pointer-events: none;
-      transition: 180ms ease;
-      z-index: 20;
-      font-weight: 800;
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .toast.error {
-      border-color: rgba(255, 77, 95, 0.45);
-      background: #3a1420;
-    }
-
-    @media (max-width: 1120px) {
-      .app {
-        grid-template-columns: 1fr;
-      }
-
-      .sidebar {
-        position: static;
-        min-height: auto;
-      }
-
-      .brand {
-        margin-bottom: 24px;
-      }
-
-      .nav {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 760px) {
-      .main,
-      .sidebar {
-        padding: 22px;
-      }
-
-      .brand {
-        font-size: 34px;
-      }
-
-      .nav {
-        grid-template-columns: 1fr;
-      }
-
-      .topbar {
-        flex-direction: column;
-      }
-
-      .profile-mini {
-        width: 100%;
-      }
-
-      .actions {
-        display: grid;
-        grid-template-columns: 1fr;
-      }
-
-      .cover {
-        min-height: 220px;
-      }
-
-      .cover-tools {
-        left: 18px;
-        right: 18px;
-      }
-
-      .file-btn {
-        flex: 1 1 auto;
-      }
-
-      .identity {
-        grid-template-columns: 1fr;
-      }
-
-      .chips {
-        justify-content: flex-start;
-      }
-
-      .form-grid,
-      .stat-grid,
-      .mini-form {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CreatorHub Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
+body{min-height:100vh;background:#f6f8fc;color:#101828;display:flex;overflow:hidden}
+a{text-decoration:none;color:inherit}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+
+.sidebar{width:338px;min-height:100vh;background:#0d1628;color:#fff;padding:30px 23px;position:fixed;left:0;top:0;bottom:0;overflow-y:auto}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:30px}
+.brand-mark{width:52px;height:52px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#21b7e8,#1d72f3);font-size:26px;font-weight:950}
+.brand-name{font-size:25px;font-weight:950}
+.menu{display:grid;gap:16px;margin-top:20px}
+.menu a{min-height:54px;border-radius:9px;display:flex;align-items:center;gap:13px;padding:0 18px;color:#e7edf8;font-size:20px;font-weight:850;border:1px solid transparent}
+.menu a:hover,.menu a.active{background:#182a64;border-color:#3157c9}
+
+.main{margin-left:338px;width:calc(100% - 338px);height:100vh;overflow-y:auto;background:#f6f8fc}
+.topbar{min-height:114px;background:#fff;border-bottom:1px solid #dce4f0;padding:26px 34px;display:flex;align-items:center;justify-content:space-between;gap:20px;position:sticky;top:0;z-index:10}
+.title h1{font-size:43px;line-height:1;font-weight:950;letter-spacing:-.02em}
+.title p{margin-top:8px;color:#63728a;font-size:17px}
+.actions{display:flex;gap:13px;flex-wrap:wrap;justify-content:flex-end}
+.btn{min-height:54px;border:0;border-radius:9px;padding:0 20px;display:inline-flex;align-items:center;justify-content:center;gap:9px;font-size:18px;font-weight:900}
+.btn:disabled{opacity:.7;cursor:wait}
+.btn-primary{background:#2f62e9;color:#fff}
+.btn-primary:hover{background:#2455cf}
+.btn-light{background:#fff;color:#101828;border:1px solid #d9e3f0}
+.btn-light:hover{border-color:#3157c9}
+
+.content{padding:36px 34px;display:grid;gap:28px}
+.notice{display:none;background:#fff7df;color:#8a5b00;border:1px solid #f2d37b;border-radius:9px;padding:14px 16px;font-weight:800}
+.hero{background:#fff;border:1px solid #dce4f0;border-radius:9px;box-shadow:0 18px 45px rgba(16,24,40,.08);overflow:hidden}
+.cover{min-height:300px;background:linear-gradient(110deg,rgba(37,99,235,.92),rgba(20,148,152,.9)),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1400' height='420' viewBox='0 0 1400 420'%3E%3Crect width='1400' height='420' fill='%230f172a'/%3E%3Cpath fill='%23fff' fill-opacity='.09' d='M0 280c150-80 290-84 450-14s331 72 520-11 312-78 430-20v185H0z'/%3E%3Ccircle cx='180' cy='70' r='92' fill='%23fff' fill-opacity='.08'/%3E%3Ccircle cx='1060' cy='88' r='138' fill='%23fff' fill-opacity='.08'/%3E%3C/svg%3E");background-size:cover;background-position:center;position:relative}
+.cover-tools{position:absolute;right:22px;bottom:22px;display:flex;gap:11px;flex-wrap:wrap;justify-content:flex-end}
+.file-btn{min-height:50px;border-radius:9px;background:#101c2f;color:#fff;border:1px solid rgba(255,255,255,.16);padding:0 17px;display:inline-flex;align-items:center;gap:8px;font-weight:900}
+.file-btn input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.identity{padding:0 30px 30px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:24px;align-items:end}
+.avatar{width:150px;height:150px;border-radius:50%;object-fit:cover;background:#d9e1ec;border:6px solid #fff;margin-top:-74px;box-shadow:0 18px 38px rgba(16,24,40,.18);position:relative;z-index:2}
+.identity h2{font-size:40px;line-height:1;font-weight:950;color:#06142c;overflow-wrap:anywhere}
+.identity p{margin-top:12px;color:#63728a;font-size:19px;overflow-wrap:anywhere}
+.chips{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.chip{min-height:36px;border-radius:999px;padding:0 14px;display:inline-flex;align-items:center;background:#eef3f9;color:#1955d6;font-size:14px;font-weight:950}
+.chip.green{background:#e7f8ef;color:#0f9f57}
+
+.grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(360px,.88fr);gap:28px;align-items:start}
+.card{background:#fff;border:1px solid #dce4f0;border-radius:9px;box-shadow:0 18px 45px rgba(16,24,40,.08);padding:25px}
+.card h3{color:#06142c;font-size:23px;font-weight:950;margin-bottom:6px}
+.card p{color:#63728a;font-size:15px;margin-bottom:22px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.field{display:grid;gap:8px}
+.field.full{grid-column:1/-1}
+label{color:#26364f;font-size:14px;font-weight:900}
+input,textarea,select{width:100%;min-height:54px;border:1px solid #d9e3f0;border-radius:9px;background:#fff;color:#101828;outline:none;padding:12px 14px}
+textarea{min-height:122px;resize:vertical;line-height:1.5}
+input:focus,textarea:focus,select:focus{border-color:#3157c9;box-shadow:0 0 0 4px rgba(49,87,201,.12)}
+
+.stat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.stat{min-height:130px;background:#eef3f9;border:1px solid #dce4f0;border-radius:9px;padding:18px;display:grid;align-content:space-between}
+.stat span{color:#5d6d85;font-size:14px;font-weight:950;text-transform:uppercase}
+.stat strong{color:#06142c;font-size:32px;font-weight:950}
+.mini-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:18px}
+
+.link-preview{display:grid;gap:12px}
+.link-item{min-height:56px;border:1px solid #dce4f0;background:#eef3f9;border-radius:9px;padding:0 15px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.link-item strong{color:#06142c}
+.link-item span{color:#63728a;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}
+
+@media(max-width:1220px){
+.grid{grid-template-columns:1fr}
+}
+@media(max-width:900px){
+body{display:block;overflow:auto}
+.sidebar{position:static;width:100%;min-height:auto}
+.menu{grid-template-columns:repeat(2,minmax(0,1fr))}
+.main{margin-left:0;width:100%;height:auto}
+.topbar{align-items:flex-start;flex-direction:column}
+.actions{justify-content:flex-start}
+.identity{grid-template-columns:1fr}
+.chips{justify-content:flex-start}
+}
+@media(max-width:640px){
+.sidebar,.topbar,.content{padding:22px}
+.menu,.form-grid,.stat-grid,.mini-form{grid-template-columns:1fr}
+.title h1{font-size:34px}
+.cover{min-height:220px}
+.cover-tools{left:16px;right:16px}
+.file-btn{flex:1;justify-content:center}
+}
+</style>
 </head>
+
 <body>
-  <div class="app">
-    <aside class="sidebar">
-      <a class="brand" href="./dashboard.html">CreatorHub</a>
-      <div class="side-title">Main</div>
-      <nav class="nav" aria-label="CreatorHub navigation">
-        <a href="./dashboard.html"><span class="nav-icon">🏠</span>Dashboard</a>
-        <a href="./products.html"><span class="nav-icon">📚</span>Products</a>
-        <a href="./orders.html"><span class="nav-icon">🛒</span>Orders</a>
-        <a href="./wallet.html"><span class="nav-icon">💰</span>Wallet</a>
-        <a href="./reviews.html"><span class="nav-icon">⭐</span>Reviews</a>
-        <a class="active" href="./profile.html"><span class="nav-icon">👤</span>Profile</a>
-      </nav>
-    </aside>
 
-    <main class="main">
-      <header class="topbar">
-        <div class="title">
-          <h1>Profile</h1>
-          <p>Update your creator profile and public details</p>
-        </div>
-        <div class="profile-mini">
-          <img class="mini-avatar" id="miniAvatar" alt="Profile avatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='80' fill='%23d8e0eb'/%3E%3Ccircle cx='80' cy='58' r='28' fill='%238495aa'/%3E%3Cpath d='M30 145c8-36 30-54 50-54s43 18 50 54' fill='%238495aa'/%3E%3C/svg%3E">
-          <div>
-            <strong id="miniName">Loading...</strong>
-            <span id="miniEmail">Enter email</span>
-          </div>
-        </div>
-      </header>
+<aside class="sidebar">
+  <a class="brand" href="./dashboard.html">
+    <span class="brand-mark">CH</span>
+    <span class="brand-name">CreatorHub</span>
+  </a>
 
-      <div class="actions">
-        <button class="btn btn-dark" id="loadBtn" type="button">↻ Load Profile</button>
-        <button class="btn btn-primary" id="saveBtn" type="button">✓ Save Changes</button>
-      </div>
+  <nav class="menu">
+    <a href="./dashboard.html">⌂ Dashboard</a>
+    <a href="./products.html">▣ Products</a>
+    <a href="./orders.html">🛒 Orders</a>
+    <a href="./wallet.html">₹ Wallet</a>
+    <a href="./reviews.html">☆ Reviews</a>
+    <a class="active" href="./profile.html">♙ Profile</a>
+  </nav>
+</aside>
 
-      <section class="hero">
-        <div class="cover" id="coverPreview">
-          <div class="cover-tools">
-            <label class="file-btn">
-              + Cover
-              <input id="coverImage" type="file" accept="image/*">
-            </label>
-            <label class="file-btn">
-              ▧ Avatar
-              <input id="profileImage" type="file" accept="image/*">
-            </label>
-          </div>
-        </div>
-        <div class="identity">
-          <img class="avatar" id="avatarPreview" alt="Creator profile image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Crect width='260' height='260' rx='130' fill='%23d8e0eb'/%3E%3Ccircle cx='130' cy='96' r='45' fill='%238495aa'/%3E%3Cpath d='M48 232c12-58 49-87 82-87s70 29 82 87' fill='%238495aa'/%3E%3C/svg%3E">
-          <div>
-            <h2 id="previewName">Your Creator Name</h2>
-            <p id="previewEmail">Enter email and load profile</p>
-          </div>
-          <div class="chips">
-            <span class="chip" id="levelChip">Beginner</span>
-            <span class="chip green" id="statusChip">active</span>
-            <span class="chip" id="verifiedChip">Not verified</span>
-          </div>
-        </div>
-      </section>
+<main class="main">
 
-      <section class="grid">
-        <form class="panel" id="profileForm">
-          <h3>Profile Information</h3>
-          <p>Any user can fill these details by email. Data saves in your Google Drive backend.</p>
-
-          <div class="form-grid">
-            <div class="field">
-              <label for="email">Email</label>
-              <input id="email" name="email" type="email" autocomplete="email" required placeholder="creator@email.com">
-            </div>
-            <div class="field">
-              <label for="name">Name</label>
-              <input id="name" name="name" type="text" autocomplete="name" placeholder="Creator name">
-            </div>
-            <div class="field full">
-              <label for="bio">Bio</label>
-              <textarea id="bio" name="bio" maxlength="500" placeholder="Tell your audience what you create."></textarea>
-            </div>
-            <div class="field">
-              <label for="phone">Phone</label>
-              <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+91">
-            </div>
-            <div class="field">
-              <label for="website">Website</label>
-              <input id="website" name="website" type="url" placeholder="https://">
-            </div>
-            <div class="field">
-              <label for="country">Country</label>
-              <input id="country" name="country" type="text" value="India">
-            </div>
-            <div class="field">
-              <label for="state">State</label>
-              <input id="state" name="state" type="text" placeholder="State">
-            </div>
-            <div class="field">
-              <label for="city">City</label>
-              <input id="city" name="city" type="text" placeholder="City">
-            </div>
-            <div class="field">
-              <label for="creatorLevel">Creator Level</label>
-              <select id="creatorLevel" name="creator_level">
-                <option>Beginner</option>
-                <option>Rising Creator</option>
-                <option>Pro Creator</option>
-                <option>Elite Creator</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="verified">Verified</label>
-              <select id="verified" name="verified">
-                <option value="false">false</option>
-                <option value="true">true</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="status">Status</label>
-              <select id="status" name="status">
-                <option value="active">active</option>
-                <option value="paused">paused</option>
-                <option value="blocked">blocked</option>
-              </select>
-            </div>
-          </div>
-        </form>
-
-        <aside class="panel">
-          <h3>Creator Stats</h3>
-          <p>Stats preview and backend fields</p>
-
-          <div class="stat-grid">
-            <div class="stat">
-              <span>Wallet Balance</span>
-              <strong id="walletView">₹0</strong>
-              <small>Live data</small>
-            </div>
-            <div class="stat">
-              <span>Total Profit</span>
-              <strong id="profitView">₹0</strong>
-              <small>Real earnings</small>
-            </div>
-            <div class="stat">
-              <span>Total Books</span>
-              <strong id="booksView">0</strong>
-              <small>Products uploaded</small>
-            </div>
-            <div class="stat">
-              <span>Total Orders</span>
-              <strong id="ordersView">0</strong>
-              <small>Orders count</small>
-            </div>
-          </div>
-
-          <div class="mini-form">
-            <div class="field">
-              <label for="walletBalance">Wallet</label>
-              <input id="walletBalance" name="wallet_balance" type="number" min="0" step="0.01">
-            </div>
-            <div class="field">
-              <label for="totalProfit">Profit</label>
-              <input id="totalProfit" name="total_profit" type="number" min="0" step="0.01">
-            </div>
-            <div class="field">
-              <label for="totalBooks">Books</label>
-              <input id="totalBooks" name="total_books" type="number" min="0" step="1">
-            </div>
-            <div class="field">
-              <label for="totalOrders">Orders</label>
-              <input id="totalOrders" name="total_orders" type="number" min="0" step="1">
-            </div>
-          </div>
-        </aside>
-      </section>
-
-      <section class="grid" style="margin-top:26px">
-        <section class="panel">
-          <h3>Social Links</h3>
-          <p>Public profile social handles</p>
-
-          <div class="form-grid">
-            <div class="field">
-              <label for="instagram">Instagram</label>
-              <input id="instagram" name="instagram" type="text" placeholder="@username">
-            </div>
-            <div class="field">
-              <label for="youtube">YouTube</label>
-              <input id="youtube" name="youtube" type="text" placeholder="Channel link or handle">
-            </div>
-            <div class="field">
-              <label for="telegram">Telegram</label>
-              <input id="telegram" name="telegram" type="text" placeholder="@username">
-            </div>
-            <div class="field">
-              <label for="twitter">Twitter / X</label>
-              <input id="twitter" name="twitter" type="text" placeholder="@username">
-            </div>
-          </div>
-        </section>
-
-        <aside class="panel">
-          <h3>Public Preview</h3>
-          <p>Quick links shown on creator profile</p>
-
-          <div class="link-preview">
-            <div class="link-item"><strong>Website</strong><span id="websiteView">Not added</span></div>
-            <div class="link-item"><strong>Instagram</strong><span id="instagramView">Not added</span></div>
-            <div class="link-item"><strong>YouTube</strong><span id="youtubeView">Not added</span></div>
-            <div class="link-item"><strong>Telegram</strong><span id="telegramView">Not added</span></div>
-            <div class="link-item"><strong>Twitter / X</strong><span id="twitterView">Not added</span></div>
-          </div>
-        </aside>
-      </section>
-    </main>
+<header class="topbar">
+  <div class="title">
+    <h1>Creator Profile</h1>
+    <p id="pageStatus">Load, edit, and save your CreatorHub profile.</p>
   </div>
 
-  <div class="toast" id="toast"></div>
+  <div class="actions">
+    <button class="btn btn-light" id="loadBtn" type="button">↻ Load Profile</button>
+    <button class="btn btn-primary" id="saveBtn" type="button">✓ Save Changes</button>
+  </div>
+</header>
 
-  <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
-    const EMAIL_KEY = "creatorhub_profile_email";
+<div class="content">
 
-    const state = {
-      profileImageBase64: "",
-      coverImageBase64: "",
-      currentUser: null
-    };
+<div class="notice" id="notice"></div>
 
-    const textFields = [
-      "email",
-      "name",
-      "bio",
-      "phone",
-      "website",
-      "instagram",
-      "youtube",
-      "telegram",
-      "twitter",
-      "country",
-      "state",
-      "city",
-      "status"
+<section class="hero">
+  <div class="cover" id="coverPreview">
+    <div class="cover-tools">
+      <label class="file-btn">+ Cover<input id="coverImage" type="file" accept="image/*"></label>
+      <label class="file-btn">▧ Avatar<input id="profileImage" type="file" accept="image/*"></label>
+    </div>
+  </div>
+
+  <div class="identity">
+    <img class="avatar" id="avatarPreview" alt="Creator profile image" src="">
+    <div>
+      <h2 id="previewName">Your Creator Name</h2>
+      <p id="previewEmail">Enter email and load profile</p>
+    </div>
+    <div class="chips">
+      <span class="chip" id="levelChip">Beginner</span>
+      <span class="chip green" id="statusChip">active</span>
+      <span class="chip" id="verifiedChip">Not verified</span>
+    </div>
+  </div>
+</section>
+
+<section class="grid">
+  <form class="card" id="profileForm">
+    <h3>Profile Information</h3>
+    <p>These details are saved to your CreatorHub profile database.</p>
+
+    <div class="form-grid">
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required placeholder="creator@email.com">
+      </div>
+
+      <div class="field">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" autocomplete="name" placeholder="Creator name">
+      </div>
+
+      <div class="field full">
+        <label for="bio">Bio</label>
+        <textarea id="bio" name="bio" maxlength="500" placeholder="Tell your audience what you create."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+91">
+      </div>
+
+      <div class="field">
+        <label for="website">Website</label>
+        <input id="website" name="website" type="url" placeholder="https://">
+      </div>
+
+      <div class="field">
+        <label for="country">Country</label>
+        <input id="country" name="country" type="text" value="India">
+      </div>
+
+      <div class="field">
+        <label for="state">State</label>
+        <input id="state" name="state" type="text" placeholder="State">
+      </div>
+
+      <div class="field">
+        <label for="city">City</label>
+        <input id="city" name="city" type="text" placeholder="City">
+      </div>
+
+      <div class="field">
+        <label for="creatorLevel">Creator Level</label>
+        <select id="creatorLevel" name="creator_level">
+          <option>Beginner</option>
+          <option>Rising Creator</option>
+          <option>Pro Creator</option>
+          <option>Elite Creator</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="verified">Verified</label>
+        <select id="verified" name="verified">
+          <option value="false">false</option>
+          <option value="true">true</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="status">Status</label>
+        <select id="status" name="status">
+          <option value="active">active</option>
+          <option value="paused">paused</option>
+          <option value="blocked">blocked</option>
+        </select>
+      </div>
+    </div>
+  </form>
+
+  <aside class="card">
+    <h3>Creator Stats</h3>
+    <p>Stats preview and editable backend fields.</p>
+
+    <div class="stat-grid">
+      <div class="stat"><span>Wallet Balance</span><strong id="walletView">₹0</strong></div>
+      <div class="stat"><span>Total Profit</span><strong id="profitView">₹0</strong></div>
+      <div class="stat"><span>Total Books</span><strong id="booksView">0</strong></div>
+      <div class="stat"><span>Total Orders</span><strong id="ordersView">0</strong></div>
+    </div>
+
+    <div class="mini-form">
+      <div class="field"><label for="walletBalance">Wallet</label><input id="walletBalance" name="wallet_balance" type="number" min="0" step="0.01"></div>
+      <div class="field"><label for="totalProfit">Profit</label><input id="totalProfit" name="total_profit" type="number" min="0" step="0.01"></div>
+      <div class="field"><label for="totalBooks">Books</label><input id="totalBooks" name="total_books" type="number" min="0" step="1"></div>
+      <div class="field"><label for="totalOrders">Orders</label><input id="totalOrders" name="total_orders" type="number" min="0" step="1"></div>
+    </div>
+  </aside>
+</section>
+
+<section class="grid">
+  <section class="card">
+    <h3>Social Links</h3>
+    <p>Public social handles for the creator profile.</p>
+
+    <div class="form-grid">
+      <div class="field"><label for="instagram">Instagram</label><input id="instagram" name="instagram" type="text" placeholder="@username"></div>
+      <div class="field"><label for="youtube">YouTube</label><input id="youtube" name="youtube" type="text" placeholder="Channel link or handle"></div>
+      <div class="field"><label for="telegram">Telegram</label><input id="telegram" name="telegram" type="text" placeholder="@username"></div>
+      <div class="field"><label for="twitter">Twitter / X</label><input id="twitter" name="twitter" type="text" placeholder="@username"></div>
+    </div>
+  </section>
+
+  <aside class="card">
+    <h3>Public Preview</h3>
+    <p>Quick links shown on the profile page.</p>
+
+    <div class="link-preview">
+      <div class="link-item"><strong>Website</strong><span id="websiteView">Not added</span></div>
+      <div class="link-item"><strong>Instagram</strong><span id="instagramView">Not added</span></div>
+      <div class="link-item"><strong>YouTube</strong><span id="youtubeView">Not added</span></div>
+      <div class="link-item"><strong>Telegram</strong><span id="telegramView">Not added</span></div>
+      <div class="link-item"><strong>Twitter / X</strong><span id="twitterView">Not added</span></div>
+    </div>
+  </aside>
+</section>
+
+</div>
+</main>
+
+<script>
+const API_URL =
+"https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
+
+const EMAIL_KEY = "creatorhub_profile_email";
+const CACHE_KEY = "creatorhub_profile_cache_v5";
+
+const DEFAULT_AVATAR =
+"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Crect width='260' height='260' rx='130' fill='%23d9e1ec'/%3E%3Ccircle cx='130' cy='96' r='45' fill='%2394a3b8'/%3E%3Cpath d='M48 232c12-58 49-87 82-87s70 29 82 87' fill='%2394a3b8'/%3E%3C/svg%3E";
+
+const DEFAULT_COVER =
+`linear-gradient(110deg,rgba(37,99,235,.92),rgba(20,148,152,.9)),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1400' height='420' viewBox='0 0 1400 420'%3E%3Crect width='1400' height='420' fill='%230f172a'/%3E%3Cpath fill='%23fff' fill-opacity='.09' d='M0 280c150-80 290-84 450-14s331 72 520-11 312-78 430-20v185H0z'/%3E%3Ccircle cx='180' cy='70' r='92' fill='%23fff' fill-opacity='.08'/%3E%3Ccircle cx='1060' cy='88' r='138' fill='%23fff' fill-opacity='.08'/%3E%3C/svg%3E")`;
+
+const state = {
+  profileImageBase64: "",
+  coverImageBase64: ""
+};
+
+const textFields = [
+  "email","name","bio","phone","website","instagram","youtube",
+  "telegram","twitter","country","state","city","status"
+];
+
+const $ = id => document.getElementById(id);
+
+function setStatus(text) {
+  $("pageStatus").innerText = text;
+}
+
+function showNotice(text) {
+  $("notice").innerText = text;
+  $("notice").style.display = text ? "block" : "none";
+}
+
+function setBusy(isBusy) {
+  $("loadBtn").disabled = isBusy;
+  $("saveBtn").disabled = isBusy;
+}
+
+function value(id) {
+  return ($(id).value || "").trim();
+}
+
+function formatMoney(v) {
+  return "₹" + Number(v || 0).toLocaleString("en-IN");
+}
+
+function formatNumber(v) {
+  return Number(v || 0).toLocaleString("en-IN");
+}
+
+function getDriveId(url) {
+  if (!url) return "";
+  const text = String(url);
+  const idMatch = text.match(/[?&]id=([^&]+)/);
+  if (idMatch && idMatch[1]) return idMatch[1];
+  if (text.includes("/d/")) return text.split("/d/")[1].split("/")[0];
+  return "";
+}
+
+function imageCandidates(url) {
+  if (!url) return [DEFAULT_AVATAR];
+  const text = String(url).trim();
+  if (text.startsWith("data:image")) return [text, DEFAULT_AVATAR];
+  const id = getDriveId(text);
+  if (id) {
+    return [
+      "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000",
+      "https://drive.google.com/uc?export=view&id=" + id,
+      text,
+      DEFAULT_AVATAR
     ];
+  }
+  return [text, DEFAULT_AVATAR];
+}
 
-    const $ = (id) => document.getElementById(id);
+function setAvatar(url) {
+  const img = $("avatarPreview");
+  const candidates = imageCandidates(url);
+  let index = 0;
 
-    function showToast(message, isError = false) {
-      const toast = $("toast");
-      toast.textContent = message;
-      toast.classList.toggle("error", isError);
-      toast.classList.add("show");
-      window.setTimeout(() => toast.classList.remove("show"), 3200);
+  img.onerror = function() {
+    index++;
+    if (index < candidates.length) {
+      img.src = candidates[index];
+    } else {
+      img.onerror = null;
+      img.src = DEFAULT_AVATAR;
     }
+  };
 
-    function setBusy(isBusy) {
-      $("loadBtn").disabled = isBusy;
-      $("saveBtn").disabled = isBusy;
-    }
+  img.src = candidates[0];
+}
 
-    function readFileAsBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-    }
+function setCover(url) {
+  const cover = $("coverPreview");
 
-    function valueOrEmpty(id) {
-      return ($(id).value || "").trim();
-    }
+  if (!url) {
+    cover.style.backgroundImage = DEFAULT_COVER;
+    return;
+  }
 
-    function formatMoney(value) {
-      return new Intl.NumberFormat("en-IN", {
-        style: "currency",
-        currency: "INR",
-        maximumFractionDigits: 2
-      }).format(Number(value || 0));
-    }
+  const text = String(url).trim();
 
-    function formatNumber(value) {
-      return new Intl.NumberFormat("en-IN").format(Number(value || 0));
-    }
+  if (text.startsWith("data:image")) {
+    cover.style.backgroundImage = `url("${text}")`;
+    return;
+  }
 
-    function updatePreview() {
-      const name = valueOrEmpty("name") || "Your Creator Name";
-      const email = valueOrEmpty("email") || "Enter email and load profile";
-      const level = $("creatorLevel").value || "Beginner";
-      const status = $("status").value || "active";
-      const verified = $("verified").value === "true";
+  const id = getDriveId(text);
 
-      $("previewName").textContent = name;
-      $("previewEmail").textContent = email;
-      $("miniName").textContent = name;
-      $("miniEmail").textContent = email;
-      $("levelChip").textContent = level;
-      $("statusChip").textContent = status;
-      $("verifiedChip").textContent = verified ? "Verified" : "Not verified";
+  const finalUrl = id
+    ? "https://drive.google.com/thumbnail?id=" + id + "&sz=w1600"
+    : text;
 
-      $("walletView").textContent = formatMoney($("walletBalance").value);
-      $("profitView").textContent = formatMoney($("totalProfit").value);
-      $("booksView").textContent = formatNumber($("totalBooks").value);
-      $("ordersView").textContent = formatNumber($("totalOrders").value);
+  cover.style.backgroundImage = `url("${finalUrl}")`;
+}
 
-      $("websiteView").textContent = valueOrEmpty("website") || "Not added";
-      $("instagramView").textContent = valueOrEmpty("instagram") || "Not added";
-      $("youtubeView").textContent = valueOrEmpty("youtube") || "Not added";
-      $("telegramView").textContent = valueOrEmpty("telegram") || "Not added";
-      $("twitterView").textContent = valueOrEmpty("twitter") || "Not added";
-    }
+function readFileAsBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
 
-    function fillProfile(user) {
-      state.currentUser = user;
+function readCache(email) {
+  try {
+    const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
+    return cache[email] || null;
+  } catch (err) {
+    return null;
+  }
+}
 
-      textFields.forEach((key) => {
-        if ($(key)) {
-          $(key).value = user[key] ?? "";
-        }
-      });
+function saveCache(email, user) {
+  try {
+    const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
+    cache[email] = user;
+    localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
+  } catch (err) {}
+}
 
-      $("creatorLevel").value = user.creator_level || "Beginner";
-      $("verified").value = String(Boolean(user.verified));
-      $("walletBalance").value = user.wallet_balance ?? 0;
-      $("totalBooks").value = user.total_books ?? 0;
-      $("totalOrders").value = user.total_orders ?? 0;
-      $("totalProfit").value = user.total_profit ?? 0;
+async function fetchJSON(url, options, timeoutMs) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs || 10000);
 
-      if (user.profile_image) {
-        $("avatarPreview").src = user.profile_image;
-        $("miniAvatar").src = user.profile_image;
-      }
+  try {
+    const response = await fetch(url, {
+      ...(options || {}),
+      signal: controller.signal,
+      cache: "no-store"
+    });
 
-      if (user.cover_image) {
-        $("coverPreview").style.backgroundImage = `url("${user.cover_image}")`;
-      }
+    return await response.json();
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
-      state.profileImageBase64 = "";
-      state.coverImageBase64 = "";
-      $("profileImage").value = "";
-      $("coverImage").value = "";
+function updatePreview() {
+  const name = value("name") || "Your Creator Name";
+  const email = value("email") || "Enter email and load profile";
+  const verified = $("verified").value === "true";
 
-      updatePreview();
-    }
+  $("previewName").innerText = name;
+  $("previewEmail").innerText = email;
+  $("levelChip").innerText = $("creatorLevel").value || "Beginner";
+  $("statusChip").innerText = $("status").value || "active";
+  $("verifiedChip").innerText = verified ? "Verified" : "Not verified";
 
-    function collectPayload() {
-      const payload = { action: "update_profile" };
+  $("walletView").innerText = formatMoney($("walletBalance").value);
+  $("profitView").innerText = formatMoney($("totalProfit").value);
+  $("booksView").innerText = formatNumber($("totalBooks").value);
+  $("ordersView").innerText = formatNumber($("totalOrders").value);
 
-      textFields.forEach((key) => {
-        if ($(key)) {
-          payload[key] = valueOrEmpty(key);
-        }
-      });
+  $("websiteView").innerText = value("website") || "Not added";
+  $("instagramView").innerText = value("instagram") || "Not added";
+  $("youtubeView").innerText = value("youtube") || "Not added";
+  $("telegramView").innerText = value("telegram") || "Not added";
+  $("twitterView").innerText = value("twitter") || "Not added";
+}
 
-      payload.creator_level = $("creatorLevel").value;
-      payload.verified = $("verified").value === "true";
-      payload.wallet_balance = $("walletBalance").value || 0;
-      payload.total_books = $("totalBooks").value || 0;
-      payload.total_orders = $("totalOrders").value || 0;
-      payload.total_profit = $("totalProfit").value || 0;
+function fillProfile(user) {
+  if (!user) return;
 
-      if (state.profileImageBase64) {
-        payload.profile_image = state.profileImageBase64;
-      }
+  textFields.forEach(key => {
+    if ($(key)) $(key).value = user[key] ?? "";
+  });
 
-      if (state.coverImageBase64) {
-        payload.cover_image = state.coverImageBase64;
-      }
+  $("creatorLevel").value = user.creator_level || "Beginner";
+  $("verified").value = String(Boolean(user.verified));
+  $("walletBalance").value = user.wallet_balance ?? 0;
+  $("totalBooks").value = user.total_books ?? 0;
+  $("totalOrders").value = user.total_orders ?? 0;
+  $("totalProfit").value = user.total_profit ?? 0;
 
-      return payload;
-    }
+  setAvatar(user.profile_image || "");
+  setCover(user.cover_image || "");
 
-    async function loadProfile() {
-      const email = valueOrEmpty("email");
+  updatePreview();
+}
 
-      if (!email) {
-        showToast("Email enter karo, phir profile load hogi.", true);
-        return;
-      }
+function collectPayload() {
+  const payload = { action: "update_profile" };
 
-      setBusy(true);
+  textFields.forEach(key => {
+    if ($(key)) payload[key] = value(key);
+  });
 
-      try {
-        const url = `${API_URL}?action=profile&email=${encodeURIComponent(email)}`;
-        const response = await fetch(url);
-        const result = await response.json();
+  payload.creator_level = $("creatorLevel").value;
+  payload.verified = $("verified").value === "true";
+  payload.wallet_balance = $("walletBalance").value || 0;
+  payload.total_books = $("totalBooks").value || 0;
+  payload.total_orders = $("totalOrders").value || 0;
+  payload.total_profit = $("totalProfit").value || 0;
 
-        if (!result.success) {
-          throw new Error(result.message || "Profile load nahi hua.");
-        }
+  if (state.profileImageBase64) payload.profile_image = state.profileImageBase64;
+  if (state.coverImageBase64) payload.cover_image = state.coverImageBase64;
 
-        localStorage.setItem(EMAIL_KEY, email);
-        fillProfile(result.user);
-        showToast("Profile loaded. New email hoga to backend ne profile create kar di.");
-      } catch (error) {
-        showToast(error.message || "Profile load failed.", true);
-      } finally {
-        setBusy(false);
-      }
-    }
+  return payload;
+}
 
-    async function saveProfile() {
-      const payload = collectPayload();
+async function loadProfile() {
+  const email = value("email");
 
-      if (!payload.email) {
-        showToast("Email required hai. Email ke bina Drive me profile save nahi hogi.", true);
-        return;
-      }
+  if (!email) {
+    showNotice("Please enter an email address before loading the profile.");
+    return;
+  }
 
-      setBusy(true);
+  showNotice("");
+  setBusy(true);
+  setStatus("Loading profile...");
 
-      try {
-        const response = await fetch(API_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "text/plain;charset=utf-8"
-          },
-          body: JSON.stringify(payload)
-        });
+  const cached = readCache(email);
+  if (cached) fillProfile(cached);
 
-        const result = await response.json();
+  try {
+    const data = await fetchJSON(
+      API_URL + "?action=profile&email=" + encodeURIComponent(email),
+      null,
+      10000
+    );
 
-        if (!result.success) {
-          throw new Error(result.message || "Profile save nahi hua.");
-        }
+    if (!data.success) throw new Error(data.message || "Profile could not be loaded.");
 
-        localStorage.setItem(EMAIL_KEY, payload.email);
-        fillProfile(result.user);
-        showToast(result.message || "Profile saved in Drive.");
-      } catch (error) {
-        showToast(error.message || "Profile save failed.", true);
-      } finally {
-        setBusy(false);
-      }
-    }
+    localStorage.setItem(EMAIL_KEY, email);
+    saveCache(email, data.user);
+    fillProfile(data.user);
+    setStatus("Profile loaded successfully.");
+  } catch (err) {
+    showNotice("Profile could not be loaded. Please check the email or Apps Script deployment access.");
+    setStatus("Profile load failed.");
+  } finally {
+    setBusy(false);
+  }
+}
 
-    async function handleImageSelect(input, target) {
-      const file = input.files && input.files[0];
+async function saveProfile() {
+  const payload = collectPayload();
 
-      if (!file) {
-        return;
-      }
+  if (!payload.email) {
+    showNotice("Please enter an email address before saving the profile.");
+    return;
+  }
 
-      if (!file.type.startsWith("image/")) {
-        showToast("Sirf image file select karo.", true);
-        input.value = "";
-        return;
-      }
+  showNotice("");
+  setBusy(true);
+  setStatus("Saving profile...");
 
-      if (file.size > 2.5 * 1024 * 1024) {
-        showToast("Image 2.5MB se chhoti rakho.", true);
-        input.value = "";
-        return;
-      }
+  try {
+    const data = await fetchJSON(
+      API_URL,
+      {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      },
+      15000
+    );
 
-      const base64 = await readFileAsBase64(file);
+    if (!data.success) throw new Error(data.message || "Profile could not be saved.");
 
-      if (target === "profile") {
-        state.profileImageBase64 = base64;
-        $("avatarPreview").src = base64;
-        $("miniAvatar").src = base64;
-      } else {
-        state.coverImageBase64 = base64;
-        $("coverPreview").style.backgroundImage = `url("${base64}")`;
-      }
-    }
+    localStorage.setItem(EMAIL_KEY, payload.email);
 
-    function init() {
-      $("email").value = localStorage.getItem(EMAIL_KEY) || "";
+    state.profileImageBase64 = "";
+    state.coverImageBase64 = "";
 
-      $("loadBtn").addEventListener("click", loadProfile);
-      $("saveBtn").addEventListener("click", saveProfile);
-      $("profileForm").addEventListener("submit", (event) => {
-        event.preventDefault();
-        saveProfile();
-      });
+    saveCache(payload.email, data.user);
+    fillProfile(data.user);
+    setStatus("Profile saved successfully.");
+  } catch (err) {
+    showNotice("Profile could not be saved. Please try again.");
+    setStatus("Profile save failed.");
+  } finally {
+    setBusy(false);
+  }
+}
 
-      $("profileImage").addEventListener("change", (event) => handleImageSelect(event.target, "profile"));
-      $("coverImage").addEventListener("change", (event) => handleImageSelect(event.target, "cover"));
+async function handleImage(input, type) {
+  const file = input.files && input.files[0];
 
-      document.querySelectorAll("input, textarea, select").forEach((control) => {
-        control.addEventListener("input", updatePreview);
-        control.addEventListener("change", updatePreview);
-      });
+  if (!file) return;
 
-      updatePreview();
-    }
+  if (!file.type.startsWith("image/")) {
+    showNotice("Please select a valid image file.");
+    input.value = "";
+    return;
+  }
 
-    init();
-  </script>
+  if (file.size > 2.5 * 1024 * 1024) {
+    showNotice("Please select an image smaller than 2.5MB.");
+    input.value = "";
+    return;
+  }
+
+  const base64 = await readFileAsBase64(file);
+  const email = value("email");
+
+  if (type === "profile") {
+    state.profileImageBase64 = base64;
+    setAvatar(base64);
+  } else {
+    state.coverImageBase64 = base64;
+    setCover(base64);
+  }
+
+  if (email) {
+    const cached = readCache(email) || { email: email };
+    if (type === "profile") cached.profile_image = base64;
+    if (type === "cover") cached.cover_image = base64;
+    saveCache(email, cached);
+  }
+
+  updatePreview();
+}
+
+function init() {
+  $("avatarPreview").src = DEFAULT_AVATAR;
+  $("coverPreview").style.backgroundImage = DEFAULT_COVER;
+
+  const savedEmail = localStorage.getItem(EMAIL_KEY) || "";
+
+  if (savedEmail) {
+    $("email").value = savedEmail;
+
+    const cached = readCache(savedEmail);
+    if (cached) fillProfile(cached);
+
+    loadProfile();
+  } else {
+    updatePreview();
+  }
+
+  $("loadBtn").addEventListener("click", loadProfile);
+  $("saveBtn").addEventListener("click", saveProfile);
+
+  $("profileForm").addEventListener("submit", event => {
+    event.preventDefault();
+    saveProfile();
+  });
+
+  $("profileImage").addEventListener("change", event => handleImage(event.target, "profile"));
+  $("coverImage").addEventListener("change", event => handleImage(event.target, "cover"));
+
+  document.querySelectorAll("input,textarea,select").forEach(control => {
+    control.addEventListener("input", updatePreview);
+    control.addEventListener("change", updatePreview);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", init);
+</script>
 </body>
 </html>
