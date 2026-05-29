@@ -1126,7 +1126,9 @@
     }
 
     function init() {
-      $("apiUrl").value = localStorage.getItem(STORAGE_KEY) || "";
+      $("apiUrl").value =
+  localStorage.getItem(STORAGE_KEY) ||
+  "https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
       $("email").value = localStorage.getItem(EMAIL_KEY) || "";
 
       $("saveApiBtn").addEventListener("click", () => {
