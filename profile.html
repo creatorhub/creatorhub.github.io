@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CreatorHub Profile</title>
+
+<link rel="stylesheet" href="profile.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+
+<header class="topbar">
+
+<div class="logo">
+Creator<span>Hub</span>
+</div>
+
+<a href="dashboard.html" class="backBtn">
+Dashboard
+</a>
+
+</header>
+
+<!-- MAIN -->
+
+<main class="container">
+
+<!-- COVER -->
+
+<section class="coverSection">
+
+<img
+id="coverImage"
+class="coverImage"
+src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1600"
+>
+
+<div class="coverOverlay"></div>
+
+<button
+id="changeCoverBtn"
+class="changeCoverBtn">
+Change Cover
+</button>
+
+<input
+type="file"
+id="coverUpload"
+accept="image/*"
+hidden>
+
+</section>
+
+<!-- PROFILE -->
+
+<section class="profileSection">
+
+<div class="profileLeft">
+
+<img
+id="profileImage"
+class="profileImage"
+src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+>
+
+<button
+id="changeProfileBtn"
+class="changeProfileBtn">
+Change Photo
+</button>
+
+<input
+type="file"
+id="profileUpload"
+accept="image/*"
+hidden>
+
+</div>
+
+<div class="profileRight">
+
+<div class="titleRow">
+
+<h1 id="creatorName">
+Creator Name
+</h1>
+
+<span
+id="verifiedBadge"
+class="verifiedBadge">
+✔ Verified
+</span>
+
+</div>
+
+<div
+id="creatorLevel"
+class="creatorLevel">
+Premium Creator
+</div>
+
+<p
+id="creatorBio"
+class="creatorBio">
+Professional digital creator selling ebooks globally.
+</p>
+
+<div class="locationRow">
+
+<span id="countryText">
+India
+</span>
+
+<span id="stateText">
+Gujarat
+</span>
+
+<span id="cityText">
+Ahmedabad
+</span>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- STATS -->
+
+<section class="statsGrid">
+
+<div class="statCard">
+<h3>Total Books</h3>
+<div id="totalBooks">0</div>
+</div>
+
+<div class="statCard">
+<h3>Total Orders</h3>
+<div id="totalOrders">0</div>
+</div>
+
+<div class="statCard">
+<h3>Total Profit</h3>
+<div id="totalProfit">₹0</div>
+</div>
+
+<div class="statCard">
+<h3>Wallet Balance</h3>
+<div id="walletBalance">₹0</div>
+</div>
+
+<div class="statCard">
+<h3>Creator Level</h3>
+<div id="creatorLevelCard">Beginner</div>
+</div>
+
+<div class="statCard">
+<h3>Status</h3>
+<div id="statusCard">Active</div>
+</div>
+
+</section>
+
+<!-- SOCIAL -->
+
+<section class="card">
+
+<h2>Social Links</h2>
+
+<div class="socialGrid">
+
+<a id="instagramLink">Instagram</a>
+<a id="youtubeLink">YouTube</a>
+<a id="telegramLink">Telegram</a>
+<a id="twitterLink">Twitter</a>
+
+</div>
+
+</section>
+
+<!-- ACHIEVEMENTS -->
+
+<section class="card">
+
+<h2>Achievements</h2>
+
+<div class="achievementGrid">
+
+<div class="achievement">
+⭐ Premium Creator
+</div>
+
+<div class="achievement">
+🚀 Pro Seller
+</div>
+
+<div class="achievement">
+📚 Published Author
+</div>
+
+<div class="achievement">
+💰 Top Earner
+</div>
+
+</div>
+
+</section>
+
+<!-- EDIT PROFILE -->
+
+<section class="card">
+
+<h2>Edit Profile</h2>
+
+<div class="formGrid">
+
+<input id="nameInput" placeholder="Full Name">
+
+<input id="phoneInput" placeholder="Phone">
+
+<input id="websiteInput" placeholder="Website">
+
+<input id="countryInput" placeholder="Country">
+
+<input id="stateInput" placeholder="State">
+
+<input id="cityInput" placeholder="City">
+
+<input id="instagramInput" placeholder="Instagram">
+
+<input id="youtubeInput" placeholder="YouTube">
+
+<input id="telegramInput" placeholder="Telegram">
+
+<input id="twitterInput" placeholder="Twitter">
+
+</div>
+
+<textarea
+id="bioInput"
+placeholder="Write your bio">
+</textarea>
+
+<button
+id="saveBtn"
+class="saveBtn">
+Save Profile
+</button>
+
+</section>
+
+</main>
+
+<script src="profile.js"></script>
+
+</body>
+</html>
