@@ -6,20 +6,21 @@
   <title>CreatorHub Profile</title>
   <style>
     :root {
-      --bg: #f7f8fb;
-      --surface: #ffffff;
-      --surface-soft: #f1f5f9;
-      --ink: #111827;
-      --muted: #64748b;
-      --line: #dbe3ef;
-      --brand: #2563eb;
-      --brand-2: #14b8a6;
-      --brand-dark: #1d4ed8;
-      --accent: #f59e0b;
-      --danger: #dc2626;
-      --success: #059669;
-      --shadow: 0 20px 55px rgba(15, 23, 42, 0.12);
-      --radius: 8px;
+      --bg: #080f1f;
+      --sidebar: #0d1628;
+      --panel: #121d30;
+      --panel-2: #19263a;
+      --line: #24344d;
+      --text: #ffffff;
+      --muted: #9fb4d2;
+      --soft: #c7d2e5;
+      --green: #16e56b;
+      --blue: #2f6af4;
+      --purple: #7c4dff;
+      --cyan: #1fb9ff;
+      --danger: #ff4d5f;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+      --radius: 22px;
     }
 
     * {
@@ -34,7 +35,7 @@
       margin: 0;
       min-height: 100vh;
       background: var(--bg);
-      color: var(--ink);
+      color: var(--text);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       letter-spacing: 0;
     }
@@ -55,244 +56,217 @@
       text-decoration: none;
     }
 
-    .shell {
+    .app {
       min-height: 100vh;
       display: grid;
-      grid-template-columns: 270px minmax(0, 1fr);
+      grid-template-columns: 350px minmax(0, 1fr);
     }
 
     .sidebar {
-      background: #0f172a;
-      color: #f8fafc;
-      padding: 22px 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 22px;
+      min-height: 100vh;
+      background: var(--sidebar);
+      border-right: 1px solid var(--line);
+      padding: 38px 20px;
       position: sticky;
       top: 0;
-      height: 100vh;
+      align-self: start;
     }
 
     .brand {
-      min-height: 44px;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 11px;
-      font-size: 21px;
-      font-weight: 900;
+      min-height: 52px;
+      font-size: 40px;
+      line-height: 1;
+      font-weight: 950;
+      background: linear-gradient(90deg, #8b5cf6, #26b8ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin: 4px 6px 54px;
     }
 
-    .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: var(--radius);
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, var(--brand), var(--brand-2));
-      color: #fff;
-      box-shadow: 0 12px 30px rgba(20, 184, 166, 0.24);
+    .side-title {
+      margin: 0 4px 18px;
+      color: #7d8da8;
+      font-size: 16px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
     }
 
     .nav {
       display: grid;
-      gap: 8px;
+      gap: 18px;
     }
 
-    .nav a,
-    .api-save {
-      min-height: 42px;
-      border-radius: var(--radius);
+    .nav a {
+      min-height: 65px;
+      border-radius: 20px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 0 12px;
-      color: #e5e7eb;
-      background: transparent;
-      border: 1px solid transparent;
-      font-weight: 750;
+      gap: 12px;
+      padding: 0 26px;
+      color: #cfd7e6;
+      font-size: 21px;
+      font-weight: 850;
     }
 
     .nav a.active,
     .nav a:hover {
-      background: #172554;
-      border-color: #1e40af;
+      background: linear-gradient(90deg, #7c3cff, #2f6af4);
       color: #fff;
     }
 
-    .icon {
-      width: 19px;
-      height: 19px;
+    .nav-icon {
+      width: 25px;
+      text-align: center;
       flex: 0 0 auto;
-    }
-
-    .api-panel {
-      margin-top: auto;
-      display: none;
-      gap: 9px;
-      border-top: 1px solid #243041;
-      padding-top: 18px;
-    }
-
-    .api-panel label {
-      color: #cbd5e1;
-      font-size: 12px;
-      font-weight: 800;
-      text-transform: uppercase;
-    }
-
-    .api-panel input {
-      min-height: 42px;
-      border: 1px solid #334155;
-      border-radius: var(--radius);
-      background: #111827;
-      color: #fff;
-      padding: 0 11px;
-      outline: none;
-    }
-
-    .api-panel input:focus {
-      border-color: var(--brand-2);
-    }
-
-    .api-save {
-      justify-content: center;
-      background: var(--brand);
-      border-color: var(--brand);
-      color: #fff;
-    }
-
-    .api-save:hover {
-      background: var(--brand-dark);
     }
 
     .main {
       min-width: 0;
-      display: grid;
-      grid-template-rows: auto 1fr;
+      padding: 38px;
     }
 
     .topbar {
-      min-height: 78px;
-      padding: 16px 28px;
-      background: rgba(255, 255, 255, 0.92);
-      border-bottom: 1px solid var(--line);
       display: flex;
-      align-items: center;
+      align-items: start;
       justify-content: space-between;
-      gap: 16px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      backdrop-filter: blur(14px);
+      gap: 22px;
+      margin-bottom: 34px;
     }
 
-    .topbar h1 {
+    .title h1 {
       margin: 0;
-      font-size: clamp(24px, 3vw, 34px);
-      line-height: 1.05;
-      letter-spacing: 0;
+      font-size: clamp(42px, 5vw, 58px);
+      line-height: 1;
+      font-weight: 950;
     }
 
-    .topbar p {
-      margin: 5px 0 0;
+    .title p {
+      margin: 14px 0 0;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 22px;
     }
 
-    .top-actions {
+    .profile-mini {
+      min-width: 240px;
+      border: 1px solid var(--line);
+      background: #0f182a;
+      border-radius: 24px;
+      padding: 16px 20px;
       display: flex;
       align-items: center;
-      justify-content: flex-end;
-      gap: 10px;
+      gap: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .mini-avatar {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #8358ff;
+      background: #d8e0eb;
+      flex: 0 0 auto;
+    }
+
+    .profile-mini strong {
+      display: block;
+      font-size: 20px;
+      overflow-wrap: anywhere;
+    }
+
+    .profile-mini span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 17px;
+      overflow-wrap: anywhere;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
       flex-wrap: wrap;
+      margin-bottom: 30px;
     }
 
     .btn {
-      min-height: 43px;
-      border-radius: var(--radius);
-      border: 1px solid transparent;
-      padding: 0 14px;
+      min-height: 54px;
+      border: 0;
+      border-radius: 16px;
+      padding: 0 24px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      font-weight: 850;
+      gap: 10px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 900;
       white-space: nowrap;
     }
 
     .btn:disabled {
+      opacity: 0.7;
       cursor: wait;
-      opacity: 0.65;
     }
 
     .btn-primary {
-      background: var(--brand);
-      border-color: var(--brand);
-      color: #fff;
+      background: linear-gradient(90deg, #7c3cff, #2f6af4);
+      box-shadow: 0 16px 34px rgba(47, 106, 244, 0.3);
     }
 
-    .btn-primary:hover {
-      background: var(--brand-dark);
-    }
-
-    .btn-light {
-      background: #fff;
-      border-color: var(--line);
-      color: var(--ink);
-    }
-
-    .btn-light:hover {
-      border-color: #94a3b8;
-    }
-
-    .content {
-      padding: 28px;
-      display: grid;
-      gap: 22px;
+    .btn-dark {
+      background: var(--panel);
+      border: 1px solid var(--line);
     }
 
     .hero {
-      background: var(--surface);
       border: 1px solid var(--line);
+      background: var(--panel);
       border-radius: var(--radius);
       overflow: hidden;
       box-shadow: var(--shadow);
+      margin-bottom: 30px;
     }
 
     .cover {
-      min-height: 240px;
+      min-height: 290px;
+      position: relative;
       background:
-        linear-gradient(110deg, rgba(37, 99, 235, 0.9), rgba(20, 184, 166, 0.72)),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1400' height='520' viewBox='0 0 1400 520'%3E%3Crect width='1400' height='520' fill='%230f172a'/%3E%3Cg opacity='.25'%3E%3Ccircle cx='180' cy='125' r='92' fill='%23fff'/%3E%3Ccircle cx='1020' cy='120' r='140' fill='%23fff'/%3E%3Cpath fill='%23fff' d='M0 360c150-96 310-103 480-22s338 72 510-12 306-99 410-52v246H0z'/%3E%3Cpath fill='%23fff' d='M0 170c170 52 318 46 455-19s306-72 513 20 326 101 432 44v305H0z' opacity='.45'/%3E%3C/g%3E%3C/svg%3E");
+        linear-gradient(110deg, rgba(124, 60, 255, 0.9), rgba(47, 106, 244, 0.84), rgba(20, 184, 166, 0.7)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1500' height='520' viewBox='0 0 1500 520'%3E%3Crect width='1500' height='520' fill='%23080f1f'/%3E%3Cpath fill='%23fff' fill-opacity='.09' d='M0 360c180-115 365-127 555-36s384 82 590-19 287-74 355-17v232H0z'/%3E%3Cpath fill='%23fff' fill-opacity='.07' d='M0 150c170 58 338 55 505-11s340-70 520 2 340 97 475 21v358H0z'/%3E%3Ccircle cx='320' cy='95' r='105' fill='%23fff' fill-opacity='.08'/%3E%3Ccircle cx='1210' cy='110' r='145' fill='%23fff' fill-opacity='.08'/%3E%3C/svg%3E");
       background-size: cover;
       background-position: center;
-      position: relative;
     }
 
     .cover-tools {
       position: absolute;
-      right: 18px;
-      bottom: 18px;
+      right: 24px;
+      bottom: 22px;
       display: flex;
-      gap: 8px;
+      gap: 12px;
       flex-wrap: wrap;
       justify-content: flex-end;
     }
 
-    .file-button {
-      min-height: 40px;
-      border-radius: var(--radius);
-      background: rgba(15, 23, 42, 0.78);
-      color: #fff;
+    .file-btn {
+      min-height: 50px;
+      border-radius: 14px;
+      padding: 0 18px;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
-      padding: 0 12px;
-      font-weight: 800;
-      border: 1px solid rgba(255, 255, 255, 0.24);
+      background: rgba(8, 15, 31, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-weight: 900;
     }
 
-    .file-button input {
+    .file-btn input {
       position: absolute;
       width: 1px;
       height: 1px;
@@ -301,120 +275,101 @@
     }
 
     .identity {
-      padding: 0 24px 24px;
+      padding: 0 30px 30px;
       display: grid;
       grid-template-columns: auto minmax(0, 1fr) auto;
-      gap: 18px;
+      gap: 24px;
       align-items: end;
     }
 
-    .avatar-zone {
-      margin-top: -58px;
-      display: grid;
-      gap: 10px;
-      justify-items: center;
+    .avatar {
+      width: 142px;
+      height: 142px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #d8e0eb;
+      border: 6px solid #fff;
+      margin-top: -70px;
+      box-shadow: 0 22px 45px rgba(0, 0, 0, 0.35);
       position: relative;
       z-index: 2;
     }
 
-    .avatar {
-      width: 122px;
-      height: 122px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: #e2e8f0;
-      border: 5px solid #fff;
-      box-shadow: 0 16px 38px rgba(15, 23, 42, 0.25);
-    }
-
-    .profile-title {
-      min-width: 0;
-      padding-top: 14px;
-    }
-
-    .profile-title h2 {
+    .identity h2 {
       margin: 0;
-      font-size: clamp(24px, 3vw, 32px);
-      line-height: 1.1;
+      font-size: clamp(34px, 4vw, 48px);
+      line-height: 1;
       overflow-wrap: anywhere;
     }
 
-    .profile-title p {
-      margin: 7px 0 0;
+    .identity p {
+      margin: 12px 0 0;
       color: var(--muted);
+      font-size: 20px;
       overflow-wrap: anywhere;
     }
 
     .chips {
       display: flex;
-      gap: 8px;
-      align-items: center;
+      gap: 10px;
       justify-content: flex-end;
       flex-wrap: wrap;
     }
 
     .chip {
-      min-height: 30px;
+      min-height: 38px;
       border-radius: 999px;
-      padding: 0 11px;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      background: #eff6ff;
-      color: #1d4ed8;
-      font-size: 12px;
-      font-weight: 850;
+      justify-content: center;
+      padding: 0 16px;
+      background: #162238;
+      color: #a9c4ff;
+      font-size: 15px;
+      font-weight: 900;
     }
 
-    .chip.good {
-      background: #ecfdf5;
-      color: var(--success);
+    .chip.green {
+      color: var(--green);
+      background: rgba(22, 229, 107, 0.1);
     }
 
-    .layout {
+    .grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.08fr) minmax(330px, 0.92fr);
-      gap: 22px;
+      grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
+      gap: 26px;
       align-items: start;
     }
 
     .panel {
-      background: var(--surface);
       border: 1px solid var(--line);
+      background: var(--panel);
       border-radius: var(--radius);
-      padding: 20px;
-      box-shadow: 0 12px 34px rgba(15, 23, 42, 0.07);
-    }
-
-    .panel-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 16px;
+      padding: 30px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.2);
     }
 
     .panel h3 {
       margin: 0;
-      font-size: 18px;
-      line-height: 1.2;
+      font-size: 24px;
+      line-height: 1.1;
     }
 
-    .panel-note {
-      margin: 0;
+    .panel p {
+      margin: 8px 0 24px;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 17px;
     }
 
     .form-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
+      gap: 18px;
     }
 
     .field {
       display: grid;
-      gap: 7px;
+      gap: 9px;
     }
 
     .field.full {
@@ -422,113 +377,132 @@
     }
 
     label {
-      color: #334155;
-      font-size: 13px;
-      font-weight: 850;
+      color: var(--soft);
+      font-size: 15px;
+      font-weight: 900;
     }
 
     input,
     textarea,
     select {
       width: 100%;
-      min-height: 43px;
+      min-height: 56px;
       border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: #fff;
-      color: var(--ink);
+      border-radius: 14px;
+      background: #0c1425;
+      color: #fff;
       outline: none;
-      padding: 10px 12px;
+      padding: 13px 16px;
     }
 
     textarea {
-      min-height: 112px;
+      min-height: 128px;
+      line-height: 1.5;
       resize: vertical;
-      line-height: 1.45;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #6f819d;
     }
 
     input:focus,
     textarea:focus,
     select:focus {
-      border-color: var(--brand);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(47, 106, 244, 0.16);
     }
 
-    .stats {
+    .stat-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
+      gap: 18px;
     }
 
     .stat {
-      min-height: 104px;
+      min-height: 146px;
       border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 14px;
+      background: var(--panel-2);
+      border-radius: 20px;
+      padding: 24px;
       display: grid;
       align-content: space-between;
-      background: var(--surface-soft);
     }
 
     .stat span {
       color: var(--muted);
-      font-size: 12px;
-      font-weight: 850;
-      text-transform: uppercase;
+      font-size: 16px;
+      font-weight: 900;
     }
 
     .stat strong {
-      font-size: clamp(20px, 3vw, 29px);
+      font-size: clamp(34px, 4vw, 46px);
+      line-height: 1;
       overflow-wrap: anywhere;
     }
 
-    .mini-form {
-      margin-top: 16px;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
+    .stat small {
+      color: var(--green);
+      font-size: 17px;
+      font-weight: 900;
     }
 
-    .links {
+    .mini-form {
       display: grid;
-      gap: 10px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .link-preview {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
     }
 
     .link-item {
-      min-height: 46px;
+      min-height: 58px;
       border: 1px solid var(--line);
-      border-radius: var(--radius);
+      border-radius: 16px;
+      background: #0c1425;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
-      padding: 0 12px;
-      background: #fff;
-      color: var(--muted);
-      overflow: hidden;
+      gap: 16px;
+      padding: 0 18px;
+    }
+
+    .link-item strong {
+      color: #fff;
+      font-size: 17px;
     }
 
     .link-item span {
       min-width: 0;
+      color: var(--muted);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      text-align: right;
     }
 
     .toast {
       position: fixed;
-      right: 22px;
-      bottom: 22px;
-      max-width: min(440px, calc(100vw - 44px));
-      border-radius: var(--radius);
-      background: #0f172a;
+      right: 24px;
+      bottom: 24px;
+      max-width: min(470px, calc(100vw - 48px));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px 18px;
+      background: #101a2d;
       color: #fff;
       box-shadow: var(--shadow);
-      padding: 13px 15px;
-      z-index: 40;
-      transform: translateY(18px);
       opacity: 0;
+      transform: translateY(18px);
       pointer-events: none;
       transition: 180ms ease;
+      z-index: 20;
+      font-weight: 800;
     }
 
     .toast.show {
@@ -537,68 +511,75 @@
     }
 
     .toast.error {
-      background: var(--danger);
+      border-color: rgba(255, 77, 95, 0.45);
+      background: #3a1420;
     }
 
-    @media (max-width: 1020px) {
-      .shell {
+    @media (max-width: 1120px) {
+      .app {
         grid-template-columns: 1fr;
       }
 
       .sidebar {
         position: static;
-        height: auto;
+        min-height: auto;
       }
 
-      .api-panel {
-        margin-top: 0;
+      .brand {
+        margin-bottom: 24px;
       }
 
-      .layout {
+      .nav {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .grid {
         grid-template-columns: 1fr;
       }
     }
 
-    @media (max-width: 700px) {
-      .topbar,
-      .content {
-        padding: 18px;
+    @media (max-width: 760px) {
+      .main,
+      .sidebar {
+        padding: 22px;
+      }
+
+      .brand {
+        font-size: 34px;
+      }
+
+      .nav {
+        grid-template-columns: 1fr;
       }
 
       .topbar {
-        align-items: stretch;
         flex-direction: column;
       }
 
-      .top-actions {
-        justify-content: stretch;
+      .profile-mini {
+        width: 100%;
       }
 
-      .btn {
-        flex: 1 1 auto;
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr;
       }
 
       .cover {
-        min-height: 180px;
+        min-height: 220px;
       }
 
       .cover-tools {
-        left: 14px;
-        right: 14px;
+        left: 18px;
+        right: 18px;
       }
 
-      .file-button {
+      .file-btn {
         flex: 1 1 auto;
-        justify-content: center;
       }
 
       .identity {
         grid-template-columns: 1fr;
-        align-items: start;
-      }
-
-      .avatar-zone {
-        justify-items: start;
       }
 
       .chips {
@@ -606,7 +587,7 @@
       }
 
       .form-grid,
-      .stats,
+      .stat-grid,
       .mini-form {
         grid-template-columns: 1fr;
       }
@@ -614,252 +595,218 @@
   </style>
 </head>
 <body>
-  <div class="shell">
+  <div class="app">
     <aside class="sidebar">
-      <a class="brand" href="./index.html" aria-label="CreatorHub home">
-        <span class="brand-mark">CH</span>
-        <span>CreatorHub</span>
-      </a>
-
-      <nav class="nav" aria-label="Profile navigation">
-        <a class="active" href="#profile">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          Profile
-        </a>
-        <a href="#stats">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 19V5M4 19h16M8 16v-5M12 16V8M16 16v-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          Creator Stats
-        </a>
-        <a href="#social">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 8a3 3 0 1 0-2.83-4M6 14a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm12 0a3 3 0 1 0 0 6 3 3 0 0 0 0-6ZM8.7 15.5l6.6-3M8.7 18.5l6.6-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          Social Links
-        </a>
+      <a class="brand" href="./dashboard.html">CreatorHub</a>
+      <div class="side-title">Main</div>
+      <nav class="nav" aria-label="CreatorHub navigation">
+        <a href="./dashboard.html"><span class="nav-icon">🏠</span>Dashboard</a>
+        <a href="./products.html"><span class="nav-icon">📚</span>Products</a>
+        <a href="./orders.html"><span class="nav-icon">🛒</span>Orders</a>
+        <a href="./wallet.html"><span class="nav-icon">💰</span>Wallet</a>
+        <a href="./reviews.html"><span class="nav-icon">⭐</span>Reviews</a>
+        <a class="active" href="./profile.html"><span class="nav-icon">👤</span>Profile</a>
       </nav>
-
-      <div class="api-panel">
-        <label for="apiUrl">Apps Script Web App URL</label>
-        <input id="apiUrl" type="url" placeholder="https://script.google.com/macros/s/.../exec">
-        <button class="api-save" id="saveApiBtn" type="button">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z" stroke="currentColor" stroke-width="2"/><path d="M17 21v-8H7v8M7 3v5h8" stroke="currentColor" stroke-width="2"/></svg>
-          Save API
-        </button>
-      </div>
     </aside>
 
     <main class="main">
       <header class="topbar">
-        <div>
-          <h1>Creator Profile</h1>
-          <p>Backend se profile load karo, edit karo, aur CreatorHub account update karo.</p>
+        <div class="title">
+          <h1>Profile</h1>
+          <p>Update your creator profile and public details</p>
         </div>
-        <div class="top-actions">
-          <button class="btn btn-light" id="loadBtn" type="button">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Load Profile
-          </button>
-          <button class="btn btn-primary" id="saveBtn" type="button">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Save Changes
-          </button>
+        <div class="profile-mini">
+          <img class="mini-avatar" id="miniAvatar" alt="Profile avatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='80' fill='%23d8e0eb'/%3E%3Ccircle cx='80' cy='58' r='28' fill='%238495aa'/%3E%3Cpath d='M30 145c8-36 30-54 50-54s43 18 50 54' fill='%238495aa'/%3E%3C/svg%3E">
+          <div>
+            <strong id="miniName">Loading...</strong>
+            <span id="miniEmail">Enter email</span>
+          </div>
         </div>
       </header>
 
-      <div class="content">
-        <section class="hero" id="profile">
-          <div class="cover" id="coverPreview">
-            <div class="cover-tools">
-              <label class="file-button">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                Cover
-                <input id="coverImage" type="file" accept="image/*">
-              </label>
-              <label class="file-button">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 16l4-4a2 2 0 0 1 2.8 0L16 17M14 15l1-1a2 2 0 0 1 2.8 0L20 16M5 20h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1ZM8 9h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Avatar
-                <input id="profileImage" type="file" accept="image/*">
-              </label>
-            </div>
-          </div>
-
-          <div class="identity">
-            <div class="avatar-zone">
-              <img class="avatar" id="avatarPreview" alt="Creator profile image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Crect width='260' height='260' rx='130' fill='%23e2e8f0'/%3E%3Ccircle cx='130' cy='96' r='45' fill='%2394a3b8'/%3E%3Cpath d='M48 232c12-58 49-87 82-87s70 29 82 87' fill='%2394a3b8'/%3E%3C/svg%3E">
-            </div>
-            <div class="profile-title">
-              <h2 id="previewName">Your Creator Name</h2>
-              <p id="previewEmail">Enter email and load your profile</p>
-            </div>
-            <div class="chips">
-              <span class="chip" id="levelChip">Beginner</span>
-              <span class="chip good" id="statusChip">active</span>
-              <span class="chip" id="verifiedChip">Not verified</span>
-            </div>
-          </div>
-        </section>
-
-        <section class="layout">
-          <form class="panel" id="profileForm">
-            <div class="panel-head">
-              <div>
-                <h3>Profile Information</h3>
-                <p class="panel-note">Yeh fields aapke Google Drive `profile.json` me save hongi.</p>
-              </div>
-            </div>
-
-            <div class="form-grid">
-              <div class="field">
-                <label for="email">Email</label>
-                <input id="email" name="email" type="email" autocomplete="email" required>
-              </div>
-              <div class="field">
-                <label for="name">Name</label>
-                <input id="name" name="name" type="text" autocomplete="name">
-              </div>
-              <div class="field full">
-                <label for="bio">Bio</label>
-                <textarea id="bio" name="bio" maxlength="500" placeholder="Tell your audience what you create."></textarea>
-              </div>
-              <div class="field">
-                <label for="phone">Phone</label>
-                <input id="phone" name="phone" type="tel" autocomplete="tel">
-              </div>
-              <div class="field">
-                <label for="website">Website</label>
-                <input id="website" name="website" type="url" placeholder="https://">
-              </div>
-              <div class="field">
-                <label for="country">Country</label>
-                <input id="country" name="country" type="text" value="India">
-              </div>
-              <div class="field">
-                <label for="state">State</label>
-                <input id="state" name="state" type="text">
-              </div>
-              <div class="field">
-                <label for="city">City</label>
-                <input id="city" name="city" type="text">
-              </div>
-              <div class="field">
-                <label for="creatorLevel">Creator Level</label>
-                <select id="creatorLevel" name="creator_level">
-                  <option>Beginner</option>
-                  <option>Rising Creator</option>
-                  <option>Pro Creator</option>
-                  <option>Elite Creator</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="status">Status</label>
-                <select id="status" name="status">
-                  <option value="active">active</option>
-                  <option value="paused">paused</option>
-                  <option value="blocked">blocked</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="verified">Verified</label>
-                <select id="verified" name="verified">
-                  <option value="false">false</option>
-                  <option value="true">true</option>
-                </select>
-              </div>
-            </div>
-          </form>
-
-          <aside class="panel" id="stats">
-            <div class="panel-head">
-              <div>
-                <h3>Creator Stats</h3>
-                <p class="panel-note">Wallet, books, orders aur profit live preview.</p>
-              </div>
-            </div>
-
-            <div class="stats">
-              <div class="stat">
-                <span>Wallet Balance</span>
-                <strong id="walletView">₹0</strong>
-              </div>
-              <div class="stat">
-                <span>Total Profit</span>
-                <strong id="profitView">₹0</strong>
-              </div>
-              <div class="stat">
-                <span>Total Books</span>
-                <strong id="booksView">0</strong>
-              </div>
-              <div class="stat">
-                <span>Total Orders</span>
-                <strong id="ordersView">0</strong>
-              </div>
-            </div>
-
-            <div class="mini-form">
-              <div class="field">
-                <label for="walletBalance">Wallet Balance</label>
-                <input id="walletBalance" name="wallet_balance" type="number" min="0" step="0.01">
-              </div>
-              <div class="field">
-                <label for="totalProfit">Total Profit</label>
-                <input id="totalProfit" name="total_profit" type="number" min="0" step="0.01">
-              </div>
-              <div class="field">
-                <label for="totalBooks">Total Books</label>
-                <input id="totalBooks" name="total_books" type="number" min="0" step="1">
-              </div>
-              <div class="field">
-                <label for="totalOrders">Total Orders</label>
-                <input id="totalOrders" name="total_orders" type="number" min="0" step="1">
-              </div>
-            </div>
-          </aside>
-        </section>
-
-        <section class="layout" id="social">
-          <section class="panel">
-            <div class="panel-head">
-              <div>
-                <h3>Social Links</h3>
-                <p class="panel-note">CreatorHub public profile ke liye social handles.</p>
-              </div>
-            </div>
-
-            <div class="form-grid">
-              <div class="field">
-                <label for="instagram">Instagram</label>
-                <input id="instagram" name="instagram" type="text" placeholder="@username">
-              </div>
-              <div class="field">
-                <label for="youtube">YouTube</label>
-                <input id="youtube" name="youtube" type="text" placeholder="Channel link or handle">
-              </div>
-              <div class="field">
-                <label for="telegram">Telegram</label>
-                <input id="telegram" name="telegram" type="text" placeholder="@username">
-              </div>
-              <div class="field">
-                <label for="twitter">Twitter / X</label>
-                <input id="twitter" name="twitter" type="text" placeholder="@username">
-              </div>
-            </div>
-          </section>
-
-          <aside class="panel">
-            <div class="panel-head">
-              <div>
-                <h3>Public Preview</h3>
-                <p class="panel-note">Profile visitors ko yeh quick links dikhenge.</p>
-              </div>
-            </div>
-            <div class="links">
-              <div class="link-item"><strong>Website</strong><span id="websiteView">Not added</span></div>
-              <div class="link-item"><strong>Instagram</strong><span id="instagramView">Not added</span></div>
-              <div class="link-item"><strong>YouTube</strong><span id="youtubeView">Not added</span></div>
-              <div class="link-item"><strong>Telegram</strong><span id="telegramView">Not added</span></div>
-              <div class="link-item"><strong>Twitter / X</strong><span id="twitterView">Not added</span></div>
-            </div>
-          </aside>
-        </section>
+      <div class="actions">
+        <button class="btn btn-dark" id="loadBtn" type="button">↻ Load Profile</button>
+        <button class="btn btn-primary" id="saveBtn" type="button">✓ Save Changes</button>
       </div>
+
+      <section class="hero">
+        <div class="cover" id="coverPreview">
+          <div class="cover-tools">
+            <label class="file-btn">
+              + Cover
+              <input id="coverImage" type="file" accept="image/*">
+            </label>
+            <label class="file-btn">
+              ▧ Avatar
+              <input id="profileImage" type="file" accept="image/*">
+            </label>
+          </div>
+        </div>
+        <div class="identity">
+          <img class="avatar" id="avatarPreview" alt="Creator profile image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Crect width='260' height='260' rx='130' fill='%23d8e0eb'/%3E%3Ccircle cx='130' cy='96' r='45' fill='%238495aa'/%3E%3Cpath d='M48 232c12-58 49-87 82-87s70 29 82 87' fill='%238495aa'/%3E%3C/svg%3E">
+          <div>
+            <h2 id="previewName">Your Creator Name</h2>
+            <p id="previewEmail">Enter email and load profile</p>
+          </div>
+          <div class="chips">
+            <span class="chip" id="levelChip">Beginner</span>
+            <span class="chip green" id="statusChip">active</span>
+            <span class="chip" id="verifiedChip">Not verified</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid">
+        <form class="panel" id="profileForm">
+          <h3>Profile Information</h3>
+          <p>Any user can fill these details by email. Data saves in your Google Drive backend.</p>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required placeholder="creator@email.com">
+            </div>
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" autocomplete="name" placeholder="Creator name">
+            </div>
+            <div class="field full">
+              <label for="bio">Bio</label>
+              <textarea id="bio" name="bio" maxlength="500" placeholder="Tell your audience what you create."></textarea>
+            </div>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+91">
+            </div>
+            <div class="field">
+              <label for="website">Website</label>
+              <input id="website" name="website" type="url" placeholder="https://">
+            </div>
+            <div class="field">
+              <label for="country">Country</label>
+              <input id="country" name="country" type="text" value="India">
+            </div>
+            <div class="field">
+              <label for="state">State</label>
+              <input id="state" name="state" type="text" placeholder="State">
+            </div>
+            <div class="field">
+              <label for="city">City</label>
+              <input id="city" name="city" type="text" placeholder="City">
+            </div>
+            <div class="field">
+              <label for="creatorLevel">Creator Level</label>
+              <select id="creatorLevel" name="creator_level">
+                <option>Beginner</option>
+                <option>Rising Creator</option>
+                <option>Pro Creator</option>
+                <option>Elite Creator</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="verified">Verified</label>
+              <select id="verified" name="verified">
+                <option value="false">false</option>
+                <option value="true">true</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="status">Status</label>
+              <select id="status" name="status">
+                <option value="active">active</option>
+                <option value="paused">paused</option>
+                <option value="blocked">blocked</option>
+              </select>
+            </div>
+          </div>
+        </form>
+
+        <aside class="panel">
+          <h3>Creator Stats</h3>
+          <p>Stats preview and backend fields</p>
+
+          <div class="stat-grid">
+            <div class="stat">
+              <span>Wallet Balance</span>
+              <strong id="walletView">₹0</strong>
+              <small>Live data</small>
+            </div>
+            <div class="stat">
+              <span>Total Profit</span>
+              <strong id="profitView">₹0</strong>
+              <small>Real earnings</small>
+            </div>
+            <div class="stat">
+              <span>Total Books</span>
+              <strong id="booksView">0</strong>
+              <small>Products uploaded</small>
+            </div>
+            <div class="stat">
+              <span>Total Orders</span>
+              <strong id="ordersView">0</strong>
+              <small>Orders count</small>
+            </div>
+          </div>
+
+          <div class="mini-form">
+            <div class="field">
+              <label for="walletBalance">Wallet</label>
+              <input id="walletBalance" name="wallet_balance" type="number" min="0" step="0.01">
+            </div>
+            <div class="field">
+              <label for="totalProfit">Profit</label>
+              <input id="totalProfit" name="total_profit" type="number" min="0" step="0.01">
+            </div>
+            <div class="field">
+              <label for="totalBooks">Books</label>
+              <input id="totalBooks" name="total_books" type="number" min="0" step="1">
+            </div>
+            <div class="field">
+              <label for="totalOrders">Orders</label>
+              <input id="totalOrders" name="total_orders" type="number" min="0" step="1">
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="grid" style="margin-top:26px">
+        <section class="panel">
+          <h3>Social Links</h3>
+          <p>Public profile social handles</p>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="instagram">Instagram</label>
+              <input id="instagram" name="instagram" type="text" placeholder="@username">
+            </div>
+            <div class="field">
+              <label for="youtube">YouTube</label>
+              <input id="youtube" name="youtube" type="text" placeholder="Channel link or handle">
+            </div>
+            <div class="field">
+              <label for="telegram">Telegram</label>
+              <input id="telegram" name="telegram" type="text" placeholder="@username">
+            </div>
+            <div class="field">
+              <label for="twitter">Twitter / X</label>
+              <input id="twitter" name="twitter" type="text" placeholder="@username">
+            </div>
+          </div>
+        </section>
+
+        <aside class="panel">
+          <h3>Public Preview</h3>
+          <p>Quick links shown on creator profile</p>
+
+          <div class="link-preview">
+            <div class="link-item"><strong>Website</strong><span id="websiteView">Not added</span></div>
+            <div class="link-item"><strong>Instagram</strong><span id="instagramView">Not added</span></div>
+            <div class="link-item"><strong>YouTube</strong><span id="youtubeView">Not added</span></div>
+            <div class="link-item"><strong>Telegram</strong><span id="telegramView">Not added</span></div>
+            <div class="link-item"><strong>Twitter / X</strong><span id="twitterView">Not added</span></div>
+          </div>
+        </aside>
+      </section>
     </main>
   </div>
 
@@ -867,7 +814,6 @@
 
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
-    const STORAGE_KEY = "creatorhub_profile_api_url";
     const EMAIL_KEY = "creatorhub_profile_email";
 
     const state = {
@@ -902,23 +848,9 @@
       window.setTimeout(() => toast.classList.remove("show"), 3200);
     }
 
-    function getApiUrl() {
-      return API_URL;
-    }
-
-    function requireApiUrl() {
-      const url = getApiUrl();
-      if (!url) {
-        showToast("Pehle Apps Script Web App URL paste karke Save API dabao.", true);
-        throw new Error("Missing API URL");
-      }
-      return url;
-    }
-
     function setBusy(isBusy) {
       $("loadBtn").disabled = isBusy;
       $("saveBtn").disabled = isBusy;
-      $("saveApiBtn").disabled = isBusy;
     }
 
     function readFileAsBase64(file) {
@@ -928,6 +860,10 @@
         reader.onerror = reject;
         reader.readAsDataURL(file);
       });
+    }
+
+    function valueOrEmpty(id) {
+      return ($(id).value || "").trim();
     }
 
     function formatMoney(value) {
@@ -942,19 +878,17 @@
       return new Intl.NumberFormat("en-IN").format(Number(value || 0));
     }
 
-    function valueOrEmpty(id) {
-      return ($(id).value || "").trim();
-    }
-
     function updatePreview() {
       const name = valueOrEmpty("name") || "Your Creator Name";
-      const email = valueOrEmpty("email") || "Enter email and load your profile";
+      const email = valueOrEmpty("email") || "Enter email and load profile";
       const level = $("creatorLevel").value || "Beginner";
       const status = $("status").value || "active";
       const verified = $("verified").value === "true";
 
       $("previewName").textContent = name;
       $("previewEmail").textContent = email;
+      $("miniName").textContent = name;
+      $("miniEmail").textContent = email;
       $("levelChip").textContent = level;
       $("statusChip").textContent = status;
       $("verifiedChip").textContent = verified ? "Verified" : "Not verified";
@@ -989,6 +923,7 @@
 
       if (user.profile_image) {
         $("avatarPreview").src = user.profile_image;
+        $("miniAvatar").src = user.profile_image;
       }
 
       if (user.cover_image) {
@@ -1031,18 +966,17 @@
     }
 
     async function loadProfile() {
-      const apiUrl = requireApiUrl();
       const email = valueOrEmpty("email");
 
       if (!email) {
-        showToast("Profile load karne ke liye email required hai.", true);
+        showToast("Email enter karo, phir profile load hogi.", true);
         return;
       }
 
       setBusy(true);
 
       try {
-        const url = `${apiUrl}?action=profile&email=${encodeURIComponent(email)}`;
+        const url = `${API_URL}?action=profile&email=${encodeURIComponent(email)}`;
         const response = await fetch(url);
         const result = await response.json();
 
@@ -1052,7 +986,7 @@
 
         localStorage.setItem(EMAIL_KEY, email);
         fillProfile(result.user);
-        showToast("Profile loaded successfully.");
+        showToast("Profile loaded. New email hoga to backend ne profile create kar di.");
       } catch (error) {
         showToast(error.message || "Profile load failed.", true);
       } finally {
@@ -1061,18 +995,17 @@
     }
 
     async function saveProfile() {
-      const apiUrl = requireApiUrl();
       const payload = collectPayload();
 
       if (!payload.email) {
-        showToast("Profile save karne ke liye email required hai.", true);
+        showToast("Email required hai. Email ke bina Drive me profile save nahi hogi.", true);
         return;
       }
 
       setBusy(true);
 
       try {
-        const response = await fetch(apiUrl, {
+        const response = await fetch(API_URL, {
           method: "POST",
           headers: {
             "Content-Type": "text/plain;charset=utf-8"
@@ -1088,7 +1021,7 @@
 
         localStorage.setItem(EMAIL_KEY, payload.email);
         fillProfile(result.user);
-        showToast(result.message || "Profile saved successfully.");
+        showToast(result.message || "Profile saved in Drive.");
       } catch (error) {
         showToast(error.message || "Profile save failed.", true);
       } finally {
@@ -1110,7 +1043,7 @@
       }
 
       if (file.size > 2.5 * 1024 * 1024) {
-        showToast("Image 2.5MB se chhoti rakho, Apps Script fast rahega.", true);
+        showToast("Image 2.5MB se chhoti rakho.", true);
         input.value = "";
         return;
       }
@@ -1120,6 +1053,7 @@
       if (target === "profile") {
         state.profileImageBase64 = base64;
         $("avatarPreview").src = base64;
+        $("miniAvatar").src = base64;
       } else {
         state.coverImageBase64 = base64;
         $("coverPreview").style.backgroundImage = `url("${base64}")`;
@@ -1127,13 +1061,7 @@
     }
 
     function init() {
-      $("apiUrl").value = API_URL;
       $("email").value = localStorage.getItem(EMAIL_KEY) || "";
-
-      $("saveApiBtn").addEventListener("click", () => {
-        localStorage.setItem(STORAGE_KEY, getApiUrl());
-        showToast("API URL saved.");
-      });
 
       $("loadBtn").addEventListener("click", loadProfile);
       $("saveBtn").addEventListener("click", saveProfile);
