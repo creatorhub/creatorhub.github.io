@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CreatorHub Profile</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#020617;color:#fff}
+.topbar{position:sticky;top:0;padding:16px 24px;background:#0f172a;display:flex;justify-content:space-between}
+.logo{font-size:28px;font-weight:900}.logo span{color:#22c55e}
+.container{max-width:1400px;margin:auto;padding:20px}
+.cover{height:320px;border-radius:24px;background:linear-gradient(135deg,#0f172a,#1e293b)}
+.profile{display:flex;gap:24px;margin-top:-80px;align-items:end}
+.avatar{width:180px;height:180px;border-radius:50%;border:6px solid #020617;background:#111827}
+.card{background:#0f172a;border-radius:24px;padding:24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:24px}
+.stat{background:#111827;padding:20px;border-radius:20px}
+.form{display:grid;gap:12px}
+input,textarea{padding:14px;border-radius:14px;border:1px solid #334155;background:#081225;color:white}
+button{padding:14px 20px;border:none;border-radius:14px;background:#22c55e;color:#fff;font-weight:700}
+@media(max-width:768px){.profile{flex-direction:column;align-items:center;margin-top:-60px}}
+</style>
+</head>
+<body>
+<div class="topbar">
+<div class="logo">Creator<span>Hub</span></div>
+<div>Profile</div>
+</div>
+
+<div class="container">
+<div class="cover"></div>
+
+<div class="profile">
+<img class="avatar" id="profileImage" src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
+<div>
+<h1 id="name">Creator Name ✔</h1>
+<p id="bio">Professional Creator Profile</p>
+</div>
+</div>
+
+<div class="grid">
+<div class="stat"><h3>Total Books</h3><h1 id="books">0</h1></div>
+<div class="stat"><h3>Total Orders</h3><h1 id="orders">0</h1></div>
+<div class="stat"><h3>Total Profit</h3><h1 id="profit">₹0</h1></div>
+<div class="stat"><h3>Wallet</h3><h1 id="wallet">₹0</h1></div>
+</div>
+
+<div class="card" style="margin-top:24px">
+<h2>Edit Profile</h2><br>
+<div class="form">
+<input id="nameInput" placeholder="Name">
+<input id="phoneInput" placeholder="Phone">
+<input id="websiteInput" placeholder="Website">
+<input id="instagramInput" placeholder="Instagram">
+<input id="youtubeInput" placeholder="YouTube">
+<input id="telegramInput" placeholder="Telegram">
+<input id="twitterInput" placeholder="Twitter">
+<input id="countryInput" placeholder="Country">
+<input id="stateInput" placeholder="State">
+<input id="cityInput" placeholder="City">
+<textarea id="bioInput" placeholder="Bio"></textarea>
+<button onclick="saveProfile()">Save Profile</button>
+</div>
+</div>
+</div>
+
+<script>
+function saveProfile(){
+ alert("Backend API connect karna baki hai.");
+}
+</script>
+</body>
+</html>
