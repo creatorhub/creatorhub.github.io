@@ -541,6 +541,10 @@ async function loadProfile() {
 async function saveProfile() {
   const payload = collectPayload();
 
+  console.log("PAYLOAD =", payload);
+console.log("PROFILE IMAGE =", payload.profile_image);
+console.log("COVER IMAGE =", payload.cover_image);
+
   if (!payload.email) {
     showNotice("Please enter an email address before saving the profile.");
     return;
