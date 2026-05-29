@@ -3,7 +3,7 @@ CONFIG
 ========================= */
 
 const API =
-"https://YOUR_APPS_SCRIPT_URL/exec"
+"https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec"
 
 /* =========================
 USER
