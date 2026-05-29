@@ -127,7 +127,7 @@
 
     .api-panel {
       margin-top: auto;
-      display: grid;
+      display: none;
       gap: 9px;
       border-top: 1px solid #243041;
       padding-top: 18px;
@@ -866,6 +866,7 @@
   <div class="toast" id="toast"></div>
 
   <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
     const STORAGE_KEY = "creatorhub_profile_api_url";
     const EMAIL_KEY = "creatorhub_profile_email";
 
@@ -902,7 +903,7 @@
     }
 
     function getApiUrl() {
-      return $("apiUrl").value.trim();
+      return API_URL;
     }
 
     function requireApiUrl() {
@@ -1126,9 +1127,7 @@
     }
 
     function init() {
-      $("apiUrl").value =
-  localStorage.getItem(STORAGE_KEY) ||
-  "https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
+      $("apiUrl").value = API_URL;
       $("email").value = localStorage.getItem(EMAIL_KEY) || "";
 
       $("saveApiBtn").addEventListener("click", () => {
