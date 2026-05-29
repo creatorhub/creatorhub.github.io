@@ -1,265 +1,1158 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CreatorHub Profile</title>
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --surface: #ffffff;
+      --surface-soft: #f1f5f9;
+      --ink: #111827;
+      --muted: #64748b;
+      --line: #dbe3ef;
+      --brand: #2563eb;
+      --brand-2: #14b8a6;
+      --brand-dark: #1d4ed8;
+      --accent: #f59e0b;
+      --danger: #dc2626;
+      --success: #059669;
+      --shadow: 0 20px 55px rgba(15, 23, 42, 0.12);
+      --radius: 8px;
+    }
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    * {
+      box-sizing: border-box;
+    }
 
-<title>CreatorHub Profile</title>
+    html {
+      scroll-behavior: smooth;
+    }
 
-<link rel="stylesheet" href="profile.css">
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
 
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 270px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .brand {
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-size: 21px;
+      font-weight: 900;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius);
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      color: #fff;
+      box-shadow: 0 12px 30px rgba(20, 184, 166, 0.24);
+    }
+
+    .nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .nav a,
+    .api-save {
+      min-height: 42px;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 12px;
+      color: #e5e7eb;
+      background: transparent;
+      border: 1px solid transparent;
+      font-weight: 750;
+    }
+
+    .nav a.active,
+    .nav a:hover {
+      background: #172554;
+      border-color: #1e40af;
+      color: #fff;
+    }
+
+    .icon {
+      width: 19px;
+      height: 19px;
+      flex: 0 0 auto;
+    }
+
+    .api-panel {
+      margin-top: auto;
+      display: grid;
+      gap: 9px;
+      border-top: 1px solid #243041;
+      padding-top: 18px;
+    }
+
+    .api-panel label {
+      color: #cbd5e1;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .api-panel input {
+      min-height: 42px;
+      border: 1px solid #334155;
+      border-radius: var(--radius);
+      background: #111827;
+      color: #fff;
+      padding: 0 11px;
+      outline: none;
+    }
+
+    .api-panel input:focus {
+      border-color: var(--brand-2);
+    }
+
+    .api-save {
+      justify-content: center;
+      background: var(--brand);
+      border-color: var(--brand);
+      color: #fff;
+    }
+
+    .api-save:hover {
+      background: var(--brand-dark);
+    }
+
+    .main {
+      min-width: 0;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .topbar {
+      min-height: 78px;
+      padding: 16px 28px;
+      background: rgba(255, 255, 255, 0.92);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+    }
+
+    .topbar h1 {
+      margin: 0;
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .topbar p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      min-height: 43px;
+      border-radius: var(--radius);
+      border: 1px solid transparent;
+      padding: 0 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .btn:disabled {
+      cursor: wait;
+      opacity: 0.65;
+    }
+
+    .btn-primary {
+      background: var(--brand);
+      border-color: var(--brand);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--brand-dark);
+    }
+
+    .btn-light {
+      background: #fff;
+      border-color: var(--line);
+      color: var(--ink);
+    }
+
+    .btn-light:hover {
+      border-color: #94a3b8;
+    }
+
+    .content {
+      padding: 28px;
+      display: grid;
+      gap: 22px;
+    }
+
+    .hero {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .cover {
+      min-height: 240px;
+      background:
+        linear-gradient(110deg, rgba(37, 99, 235, 0.9), rgba(20, 184, 166, 0.72)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1400' height='520' viewBox='0 0 1400 520'%3E%3Crect width='1400' height='520' fill='%230f172a'/%3E%3Cg opacity='.25'%3E%3Ccircle cx='180' cy='125' r='92' fill='%23fff'/%3E%3Ccircle cx='1020' cy='120' r='140' fill='%23fff'/%3E%3Cpath fill='%23fff' d='M0 360c150-96 310-103 480-22s338 72 510-12 306-99 410-52v246H0z'/%3E%3Cpath fill='%23fff' d='M0 170c170 52 318 46 455-19s306-72 513 20 326 101 432 44v305H0z' opacity='.45'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .cover-tools {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .file-button {
+      min-height: 40px;
+      border-radius: var(--radius);
+      background: rgba(15, 23, 42, 0.78);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 12px;
+      font-weight: 800;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+    }
+
+    .file-button input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .identity {
+      padding: 0 24px 24px;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+    }
+
+    .avatar-zone {
+      margin-top: -58px;
+      display: grid;
+      gap: 10px;
+      justify-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .avatar {
+      width: 122px;
+      height: 122px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #e2e8f0;
+      border: 5px solid #fff;
+      box-shadow: 0 16px 38px rgba(15, 23, 42, 0.25);
+    }
+
+    .profile-title {
+      min-width: 0;
+      padding-top: 14px;
+    }
+
+    .profile-title h2 {
+      margin: 0;
+      font-size: clamp(24px, 3vw, 32px);
+      line-height: 1.1;
+      overflow-wrap: anywhere;
+    }
+
+    .profile-title p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      overflow-wrap: anywhere;
+    }
+
+    .chips {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      min-height: 30px;
+      border-radius: 999px;
+      padding: 0 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .chip.good {
+      background: #ecfdf5;
+      color: var(--success);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(330px, 0.92fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 12px 34px rgba(15, 23, 42, 0.07);
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .panel h3 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .panel-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      color: #334155;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      min-height: 43px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--ink);
+      outline: none;
+      padding: 10px 12px;
+    }
+
+    textarea {
+      min-height: 112px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      min-height: 104px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+      display: grid;
+      align-content: space-between;
+      background: var(--surface-soft);
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .stat strong {
+      font-size: clamp(20px, 3vw, 29px);
+      overflow-wrap: anywhere;
+    }
+
+    .mini-form {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .links {
+      display: grid;
+      gap: 10px;
+    }
+
+    .link-item {
+      min-height: 46px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 0 12px;
+      background: #fff;
+      color: var(--muted);
+      overflow: hidden;
+    }
+
+    .link-item span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .toast {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      max-width: min(440px, calc(100vw - 44px));
+      border-radius: var(--radius);
+      background: #0f172a;
+      color: #fff;
+      box-shadow: var(--shadow);
+      padding: 13px 15px;
+      z-index: 40;
+      transform: translateY(18px);
+      opacity: 0;
+      pointer-events: none;
+      transition: 180ms ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toast.error {
+      background: var(--danger);
+    }
+
+    @media (max-width: 1020px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        height: auto;
+      }
+
+      .api-panel {
+        margin-top: 0;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .topbar,
+      .content {
+        padding: 18px;
+      }
+
+      .topbar {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .top-actions {
+        justify-content: stretch;
+      }
+
+      .btn {
+        flex: 1 1 auto;
+      }
+
+      .cover {
+        min-height: 180px;
+      }
+
+      .cover-tools {
+        left: 14px;
+        right: 14px;
+      }
+
+      .file-button {
+        flex: 1 1 auto;
+        justify-content: center;
+      }
+
+      .identity {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .avatar-zone {
+        justify-items: start;
+      }
+
+      .chips {
+        justify-content: flex-start;
+      }
+
+      .form-grid,
+      .stats,
+      .mini-form {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
-
 <body>
-
-<!-- TOPBAR -->
-
-<header class="topbar">
-
-<div class="logo">
-Creator<span>Hub</span>
-</div>
-
-<a href="dashboard.html" class="backBtn">
-Dashboard
-</a>
-
-</header>
-
-<!-- MAIN -->
-
-<main class="container">
-
-<!-- COVER -->
-
-<section class="coverSection">
-
-<img
-id="coverImage"
-class="coverImage"
-src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1600"
->
-
-<div class="coverOverlay"></div>
-
-<button
-id="changeCoverBtn"
-class="changeCoverBtn">
-Change Cover
-</button>
-
-<input
-type="file"
-id="coverUpload"
-accept="image/*"
-hidden>
-
-</section>
-
-<!-- PROFILE -->
-
-<section class="profileSection">
-
-<div class="profileLeft">
-
-<img
-id="profileImage"
-class="profileImage"
-src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
->
-
-<button
-id="changeProfileBtn"
-class="changeProfileBtn">
-Change Photo
-</button>
-
-<input
-type="file"
-id="profileUpload"
-accept="image/*"
-hidden>
-
-</div>
-
-<div class="profileRight">
-
-<div class="titleRow">
-
-<h1 id="creatorName">
-Creator Name
-</h1>
-
-<span
-id="verifiedBadge"
-class="verifiedBadge">
-✔ Verified
-</span>
-
-</div>
-
-<div
-id="creatorLevel"
-class="creatorLevel">
-Premium Creator
-</div>
-
-<p
-id="creatorBio"
-class="creatorBio">
-Professional digital creator selling ebooks globally.
-</p>
-
-<div class="locationRow">
-
-<span id="countryText">
-India
-</span>
-
-<span id="stateText">
-Gujarat
-</span>
-
-<span id="cityText">
-Ahmedabad
-</span>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- STATS -->
-
-<section class="statsGrid">
-
-<div class="statCard">
-<h3>Total Books</h3>
-<div id="totalBooks">0</div>
-</div>
-
-<div class="statCard">
-<h3>Total Orders</h3>
-<div id="totalOrders">0</div>
-</div>
-
-<div class="statCard">
-<h3>Total Profit</h3>
-<div id="totalProfit">₹0</div>
-</div>
-
-<div class="statCard">
-<h3>Wallet Balance</h3>
-<div id="walletBalance">₹0</div>
-</div>
-
-<div class="statCard">
-<h3>Creator Level</h3>
-<div id="creatorLevelCard">Beginner</div>
-</div>
-
-<div class="statCard">
-<h3>Status</h3>
-<div id="statusCard">Active</div>
-</div>
-
-</section>
-
-<!-- SOCIAL -->
-
-<section class="card">
-
-<h2>Social Links</h2>
-
-<div class="socialGrid">
-
-<a id="instagramLink">Instagram</a>
-<a id="youtubeLink">YouTube</a>
-<a id="telegramLink">Telegram</a>
-<a id="twitterLink">Twitter</a>
-
-</div>
-
-</section>
-
-<!-- ACHIEVEMENTS -->
-
-<section class="card">
-
-<h2>Achievements</h2>
-
-<div class="achievementGrid">
-
-<div class="achievement">
-⭐ Premium Creator
-</div>
-
-<div class="achievement">
-🚀 Pro Seller
-</div>
-
-<div class="achievement">
-📚 Published Author
-</div>
-
-<div class="achievement">
-💰 Top Earner
-</div>
-
-</div>
-
-</section>
-
-<!-- EDIT PROFILE -->
-
-<section class="card">
-
-<h2>Edit Profile</h2>
-
-<div class="formGrid">
-
-<input id="nameInput" placeholder="Full Name">
-
-<input id="phoneInput" placeholder="Phone">
-
-<input id="websiteInput" placeholder="Website">
-
-<input id="countryInput" placeholder="Country">
-
-<input id="stateInput" placeholder="State">
-
-<input id="cityInput" placeholder="City">
-
-<input id="instagramInput" placeholder="Instagram">
-
-<input id="youtubeInput" placeholder="YouTube">
-
-<input id="telegramInput" placeholder="Telegram">
-
-<input id="twitterInput" placeholder="Twitter">
-
-</div>
-
-<textarea
-id="bioInput"
-placeholder="Write your bio">
-</textarea>
-
-<button
-id="saveBtn"
-class="saveBtn">
-Save Profile
-</button>
-
-</section>
-
-</main>
-
-<script src="profile.js"></script>
-
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="brand" href="./index.html" aria-label="CreatorHub home">
+        <span class="brand-mark">CH</span>
+        <span>CreatorHub</span>
+      </a>
+
+      <nav class="nav" aria-label="Profile navigation">
+        <a class="active" href="#profile">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Profile
+        </a>
+        <a href="#stats">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 19V5M4 19h16M8 16v-5M12 16V8M16 16v-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Creator Stats
+        </a>
+        <a href="#social">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 8a3 3 0 1 0-2.83-4M6 14a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm12 0a3 3 0 1 0 0 6 3 3 0 0 0 0-6ZM8.7 15.5l6.6-3M8.7 18.5l6.6-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Social Links
+        </a>
+      </nav>
+
+      <div class="api-panel">
+        <label for="apiUrl">Apps Script Web App URL</label>
+        <input id="apiUrl" type="url" placeholder="https://script.google.com/macros/s/.../exec">
+        <button class="api-save" id="saveApiBtn" type="button">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z" stroke="currentColor" stroke-width="2"/><path d="M17 21v-8H7v8M7 3v5h8" stroke="currentColor" stroke-width="2"/></svg>
+          Save API
+        </button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1>Creator Profile</h1>
+          <p>Backend se profile load karo, edit karo, aur CreatorHub account update karo.</p>
+        </div>
+        <div class="top-actions">
+          <button class="btn btn-light" id="loadBtn" type="button">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Load Profile
+          </button>
+          <button class="btn btn-primary" id="saveBtn" type="button">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Save Changes
+          </button>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="hero" id="profile">
+          <div class="cover" id="coverPreview">
+            <div class="cover-tools">
+              <label class="file-button">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                Cover
+                <input id="coverImage" type="file" accept="image/*">
+              </label>
+              <label class="file-button">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 16l4-4a2 2 0 0 1 2.8 0L16 17M14 15l1-1a2 2 0 0 1 2.8 0L20 16M5 20h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1ZM8 9h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Avatar
+                <input id="profileImage" type="file" accept="image/*">
+              </label>
+            </div>
+          </div>
+
+          <div class="identity">
+            <div class="avatar-zone">
+              <img class="avatar" id="avatarPreview" alt="Creator profile image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Crect width='260' height='260' rx='130' fill='%23e2e8f0'/%3E%3Ccircle cx='130' cy='96' r='45' fill='%2394a3b8'/%3E%3Cpath d='M48 232c12-58 49-87 82-87s70 29 82 87' fill='%2394a3b8'/%3E%3C/svg%3E">
+            </div>
+            <div class="profile-title">
+              <h2 id="previewName">Your Creator Name</h2>
+              <p id="previewEmail">Enter email and load your profile</p>
+            </div>
+            <div class="chips">
+              <span class="chip" id="levelChip">Beginner</span>
+              <span class="chip good" id="statusChip">active</span>
+              <span class="chip" id="verifiedChip">Not verified</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="layout">
+          <form class="panel" id="profileForm">
+            <div class="panel-head">
+              <div>
+                <h3>Profile Information</h3>
+                <p class="panel-note">Yeh fields aapke Google Drive `profile.json` me save hongi.</p>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" required>
+              </div>
+              <div class="field">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" autocomplete="name">
+              </div>
+              <div class="field full">
+                <label for="bio">Bio</label>
+                <textarea id="bio" name="bio" maxlength="500" placeholder="Tell your audience what you create."></textarea>
+              </div>
+              <div class="field">
+                <label for="phone">Phone</label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel">
+              </div>
+              <div class="field">
+                <label for="website">Website</label>
+                <input id="website" name="website" type="url" placeholder="https://">
+              </div>
+              <div class="field">
+                <label for="country">Country</label>
+                <input id="country" name="country" type="text" value="India">
+              </div>
+              <div class="field">
+                <label for="state">State</label>
+                <input id="state" name="state" type="text">
+              </div>
+              <div class="field">
+                <label for="city">City</label>
+                <input id="city" name="city" type="text">
+              </div>
+              <div class="field">
+                <label for="creatorLevel">Creator Level</label>
+                <select id="creatorLevel" name="creator_level">
+                  <option>Beginner</option>
+                  <option>Rising Creator</option>
+                  <option>Pro Creator</option>
+                  <option>Elite Creator</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="status">Status</label>
+                <select id="status" name="status">
+                  <option value="active">active</option>
+                  <option value="paused">paused</option>
+                  <option value="blocked">blocked</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="verified">Verified</label>
+                <select id="verified" name="verified">
+                  <option value="false">false</option>
+                  <option value="true">true</option>
+                </select>
+              </div>
+            </div>
+          </form>
+
+          <aside class="panel" id="stats">
+            <div class="panel-head">
+              <div>
+                <h3>Creator Stats</h3>
+                <p class="panel-note">Wallet, books, orders aur profit live preview.</p>
+              </div>
+            </div>
+
+            <div class="stats">
+              <div class="stat">
+                <span>Wallet Balance</span>
+                <strong id="walletView">₹0</strong>
+              </div>
+              <div class="stat">
+                <span>Total Profit</span>
+                <strong id="profitView">₹0</strong>
+              </div>
+              <div class="stat">
+                <span>Total Books</span>
+                <strong id="booksView">0</strong>
+              </div>
+              <div class="stat">
+                <span>Total Orders</span>
+                <strong id="ordersView">0</strong>
+              </div>
+            </div>
+
+            <div class="mini-form">
+              <div class="field">
+                <label for="walletBalance">Wallet Balance</label>
+                <input id="walletBalance" name="wallet_balance" type="number" min="0" step="0.01">
+              </div>
+              <div class="field">
+                <label for="totalProfit">Total Profit</label>
+                <input id="totalProfit" name="total_profit" type="number" min="0" step="0.01">
+              </div>
+              <div class="field">
+                <label for="totalBooks">Total Books</label>
+                <input id="totalBooks" name="total_books" type="number" min="0" step="1">
+              </div>
+              <div class="field">
+                <label for="totalOrders">Total Orders</label>
+                <input id="totalOrders" name="total_orders" type="number" min="0" step="1">
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <section class="layout" id="social">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Social Links</h3>
+                <p class="panel-note">CreatorHub public profile ke liye social handles.</p>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="instagram">Instagram</label>
+                <input id="instagram" name="instagram" type="text" placeholder="@username">
+              </div>
+              <div class="field">
+                <label for="youtube">YouTube</label>
+                <input id="youtube" name="youtube" type="text" placeholder="Channel link or handle">
+              </div>
+              <div class="field">
+                <label for="telegram">Telegram</label>
+                <input id="telegram" name="telegram" type="text" placeholder="@username">
+              </div>
+              <div class="field">
+                <label for="twitter">Twitter / X</label>
+                <input id="twitter" name="twitter" type="text" placeholder="@username">
+              </div>
+            </div>
+          </section>
+
+          <aside class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Public Preview</h3>
+                <p class="panel-note">Profile visitors ko yeh quick links dikhenge.</p>
+              </div>
+            </div>
+            <div class="links">
+              <div class="link-item"><strong>Website</strong><span id="websiteView">Not added</span></div>
+              <div class="link-item"><strong>Instagram</strong><span id="instagramView">Not added</span></div>
+              <div class="link-item"><strong>YouTube</strong><span id="youtubeView">Not added</span></div>
+              <div class="link-item"><strong>Telegram</strong><span id="telegramView">Not added</span></div>
+              <div class="link-item"><strong>Twitter / X</strong><span id="twitterView">Not added</span></div>
+            </div>
+          </aside>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const STORAGE_KEY = "creatorhub_profile_api_url";
+    const EMAIL_KEY = "creatorhub_profile_email";
+
+    const state = {
+      profileImageBase64: "",
+      coverImageBase64: "",
+      currentUser: null
+    };
+
+    const textFields = [
+      "email",
+      "name",
+      "bio",
+      "phone",
+      "website",
+      "instagram",
+      "youtube",
+      "telegram",
+      "twitter",
+      "country",
+      "state",
+      "city",
+      "status"
+    ];
+
+    const $ = (id) => document.getElementById(id);
+
+    function showToast(message, isError = false) {
+      const toast = $("toast");
+      toast.textContent = message;
+      toast.classList.toggle("error", isError);
+      toast.classList.add("show");
+      window.setTimeout(() => toast.classList.remove("show"), 3200);
+    }
+
+    function getApiUrl() {
+      return $("apiUrl").value.trim();
+    }
+
+    function requireApiUrl() {
+      const url = getApiUrl();
+      if (!url) {
+        showToast("Pehle Apps Script Web App URL paste karke Save API dabao.", true);
+        throw new Error("Missing API URL");
+      }
+      return url;
+    }
+
+    function setBusy(isBusy) {
+      $("loadBtn").disabled = isBusy;
+      $("saveBtn").disabled = isBusy;
+      $("saveApiBtn").disabled = isBusy;
+    }
+
+    function readFileAsBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function formatMoney(value) {
+      return new Intl.NumberFormat("en-IN", {
+        style: "currency",
+        currency: "INR",
+        maximumFractionDigits: 2
+      }).format(Number(value || 0));
+    }
+
+    function formatNumber(value) {
+      return new Intl.NumberFormat("en-IN").format(Number(value || 0));
+    }
+
+    function valueOrEmpty(id) {
+      return ($(id).value || "").trim();
+    }
+
+    function updatePreview() {
+      const name = valueOrEmpty("name") || "Your Creator Name";
+      const email = valueOrEmpty("email") || "Enter email and load your profile";
+      const level = $("creatorLevel").value || "Beginner";
+      const status = $("status").value || "active";
+      const verified = $("verified").value === "true";
+
+      $("previewName").textContent = name;
+      $("previewEmail").textContent = email;
+      $("levelChip").textContent = level;
+      $("statusChip").textContent = status;
+      $("verifiedChip").textContent = verified ? "Verified" : "Not verified";
+
+      $("walletView").textContent = formatMoney($("walletBalance").value);
+      $("profitView").textContent = formatMoney($("totalProfit").value);
+      $("booksView").textContent = formatNumber($("totalBooks").value);
+      $("ordersView").textContent = formatNumber($("totalOrders").value);
+
+      $("websiteView").textContent = valueOrEmpty("website") || "Not added";
+      $("instagramView").textContent = valueOrEmpty("instagram") || "Not added";
+      $("youtubeView").textContent = valueOrEmpty("youtube") || "Not added";
+      $("telegramView").textContent = valueOrEmpty("telegram") || "Not added";
+      $("twitterView").textContent = valueOrEmpty("twitter") || "Not added";
+    }
+
+    function fillProfile(user) {
+      state.currentUser = user;
+
+      textFields.forEach((key) => {
+        if ($(key)) {
+          $(key).value = user[key] ?? "";
+        }
+      });
+
+      $("creatorLevel").value = user.creator_level || "Beginner";
+      $("verified").value = String(Boolean(user.verified));
+      $("walletBalance").value = user.wallet_balance ?? 0;
+      $("totalBooks").value = user.total_books ?? 0;
+      $("totalOrders").value = user.total_orders ?? 0;
+      $("totalProfit").value = user.total_profit ?? 0;
+
+      if (user.profile_image) {
+        $("avatarPreview").src = user.profile_image;
+      }
+
+      if (user.cover_image) {
+        $("coverPreview").style.backgroundImage = `url("${user.cover_image}")`;
+      }
+
+      state.profileImageBase64 = "";
+      state.coverImageBase64 = "";
+      $("profileImage").value = "";
+      $("coverImage").value = "";
+
+      updatePreview();
+    }
+
+    function collectPayload() {
+      const payload = { action: "update_profile" };
+
+      textFields.forEach((key) => {
+        if ($(key)) {
+          payload[key] = valueOrEmpty(key);
+        }
+      });
+
+      payload.creator_level = $("creatorLevel").value;
+      payload.verified = $("verified").value === "true";
+      payload.wallet_balance = $("walletBalance").value || 0;
+      payload.total_books = $("totalBooks").value || 0;
+      payload.total_orders = $("totalOrders").value || 0;
+      payload.total_profit = $("totalProfit").value || 0;
+
+      if (state.profileImageBase64) {
+        payload.profile_image = state.profileImageBase64;
+      }
+
+      if (state.coverImageBase64) {
+        payload.cover_image = state.coverImageBase64;
+      }
+
+      return payload;
+    }
+
+    async function loadProfile() {
+      const apiUrl = requireApiUrl();
+      const email = valueOrEmpty("email");
+
+      if (!email) {
+        showToast("Profile load karne ke liye email required hai.", true);
+        return;
+      }
+
+      setBusy(true);
+
+      try {
+        const url = `${apiUrl}?action=profile&email=${encodeURIComponent(email)}`;
+        const response = await fetch(url);
+        const result = await response.json();
+
+        if (!result.success) {
+          throw new Error(result.message || "Profile load nahi hua.");
+        }
+
+        localStorage.setItem(EMAIL_KEY, email);
+        fillProfile(result.user);
+        showToast("Profile loaded successfully.");
+      } catch (error) {
+        showToast(error.message || "Profile load failed.", true);
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    async function saveProfile() {
+      const apiUrl = requireApiUrl();
+      const payload = collectPayload();
+
+      if (!payload.email) {
+        showToast("Profile save karne ke liye email required hai.", true);
+        return;
+      }
+
+      setBusy(true);
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+          throw new Error(result.message || "Profile save nahi hua.");
+        }
+
+        localStorage.setItem(EMAIL_KEY, payload.email);
+        fillProfile(result.user);
+        showToast(result.message || "Profile saved successfully.");
+      } catch (error) {
+        showToast(error.message || "Profile save failed.", true);
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    async function handleImageSelect(input, target) {
+      const file = input.files && input.files[0];
+
+      if (!file) {
+        return;
+      }
+
+      if (!file.type.startsWith("image/")) {
+        showToast("Sirf image file select karo.", true);
+        input.value = "";
+        return;
+      }
+
+      if (file.size > 2.5 * 1024 * 1024) {
+        showToast("Image 2.5MB se chhoti rakho, Apps Script fast rahega.", true);
+        input.value = "";
+        return;
+      }
+
+      const base64 = await readFileAsBase64(file);
+
+      if (target === "profile") {
+        state.profileImageBase64 = base64;
+        $("avatarPreview").src = base64;
+      } else {
+        state.coverImageBase64 = base64;
+        $("coverPreview").style.backgroundImage = `url("${base64}")`;
+      }
+    }
+
+    function init() {
+      $("apiUrl").value = localStorage.getItem(STORAGE_KEY) || "";
+      $("email").value = localStorage.getItem(EMAIL_KEY) || "";
+
+      $("saveApiBtn").addEventListener("click", () => {
+        localStorage.setItem(STORAGE_KEY, getApiUrl());
+        showToast("API URL saved.");
+      });
+
+      $("loadBtn").addEventListener("click", loadProfile);
+      $("saveBtn").addEventListener("click", saveProfile);
+      $("profileForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        saveProfile();
+      });
+
+      $("profileImage").addEventListener("change", (event) => handleImageSelect(event.target, "profile"));
+      $("coverImage").addEventListener("change", (event) => handleImageSelect(event.target, "cover"));
+
+      document.querySelectorAll("input, textarea, select").forEach((control) => {
+        control.addEventListener("input", updatePreview);
+        control.addEventListener("change", updatePreview);
+      });
+
+      updatePreview();
+    }
+
+    init();
+  </script>
 </body>
 </html>
