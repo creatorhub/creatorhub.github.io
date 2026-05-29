@@ -11,11 +11,16 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
 body{min-height:100vh;background:#f6f8fc;color:#101828;display:flex;overflow:hidden}
 a{text-decoration:none;color:inherit}
+button{font:inherit}
 
 .sidebar{width:338px;min-height:100vh;background:#0d1628;color:#fff;padding:30px 23px;position:fixed;left:0;top:0;bottom:0;overflow-y:auto}
-.brand{display:flex;align-items:center;gap:14px;margin-bottom:30px}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:18px}
 .brand-mark{width:52px;height:52px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#21b7e8,#1d72f3);font-size:26px;font-weight:950}
 .brand-name{font-size:25px;font-weight:950}
+
+.back-btn{width:100%;min-height:46px;border:1px solid #24344d;border-radius:9px;background:#111c31;color:#e7edf8;font-size:17px;font-weight:850;cursor:pointer;margin:0 0 20px}
+.back-btn:hover{background:#182a64;border-color:#3157c9}
+
 .menu{display:grid;gap:16px;margin-top:20px}
 .menu a{min-height:54px;border-radius:9px;display:flex;align-items:center;gap:13px;padding:0 18px;color:#e7edf8;font-size:20px;font-weight:850;border:1px solid transparent}
 .menu a:hover,.menu a.active{background:#182a64;border-color:#3157c9}
@@ -92,6 +97,10 @@ body{display:block;overflow:auto}
     <span class="brand-mark">CH</span>
     <span class="brand-name">CreatorHub</span>
   </a>
+
+  <button class="back-btn" onclick="history.back()" type="button">
+    ← Back
+  </button>
 
   <nav class="menu">
     <a class="active" href="./dashboard.html">⌂ Dashboard</a>
@@ -539,7 +548,7 @@ async function loadDashboard() {
     setStatus("Welcome back to CreatorHub");
 
     if (!readCache()) {
-      showNotice("Live data abhi load nahi hua. Email check karo ya Apps Script deployment access Anyone rakho.");
+      showNotice("Live data could not be loaded. Please check the email or make sure the Apps Script deployment access is set to Anyone.");
     }
 
     loadProfileFallback({
