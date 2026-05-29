@@ -6,6 +6,7 @@
   <title>CreatorHub Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <style>
     * {
       margin: 0;
@@ -309,10 +310,13 @@
     }
   </style>
 </head>
+
 <body>
   <div class="sidebar">
     <div class="logo">CreatorHub</div>
+
     <div class="menu-title">Main</div>
+
     <div class="menu">
       <a href="dashboard.html" class="active">🏠 Dashboard</a>
       <a href="products.html">📚 Products</a>
@@ -331,7 +335,12 @@
       </div>
 
       <div class="profile-box">
-        <img id="profileImage" alt="Profile image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='80' fill='%231e293b'/%3E%3Ccircle cx='80' cy='58' r='28' fill='%2394a3b8'/%3E%3Cpath d='M30 145c8-36 30-54 50-54s43 18 50 54' fill='%2394a3b8'/%3E%3C/svg%3E">
+        <img
+          id="profileImage"
+          alt="Profile image"
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='80' fill='%231e293b'/%3E%3Ccircle cx='80' cy='58' r='28' fill='%2394a3b8'/%3E%3Cpath d='M30 145c8-36 30-54 50-54s43 18 50 54' fill='%2394a3b8'/%3E%3C/svg%3E"
+        >
+
         <div>
           <div id="userName">Loading...</div>
           <small id="userEmail">Please wait...</small>
@@ -345,16 +354,19 @@
         <h2 id="totalSales">₹0</h2>
         <div class="growth">Live data</div>
       </div>
+
       <div class="card">
         <h3>Total Profit</h3>
         <h2 id="totalProfit">₹0</h2>
         <div class="growth">Real earnings</div>
       </div>
+
       <div class="card">
         <h3>Total Orders</h3>
         <h2 id="totalOrders">0</h2>
         <div class="growth">Orders count</div>
       </div>
+
       <div class="card">
         <h3>Total Products</h3>
         <h2 id="totalBooks">0</h2>
@@ -370,6 +382,7 @@
 
       <div class="card">
         <h3 style="margin-bottom:20px">Wallet Overview</h3>
+
         <ul class="wallet-list">
           <li><span>Available</span><strong id="walletAvailable">₹0</strong></li>
           <li><span>Pending</span><strong id="walletPending">₹0</strong></li>
@@ -381,6 +394,7 @@
 
     <div class="card table-card">
       <h3 style="margin-bottom:20px">Recent Orders</h3>
+
       <table>
         <thead>
           <tr>
@@ -391,6 +405,7 @@
             <th>Date</th>
           </tr>
         </thead>
+
         <tbody id="ordersTable"></tbody>
       </table>
     </div>
@@ -402,8 +417,8 @@
   </div>
 
   <script>
-    const DASHBOARD_API_URL = "https://script.google.com/macros/s/AKfycbxj1Ch941zvniDEzIs__cYVmGBaECx6GPmmEw5PPyehtU2_KxQ_o3TS6jhuoZS0AKUv8w/exec";
-    const PROFILE_API_URL = "https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
+    const API_URL =
+      "https://script.google.com/macros/s/AKfycbxj1Ch941zvniDEzIs__cYVmGBaECx6GPmmEw5PPyehtU2_KxQ_o3TS6jhuoZS0AKUv8w/exec";
 
     const DEFAULT_AVATAR =
       "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='80' fill='%231e293b'/%3E%3Ccircle cx='80' cy='58' r='28' fill='%2394a3b8'/%3E%3Cpath d='M30 145c8-36 30-54 50-54s43 18 50 54' fill='%2394a3b8'/%3E%3C/svg%3E";
@@ -417,6 +432,7 @@
     }
 
     const params = new URLSearchParams(window.location.search);
+
     const currentUserEmail =
       params.get("email") ||
       USER.email ||
@@ -471,11 +487,13 @@
           data.name ||
           USER.name ||
           "Creator",
+
         email:
           user.email ||
           profile.email ||
           data.email ||
           currentUserEmail,
+
         image:
           user.profile_image ||
           user.image ||
@@ -499,33 +517,6 @@
       document.getElementById("profileImage").src = image;
 
       localStorage.setItem("creatorhub_profile_email", email);
-    }
-
-    async function loadProfileFallback(existingProfile) {
-      if (existingProfile.name && existingProfile.image) {
-        applyProfile(existingProfile);
-        return;
-      }
-
-      try {
-        const response = await fetch(
-          `${PROFILE_API_URL}?action=profile&email=${encodeURIComponent(currentUserEmail)}`
-        );
-        const data = await response.json();
-
-        if (data.success && data.user) {
-          applyProfile({
-            name: data.user.name || existingProfile.name,
-            email: data.user.email || existingProfile.email,
-            image: data.user.profile_image || existingProfile.image
-          });
-          return;
-        }
-      } catch (error) {
-        console.log("Profile fallback error:", error);
-      }
-
-      applyProfile(existingProfile);
     }
 
     function renderStats(data) {
@@ -572,6 +563,7 @@
       ordersTable.innerHTML = orders.map((order) => {
         const status = String(order.payment_status || order.status || "pending");
         const statusClass = status.toLowerCase() === "paid" ? "paid" : "pending";
+
         const image =
           driveImage(order.image || order.book_image) ||
           "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400";
@@ -595,6 +587,7 @@
                 </div>
               </div>
             </td>
+
             <td>${formatMoney(order.total_amount || order.amount || 0)}</td>
             <td>${formatMoney(order.seller_profit || order.profit || 0)}</td>
             <td><span class="badge ${statusClass}">${escapeHTML(status)}</span></td>
@@ -606,27 +599,55 @@
 
     function renderReviews(data) {
       const fallbackReviews = [
-        { user_name: "Aarav", review: "Amazing quality and fast delivery." },
-        { user_name: "Rahul", review: "Dashboard and ebook system working perfectly." },
-        { user_name: "Priya", review: "Best creator marketplace experience." }
+        {
+          user_name: "Aarav",
+          review: "Amazing quality and fast delivery."
+        },
+        {
+          user_name: "Rahul",
+          review: "Dashboard and ebook system working perfectly."
+        },
+        {
+          user_name: "Priya",
+          review: "Best creator marketplace experience."
+        }
       ];
 
-      const reviews = data.reviews && data.reviews.length ? data.reviews : fallbackReviews;
+      const reviews =
+        data.reviews && data.reviews.length
+          ? data.reviews
+          : fallbackReviews;
 
-      document.getElementById("reviewsContainer").innerHTML = reviews.map((review) => `
-        <div class="review-item">
-          <div class="review-user">${escapeHTML(review.user_name || review.name || "Customer")}</div>
-          <div class="review-text">${escapeHTML(review.review || review.text || "Amazing product")}</div>
-        </div>
-      `).join("");
+      document.getElementById("reviewsContainer").innerHTML =
+        reviews.map((review) => `
+          <div class="review-item">
+            <div class="review-user">
+              ${escapeHTML(review.user_name || review.name || "Customer")}
+            </div>
+            <div class="review-text">
+              ${escapeHTML(review.review || review.text || "Amazing product")}
+            </div>
+          </div>
+        `).join("");
     }
 
     function renderChart(data) {
       const sales = data.monthly_sales || [];
-      const labels = sales.length ? sales.map((item) => `Day ${item.day || ""}`) : ["Day 1", "Day 2", "Day 3", "Day 4"];
-      const amounts = sales.length ? sales.map((item) => Number(item.amount || 0)) : [0, 0, 0, 0];
 
-      if (window.salesChart && typeof window.salesChart.destroy === "function") {
+      const labels =
+        sales.length
+          ? sales.map((item) => `Day ${item.day || ""}`)
+          : ["Day 1", "Day 2", "Day 3", "Day 4"];
+
+      const amounts =
+        sales.length
+          ? sales.map((item) => Number(item.amount || 0))
+          : [0, 0, 0, 0];
+
+      if (
+        window.salesChart &&
+        typeof window.salesChart.destroy === "function"
+      ) {
         window.salesChart.destroy();
       }
 
@@ -634,8 +655,10 @@
 
       window.salesChart = new Chart(ctx, {
         type: "line",
+
         data: {
-          labels,
+          labels: labels,
+
           datasets: [{
             label: "Sales",
             data: amounts,
@@ -646,22 +669,36 @@
             pointRadius: 4
           }]
         },
+
         options: {
           responsive: true,
           maintainAspectRatio: false,
+
           plugins: {
             legend: {
-              labels: { color: "#ffffff" }
+              labels: {
+                color: "#ffffff"
+              }
             }
           },
+
           scales: {
             x: {
-              ticks: { color: "#94a3b8" },
-              grid: { color: "rgba(255, 255, 255, 0.05)" }
+              ticks: {
+                color: "#94a3b8"
+              },
+              grid: {
+                color: "rgba(255, 255, 255, 0.05)"
+              }
             },
+
             y: {
-              ticks: { color: "#94a3b8" },
-              grid: { color: "rgba(255, 255, 255, 0.05)" }
+              ticks: {
+                color: "#94a3b8"
+              },
+              grid: {
+                color: "rgba(255, 255, 255, 0.05)"
+              }
             }
           }
         }
@@ -677,10 +714,11 @@
         });
 
         const response = await fetch(
-          `${DASHBOARD_API_URL}?action=dashboard&email=${encodeURIComponent(currentUserEmail)}`
+          `${API_URL}?action=dashboard&email=${encodeURIComponent(currentUserEmail)}`
         );
 
         const data = await response.json();
+
         console.log(data);
 
         if (!data.success) {
@@ -688,21 +726,25 @@
         }
 
         const profile = pickProfileFromDashboard(data);
-        await loadProfileFallback(profile);
 
+        applyProfile(profile);
         renderStats(data);
         renderWallet(data);
         renderOrders(data);
         renderReviews(data);
         renderChart(data);
+
       } catch (error) {
         console.log(error);
+
         applyProfile({
           name: USER.name || "Creator",
           email: currentUserEmail,
           image: USER.profile_image || USER.image || ""
         });
+
         renderChart({});
+
         alert("Dashboard Error: " + error.message);
       }
     }
