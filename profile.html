@@ -292,8 +292,8 @@ const DEFAULT_COVER =
 `linear-gradient(110deg,rgba(37,99,235,.92),rgba(20,148,152,.9)),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1400' height='420' viewBox='0 0 1400 420'%3E%3Crect width='1400' height='420' fill='%230f172a'/%3E%3Cpath fill='%23fff' fill-opacity='.09' d='M0 280c150-80 290-84 450-14s331 72 520-11 312-78 430-20v185H0z'/%3E%3Ccircle cx='180' cy='70' r='92' fill='%23fff' fill-opacity='.08'/%3E%3Ccircle cx='1060' cy='88' r='138' fill='%23fff' fill-opacity='.08'/%3E%3C/svg%3E")`;
 
 const state = {
-  profileImageBase64: "",
-  coverImageBase64: ""
+  profileImageUrl: "",
+  coverImageUrl: ""
 };
 
 const textFields = [
@@ -496,8 +496,11 @@ function collectPayload() {
   payload.total_orders = $("totalOrders").value || 0;
   payload.total_profit = $("totalProfit").value || 0;
 
-  if (state.profileImageBase64) payload.profile_image = state.profileImageBase64;
-  if (state.coverImageBase64) payload.cover_image = state.coverImageBase64;
+if (state.profileImageUrl)
+  payload.profile_image = state.profileImageUrl;
+
+if (state.coverImageUrl)
+  payload.cover_image = state.coverImageUrl;
 
   return payload;
 }
@@ -569,9 +572,9 @@ console.log("COVER IMAGE =", payload.cover_image);
 
     localStorage.setItem(EMAIL_KEY, payload.email);
 
-    state.profileImageBase64 = "";
-    state.coverImageBase64 = "";
-
+state.profileImageUrl = "";
+state.coverImageUrl = "";
+    
     saveCache(payload.email, data.user);
     fillProfile(data.user);
     setStatus("Profile saved successfully.");
@@ -600,16 +603,38 @@ async function handleImage(input, type) {
     return;
   }
 
-  const base64 = await readFileAsBase64(file);
-  const email = value("email");
+ let formData = new FormData();
 
-  if (type === "profile") {
-    state.profileImageBase64 = base64;
-    setAvatar(base64);
-  } else {
-    state.coverImageBase64 = base64;
-    setCover(base64);
-  }
+formData.append("file", file);
+
+let res = await fetch(UPLOAD_API,{
+  method:"POST",
+  body:formData
+});
+
+let data = await res.json();
+
+if(!data.success){
+
+  showNotice("Upload Failed");
+
+  return;
+
+}
+
+if(type === "profile"){
+
+  state.profileImageUrl = data.url;
+
+  setAvatar(data.url);
+
+}else{
+
+  state.coverImageUrl = data.url;
+
+  setCover(data.url);
+
+}
 
   if (email) {
     const cached = readCache(email) || { email: email };
