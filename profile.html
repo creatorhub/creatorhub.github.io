@@ -996,6 +996,10 @@ async function saveProfile(){
 const payload =
 collectPayload();
 
+console.log("PAYLOAD", payload);
+console.log("PROFILE_IMAGE", payload.profile_image);
+console.log("COVER_IMAGE", payload.cover_image);
+
 if(
 !payload.email
 ){
