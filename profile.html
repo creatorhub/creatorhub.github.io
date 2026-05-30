@@ -403,11 +403,9 @@ if(
 text.includes("/d/")
 ){
 
-```
 return text
   .split("/d/")[1]
   .split("/")[0];
-```
 
 }
 
@@ -418,11 +416,9 @@ function imageCandidates(url){
 
 if(!url){
 
-```
 return [
   DEFAULT_AVATAR
 ];
-```
 
 }
 
@@ -435,12 +431,10 @@ text.startsWith(
 )
 ){
 
-```
 return [
   text,
   DEFAULT_AVATAR
 ];
-```
 
 }
 
@@ -449,7 +443,6 @@ getDriveId(text);
 
 if(id){
 
-```
 return [
 
   "https://drive.google.com/thumbnail?id=" +
@@ -464,7 +457,6 @@ return [
   DEFAULT_AVATAR
 
 ];
-```
 
 }
 
@@ -487,7 +479,6 @@ let index = 0;
 img.onerror =
 function(){
 
-```
   index++;
 
   if(
@@ -508,7 +499,6 @@ function(){
 
   }
 };
-```
 
 img.src =
 list[0];
@@ -521,12 +511,10 @@ $("coverPreview");
 
 if(!url){
 
-```
 cover.style.backgroundImage =
   DEFAULT_COVER;
 
 return;
-```
 
 }
 
@@ -553,7 +541,6 @@ function readFileAsBase64(file){
 return new Promise(
 (resolve,reject)=>{
 
-```
   const reader =
     new FileReader();
 
@@ -571,7 +558,6 @@ return new Promise(
   );
 
 }
-```
 
 );
 }
@@ -584,7 +570,6 @@ function readCache(email){
 
 try{
 
-```
 const cache =
   JSON.parse(
     localStorage.getItem(
@@ -596,13 +581,10 @@ return (
   cache[email] ||
   null
 );
-```
 
 }catch(err){
 
-```
 return null;
-```
 
 }
 }
@@ -614,7 +596,6 @@ user
 
 try{
 
-```
 const cache =
   JSON.parse(
     localStorage.getItem(
@@ -631,7 +612,6 @@ localStorage.setItem(
     cache
   )
 );
-```
 
 }catch(err){}
 }
@@ -658,7 +638,6 @@ timeoutMs || 10000
 
 try{
 
-```
 const response =
   await fetch(
     url,
@@ -676,15 +655,12 @@ const response =
   );
 
 return await response.json();
-```
 
 }finally{
 
-```
 clearTimeout(
   timer
 );
-```
 
 }
 }
@@ -799,7 +775,6 @@ return;
 textFields.forEach(
 key => {
 
-```
   if($(key)){
 
     $(key).value =
@@ -808,7 +783,6 @@ key => {
   }
 
 }
-```
 
 );
 
@@ -864,17 +838,14 @@ function collectPayload(){
 
 const payload = {
 
-```
 action:
   "update_profile"
-```
 
 };
 
 textFields.forEach(
 key => {
 
-```
   if($(key)){
 
     payload[key] =
@@ -883,7 +854,6 @@ key => {
   }
 
 }
-```
 
 );
 
@@ -932,13 +902,11 @@ value("email");
 
 if(!email){
 
-```
 showNotice(
   "Enter email first."
 );
 
 return;
-```
 
 }
 
@@ -955,17 +923,14 @@ readCache(email);
 
 if(cached){
 
-```
 fillProfile(
   cached
 );
-```
 
 }
 
 try{
 
-```
 const data =
   await fetchJSON(
 
@@ -1004,11 +969,9 @@ fillProfile(
 setStatus(
   "Profile loaded."
 );
-```
 
 }catch(err){
 
-```
 showNotice(
   "Unable to load profile."
 );
@@ -1016,13 +979,10 @@ showNotice(
 setStatus(
   "Load failed."
 );
-```
 
 }finally{
 
-```
 setBusy(false);
-```
 
 }
 }
@@ -1040,13 +1000,11 @@ if(
 !payload.email
 ){
 
-```
 showNotice(
   "Email required."
 );
 
 return;
-```
 
 }
 
@@ -1060,7 +1018,6 @@ setStatus(
 
 try{
 
-```
 const data =
   await fetchJSON(
 
@@ -1122,11 +1079,9 @@ fillProfile(
 setStatus(
   "Profile saved."
 );
-```
 
 }catch(err){
 
-```
 console.error(err);
 
 showNotice(
@@ -1136,13 +1091,10 @@ showNotice(
 setStatus(
   "Save failed."
 );
-```
 
 }finally{
 
-```
 setBusy(false);
-```
 
 }
 }
@@ -1168,13 +1120,11 @@ if(
 )
 ){
 
-```
 showNotice(
   "Select valid image."
 );
 
 return;
-```
 
 }
 
@@ -1183,13 +1133,11 @@ file.size >
 2.5 * 1024 * 1024
 ){
 
-```
 showNotice(
   "Max image size 2.5MB."
 );
 
 return;
-```
 
 }
 
@@ -1203,25 +1151,21 @@ type ===
 "profile"
 ){
 
-```
 state.profileImageUrl =
   base64;
 
 setAvatar(
   base64
 );
-```
 
 }else{
 
-```
 state.coverImageUrl =
   base64;
 
 setCover(
   base64
 );
-```
 
 }
 
@@ -1230,7 +1174,6 @@ value("email");
 
 if(email){
 
-```
 const cached =
   readCache(email) ||
   { email };
@@ -1254,7 +1197,6 @@ saveCache(
   email,
   cached
 );
-```
 
 }
 
@@ -1286,7 +1228,6 @@ EMAIL_KEY
 
 if(savedEmail){
 
-```
 $("email").value =
   savedEmail;
 
@@ -1304,13 +1245,10 @@ if(cached){
 }
 
 loadProfile();
-```
 
 }else{
 
-```
 updatePreview();
-```
 
 }
 
@@ -1339,14 +1277,12 @@ $("profileForm")
 "submit",
 function(event){
 
-```
     event.preventDefault();
 
     saveProfile();
 
   }
 );
-```
 
 /* ==========================
 IMAGE INPUTS
@@ -1357,7 +1293,6 @@ $("profileImage")
 "change",
 function(event){
 
-```
     handleImage(
       event.target,
       "profile"
@@ -1365,14 +1300,12 @@ function(event){
 
   }
 );
-```
 
 $("coverImage")
 .addEventListener(
 "change",
 function(event){
 
-```
     handleImage(
       event.target,
       "cover"
@@ -1380,7 +1313,6 @@ function(event){
 
   }
 );
-```
 
 /* ==========================
 LIVE PREVIEW
@@ -1393,7 +1325,6 @@ document
 .forEach(
 control => {
 
-```
     control.addEventListener(
       "input",
       updatePreview
@@ -1406,7 +1337,6 @@ control => {
 
   }
 );
-```
 
 setStatus(
 "Ready"
