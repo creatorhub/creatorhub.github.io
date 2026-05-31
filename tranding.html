@@ -3,18 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trending Books | CreatorHub</title>
+<title>Trending Books & Analytics Marketplace | CreatorHub</title>
 <style>
 /* =========================================================
-   HOMEPAGE MATCHING GRID CORE LAYOUT (Based on image_b18945.png)
+   CREATORHUB ADVANCED DESIGN SYSTEM VARIABLE TOKENS
    ========================================================= */
 :root {
-    --bg: #f8fafc;       /* Modern subtle ash white canvas */
-    --card: #ffffff;     /* Pure high-fidelity white cards */
-    --accent: #2563eb;   /* Platform Royal Blue */
-    --text: #0f172a;     /* Deep charcoal text font */
-    --text-muted: #64748b;
-    --border: #e2e8f0;
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --accent-blue: #2563eb;
+    --accent-blue-hover: #1d4ed8;
+    --accent-blue-light: #eff6ff;
+    --accent-gold: #f59e0b;
+    --accent-red: #ef4444;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 *{
@@ -25,135 +34,279 @@
 
 body{
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
     min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* NAVBAR HEADER */
-.header{
+/* =========================================================
+   NAVIGATION MODULE LAYER
+   ========================================================= */
+.navbar-viewport {
     height: 75px;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 0 40px;
-    border-bottom: 1px solid var(--border);
-    background: #ffffff;
     position: sticky;
     top: 0;
-    z-index: 999;
+    z-index: 1000;
+    box-shadow: var(--shadow-sm);
 }
 
-.back-wrapper {
+.brand-navigation {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.action-back-trigger {
     display: flex;
     align-items: center;
     gap: 8px;
     cursor: pointer;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     font-weight: 600;
-    font-size: 15px;
-    transition: color 0.2s, transform 0.2s;
+    font-size: 14px;
+    transition: var(--transition-smooth);
     user-select: none;
-    margin-right: 15px;
+    border: 1px solid var(--border-color);
+    padding: 8px 14px;
+    border-radius: 10px;
+    background-color: var(--bg-secondary);
 }
 
-.back-wrapper:hover {
-    color: var(--accent);
-    transform: translateX(-3px);
+.action-back-trigger:hover {
+    color: var(--accent-blue);
+    border-color: var(--accent-blue);
+    background-color: var(--accent-blue-light);
+    transform: translateX(-2px);
 }
 
-.title{
+.marketplace-brand-title {
     font-size: 22px;
     font-weight: 800;
-    color: #0f172a;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
 }
 
-/* MAIN CONTAINER GRID PORT */
-.container{
-    padding: 40px 40px;
-    max-width: 1400px;
+/* =========================================================
+   MARKETPLACE ANALYTICS COUNTER MODULE
+   ========================================================= */
+.analytics-shelf-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 35px;
+}
+
+.analytic-data-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: var(--shadow-sm);
+}
+
+.analytic-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background-color: var(--accent-blue-light);
+    color: var(--accent-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.analytic-metrics-body h4 {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.analytic-metrics-body p {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-top: 2px;
+}
+
+/* =========================================================
+   DYNAMIC CONTROL SUB-SYSTEM (SEARCH & FILTER TABS)
+   ========================================================= */
+.control-hub-deck {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 35px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.search-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.search-input-wrapper input {
+    width: 100%;
+    padding: 14px 16px 14px 44px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
+    font-size: 15px;
+    color: var(--text-primary);
+    transition: var(--transition-smooth);
+}
+
+.search-input-wrapper input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    background-color: var(--bg-secondary);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.search-input-wrapper::before {
+    content: "🔍";
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: var(--text-muted);
+}
+
+.filter-tab-scroller {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+
+.filter-tab-scroller::-webkit-scrollbar {
+    height: 4px;
+}
+
+.filter-tab-scroller::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 10px;
+}
+
+.filter-pill-trigger {
+    padding: 8px 16px;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: var(--transition-smooth);
+}
+
+.filter-pill-trigger.active-state, .filter-pill-trigger:hover {
+    background-color: var(--text-primary);
+    color: var(--bg-secondary);
+    border-color: var(--text-primary);
+}
+
+/* =========================================================
+   CORE GRID ENGINE MATRIX
+   ========================================================= */
+.main-content-wrapper {
+    padding: 0 40px 40px 40px;
+    max-width: 1440px;
     margin: auto;
 }
 
-/* HOMEPAGE EBOOK GRID MATRIX */
-.list{
+.catalog-grid-matrix {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 30px;
 }
 
-/* GRID BOOK CARDS - Matching homepage item frames precisely */
-.card{
-    background: var(--card);
+/* HIGH FIDELITY PRODUCT COMPONENT CARDS */
+.product-showcase-card {
+    background-color: var(--bg-secondary);
     border-radius: 16px;
-    border: 1px solid var(--border);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
-    cursor: pointer;
-    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
     display: flex;
     flex-direction: column;
     overflow: hidden;
     position: relative;
+    transition: var(--transition-smooth);
 }
 
-.card:hover{
+.product-showcase-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.06), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+    box-shadow: var(--shadow-lg);
 }
 
-/* IMAGE CONTAINER WITH BADGE OVERLAY */
-.image-container {
+.media-asset-container {
     width: 100%;
     aspect-ratio: 2/3;
     position: relative;
-    background: #f1f5f9;
-    border-bottom: 1px solid var(--border);
+    background-color: var(--bg-primary);
+    overflow: hidden;
+    border-bottom: 1px solid var(--border-color);
 }
 
-.card img{
+.media-asset-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s ease;
 }
 
-.card:hover img {
-    transform: scale(1.03);
+.product-showcase-card:hover .media-asset-container img {
+    transform: scale(1.04);
 }
 
-/* HOT BADGE FLOATING OVER IMAGE */
-.badge{
+.floating-index-badge {
     position: absolute;
     top: 12px;
     right: 12px;
-    font-size: 10px;
-    background: rgba(255, 255, 255, 0.95);
-    color: #ef4444;
+    font-size: 11px;
+    font-weight: 700;
     padding: 4px 10px;
     border-radius: 50px;
-    font-weight: 700;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    background-color: rgba(255, 255, 255, 0.95);
+    color: var(--accent-red);
+    box-shadow: var(--shadow-sm);
     border: 1px solid #fee2e2;
     text-transform: uppercase;
-    letter-spacing: 0.02em;
-    z-index: 2;
+    letter-spacing: 0.03em;
+    z-index: 5;
 }
 
-/* DETAILS COMPONENT SHEET */
-.info{
-    padding: 16px;
+.card-details-sheet {
+    padding: 18px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
 }
 
-/* BOOK TITLE WITH COMPACT LINE CLIPPING */
-.name{
-    font-size: 15px;
+.product-title-string {
+    font-size: 16px;
     font-weight: 700;
-    color: var(--text);
+    color: var(--text-primary);
     line-height: 1.4;
-    height: 42px;
+    height: 44px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -161,234 +314,373 @@ body{
     margin-bottom: 8px;
 }
 
-/* METADATA PLATFORM PARAMETERS */
-.meta{
+.product-metadata-row {
     font-size: 12px;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     font-weight: 500;
-    margin-bottom: 12px;
-    white-space: nowrap;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-/* ROYAL BLUE PRICE & BUTTON AREA */
-.footer-action {
+.card-footer-interaction-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: auto;
-    padding-top: 10px;
+    padding-top: 12px;
+    border-top: 1px solid var(--bg-primary);
 }
 
-.price{
-    color: var(--accent);
-    font-size: 16px;
+.pricing-tag {
+    font-size: 18px;
     font-weight: 800;
+    color: var(--accent-blue);
 }
 
-/* COMPACT BLUE FLAT DASHBOARD ACTION BUTTON */
-.buy{
-    padding: 8px 16px;
+.action-buy-trigger {
+    padding: 9px 18px;
     border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    background: var(--accent);
-    color: white;
+    border-radius: 10px;
+    background-color: var(--accent-blue);
+    color: var(--bg-secondary);
     font-weight: 700;
-    font-size: 12px;
-    transition: background 0.2s;
+    font-size: 13px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
 }
 
-.buy:hover{
-    background: #1d4ed8;
+.action-buy-trigger:hover {
+    background-color: var(--accent-blue-hover);
+    transform: translateY(-1px);
 }
 
-/* BOX CONTAINERS FOR RENDER PROCESSING STATUSES */
-.status-box {
+/* =========================================================
+   STATUS LAYOUT ENGINE RENDERERS
+   ========================================================= */
+.status-container-box {
     grid-column: 1 / -1;
-    background: #ffffff;
-    border: 1px solid var(--border);
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
     border-radius: 16px;
-    padding: 60px 20px;
+    padding: 80px 20px;
     text-align: center;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01);
+    box-shadow: var(--shadow-sm);
 }
 
-.status-title {
+.spinner-element {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--border-color);
+    border-top: 3px solid var(--accent-blue);
+    border-radius: 50%;
+    animation: pipelineRotation 0.8s linear infinite;
+    margin: 0 auto 20px auto;
+}
+
+.status-headline {
     font-size: 18px;
     font-weight: 700;
-    color: var(--text);
+    color: var(--text-primary);
     margin-bottom: 6px;
 }
 
-.status-msg {
-    color: var(--text-muted);
+.status-sub-details {
+    color: var(--text-secondary);
     font-size: 14px;
+    max-width: 450px;
+    margin: 0 auto;
+    line-height: 1.5;
 }
 
-.spinner {
-    width: 26px;
-    height: 24px;
-    border: 3px solid #cbd5e1;
-    border-top: 3px solid var(--accent);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 15px auto;
-}
-
-@keyframes spin {
+@keyframes pipelineRotation {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
 
-@media(max-width:600px){
-    .header { padding: 0 20px; }
-    .container { padding: 25px 15px; }
-    .list { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
-    .name { font-size: 14px; height: 38px; }
-    .price { font-size: 15px; }
-    .buy { padding: 6px 12px; font-size: 11px; }
+/* =========================================================
+   RESPONSIVE LAYOUT CONTEXT MEDIA QUERY BREAKPOINTS
+   ========================================================= */
+@media(max-width: 1024px) {
+    .analytics-shelf-strip { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media(max-width: 768px) {
+    .navbar-viewport { padding: 0 20px; }
+    .main-content-wrapper { padding: 0 20px 30px 20px; }
+    .analytics-shelf-strip { grid-template-columns: 1fr; gap: 15px; }
+    .catalog-grid-matrix { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
+    .product-title-string { font-size: 14px; height: 38px; }
+    .pricing-tag { font-size: 16px; }
 }
 </style>
 </head>
 <body>
 
-<!-- TOP NAVIGATION PORT -->
-<div class="header">
-    <div class="back-wrapper" onclick="history.back()">
-        <span>←</span> Back
+<!-- NAVBAR DASHBOARD TOP SHEET -->
+<div class="navbar-viewport">
+    <div class="brand-navigation">
+        <div class="action-back-trigger" onclick="history.back()">
+            <span>←</span> Back
+        </div>
+        <div class="marketplace-brand-title">Trending Catalog</div>
     </div>
-    <div class="title">Trending Books</div>
 </div>
 
-<!-- CENTRAL INTERFACE GRID PORTAL -->
-<div class="container">
-    <div id="books" class="list">
-        <!-- Initial Skeleton Loading Frame State -->
-        <div class="status-box">
-            <div class="spinner"></div>
-            <div class="status-title">Loading Catalog Shelves</div>
-            <div class="status-msg">Fetching top performing analytical item metrics across datastores...</div>
+<!-- CONTAINER LAYOUT CORE FRAME -->
+<div class="main-content-wrapper">
+    
+    <!-- SYSTEM STATS ANALYTICS BAR -->
+    <div class="analytics-shelf-strip">
+        <div class="analytic-data-card">
+            <div class="analytic-icon-wrapper">🔥</div>
+            <div class="analytic-metrics-body">
+                <h4>Hot Inclusions</h4>
+                <p id="statTrending">00</p>
+            </div>
+        </div>
+        <div class="analytic-data-card">
+            <div class="analytic-icon-wrapper">📈</div>
+            <div class="analytic-metrics-body">
+                <h4>Total Sales Count</h4>
+                <p id="statSales">00</p>
+            </div>
+        </div>
+        <div class="analytic-data-card">
+            <div class="analytic-icon-wrapper">📦</div>
+            <div class="analytic-metrics-body">
+                <h4>Approved Shelf</h4>
+                <p id="statApproved">00</p>
+            </div>
+        </div>
+        <div class="analytic-data-card">
+            <div class="analytic-icon-wrapper">💎</div>
+            <div class="analytic-metrics-body">
+                <h4>Top Category</h4>
+                <p id="statCategory">None</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTROL HUB CONTROLLER DECK -->
+    <div class="control-hub-deck">
+        <div class="search-input-wrapper">
+            <input type="text" id="catalogSearch" placeholder="Search trending books by title, author or keywords..." oninput="filterCatalogPool()">
+        </div>
+        <div class="filter-tab-scroller" id="categoryFilterContainer">
+            <span class="filter-pill-trigger active-state" onclick="switchCategoryFilter(this, 'ALL')">All Library Collections</span>
+        </div>
+    </div>
+
+    <!-- DYNAMIC CATALOG TARGET MATRIX -->
+    <div id="catalogGridMesh" class="catalog-grid-matrix">
+        <div class="status-container-box">
+            <div class="spinner-element"></div>
+            <div class="status-headline">Connecting Core System Layers</div>
+            <div class="status-sub-details">Synchronizing transaction tunnels and structural data array nodes safely...</div>
         </div>
     </div>
 </div>
 
 <script>
-/* CORE DATA PIPELINE API ENDPOINT */
-const API = "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
+/* =========================================================
+   CORE CONTROL STORAGE ARRAYS & CONFIG CHANNELS
+   ========================================================= */
+const TARGET_GATEWAY_URL = "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
 
-/* Dynamic Ingestion Link Converter to Vector High Res Assets thumbnails */
-function driveImage(link){
-    if(!link) return "https://picsum.photos/400/600";
+let GLOBAL_CATALOG_POOL = [];
+let CURRENT_ACTIVE_CATEGORY = "ALL";
+
+/* Direct High Res Google Drive Thumbnail Parser */
+function resolveAssetCoverThumbnail(linkSource){
+    if(!linkSource) return "https://picsum.photos/400/600";
     try {
-        let id = "";
-        if(link.includes("id=")){ id = link.split("id=")[1].split("&")[0]; }
-        if(link.includes("/file/d/")){ id = link.split("/file/d/")[1].split("/")[0]; }
-        if(id){ return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000"; }
-    } catch(e) { console.error("Image asset link mapping error catch exception:", e); }
-    return link;
+        let extractedId = "";
+        if(linkSource.includes("id=")){ extractedId = linkSource.split("id=")[1].split("&")[0]; }
+        if(linkSource.includes("/file/d/")){ extractedId = linkSource.split("/file/d/")[1].split("/")[0]; }
+        if(extractedId){ return "https://drive.google.com/thumbnail?id=" + extractedId + "&sz=w1000"; }
+    } catch(err) { console.error("Asset matrix recovery parsing error:", err); }
+    return linkSource;
 }
 
-/* HIGH-SPEED GRID RENDER PARSING PIPELINE FLOW */
-async function loadTrendingBooks(){
-    const box = document.getElementById("books");
+/* SYNCHRONOUS INGESTION STREAM SYSTEM PARSER EXECUTION ENGINE */
+async function triggerCoreMarketplaceIngestion(){
+    const visualMeshContainer = document.getElementById("catalogGridMesh");
     
     try {
-        // Parallel requests resolve structural delays
-        const [productsRes, ordersRes] = await Promise.all([
-            fetch(API + "?action=products&t=" + Date.now()),
-            fetch(API + "?action=sellers&t=" + Date.now()) // Safe fallback token stream parameters
+        const [streamProductsResponse, streamSellersResponse] = await Promise.all([
+            fetch(TARGET_GATEWAY_URL + "?action=products&timestamp=" + Date.now()),
+            fetch(TARGET_GATEWAY_URL + "?action=sellers&timestamp=" + Date.now())
         ]);
 
-        let productsData = await productsRes.json();
-        let products = productsData.products || productsData;
-        let orders = [];
+        let productBulkPayload = await streamProductsResponse.json();
+        let formattedProductData = productBulkPayload.products || productBulkPayload;
+        let trackingOrdersLogArray = [];
 
         try {
-            let ordersData = await ordersRes.json();
-            orders = ordersData.orders || ordersData || [];
-        } catch(e){ console.warn("Analytical order array records inject default context"); }
+            let orderBulkPayload = await streamSellersResponse.json();
+            trackingOrdersLogArray = orderBulkPayload.orders || orderBulkPayload || [];
+        } catch(err) { console.warn("Dynamic transactional orders empty array matrix deployment mapping active."); }
 
-        if(!Array.isArray(products)) products = [];
-        if(!Array.isArray(orders)) orders = [];
+        if(!Array.isArray(formattedProductData)) formattedProductData = [];
+        if(!Array.isArray(trackingOrdersLogArray)) trackingOrdersLogArray = [];
 
-        // Filter out catalog structures based on status metrics
-        products = products.filter(p => (p.status || p.ai_status) === "approved");
+        // Structural Filter parameters matches approved database properties
+        GLOBAL_CATALOG_POOL = formattedProductData.filter(itemNode => (itemNode.status || itemNode.ai_status) === "approved");
 
-        if(products.length === 0) {
-            box.innerHTML = `
-                <div class="status-box">
-                    <div class="status-title">No Books Found</div>
-                    <div class="status-msg">There are no approved publications indexed on the grid architecture right now.</div>
+        if(GLOBAL_CATALOG_POOL.length === 0) {
+            visualMeshContainer.innerHTML = `
+                <div class="status-container-box">
+                    <div class="status-headline">No Active Catalog Inclusions</div>
+                    <div class="status-sub-details">Platform inventory structures are unindexed at this execution node interface interval.</div>
                 </div>`;
             return;
         }
 
-        // Loop score allocations
-        products.forEach(p => {
-            let sales = orders.filter(o => 
-                String(o.productId || o.product_id) === String(p.id) && (o.payment === "paid" || o.status === "paid")
+        let totalPlatformSalesVolumeCount = 0;
+        let uniqueCategoryMapDistribution = {};
+
+        // Metrics engine vector mappings execution logic
+        GLOBAL_CATALOG_POOL.forEach(bookItem => {
+            let verifiedSalesMatchesCount = trackingOrdersLogArray.filter(orderNode => 
+                String(orderNode.productId || orderNode.product_id) === String(bookItem.id) && 
+                (orderNode.payment === "paid" || orderNode.status === "paid")
             ).length;
             
-            p.sales = p.sales || sales || 0;
-            p.trendingScore = (p.sales * 5) + (Number(p.reads || 0) * 2);
-        });
-
-        // Sorting algorithm descending execution block
-        products.sort((a, b) => b.trendingScore - a.trendingScore);
-
-        let html = "";
-
-        // Build top hot grid view items stream map
-        products.slice(0, 20).forEach((p, i) => {
-            let coverImg = p.front_cover || p.image || "";
-            let categoryName = p.category || "General Content";
+            bookItem.sales = bookItem.sales || verifiedSalesMatchesCount || 0;
+            bookItem.trendingScore = (bookItem.sales * 5) + (Number(bookItem.reads || 0) * 2);
             
-            html += `
-                <div class="card" onclick="openBook('${p.id}')">
-                    <div class="image-container">
-                        ${i < 3 ? '<span class="badge">🔥 Hot</span>' : ''}
-                        <img src="${driveImage(coverImg)}" onerror="this.src='https://picsum.photos/400/600'" alt="Cover Matrix Frame">
-                    </div>
-                    <div class="info">
-                        <div class="name">${p.title || "Untitled Masterpiece"}</div>
-                        <div class="meta">📊 ${p.sales || 0} distributed • ${categoryName}</div>
-                        <div class="footer-action">
-                            <div class="price">₹${p.price || 0}</div>
-                            <button class="buy" onclick="buyNow(event, '${p.id}')">Buy Now</button>
-                        </div>
-                    </div>
-                </div>
-            `;
+            totalPlatformSalesVolumeCount += bookItem.sales;
+            
+            if(bookItem.category) {
+                uniqueCategoryMapDistribution[bookItem.category] = (uniqueCategoryMapDistribution[bookItem.category] || 0) + 1;
+            }
         });
 
-        box.innerHTML = html;
+        // Compute high score performance indexes descending vectors
+        GLOBAL_CATALOG_POOL.sort((vectorA, vectorB) => vectorB.trendingScore - vectorA.trendingScore);
 
-    } catch(err) {
-        console.error("System Fatal Exception processing index array loops:", err);
-        box.innerHTML = `
-            <div class="status-box" style="border-color: #fee2e2; background: #fff5f5;">
-                <div class="status-title" style="color: #b91c1c;">Data Stream Synchronization Error</div>
-                <div class="status-msg" style="color: #991b1b;">Connection tunnel mapping failed or execution script limit exceeded. Check your web deployment paths.</div>
-                <button style="margin-top:15px; background:#ef4444; color:white; border:none; padding:8px 20px; border-radius:8px; font-weight:700; cursor:pointer;" onclick="location.reload()">Re-establish Sync</button>
+        // Update top analytic statistic metric indicators
+        document.getElementById("statApproved").innerText = GLOBAL_CATALOG_POOL.length;
+        document.getElementById("statSales").innerText = totalPlatformSalesVolumeCount;
+        document.getElementById("statTrending").innerText = GLOBAL_CATALOG_POOL.filter(b => b.trendingScore > 0).length;
+        
+        let targetTopCategoryString = "General";
+        let comparativeHighestValueCount = 0;
+        for(let keyCategoryName in uniqueCategoryMapDistribution) {
+            if(uniqueCategoryMapDistribution[keyCategoryName] > comparativeHighestValueCount) {
+                comparativeHighestValueCount = uniqueCategoryMapDistribution[keyCategoryName];
+                targetTopCategoryString = keyCategoryName;
+            }
+        }
+        document.getElementById("statCategory").innerText = targetTopCategoryString;
+
+        // Formulate filter slider interface dynamic mapping nodes loops
+        const filterNavigationContainer = document.getElementById("categoryFilterContainer");
+        for(let uniqueCategoryKeyName in uniqueCategoryMapDistribution) {
+            let creationElementTabNode = document.createElement("span");
+            creationElementTabNode.className = "filter-pill-trigger";
+            creationElementTabNode.innerText = uniqueCategoryKeyName;
+            creationElementTabNode.setAttribute("onclick", `switchCategoryFilter(this, '${uniqueCategoryKeyName}')`);
+            filterNavigationContainer.appendChild(creationElementTabNode);
+        }
+
+        renderCatalogMeshGrid(GLOBAL_CATALOG_POOL);
+
+    } catch(fatalExceptionError) {
+        console.error("System structural data ingestion path breakdown crash fault:", fatalExceptionError);
+        visualMeshContainer.innerHTML = `
+            <div class="status-container-box" style="border-color: #fee2e2; background-color: #fff5f5;">
+                <div class="status-headline" style="color: #b91c1c;">Structural Sync Fail Exception</div>
+                <div class="status-sub-details" style="color: #991b1b;">Data pipelines verification handshake timeout exceeded limits. Ensure authorization link paths match.</div>
+                <button class="btn-retry" style="margin-top: 20px; background-color: #ef4444; color: white; border: none; padding: 10px 22px; border-radius: 8px; font-weight: 700; cursor: pointer;" onclick="location.reload()">Re-initialize Pipeline Stream</button>
             </div>`;
     }
 }
 
-/* ENGINE TRANSIT ROUTING MAPPING SCHEMAS */
-function openBook(id){
-    location.href = "ebook.html?id=" + id;
+/* COMPONENT GRID LAYER RENDER ENGINE MAPPING PARAMETERS */
+function renderCatalogMeshGrid(dataSetCollectionSource){
+    const gridViewportContainer = document.getElementById("catalogGridMesh");
+    let dynamicHTMLCompilationString = "";
+
+    if(dataSetCollectionSource.length === 0) {
+        gridViewportContainer.innerHTML = `
+            <div class="status-container-box">
+                <div class="status-headline">Query Filter Stack Unmatched</div>
+                <div class="status-sub-details">No matching indexed items match your system filter specifications parameters.</div>
+            </div>`;
+        return;
+    }
+
+    dataSetCollectionSource.forEach((itemObject, indexRankingOffset) => {
+        let referenceCoverImageSource = itemObject.front_cover || itemObject.image || "";
+        let definedCategoryContextTag = itemObject.category || "General";
+        
+        dynamicHTMLCompilationString += `
+            <div class="product-showcase-card" onclick="routeToTargetBookProfile('${itemObject.id}')">
+                <div class="media-asset-container">
+                    ${indexRankingOffset < 3 ? '<span class="floating-index-badge">🔥 Hot Trend</span>' : ''}
+                    <img src="${resolveAssetCoverThumbnail(referenceCoverImageSource)}" onerror="this.src='https://picsum.photos/400/600'" alt="Book Cover Medium Matrice">
+                </div>
+                <div class="card-details-sheet">
+                    <div class="product-title-string">${itemObject.title || "Untitled Creation"}</div>
+                    <div class="product-metadata-row">📈 ${itemObject.sales || 0} Sold • ${definedCategoryContextTag}</div>
+                    <div class="card-footer-interaction-bar">
+                        <div class="pricing-tag">₹${itemObject.price || 0}</div>
+                        <button class="action-buy-trigger" onclick="routeToPaymentTunnel(event, '${itemObject.id}')">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    gridViewportContainer.innerHTML = dynamicHTMLCompilationString;
 }
 
-function buyNow(e, id){
-    e.stopPropagation();
-    localStorage.setItem("buyProduct", id);
+/* HUB DECK STREAM FILTER HANDLERS CONTROLLERS LOOP MATRIX */
+function filterCatalogPool() {
+    const stringSearchQueryFilterToken = document.getElementById("catalogSearch").value.toLowerCase().trim();
+    
+    let processFilteredResultSet = GLOBAL_CATALOG_POOL.filter(itemDataNode => {
+        let booleanSearchStringMatchFlag = 
+            (itemDataNode.title && itemDataNode.title.toLowerCase().includes(stringSearchQueryFilterToken)) ||
+            (itemDataNode.author_name && itemDataNode.author_name.toLowerCase().includes(stringSearchQueryFilterToken)) ||
+            (itemDataNode.category && itemDataNode.category.toLowerCase().includes(stringSearchQueryFilterToken));
+            
+        let booleanCategoryMatchFlag = (CURRENT_ACTIVE_CATEGORY === "ALL" || itemDataNode.category === CURRENT_ACTIVE_CATEGORY);
+        
+        return booleanSearchStringMatchFlag && booleanCategoryMatchFlag;
+    });
+    
+    renderCatalogMeshGrid(processFilteredResultSet);
+}
+
+function switchCategoryFilter(clickedElementContextNode, targetCategoryPillTokenName) {
+    const parentTabElementsArray = document.querySelectorAll(".filter-pill-trigger");
+    parentTabElementsArray.forEach(activeNodeElement => activeNodeElement.classList.remove("active-state"));
+    
+    clickedElementContextNode.classList.add("active-state");
+    CURRENT_ACTIVE_CATEGORY = targetCategoryPillTokenName;
+    filterCatalogPool();
+}
+
+/* SYSTEM TRANSIT INTERFACE NAVIGATION ROUTING CHANNELS */
+function routeToTargetBookProfile(targetBookIdToken){
+    location.href = "ebook.html?id=" + targetBookIdToken;
+}
+
+function routeToPaymentTunnel(clickEventPropagationStopToken, targetBookIdToken){
+    clickEventPropagationStopToken.stopPropagation();
+    localStorage.setItem("buyProduct", targetBookIdToken);
     location.href = "payment.html";
 }
 
-// Ingest execution threads smoothly on document load
-window.addEventListener("DOMContentLoaded", loadTrendingBooks);
+// Fire runtime ingestion system process stream on initialization loops
+window.addEventListener("DOMContentLoaded", triggerCoreMarketplaceIngestion);
 </script>
 </body>
 </html>
