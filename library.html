@@ -1,1472 +1,896 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>My Library - CreatorHub</title>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
-body{
-background:#020617;
-color:white;
-overflow-x:hidden;
-}
-
-:root{
---card:#0f172a;
---green:#22c55e;
---border:#1e293b;
-}
-
-/* TOPBAR */
-
-.topbar{
-position:sticky;
-top:0;
-z-index:100;
-background:#07111f;
-padding:18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-border-bottom:1px solid rgba(255,255,255,.05);
-}
-
-.back{
-font-size:24px;
-cursor:pointer;
-}
-
-.title{
-font-size:34px;
-font-weight:bold;
-}
-
-.title span{
-color:var(--green);
-}
-
-.dashboard{
-background:linear-gradient(90deg,#16a34a,#4ade80);
-padding:12px 20px;
-border-radius:14px;
-text-decoration:none;
-color:white;
-font-weight:bold;
-}
-
-/* MAIN */
-
-.container{
-padding:20px;
-padding-bottom:180px;
-max-width:1600px;
-margin:auto;
-min-height:100vh;
-display:flex;
-flex-direction:column;
-}
-
-/* STATS */
-
-.stats{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:18px;
-margin-top:25px;
-}
-
-.stat-box{
-background:var(--card);
-padding:24px;
-border-radius:24px;
-border:1px solid var(--border);
-display:flex;
-align-items:center;
-gap:18px;
-}
-
-.icon{
-width:70px;
-height:70px;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:30px;
-background:rgba(34,197,94,.15);
-}
-
-.stat-box h2{
-font-size:32px;
-}
-
-.stat-box p{
-opacity:.7;
-margin-top:5px;
-}
-
-/* TABS */
-
-.tabs{
-display:flex;
-gap:14px;
-margin-top:28px;
-overflow:auto;
-padding-bottom:10px;
-}
-
-.tabs::-webkit-scrollbar{
-display:none;
-}
-
-.tab{
-padding:14px 22px;
-background:#0b1220;
-border:1px solid var(--border);
-border-radius:14px;
-cursor:pointer;
-font-weight:bold;
-white-space:nowrap;
-}
-
-.tab.active{
-background:linear-gradient(90deg,#16a34a,#4ade80);
-}
-
-/* GRID */
-
-.grid{
-display:grid;
-grid-template-columns:
-repeat(2,minmax(0,1fr));
-gap:16px;
-margin-top:24px;
-}
-
-/* CARD */
-
-.card{
-background:var(--card);
-padding:12px;
-border-radius:24px;
-border:1px solid var(--border);
-transition:.3s;
-position:relative;
-overflow:hidden;
-display:flex;
-flex-direction:column;
-}
-
-.card:hover{
-transform:translateY(-6px);
-}
-
-.cover{
-width:100%;
-aspect-ratio:3/4;
-object-fit:cover;
-border-radius:16px;
-display:block;
-background:#0f172a;
-box-shadow:
-0 8px 25px rgba(0,0,0,.45);
-}
-
-.menu{
-position:absolute;
-top:18px;
-right:18px;
-background:rgba(0,0,0,.5);
-padding:8px 12px;
-border-radius:12px;
-font-size:18px;
-}
-
-.book-title{
-font-size:18px;
-font-weight:700;
-margin-top:12px;
-line-height:1.3;
-}
-
-.author{
-opacity:.7;
-margin-top:5px;
-font-size:13px;
-}
-   
-.badge{
-display:inline-block;
-padding:8px 14px;
-border-radius:20px;
-margin-top:14px;
-font-size:14px;
-font-weight:bold;
-background:rgba(34,197,94,.15);
-color:#4ade80;
-}
-
-.read-btn{
-width:100%;
-padding:12px;
-border:none;
-border-radius:14px;
-background:linear-gradient(90deg,#16a34a,#4ade80);
-color:white;
-font-size:14px;
-font-weight:bold;
-margin-top:18px;
-cursor:pointer;
-}
-
-.buy-btn{
-width:100%;
-padding:15px;
-border:none;
-border-radius:14px;
-background:#f97316;
-color:white;
-font-size:17px;
-font-weight:bold;
-margin-top:18px;
-cursor:pointer;
-}
-
-.actions{
-display:flex;
-gap:12px;
-margin-top:14px;
-}
-
-.actions button{
-font-size:13px;
-padding:10px;
-}
-
-.edit{
-flex:1;
-padding:12px;
-border:none;
-border-radius:12px;
-background:#2563eb;
-color:white;
-font-weight:bold;
-cursor:pointer;
-}
-
-.delete{
-flex:1;
-padding:12px;
-border:none;
-border-radius:12px;
-background:#ef4444;
-color:white;
-font-weight:bold;
-cursor:pointer;
-}
-
-/* SUBSCRIPTION */
-
-.subscription{
-position:fixed;
-left:14px;
-right:14px;
-bottom:90px;
-z-index:998;
-background:
-linear-gradient(
-90deg,
-#1e1b4b,
-#312e81
-);
-
-padding:18px;
-border-radius:24px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:20px;
-box-shadow:
-0 10px 40px rgba(0,0,0,.45);
-border:
-1px solid rgba(255,255,255,.06);
-backdrop-filter:blur(18px);
-}
-
-.subscription h2{
-font-size:28px;
-}
-
-.subscription p{
-margin-top:8px;
-opacity:.8;
-}
-
-.manage-btn{
-padding:16px 24px;
-border:none;
-border-radius:16px;
-background:linear-gradient(90deg,#16a34a,#4ade80);
-color:white;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
-}
-
-/* NAV */
-
-.bottom-nav{
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-height:78px;
-background:
-rgba(7,17,31,.92);
-display:flex;
-justify-content:space-around;
-align-items:center;
-padding:8px 10px;
-border-top:
-1px solid rgba(255,255,255,.06);
-backdrop-filter:blur(20px);
-z-index:999;
-box-shadow:
-0 -8px 30px rgba(0,0,0,.5);
-}
-
-.nav-item{
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-gap:5px;
-font-size:11px;
-font-weight:600;
-color:#94a3b8;
-cursor:pointer;
-transition:.25s;
-width:65px;
-height:58px;
-border-radius:18px;
-}
-
-.nav-item:hover{
-transform:translateY(-2px);
-color:white;
-}
-
-.nav-item.active{
-background:
-rgba(34,197,94,.14);
-color:#4ade80;
-box-shadow:
-0 0 25px rgba(34,197,94,.25);
-}
-   
-.nav-item.active{
-color:#4ade80;
-opacity:1;
-}
-
-.nav-item:hover{
-color:white;
-transform:translateY(-2px);
-}
-
-.nav-icon{
-font-size:24px;
-line-height:1;
-}
-
-.nav-item.active{
-color:#4ade80;
-background:
-rgba(34,197,94,.12);
-box-shadow:
-0 0 20px rgba(34,197,94,.2);
-}
-
-/* EMPTY */
-
-.empty{
-grid-column:1/-1;
-min-height:50vh;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-font-size:22px;
-opacity:.7;
-}
-
-/* MOBILE */
-
-@media(max-width:900px){
-
-.stats{
-grid-template-columns:1fr 1fr;
-}
-
-.title{
-font-size:24px;
-}
-
-.cover{
-height:260px;
-}
-
-.subscription{
-text-align:center;
-justify-content:center;
-}
-
-}
-
-@keyframes spin{
-
-0%{
-transform:rotate(0deg);
-}
-
-100%{
-transform:rotate(360deg);
-}
-
-}
-
-</style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>My Library - CreatorHub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* =====================================================
+    CORE RESET & CREATORHUB PREMIUM THEME INTERFACES
+    ===================================================== */
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body{
+      background: #f6f8fc;
+      color: #101828;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    ::-webkit-scrollbar{
+      width: 6px;
+    }
+    ::-webkit-scrollbar-thumb{
+      background: #3157c9;
+      border-radius: 20px;
+    }
+
+    /* =====================================================
+    TOPBAR / NAVIGATION LAYER
+    ===================================================== */
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      min-height: 114px;
+      background: #fff;
+      border-bottom: 1px solid #dce4f0;
+      padding: 26px 34px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .topbar-left{
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .brand-logo{
+      display: flex;
+      align-items: center;
+    }
+    .brand-name{
+      font-size: 25px;
+      font-weight: 950;
+      color: #06142c;
+      letter-spacing: -0.02em;
+    }
+    .brand-name span{
+      color: #2f62e9;
+    }
+    .back-btn{
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 800;
+      color: #5d6d85;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s ease;
+    }
+    .back-btn:hover{
+      color: #2f62e9;
+    }
+    .dashboard{
+      min-height: 54px;
+      border: 0;
+      border-radius: 9px;
+      padding: 0 24px;
+      background: #2f62e9;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      text-decoration: none;
+    }
+    .dashboard:hover{
+      background: #2455cf;
+    }
+
+    /* =====================================================
+    PROFILE BLOCK Dropdown Menu
+    ===================================================== */
+    .profile-wrap{
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .profile-image{
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #d9e1ec;
+      border: 3px solid #fff;
+      box-shadow: 0 8px 20px rgba(16, 24, 40, 0.12);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      cursor: pointer;
+    }
+    .profile-image:hover{
+      transform: scale(1.04);
+      border-color: #2f62e9;
+    }
+    .profile-menu{
+      position: absolute;
+      top: 68px;
+      left: 0;
+      width: 280px;
+      background: #0d1628;
+      border: 1px solid #182a64;
+      border-radius: 14px;
+      padding: 20px;
+      display: none;
+      box-shadow: 0 20px 45px rgba(16, 24, 40, 0.25);
+      z-index: 1000;
+    }
+    .profile-menu.show{
+      display: block;
+      animation: menuFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes menuFadeIn{
+      from { opacity: 0; transform: translateY(8px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .profile-header{
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 14px;
+    }
+    .menu-profile-image{
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    #menuName{
+      color: #fff;
+      font-size: 16px;
+      font-weight: 800;
+    }
+    #menuEmail{
+      margin-top: 3px;
+      font-size: 13px;
+      color: #63728a;
+      word-break: break-all;
+    }
+    .profile-menu a{
+      display: flex;
+      align-items: center;
+      height: 46px;
+      padding: 0 14px;
+      border-radius: 8px;
+      color: #e7edf8;
+      font-size: 15px;
+      font-weight: 700;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .profile-menu a:hover{
+      background: #182a64;
+      transform: translateX(4px);
+    }
+    .logout-btn{
+      margin-top: 14px;
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ef4444;
+      color: #fff;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .logout-btn:hover{
+      opacity: 0.9;
+    }
+
+    /* =====================================================
+    MAIN CORE LAYER FRAME
+    ===================================================== */
+    .container{
+      max-width: 1400px;
+      margin: auto;
+      padding: 36px 34px 180px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* STATS ROW BLOCKS */
+    .stats{
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 12px;
+    }
+    @media(max-width: 900px){
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media(max-width: 500px){
+      .stats { grid-template-columns: minmax(0, 1fr); }
+    }
+    .stat-box{
+      background: #fff;
+      padding: 24px;
+      border-radius: 9px;
+      border: 1px solid #dce4f0;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      box-shadow: 0 10px 30px rgba(16, 24, 40, 0.02);
+    }
+    .icon{
+      width: 52px;
+      height: 52px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      background: #eef3f9;
+      color: #2f62e9;
+      flex-shrink: 0;
+    }
+    .stat-box h2{
+      font-size: 28px;
+      font-weight: 950;
+      color: #06142c;
+      letter-spacing: -0.02em;
+    }
+    .stat-box p{
+      color: #63728a;
+      font-size: 14px;
+      margin-top: 2px;
+      font-weight: 600;
+    }
+
+    /* TAB FILTERS ROW */
+    .tabs{
+      display: flex;
+      gap: 12px;
+      margin-top: 36px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+    }
+    .tabs::-webkit-scrollbar{
+      height: 4px;
+    }
+    .tab{
+      min-height: 46px;
+      padding: 0 22px;
+      background: #fff;
+      border: 1px solid #d9e3f0;
+      border-radius: 9px;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 14px;
+      color: #26364f;
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .tab:hover{
+      border-color: #3157c9;
+    }
+    .tab.active{
+      background: #182a64;
+      color: #fff;
+      border-color: #3157c9;
+    }
+
+    /* SHELF BOOKS GRID FRAME */
+    .grid{
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 28px;
+    }
+    @media(max-width: 1200px){ .grid{ grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    @media(max-width: 950px){ .grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media(max-width: 600px){ .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+    /* CARD COMPONENT BOX */
+    .card{
+      background: #fff;
+      padding: 16px;
+      border-radius: 9px;
+      border: 1px solid #dce4f0;
+      box-shadow: 0 10px 30px rgba(16, 24, 40, 0.03);
+      transition: transform 0.25s ease, border-color 0.25s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover{
+      transform: translateY(-5px);
+      border-color: #3157c9;
+    }
+    .cover{
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      border-radius: 6px;
+      display: block;
+      background: #eef3f9;
+      border: 1px solid #dce4f0;
+    }
+    .menu{
+      position: absolute;
+      top: 22px;
+      right: 22px;
+      background: rgba(13, 22, 40, 0.8);
+      backdrop-filter: blur(4px);
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .book-title{
+      font-size: 15px;
+      font-weight: 800;
+      color: #06142c;
+      margin-top: 14px;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 42px;
+    }
+    .author{
+      color: #63728a;
+      margin-top: 4px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .badge{
+      align-self: flex-start;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-top: 12px;
+      font-size: 12px;
+      font-weight: 950;
+      background: #e7f8ef;
+      color: #0f9f57;
+      border: 1px solid rgba(15, 159, 87, 0.1);
+      text-transform: uppercase;
+    }
+    .badge.premium-tag {
+      background: #fff7df;
+      color: #b7791f;
+      border-color: rgba(183, 121, 31, 0.1);
+    }
+
+    .read-btn{
+      width: 100%;
+      min-height: 44px;
+      border: none;
+      border-radius: 6px;
+      background: #101c2f;
+      color: white;
+      font-size: 14px;
+      font-weight: 900;
+      margin-top: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .read-btn:hover{
+      background: #182a64;
+    }
+    .buy-btn{
+      width: 100%;
+      min-height: 44px;
+      border: none;
+      border-radius: 6px;
+      background: #f97316;
+      color: white;
+      font-size: 14px;
+      font-weight: 900;
+      margin-top: 16px;
+      cursor: pointer;
+    }
+
+    .actions{
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .edit{
+      flex: 1;
+      min-height: 38px;
+      border: none;
+      border-radius: 6px;
+      background: #2563eb;
+      color: white;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .delete{
+      flex: 1;
+      min-height: 38px;
+      border: none;
+      border-radius: 6px;
+      background: #ef4444;
+      color: white;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* DYNAMIC HORIZONTAL SUBSCRIPTION FLOAT PANEL */
+    .subscription{
+      position: fixed;
+      left: 34px;
+      right: 34px;
+      bottom: 114px;
+      z-index: 998;
+      background: #0d1628;
+      border: 1px solid #182a64;
+      padding: 24px 32px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      box-shadow: 0 20px 50px rgba(16, 24, 40, 0.15);
+    }
+    .subscription h2{
+      font-size: 22px;
+      font-weight: 950;
+      color: #fff;
+    }
+    .subscription p{
+      margin-top: 4px;
+      color: #63728a;
+      font-size: 15px;
+      font-weight: 500;
+    }
+    .manage-btn{
+      min-height: 50px;
+      padding: 0 24px;
+      border: none;
+      border-radius: 6px;
+      background: #2f62e9;
+      color: white;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .manage-btn:hover{
+      background: #2455cf;
+    }
+
+    /* GLOBAL SYSTEM NAVIGATION TERMINAL BAR */
+    .bottom-nav{
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 84px;
+      background: #fff;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0 20px;
+      border-top: 1px solid #dce4f0;
+      z-index: 999;
+      box-shadow: 0 -10px 40px rgba(16, 24, 40, 0.03);
+    }
+    .nav-item{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #5d6d85;
+      cursor: pointer;
+      transition: all 0.2s;
+      min-width: 65px;
+      height: 62px;
+      border-radius: 8px;
+    }
+    .nav-item:hover{
+      color: #2f62e9;
+    }
+    .nav-item.active{
+      color: #2f62e9;
+      background: #eef3f9;
+    }
+    .nav-icon{
+      font-size: 22px;
+    }
+
+    /* SCREEN SPINNER LOADER */
+    .empty{
+      grid-column: 1/-1;
+      min-height: 40vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 16px;
+      color: #63728a;
+      font-weight: 700;
+    }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid #dce4f0;
+      border-top-color: #2f62e9;
+      border-radius: 50%;
+      animation: spinLoader 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spinLoader {
+      to { transform: rotate(360deg); }
+    }
+
+    @media(max-width:900px){
+      .topbar { min-height: auto; padding: 20px 24px; }
+      .container { padding: 24px 20px 180px; }
+      .subscription { flex-direction: column; text-align: center; padding: 24px; }
+      .manage-btn { width: 100%; }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- TOPBAR -->
-
-<div class="topbar">
-
-<div class="back"
-onclick="history.back()">
-⬅
-</div>
-
-<div class="title">
-My <span>Library</span>
-</div>
-
-<a href="dashboard.html"
-class="dashboard">
-
-Dashboard
-
-</a>
-
-</div>
-
-<!-- MAIN -->
-
-<div class="container">
-
-<!-- STATS -->
-
-<div class="stats">
-
-<div class="stat-box">
-
-<div class="icon">
-📚
-</div>
-
-<div>
-
-<h2 id="totalBooks">
-0
-</h2>
-
-<p>Total Books</p>
-
-</div>
-
-</div>
-
-<div class="stat-box">
-
-<div class="icon">
-🔓
-</div>
-
-<div>
-
-<h2 id="unlockedBooks">
-0
-</h2>
-
-<p>Unlocked</p>
-
-</div>
-
-</div>
-
-<div class="stat-box">
-
-<div class="icon">
-⭐
-</div>
-
-<div>
-
-<h2 id="premiumBooks">
-0
-</h2>
-
-<p>Premium</p>
-
-</div>
-
-</div>
-
-<div class="stat-box">
-
-<div class="icon">
-👑
-</div>
-
-<div>
-
-<h2 id="subscriptionStatus">
-Inactive
-</h2>
-
-<p>Subscription</p>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- TABS -->
-
-<div class="tabs">
-
-<div class="tab active"
-onclick="filterBooks('all')">
-
-All Books
-
-</div>
-
-<div class="tab"
-onclick="filterBooks('purchased')">
-
-Purchased
-
-</div>
-
-<div class="tab"
-onclick="filterBooks('subscription')">
-
-Subscription
-
-</div>
-
-<div class="tab"
-onclick="filterBooks('uploads')">
-
-My Uploads
-
-</div>
-
-</div>
-
-<!-- GRID -->
-
-<div id="library"
-class="grid">
-
-</div>
-
-<!-- SUBSCRIPTION -->
-
-<div class="subscription">
-
-<div>
-
-<h2>
-👑 Active Subscription
-</h2>
-
-<p>
-Enjoy unlimited access to all premium ebooks
-</p>
-
-</div>
-
-<button class="manage-btn"
-onclick="location.href='subscription.html'">
-
-Manage Subscription
-
-</button>
-
-</div>
-
-</div>
-
-<!-- NAV -->
-
-<div class="bottom-nav">
-
-<div class="nav-item"
-onclick="location.href='index.html'">
-
-<div class="nav-icon">🏠</div>
-
-<div>Home</div>
-
-</div>
-
-<div class="nav-item"
-onclick="location.href='explore.html'">
-
-<div class="nav-icon">🔍</div>
-
-<div>Explore</div>
-
-</div>
-
-<div class="nav-item active">
-
-<div class="nav-icon">📚</div>
-
-<div>Library</div>
-
-</div>
-
-<div class="nav-item"
-onclick="location.href='upload.html'">
-
-<div class="nav-icon">⬆️</div>
-
-<div>Upload</div>
-
-</div>
-
-<div class="nav-item"
-onclick="location.href='profile.html'">
-
-<div class="nav-icon">👤</div>
-
-<div>Profile</div>
-
-</div>
-
-</div>
-
-<script>
-
-/* =========================================================
-CREATORHUB LIBRARY FINAL WORKING SCRIPT
-100% FIXED VERSION
-========================================================= */
-
-/* ================= API ================= */
-
-const ADMIN =
-"ayushprajpati6@gmail.com"
-
-const PRODUCT_API =
-"https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec"
-
-const SUBSCRIPTION_API =
-"https://script.google.com/macros/s/AKfycbyKnVmxYCTskDLpOk_s2Ch1nHnVvD__GVHbnztTCvl4bzYgk7sDx0F1WuJ0CXMORqs/exec"
-
-/* ================= USER ================= */
-
-let user =
-JSON.parse(
-localStorage.getItem("user") || "null"
-)
-
-if(!user){
-
-location.href = "login.html"
-
-}
-
-let isAdmin =
-String(user.email).toLowerCase()
-===
-String(ADMIN).toLowerCase()
-
-/* ================= GLOBAL ================= */
-
-let ALL_PRODUCTS = []
-
-let HAS_SUBSCRIPTION = false
-
-/* =========================================================
-DRIVE IMAGE FIX
-========================================================= */
-
-function driveImage(link){
-
-if(!link){
-
-return "https://picsum.photos/500"
-
-}
-
-let id = ""
-
-/* id= */
-
-if(link.includes("id=")){
-
-id =
-link.split("id=")[1]
-.split("&")[0]
-
-}
-
-/* /d/ */
-
-else if(link.includes("/d/")){
-
-id =
-link.split("/d/")[1]
-.split("/")[0]
-
-}
-
-/* raw id */
-
-else{
-
-id = link
-
-}
-
-return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`
-
-}
-
-/* =========================================================
-LOADER
-========================================================= */
-
-function showLoader(){
-
-document.getElementById("library")
-.innerHTML = `
-
-<div style="
-grid-column:1/-1;
-padding:80px;
-text-align:center;
-">
-
-<div style="
-width:70px;
-height:70px;
-margin:auto;
-border:5px solid rgba(255,255,255,.1);
-border-top:5px solid #22c55e;
-border-radius:50%;
-animation:spin 1s linear infinite;
-"></div>
-
-<p style="
-margin-top:20px;
-font-size:18px;
-opacity:.7;
-">
-Loading Library...
-</p>
-
-</div>
-
-`
-
-}
-
-/* =========================================================
-CHECK SUBSCRIPTION
-========================================================= */
-
-async function checkSubscription(){
-
-try{
-
-let res =
-await fetch(
-
-SUBSCRIPTION_API +
-"?db=subscriptions&t=" +
-Date.now()
-
-)
-
-let response =
-await res.json()
-
-console.log("SUBSCRIPTION:", response)
-
-let subs = []
-
-if(Array.isArray(response)){
-
-subs = response
-
-}
-
-else if(response.subscriptions){
-
-subs = response.subscriptions
-
-}
-
-HAS_SUBSCRIPTION =
-subs.some(s =>
-
-String(s.email)
-.toLowerCase()
-
-===
-
-String(user.email)
-.toLowerCase()
-
-&&
-
-String(s.status)
-.toLowerCase()
-
-===
-
-"active"
-
-)
-
-}catch(err){
-
-console.log(err)
-
-HAS_SUBSCRIPTION = false
-
-}
-
-}
-
-/* =========================================================
-LOAD DATA
-========================================================= */
-
-async function loadData(){
-
-try{
-
-showLoader()
-
-/* ================= PRODUCTS ================= */
-
-let productRes =
-await fetch(
-
-PRODUCT_API +
-"?action=products&t=" +
-Date.now()
-
-)
-
-let raw =
-await productRes.text()
-
-console.log("RAW:", raw)
-
-let response = {}
-
-try{
-
-response =
-JSON.parse(raw)
-
-}catch(err){
-
-response = {}
-
-}
-
-/* ================= FIX RESPONSE ================= */
-
-if(Array.isArray(response)){
-
-ALL_PRODUCTS = response
-
-}
-
-else if(response.products){
-
-ALL_PRODUCTS =
-response.products
-
-}
-
-else{
-
-ALL_PRODUCTS = []
-
-}
-
-/* ================= SUBSCRIPTION ================= */
-
-await checkSubscription()
-
-/* ================= ACCESSIBLE ================= */
-
-let accessibleBooks =
-ALL_PRODUCTS.filter(product => {
-
-let owner =
-
-String(product.owner)
-.toLowerCase()
-
-===
-
-String(user.email)
-.toLowerCase()
-
-if(isAdmin) return true
-
-if(owner) return true
-
-if(HAS_SUBSCRIPTION) return true
-
-return false
-
-})
-
-/* ================= STATS ================= */
-
-document.getElementById(
-"totalBooks"
-).innerText =
-ALL_PRODUCTS.length
-
-document.getElementById(
-"unlockedBooks"
-).innerText =
-accessibleBooks.length
-
-document.getElementById(
-"premiumBooks"
-).innerText =
-ALL_PRODUCTS.length
-
-document.getElementById(
-"subscriptionStatus"
-).innerText =
-
-HAS_SUBSCRIPTION
-? "Active"
-: "Inactive"
-
-/* ================= RENDER ================= */
-
-renderBooks("all")
-
-}catch(err){
-
-console.log(err)
-
-document.getElementById("library")
-.innerHTML = `
-
-<div class="empty">
-
-Failed To Load Library
-
-</div>
-
-`
-
-}
-
-}
-
-/* =========================================================
-RENDER BOOKS
-========================================================= */
-
-function renderBooks(type){
-
-let box =
-document.getElementById("library")
-
-box.innerHTML = ""
-
-/* ================= FILTER ================= */
-
-let filtered =
-ALL_PRODUCTS.filter(product => {
-
-/* APPROVED */
-
-if(
-product.status &&
-product.status !== "approved"
-){
-
-return false
-
-}
-
-/* OWNER */
-
-let owner =
-
-String(product.owner)
-.toLowerCase()
-
-===
-
-String(user.email)
-.toLowerCase()
-
-/* ACCESS */
-
-let allow = false
-
-if(isAdmin){
-
-allow = true
-
-}
-
-else if(owner){
-
-allow = true
-
-}
-
-else if(HAS_SUBSCRIPTION){
-
-allow = true
-
-}
-
-/* FILTERS */
-
-if(type === "uploads"){
-
-return owner
-
-}
-
-if(type === "subscription"){
-
-return HAS_SUBSCRIPTION
-
-}
-
-if(type === "purchased"){
-
-return owner
-
-}
-
-if(type === "all"){
-
-return allow
-
-}
-
-return false
-
-})
-
-/* EMPTY */
-
-if(filtered.length === 0){
-
-box.innerHTML = `
-
-<div class="empty">
-
-No Ebooks Found
-
-</div>
-
-`
-
-return
-
-}
-
-/* =========================================================
-LOOP
-========================================================= */
-
-filtered.forEach(product => {
-
-let owner =
-
-String(product.owner)
-.toLowerCase()
-
-===
-
-String(user.email)
-.toLowerCase()
-
-let allow = false
-
-if(isAdmin){
-
-allow = true
-
-}
-
-else if(owner){
-
-allow = true
-
-}
-
-else if(HAS_SUBSCRIPTION){
-
-allow = true
-
-}
-
-/* IMAGE */
-
-let image =
-driveImage(
-
-product.front_cover ||
-product.frontCover ||
-product.image
-
-)
-
-/* BUTTON */
-
-let button = `
-
-<button class="read-btn"
-
-onclick="openBook('${product.id}')">
-
-📖 Read Ebook
-
-</button>
-
-`
-
-/* MANAGE */
-
-let manage = ""
-
-if(owner || isAdmin){
-
-manage = `
-
-<div class="actions">
-
-<button class="edit"
-
-onclick="editBook('${product.id}')">
-
-✏ Edit
-
-</button>
-
-<button class="delete"
-
-onclick="deleteBook('${product.id}')">
-
-🗑 Delete
-
-</button>
-
-</div>
-
-`
-
-}
-
-/* CARD */
-
-box.innerHTML += `
-
-<div class="card">
-
-<div class="menu">
-⋮
-</div>
-
-<img
-class="cover"
-loading="lazy"
-src="${image}"
-onerror="this.src='https://picsum.photos/500'"
->
-
-<div class="book-title">
-
-${product.title || "Untitled"}
-
-</div>
-
-<div class="author">
-
-${product.author || "Unknown"}
-
-</div>
-
-<div class="badge">
-
-${allow
-? "Unlocked"
-: "Premium"}
-
-</div>
-
-${button}
-
-${manage}
-
-</div>
-
-`
-
-})
-
-}
-
-/* =========================================================
-OPEN BOOK
-========================================================= */
-
-function openBook(id){
-
-let product =
-ALL_PRODUCTS.find(p =>
-
-String(p.id) === String(id)
-
-)
-
-if(!product){
-
-alert("Book not found")
-return
-
-}
-
-/* ACCESS */
-
-let owner =
-
-String(product.owner)
-.toLowerCase()
-
-===
-
-String(user.email)
-.toLowerCase()
-
-let allow = false
-
-if(isAdmin){
-
-allow = true
-
-}
-
-else if(owner){
-
-allow = true
-
-}
-
-else if(HAS_SUBSCRIPTION){
-
-allow = true
-
-}
-
-if(!allow){
-
-alert(
-"Subscription Required"
-)
-
-location.href =
-"subscription.html"
-
-return
-
-}
-
-/* PDF */
-
-let pdf =
-product.pdf_url ||
-product.pdf ||
-""
-
-if(!pdf){
-
-alert("PDF missing")
-return
-
-}
-
-/* SAVE */
-
-localStorage.setItem(
-"viewerPDF",
-pdf
-)
-
-localStorage.setItem(
-"viewerBook",
-JSON.stringify(product)
-)
-
-/* OPEN */
-
-location.href =
-"viewer.html?id=" + id
-
-}
-
-/* =========================================================
-EDIT BOOK
-========================================================= */
-
-function editBook(id){
-
-localStorage.setItem(
-"editBookId",
-id
-)
-
-location.href =
-"edit-ebook.html"
-
-}
-
-/* =========================================================
-DELETE BOOK
-========================================================= */
-
-async function deleteBook(id){
-
-let ok =
-confirm(
-"Delete this ebook?"
-)
-
-if(!ok) return
-
-try{
-
-let res =
-await fetch(PRODUCT_API,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-
-action:"deleteBook",
-
-id:id,
-
-email:user.email
-
-})
-
-})
-
-let data =
-await res.json()
-
-alert(
-data.message ||
-"Deleted"
-)
-
-loadData()
-
-}catch(err){
-
-alert(err.message)
-
-}
-
-}
-
-/* =========================================================
-FILTER TAB
-========================================================= */
-
-function filterBooks(type){
-
-document
-.querySelectorAll(".tab")
-.forEach(tab =>
-
-tab.classList.remove("active")
-
-)
-
-let clickedTab =
-[...document.querySelectorAll(".tab")]
-.find(tab =>
-
-tab.innerText
-.toLowerCase()
-.includes(type)
-
-)
-
-if(clickedTab){
-
-clickedTab.classList.add("active")
-
-}
-
-renderBooks(type)
-
-}
-
-/* =========================================================
-START
-========================================================= */
-
-loadData()
-
-</script>
-   
+  <div class="topbar">
+    <div class="topbar-left">
+      <div id="profileWrap" class="profile-wrap">
+        <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile View">
+        
+        <div id="profileMenu" class="profile-menu">
+          <div class="profile-header">
+            <img id="menuProfileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="menu-profile-image" alt="User">
+            <div>
+              <div id="menuName">CreatorHub User</div>
+              <div id="menuEmail">user@email.com</div>
+            </div>
+          </div>
+          <a href="profile.html">My Profile</a>
+          <a href="seller-apply.html">Become Seller</a>
+          <a href="tranding.html">Trending Books</a>
+          <a class="active" href="library.html">Library</a>
+          <a href="topselling.html">Top Selling</a>
+          <div class="logout-btn" onclick="logout()">Logout</div>
+        </div>
+      </div>
+
+      <div class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i> Back</div>
+    </div>
+
+    <div class="title">My <span>Library</span></div>
+    <a href="dashboard.html" class="dashboard">Dashboard</a>
+  </div>
+
+  <div class="container">
+
+    <div class="stats">
+      <div class="stat-box">
+        <div class="icon"><i class="fa-solid fa-book"></i></div>
+        <div>
+          <h2 id="totalBooks">0</h2>
+          <p>Total Books</p>
+        </div>
+      </div>
+
+      <div class="stat-box">
+        <div class="icon"><i class="fa-solid fa-unlock-keyhole"></i></div>
+        <div>
+          <h2 id="unlockedBooks">0</h2>
+          <p>Unlocked</p>
+        </div>
+      </div>
+
+      <div class="stat-box">
+        <div class="icon"><i class="fa-solid fa-star"></i></div>
+        <div>
+          <h2 id="premiumBooks">0</h2>
+          <p>Premium</p>
+        </div>
+      </div>
+
+      <div class="stat-box">
+        <div class="icon"><i class="fa-solid fa-crown"></i></div>
+        <div>
+          <h2 id="subscriptionStatus">Inactive</h2>
+          <p>Subscription</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="filterBooks('all')">All Books</div>
+      <div class="tab" onclick="filterBooks('purchased')">Purchased</div>
+      <div class="tab" onclick="filterBooks('subscription')">Subscription</div>
+      <div class="tab" onclick="filterBooks('uploads')">My Uploads</div>
+    </div>
+
+    <div id="library" class="grid"></div>
+
+    <div class="subscription" id="subBanner" style="display: none;">
+      <div>
+        <h2>👑 Active Subscription</h2>
+        <p>Enjoy unlimited access to all premium ebooks in the catalog shelf.</p>
+      </div>
+      <button class="manage-btn" onclick="location.href='subscription.html'">Manage Subscription</button>
+    </div>
+
+  </div>
+
+  <div class="bottom-nav">
+    <div class="nav-item" onclick="location.href='index.html'">
+      <div class="nav-icon">🏠</div>
+      <div>Home</div>
+    </div>
+    <div class="nav-item" onclick="location.href='explore.html'">
+      <div class="nav-icon">🔍</div>
+      <div>Explore</div>
+    </div>
+    <div class="nav-item active">
+      <div class="nav-icon">📚</div>
+      <div>Library</div>
+    </div>
+    <div class="nav-item" onclick="location.href='upload.html'">
+      <div class="nav-icon">⬆️</div>
+      <div>Upload</div>
+    </div>
+    <div class="nav-item" onclick="location.href='profile.html'">
+      <div class="nav-icon">👤</div>
+      <div>Profile</div>
+    </div>
+  </div>
+
+  <script>
+    const ADMIN = "ayushprajpati6@email.com";
+    const PRODUCT_API = "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
+    const SUBSCRIPTION_API = "https://script.google.com/macros/s/AKfycbyKnVmxYCTskDLpOk_s2Ch1nHnVvD__GVHbnztTCvl4bzYgk7sDx0F1WuJ0CXMORqs/exec";
+
+    let user = JSON.parse(localStorage.getItem("user") || "null");
+    if(!user){ location.href = "login.html"; }
+
+    let isAdmin = String(user.email).toLowerCase() === String(ADMIN).toLowerCase();
+    let ALL_PRODUCTS = [];
+    let HAS_SUBSCRIPTION = false;
+
+    function driveImage(link){
+      if(!link) return "https://picsum.photos/500";
+      let id = "";
+      if(link.includes("id=")){ id = link.split("id=")[1].split("&")[0]; }
+      else if(link.includes("/d/")){ id = link.split("/d/")[1].split("/")[0]; }
+      else { id = link; }
+      return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+    }
+
+    function toggleProfileMenu(){
+      document.getElementById("profileMenu").classList.toggle("show");
+    }
+
+    window.addEventListener("click", function(e){
+      let wrap = document.getElementById("profileWrap");
+      if(wrap && !wrap.contains(e.target)){
+        document.getElementById("profileMenu").classList.remove("show");
+      }
+    });
+
+    function logout(){ localStorage.clear(); window.location.href = "login.html"; }
+    function goBack(){ window.location.href = "index.html"; }
+
+    function updateLoginUI(){
+      let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
+      let email = localStorage.getItem("creatorhub_profile_email");
+      if(cachedUser && email){
+        try {
+          let data = JSON.parse(cachedUser)[email];
+          if(data && data.profile_image){
+            document.getElementById("profileImage").src = driveImage(data.profile_image);
+            document.getElementById("menuProfileImage").src = driveImage(data.profile_image);
+            document.getElementById("menuName").innerText = data.name || "CreatorHub User";
+            document.getElementById("menuEmail").innerText = data.email || email;
+          }
+        } catch(e) { console.log("Cache error"); }
+      }
+    }
+
+    function showLoader(){
+      document.getElementById("library").innerHTML = `
+        <div class="empty">
+          <div>
+            <div class="spinner"></div>
+            <p>Loading Library records...</p>
+          </div>
+        </div>`;
+    }
+
+    /* =====================================================
+    DETERMINISTIC VERIFICATION STABILIZATION SUB TUNNEL
+    ===================================================== */
+    async function checkSubscription(){
+      try{
+        let res = await fetch(SUBSCRIPTION_API + "?db=subscriptions&t=" + Date.now());
+        let response = await res.json();
+        let subs = Array.isArray(response) ? response : (response.subscriptions || []);
+
+        HAS_SUBSCRIPTION = subs.some(s => 
+          String(s.email).toLowerCase() === String(user.email).toLowerCase() && 
+          String(s.status).toLowerCase() === "active"
+        );
+      }catch(err){
+        console.log(err);
+        HAS_SUBSCRIPTION = false;
+      }
+    }
+
+    async function loadData(){
+      try{
+        showLoader();
+        
+        // Execute parallel parsing fetch hooks to boost acceleration speeds
+        const [productRes] = await Promise.all([
+          fetch(PRODUCT_API + "?action=products&t=" + Date.now()),
+          checkSubscription()
+        ]);
+
+        let raw = await productRes.text();
+        let response = {};
+        try { response = JSON.parse(raw); } catch(err) { response = {}; }
+
+        ALL_PRODUCTS = Array.isArray(response) ? response : (response.products || []);
+
+        let accessibleBooks = ALL_PRODUCTS.filter(product => {
+          let owner = String(product.owner).toLowerCase() === String(user.email).toLowerCase();
+          if(isAdmin || owner || HAS_SUBSCRIPTION) return true;
+          return false;
+        });
+
+        /* SET COUNTERS METRICS */
+        document.getElementById("totalBooks").innerText = ALL_PRODUCTS.length;
+        document.getElementById("unlockedBooks").innerText = accessibleBooks.length;
+        document.getElementById("premiumBooks").innerText = ALL_PRODUCTS.length;
+        document.getElementById("subscriptionStatus").innerText = HAS_SUBSCRIPTION ? "Active" : "Inactive";
+        
+        // Handle horizontal dynamic floating display blocks visibility safely
+        document.getElementById("subBanner").style.display = HAS_SUBSCRIPTION ? "flex" : "none";
+
+        renderBooks("all");
+      }catch(err){
+        console.log(err);
+        document.getElementById("library").innerHTML = '<div class="empty">Failed To Sync Library Data Stream.</div>';
+      }
+    }
+
+    function renderBooks(type){
+      let box = document.getElementById("library");
+      box.innerHTML = "";
+
+      let filtered = ALL_PRODUCTS.filter(product => {
+        if(product.status && product.status !== "approved") return false;
+        let owner = String(product.owner).toLowerCase() === String(user.email).toLowerCase();
+        let allow = isAdmin || owner || HAS_SUBSCRIPTION;
+
+        if(type === "uploads") return owner;
+        if(type === "subscription") return HAS_SUBSCRIPTION && allow && !owner;
+        if(type === "purchased") return owner;
+        if(type === "all") return allow;
+        return false;
+      });
+
+      if(filtered.length === 0){
+        box.innerHTML = '<div class="empty">No accessible ebooks found under this section.</div>';
+        return;
+      }
+
+      filtered.forEach(product => {
+        let owner = String(product.owner).toLowerCase() === String(user.email).toLowerCase();
+        let allow = isAdmin || owner || HAS_SUBSCRIPTION;
+        let image = driveImage(product.front_cover || product.frontCover || product.image);
+
+        let button = `<button class="read-btn" onclick="openBook('${product.id}')">📖 Read Ebook</button>`;
+        let manage = "";
+
+        if(owner || isAdmin){
+          manage = `
+            <div class="actions">
+              <button class="edit" onclick="editBook('${product.id}')">✏️ Edit</button>
+              <button class="delete" onclick="deleteBook('${product.id}')">🗑️ Delete</button>
+            </div>`;
+        }
+
+        box.innerHTML += `
+          <div class="card">
+            <div class="menu">⋮</div>
+            <img class="cover" loading="lazy" src="${image}" onerror="this.src='https://picsum.photos/500'" alt="Book Cover">
+            <div class="book-title">${product.title || "Untitled"}</div>
+            <div class="author">by ${product.author || "Unknown"}</div>
+            <div class="badge ${allow ? '' : 'premium-tag'}">${allow ? "Unlocked" : "Premium"}</div>
+            ${button}
+            ${manage}
+          </div>`;
+      });
+    }
+
+    function openBook(id){
+      let product = ALL_PRODUCTS.find(p => String(p.id) === String(id));
+      if(!product){ alert("Book parameters not registered."); return; }
+
+      let owner = String(product.owner).toLowerCase() === String(user.email).toLowerCase();
+      let allow = isAdmin || owner || HAS_SUBSCRIPTION;
+
+      if(!allow){
+        alert("Subscription / Purchase validation parameter criteria missing.");
+        location.href = "subscription.html";
+        return;
+      }
+
+      let pdf = product.pdf_url || product.pdf || "";
+      if(!pdf){ alert("PDF streaming source element link missing."); return; }
+
+      localStorage.setItem("viewerPDF", pdf);
+      localStorage.setItem("viewerBook", JSON.stringify(product));
+      location.href = "viewer.html?id=" + id;
+    }
+
+    function editBook(id){
+      localStorage.setItem("editBookId", id);
+      location.href = "edit-ebook.html";
+    }
+
+    async function deleteBook(id){
+      let ok = confirm("Are you sure you want to delete this ebook from data shelf?");
+      if(!ok) return;
+      try{
+        let res = await fetch(PRODUCT_API,{
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({ action: "deleteBook", id: id, email: user.email })
+        });
+        let data = await res.json();
+        alert(data.message || "Entry Removed.");
+        loadData();
+      }catch(err){ alert(err.message); }
+    }
+
+    function filterBooks(type){
+      document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
+      let clickedTab = [...document.querySelectorAll(".tab")].find(tab => tab.getAttribute("onclick").includes(type));
+      if(clickedTab) clickedTab.classList.add("active");
+      renderBooks(type);
+    }
+
+    updateLoginUI();
+    loadData();
+  </script>
 </body>
 </html>
