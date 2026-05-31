@@ -187,7 +187,7 @@
 
     /* =====================================================
     SEARCH REGION
-    ===================================================== */
+    ==================================================== */
     .search-wrap{
       display: flex;
       gap: 12px;
@@ -319,12 +319,12 @@
     }
 
     /* =====================================================
-    DYNAMIC BOOK MATRIX GRID
+    DYNAMIC BOOK GENERATION GRID (LIBRARY STYLE MATCH)
     ===================================================== */
     .grid{
       max-width: 1400px;
       margin: auto;
-      padding: 20px 34px 120px;
+      padding: 20px 34px 140px;
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 24px;
@@ -334,15 +334,18 @@
     @media(max-width: 950px){ .grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); } }
     @media(max-width: 600px){ .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
-    /* CARD STRUCTURE MODULE */
+    /* CARD STRUCTURE CONVERTED TO MATCH LIBRARY DESIGN SPEC */
     .card{
       background: #fff;
+      padding: 16px;
       border-radius: 9px;
-      overflow: hidden;
       border: 1px solid #dce4f0;
       box-shadow: 0 10px 30px rgba(16, 24, 40, 0.03);
       transition: transform 0.25s ease, border-color 0.25s ease;
       position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
     .card:hover{
       transform: translateY(-5px);
@@ -352,16 +355,19 @@
       width: 100%;
       aspect-ratio: 3/4;
       object-fit: cover;
+      border-radius: 6px;
+      display: block;
       background: #eef3f9;
-      border-bottom: 1px solid #dce4f0;
+      border: 1px solid #dce4f0;
     }
     .card-body{
-      padding: 16px;
+      padding: 0; /* Clear padding parameters layout matching library cards */
     }
     .book-title{
       font-size: 15px;
       font-weight: 800;
       color: #06142c;
+      margin-top: 14px;
       line-height: 1.4;
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -389,16 +395,18 @@
       font-weight: 950;
       color: #2f62e9;
     }
+    
+    /* Open button completely identical to dynamic library layout specs */
     .open-btn{
       width: 100%;
-      margin-top: 16px;
-      min-height: 46px;
+      min-height: 44px;
       border: none;
       border-radius: 6px;
       background: #101c2f;
       color: white;
       font-size: 14px;
       font-weight: 900;
+      margin-top: 16px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -408,10 +416,11 @@
     .open-btn:hover{
       background: #182a64;
     }
+    
     .card-badge{
       position: absolute;
-      top: 14px;
-      left: 14px;
+      top: 22px;
+      right: 22px;
       padding: 4px 10px;
       border-radius: 999px;
       font-size: 11px;
@@ -439,9 +448,9 @@
       border: 4px solid #dce4f0;
       border-top-color: #2f62e9;
       margin: auto;
-      animation: spin 0.8s linear infinite;
+      animation: spinAnimation 0.8s linear infinite;
     }
-    @keyframes spin{
+    @keyframes spinAnimation{
       100% { transform: rotate(360deg); }
     }
 
@@ -455,7 +464,7 @@
     }
 
     /* =====================================================
-    GLOBAL SYSTEM NAVIGATION TERMINAL BAR
+    UNIFIED FIXED BOTTOM NAVIGATION TERMINAL DOCK
     ===================================================== */
     .bottom-nav{
       position: fixed;
@@ -468,7 +477,6 @@
       justify-content: space-around;
       align-items: center;
       border-top: 1px solid #dce4f0;
-      backdrop-filter: blur(20px);
       z-index: 999;
       box-shadow: 0 -10px 40px rgba(16, 24, 40, 0.03);
       padding: 0 20px;
@@ -537,10 +545,12 @@
           </div>
         </div>
 
-        <a class="brand-logo" href="./dashboard.html">
-          <span class="brand-name">Creator<span>Hub</span></span>
-        </a>
+        <div class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i> Back</div>
       </div>
+
+      <a class="brand-logo" href="./dashboard.html">
+        <span class="brand-name">Creator<span>Hub</span></span>
+      </a>
 
       <div class="badge">Explore Panel</div>
     </div>
@@ -688,7 +698,7 @@
                 <div><i class="fa-solid fa-fire" style="color:#ef4444; margin-right:4px;"></i> ${book.trending || 0}</div>
               </div>
               <div class="price">₹${book.price || 0}</div>
-              <button class="open-btn" onclick="goToPayment('${book.id}')">🛒 Buy Ebook</button>
+              <button class="open-btn" onclick="goToPayment('${book.id}')">📖 Read Ebook</button>
             </div>
           </div>`;
       });
