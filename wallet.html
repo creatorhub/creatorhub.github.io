@@ -1,1270 +1,781 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0">
-
-<title>
-CreatorHub Wallet
-</title>
-
-<link rel="preconnect"
-href="https://fonts.googleapis.com">
-
-<link href="
-https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-rel="stylesheet">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Inter',sans-serif;
-}
-
-body{
-
-background:
-linear-gradient(
-180deg,
-#020617,
-#071120
-);
-
-min-height:100vh;
-
-color:white;
-
-overflow-x:hidden;
-
-}
-
-/* =====================================================
-TOPBAR
-===================================================== */
-
-.topbar{
-
-position:sticky;
-top:0;
-z-index:999;
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-padding:20px 24px;
-
-background:
-rgba(2,6,23,.88);
-
-backdrop-filter:blur(18px);
-
-border-bottom:
-1px solid rgba(255,255,255,.06);
-
-}
-
-.logo{
-
-font-size:34px;
-font-weight:900;
-
-}
-
-.logo-wrap{
-
-display:flex;
-flex-direction:column;
-
-}
-
-.back-home{
-
-margin-top:6px;
-
-font-size:13px;
-
-font-weight:700;
-
-color:#4ade80;
-
-text-decoration:none;
-
-opacity:.9;
-
-transition:.3s;
-
-}
-
-.back-home:hover{
-
-opacity:1;
-
-transform:translateX(-4px);
-
-}
-
-.logo span{
-color:#4ade80;
-}
-
-.back-home{
-
-display:block;
-
-margin-top:8px;
-
-font-size:14px;
-
-font-weight:700;
-
-color:#4ade80;
-
-text-decoration:none;
-
-opacity:.85;
-
-transition:.3s;
-
-}
-
-.back-home:hover{
-
-opacity:1;
-
-transform:translateX(-4px);
-
-}
-
-.badge{
-
-padding:14px 18px;
-
-border-radius:18px;
-
-background:
-rgba(34,197,94,.12);
-
-color:#4ade80;
-
-font-weight:800;
-font-size:14px;
-
-}
-
-/* =====================================================
-MAIN
-===================================================== */
-
-.main{
-
-max-width:1500px;
-
-margin:auto;
-
-padding:
-40px 20px 120px;
-
-}
-
-/* =====================================================
-HEADER
-===================================================== */
-
-.header{
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:30px;
-flex-wrap:wrap;
-
-margin-bottom:45px;
-
-}
-
-.title{
-
-font-size:58px;
-font-weight:900;
-
-line-height:1.1;
-
-}
-
-.desc{
-
-margin-top:16px;
-
-max-width:700px;
-
-line-height:1.9;
-
-opacity:.78;
-
-font-size:17px;
-
-}
-
-/* =====================================================
-GRID
-===================================================== */
-
-.grid{
-
-display:grid;
-
-grid-template-columns:
-1.2fr .8fr;
-
-gap:30px;
-
-}
-
-@media(max-width:1100px){
-
-.grid{
-grid-template-columns:1fr;
-}
-
-}
-
-/* =====================================================
-CARD
-===================================================== */
-
-.card{
-
-background:#0f172a;
-
-border:
-1px solid rgba(255,255,255,.06);
-
-border-radius:38px;
-
-padding:36px;
-
-box-shadow:
-0 25px 80px rgba(0,0,0,.45);
-
-}
-
-/* =====================================================
-BALANCE CARD
-===================================================== */
-
-.balance-card{
-
-position:relative;
-
-overflow:hidden;
-
-}
-
-.balance-glow{
-
-position:absolute;
-
-width:500px;
-height:500px;
-
-background:
-radial-gradient(
-circle,
-rgba(34,197,94,.16),
-transparent
-);
-
-top:-250px;
-right:-250px;
-
-pointer-events:none;
-
-}
-
-.balance-title{
-
-font-size:24px;
-font-weight:800;
-
-opacity:.85;
-
-}
-
-.balance-amount{
-
-margin-top:25px;
-
-font-size:76px;
-font-weight:900;
-
-color:#4ade80;
-
-line-height:1;
-
-}
-
-.balance-sub{
-
-margin-top:18px;
-
-font-size:16px;
-
-opacity:.7;
-
-line-height:1.8;
-
-}
-
-/* =====================================================
-STATS
-===================================================== */
-
-.stats{
-
-display:grid;
-
-grid-template-columns:
-repeat(3,1fr);
-
-gap:20px;
-
-margin-top:30px;
-
-}
-
-@media(max-width:700px){
-
-.stats{
-grid-template-columns:1fr;
-}
-
-}
-
-.stat{
-
-padding:24px;
-
-border-radius:28px;
-
-background:#081225;
-
-}
-
-.stat h3{
-
-font-size:15px;
-
-opacity:.65;
-
-font-weight:700;
-
-}
-
-.stat h2{
-
-margin-top:16px;
-
-font-size:36px;
-font-weight:900;
-
-}
-
-/* =====================================================
-BUTTONS
-===================================================== */
-
-.actions{
-
-display:flex;
-gap:18px;
-flex-wrap:wrap;
-
-margin-top:35px;
-
-}
-
-.btn{
-
-height:64px;
-
-padding:0 30px;
-
-border:none;
-
-border-radius:22px;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-font-size:17px;
-font-weight:900;
-
-cursor:pointer;
-
-transition:.3s;
-
-text-decoration:none;
-
-}
-
-.btn-primary{
-
-background:
-linear-gradient(
-90deg,
-#16a34a,
-#4ade80
-);
-
-color:white;
-
-}
-
-.btn-secondary{
-
-background:#081225;
-
-border:
-1px solid rgba(255,255,255,.08);
-
-color:white;
-
-}
-
-.btn:hover{
-transform:translateY(-4px);
-}
-
-/* =====================================================
-WITHDRAW
-===================================================== */
-
-.withdraw-box{
-
-margin-top:35px;
-
-padding:28px;
-
-border-radius:30px;
-
-background:#081225;
-
-}
-
-.withdraw-title{
-
-font-size:28px;
-font-weight:900;
-
-margin-bottom:22px;
-
-}
-
-.input{
-
-width:100%;
-
-height:64px;
-
-padding:0 22px;
-
-border:none;
-outline:none;
-
-border-radius:20px;
-
-background:#020617;
-
-color:white;
-
-font-size:16px;
-
-border:
-1px solid rgba(255,255,255,.06);
-
-margin-bottom:18px;
-
-}
-
-.input:focus{
-
-border-color:#22c55e;
-
-box-shadow:
-0 0 0 4px rgba(34,197,94,.1);
-
-}
-
-/* =====================================================
-TRANSACTIONS
-===================================================== */
-
-.section-title{
-
-font-size:36px;
-font-weight:900;
-
-margin-bottom:28px;
-
-}
-
-.transactions{
-
-display:grid;
-gap:18px;
-
-}
-
-.txn{
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-gap:20px;
-
-padding:24px;
-
-border-radius:28px;
-
-background:#081225;
-
-border:
-1px solid rgba(255,255,255,.05);
-
-}
-
-.txn-left{
-
-display:flex;
-gap:18px;
-align-items:center;
-
-}
-
-.txn-icon{
-
-width:58px;
-height:58px;
-
-border-radius:18px;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-font-size:24px;
-font-weight:900;
-
-background:
-linear-gradient(
-135deg,
-#16a34a,
-#4ade80
-);
-
-}
-
-.txn h3{
-
-font-size:20px;
-font-weight:800;
-
-}
-
-.txn p{
-
-margin-top:8px;
-
-opacity:.65;
-
-font-size:14px;
-
-}
-
-.txn-amount{
-
-font-size:28px;
-font-weight:900;
-
-}
-
-.credit{
-color:#4ade80;
-}
-
-.debit{
-color:#ef4444;
-}
-
-/* =====================================================
-EMPTY
-===================================================== */
-
-.empty{
-
-padding:40px;
-
-text-align:center;
-
-border-radius:28px;
-
-background:#081225;
-
-opacity:.7;
-
-line-height:2;
-
-}
-
-/* =====================================================
-FOOTER
-===================================================== */
-
-.footer{
-
-margin-top:70px;
-
-text-align:center;
-
-opacity:.55;
-
-line-height:2;
-
-font-size:14px;
-
-}
-
-</style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CreatorHub • Wallet Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* =====================================================
+    CORE RESET & CREATORHUB PREMIUM THEME INTERFACES
+    ===================================================== */
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body{
+      background: #f6f8fc;
+      color: #101828;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    ::-webkit-scrollbar{
+      width: 6px;
+    }
+    ::-webkit-scrollbar-thumb{
+      background: #3157c9;
+      border-radius: 20px;
+    }
+
+    /* =====================================================
+    TOPBAR / NAVIGATION LAYER
+    ===================================================== */
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      min-height: 114px;
+      background: #fff;
+      border-bottom: 1px solid #dce4f0;
+      padding: 26px 34px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .topbar-left{
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .brand-logo{
+      display: flex;
+      align-items: center;
+    }
+    .brand-name{
+      font-size: 25px;
+      font-weight: 950;
+      color: #06142c;
+      letter-spacing: -0.02em;
+    }
+    .brand-name span{
+      color: #2f62e9;
+    }
+    .back-btn{
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 800;
+      color: #5d6d85;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s ease;
+    }
+    .back-btn:hover{
+      color: #2f62e9;
+    }
+    .badge{
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: #eef3f9;
+      color: #2f62e9;
+      font-weight: 950;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      border: 1px solid rgba(49, 87, 201, 0.1);
+    }
+
+    /* =====================================================
+    PROFILE BLOCK Dropdown
+    ===================================================== */
+    .profile-wrap{
+      position: relative;
+      display: none;
+      align-items: center;
+    }
+    .profile-image{
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #d9e1ec;
+      border: 3px solid #fff;
+      box-shadow: 0 8px 20px rgba(16, 24, 40, 0.12);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      cursor: pointer;
+    }
+    .profile-image:hover{
+      transform: scale(1.04);
+      border-color: #2f62e9;
+    }
+    .profile-menu{
+      position: absolute;
+      top: 68px;
+      left: 0;
+      width: 280px;
+      background: #0d1628;
+      border: 1px solid #182a64;
+      border-radius: 14px;
+      padding: 20px;
+      display: none;
+      box-shadow: 0 20px 45px rgba(16, 24, 40, 0.25);
+      z-index: 1000;
+    }
+    .profile-menu.show{
+      display: block;
+      animation: menuFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes menuFadeIn{
+      from { opacity: 0; transform: translateY(8px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .profile-header{
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 14px;
+    }
+    .menu-profile-image{
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    #menuName{
+      color: #fff;
+      font-size: 16px;
+      font-weight: 800;
+    }
+    #menuEmail{
+      margin-top: 3px;
+      font-size: 13px;
+      color: #63728a;
+      word-break: break-all;
+    }
+    .profile-menu a{
+      display: flex;
+      align-items: center;
+      height: 46px;
+      padding: 0 14px;
+      border-radius: 8px;
+      color: #e7edf8;
+      font-size: 15px;
+      font-weight: 700;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .profile-menu a:hover{
+      background: #182a64;
+      transform: translateX(4px);
+    }
+    .logout-btn{
+      margin-top: 14px;
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ef4444;
+      color: #fff;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .logout-btn:hover{
+      opacity: 0.9;
+    }
+
+    /* =====================================================
+    MAIN CONTAINERS
+    ===================================================== */
+    .main{
+      max-width: 1400px;
+      margin: auto;
+      padding: 36px 34px 90px;
+    }
+    .header{
+      margin-bottom: 36px;
+    }
+    .title{
+      font-size: 43px;
+      font-weight: 950;
+      color: #06142c;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .desc{
+      margin-top: 10px;
+      max-width: 750px;
+      line-height: 1.6;
+      color: #63728a;
+      font-size: 17px;
+    }
+
+    /* =====================================================
+    GRID ARCHITECTURE
+    ===================================================== */
+    .grid{
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: start;
+    }
+    @media(max-width: 1100px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      background: #fff;
+      border: 1px solid #dce4f0;
+      border-radius: 9px;
+      padding: 32px;
+      box-shadow: 0 18px 45px rgba(16,24,40,.04);
+    }
+
+    /* =====================================================
+    BALANCE INTERFACE CARD
+    ===================================================== */
+    .balance-card{
+      position: relative;
+      overflow: hidden;
+    }
+    .balance-title{
+      font-size: 18px;
+      font-weight: 800;
+      color: #5d6d85;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .balance-amount{
+      margin-top: 12px;
+      font-size: 64px;
+      font-weight: 950;
+      color: #2f62e9;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .balance-sub{
+      margin-top: 14px;
+      font-size: 15px;
+      color: #63728a;
+      font-weight: 500;
+    }
+
+    /* STATS METRIC GRID */
+    .stats{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 28px;
+    }
+    @media(max-width: 700px){
+      .stats{ grid-template-columns: 1fr; }
+    }
+    .stat{
+      padding: 20px;
+      border-radius: 8px;
+      background: #eef3f9;
+      border: 1px solid #dce4f0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 110px;
+    }
+    .stat h3{
+      font-size: 13px;
+      color: #5d6d85;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .stat h2{
+      margin-top: 10px;
+      font-size: 28px;
+      font-weight: 950;
+      color: #06142c;
+      letter-spacing: -0.01em;
+    }
+
+    /* BUTTON ARRAYS */
+    .actions{
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+    .btn{
+      min-height: 54px;
+      padding: 0 24px;
+      border: none;
+      border-radius: 9px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .btn-primary{
+      background: #2f62e9;
+      color: #fff;
+    }
+    .btn-primary:hover{
+      background: #2455cf;
+    }
+    .btn-secondary{
+      background: #fff;
+      color: #101828;
+      border: 1px solid #d9e3f0;
+    }
+    .btn-secondary:hover{
+      border-color: #3157c9;
+    }
+
+    /* =====================================================
+    INPUT MANAGEMENT SYSTEM
+    ===================================================== */
+    .withdraw-title{
+      font-size: 22px;
+      font-weight: 950;
+      color: #06142c;
+      margin-bottom: 20px;
+    }
+    .input-field {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .input-field label {
+      font-size: 13px;
+      font-weight: 800;
+      color: #26364f;
+    }
+    .input{
+      width: 100%;
+      min-height: 54px;
+      border: 1px solid #d9e3f0;
+      border-radius: 9px;
+      background: #fff;
+      color: #101828;
+      outline: none;
+      padding: 12px 14px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .input:focus{
+      border-color: #3157c9;
+      box-shadow: 0 0 0 4px rgba(49, 87, 201, 0.12);
+    }
+    #withdrawStatus {
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 14px;
+      color: #2f62e9;
+    }
+
+    /* =====================================================
+    TRANSACTION LOG COMPONENTS
+    ===================================================== */
+    .section-title{
+      font-size: 22px;
+      font-weight: 950;
+      color: #06142c;
+      margin-bottom: 20px;
+    }
+    .transactions{
+      display: grid;
+      gap: 14px;
+    }
+    .txn{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 18px 20px;
+      border-radius: 9px;
+      background: #f6f8fc;
+      border: 1px solid #dce4f0;
+    }
+    .txn-left{
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    .txn-icon{
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 900;
+      background: #eef3f9;
+      color: #2f62e9;
+    }
+    .txn h3{
+      font-size: 16px;
+      font-weight: 800;
+      color: #06142c;
+    }
+    .txn p{
+      margin-top: 4px;
+      color: #63728a;
+      font-size: 13px;
+    }
+    .txn-amount{
+      font-size: 20px;
+      font-weight: 950;
+    }
+    .credit{ color: #0f9f57; }
+    .debit{ color: #ef4444; }
+
+    .empty{
+      padding: 40px;
+      text-align: center;
+      border-radius: 8px;
+      background: #eef3f9;
+      color: #63728a;
+      font-weight: 700;
+      border: 1px dashed #dce4f0;
+    }
+
+    .info-list {
+      display: grid;
+      gap: 14px;
+      color: #5d6d85;
+      font-size: 14px;
+      line-height: 1.5;
+      font-weight: 600;
+    }
+
+    /* =====================================================
+    FOOTER TERMINAL LAYOUT
+    ===================================================== */
+    .footer{
+      margin-top: 80px;
+      text-align: center;
+      color: #63728a;
+      line-height: 1.6;
+      font-size: 14px;
+      font-weight: 500;
+      border-top: 1px solid #dce4f0;
+      padding-top: 24px;
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- =====================================================
-TOPBAR
-===================================================== -->
-
-<div class="topbar">
-
-<div class="logo-wrap">
-
-<div class="logo">
-Creator<span>Hub</span>
-</div>
-
-<a href="index.html" class="back-home">
-← Back To Home
-</a>
-
-</div>
-
-<div class="badge">
-Wallet Dashboard
-</div>
-
-</div>
-
-<!-- =====================================================
-MAIN
-===================================================== -->
-
-<div class="main">
-
-<!-- =====================================================
-HEADER
-===================================================== -->
-
-<div class="header">
-
-<div>
-
-<div class="title">
-Wallet Center
-</div>
-
-<div class="desc">
-
-Manage your CreatorHub earnings, pending balances, withdrawals, and complete transaction history from one secure dashboard.
-
-</div>
-
-</div>
-
-</div>
-
-<!-- =====================================================
-GRID
-===================================================== -->
-
-<div class="grid">
-
-<!-- =====================================================
-LEFT
-===================================================== -->
-
-<div>
-
-<!-- BALANCE -->
-
-<div class="card balance-card">
-
-<div class="balance-glow"></div>
-
-<div class="balance-title">
-Available Balance
-</div>
-
-<div
-id="availableBalance"
-class="balance-amount">
-
-₹0
-
-</div>
-
-<div class="balance-sub">
-
-This balance is available for withdrawal and settlement.
-
-</div>
-
-<div class="stats">
-
-<div class="stat">
-
-<h3>
-Pending Balance
-</h3>
-
-<h2 id="pendingBalance">
-₹0
-</h2>
-
-</div>
-
-<div class="stat">
-
-<h3>
-Withdrawn
-</h3>
-
-<h2 id="withdrawnBalance">
-₹0
-</h2>
-
-</div>
-
-<div class="stat">
-
-<h3>
-Total Earnings
-</h3>
-
-<h2 id="totalEarnings">
-₹0
-</h2>
-
-</div>
-
-</div>
-
-<div class="actions">
-
-<button
-class="btn btn-primary"
-onclick="scrollWithdraw()">
-
-Withdraw Funds
-
-</button>
-
-<a
-href="index.html"
-class="btn btn-secondary">
-
-Back To Home
-
-</a>
-
-</div>
-
-</div>
-
-<!-- TRANSACTIONS -->
-
-<div class="card"
-style="margin-top:30px;">
-
-<div class="section-title">
-Transaction History
-</div>
-
-<div
-id="transactions"
-class="transactions">
-
-<div class="empty">
-
-Loading transactions...
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- =====================================================
-RIGHT
-===================================================== -->
-
-<div>
-
-<div class="card">
-
-<div class="withdraw-title">
-Withdraw Earnings
-</div>
-
-<input
-id="name"
-class="input"
-placeholder="Enter full name">
-
-<input
-id="phone"
-class="input"
-placeholder="Enter phone number">
-
-<input
-id="withdrawAmount"
-class="input"
-placeholder="Enter withdrawal amount">
-
-<input
-id="upi"
-class="input"
-placeholder="Enter UPI ID">
-
-<button
-class="btn btn-primary"
-style="width:100%;"
-onclick="withdrawMoney()">
-
-Request Withdrawal
-
-</button>
-
-<div
-id="withdrawStatus"
-style="
-margin-top:20px;
-line-height:1.8;
-opacity:.75;
-">
-</div>
-
-</div>
-
-<div class="card"
-style="margin-top:30px;">
-
-<div class="section-title">
-Wallet Information
-</div>
-
-<div style="
-line-height:2.1;
-opacity:.8;
-font-size:15px;
-">
-
-• Seller earnings stay in pending balance until release date.<br><br>
-
-• Withdrawals are processed securely through CreatorHub settlement systems.<br><br>
-
-• Minimum withdrawal amount is ₹100.<br><br>
-
-• Transaction history updates automatically in real-time.<br><br>
-
-• Wallet balances are protected with encrypted backend verification.
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="footer">
-
-© 2025 CreatorHub Wallet System
-
-<br>
-
-Secure Earnings • Live Transactions • Protected Withdrawals
-
-</div>
-
-</div>
-
-<script>
-
-/* =====================================================
-API
-===================================================== */
-
-const API_URL =
-"https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
-
-/* =====================================================
-EMAIL
-===================================================== */
-
-let USER =
-JSON.parse(
-localStorage.getItem("user") || "{}"
-)
-
-const USER_EMAIL =
-USER.email || ""
-  
-/* =====================================================
-LOAD WALLET
-===================================================== */
-
-async function loadWallet(){
-
-try{
-
-let res =
-await fetch(API_URL,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"text/plain;charset=utf-8"
-},
-
-body:JSON.stringify({
-
-action:"getWallet",
-
-email:USER_EMAIL
-
-})
-
-})
-
-let data =
-await res.json()
-
-if(!data.success){
-return
-}
-
-let wallet =
-data.wallet
-
-document.getElementById(
-"availableBalance"
-).innerHTML =
-"₹"+Number(
-wallet.available||0
-).toFixed(2)
-
-document.getElementById(
-"pendingBalance"
-).innerHTML =
-"₹"+Number(
-wallet.pending||0
-).toFixed(2)
-
-document.getElementById(
-"withdrawnBalance"
-).innerHTML =
-"₹"+Number(
-wallet.withdrawn||0
-).toFixed(2)
-
-document.getElementById(
-"totalEarnings"
-).innerHTML =
-"₹"+Number(
-wallet.total_earnings||0
-).toFixed(2)
-
-}catch(err){
-
-console.log(err)
-
-}
-
-}
-
-/* =====================================================
-LOAD TRANSACTIONS
-===================================================== */
-
-async function loadTransactions(){
-
-if(!USER_EMAIL){
-
-document.getElementById(
-"transactions"
-).innerHTML = `
-
-<div class="empty">
-Please login first.
-</div>
-
-`
-
-return
-
-}
-
-try{
-
-let res =
-await fetch(API_URL,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"text/plain;charset=utf-8"
-},
-
-body:JSON.stringify({
-
-action:"getTransactions",
-
-email:USER_EMAIL
-
-})
-
-})
-
-let data =
-await res.json()
-
-let box =
-document.getElementById(
-"transactions"
-)
-
-if(
-!data.success ||
-!data.transactions ||
-data.transactions.length===0
-){
-
-box.innerHTML = `
-
-<div class="empty">
-
-No transactions found yet.
-
-</div>
-
-`
-
-return
-
-}
-
-box.innerHTML=""
-
-data.transactions.reverse().forEach(txn=>{
-
-let type =
-txn.type || "credit"
-
-let icon =
-type==="withdraw"
-? "↗"
-: "₹"
-
-let amountClass =
-type==="withdraw"
-? "debit"
-: "credit"
-
-box.innerHTML += `
-
-<div class="txn">
-
-<div class="txn-left">
-
-<div class="txn-icon">
-${icon}
-</div>
-
-<div>
-
-<h3>
-${txn.message || "Transaction"}
-</h3>
-
-<p>
-${new Date(
-txn.created_at
-).toLocaleString()}
-</p>
-
-</div>
-
-</div>
-
-<div class="
-txn-amount
-${amountClass}
-">
-
-${type==="withdraw"?"-":"+"}
-₹${Number(txn.amount||0).toFixed(2)}
-
-</div>
-
-</div>
-
-`
-
-})
-
-}catch(err){
-
-console.log(err)
-
-}
-
-}
-
-/* =====================================================
-WITHDRAW
-===================================================== */
-
-async function withdrawMoney(){
-
-let amount =
-document.getElementById(
-"withdrawAmount"
-).value.trim()
-
-let upi =
-document.getElementById(
-"upi"
-).value.trim()
-
-let name =
-document.getElementById("name").value
-
-let phone =
-document.getElementById("phone").value
-
-if(!amount || !upi){
-
-alert("Please fill all fields")
-return
-
-}
-
-document.getElementById(
-"withdrawStatus"
-).innerHTML =
-"Processing withdrawal request..."
-
-try{
-
-let res =
-await fetch(API_URL,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"text/plain;charset=utf-8"
-},
-
-body:JSON.stringify({
-
-action:"withdraw",
-
-email:USER_EMAIL,
-
-name:name,
-
-phone:phone,
-
-amount:amount,
-
-upi:upi
-
-})
-
-})
-
-let data =
-await res.json()
-
-document.getElementById(
-"withdrawStatus"
-).innerHTML =
-data.message
-
-if(data.success){
-
-loadWallet()
-loadTransactions()
-
-}
-
-}catch(err){
-
-console.log(err)
-
-document.getElementById(
-"withdrawStatus"
-).innerHTML =
-"Server error"
-
-}
-
-}
-
-/* =====================================================
-SCROLL
-===================================================== */
-
-function scrollWithdraw(){
-
-window.scrollTo({
-
-top:0,
-behavior:"smooth"
-
-})
-
-}
-
-/* =====================================================
-START
-===================================================== */
-
-loadWallet()
-loadTransactions()
-
-</script>
-
+  <!-- TOPBAR NAVIGATION LAYER -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div id="profileWrap" class="profile-wrap">
+        <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile View">
+        
+        <div id="profileMenu" class="profile-menu">
+          <div class="profile-header">
+            <img id="menuProfileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="menu-profile-image" alt="User">
+            <div>
+              <div id="menuName">CreatorHub User</div>
+              <div id="menuEmail">user@email.com</div>
+            </div>
+          </div>
+          <a href="profile.html">My Profile</a>
+          <a href="seller-apply.html">Become Seller</a>
+          <a href="tranding.html">Trending Books</a>
+          <a href="library.html">Library</a>
+          <a href="topselling.html">Top Selling</a>
+          <div class="logout-btn" onclick="logout()">Logout</div>
+        </div>
+      </div>
+
+      <div class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i> Back to Home</div>
+    </div>
+
+    <a class="brand-logo" href="./dashboard.html">
+      <span class="brand-name">Creator<span>Hub</span></span>
+    </a>
+
+    <div class="badge">Wallet Center</div>
+  </div>
+
+  <!-- CONTAINER FRAME -->
+  <div class="main">
+    <div class="header">
+      <h1 class="title">Wallet Center</h1>
+      <p class="desc">Manage your CreatorHub earnings, pending balances, withdrawals, and complete transaction history from one secure dashboard.</p>
+    </div>
+
+    <!-- MAIN CORE MATRIX GRID -->
+    <div class="grid">
+      
+      <!-- LEFT SEGMENT: LEDGERS & BALANCES -->
+      <div>
+        <div class="card balance-card">
+          <div class="balance-title">Available Balance</div>
+          <div id="availableBalance" class="balance-amount">₹0.00</div>
+          <div class="balance-sub">This balance is available for immediate withdrawal and settlement.</div>
+
+          <div class="stats">
+            <div class="stat">
+              <h3>Pending Balance</h3>
+              <h2 id="pendingBalance">₹0.00</h2>
+            </div>
+            <div class="stat">
+              <h3>Withdrawn</h3>
+              <h2 id="withdrawnBalance">₹0.00</h2>
+            </div>
+            <div class="stat">
+              <h3>Total Earnings</h3>
+              <h2 id="totalEarnings">₹0.00</h2>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-primary" onclick="scrollWithdraw()">Withdraw Funds</button>
+            <a href="index.html" class="btn btn-secondary">Back To Home</a>
+          </div>
+        </div>
+
+        <!-- HISTORY LEDGER -->
+        <div class="card" style="margin-top:28px;">
+          <div class="section-title">Transaction History</div>
+          <div id="transactions" class="transactions">
+            <div class="empty">Loading transactions history...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT SEGMENT: SYSTEM SETTLEMENT FORM -->
+      <div id="withdrawTarget">
+        <div class="card">
+          <div class="withdraw-title">Withdraw Earnings</div>
+          
+          <div class="input-field">
+            <label for="name">Full Name</label>
+            <input id="name" class="input" placeholder="Enter beneficiary name">
+          </div>
+          
+          <div class="input-field">
+            <label for="phone">Phone Number</label>
+            <input id="phone" class="input" placeholder="Enter contact number">
+          </div>
+          
+          <div class="input-field">
+            <label for="withdrawAmount">Withdrawal Amount</label>
+            <input id="withdrawAmount" class="input" placeholder="Enter amount (₹)">
+          </div>
+          
+          <div class="input-field">
+            <label for="upi">UPI ID</label>
+            <input id="upi" class="input" placeholder="username@bank">
+          </div>
+
+          <button class="btn btn-primary" style="width:100%; margin-top: 8px;" onclick="withdrawMoney()">Request Withdrawal</button>
+          <div id="withdrawStatus"></div>
+        </div>
+
+        <!-- REGULATORY INFO RULES -->
+        <div class="card" style="margin-top:28px;">
+          <div class="section-title">Wallet Information</div>
+          <div class="info-list">
+            <div><i class="fa-solid fa-circle-info" style="color:#2f62e9; margin-right:6px;"></i> Seller earnings stay in pending balance until release date.</div>
+            <div><i class="fa-solid fa-circle-info" style="color:#2f62e9; margin-right:6px;"></i> Withdrawals are processed securely through CreatorHub settlement systems.</div>
+            <div><i class="fa-solid fa-circle-info" style="color:#2f62e9; margin-right:6px;"></i> Minimum withdrawal amount is ₹100.</div>
+            <div><i class="fa-solid fa-circle-info" style="color:#2f62e9; margin-right:6px;"></i> Transaction history updates automatically in real-time.</div>
+            <div><i class="fa-solid fa-circle-info" style="color:#2f62e9; margin-right:6px;"></i> Wallet balances are protected with encrypted backend verification.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TERMINAL FOOTER -->
+    <div class="footer">
+      © 2026 CreatorHub Wallet System<br>
+      Secure Earnings • Live Transactions • Protected Withdrawals
+    </div>
+  </div>
+
+  <!-- SCRIPT ENGINE PIPELINES -->
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec";
+
+    let USER = JSON.parse(localStorage.getItem("user") || "{}");
+    const USER_EMAIL = USER.email || "";
+
+    function driveImage(url){
+      if(!url) return "";
+      if(url.includes("uc?id=")){
+        let id = url.split("id=")[1].split("&")[0];
+        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+      }
+      if(url.includes("/d/")){
+        let id = url.split("/d/")[1].split("/")[0];
+        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+      }
+      return url;
+    }
+
+    function toggleProfileMenu(){
+      document.getElementById("profileMenu").classList.toggle("show");
+    }
+
+    window.addEventListener("click", function(e){
+      let wrap = document.getElementById("profileWrap");
+      if(wrap && !wrap.contains(e.target)){
+        document.getElementById("profileMenu").classList.remove("show");
+      }
+    });
+
+    function logout(){
+      localStorage.clear();
+      window.location.href = "login.html";
+    }
+
+    function goBack(){
+      window.location.href = "index.html";
+    }
+
+    function updateLoginUI(){
+      let token = localStorage.getItem("user_token");
+      let profileWrap = document.getElementById("profileWrap");
+
+      let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
+      let email = localStorage.getItem("creatorhub_profile_email");
+      
+      if(token || USER_EMAIL){
+        profileWrap.style.display = "flex";
+
+        if(cachedUser && email){
+          try {
+            let data = JSON.parse(cachedUser)[email];
+            if(data && data.profile_image){
+              document.getElementById("profileImage").src = driveImage(data.profile_image);
+              document.getElementById("menuProfileImage").src = driveImage(data.profile_image);
+              document.getElementById("menuName").innerText = data.name || "CreatorHub User";
+              document.getElementById("menuEmail").innerText = data.email || email;
+            }
+          } catch(e) { console.log("Cache compilation skipped"); }
+        }
+      }
+    }
+
+    async function loadWallet(){
+      try{
+        let res = await fetch(API_URL,{
+          method:"POST",
+          headers:{ "Content-Type":"text/plain;charset=utf-8" },
+          body:JSON.stringify({ action:"getWallet", email:USER_EMAIL })
+        });
+        let data = await res.json();
+        if(!data.success) return;
+
+        let wallet = data.wallet;
+        document.getElementById("availableBalance").innerHTML = "₹" + Number(wallet.available||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        document.getElementById("pendingBalance").innerHTML = "₹" + Number(wallet.pending||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        document.getElementById("withdrawnBalance").innerHTML = "₹" + Number(wallet.withdrawn||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        document.getElementById("totalEarnings").innerHTML = "₹" + Number(wallet.total_earnings||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      }catch(err){ console.log(err); }
+    }
+
+    async function loadTransactions(){
+      if(!USER_EMAIL){
+        document.getElementById("transactions").innerHTML = '<div class="empty">Please login first.</div>';
+        return;
+      }
+
+      try{
+        let res = await fetch(API_URL,{
+          method:"POST",
+          headers:{ "Content-Type":"text/plain;charset=utf-8" },
+          body:JSON.stringify({ action:"getTransactions", email:USER_EMAIL })
+        });
+        let data = await res.json();
+        let box = document.getElementById("transactions");
+
+        if(!data.success || !data.transactions || data.transactions.length===0){
+          box.innerHTML = '<div class="empty">No transactions found yet.</div>';
+          return;
+        }
+
+        box.innerHTML="";
+        data.transactions.reverse().forEach(txn=>{
+          let type = txn.type || "credit";
+          let icon = type==="withdraw" ? "↗" : "₹";
+          let amountClass = type==="withdraw" ? "debit" : "credit";
+
+          box.innerHTML += `
+            <div class="txn">
+              <div class="txn-left">
+                <div class="txn-icon">${icon}</div>
+                <div>
+                  <h3>${txn.message || "Transaction"}</h3>
+                  <p>${new Date(txn.created_at).toLocaleString()}</p>
+                </div>
+              </div>
+              <div class="txn-amount ${amountClass}">
+                ${type==="withdraw"?"-":"+"}₹${Number(txn.amount||0).toFixed(2)}
+              </div>
+            </div>
+          `;
+        });
+      }catch(err){ console.log(err); }
+    }
+
+    async function withdrawMoney(){
+      let amount = document.getElementById("withdrawAmount").value.trim();
+      let upi = document.getElementById("upi").value.trim();
+      let name = document.getElementById("name").value;
+      let phone = document.getElementById("phone").value;
+
+      if(!amount || !upi){
+        alert("Please fill all fields");
+        return;
+      }
+
+      document.getElementById("withdrawStatus").innerHTML = "Processing withdrawal request...";
+
+      try{
+        let res = await fetch(API_URL,{
+          method:"POST",
+          headers:{ "Content-Type":"text/plain;charset=utf-8" },
+          body:JSON.stringify({ action:"withdraw", email:USER_EMAIL, name:name, phone:phone, amount:amount, upi:upi })
+        });
+        let data = await res.json();
+        document.getElementById("withdrawStatus").innerHTML = data.message;
+
+        if(data.success){
+          document.getElementById("withdrawAmount").value = "";
+          document.getElementById("upi").value = "";
+          loadWallet();
+          loadTransactions();
+        }
+      }catch(err){
+        console.log(err);
+        document.getElementById("withdrawStatus").innerHTML = "Server error";
+      }
+    }
+
+    function scrollWithdraw(){
+      document.getElementById("withdrawTarget").scrollIntoView({ behavior: "smooth" });
+    }
+
+    updateLoginUI();
+    loadWallet();
+    loadTransactions();
+  </script>
 </body>
 </html>
