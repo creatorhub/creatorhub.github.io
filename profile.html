@@ -360,7 +360,7 @@ function setCover(url){
 function readFileAsBase64(file){
   return new Promise((resolve,reject)=>{
     const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
+    reader.onload = () => resolve(resolve(reader.result));
     reader.onerror = reject;
     reader.readAsDataURL(file);
   });
@@ -381,6 +381,7 @@ function saveCache(email, user){
   }catch(err){}
 }
 
+/* FIXED: Content redirect loop filters to avoid CORS blocks from GitHub pages */
 async function fetchJSON(url, options, timeoutMs){
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs || 35000);
@@ -388,6 +389,7 @@ async function fetchJSON(url, options, timeoutMs){
     const response = await fetch(url, {
       ...(options || {}),
       signal: controller.signal,
+      redirect: "follow", // Follows apps script redirect sequences
       cache: "no-store"
     });
     return await response.json();
@@ -448,7 +450,7 @@ function collectPayload(){
   payload.total_books = $("totalBooks").value || 0;
   payload.total_orders = $("totalOrders").value || 0;
 
-  // CHOTA ISSUE FIX: Selected base64 if it exists, otherwise keep saved cloud link
+  // OVERWRITE PROTECTION: If no new image, send existing drive string link
   payload.profile_image = state.profileImageUrl || state.savedProfileUrl || "";
   payload.cover_image = state.coverImageUrl || state.savedCoverUrl || "";
 
