@@ -1,1939 +1,1009 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CreatorHub Upload Ebook</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CreatorHub • Upload Ebook Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="https://apis.google.com/js/api.js"></script>
-
-<script src="https://accounts.google.com/gsi/client"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script src="https://accounts.google.com/gsi/client"></script>
    
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
-body{
-background:linear-gradient(135deg,#020617,#071426,#04111f);
-color:white;
-min-height:100vh;
-overflow-x:hidden;
-}
-
-/* NAVBAR */
-
-.navbar{
-height:70px;
-background:#07111f;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:0 25px;
-border-bottom:1px solid rgba(255,255,255,0.05);
-}
-
-.logo{
-font-size:32px;
-font-weight:bold;
-}
-
-.logo span{
-color:#22c55e;
-}
-
-.profile{
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-.profile-dot{
-width:16px;
-height:16px;
-border-radius:50%;
-background:#22c55e;
-}
-
-/* SIDE MENU */
-
-.side-menu{
-position:fixed;
-top:0;
-left:-280px;
-width:260px;
-height:100%;
-background:#020617;
-z-index:9999;
-padding:20px;
-transition:.3s;
-border-right:1px solid rgba(255,255,255,0.05);
-overflow:auto;
-}
-
-.side-menu.active{
-left:0;
-}
-
-.menu-top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:25px;
-}
-
-.menu-profile{
-display:flex;
-align-items:center;
-gap:12px;
-}
-
-.menu-avatar{
-width:50px;
-height:50px;
-border-radius:50%;
-background:#22c55e;
-}
-
-.close-btn{
-font-size:22px;
-cursor:pointer;
-}
-
-.side-menu a{
-display:block;
-padding:14px;
-margin-top:12px;
-border-radius:12px;
-background:#07111f;
-color:white;
-text-decoration:none;
-transition:.3s;
-}
-
-.side-menu a:hover{
-background:#0f172a;
-transform:translateX(5px);
-}
-
-#overlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.6);
-display:none;
-z-index:9998;
-}
-
-/* MAIN */
-
-.container{
-width:95%;
-max-width:1400px;
-margin:auto;
-padding:25px;
-display:grid;
-grid-template-columns:2.6fr 1fr;
-gap:20px;
-align-items:start;
-}
-
-/* CARD */
-
-.card{
-background:rgba(11,18,32,0.96);
-padding:24px;
-border-radius:22px;
-border:1px solid rgba(255,255,255,0.05);
-box-shadow:0 0 30px rgba(0,0,0,0.2);
-}
-
-/* HEADING */
-
-.heading{
-display:flex;
-align-items:center;
-gap:18px;
-margin-bottom:25px;
-}
-
-.icon-box{
-width:70px;
-height:70px;
-border-radius:18px;
-background:linear-gradient(135deg,#0f2d1c,#14532d);
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:28px;
-}
-
-/* GRID */
-
-.grid2{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:16px;
-}
-
-.grid3{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:16px;
-}
-
-/* INPUT */
-
-label{
-display:block;
-margin-top:18px;
-margin-bottom:8px;
-font-size:14px;
-}
-
-input,
-textarea,
-select{
-width:100%;
-padding:14px;
-border-radius:12px;
-border:1px solid #1f2937;
-background:#020617;
-color:white;
-font-size:14px;
-}
-
-textarea{
-height:130px;
-resize:none;
-}
-
-.counter{
-text-align:right;
-font-size:12px;
-color:#94a3b8;
-margin-top:6px;
-}
-
-/* AI BUTTON */
-
-.ai-btn{
-width:100%;
-padding:14px;
-margin-top:20px;
-border-radius:12px;
-border:1px solid #22c55e;
-background:transparent;
-color:#22c55e;
-font-weight:bold;
-cursor:pointer;
-transition:.3s;
-}
-
-.ai-btn:hover{
-background:#0f2d1c;
-}
-
-.ai-text{
-text-align:center;
-font-size:12px;
-color:#94a3b8;
-margin-top:8px;
-}
-
-/* UPLOAD */
-
-.upload-box,
-.pdf-box{
-height:170px;
-border:2px dashed #334155;
-border-radius:16px;
-display:flex;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-background:#07111f;
-cursor:pointer;
-margin-top:10px;
-transition:.3s;
-text-align:center;
-overflow:hidden;
-position:relative;
-}
-
-.upload-box:hover,
-.pdf-box:hover{
-border-color:#22c55e;
-background:#0b1628;
-}
-
-.preview{
-width:100%;
-height:100%;
-object-fit:contain;
-background:#07111f;
-border-radius:12px;
-display:none;
-position:absolute;
-top:0;
-left:0;
-}
-   
-/* BUTTON */
-
-.upload-btn{
-width:100%;
-padding:18px;
-margin-top:22px;
-border:none;
-border-radius:14px;
-background:linear-gradient(90deg,#16a34a,#4ade80);
-color:white;
-font-size:20px;
-font-weight:bold;
-cursor:pointer;
-transition:.3s;
-}
-
-.upload-btn:hover{
-transform:translateY(-2px);
-box-shadow:0 10px 25px rgba(34,197,94,0.2);
-}
-
-.approval{
-text-align:center;
-font-size:13px;
-margin-top:12px;
-color:#94a3b8;
-}
-
-/* FEATURES */
-
-.feature-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-margin-top:25px;
-}
-
-.feature-box{
-display:flex;
-align-items:center;
-gap:12px;
-padding:16px;
-border-radius:16px;
-background:rgba(255,255,255,0.03);
-border:1px solid rgba(255,255,255,0.05);
-}
-
-.feature-icon{
-width:50px;
-height:50px;
-border-radius:14px;
-background:linear-gradient(135deg,#0f2d1c,#14532d);
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:22px;
-flex-shrink:0;
-}
-
-.feature-box h4{
-font-size:15px;
-margin-bottom:4px;
-color:#22c55e;
-}
-
-.feature-box p{
-font-size:12px;
-line-height:1.5;
-color:#cbd5e1;
-}
-
-/* RIGHT SIDE */
-
-.side-card{
-background:rgba(11,18,32,0.96);
-padding:22px;
-border-radius:20px;
-border:1px solid rgba(255,255,255,0.05);
-margin-bottom:20px;
-}
-
-.side-card h3{
-font-size:22px;
-margin-bottom:18px;
-color:#22c55e;
-}
-
-.side-list{
-display:flex;
-flex-direction:column;
-gap:12px;
-font-size:14px;
-line-height:1.6;
-color:#d1d5db;
-}
-
-.highlight{
-margin-top:15px;
-padding:12px;
-border-radius:12px;
-background:linear-gradient(135deg,#0f2d1c,#14532d);
-text-align:center;
-color:#bbf7d0;
-font-size:13px;
-font-weight:bold;
-}
-
-/* FOOTER */
-
-footer{
-margin-top:40px;
-padding:40px 25px;
-background:#000;
-}
-
-.footer-grid{
-display:grid;
-grid-template-columns:2fr 1fr 1fr 1fr;
-gap:25px;
-max-width:1400px;
-margin:auto;
-}
-
-.footer-grid h2{
-color:#22c55e;
-margin-bottom:10px;
-}
-
-.footer-grid h4{
-color:#22c55e;
-margin-bottom:10px;
-}
-
-.footer-grid p,
-.footer-grid div{
-color:#cbd5e1;
-font-size:14px;
-line-height:1.8;
-}
-
-.footer-bottom{
-text-align:center;
-margin-top:25px;
-font-size:13px;
-color:#94a3b8;
-}
-
-/* MOBILE */
-
-@media(max-width:900px){
-
-.container{
-display:flex;
-flex-direction:column;
-padding:12px;
-}
-
-.grid2,
-.grid3,
-.feature-grid,
-.footer-grid{
-grid-template-columns:1fr;
-}
-
-.card,
-.side-card{
-padding:18px;
-}
-
-.upload-box,
-.pdf-box{
-height:140px;
-}
-
-.upload-btn{
-font-size:18px;
-display:flex;
-align-items:center;
-justify-content:center;
-gap:10px;
-}
-
-}
-
-@keyframes spin{
-
-0%{
-transform:rotate(0deg);
-}
-
-100%{
-transform:rotate(360deg);
-}
-
-}
-
-</style>
+  <style>
+    /* =====================================================
+    CORE RESET & CREATORHUB PREMIUM THEME INTERFACES
+    ===================================================== */
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body{
+      background: #f6f8fc;
+      color: #101828;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    ::-webkit-scrollbar{
+      width: 6px;
+    }
+    ::-webkit-scrollbar-thumb{
+      background: #3157c9;
+      border-radius: 20px;
+    }
+
+    /* =====================================================
+    TOPBAR / NAVIGATION LAYER
+    ===================================================== */
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      min-height: 114px;
+      background: #fff;
+      border-bottom: 1px solid #dce4f0;
+      padding: 26px 34px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .topbar-left{
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .brand-logo{
+      display: flex;
+      align-items: center;
+    }
+    .brand-name{
+      font-size: 25px;
+      font-weight: 950;
+      color: #06142c;
+      letter-spacing: -0.02em;
+    }
+    .brand-name span{
+      color: #2f62e9;
+    }
+    .back-btn{
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 800;
+      color: #5d6d85;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s ease;
+      background: none;
+      border: none;
+    }
+    .back-btn:hover{
+      color: #2f62e9;
+    }
+    .badge{
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: #eef3f9;
+      color: #2f62e9;
+      font-weight: 950;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      border: 1px solid rgba(49, 87, 201, 0.1);
+    }
+
+    /* PROFILE WRAP SYSTEM TRIGGER */
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      color: #06142c;
+    }
+    .profile-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #0f9f57;
+      box-shadow: 0 0 10px rgba(15, 159, 87, 0.4);
+    }
+
+    /* =====================================================
+    DYNAMIC SIDE MENU SLIDER
+    ===================================================== */
+    .side-menu{
+      position: fixed;
+      top: 0;
+      left: -290px;
+      width: 280px;
+      height: 100%;
+      background: #0d1628;
+      z-index: 9999;
+      padding: 30px 20px;
+      transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      border-right: 1px solid #182a64;
+      overflow-y: auto;
+    }
+    .side-menu.active{
+      left: 0;
+    }
+    .menu-top{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .menu-profile{
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .menu-avatar{
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .menu-profile h3 {
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .menu-profile p {
+      font-size: 12px;
+      color: #63728a;
+    }
+    .close-btn{
+      font-size: 20px;
+      cursor: pointer;
+      color: #63728a;
+      transition: color 0.2s;
+    }
+    .close-btn:hover { color: #fff; }
+
+    .side-menu a{
+      display: flex;
+      align-items: center;
+      height: 50px;
+      padding: 0 16px;
+      margin-top: 10px;
+      border-radius: 8px;
+      background: transparent;
+      color: #e7edf8;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      transition: all 0.2s;
+    }
+    .side-menu a:hover{
+      background: #182a64;
+      transform: translateX(4px);
+    }
+    #overlay{
+      position: fixed;
+      inset: 0;
+      background: rgba(13, 22, 40, 0.4);
+      backdrop-filter: blur(4px);
+      display: none;
+      z-index: 9998;
+    }
+
+    /* =====================================================
+    MAIN GRID CONTENT LAYOUT 
+    ===================================================== */
+    .container{
+      max-width: 1400px;
+      margin: auto;
+      padding: 36px 34px 90px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .card{
+      background: #fff;
+      padding: 32px;
+      border-radius: 9px;
+      border: 1px solid #dce4f0;
+      box-shadow: 0 18px 45px rgba(16,24,40,.04);
+    }
+
+    .heading{
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .icon-box{
+      width: 54px;
+      height: 54px;
+      border-radius: 10px;
+      background: #eef3f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      color: #2f62e9;
+    }
+    .heading h2 {
+      font-size: 24px;
+      font-weight: 950;
+      color: #06142c;
+    }
+    .heading p {
+      font-size: 14px;
+      color: #63728a;
+      margin-top: 2px;
+    }
+
+    .grid2{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .grid3{
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    /* INPUT CONTROLS */
+    label{
+      display: block;
+      margin-top: 18px;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #26364f;
+    }
+    input, textarea, select{
+      width: 100%;
+      min-height: 54px;
+      padding: 12px 14px;
+      border-radius: 9px;
+      border: 1px solid #d9e3f0;
+      background: #fff;
+      color: #101828;
+      font-size: 15px;
+      font-weight: 600;
+      outline: none;
+    }
+    input:focus, textarea:focus, select:focus{
+      border-color: #3157c9;
+      box-shadow: 0 0 0 4px rgba(49, 87, 201, 0.12);
+    }
+    textarea{
+      height: 130px;
+      resize: none;
+      line-height: 1.5;
+    }
+    .counter{
+      text-align: right;
+      font-size: 12px;
+      color: #63728a;
+      margin-top: 6px;
+      font-weight: 600;
+    }
+
+    /* AI AUTOMATION TRIGGER BUTTON STYLE */
+    .ai-btn{
+      width: 100%;
+      min-height: 54px;
+      margin-top: 20px;
+      border-radius: 9px;
+      border: 1px solid #2f62e9;
+      background: #eef3f9;
+      color: #2f62e9;
+      font-weight: 900;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .ai-btn:hover{
+      background: #2f62e9;
+      color: #fff;
+    }
+    .ai-text{
+      text-align: center;
+      font-size: 12px;
+      color: #63728a;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+
+    /* BOX MODULE FILE COMPILING UPLOADS */
+    .upload-box, .pdf-box{
+      height: 160px;
+      border: 2px dashed #d9e3f0;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      background: #f6f8fc;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: all 0.2s ease;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+      color: #5d6d85;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .upload-box:hover, .pdf-box:hover{
+      border-color: #3157c9;
+      background: #eef3f9;
+      color: #2f62e9;
+    }
+    .preview{
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #f6f8fc;
+      border-radius: 8px;
+      display: none;
+      position: absolute;
+      inset: 0;
+    }
+     
+    .upload-btn{
+      width: 100%;
+      min-height: 58px;
+      margin-top: 24px;
+      border: none;
+      border-radius: 9px;
+      background: #2f62e9;
+      color: white;
+      font-size: 18px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .upload-btn:hover{
+      background: #2455cf;
+    }
+    .upload-btn:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .approval{
+      text-align: center;
+      font-size: 13px;
+      margin-top: 14px;
+      color: #63728a;
+      font-weight: 600;
+    }
+
+    /* VALUE STATEMENTS MARKETS FEATURE CARDS */
+    .feature-grid{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .feature-box{
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      border-radius: 8px;
+      background: #f6f8fc;
+      border: 1px solid #dce4f0;
+    }
+    .feature-icon{
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: #eef3f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: #2f62e9;
+      flex-shrink: 0;
+    }
+    .feature-box h4{
+      font-size: 14px;
+      font-weight: 900;
+      color: #06142c;
+    }
+    .feature-box p{
+      font-size: 12px;
+      line-height: 1.4;
+      color: #63728a;
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    /* RIGHT SIDE APPLICATION COMPLIANCE BLOCKS */
+    .side-card{
+      background: #fff;
+      padding: 28px;
+      border-radius: 9px;
+      border: 1px solid #dce4f0;
+      margin-bottom: 24px;
+      box-shadow: 0 18px 45px rgba(16,24,40,.04);
+    }
+    .side-card h3{
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: #06142c;
+      font-weight: 950;
+      letter-spacing: -0.01em;
+    }
+    .side-list{
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #5d6d85;
+      font-weight: 600;
+    }
+    .side-list div::before {
+      content: "\f05a";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      color: #2f62e9;
+      margin-right: 8px;
+    }
+    .highlight{
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 6px;
+      background: #eef3f9;
+      text-align: center;
+      color: #2f62e9;
+      font-size: 13px;
+      font-weight: 800;
+      border: 1px solid rgba(49, 87, 201, 0.1);
+    }
+
+    /* FOOTER CORE */
+    footer{
+      margin-top: 60px;
+      padding: 40px 34px;
+      background: #0d1628;
+      color: #63728a;
+    }
+    .footer-bottom{
+      text-align: center;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* RESPONSIVE HOOKS MEDIA */
+    @media(max-width:900px){
+      .topbar { min-height: auto; padding: 20px; }
+      .container{ display: flex; flex-direction: column; padding: 20px; }
+      .grid2, .grid3, .feature-grid{ grid-template-columns: 1fr; }
+      .card, .side-card{ padding: 24px; }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-
-<div class="navbar">
-
-<div style="display:flex;align-items:center;gap:15px;">
-
-<div onclick="openMenu()" style="
-font-size:24px;
-cursor:pointer;
-">
-☰
-</div>
-
-<div class="logo">
-Creator<span>Hub</span>
-</div>
-
-</div>
-
-<div class="profile">
-
-<div class="profile-dot"></div>
-
-<div id="username">
-Loading...
-</div>
-
-</div>
-
-</div>
-
-<!-- SIDE MENU -->
-
-<div id="menu" class="side-menu">
-
-<div class="menu-top">
-
-<div class="menu-profile">
-<img
-id="menuProfile"
-class="menu-avatar"
-src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
-
-<div>
-<h3 id="menuName">Creator</h3>
-<p>creatorhub user</p>
-</div>
-</div>
-
-<div class="close-btn" onclick="closeMenu()">
-✕
-</div>
-
-</div>
-
-<a href="index.html">Home</a>
-
-<a href="library.html">
-My Library
-</a>
-
-<a href="orders.html">
-Orders
-</a>
-
-<a href="wallet.html">
-Wallet
-</a>
-
-<a href="premium.html">
-Premium
-</a>
-
-<a href="trending.html">
-Trending
-</a>
-
-<a href="topselling.html">
-Top Selling
-</a>
-
-<a href="rated.html">
-Highest Rated
-</a>
-
-</div>
-
-<div id="overlay" onclick="closeMenu()"></div>
-
-<!-- MAIN -->
-
-<div class="container">
-
-<!-- LEFT -->
-
-<div class="card">
-
-<button onclick="location.href='index.html'" style="
-background:#111827;
-border:1px solid #374151;
-color:white;
-padding:12px 18px;
-border-radius:12px;
-cursor:pointer;
-margin-bottom:20px;
-font-size:14px;
-font-weight:bold;
-display:flex;
-align-items:center;
-gap:8px;
-">
-
-← Back To Home
-
-</button>
-   
-<div class="heading">
-
-<div class="icon-box">
-☁️
-</div>
-
-<div>
-<h2>Upload Ebook</h2>
-<p>Upload your ebook and reach thousands of readers</p>
-</div>
-
-</div>
-
-<div class="grid2">
-
-<input id="title" placeholder="Book Title">
-
-<input id="author" placeholder="Author Name">
-
-</div>
-
-<label>Book Description</label>
-
-<textarea id="description"></textarea>
-
-<div class="counter" id="counter">
-0/1000
-</div>
-
-<button class="ai-btn" onclick="autoFillAI()">
-✨ AI Help Auto Fill
-</button>
-
-<div class="ai-text">
-AI reads your PDF and fills details automatically
-</div>
-
-<div class="grid3" style="margin-top:18px;">
-
-<input id="category" placeholder="Category">
-
-<input id="language" placeholder="Language">
-
-<select id="bookSize">
-
-<option>Select Book Size</option>
-
-<option>A4</option>
-
-<option>A5</option>
-
-<option>6x9</option>
-
-</select>
-
-</div>
-
-<div class="grid2" style="margin-top:16px;">
-
-<input id="tags" placeholder="Tags">
-
-<input id="isbn" placeholder="ISBN">
-
-</div>
-
-<div class="grid3" style="margin-top:16px;">
-
-<input id="price" placeholder="Price">
-
-<input id="pages" placeholder="Pages">
-
-<label style="display:flex;align-items:center;gap:10px;">
-<input type="checkbox" id="printVersion">
-Print Version Available
-</label>
-
-</div>
-
-<!-- COVERS -->
-
-<div class="grid2">
-
-<div>
-
-<label>Front Cover</label>
-
-<div class="upload-box" onclick="front.click()">
-
-<div id="frontText">
-Upload Front Cover
-</div>
-
-<img id="frontPreview" class="preview">
-
-</div>
-
-<input hidden type="file" id="front">
-
-<button id="removeFront" style="
-display:none;
-margin-top:8px;
-background:#ef4444;
-color:white;
-border:none;
-padding:8px 12px;
-border-radius:8px;
-cursor:pointer;
-">
-Remove
-</button>
-
-</div>
-
-<div>
-
-<label>Back Cover</label>
-
-<div class="upload-box" onclick="back.click()">
-
-<div id="backText">
-Upload Back Cover
-</div>
-
-<img id="backPreview" class="preview">
-
-</div>
-
-<input hidden type="file" id="back">
-
-<button id="removeBack" style="
-display:none;
-margin-top:8px;
-background:#ef4444;
-color:white;
-border:none;
-padding:8px 12px;
-border-radius:8px;
-cursor:pointer;
-">
-Remove
-</button>
-
-</div>
-
-</div>
-
-<!-- PDF -->
-
-<label>PDF File</label>
-
-<div class="pdf-box" onclick="pdf.click()" id="pdfBox">
-
-<div id="pdfText">
-
-📄 Click to Upload PDF
-
-</div>
-
-</div>
-
-<input hidden type="file" id="pdf">
-
-<button
-class="upload-btn"
-id="uploadBtn"
-onclick="uploadBook()">
-
-<span id="uploadText">
-Upload Ebook
-</span>
-
-<span
-id="uploadLoader"
-style="
-display:none;
-width:22px;
-height:22px;
-border:3px solid rgba(255,255,255,0.3);
-border-top:3px solid white;
-border-radius:50%;
-animation:spin 1s linear infinite;
-margin:auto;
-">
-</span>
-
-</button>
-
-<div class="approval">
-🔒 Your ebook will be reviewed after AI approval
-</div>
-
-<!-- FEATURES -->
-
-<div class="feature-grid">
-
-<div class="feature-box">
-<div class="feature-icon"></div>
-<div>
-<h4>Secure Upload</h4>
-<p>Your files are encrypted and protected</p>
-</div>
-</div>
-
-<div class="feature-box">
-<div class="feature-icon"></div>
-<div>
-<h4>Fast Approval</h4>
-<p>AI reviews ebooks within minutes</p>
-</div>
-</div>
-
-<div class="feature-box">
-<div class="feature-icon"></div>
-<div>
-<h4>Better Reach</h4>
-<p>Quality ebooks get more visibility</p>
-</div>
-</div>
-
-<div class="feature-box">
-<div class="feature-icon"></div>
-<div>
-<h4>Earn More</h4>
-<p>Sell globally and grow income</p>
-</div>
-</div>
-
-</div>
-
-</div>
-
-<!-- RIGHT -->
-
-<div>
-
-<div class="side-card">
-
-<h3>Upload Guidelines</h3>
-
-<div class="side-list">
-
-<div>High-quality PDF ebooks only</div>
-
-<div>Professional front & back covers</div>
-
-<div>No piracy or harmful content</div>
-
-<div>AI checks all uploads automatically</div>
-
-<div>Fast review & approval process</div>
-
-</div>
-
-<div class="highlight">
-Better quality ebooks get more visibility
-</div>
-
-</div>
-
-<div class="side-card">
-
-<h3>AI Smart Assistant</h3>
-
-<div class="side-list">
-
-<div>AI reads your PDF automatically</div>
-
-<div>Generates title & description</div>
-
-<div>Suggests category and tags</div>
-
-<div>Detects harmful or spam content</div>
-
-<div>Smart AI moderation system</div>
-
-</div>
-
-<div class="highlight">
-AI helps creators publish faster
-</div>
-
-</div>
-
-<div class="side-card">
-
-<h3 style="color:#a78bfa;">
-Tips for Better Results
-</h3>
-
-<div class="side-list">
-
-<div>• Use clear and attractive covers</div>
-
-<div>• Write detailed descriptions</div>
-
-<div>• Choose accurate category & tags</div>
-
-<div>• Keep content original</div>
-
-<div>• Follow platform guidelines</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<div id="footer"></div>
-
-<script>
-
-/* =========================================================
-API CONFIG
-========================================================= */
-
-const UPLOAD_API =
-"https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec"
-
-/* =========================================================
-GOOGLE CONFIG
-========================================================= */
-
-const CLIENT_ID =
-"895144937824-ojsv6ca2nn67h2mmne6td4r0hr89kmok.apps.googleusercontent.com"
-
-const API_KEY =
-"AIzaSyAakSA5fgVrO6f-WPocfv8C9LhnQe32nPw"
-
-const DRIVE_FOLDER_ID =
-"1WBqoulfH4FNt9o3krB4d4HxSWPA5o-lV"
-
-/* =========================================================
-GLOBALS
-========================================================= */
-
-let accessToken = ""
-
-const pdf = document.getElementById("pdf")
-
-const username =
-document.getElementById("username")
-
-const menuName =
-document.getElementById("menuName")
-
-const menuProfile =
-document.getElementById("menuProfile")
-
-const title =
-document.getElementById("title")
-
-const author =
-document.getElementById("author")
-
-const description =
-document.getElementById("description")
-
-const category =
-document.getElementById("category")
-
-const language =
-document.getElementById("language")
-
-const tags =
-document.getElementById("tags")
-
-const isbn =
-document.getElementById("isbn")
-
-const price =
-document.getElementById("price")
-
-const pages =
-document.getElementById("pages")
-
-const front =
-document.getElementById("front")
-
-const back =
-document.getElementById("back")
-
-const frontPreview =
-document.getElementById("frontPreview")
-
-const backPreview =
-document.getElementById("backPreview")
-
-const removeFront =
-document.getElementById("removeFront")
-
-const removeBack =
-document.getElementById("removeBack")
-
-const counter =
-document.getElementById("counter")
-
-const bookSize =
-document.getElementById("bookSize")
-
-const printVersion =
-document.getElementById("printVersion")
-
-/* =========================================================
-MENU
-========================================================= */
-
-function openMenu(){
-
-document.getElementById("menu")
-.classList.add("active")
-
-document.getElementById("overlay")
-.style.display = "block"
-
-}
-
-function closeMenu(){
-
-document.getElementById("menu")
-.classList.remove("active")
-
-document.getElementById("overlay")
-.style.display = "none"
-
-}
-
-/* =========================================================
-LOAD USER
-========================================================= */
-
-async function loadUser(){
-
-try{
-
-let localUser =
-JSON.parse(
-localStorage.getItem("user")
-) || {}
-
-let email = ""
-
-if(localUser.email){
-
-email = localUser.email
-
-}
-
-else if(
-localUser.user &&
-localUser.user.email
-){
-
-email =
-localUser.user.email
-
-}
-
-if(!email){
-
-username.innerText = "User"
-
-menuName.innerText = "User"
-
-return
-
-}
-
-/* ================= USER ================= */
-
-let userRes =
-await fetch(UPLOAD_API,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"text/plain"
-},
-
-body:JSON.stringify({
-
-action:"getUser",
-
-email:email
-
-})
-
-})
-
-let userData =
-await userRes.json()
-
-console.log(userData)
-
-if(userData.success){
-
-username.innerText =
-userData.user.name || "User"
-
-menuName.innerText =
-userData.user.name || "User"
-
-}
-
-/* ================= SELLER ================= */
-
-let sellerRes =
-await fetch(UPLOAD_API,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"text/plain"
-},
-
-body:JSON.stringify({
-
-action:"checkSeller",
-
-email:email
-
-})
-
-})
-
-let sellerData =
-await sellerRes.json()
-
-console.log(sellerData)
-
-if(!sellerData.success){
-
-location.href =
-"seller-apply.html"
-
-return
-
-}
-
-}catch(err){
-
-console.log(err)
-
-username.innerText = "User"
-
-menuName.innerText = "User"
-
-}
-
-}
-
-loadUser()
-
-/* =========================================================
-COUNTER
-========================================================= */
-
-description.addEventListener(
-"input",
-()=>{
-
-counter.innerText =
-description.value.length +
-"/1000"
-
-})
-
-/* =========================================================
-IMAGE PREVIEW
-========================================================= */
-
-function preview(
-input,
-id,
-removeId
-){
-
-let file =
-input.files[0]
-
-if(!file) return
-
-let reader =
-new FileReader()
-
-reader.onload = e => {
-
-document.getElementById(id).src =
-e.target.result
-
-document.getElementById(id)
-.style.display = "block"
-
-document.getElementById(removeId)
-.style.display = "block"
-
-}
-
-reader.readAsDataURL(file)
-
-}
-
-front.onchange = ()=>{
-
-preview(
-front,
-"frontPreview",
-"removeFront"
-)
-
-}
-
-back.onchange = ()=>{
-
-preview(
-back,
-"backPreview",
-"removeBack"
-)
-
-}
-
-/* =========================================================
-REMOVE IMAGE
-========================================================= */
-
-removeFront.onclick = ()=>{
-
-front.value = ""
-
-frontPreview.style.display =
-"none"
-
-removeFront.style.display =
-"none"
-
-}
-
-removeBack.onclick = ()=>{
-
-back.value = ""
-
-backPreview.style.display =
-"none"
-
-removeBack.style.display =
-"none"
-
-}
-
-/* =========================================================
-PDF SELECT
-========================================================= */
-
-pdf.onchange = async function(){
-
-let file = this.files[0]
-
-if(!file) return
-
-document.getElementById("pdfText")
-.innerHTML =
-"📄 " + file.name
-
-let reader =
-new FileReader()
-
-reader.onload =
-async function(){
-
-let typedArray =
-new Uint8Array(reader.result)
-
-let pdfDoc =
-await pdfjsLib
-.getDocument(typedArray)
-.promise
-
-pages.value =
-pdfDoc.numPages
-
-}
-
-reader.readAsArrayBuffer(file)
-
-}
-
-/* =========================================================
-EXTRACT PDF TEXT
-========================================================= */
-
-async function extractPDFText(file){
-
-let arrayBuffer =
-await file.arrayBuffer()
-
-let pdfDoc =
-await pdfjsLib
-.getDocument({
-data:arrayBuffer
-})
-.promise
-
-let finalText = ""
-
-let totalPages =
-Math.min(
-pdfDoc.numPages,
-3
-)
-
-for(
-let i=1;
-i<=totalPages;
-i++
-){
-
-let page =
-await pdfDoc.getPage(i)
-
-let textContent =
-await page.getTextContent()
-
-let pageText =
-textContent.items
-.map(item => item.str)
-.join(" ")
-
-finalText +=
-pageText + "\n"
-
-}
-
-return finalText
-.slice(0,8000)
-
-}
-
-/* =========================================================
-AI AUTO FILL
-========================================================= */
-
-async function autoFillAI(){
-
-try{
-
-let pdfFile =
-pdf.files[0]
-
-if(!pdfFile){
-
-alert(
-"Please upload PDF first"
-)
-
-return
-
-}
-
-let pdfText =
-await extractPDFText(
-pdfFile
-)
-
-console.log(pdfText)
-
-let res =
-await fetch(UPLOAD_API,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"text/plain"
-},
-
-body:JSON.stringify({
-
-action:"analyzePDF",
-
-pdfText:pdfText
-
-})
-
-})
-
-let data =
-await res.json()
-
-console.log(data)
-
-if(data.success){
-
-let ai =
-data.ai || {}
-
-title.value =
-ai.title || ""
-
-author.value =
-ai.author || ""
-
-description.value =
-ai.description || ""
-
-category.value =
-ai.category || ""
-
-language.value =
-ai.language || ""
-
-tags.value =
-Array.isArray(ai.tags)
-? ai.tags.join(", ")
-: (ai.tags || "")
-
-isbn.value =
-String(ai.isbn || "")
-.replace(
-/[^0-9X-]/g,
-""
-)
-
-counter.innerText =
-description.value.length +
-"/1000"
-
-}else{
-
-alert(
-data.message ||
-"AI Failed"
-)
-
-}
-
-}catch(err){
-
-console.log(err)
-
-alert(err.message)
-
-}
-
-}
-
-/* =========================================================
-GOOGLE LOGIN
-========================================================= */
-
-async function initGoogle(){
-
-return new Promise(
-(resolve,reject)=>{
-
-gapi.load(
-"client",
-async ()=>{
-
-try{
-
-await gapi.client.init({
-
-apiKey:API_KEY,
-
-discoveryDocs:[
-"https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"
-]
-
-})
-
-const tokenClient =
-google.accounts.oauth2
-.initTokenClient({
-
-client_id:
-CLIENT_ID,
-
-scope:
-"https://www.googleapis.com/auth/drive",
-
-callback:(res)=>{
-
-if(res.error){
-
-reject(res)
-return
-
-}
-
-accessToken =
-res.access_token
-
-resolve()
-
-}
-
-})
-
-tokenClient
-.requestAccessToken({
-prompt:""
-})
-
-}catch(err){
-
-reject(err)
-
-}
-
-})
-
-})
-
-}
-
-/* =========================================================
-CREATE DRIVE FOLDER
-========================================================= */
-
-async function createDriveFolder(folderName){
-
-let metadata = {
-
-name:folderName,
-
-mimeType:
-"application/vnd.google-apps.folder",
-
-parents:[
-DRIVE_FOLDER_ID
-]
-
-}
-
-let res = await fetch(
-
-"https://www.googleapis.com/drive/v3/files",
-
-{
-
-method:"POST",
-
-headers:{
-Authorization:
-"Bearer " + accessToken,
-
-"Content-Type":
-"application/json"
-},
-
-body:JSON.stringify(
-metadata
-)
-
-}
-
-)
-
-let data =
-await res.json()
-
-return data.id
-
-}
-
-/* =========================================================
-UPLOAD TO DRIVE
-========================================================= */
-
-async function uploadToDrive(
-file,
-folderId
-){
-
-try{
-
-let form =
-new FormData()
-
-form.append(
-
-"metadata",
-
-new Blob([JSON.stringify({
-
-name:file.name,
-
-parents:[
-folderId
-],
-
-mimeType:file.type
-
-})],{
-
-type:"application/json"
-
-})
-
-)
-
-form.append(
-"file",
-file
-)
-
-let res = await fetch(
-
-"https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
-
-{
-
-method:"POST",
-
-headers:{
-Authorization:
-"Bearer " + accessToken
-},
-
-body:form
-
-}
-
-)
-
-let data =
-await res.json()
-
-if(!res.ok){
-
-throw new Error(
-
-data.error
-? data.error.message
-: "Drive Upload Failed"
-
-)
-
-}
-
-return data.id
-
-}catch(err){
-
-console.log(err)
-
-throw err
-
-}
-
-}
-
-/* =========================================================
-UPLOAD EBOOK
-========================================================= */
-
-async function uploadBook(){
-
-const uploadBtn =
-document.getElementById(
-"uploadBtn"
-)
-
-const uploadText =
-document.getElementById(
-"uploadText"
-)
-
-const uploadLoader =
-document.getElementById(
-"uploadLoader"
-)
-
-uploadBtn.disabled = true
-
-uploadText.style.display =
-"none"
-
-uploadLoader.style.display =
-"block"
-
-try{
-
-let user =
-JSON.parse(
-localStorage.getItem("user")
-|| "{}"
-)
-
-let userEmail =
-
-user.email ||
-
-(user.user &&
-user.user.email)
-
-if(!userEmail){
-
-throw new Error(
-"Login Required"
-)
-
-}
-
-let pdfFile =
-pdf.files[0]
-
-let frontFile =
-front.files[0]
-
-let backFile =
-back.files[0]
-
-if(!title.value.trim()){
-
-throw new Error(
-"Enter Title"
-)
-
-}
-
-if(!description.value.trim()){
-
-throw new Error(
-"Enter Description"
-)
-
-}
-
-if(!pdfFile){
-
-throw new Error(
-"Upload PDF"
-)
-
-}
-
-if(
-!frontFile ||
-!backFile
-){
-
-throw new Error(
-"Upload Both Covers"
-)
-
-}
-
-/* ================= GOOGLE ================= */
-
-await initGoogle()
-
-/* ================= PDF TEXT ================= */
-
-let pdfText =
-await extractPDFText(
-pdfFile
-)
-
-/* ================= CREATE FOLDER ================= */
-
-let bookFolderId =
-await createDriveFolder(
-title.value
-)
-
-/* ================= UPLOAD FILES ================= */
-
-let pdfId =
-await uploadToDrive(
-pdfFile,
-bookFolderId
-)
-
-let frontId =
-await uploadToDrive(
-frontFile,
-bookFolderId
-)
-
-let backId =
-await uploadToDrive(
-backFile,
-bookFolderId
-)
-
-/* ================= PAYLOAD ================= */
-
-let payload = {
-
-action:"uploadEbook",
-
-email:userEmail,
-
-title:title.value,
-
-author_name:
-author.value,
-
-description:
-description.value,
-
-category:
-category.value,
-
-language:
-language.value,
-
-tags:
-tags.value,
-
-isbn:
-isbn.value,
-
-price:
-price.value,
-
-pages:
-pages.value,
-
-size:
-bookSize.value,
-
-print_version:
-printVersion.checked,
-
-pdfText:
-pdfText,
-
-pdfId:
-pdfId,
-
-frontCoverId:
-frontId,
-
-backCoverId:
-backId
-
-}
-
-/* ================= API ================= */
-
-let response =
-await fetch(UPLOAD_API,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"text/plain"
-},
-
-body:JSON.stringify(
-payload
-)
-
-})
-
-let data =
-await response.json()
-
-console.log(data)
-
-if(data.success){
-
-uploadLoader.style.display =
-"none"
-
-uploadText.style.display =
-"block"
-
-uploadText.innerText =
-"Uploaded Successfully"
-
-setTimeout(()=>{
-
-location.href =
-"library.html"
-
-},1500)
-
-}else{
-
-throw new Error(
-data.message ||
-"Upload Failed"
-)
-
-}
-
-}catch(err){
-
-console.log(err)
-
-alert(err.message)
-
-uploadBtn.disabled = false
-
-uploadLoader.style.display =
-"none"
-
-uploadText.style.display =
-"block"
-
-uploadText.innerText =
-"Upload Ebook"
-
-}
-
-}
-
-/* =========================================================
-FOOTER
-========================================================= */
-
-fetch("footer.html")
-.then(res => res.text())
-.then(data => {
-
-document.getElementById(
-"footer"
-).innerHTML = data
-
-})
-.catch(err => {
-
-console.log(err)
-
-})
-
-   </script>
-  
+  <div class="topbar">
+    <div class="topbar-left">
+      <div onclick="openMenu()" style="font-size:22px; cursor:pointer; color: #5d6d85;"><i class="fa-solid fa-bars"></i></div>
+      <a class="brand-logo" href="./dashboard.html">
+        <span class="brand-name">Creator<span>Hub</span></span>
+      </a>
+    </div>
+
+    <div class="profile">
+      <div class="profile-dot"></div>
+      <div id="username">Loading...</div>
+    </div>
+  </div>
+
+  <div id="menu" class="side-menu">
+    <div class="menu-top">
+      <div class="menu-profile">
+        <img id="menuProfile" class="menu-avatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Avatar">
+        <div>
+          <h3 id="menuName">Creator</h3>
+          <p>CreatorHub User</p>
+        </div>
+      </div>
+      <div class="close-btn" onclick="closeMenu()">✕</div>
+    </div>
+
+    <a href="index.html">Home</a>
+    <a href="library.html">My Library</a>
+    <a href="orders.html">Orders</a>
+    <a href="wallet.html">Wallet</a>
+    <a href="premium.html">Premium</a>
+    <a href="trending.html">Trending</a>
+    <a href="topselling.html">Top Selling</a>
+    <a href="rated.html">Highest Rated</a>
+  </div>
+
+  <div id="overlay" onclick="closeMenu()"></div>
+
+  <div class="main container">
+    
+    <div class="card">
+      <button class="back-btn" onclick="location.href='index.html'"><i class="fa-solid fa-arrow-left"></i> Back To Home</button>
+       
+      <div class="heading" style="margin-top: 14px;">
+        <div class="icon-box"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+        <div>
+          <h2>Upload Ebook</h2>
+          <p>Upload your ebook and reach thousands of readers across the network</p>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <input id="title" placeholder="Book Title">
+        <input id="author" placeholder="Author Name">
+      </div>
+
+      <label for="description">Book Description</label>
+      <textarea id="description" placeholder="Provide an explicit summary descriptor of your ebook product..."></textarea>
+      <div class="counter" id="counter">0/1000</div>
+
+      <button class="ai-btn" onclick="autoFillAI()"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Help Auto Fill</button>
+      <div class="ai-text">AI reads your uploaded layout pages data and fills properties details automatically</div>
+
+      <div class="grid3" style="margin-top:18px;">
+        <input id="category" placeholder="Category">
+        <input id="language" placeholder="Language">
+        <select id="bookSize">
+          <option>Select Book Size</option>
+          <option>A4</option>
+          <option>A5</option>
+          <option>6x9</option>
+        </select>
+      </div>
+
+      <div class="grid2" style="margin-top:16px;">
+        <input id="tags" placeholder="Tags (comma-separated)">
+        <input id="isbn" placeholder="ISBN (Optional)">
+      </div>
+
+      <div class="grid3" style="margin-top:16px;">
+        <input id="price" placeholder="Price (₹)">
+        <input id="pages" placeholder="Pages Count" readonly style="background:#f6f8fc; cursor:not-allowed;">
+        <label style="display:flex; align-items:center; gap:10px; margin-top:0; cursor:pointer;">
+          <input type="checkbox" id="printVersion" style="width:20px; min-height:20px; cursor:pointer;"> Print Version Available
+        </label>
+      </div>
+
+      <div class="grid2" style="margin-top:16px;">
+        <div>
+          <label>Front Cover</label>
+          <div class="upload-box" onclick="front.click()">
+            <div id="frontText"><i class="fa-regular fa-image" style="font-size:22px; margin-bottom:8px; display:block;"></i> Upload Front Cover</div>
+            <img id="frontPreview" class="preview" alt="Front Preview">
+          </div>
+          <input hidden type="file" id="front" accept="image/*">
+          <button id="removeFront" style="display:none; margin-top:8px; background:#ef4444; color:white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; font-weight:700; font-size:12px;">Remove</button>
+        </div>
+
+        <div>
+          <label>Back Cover</label>
+          <div class="upload-box" onclick="back.click()">
+            <div id="backText"><i class="fa-regular fa-image" style="font-size:22px; margin-bottom:8px; display:block;"></i> Upload Back Cover</div>
+            <img id="backPreview" class="preview" alt="Back Preview">
+          </div>
+          <input hidden type="file" id="back" accept="image/*">
+          <button id="removeBack" style="display:none; margin-top:8px; background:#ef4444; color:white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; font-weight:700; font-size:12px;">Remove</button>
+        </div>
+      </div>
+
+      <label>PDF File Document Source</label>
+      <div class="pdf-box" onclick="pdf.click()" id="pdfBox">
+        <div id="pdfText"><i class="fa-regular fa-file-pdf" style="font-size:26px; margin-bottom:8px; display:block; color:#ef4444;"></i> Click to Upload Ebook PDF File</div>
+      </div>
+      <input hidden type="file" id="pdf" accept="application/pdf">
+
+      <button class="upload-btn" id="uploadBtn" onclick="uploadBook()">
+        <span id="uploadText">Upload Ebook &amp; Publish</span>
+        <span id="uploadLoader" style="display:none;" class="spinner"></span>
+      </button>
+      <div class="approval">🔒 Ebook indexing sync operates seamlessly under real-time automated AI encryption.</div>
+
+      <div class="feature-grid">
+        <div class="feature-box">
+          <div class="feature-icon"><i class="fa-solid fa-lock"></i></div>
+          <div>
+            <h4>Secure Upload</h4>
+            <p>Your compilation files are fully locked and protected.</p>
+          </div>
+        </div>
+        <div class="feature-box">
+          <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
+          <div>
+            <h4>Fast AI Processing</h4>
+            <p>Ebooks metadata screening compiles within minutes.</p>
+          </div>
+        </div>
+        <div class="feature-box">
+          <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+          <div>
+            <h4>Maximum Discoverability</h4>
+            <p>High-quality ebook uploads acquire automated visibility weight.</p>
+          </div>
+        </div>
+        <div class="feature-box">
+          <div class="feature-icon"><i class="fa-solid fa-wallet"></i></div>
+          <div>
+            <h4>Protected Balances</h4>
+            <p>Sell to readers globally and collect safe instant earnings ledger.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="side-card">
+        <h3>Upload Guidelines</h3>
+        <div class="side-list">
+          <div>High-quality standard PDF format ebooks entries only</div>
+          <div>Professional high resolution front &amp; back cover file inputs</div>
+          <div>Strict verification checks matching zero copyright compliance</div>
+          <div>Encryption systems analyze metadata nodes strings completely</div>
+          <div>Automatic validation guarantees instantaneous marketplace mapping</div>
+        </div>
+        <div class="highlight">Better quality entries gain automated platform visibility</div>
+      </div>
+
+      <div class="side-card">
+        <h3>AI Smart Framework Assistant</h3>
+        <div class="side-list">
+          <div>AI script engine processes target indexing context blocks string</div>
+          <div>Autogenerates localized optimized titles &amp; descriptive fields</div>
+          <div>Suggests categorized classifications parameters and taxonomy tags</div>
+          <div>Intercepts and sanitizes broken scripts or invalid elements inputs</div>
+          <div>Protects server nodes using automated secure gateway systems</div>
+        </div>
+        <div class="highlight">AI automation optimizes production deployments speed</div>
+      </div>
+
+      <div class="side-card">
+        <h3 style="color:#2f62e9;">Tips for Maximum Reach</h3>
+        <div class="side-list">
+          <div>• Render attractive unique contrasting color cover layouts</div>
+          <div>• Compose extensive clear informative textual summary descriptions</div>
+          <div>• Bind accurate categorization frameworks for target segments</div>
+          <div>• Retain genuine unpirated documentation formats inputs</div>
+          <div>• Follow strict distribution compliance agreements regulations</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-bottom">
+      © 2026 CreatorHub Publisher Subsystem • Automated Digital Supply Node Fulfillment • Encrypted Drive Storage
+    </div>
+  </footer>
+
+  <script>
+    const UPLOAD_API = "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
+    
+    // Core parameters mapping securely into the dedicated cloud project buckets
+    const CLIENT_ID = "895144937824-ojsv6ca2nn67h2mmne6td4r0hr89kmok.apps.googleusercontent.com";
+    const API_KEY = "AIzaSyAakSA5fgVrO6f-WPocfv8C9LhnQe32nPw";
+    const DRIVE_FOLDER_ID = "1WBqoulfH4FNt9o3krB4d4HxSWPA5o-lV";
+
+    let accessToken = "";
+
+    const pdf = document.getElementById("pdf");
+    const username = document.getElementById("username");
+    const menuName = document.getElementById("menuName");
+    const menuProfile = document.getElementById("menuProfile");
+    const title = document.getElementById("title");
+    const author = document.getElementById("author");
+    const description = document.getElementById("description");
+    const category = document.getElementById("category");
+    const language = document.getElementById("language");
+    const tags = document.getElementById("tags");
+    const isbn = document.getElementById("isbn");
+    const price = document.getElementById("price");
+    const pages = document.getElementById("pages");
+    const front = document.getElementById("front");
+    const back = document.getElementById("back");
+    const frontPreview = document.getElementById("frontPreview");
+    const backPreview = document.getElementById("backPreview");
+    const removeFront = document.getElementById("removeFront");
+    const removeBack = document.getElementById("removeBack");
+    const counter = document.getElementById("counter");
+    const bookSize = document.getElementById("bookSize");
+    const printVersion = document.getElementById("printVersion");
+
+    function openMenu(){
+      document.getElementById("menu").classList.add("active");
+      document.getElementById("overlay").style.display = "block";
+    }
+
+    function closeMenu(){
+      document.getElementById("menu").classList.remove("active");
+      document.getElementById("overlay").style.display = "none";
+    }
+
+    async function loadUser(){
+      try{
+        let localUser = JSON.parse(localStorage.getItem("user")) || {};
+        let email = localUser.email || (localUser.user && localUser.user.email) || "";
+
+        if(!email){
+          username.innerText = "Creator User";
+          menuName.innerText = "Creator User";
+          return;
+        }
+
+        let userRes = await fetch(UPLOAD_API,{
+          method:"POST",
+          headers:{ "Content-Type":"text/plain" },
+          body:JSON.stringify({ action:"getUser", email:email })
+        });
+        let userData = await userRes.json();
+
+        if(userData.success){
+          username.innerText = userData.user.name || "Creator User";
+          menuName.innerText = userData.user.name || "Creator User";
+        }
+
+        let sellerRes = await fetch(UPLOAD_API,{
+          method:"POST",
+          headers:{ "Content-Type":"text/plain" },
+          body:JSON.stringify({ action:"checkSeller", email:email })
+        });
+        let sellerData = await sellerRes.json();
+
+        if(!sellerData.success){
+          location.href = "seller-apply.html";
+          return;
+        }
+      }catch(err){
+        console.log(err);
+        username.innerText = "Creator User";
+        menuName.innerText = "Creator User";
+      }
+    }
+
+    loadUser();
+
+    description.addEventListener("input", ()=>{
+      counter.innerText = description.value.length + "/1000";
+    });
+
+    function preview(input, id, removeId){
+      let file = input.files[0];
+      if(!file) return;
+      let reader = new FileReader();
+      reader.onload = e => {
+        document.getElementById(id).src = e.target.result;
+        document.getElementById(id).style.display = "block";
+        document.getElementById(removeId).style.display = "block";
+      }
+      reader.readAsDataURL(file);
+    }
+
+    front.onchange = ()=>{ preview(front, "frontPreview", "removeFront"); }
+    back.onchange = ()=>{ preview(back, "backPreview", "removeBack"); }
+
+    removeFront.onclick = ()=>{
+      front.value = "";
+      frontPreview.style.display = "none";
+      removeFront.style.display = "none";
+    }
+
+    removeBack.onclick = ()=>{
+      back.value = "";
+      backPreview.style.display = "none";
+      removeBack.style.display = "none";
+    }
+
+    pdf.onchange = async function(){
+      let file = this.files[0];
+      if(!file) return;
+      document.getElementById("pdfText").innerHTML = "📄 " + file.name;
+      let reader = new FileReader();
+      reader.onload = async function(){
+        let typedArray = new Uint8Array(reader.result);
+        let pdfDoc = await pdfjsLib.getDocument(typedArray).promise;
+        pages.value = pdfDoc.numPages;
+      }
+      reader.readAsArrayBuffer(file);
+    }
+
+    async function extractPDFText(file){
+      let arrayBuffer = await file.arrayBuffer();
+      let pdfDoc = await pdfjsLib.getDocument({ data:arrayBuffer }).promise;
+      let finalText = "";
+      let totalPages = Math.min(pdfDoc.numPages, 3);
+
+      for(let i=1; i<=totalPages; i++){
+        let page = await pdfDoc.getPage(i);
+        let textContent = await page.getTextContent();
+        let pageText = textContent.items.map(item => item.str).join(" ");
+        finalText += pageText + "\n";
+      }
+      return finalText.slice(0,8000);
+    }
+
+    async function autoFillAI(){
+      try{
+        let pdfFile = pdf.files[0];
+        if(!pdfFile){ alert("Please upload PDF first"); return; }
+
+        document.getElementById("pdfText").innerHTML = "<i class='fa-solid fa-spinner fa-spin'></i> Analyzing document string structures...";
+        let pdfText = await extractPDFText(pdfFile);
+
+        let res = await fetch(UPLOAD_API,{
+          method:"POST",
+          headers:{ "Content-Type":"text/plain" },
+          body:JSON.stringify({ action:"analyzePDF", pdfText:pdfText })
+        });
+        let data = await res.json();
+
+        if(data.success){
+          let ai = data.ai || {};
+          title.value = ai.title || "";
+          author.value = ai.author || "";
+          description.value = ai.description || "";
+          category.value = ai.category || "";
+          language.value = ai.language || "";
+          tags.value = Array.isArray(ai.tags) ? ai.tags.join(", ") : (ai.tags || "");
+          isbn.value = String(ai.isbn || "").replace(/[^0-9X-]/g, "");
+          counter.innerText = description.value.length + "/1000";
+          document.getElementById("pdfText").innerHTML = "📄 " + pdfFile.name + " (AI Computed)";
+        }else{
+          alert(data.message || "AI Extraction Pipeline Mismatch Error.");
+          document.getElementById("pdfText").innerHTML = "📄 " + pdfFile.name;
+        }
+      }catch(err){
+        console.log(err);
+        alert(err.message);
+      }
+    }
+
+    async function initGoogle(){
+      return new Promise((resolve,reject)=>{
+        gapi.load("client", async ()=>{
+          try{
+            await gapi.client.init({
+              apiKey:API_KEY,
+              discoveryDocs:["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"]
+            });
+            const tokenClient = google.accounts.oauth2.initTokenClient({
+              client_id: CLIENT_ID,
+              scope: "https://www.googleapis.com/auth/drive",
+              callback:(res)=>{
+                if(res.error){ reject(res); return; }
+                accessToken = res.access_token;
+                resolve();
+              }
+            });
+            tokenClient.requestAccessToken({ prompt:"" });
+          }catch(err){ reject(err); }
+        });
+      });
+    }
+
+    async function createDriveFolder(folderName){
+      let metadata = { name:folderName, mimeType: "application/vnd.google-apps.folder", parents:[DRIVE_FOLDER_ID] };
+      let res = await fetch("https://www.googleapis.com/drive/v3/files", {
+        method:"POST",
+        headers:{ Authorization: "Bearer " + accessToken, "Content-Type": "application/json" },
+        body:JSON.stringify(metadata)
+      });
+      let data = await res.json();
+      return data.id;
+    }
+
+    async function uploadToDrive(file, folderId){
+      try{
+        let form = new FormData();
+        form.append("metadata", new Blob([JSON.stringify({ name:file.name, parents:[folderId], mimeType:file.type })],{ type:"application/json" }));
+        form.append("file", file);
+
+        let res = await fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart", {
+          method:"POST",
+          headers:{ Authorization: "Bearer " + accessToken },
+          body:form
+        });
+        let data = await res.json();
+        if(!res.ok){ throw new Error(data.error ? data.error.message : "Drive Tunnel Upload Rejection."); }
+        return data.id;
+      }catch(err){ console.log(err); throw err; }
+    }
+
+    async function uploadBook(){
+      const uploadBtn = document.getElementById("uploadBtn");
+      const uploadText = document.getElementById("uploadText");
+      const uploadLoader = document.getElementById("uploadLoader");
+
+      if(!title.value.trim() || !description.value.trim() || !pdf.files[0] || !front.files[0] || !back.files[0]){
+        alert("Validation Error: Missing parameters fields requirements.");
+        return;
+      }
+
+      uploadBtn.disabled = true;
+      uploadText.style.display = "none";
+      uploadLoader.style.display = "block";
+
+      try{
+        let USER = JSON.parse(localStorage.getItem("user") || "{}");
+        const userEmail = USER.email || (USER.user && USER.user.email);
+
+        if(!userEmail){ throw new Error("Session timed out. Login Required."); }
+
+        let pdfFile = pdf.files[0];
+        let frontFile = front.files[0];
+        let backFile = back.files[0];
+
+        await initGoogle();
+        let pdfText = await extractPDFText(pdfFile);
+        let bookFolderId = await createDriveFolder(title.value);
+
+        let pdfId = await uploadToDrive(pdfFile, bookFolderId);
+        let frontId = await uploadToDrive(frontFile, bookFolderId);
+        let backId = await uploadToDrive(backFile, bookFolderId);
+
+        let payload = {
+          action:"uploadEbook",
+          email:userEmail,
+          title:title.value,
+          author_name: author.value,
+          description: description.value,
+          category: category.value,
+          language: language.value,
+          tags: tags.value,
+          isbn: isbn.value,
+          price: price.value,
+          pages: pages.value,
+          size: bookSize.value,
+          print_version: printVersion.checked,
+          pdfText: pdfText,
+          pdfId: pdfId,
+          frontCoverId: frontId,
+          backCoverId: backId
+        };
+
+        let response = await fetch(UPLOAD_API,{
+          method:"POST",
+          headers:{ "Content-Type":"text/plain" },
+          body:JSON.stringify(payload)
+        });
+        let data = await response.json();
+
+        if(data.success){
+          uploadLoader.style.display = "none";
+          uploadText.style.display = "block";
+          uploadText.innerText = "Uploaded Successfully! Syncing Catalog...";
+          setTimeout(()=>{ location.href = "library.html"; }, 1500);
+        }else{
+          throw new Error(data.message || "Database node entry rejection failed.");
+        }
+      }catch(err){
+        console.log(err);
+        alert(err.message);
+        uploadBtn.disabled = false;
+        uploadLoader.style.display = "none";
+        uploadText.style.display = "block";
+        uploadText.innerText = "Upload Ebook & Publish";
+      }
+    }
+  </script>
 </body>
-  </html>
+</html>
