@@ -280,7 +280,7 @@ body{display:block;overflow:auto}
 
 <script>
 /* =========================================================
-   CORE CONFIG CHANNELS (Using your verified Web App ID)
+   CORE CONFIG CHANNELS (Using your exact Web App ID)
    ========================================================= */
 const API_URL = "https://script.google.com/macros/s/AKfycbixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
 const EMAIL_KEY = "creatorhub_profile_email";
@@ -305,7 +305,7 @@ const textFields = [
 const $ = id => document.getElementById(id);
 
 /* ==================================================
-   UI MATRIX LOG METERS
+   UI HELPERS
    ================================================== */
 function setStatus(text){
   $("pageStatus").innerText = text || "";
@@ -334,7 +334,7 @@ function formatNumber(v){
 }
 
 /* ==================================================
-   DRIVE SYSTEM ACCESSIBILITY ROUTERS
+   DRIVE IMAGE ENGINE HARMONIZER
    ================================================== */
 function getDriveId(url){
   if(!url) return "";
@@ -399,7 +399,7 @@ function readFileAsBase64(file){
 }
 
 /* ==================================================
-   CACHE STORAGE ARRAYS
+   CACHE PARAMETERS
    ================================================== */
 function readCache(email){
   try{
@@ -416,21 +416,13 @@ function saveCache(email, user){
   }catch(err){}
 }
 
-/* FIXED: Asynchronous Pipeline Core to Bypass Google Redirect Loops */
+/* =========================================================================
+   CORS BYPASS ENGINE (Sends clean text raw text format to prevent rejection)
+   ========================================================================= */
 async function fetchJSON(url, options){
-  try {
-    const fetchOptions = {
-      method: options?.method || "GET",
-      mode: "cors",
-      ...options
-    };
-    const response = await fetch(url, fetchOptions);
-    if(!response.ok) throw new Error("HTTP Handshake Drop Status Code Error");
-    return await response.json();
-  } catch(err) {
-    console.error("Fetch pipeline operation error tracking trace:", err);
-    throw err;
-  }
+  const response = await fetch(url, options || {});
+  if(!response.ok) throw new Error("HTTP Tunnel Sync Failed");
+  return await response.json();
 }
 
 /* ==================================================
@@ -510,16 +502,16 @@ async function loadProfile(){
 
   showNotice("");
   setBusy(true);
-  setStatus("Loading profile from remote datastore...");
+  setStatus("Loading profile...");
 
   const cached = readCache(email);
   if(cached){ fillProfile(cached); }
 
   try{
     const targetQueryPath = API_URL + "?action=profile&email=" + encodeURIComponent(email) + "&_t=" + Date.now();
-    const data = await fetchJSON(targetQueryPath, { method: "GET" });
+    const data = await fetchJSON(targetQueryPath, { method: "GET", mode: "cors" });
 
-    if(!data || !data.success || !data.user){ throw new Error(data?.message || "Datastore Handshake Drop"); }
+    if(!data || !data.success || !data.user){ throw new Error("Data corruption error link"); }
 
     localStorage.setItem(EMAIL_KEY, email);
     saveCache(email, data.user);
@@ -528,41 +520,36 @@ async function loadProfile(){
     state.coverImageUrl = "";
 
     fillProfile(data.user);
-    showNotice(""); // Clears notice warnings instantly on active live stream mapping data
+    showNotice(""); 
     setStatus("Profile loaded successfully.");
   }catch(err){
-    console.error("Remote execution load sync fail mapping cache fallback:", err);
-    const activeCacheSnapshot = readCache(email);
-    if(activeCacheSnapshot && activeCacheSnapshot.name) {
-       showNotice(""); 
-       setStatus("Profile loaded (Local Cache State Active).");
-    } else {
-       showNotice("Unable to sync live cloud connection. Displaying secure offline cache snapshots.");
-       setStatus("Loaded from local snapshot cache.");
-    }
+    console.error("Load error:", err);
+    showNotice("Unable to load live profile. Displaying cached structures.");
+    setStatus("Loaded from cache.");
   }finally{ setBusy(false); }
 }
 
-/* ==================================================
-   SAVE PROFILE METHOD LOGIC 
-   ================================================== */
+/* =========================================================================
+   SAVE PROFILE METHOD LOGIC (Fixed Content-Type to prevent CORS Rejections)
+   ========================================================================= */
 async function saveProfile(){
   const payload = collectPayload();
 
-  if(!payload.email){ showNotice("Email mapping validation failed."); return; }
+  if(!payload.email){ showNotice("Email required."); return; }
 
   showNotice("");
   setBusy(true);
-  setStatus("Writing profile changes to spreadsheet database...");
+  setStatus("Saving profile...");
 
   try{
+    // MUST BE text/plain to force Google Apps Script to accept POST payload cleanly
     const data = await fetchJSON(API_URL, {
       method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      headers: { "Content-Type": "text/plain;charset=utf-8" }, 
       body: JSON.stringify(payload)
     });
 
-    if(!data || !data.success || !data.user){ throw new Error(data?.message || "Datastore Write Sync Rejected"); }
+    if(!data || !data.success || !data.user){ throw new Error("Server write failed"); }
 
     localStorage.setItem(EMAIL_KEY, payload.email);
 
@@ -573,28 +560,28 @@ async function saveProfile(){
     fillProfile(data.user);
     
     showNotice(""); 
-    setStatus("Profile details committed successfully.");
+    setStatus("Profile saved successfully.");
     alert("Profile Updates Saved to Cloud Server ✅");
   }catch(err){
-    console.error("Remote write transmission loop breakdown:", err);
+    console.error("Save error:", err);
     saveCache(payload.email, payload);
     fillProfile(payload);
     
-    showNotice(""); // Smooth override alert notice bounds on successful cache lock parameters
-    setStatus("Changes saved locally inside memory workspace.");
-    alert("Profile Changes Saved Locally ✅");
+    showNotice("Network timeout tunnel alert. Saved to backup browser cache memory.");
+    setStatus("Saved to local snapshot cache.");
+    alert("Profile Saved to Local Cache!");
   }finally{ setBusy(false); }
 }
 
 /* ==================================================
-   IMAGE FILES CONTEXT STREAMS HANDLER
+   IMAGE INTERFACE CONTEXT FILTERS HANDLERS
    ================================================== */
 async function handleImage(input, type){
   const file = input.files?.[0];
   if(!file) return;
 
-  if(!file.type.startsWith("image/")){ showNotice("File vector validation mismatch! Select a proper image format."); return; }
-  if(file.size > 2.5 * 1024 * 1024){ showNotice("Max memory payload restriction boundary triggered (2.5MB max)."); return; }
+  if(!file.type.startsWith("image/")){ showNotice("Select a proper image format."); return; }
+  if(file.size > 2.5 * 1024 * 1024){ showNotice("Max image size 2.5MB allowed."); return; }
 
   const base64 = await readFileAsBase64(file);
 
@@ -618,7 +605,7 @@ async function handleImage(input, type){
 }
 
 /* ==================================================
-   INITIALIZATION INITIAL BOOT PARAMETERS MOUNT
+   INITIALIZATION BOOT PARAMETERS MOUNT
    ================================================== */
 function init(){
   $("avatarPreview").src = DEFAULT_AVATAR;
@@ -635,7 +622,6 @@ function init(){
     updatePreview();
   }
 
-  /* BUTTON ACTIONS CLICK LISTENERS CHANNELS */
   $("loadBtn").addEventListener("click", loadProfile);
   $("saveBtn").addEventListener("click", saveProfile);
 
