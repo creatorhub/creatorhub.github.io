@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>My Library - CreatorHub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ebook Viewer - CreatorHub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -22,25 +22,15 @@
       background: #f6f8fc;
       color: #101828;
       overflow-x: hidden;
-      min-height: 100vh;
-      position: relative;
-    }
-
-    ::-webkit-scrollbar{
-      width: 6px;
-    }
-    ::-webkit-scrollbar-thumb{
-      background: #3157c9;
-      border-radius: 20px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     /* =====================================================
     TOPBAR / NAVIGATION LAYER
     ===================================================== */
     .topbar{
-      position: sticky;
-      top: 0;
-      z-index: 999;
       min-height: 114px;
       background: #fff;
       border-bottom: 1px solid #dce4f0;
@@ -49,6 +39,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 20px;
+      flex-shrink: 0;
     }
     .topbar-left{
       display: flex;
@@ -81,24 +72,30 @@
     .back-btn:hover{
       color: #2f62e9;
     }
-    .dashboard{
-      min-height: 54px;
-      border: 0;
-      border-radius: 9px;
-      padding: 0 24px;
-      background: #2f62e9;
-      color: #fff;
-      font-size: 16px;
-      font-weight: 900;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background 0.2s ease;
-      text-decoration: none;
+    
+    .book-header-info {
+      text-align: center;
+      flex: 1;
+      max-width: 50%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .dashboard:hover{
-      background: #2455cf;
+    #bookMainTitle {
+      font-size: 18px;
+      font-weight: 950;
+      color: #06142c;
+    }
+
+    .badge{
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: #eef3f9;
+      color: #2f62e9;
+      font-weight: 950;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      border: 1px solid rgba(49, 87, 201, 0.1);
     }
 
     /* =====================================================
@@ -106,7 +103,7 @@
     ===================================================== */
     .profile-wrap{
       position: relative;
-      display: flex;
+      display: none; /* Auto handled via token updates */
       align-items: center;
     }
     .profile-image{
@@ -127,7 +124,7 @@
     .profile-menu{
       position: absolute;
       top: 68px;
-      left: 0;
+      right: 0;
       width: 280px;
       background: #0d1628;
       border: 1px solid #182a64;
@@ -204,372 +201,74 @@
     }
 
     /* =====================================================
-    MAIN CORE LAYER FRAME
+    DYNAMIC HIGH-PERFORMANCE PDF CONTAINER FRAME
     ===================================================== */
-    .container{
-      max-width: 1400px;
-      margin: auto;
-      padding: 36px 34px 180px;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* STATS ROW BLOCKS */
-    .stats{
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 18px;
-      margin-top: 12px;
-    }
-    @media(max-width: 900px){
-      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-    @media(max-width: 500px){
-      .stats { grid-template-columns: minmax(0, 1fr); }
-    }
-    .stat-box{
-      background: #fff;
-      padding: 24px;
-      border-radius: 9px;
-      border: 1px solid #dce4f0;
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      box-shadow: 0 10px 30px rgba(16, 24, 40, 0.02);
-    }
-    .icon{
-      width: 52px;
-      height: 52px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
+    .viewer-container {
+      flex: 1;
+      width: 100%;
       background: #eef3f9;
-      color: #2f62e9;
-      flex-shrink: 0;
-    }
-    .stat-box h2{
-      font-size: 28px;
-      font-weight: 950;
-      color: #06142c;
-      letter-spacing: -0.02em;
-    }
-    .stat-box p{
-      color: #63728a;
-      font-size: 14px;
-      margin-top: 2px;
-      font-weight: 600;
-    }
-
-    /* TAB FILTERS ROW */
-    .tabs{
-      display: flex;
-      gap: 12px;
-      margin-top: 36px;
-      overflow-x: auto;
-      padding-bottom: 6px;
-    }
-    .tabs::-webkit-scrollbar{
-      height: 4px;
-    }
-    .tab{
-      min-height: 46px;
-      padding: 0 22px;
-      background: #fff;
-      border: 1px solid #d9e3f0;
-      border-radius: 9px;
-      cursor: pointer;
-      font-weight: 800;
-      font-size: 14px;
-      color: #26364f;
-      display: inline-flex;
-      align-items: center;
-      white-space: nowrap;
-      transition: all 0.2s;
-    }
-    .tab:hover{
-      border-color: #3157c9;
-    }
-    .tab.active{
-      background: #182a64;
-      color: #fff;
-      border-color: #3157c9;
-    }
-
-    /* SHELF BOOKS GRID FRAME */
-    .grid{
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 24px;
-      margin-top: 28px;
-    }
-    @media(max-width: 1200px){ .grid{ grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-    @media(max-width: 950px){ .grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-    @media(max-width: 600px){ .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-
-    /* CARD COMPONENT BOX */
-    .card{
-      background: #fff;
-      padding: 16px;
-      border-radius: 9px;
-      border: 1px solid #dce4f0;
-      box-shadow: 0 10px 30px rgba(16, 24, 40, 0.03);
-      transition: transform 0.25s ease, border-color 0.25s ease;
       position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
     }
-    .card:hover{
-      transform: translateY(-5px);
-      border-color: #3157c9;
-    }
-    .cover{
+    iframe {
       width: 100%;
-      aspect-ratio: 3/4;
-      object-fit: cover;
-      border-radius: 6px;
+      height: 100%;
+      border: none;
       display: block;
-      background: #eef3f9;
-      border: 1px solid #dce4f0;
     }
-    .menu{
+
+    /* LOADING PRELOADER */
+    .empty-state {
       position: absolute;
-      top: 22px;
-      right: 22px;
-      background: rgba(13, 22, 40, 0.8);
-      backdrop-filter: blur(4px);
-      color: #fff;
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
+      inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    .book-title{
-      font-size: 15px;
-      font-weight: 800;
-      color: #06142c;
-      margin-top: 14px;
-      line-height: 1.4;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      min-height: 42px;
-    }
-    .author{
-      color: #63728a;
-      margin-top: 4px;
-      font-size: 13px;
-      font-weight: 500;
-    }
-    .badge{
-      align-self: flex-start;
-      padding: 4px 10px;
-      border-radius: 999px;
-      margin-top: 12px;
-      font-size: 12px;
-      font-weight: 950;
-      background: #e7f8ef;
-      color: #0f9f57;
-      border: 1px solid rgba(15, 159, 87, 0.1);
-      text-transform: uppercase;
-    }
-    .badge.premium-tag {
-      background: #fff7df;
-      color: #b7791f;
-      border-color: rgba(183, 121, 31, 0.1);
-    }
-
-    .read-btn{
-      width: 100%;
-      min-height: 44px;
-      border: none;
-      border-radius: 6px;
-      background: #101c2f;
-      color: white;
-      font-size: 14px;
-      font-weight: 900;
-      margin-top: 16px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .read-btn:hover{
-      background: #182a64;
-    }
-    .buy-btn{
-      width: 100%;
-      min-height: 44px;
-      border: none;
-      border-radius: 6px;
-      background: #f97316;
-      color: white;
-      font-size: 14px;
-      font-weight: 900;
-      margin-top: 16px;
-      cursor: pointer;
-    }
-
-    .actions{
-      display: flex;
-      gap: 8px;
-      margin-top: 10px;
-    }
-    .edit{
-      flex: 1;
-      min-height: 38px;
-      border: none;
-      border-radius: 6px;
-      background: #2563eb;
-      color: white;
-      font-size: 13px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-    .delete{
-      flex: 1;
-      min-height: 38px;
-      border: none;
-      border-radius: 6px;
-      background: #ef4444;
-      color: white;
-      font-size: 13px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    /* DYNAMIC HORIZONTAL SUBSCRIPTION FLOAT PANEL */
-    .subscription{
-      position: fixed;
-      left: 34px;
-      right: 34px;
-      bottom: 114px;
-      z-index: 998;
-      background: #0d1628;
-      border: 1px solid #182a64;
-      padding: 24px 32px;
-      border-radius: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      box-shadow: 0 20px 50px rgba(16, 24, 40, 0.15);
-    }
-    .subscription h2{
-      font-size: 22px;
-      font-weight: 950;
-      color: #fff;
-    }
-    .subscription p{
-      margin-top: 4px;
-      color: #63728a;
-      font-size: 15px;
-      font-weight: 500;
-    }
-    .manage-btn{
-      min-height: 50px;
-      padding: 0 24px;
-      border: none;
-      border-radius: 6px;
-      background: #2f62e9;
-      color: white;
-      font-size: 15px;
-      font-weight: 900;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .manage-btn:hover{
-      background: #2455cf;
-    }
-
-    /* GLOBAL SYSTEM NAVIGATION TERMINAL BAR */
-    .bottom-nav{
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 84px;
-      background: #fff;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 0 20px;
-      border-top: 1px solid #dce4f0;
-      z-index: 999;
-      box-shadow: 0 -10px 40px rgba(16, 24, 40, 0.03);
-    }
-    .nav-item{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      font-size: 12px;
-      font-weight: 800;
-      color: #5d6d85;
-      cursor: pointer;
-      transition: all 0.2s;
-      min-width: 65px;
-      height: 62px;
-      border-radius: 8px;
-    }
-    .nav-item:hover{
-      color: #2f62e9;
-    }
-    .nav-item.active{
-      color: #2f62e9;
-      background: #eef3f9;
-    }
-    .nav-icon{
-      font-size: 22px;
-    }
-
-    /* SCREEN SPINNER LOADER */
-    .empty{
-      grid-column: 1/-1;
-      min-height: 40vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      font-size: 16px;
+      background: #f6f8fc;
       color: #63728a;
       font-weight: 700;
+      z-index: 5;
     }
     .spinner {
-      width: 50px;
-      height: 50px;
+      width: 44px;
+      height: 44px;
       border: 4px solid #dce4f0;
       border-top-color: #2f62e9;
       border-radius: 50%;
-      animation: spinLoader 0.8s linear infinite;
-      margin: 0 auto 16px;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 14px;
     }
-    @keyframes spinLoader {
+    @keyframes spin {
       to { transform: rotate(360deg); }
     }
 
-    @media(max-width:900px){
-      .topbar { min-height: auto; padding: 20px 24px; }
-      .container { padding: 24px 20px 180px; }
-      .subscription { flex-direction: column; text-align: center; padding: 24px; }
-      .manage-btn { width: 100%; }
+    @media(max-width: 768px) {
+      .topbar { min-height: auto; padding: 20px; }
+      .book-header-info { display: none; }
     }
   </style>
 </head>
-
 <body>
 
+  <!-- TOPBAR HEADER PLATFORM -->
   <div class="topbar">
     <div class="topbar-left">
+      <div class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i> Back</div>
+      
+      <a class="brand-logo" href="./dashboard.html">
+        <span class="brand-name">Creator<span>Hub</span></span>
+      </a>
+    </div>
+
+    <!-- Live Active Book Header Track Frame -->
+    <div class="book-header-info">
+      <div id="bookMainTitle">Loading Premium Ebook Stream...</div>
+    </div>
+
+    <div class="topbar-right" style="display: flex; align-items: center; gap: 16px;">
+      <div class="badge">Reader Mode</div>
+      
       <div id="profileWrap" class="profile-wrap">
-        <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile View">
+        <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile">
         
         <div id="profileMenu" class="profile-menu">
           <div class="profile-header">
@@ -582,116 +281,39 @@
           <a href="profile.html">My Profile</a>
           <a href="seller-apply.html">Become Seller</a>
           <a href="tranding.html">Trending Books</a>
-          <a class="active" href="library.html">Library</a>
+          <a href="library.html">Library</a>
           <a href="topselling.html">Top Selling</a>
           <div class="logout-btn" onclick="logout()">Logout</div>
         </div>
       </div>
-
-      <div class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i> Back</div>
     </div>
-
-    <div class="title">My <span>Library</span></div>
-    <a href="dashboard.html" class="dashboard">Dashboard</a>
   </div>
 
-  <div class="container">
-
-    <div class="stats">
-      <div class="stat-box">
-        <div class="icon"><i class="fa-solid fa-book"></i></div>
-        <div>
-          <h2 id="totalBooks">0</h2>
-          <p>Total Books</p>
-        </div>
-      </div>
-
-      <div class="stat-box">
-        <div class="icon"><i class="fa-solid fa-unlock-keyhole"></i></div>
-        <div>
-          <h2 id="unlockedBooks">0</h2>
-          <p>Unlocked</p>
-        </div>
-      </div>
-
-      <div class="stat-box">
-        <div class="icon"><i class="fa-solid fa-star"></i></div>
-        <div>
-          <h2 id="premiumBooks">0</h2>
-          <p>Premium</p>
-        </div>
-      </div>
-
-      <div class="stat-box">
-        <div class="icon"><i class="fa-solid fa-crown"></i></div>
-        <div>
-          <h2 id="subscriptionStatus">Inactive</h2>
-          <p>Subscription</p>
-        </div>
+  <!-- CORE PDF VIEWER CONTENT STAGE -->
+  <div class="viewer-container">
+    <div id="loaderState" class="empty-state">
+      <div style="text-align: center;">
+        <div class="spinner"></div>
+        <p>Streaming encrypted secure PDF viewer tunnel...</p>
       </div>
     </div>
-
-    <div class="tabs">
-      <div class="tab active" onclick="filterBooks('all')">All Books</div>
-      <div class="tab" onclick="filterBooks('purchased')">Purchased</div>
-      <div class="tab" onclick="filterBooks('subscription')">Subscription</div>
-      <div class="tab" onclick="filterBooks('uploads')">My Uploads</div>
-    </div>
-
-    <div id="library" class="grid"></div>
-
-    <div class="subscription" id="subBanner" style="display: none;">
-      <div>
-        <h2>👑 Active Subscription</h2>
-        <p>Enjoy unlimited access to all premium ebooks in the catalog shelf.</p>
-      </div>
-      <button class="manage-btn" onclick="location.href='subscription.html'">Manage Subscription</button>
-    </div>
-
-  </div>
-
-  <div class="bottom-nav">
-    <div class="nav-item" onclick="location.href='index.html'">
-      <div class="nav-icon">🏠</div>
-      <div>Home</div>
-    </div>
-    <div class="nav-item" onclick="location.href='explore.html'">
-      <div class="nav-icon">🔍</div>
-      <div>Explore</div>
-    </div>
-    <div class="nav-item active">
-      <div class="nav-icon">📚</div>
-      <div>Library</div>
-    </div>
-    <div class="nav-item" onclick="location.href='upload.html'">
-      <div class="nav-icon">⬆️</div>
-      <div>Upload</div>
-    </div>
-    <div class="nav-item" onclick="location.href='profile.html'">
-      <div class="nav-icon">👤</div>
-      <div>Profile</div>
-    </div>
+    
+    <!-- Dynamic Protected Iframe target mount -->
+    <iframe id="pdfViewerFrame" src="" allow="autoplay"></iframe>
   </div>
 
   <script>
-    const ADMIN = "ayushprajpati6@email.com";
-    const PRODUCT_API = "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
-    const SUBSCRIPTION_API = "https://script.google.com/macros/s/AKfycbyKnVmxYCTskDLpOk_s2Ch1nHnVvD__GVHbnztTCvl4bzYgk7sDx0F1WuJ0CXMORqs/exec";
-
-    let user = JSON.parse(localStorage.getItem("user") || "null");
-    if(!user){ location.href = "login.html"; }
-
-    let isAdmin = String(user.email).toLowerCase() === String(ADMIN).toLowerCase();
-    let ALL_PRODUCTS = [];
-    let HAS_SUBSCRIPTION = false;
-
-    function driveImage(link){
-      if(!link) return "https://picsum.photos/500";
-      let id = "";
-      if(link.includes("id=")){ id = link.split("id=")[1].split("&")[0]; }
-      else if(link.includes("/d/")){ id = link.split("/d/")[1].split("/")[0]; }
-      else { id = link; }
-      return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+    function driveImage(url){
+      if(!url) return "";
+      if(url.includes("uc?id=")){
+        let id = url.split("id=")[1].split("&")[0];
+        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+      }
+      if(url.includes("/d/")){
+        let id = url.split("/d/")[1].split("/")[0];
+        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+      }
+      return url;
     }
 
     function toggleProfileMenu(){
@@ -706,189 +328,70 @@
     });
 
     function logout(){ localStorage.clear(); window.location.href = "login.html"; }
-    function goBack(){ window.location.href = "index.html"; }
+    function goBack(){ window.location.href = "library.html"; } // Returns safely to library catalogue shell
 
     function updateLoginUI(){
+      let token = localStorage.getItem("user_token");
+      let profileWrap = document.getElementById("profileWrap");
+
       let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
       let email = localStorage.getItem("creatorhub_profile_email");
-      if(cachedUser && email){
-        try {
-          let data = JSON.parse(cachedUser)[email];
-          if(data && data.profile_image){
-            document.getElementById("profileImage").src = driveImage(data.profile_image);
-            document.getElementById("menuProfileImage").src = driveImage(data.profile_image);
-            document.getElementById("menuName").innerText = data.name || "CreatorHub User";
-            document.getElementById("menuEmail").innerText = data.email || email;
-          }
-        } catch(e) { console.log("Cache error"); }
+      
+      if(token || localStorage.getItem("user")){
+        profileWrap.style.display = "flex";
+
+        if(cachedUser && email){
+          try {
+            let data = JSON.parse(cachedUser)[email];
+            if(data && data.profile_image){
+              document.getElementById("profileImage").src = driveImage(data.profile_image);
+              document.getElementById("menuProfileImage").src = driveImage(data.profile_image);
+              document.getElementById("menuName").innerText = data.name || "CreatorHub User";
+              document.getElementById("menuEmail").innerText = data.email || email;
+            }
+          } catch(e) { console.log("Cache reading failed"); }
+        }
       }
     }
 
-    function showLoader(){
-      document.getElementById("library").innerHTML = `
-        <div class="empty">
-          <div>
-            <div class="spinner"></div>
-            <p>Loading Library records...</p>
-          </div>
-        </div>`;
-    }
+    /* =====================================================
+    ⚡ SECURE INSTANT PDF STREAM RENDERING LOGIC
+    ===================================================== */
+    function initializeBookViewer(){
+      try {
+        // Core localstorage stream parameters retrieval keys
+        const pdfUrl = localStorage.getItem("viewerPDF");
+        const bookDataRaw = localStorage.getItem("viewerBook");
 
-    async function checkSubscription(){
-      try{
-        let res = await fetch(SUBSCRIPTION_API + "?db=subscriptions&t=" + Date.now());
-        let response = await res.json();
-        let subs = Array.isArray(response) ? response : (response.subscriptions || []);
-
-        HAS_SUBSCRIPTION = subs.some(s => 
-          String(s.email).toLowerCase() === String(user.email).toLowerCase() && 
-          String(s.status).toLowerCase() === "active"
-        );
-      }catch(err){
-        console.log(err);
-        HAS_SUBSCRIPTION = false;
-      }
-    }
-
-    async function loadData(){
-      try{
-        showLoader();
-        
-        const [productRes] = await Promise.all([
-          fetch(PRODUCT_API + "?action=products&t=" + Date.now()),
-          checkSubscription()
-        ]);
-
-        let raw = await productRes.text();
-        let response = {};
-        try { response = JSON.parse(raw); } catch(err) { response = {}; }
-
-        ALL_PRODUCTS = Array.isArray(response) ? response : (response.products || []);
-
-        let accessibleBooks = ALL_PRODUCTS.filter(product => {
-          let owner = String(product.owner).toLowerCase() === String(user.email).toLowerCase();
-          if(isAdmin || owner || HAS_SUBSCRIPTION) return true;
-          return false;
-        });
-
-        document.getElementById("totalBooks").innerText = ALL_PRODUCTS.length;
-        document.getElementById("unlockedBooks").innerText = accessibleBooks.length;
-        document.getElementById("premiumBooks").innerText = ALL_PRODUCTS.length;
-        document.getElementById("subscriptionStatus").innerText = HAS_SUBSCRIPTION ? "Active" : "Inactive";
-        
-        document.getElementById("subBanner").style.display = HAS_SUBSCRIPTION ? "flex" : "none";
-
-        renderBooks("all");
-      }catch(err){
-        console.log(err);
-        document.getElementById("library").innerHTML = '<div class="empty">Failed To Sync Library Data Stream.</div>';
-      }
-    }
-
-    function renderBooks(type){
-      let box = document.getElementById("library");
-      box.innerHTML = "";
-
-      let filtered = ALL_PRODUCTS.filter(product => {
-        if(product.status && product.status !== "approved") return false;
-        let owner = String(product.owner).toLowerCase() === String(user.email).toLowerCase();
-        let allow = isAdmin || owner || HAS_SUBSCRIPTION;
-
-        if(type === "uploads") return owner;
-        if(type === "subscription") return HAS_SUBSCRIPTION && allow && !owner;
-        if(type === "purchased") return owner;
-        if(type === "all") return allow;
-        return false;
-      });
-
-      if(filtered.length === 0){
-        box.innerHTML = '<div class="empty">No accessible ebooks found under this section.</div>';
-        return;
-      }
-
-      filtered.forEach(product => {
-        let owner = String(product.owner).toLowerCase() === String(user.email).toLowerCase();
-        let allow = isAdmin || owner || HAS_SUBSCRIPTION;
-        let image = driveImage(product.front_cover || product.frontCover || product.image);
-
-        let button = `<button class="read-btn" onclick="openBook('${product.id}')">📖 Read Ebook</button>`;
-        let manage = "";
-
-        if(owner || isAdmin){
-          manage = `
-            <div class="actions">
-              <button class="edit" onclick="editBook('${product.id}')">✏️ Edit</button>
-              <button class="delete" onclick="deleteBook('${product.id}')">🗑️ Delete</button>
-            </div>`;
+        if(!pdfUrl) {
+          alert("PDF stream source parameter empty. Routing back to library.");
+          window.location.href = "library.html";
+          return;
         }
 
-        box.innerHTML += `
-          <div class="card">
-            <div class="menu">⋮</div>
-            <img class="cover" loading="lazy" src="${image}" onerror="this.src='https://picsum.photos/500'" alt="Book Cover">
-            <div class="book-title">${product.title || "Untitled"}</div>
-            <div class="author">by ${product.author || "Unknown"}</div>
-            <div class="badge ${allow ? '' : 'premium-tag'}">${allow ? "Unlocked" : "Premium"}</div>
-            ${button}
-            ${manage}
-          </div>`;
-      });
-    }
+        if(bookDataRaw) {
+          const book = JSON.parse(bookDataRaw);
+          document.getElementById("bookMainTitle").innerText = `📖 Reading: ${book.title || "Premium Ebook"}`;
+        }
 
-    function openBook(id){
-      let product = ALL_PRODUCTS.find(p => String(p.id) === String(id));
-      if(!product){ alert("Book parameters not registered."); return; }
+        // Clean dynamic sandbox viewing injection string framing setup
+        const frame = document.getElementById("pdfViewerFrame");
+        
+        frame.onload = function() {
+          document.getElementById("loaderState").style.display = "none";
+        };
 
-      let owner = String(product.owner).toLowerCase() === String(user.email).toLowerCase();
-      let allow = isAdmin || owner || HAS_SUBSCRIPTION;
+        // Google Drive standard preview layer configuration pipeline mapping execution
+        frame.src = pdfUrl;
 
-      if(!allow){
-        alert("Subscription / Purchase validation parameter criteria missing.");
-        location.href = "subscription.html";
-        return;
+      } catch (err) {
+        console.log("Stream pipe execution error:", err);
+        document.getElementById("loaderState").innerHTML = "<div style='color:#ef4444;'>Viewer pipeline compilation exception thrown.</div>";
       }
-
-      let pdf = product.pdf_url || product.pdf || "";
-      if(!pdf){ alert("PDF streaming source element link missing."); return; }
-
-      localStorage.setItem("viewerPDF", pdf);
-      localStorage.setItem("viewerBook", JSON.stringify(product));
-      location.href = "viewer.html?id=" + id;
-    }
-
-    function editBook(id){
-      localStorage.setItem("editBookId", id);
-      location.href = "edit-ebook.html";
-    }
-
-    async function deleteBook(id){
-      let ok = confirm("Are you sure you want to delete this ebook from data shelf?");
-      if(!ok) return;
-      try{
-        let res = await fetch(PRODUCT_API,{
-          method: "POST",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({ action: "deleteBook", id: id, email: user.email })
-        });
-        let data = await res.json();
-        alert(data.message || "Entry Removed.");
-        loadData();
-      }catch(err){ alert(err.message); }
-    }
-
-    function filterBooks(type){
-      document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
-      
-      // Dynamic mapping filter resolution fixes tab execution mismatch
-      let clickedTab = [...document.querySelectorAll(".tab")].find(tab => 
-        tab.getAttribute("onclick").toLowerCase().includes(type.toLowerCase())
-      );
-      if(clickedTab) clickedTab.classList.add("active");
-      renderBooks(type);
     }
 
     updateLoginUI();
-    loadData();
+    initializeBookViewer();
   </script>
 </body>
 </html>
