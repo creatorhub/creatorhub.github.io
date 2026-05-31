@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -279,14 +279,13 @@ body{display:block;overflow:auto}
 </main>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbxixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
 const EMAIL_KEY = "creatorhub_profile_email";
 const CACHE_KEY = "creatorhub_profile_cache_v6";
 
 const DEFAULT_AVATAR = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Crect width='260' height='260' rx='130' fill='%23d9e1ec'/%3E%3Ccircle cx='130' cy='96' r='45' fill='%2394a3b8'/%3E%3Cpath d='M48 232c12-58 49-87 82-87s70 29 82 87' fill='%2394a3b8'/%3E%3C/svg%3E";
 const DEFAULT_COVER = `linear-gradient(110deg, rgba(37,99,235,.92), rgba(20,148,152,.9))`;
 
-// Persistent globally state monitoring links
 const state = {
   profileImageUrl : "",
   coverImageUrl   : "",
@@ -418,11 +417,13 @@ function saveCache(email, user){
 }
 
 /* ==================================================
-   API FETCH HOOKS
+   API FETCH HOOKS (Extended timeout to 45 Seconds)
    ================================================== */
 async function fetchJSON(url, options, timeoutMs){
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs || 15000);
+  
+  // OPTIMIZATION: Drive execution takes time, increasing threshold buffer
+  const timer = setTimeout(() => controller.abort(), timeoutMs || 45000); 
 
   try{
     const response = await fetch(url, {
@@ -431,7 +432,7 @@ async function fetchJSON(url, options, timeoutMs){
       cache: "no-store"
     });
     return await response.json();
-  }finally{ clearTimeout(timer); }
+  }finally { clearTimeout(timer); }
 }
 
 /* ==================================================
@@ -473,7 +474,6 @@ function fillProfile(user){
   $("totalBooks").value = user.total_books || 0;
   $("totalOrders").value = user.total_orders || 0;
 
-  // Track absolute URLs directly from server arrays cleanly
   state.savedProfileUrl = user.profile_image || "";
   state.savedCoverUrl = user.cover_image || "";
 
@@ -500,7 +500,6 @@ function collectPayload(){
   payload.total_books = $("totalBooks").value || 0;
   payload.total_orders = $("totalOrders").value || 0;
 
-  // FIXED CORRECTION LOOP: Send the raw base64 string if it exists; otherwise, preserve the existing server URL link string
   payload.profile_image = state.profileImageUrl || state.savedProfileUrl || "";
   payload.cover_image = state.coverImageUrl || state.savedCoverUrl || "";
 
@@ -522,27 +521,28 @@ async function loadProfile(){
   if(cached){ fillProfile(cached); }
 
   try{
-    const data = await fetchJSON(API_URL + "?action=profile&email=" + encodeURIComponent(email));
+    // Request explicitly extended to handle heavy base64 buffers handshake
+    const data = await fetchJSON(API_URL + "?action=profile&email=" + encodeURIComponent(email), null, 45000);
 
     if(!data.success){ throw new Error(data.message); }
 
     localStorage.setItem(EMAIL_KEY, email);
     saveCache(email, data.user);
     
-    // Smooth reset memory frames on successful load
     state.profileImageUrl = "";
     state.coverImageUrl = "";
 
     fillProfile(data.user);
-    setStatus("Profile loaded.");
+    setStatus("Profile loaded successfully.");
   }catch(err){
+    console.warn("Handshake fail, reading memory bounds", err);
     showNotice("Unable to load live profile. Displaying cached structures.");
     setStatus("Loaded from cache.");
   }finally{ setBusy(false); }
 }
 
 /* ==================================================
-   SAVE PROFILE METHOD LOGIC (Fixed image URL removal bug)
+   SAVE PROFILE METHOD LOGIC 
    ================================================== */
 async function saveProfile(){
   const payload = collectPayload();
@@ -551,32 +551,31 @@ async function saveProfile(){
 
   showNotice("");
   setBusy(true);
-  setStatus("Saving profile records to system...");
+  setStatus("Saving profile records to server database...");
 
   try{
     const data = await fetchJSON(API_URL, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify(payload)
-    }, 25000);
+    }, 45000); // 45 seconds storage allocation lock channel
 
     if(!data.success){ throw new Error(data.message); }
 
     localStorage.setItem(EMAIL_KEY, payload.email);
 
-    // Clear buffer ONLY after script returns operational values safely
     state.profileImageUrl = "";
     state.coverImageUrl = "";
 
     saveCache(payload.email, data.user);
     fillProfile(data.user);
+    
+    showNotice(""); // Clear warning alert block on success paths
     setStatus("Profile updates saved successfully.");
     alert("Profile Changes Saved to Database ✅");
   }catch(err){
-    console.error(err);
-    showNotice("Network connection drop. Preserving updates inside browser session cache.");
-    
-    // Critical network fail redundancy layout backup sync trace
+    console.error("Transmission error tracking bounds", err);
+    showNotice("Network timeout tunnel alert. Saved to backup browser cache memory.");
     saveCache(payload.email, payload);
     setStatus("Saved to local session.");
   }finally{ setBusy(false); }
@@ -614,7 +613,7 @@ async function handleImage(input, type){
 }
 
 /* ==================================================
-   INITIALIZATION INITIAL BOOT BLOCK LOCK SYSTEM
+   INITIALIZATION BOOT BLOCK LOCK SYSTEM
    ================================================== */
 function init(){
   $("avatarPreview").src = DEFAULT_AVATAR;
