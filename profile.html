@@ -18,7 +18,7 @@ button{cursor:pointer}
 .brand-mark{width:52px;height:52px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#21b7e8,#1d72f3);font-size:26px;font-weight:950}
 .brand-name{font-size:25px;font-weight:950}
 .menu{display:grid;gap:16px;margin-top:20px}
-.menu a{min-height:54px;border-radius:99px;display:flex;align-items:center;gap:13px;padding:0 18px;color:#e7edf8;font-size:20px;font-weight:850;border:1px solid transparent}
+.menu a{min-height:54px;border-radius:9px;display:flex;align-items:center;gap:13px;padding:0 18px;color:#e7edf8;font-size:20px;font-weight:850;border:1px solid transparent}
 .menu a:hover,.menu a.active{background:#182a64;border-color:#3157c9}
 
 .main{margin-left:338px;width:calc(100% - 338px);height:100vh;overflow-y:auto;background:#f6f8fc}
@@ -279,9 +279,6 @@ body{display:block;overflow:auto}
 </main>
 
 <script>
-/* =========================================================
-   CORE CONFIG CHANNELS (Using your exact Web App ID)
-   ========================================================= */
 const API_URL = "https://script.google.com/macros/s/AKfycbixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
 const EMAIL_KEY = "creatorhub_profile_email";
 const CACHE_KEY = "creatorhub_profile_cache_v6";
@@ -289,6 +286,7 @@ const CACHE_KEY = "creatorhub_profile_cache_v6";
 const DEFAULT_AVATAR = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Crect width='260' height='260' rx='130' fill='%23d9e1ec'/%3E%3Ccircle cx='130' cy='96' r='45' fill='%2394a3b8'/%3E%3Cpath d='M48 232c12-58 49-87 82-87s70 29 82 87' fill='%2394a3b8'/%3E%3C/svg%3E";
 const DEFAULT_COVER = `linear-gradient(110deg, rgba(37,99,235,.92), rgba(20,148,152,.9))`;
 
+// Persistent cache pointers
 const state = {
   profileImageUrl : "",
   coverImageUrl   : "",
@@ -297,45 +295,24 @@ const state = {
 };
 
 const textFields = [
-  "email", "name", "bio", "phone", "website", 
-  "instagram", "youtube", "telegram", "twitter", 
-  "country", "state", "city", "status"
+  "email", "name", "bio", "phone", "website", "instagram", "youtube", "telegram", "twitter", "country", "state", "city", "status"
 ];
 
 const $ = id => document.getElementById(id);
 
-/* ==================================================
-   UI HELPERS
-   ================================================== */
-function setStatus(text){
-  $("pageStatus").innerText = text || "";
-}
-
+function setStatus(text){ $("pageStatus").innerText = text || ""; }
 function showNotice(text){
   $("notice").innerText = text || "";
   $("notice").style.display = text ? "block" : "none";
 }
-
 function setBusy(flag){
   $("loadBtn").disabled = flag;
   $("saveBtn").disabled = flag;
 }
+function value(id){ return ($(id).value || "").trim(); }
+function formatMoney(v){ return "₹" + Number(v || 0).toLocaleString("en-IN"); }
+function formatNumber(v){ return Number(v || 0).toLocaleString("en-IN"); }
 
-function value(id){
-  return ($(id).value || "").trim();
-}
-
-function formatMoney(v){
-  return "₹" + Number(v || 0).toLocaleString("en-IN");
-}
-
-function formatNumber(v){
-  return Number(v || 0).toLocaleString("en-IN");
-}
-
-/* ==================================================
-   DRIVE IMAGE ENGINE HARMONIZER
-   ================================================== */
 function getDriveId(url){
   if(!url) return "";
   const text = String(url);
@@ -365,25 +342,17 @@ function setAvatar(url){
   const img = $("avatarPreview");
   const list = imageCandidates(url);
   let index = 0;
-
   img.onerror = function(){
     index++;
-    if(index < list.length){
-      img.src = list[index];
-    }else{
-      img.onerror = null;
-      img.src = DEFAULT_AVATAR;
-    }
+    if(index < list.length){ img.src = list[index]; }
+    else{ img.onerror = null; img.src = DEFAULT_AVATAR; }
   };
   img.src = list[0];
 }
 
 function setCover(url){
   const cover = $("coverPreview");
-  if(!url){
-    cover.style.backgroundImage = DEFAULT_COVER;
-    return;
-  }
+  if(!url){ cover.style.backgroundImage = DEFAULT_COVER; return; }
   const id = getDriveId(url);
   const finalUrl = id ? "https://drive.google.com/thumbnail?id=" + id + "&sz=w1600" : url;
   cover.style.backgroundImage = `url("${finalUrl}")`;
@@ -398,9 +367,6 @@ function readFileAsBase64(file){
   });
 }
 
-/* ==================================================
-   CACHE PARAMETERS
-   ================================================== */
 function readCache(email){
   try{
     const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
@@ -416,18 +382,19 @@ function saveCache(email, user){
   }catch(err){}
 }
 
-/* =========================================================================
-   CORS BYPASS ENGINE (Sends clean text raw text format to prevent rejection)
-   ========================================================================= */
-async function fetchJSON(url, options){
-  const response = await fetch(url, options || {});
-  if(!response.ok) throw new Error("HTTP Tunnel Sync Failed");
-  return await response.json();
+async function fetchJSON(url, options, timeoutMs){
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs || 35000); // Stable threshold buffer
+  try{
+    const response = await fetch(url, {
+      ...(options || {}),
+      signal: controller.signal,
+      cache: "no-store"
+    });
+    return await response.json();
+  }finally{ clearTimeout(timer); }
 }
 
-/* ==================================================
-   LIVE PREVIEW CONTEXT RE-RENDERER
-   ================================================== */
 function updatePreview(){
   $("previewName").innerText = value("name") || "Your Creator Name";
   $("previewEmail").innerText = value("email") || "Enter email";
@@ -447,12 +414,8 @@ function updatePreview(){
   $("twitterView").innerText = value("twitter") || "Not added";
 }
 
-/* ==================================================
-   FILL PROFILE RECORD INJECTIONS
-   ================================================== */
 function fillProfile(user){
   if(!user) return;
-
   textFields.forEach(key => {
     if($(key)){ $(key).value = user[key] ?? ""; }
   });
@@ -464,6 +427,7 @@ function fillProfile(user){
   $("totalBooks").value = user.total_books || 0;
   $("totalOrders").value = user.total_orders || 0;
 
+  // Sync existing URL tracks cleanly from sheets object row
   state.savedProfileUrl = user.profile_image || "";
   state.savedCoverUrl = user.cover_image || "";
 
@@ -475,7 +439,6 @@ function fillProfile(user){
 
 function collectPayload(){
   const payload = { action: "update_profile" };
-
   textFields.forEach(key => {
     if($(key)){ payload[key] = value(key); }
   });
@@ -487,19 +450,16 @@ function collectPayload(){
   payload.total_books = $("totalBooks").value || 0;
   payload.total_orders = $("totalOrders").value || 0;
 
+  // PRESERVE LOGIC FIX: Send raw base64 if selected, otherwise pass existing server link
   payload.profile_image = state.profileImageUrl || state.savedProfileUrl || "";
   payload.cover_image = state.coverImageUrl || state.savedCoverUrl || "";
 
   return payload;
 }
 
-/* ==================================================
-   LOAD PROFILE METHOD LOGIC
-   ================================================== */
 async function loadProfile(){
   const email = value("email");
   if(!email){ showNotice("Enter email first."); return; }
-
   showNotice("");
   setBusy(true);
   setStatus("Loading profile...");
@@ -508,10 +468,8 @@ async function loadProfile(){
   if(cached){ fillProfile(cached); }
 
   try{
-    const targetQueryPath = API_URL + "?action=profile&email=" + encodeURIComponent(email) + "&_t=" + Date.now();
-    const data = await fetchJSON(targetQueryPath, { method: "GET", mode: "cors" });
-
-    if(!data || !data.success || !data.user){ throw new Error("Data corruption error link"); }
+    const data = await fetchJSON(API_URL + "?action=profile&email=" + encodeURIComponent(email));
+    if(!data.success){ throw new Error(data.message); }
 
     localStorage.setItem(EMAIL_KEY, email);
     saveCache(email, data.user);
@@ -520,75 +478,56 @@ async function loadProfile(){
     state.coverImageUrl = "";
 
     fillProfile(data.user);
-    showNotice(""); 
-    setStatus("Profile loaded successfully.");
+    showNotice(""); // Clears template error messages container instantly
+    setStatus("Profile loaded.");
   }catch(err){
-    console.error("Load error:", err);
     showNotice("Unable to load live profile. Displaying cached structures.");
-    setStatus("Loaded from cache.");
+    setStatus("Load failed.");
   }finally{ setBusy(false); }
 }
 
-/* =========================================================================
-   SAVE PROFILE METHOD LOGIC (Fixed Content-Type to prevent CORS Rejections)
-   ========================================================================= */
 async function saveProfile(){
   const payload = collectPayload();
-
   if(!payload.email){ showNotice("Email required."); return; }
-
   showNotice("");
   setBusy(true);
   setStatus("Saving profile...");
 
   try{
-    // MUST BE text/plain to force Google Apps Script to accept POST payload cleanly
     const data = await fetchJSON(API_URL, {
       method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" }, 
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify(payload)
     });
 
-    if(!data || !data.success || !data.user){ throw new Error("Server write failed"); }
+    if(!data.success){ throw new Error(data.message); }
 
     localStorage.setItem(EMAIL_KEY, payload.email);
-
     state.profileImageUrl = "";
     state.coverImageUrl = "";
 
     saveCache(payload.email, data.user);
     fillProfile(data.user);
-    
-    showNotice(""); 
-    setStatus("Profile saved successfully.");
+    setStatus("Profile saved.");
     alert("Profile Updates Saved to Cloud Server ✅");
   }catch(err){
-    console.error("Save error:", err);
-    saveCache(payload.email, payload);
-    fillProfile(payload);
-    
-    showNotice("Network timeout tunnel alert. Saved to backup browser cache memory.");
-    setStatus("Saved to local snapshot cache.");
-    alert("Profile Saved to Local Cache!");
+    console.error(err);
+    showNotice("Save failed.");
+    setStatus("Save failed.");
   }finally{ setBusy(false); }
 }
 
-/* ==================================================
-   IMAGE INTERFACE CONTEXT FILTERS HANDLERS
-   ================================================== */
 async function handleImage(input, type){
   const file = input.files?.[0];
   if(!file) return;
-
-  if(!file.type.startsWith("image/")){ showNotice("Select a proper image format."); return; }
-  if(file.size > 2.5 * 1024 * 1024){ showNotice("Max image size 2.5MB allowed."); return; }
+  if(!file.type.startsWith("image/")){ showNotice("Select valid image."); return; }
+  if(file.size > 2.5 * 1024 * 1024){ showNotice("Max image size 2.5MB."); return; }
 
   const base64 = await readFileAsBase64(file);
-
   if(type === "profile"){
     state.profileImageUrl = base64;
     setAvatar(base64);
-  } else {
+  }else{
     state.coverImageUrl = base64;
     setCover(base64);
   }
@@ -600,25 +539,20 @@ async function handleImage(input, type){
     else { cached.cover_image = base64; }
     saveCache(email, cached);
   }
-
   updatePreview();
 }
 
-/* ==================================================
-   INITIALIZATION BOOT PARAMETERS MOUNT
-   ================================================== */
 function init(){
   $("avatarPreview").src = DEFAULT_AVATAR;
   $("coverPreview").style.backgroundImage = DEFAULT_COVER;
 
   const savedEmail = localStorage.getItem(EMAIL_KEY) || "";
-
   if(savedEmail){
     $("email").value = savedEmail;
     const cached = readCache(savedEmail);
     if(cached){ fillProfile(cached); }
     loadProfile();
-  } else {
+  }else{
     updatePreview();
   }
 
