@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>My Orders - CreatorHub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -422,6 +422,9 @@
       font-size: 48px;
       color: #63728a;
     }
+    .empty-icon i {
+      display: block;
+    }
     .empty h2{
       margin-top: 16px;
       font-size: 28px;
@@ -453,6 +456,7 @@
 
 <body>
 
+  <!-- TOPBAR NAVIGATION LAYER -->
   <div class="topbar">
     <div class="topbar-left">
       <div id="profileWrap" class="profile-wrap">
@@ -485,14 +489,17 @@
     <div class="badge">My Orders</div>
   </div>
 
+  <!-- CONTAINER CONTEXT SYSTEM FRAME -->
   <div class="main">
     
+    <!-- CONTEXT HEADER -->
     <div class="header">
       <div class="icon"><i class="fa-solid fa-box-open"></i></div>
       <h1>My Orders</h1>
       <p class="desc">Manage your CreatorHub ebook purchases, monitor payment status, view live fulfillment progress, and access order tracking in real-time.</p>
     </div>
 
+    <!-- METRICS CARD ROW -->
     <div class="stats">
       <div class="stat">
         <h3>Total Orders</h3>
@@ -508,14 +515,16 @@
       </div>
     </div>
 
+    <!-- CARD RENDER TARGET HOOK CONTAINER -->
     <div id="ordersContainer">
       <div class="empty">
         <div class="empty-icon"><i class="fa-solid fa-circle-notch fa-spin" style="color: #2f62e9;"></i></div>
         <h2>Loading Orders...</h2>
-        <p>Please wait while we sync your order records.</p>
+        <p>Please wait while we load your orders.</p>
       </div>
     </div>
 
+    <!-- COMPLIANCE TERMINAL SECTION -->
     <div class="footer">
       CreatorHub secure ecommerce infrastructure powered by automated order synchronization and real-time tracking systems.<br>
       All orders are loaded directly from your live backend database.
@@ -523,8 +532,10 @@
 
   </div>
 
+  <!-- CORE INTEGRATED ENGINES -->
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbx2g1ZxS8_var6e35p06AVDEiYRGu-cKE5boAtr762x4JA_6qMaKfso32cOfVkeTeUq/exec";
+    // Live endpoints dynamically restored from working configurations
+    const API_URL = "https://script.google.com/macros/s/AKfycbz9g1ZxS8_var6e35p06AVDEiYRGu-cKE5boAtr762x4JA_6qMaKfso32cOfVkeTeUq/exec";
     const PRODUCT_API = "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec";
 
     function driveImage(url){
@@ -594,7 +605,7 @@
             <div class="empty">
               <div class="empty-icon"><i class="fa-solid fa-lock" style="color:#ef4444;"></i></div>
               <h2>Login Required</h2>
-              <p>Please login first to view your personal purchased orders entries.</p>
+              <p>Please login first to view your orders.</p>
             </div>
           `;
           return;
@@ -608,7 +619,7 @@
             <div class="empty">
               <div class="empty-icon"><i class="fa-solid fa-box" style="color:#63728a;"></i></div>
               <h2>No Orders Found</h2>
-              <p>You have not purchased any premium digital ebooks yet.</p>
+              <p>You have not purchased any ebooks yet.</p>
             </div>
           `;
           return;
@@ -620,7 +631,7 @@
         let productsData = await productsRes.json();
         let ALL_PRODUCTS = productsData.products || [];
 
-        // METRICS COUNTER PIPELINE
+        // METRICS DATA PIPELINES
         document.getElementById("totalOrders").innerHTML = orders.length;
 
         let active = orders.filter(o => String(o.order_status || "").toLowerCase() !== "expired").length;
@@ -677,7 +688,7 @@
                   </div>
 
                   <button class="track-btn" onclick="trackOrder('${order.id}')">
-                    <i class="fa-solid fa-location-dot"></i> Track Order Tracking Progress
+                    Track Order
                   </button>
                 </div>
               </div>
@@ -691,8 +702,8 @@
         document.getElementById("ordersContainer").innerHTML = `
           <div class="empty">
             <div class="empty-icon"><i class="fa-solid fa-triangle-exclamation" style="color:#ef4444;"></i></div>
-            <h2>Unable To Sync Orders</h2>
-            <p>Database synchronization tunnel failed. Please try again later.</p>
+            <h2>Unable To Load Orders</h2>
+            <p>Backend connection failed.</p>
           </div>
         `;
       }
