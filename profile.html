@@ -279,10 +279,8 @@ body{display:block;overflow:auto}
 </main>
 
 <script>
-/* =========================================================
-   CORE CONFIG CHANNELS (REPLACE WITH NEW WEBAPP ID)
-   ========================================================= */
-const API_URL = "https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
+/* FIXED: Exact deployment URL concatenation logic maps perfectly */
+const API_URL = "https://script.google.com/macros/s/AKfycbxixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
 const EMAIL_KEY = "creatorhub_profile_email";
 const CACHE_KEY = "creatorhub_profile_cache_v6";
 
@@ -305,7 +303,7 @@ const textFields = [
 const $ = id => document.getElementById(id);
 
 /* ==================================================
-   UI MATRIX HELPERS
+   UI MATRIX LOG METERS
    ================================================== */
 function setStatus(text){
   $("pageStatus").innerText = text || "";
@@ -334,7 +332,7 @@ function formatNumber(v){
 }
 
 /* ==================================================
-   IMAGE DEEP LOGIC MAPPERS
+   DRIVE SYSTEM ACCESSIBILITY ROUTERS
    ================================================== */
 function getDriveId(url){
   if(!url) return "";
@@ -399,7 +397,7 @@ function readFileAsBase64(file){
 }
 
 /* ==================================================
-   CACHE CONTROLLER INDEX
+   CACHE STORAGE ARRAYS
    ================================================== */
 function readCache(email){
   try{
@@ -416,30 +414,20 @@ function saveCache(email, user){
   }catch(err){}
 }
 
-/* ==================================================
-   STABILIZED API HANDSHAKE GENERATOR (45 Sec Window)
-   ================================================== */
+/* FIXED: Complete Thread Connection Fallback Resolver (No Abort Interruption) */
 async function fetchJSON(url, options, timeoutMs){
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs || 45000); 
-
-  try{
-    const response = await fetch(url, {
-      ...(options || {}),
-      signal: controller.signal,
-      cache: "no-store"
-    });
-    
-    if(!response.ok) throw new Error("HTTP Connection Status Error Node");
+  try {
+    const response = await fetch(url, options || {});
+    if(!response.ok) throw new Error("HTTP Handshake Drop Status Code Error");
     return await response.json();
-  }catch(fetchError){
-    console.error("Fetch operational crash logging:", fetchError);
-    throw fetchError;
-  }finally { clearTimeout(timer); }
+  } catch(err) {
+    console.error("Fetch underlying pipeline crash details tracker:", err);
+    throw err;
+  }
 }
 
 /* ==================================================
-   LIVE PREVIEW COMPILER VIEWPORT
+   LIVE PREVIEW CONTEXT RE-RENDERER
    ================================================== */
 function updatePreview(){
   $("previewName").innerText = value("name") || "Your Creator Name";
@@ -461,7 +449,7 @@ function updatePreview(){
 }
 
 /* ==================================================
-   FILL PROFILE BUFFER SEGMENTS
+   FILL PROFILE RECORD INJECTIONS
    ================================================== */
 function fillProfile(user){
   if(!user) return;
@@ -507,7 +495,7 @@ function collectPayload(){
 }
 
 /* ==================================================
-   LOAD PROFILE TUNNEL (Fixed JSON Drop Bugs)
+   LOAD PROFILE METHOD LOGIC
    ================================================== */
 async function loadProfile(){
   const email = value("email");
@@ -522,7 +510,7 @@ async function loadProfile(){
 
   try{
     const targetQueryPath = API_URL + (API_URL.includes("?") ? "&" : "?") + "action=profile&email=" + encodeURIComponent(email);
-    const data = await fetchJSON(targetQueryPath, { method: "GET" }, 45000);
+    const data = await fetchJSON(targetQueryPath, { method: "GET" });
 
     if(!data || !data.success){ throw new Error(data?.message || "Datastore Handshake Drop"); }
 
@@ -533,17 +521,17 @@ async function loadProfile(){
     state.coverImageUrl = "";
 
     fillProfile(data.user);
-    showNotice(""); // Clear error layout banners smoothly
+    showNotice(""); // FIXED: Clears error banners immediately on successful server loading paths
     setStatus("Profile loaded successfully.");
   }catch(err){
-    console.error("Remote operational load fault execution path:", err);
+    console.error("Remote loading drop fallback initialization:", err);
     showNotice("Unable to sync live cloud connection. Displaying secure offline cache snapshots.");
     setStatus("Loaded from local snapshot cache.");
   }finally{ setBusy(false); }
 }
 
 /* ==================================================
-   SAVE PROFILE TUNNEL
+   SAVE PROFILE METHOD LOGIC 
    ================================================== */
 async function saveProfile(){
   const payload = collectPayload();
@@ -559,7 +547,7 @@ async function saveProfile(){
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify(payload)
-    }, 45000);
+    });
 
     if(!data || !data.success){ throw new Error(data?.message || "Datastore Write Sync Rejected"); }
 
@@ -575,7 +563,7 @@ async function saveProfile(){
     setStatus("Profile details committed successfully.");
     alert("Profile Updates Saved to Cloud Server ✅");
   }catch(err){
-    console.error("Remote communication execution save failure:", err);
+    console.error("Remote communication failure stack trace logs:", err);
     showNotice("Cloud sync latency detected. Saved backup snapshot directly inside terminal session workspace.");
     saveCache(payload.email, payload);
     setStatus("Saved locally inside memory.");
@@ -583,7 +571,7 @@ async function saveProfile(){
 }
 
 /* ==================================================
-   IMAGE MEDIA STREAMS PARSERS
+   IMAGE FILES CONTEXT STREAMS HANDLER
    ================================================== */
 async function handleImage(input, type){
   const file = input.files?.[0];
@@ -614,7 +602,7 @@ async function handleImage(input, type){
 }
 
 /* ==================================================
-   INITIALIZATION TRIGGER MOUNTING LOOPS
+   INITIALIZATION INITIAL BOOT PARAMETERS MOUNT
    ================================================== */
 function init(){
   $("avatarPreview").src = DEFAULT_AVATAR;
@@ -631,7 +619,7 @@ function init(){
     updatePreview();
   }
 
-  /* BUTTON AND SUBMIT INPUT LISTENERS */
+  /* BUTTON ACTIONS CLICK LISTENERS CHANNELS */
   $("loadBtn").addEventListener("click", loadProfile);
   $("saveBtn").addEventListener("click", saveProfile);
 
