@@ -8,16 +8,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
-/* =========================================================
-   CREATORHUB STANDARD LIGHT UI INTERFACE VARIABLES
-   ========================================================= */
 :root {
-    --bg-primary: #f8fafc;       /* Subtle canvas slate white */
-    --bg-secondary: #ffffff;     /* Pure white card backgrounds */
-    --text-primary: #0f172a;     /* Deep slate text colors */
-    --text-secondary: #475569;   /* Muted structural labels */
+    --bg-primary: #f8fafc;       
+    --bg-secondary: #ffffff;     
+    --text-primary: #0f172a;     
+    --text-secondary: #475569;   
     --text-muted: #94a3b8;
-    --accent-blue: #2563eb;     /* Platform Royal Blue */
+    --accent-blue: #2563eb;     
     --accent-blue-hover: #1d4ed8;
     --accent-blue-light: #eff6ff;
     --border-color: #e2e8f0;
@@ -39,7 +36,6 @@ body{
     animation: fadePage .5s ease;
 }
 
-/* NAVBAR HEADER STYLES */
 .header{
     height: 75px;
     background-color: var(--bg-secondary);
@@ -83,10 +79,9 @@ body{
     font-weight: 800;
     color: var(--text-primary);
     letter-spacing: -0.02em;
-    margin-right: 80px; /* To perfectly center align with back button balance offset */
+    margin-right: 80px; 
 }
 
-/* MAIN FORM CANVAS CONTAINER */
 .container{
     display: flex;
     justify-content: center;
@@ -95,7 +90,6 @@ body{
     padding: 40px 20px;
 }
 
-/* CONTAINER CARD STRUCTURE */
 .card{
     width: 100%;
     max-width: 500px;
@@ -123,7 +117,6 @@ h2{
     font-weight: 500;
 }
 
-/* FIELD LABELS & GROUP ELEMENTS */
 .form-group {
     margin-bottom: 20px;
 }
@@ -163,7 +156,6 @@ textarea{
     line-height: 1.6;
 }
 
-/* STATUS NOTIFICATION CONTAINER */
 .status-box {
     display: none;
     padding: 14px;
@@ -192,7 +184,6 @@ textarea{
     border: 1px solid #fecaca;
 }
 
-/* FLAT PLATFORM SUBMIT TRIGGER BUTTON */
 button{
     width: 100%;
     height: 54px;
@@ -222,7 +213,6 @@ button:disabled {
     cursor: not-allowed;
 }
 
-/* ANIMATION KEYFRAMES */
 @keyframes fadePage{
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
@@ -253,7 +243,7 @@ button:disabled {
 <div class="container">
     <div class="card">
         <h2>📩 Support Request</h2>
-        <div class="desc">Have questions or facing issues? Send a direct message to our support core engine loop.</div>
+        <div class="desc">Fill in details to sync message blocks direct to cloud server channels.</div>
         
         <div id="statusMessage" class="status-box"></div>
 
@@ -270,7 +260,7 @@ button:disabled {
 
             <div class="form-group">
                 <label for="msg">Message Context</label>
-                <textarea id="msg" placeholder="Describe your issue scenario metrics or question context..." required></textarea>
+                <textarea id="msg" placeholder="Write your message here..." required></textarea>
             </div>
 
             <button type="submit" id="submitBtn">Send Message</button>
@@ -279,97 +269,52 @@ button:disabled {
 </div>
 
 <script>
-/* =========================================================
-   CORE CONFIG CHANNELS (Using your verified Web App ID URL)
-   ========================================================= */
-const SUPPORT_API_GATEWAY = "https://script.google.com/macros/s/AKfycbixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
 
-/* ASYNC DIRECT SERVER DATA TRANSMISSION PIPELINE ENGINE */
 async function executeDirectMessageSubmit(event){
     event.preventDefault();
 
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim();
     const msg = document.getElementById("msg").value.trim();
-    const statusBox = document.getElementById("statusMessage");
     const submitBtn = document.getElementById("submitBtn");
 
-    if(!name || !email || !msg){
-        updateStatusDisplay("error", "Please fill all required input parameter layers cleanly.");
-        return;
-    }
-
-    // Toggle states to prevent multiple continuous parallel click inputs
     submitBtn.disabled = true;
-    updateStatusDisplay("loading", "📡 Establishing handshake tunnel... Dispatching variables.");
+    updateStatusDisplay("loading", "📡 Transmission channel active... Dispatching support log variables.");
 
     try {
-        /* CORS BYPASS TUNNEL LAYER: Passes raw plain text strings array nodes safely */
-        const response = await fetch(SUPPORT_API_GATEWAY, {
+        const response = await fetch(API_URL, {
             method: "POST",
             headers: { "Content-Type": "text/plain;charset=utf-8" },
             body: JSON.stringify({
-                action: "contact_form_ticket", // Unique action tag identifier route
+                action: "contact_form_ticket",
                 name: name,
                 email: email,
-                message: msg,
-                timestamp: new Date().toISOString()
+                message: msg
             })
         });
 
         const rawTextData = await response.text();
-        let parsedResultJSON;
+        const result = JSON.parse(rawTextData);
 
-        try {
-            parsedResultJSON = JSON.parse(rawTextData);
-        } catch(parseErr) {
-            // Fallback: If apps script logs execution blocks instead of true return array schemas
-            if(rawTextData.includes("success") || response.ok) {
-                parsedResultJSON = { success: true };
-            } else {
-                throw new Error("JSON payload stream truncation parsing error node.");
-            }
-        }
-
-        if(parsedResultJSON.success || response.ok) {
-            updateStatusDisplay("success", "🎉 Message committed successfully to database! Support loop will evaluate within 24 hours.");
+        if(result.success) {
+            updateStatusDisplay("success", "🎉 Support ticket committed cleanly! Message dispatched direct to inbox database.");
             document.getElementById("contactForm").reset();
         } else {
-            throw new Error(parsedResultJSON.message || "Central dispatch channel verification reject.");
+            throw new Error(result.message || "Execution Error");
         }
-
-    } catch(fatalPipelineException) {
-        console.error("Transmission loop crash logging telemetry state:", fatalPipelineException);
-        
-        // Dynamic fallback mechanism option trace link
-        updateStatusDisplay("error", "⚠️ Direct gateway sync latency detected. Launching backup secondary mailto tunnel routing...");
-        
-        setTimeout(() => {
-            statusBox.style.display = "none";
-            executeMailtoRedirectionFallback(name, email, msg);
-        }, 2500);
-
+    } catch(err) {
+        console.error("Pipeline breakdown:", err);
+        updateStatusDisplay("error", "⚠️ Gateway timeout. Try re-submitting data packets.");
     } finally {
         submitBtn.disabled = false;
     }
 }
 
-/* DISPLAY INTERFACE SWITCH MODULE LOGS */
 function updateStatusDisplay(stateClassType, alertMessageText) {
     const statusBox = document.getElementById("statusMessage");
     statusBox.className = "status-box " + stateClassType;
     statusBox.innerText = alertMessageText;
-}
-
-/* COMPATIBILITY FALLBACK ROUTING: Fires original layout route if user's API fails */
-function executeMailtoRedirectionFallback(name, email, msg) {
-    let subjectToken = encodeURIComponent("CreatorHub Support Request [Fallback Trace Link]");
-    let bodyToken = encodeURIComponent(
-        "Name : " + name + "\n" +
-        "Email : " + email + "\n\n" +
-        "Message :\n" + msg
-    );
-    window.location.href = `mailto:ayushprajpati6@gmail.com?subject=${subjectToken}&body=${bodyToken}`;
 }
 </script>
 
