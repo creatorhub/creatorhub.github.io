@@ -103,7 +103,7 @@
     ===================================================== */
     .profile-wrap{
       position: relative;
-      display: none; /* Auto handled via token updates */
+      display: none;
       align-items: center;
     }
     .profile-image{
@@ -124,7 +124,7 @@
     .profile-menu{
       position: absolute;
       top: 68px;
-      right: 0;
+      left: 0;
       width: 280px;
       background: #0d1628;
       border: 1px solid #182a64;
@@ -216,7 +216,6 @@
       display: block;
     }
 
-    /* LOADING PRELOADER */
     .empty-state {
       position: absolute;
       inset: 0;
@@ -252,21 +251,6 @@
   <!-- TOPBAR HEADER PLATFORM -->
   <div class="topbar">
     <div class="topbar-left">
-      <div class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i> Back</div>
-      
-      <a class="brand-logo" href="./dashboard.html">
-        <span class="brand-name">Creator<span>Hub</span></span>
-      </a>
-    </div>
-
-    <!-- Live Active Book Header Track Frame -->
-    <div class="book-header-info">
-      <div id="bookMainTitle">Loading Premium Ebook Stream...</div>
-    </div>
-
-    <div class="topbar-right" style="display: flex; align-items: center; gap: 16px;">
-      <div class="badge">Reader Mode</div>
-      
       <div id="profileWrap" class="profile-wrap">
         <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile">
         
@@ -286,6 +270,19 @@
           <div class="logout-btn" onclick="logout()">Logout</div>
         </div>
       </div>
+
+      <div class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i> Back</div>
+    </div>
+
+    <div class="book-header-info">
+      <div id="bookMainTitle">Loading Premium Ebook Stream...</div>
+    </div>
+
+    <div class="topbar-right" style="display: flex; align-items: center; gap: 16px;">
+      <div class="badge">Reader Mode</div>
+      <a class="brand-logo" href="./dashboard.html">
+        <span class="brand-name">Creator<span>Hub</span></span>
+      </a>
     </div>
   </div>
 
@@ -298,7 +295,6 @@
       </div>
     </div>
     
-    <!-- Dynamic Protected Iframe target mount -->
     <iframe id="pdfViewerFrame" src="" allow="autoplay"></iframe>
   </div>
 
@@ -328,7 +324,7 @@
     });
 
     function logout(){ localStorage.clear(); window.location.href = "login.html"; }
-    function goBack(){ window.location.href = "library.html"; } // Returns safely to library catalogue shell
+    function goBack(){ window.location.href = "library.html"; }
 
     function updateLoginUI(){
       let token = localStorage.getItem("user_token");
@@ -354,12 +350,8 @@
       }
     }
 
-    /* =====================================================
-    ⚡ SECURE INSTANT PDF STREAM RENDERING LOGIC
-    ===================================================== */
     function initializeBookViewer(){
       try {
-        // Core localstorage stream parameters retrieval keys
         const pdfUrl = localStorage.getItem("viewerPDF");
         const bookDataRaw = localStorage.getItem("viewerBook");
 
@@ -374,14 +366,12 @@
           document.getElementById("bookMainTitle").innerText = `📖 Reading: ${book.title || "Premium Ebook"}`;
         }
 
-        // Clean dynamic sandbox viewing injection string framing setup
         const frame = document.getElementById("pdfViewerFrame");
         
         frame.onload = function() {
           document.getElementById("loaderState").style.display = "none";
         };
 
-        // Google Drive standard preview layer configuration pipeline mapping execution
         frame.src = pdfUrl;
 
       } catch (err) {
