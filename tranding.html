@@ -6,13 +6,13 @@
 <title>Trending Books | CreatorHub</title>
 <style>
 /* =========================================================
-   CREATORHUB EXACT MATCH LIGHT THEME LAYOUT
+   HOMEPAGE MATCHING GRID CORE LAYOUT (Based on image_b18945.png)
    ========================================================= */
 :root {
-    --bg: #f1f5f9;       
-    --card: #ffffff;     
-    --accent: #2563eb;   /* Dashboard Royal Blue */
-    --text: #0f172a;     
+    --bg: #f8fafc;       /* Modern subtle ash white canvas */
+    --card: #ffffff;     /* Pure high-fidelity white cards */
+    --accent: #2563eb;   /* Platform Royal Blue */
+    --text: #0f172a;     /* Deep charcoal text font */
     --text-muted: #64748b;
     --border: #e2e8f0;
 }
@@ -30,196 +30,206 @@ body{
     min-height: 100vh;
 }
 
-/* NAVBAR HEADER STYLE */
+/* NAVBAR HEADER */
 .header{
     height: 75px;
     display: flex;
     align-items: center;
-    padding: 0 30px;
+    padding: 0 40px;
     border-bottom: 1px solid var(--border);
     background: #ffffff;
     position: sticky;
     top: 0;
     z-index: 999;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
 }
 
-.back{
-    font-size: 20px;
+.back-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     cursor: pointer;
-    margin-right: 15px;
     color: var(--text-muted);
-    font-weight: bold;
-    transition: transform .2s, color .2s;
+    font-weight: 600;
+    font-size: 15px;
+    transition: color 0.2s, transform 0.2s;
     user-select: none;
+    margin-right: 15px;
 }
 
-.back:hover{
-    transform: translateX(-4px);
+.back-wrapper:hover {
     color: var(--accent);
+    transform: translateX(-3px);
 }
 
 .title{
     font-size: 22px;
     font-weight: 800;
-    color: var(--text);
+    color: #0f172a;
     letter-spacing: -0.02em;
 }
 
-/* CONTAINER SETUP */
+/* MAIN CONTAINER GRID PORT */
 .container{
-    padding: 35px 20px;
-    max-width: 900px;
+    padding: 40px 40px;
+    max-width: 1400px;
     margin: auto;
 }
 
-/* CARDS LIST FRAME */
+/* HOMEPAGE EBOOK GRID MATRIX */
 .list{
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 30px;
 }
 
-/* DYNAMIC CONTENT GRID LAYOUT */
+/* GRID BOOK CARDS - Matching homepage item frames precisely */
 .card{
-    display: flex;
-    gap: 20px;
     background: var(--card);
-    padding: 20px;
     border-radius: 16px;
     border: 1px solid var(--border);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    align-items: center;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
 }
 
 .card:hover{
-    transform: translateY(-3px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.07);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.06), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
 }
 
-/* IMAGE COVER THUMBNAIL FRAME */
-.card img{
-    width: 85px;
+/* IMAGE CONTAINER WITH BADGE OVERLAY */
+.image-container {
+    width: 100%;
     aspect-ratio: 2/3;
-    object-fit: cover;
-    border-radius: 10px;
-    background: #f8fafc;
-    border: 1px solid var(--border);
+    position: relative;
+    background: #f1f5f9;
+    border-bottom: 1px solid var(--border);
 }
 
-/* CARD DETAILS BODY */
+.card img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.card:hover img {
+    transform: scale(1.03);
+}
+
+/* HOT BADGE FLOATING OVER IMAGE */
+.badge{
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 10px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #ef4444;
+    padding: 4px 10px;
+    border-radius: 50px;
+    font-weight: 700;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border: 1px solid #fee2e2;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    z-index: 2;
+}
+
+/* DETAILS COMPONENT SHEET */
 .info{
-    flex: 1;
+    padding: 16px;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 }
 
-.name-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
+/* BOOK TITLE WITH COMPACT LINE CLIPPING */
 .name{
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 700;
     color: var(--text);
-    line-height: 1.3;
+    line-height: 1.4;
+    height: 42px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 8px;
 }
 
-/* ROYAL BLUE COLOR ACCENT PRICES */
+/* METADATA PLATFORM PARAMETERS */
+.meta{
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ROYAL BLUE PRICE & BUTTON AREA */
+.footer-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 10px;
+}
+
 .price{
     color: var(--accent);
     font-size: 16px;
-    font-weight: 700;
-    margin-top: 5px;
+    font-weight: 800;
 }
 
-.meta{
-    font-size: 13px;
-    color: var(--text-muted);
-    margin-top: 6px;
-    font-weight: 500;
-}
-
-/* BLUE DASHBOARD CUSTOM SUBMIT BUTTON */
+/* COMPACT BLUE FLAT DASHBOARD ACTION BUTTON */
 .buy{
-    margin-top: 14px;
-    padding: 9px 20px;
+    padding: 8px 16px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     background: var(--accent);
     color: white;
     font-weight: 700;
-    font-size: 13px;
-    transition: background 0.2s, transform 0.1s;
-    align-self: flex-start;
+    font-size: 12px;
+    transition: background 0.2s;
 }
 
 .buy:hover{
     background: #1d4ed8;
 }
 
-/* FIRE CORNER METRIC BADGE */
-.badge{
-    font-size: 11px;
-    background: #fff5f5;
-    color: #ef4444;
-    padding: 3px 8px;
-    border-radius: 6px;
-    font-weight: 700;
-    border: 1px solid #fee2e2;
-}
-
-/* BEAUTIFUL CONTAINER INTERFACES FOR STATUS LOGS */
+/* BOX CONTAINERS FOR RENDER PROCESSING STATUSES */
 .status-box {
-    background: var(--card);
+    grid-column: 1 / -1;
+    background: #ffffff;
     border: 1px solid var(--border);
     border-radius: 16px;
-    padding: 50px 30px;
+    padding: 60px 20px;
     text-align: center;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01);
 }
 
 .status-title {
     font-size: 18px;
     font-weight: 700;
     color: var(--text);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .status-msg {
     color: var(--text-muted);
     font-size: 14px;
-    max-width: 400px;
-    margin: 0 auto;
-    line-height: 1.5;
-}
-
-.btn-retry {
-    margin-top: 20px;
-    background: var(--accent);
-    color: white;
-    border: none;
-    padding: 10px 22px;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.btn-retry:hover {
-    background: #1d4ed8;
 }
 
 .spinner {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 24px;
     border: 3px solid #cbd5e1;
     border-top: 3px solid var(--accent);
     border-radius: 50%;
@@ -233,37 +243,42 @@ body{
 }
 
 @media(max-width:600px){
-    .card { flex-direction: column; align-items: flex-start; gap: 15px; }
-    .card img { width: 75px; }
-    .buy { width: 100%; text-align: center; }
+    .header { padding: 0 20px; }
+    .container { padding: 25px 15px; }
+    .list { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+    .name { font-size: 14px; height: 38px; }
+    .price { font-size: 15px; }
+    .buy { padding: 6px 12px; font-size: 11px; }
 }
 </style>
 </head>
 <body>
 
-<!-- NAVBAR HEADER -->
+<!-- TOP NAVIGATION PORT -->
 <div class="header">
-    <div class="back" onclick="history.back()">← Back</div>
+    <div class="back-wrapper" onclick="history.back()">
+        <span>←</span> Back
+    </div>
     <div class="title">Trending Books</div>
 </div>
 
-<!-- CENTRAL WRAPPER GRID -->
+<!-- CENTRAL INTERFACE GRID PORTAL -->
 <div class="container">
     <div id="books" class="list">
-        <!-- Elegant Initial UI Frame State -->
+        <!-- Initial Skeleton Loading Frame State -->
         <div class="status-box">
             <div class="spinner"></div>
-            <div class="status-title">Synchronizing Platform Data</div>
-            <div class="status-msg">Fetching latest analytical sales data tunnels from datastore sheets...</div>
+            <div class="status-title">Loading Catalog Shelves</div>
+            <div class="status-msg">Fetching top performing analytical item metrics across datastores...</div>
         </div>
     </div>
 </div>
 
 <script>
-/* CORE SYSTEM CONFIG INDEX */
+/* CORE DATA PIPELINE API ENDPOINT */
 const API = "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
 
-/* Direct Thumbnail Resolver from Database Links */
+/* Dynamic Ingestion Link Converter to Vector High Res Assets thumbnails */
 function driveImage(link){
     if(!link) return "https://picsum.photos/400/600";
     try {
@@ -271,22 +286,21 @@ function driveImage(link){
         if(link.includes("id=")){ id = link.split("id=")[1].split("&")[0]; }
         if(link.includes("/file/d/")){ id = link.split("/file/d/")[1].split("/")[0]; }
         if(id){ return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000"; }
-    } catch(e) { console.error("Image mapping processing exception:", e); }
+    } catch(e) { console.error("Image asset link mapping error catch exception:", e); }
     return link;
 }
 
-/* HIGH-SPEED PARALLEL RENDERING ENGINE PIPELINE */
+/* HIGH-SPEED GRID RENDER PARSING PIPELINE FLOW */
 async function loadTrendingBooks(){
     const box = document.getElementById("books");
     
     try {
-        // Parallel requests prevent connection drop and timeouts
+        // Parallel requests resolve structural delays
         const [productsRes, ordersRes] = await Promise.all([
-            fetch(API + "?action=products&t=" + Date.now()), 
-            fetch(API + "?action=sellers&t=" + Date.now()) // Safe fallback link check parameters
+            fetch(API + "?action=products&t=" + Date.now()),
+            fetch(API + "?action=sellers&t=" + Date.now()) // Safe fallback token stream parameters
         ]);
 
-        // Validate JSON state structures cleanly
         let productsData = await productsRes.json();
         let products = productsData.products || productsData;
         let orders = [];
@@ -294,24 +308,24 @@ async function loadTrendingBooks(){
         try {
             let ordersData = await ordersRes.json();
             orders = ordersData.orders || ordersData || [];
-        } catch(e){ console.warn("Orders logs empty arrays injection fallback mapping active"); }
+        } catch(e){ console.warn("Analytical order array records inject default context"); }
 
         if(!Array.isArray(products)) products = [];
         if(!Array.isArray(orders)) orders = [];
 
-        // FIXED FIELD CHECK: Matches 'status === "approved"' from backend structure
+        // Filter out catalog structures based on status metrics
         products = products.filter(p => (p.status || p.ai_status) === "approved");
 
         if(products.length === 0) {
             box.innerHTML = `
                 <div class="status-box">
                     <div class="status-title">No Books Found</div>
-                    <div class="status-msg">Platform catalog indexing does not contain approved items at this interval.</div>
+                    <div class="status-msg">There are no approved publications indexed on the grid architecture right now.</div>
                 </div>`;
             return;
         }
 
-        // Calculate performance vector scores
+        // Loop score allocations
         products.forEach(p => {
             let sales = orders.filter(o => 
                 String(o.productId || o.product_id) === String(p.id) && (o.payment === "paid" || o.status === "paid")
@@ -321,25 +335,29 @@ async function loadTrendingBooks(){
             p.trendingScore = (p.sales * 5) + (Number(p.reads || 0) * 2);
         });
 
-        // Quick descending order array vector shift sorting
+        // Sorting algorithm descending execution block
         products.sort((a, b) => b.trendingScore - a.trendingScore);
 
         let html = "";
 
-        // Build top hot items catalog stream
+        // Build top hot grid view items stream map
         products.slice(0, 20).forEach((p, i) => {
             let coverImg = p.front_cover || p.image || "";
+            let categoryName = p.category || "General Content";
+            
             html += `
                 <div class="card" onclick="openBook('${p.id}')">
-                    <img src="${driveImage(coverImg)}" onerror="this.src='https://picsum.photos/400/600'" alt="Cover Frame">
+                    <div class="image-container">
+                        ${i < 3 ? '<span class="badge">🔥 Hot</span>' : ''}
+                        <img src="${driveImage(coverImg)}" onerror="this.src='https://picsum.photos/400/600'" alt="Cover Matrix Frame">
+                    </div>
                     <div class="info">
-                        <div class="name-wrapper">
-                            <span class="name">${p.title || "Untitled Creation"}</span>
-                            ${i < 3 ? '<span class="badge">🔥 Hot Trend</span>' : ''}
+                        <div class="name">${p.title || "Untitled Masterpiece"}</div>
+                        <div class="meta">📊 ${p.sales || 0} distributed • ${categoryName}</div>
+                        <div class="footer-action">
+                            <div class="price">₹${p.price || 0}</div>
+                            <button class="buy" onclick="buyNow(event, '${p.id}')">Buy Now</button>
                         </div>
-                        <div class="price">₹ ${p.price || 0}</div>
-                        <div class="meta">📈 ${p.sales || 0} items distributed • ${p.category || "General"}</div>
-                        <button class="buy" onclick="buyNow(event, '${p.id}')">Buy Now</button>
                     </div>
                 </div>
             `;
@@ -348,18 +366,17 @@ async function loadTrendingBooks(){
         box.innerHTML = html;
 
     } catch(err) {
-        console.error("Fatal System Exception Ingest Route Break:", err);
-        // Beautiful matching light UI status block layout for crash state recovery
+        console.error("System Fatal Exception processing index array loops:", err);
         box.innerHTML = `
-            <div class="status-box" style="border-color: #fca5a5; background: #fff5f5;">
-                <div class="status-title" style="color: #b91c1c;">Connection Synchronization Failed</div>
-                <div class="status-msg" style="color: #7f1d1d;">Database tunnel mapping rejected request or execution timeout limit hit. Ensure Web App link contains proper structures.</div>
-                <button class="btn-retry" onclick="location.reload()">Retry Connection Tunnel</button>
+            <div class="status-box" style="border-color: #fee2e2; background: #fff5f5;">
+                <div class="status-title" style="color: #b91c1c;">Data Stream Synchronization Error</div>
+                <div class="status-msg" style="color: #991b1b;">Connection tunnel mapping failed or execution script limit exceeded. Check your web deployment paths.</div>
+                <button style="margin-top:15px; background:#ef4444; color:white; border:none; padding:8px 20px; border-radius:8px; font-weight:700; cursor:pointer;" onclick="location.reload()">Re-establish Sync</button>
             </div>`;
     }
 }
 
-/* REDIRECTION MAPPING SCHEMAS */
+/* ENGINE TRANSIT ROUTING MAPPING SCHEMAS */
 function openBook(id){
     location.href = "ebook.html?id=" + id;
 }
@@ -370,7 +387,7 @@ function buyNow(e, id){
     location.href = "payment.html";
 }
 
-// Ingest target runtime mapping flow loops
+// Ingest execution threads smoothly on document load
 window.addEventListener("DOMContentLoaded", loadTrendingBooks);
 </script>
 </body>
