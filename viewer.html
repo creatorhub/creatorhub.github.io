@@ -878,7 +878,11 @@
 
     function filterBooks(type){
       document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
-      let clickedTab = [...document.querySelectorAll(".tab")].find(tab => tab.getAttribute("onclick").includes(type));
+      
+      // Dynamic mapping filter resolution fixes tab execution mismatch
+      let clickedTab = [...document.querySelectorAll(".tab")].find(tab => 
+        tab.getAttribute("onclick").toLowerCase().includes(type.toLowerCase())
+      );
       if(clickedTab) clickedTab.classList.add("active");
       renderBooks(type);
     }
