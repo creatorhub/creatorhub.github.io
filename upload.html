@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Upload Ebook - CreatorHub</title>
+  <title>CreatorHub • Upload Ebook Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -83,6 +83,7 @@
       transition: color 0.2s ease;
       background: none;
       border: none;
+      outline: none;
     }
     .back-btn:hover{
       color: #2f62e9;
@@ -804,54 +805,81 @@
     const bookSize = document.getElementById("bookSize");
     const printVersion = document.getElementById("printVersion");
 
-    function openMenu(){
+    function openMenu()){
       document.getElementById("menu").classList.add("active");
       document.getElementById("overlay").style.display = "block";
     }
 
-    function closeMenu(){
+    function closeMenu()){
       document.getElementById("menu").classList.remove("active");
       document.getElementById("overlay").style.display = "none";
     }
 
+    /* =========================================================
+    ⚡ RESTORED ORIGINAL FULL WORKING USER LOGIC ENGINE
+    ========================================================= */
     async function loadUser(){
       try{
         let localUser = JSON.parse(localStorage.getItem("user")) || {};
-        let email = localUser.email || (localUser.user && localUser.user.email) || "";
+        let email = "";
+
+        if(localUser.email){
+          email = localUser.email;
+        }
+        else if(localUser.user && localUser.user.email){
+          email = localUser.user.email;
+        }
 
         if(!email){
-          username.innerText = "Creator User";
-          menuName.innerText = "Creator User";
+          username.innerText = "User";
+          menuName.innerText = "User";
           return;
         }
 
+        /* ORIGINAL USER RETRIEVAL TUNNEL */
         let userRes = await fetch(UPLOAD_API,{
           method:"POST",
-          headers:{ "Content-Type":"text/plain" },
-          body:JSON.stringify({ action:"getUser", email:email })
+          headers:{
+            "Content-Type":"text/plain"
+          },
+          body:JSON.stringify({
+            action:"getUser",
+            email:email
+          })
         });
+
         let userData = await userRes.json();
+        console.log(userData);
 
         if(userData.success){
-          username.innerText = userData.user.name || "Creator User";
-          menuName.innerText = userData.user.name || "Creator User";
+          username.innerText = userData.user.name || "User";
+          menuName.innerText = userData.user.name || "User";
         }
 
+        /* ORIGINAL SELLER VALIDATION CHECK */
         let sellerRes = await fetch(UPLOAD_API,{
           method:"POST",
-          headers:{ "Content-Type":"text/plain" },
-          body:JSON.stringify({ action:"checkSeller", email:email })
+          headers:{
+            "Content-Type":"text/plain"
+          },
+          body:JSON.stringify({
+            action:"checkSeller",
+            email:email
+          })
         });
+
         let sellerData = await sellerRes.json();
+        console.log(sellerData);
 
         if(!sellerData.success){
           location.href = "seller-apply.html";
           return;
         }
+
       }catch(err){
         console.log(err);
-        username.innerText = "Creator User";
-        menuName.innerText = "Creator User";
+        username.innerText = "User";
+        menuName.innerText = "User";
       }
     }
 
@@ -994,7 +1022,8 @@
 
         let res = await fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart", {
           method:"POST",
-          headers:{ Authorization: "Bearer " + accessToken }
+          headers:{ Authorization: "Bearer " + accessToken },
+          body:form
         });
         let data = await res.json();
         if(!res.ok){ throw new Error(data.error ? data.error.message : "Drive Tunnel Upload Rejection."); }
