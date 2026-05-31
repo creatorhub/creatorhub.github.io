@@ -35,7 +35,6 @@
       max-width: 100%;
     }
 
-    /* Webkit Scrollbar System optimized */
     ::-webkit-scrollbar{
       width: 6px;
     }
@@ -63,23 +62,11 @@
     .topbar-left{
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 20px; /* Profiles aur Logo ke beech proper spacing */
     }
     .brand-logo{
       display: flex;
       align-items: center;
-      gap: 12px;
-    }
-    .brand-mark{
-      width: 52px;
-      height: 52px;
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, #21b7e8, #1d72f3);
-      font-size: 24px;
-      font-weight: 950;
-      color: #fff;
     }
     .brand-name{
       font-size: 25px;
@@ -91,7 +78,6 @@
       color: #2f62e9;
     }
 
-    /* Nav links structure styling */
     .nav{
       display: flex;
       align-items: center;
@@ -130,9 +116,8 @@
     ===================================================== */
     .profile-wrap{
       position: relative;
-      display: none;
+      display: none; /* Login hone par JS se flex hoga */
       align-items: center;
-      cursor: pointer;
     }
     .profile-image{
       width: 52px;
@@ -142,15 +127,17 @@
       background: #d9e1ec;
       border: 3px solid #fff;
       box-shadow: 0 8px 20px rgba(16, 24, 40, 0.12);
-      transition: transform 0.2s ease;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      cursor: pointer;
     }
     .profile-image:hover{
       transform: scale(1.04);
+      border-color: #2f62e9;
     }
     .profile-menu{
       position: absolute;
       top: 68px;
-      right: 0;
+      left: 0; /* Menu left alignment se ab perfectly identity ke neeche khulege */
       width: 280px;
       background: #0d1628;
       border: 1px solid #182a64;
@@ -373,7 +360,6 @@
     @media(max-width: 950px){ .books-grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); } }
     @media(max-width: 600px){ .books-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
-    /* Card Box Framework */
     .book{
       background: #fff;
       border: 1px solid #dce4f0;
@@ -479,10 +465,6 @@
       gap: 24px;
       width: 100%;
     }
-    @media(max-width: 1200px){ .skeleton-grid{ grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-    @media(max-width: 950px){ .skeleton-grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-    @media(max-width: 600px){ .skeleton-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-
     .skeleton-card{
       height: 350px;
       border-radius: 9px;
@@ -586,13 +568,11 @@
 
 <body>
 
-  <!-- TOPBAR LAYER -->
   <div class="topbar">
     <div class="topbar-left">
-      <div id="profileWrap" class="profile-wrap" onclick="toggleProfileMenu()">
-        <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="profile-image" alt="Profile View">
+      <div id="profileWrap" class="profile-wrap">
+        <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile View">
         
-        <!-- HOVER DROP ACTION PANEL -->
         <div id="profileMenu" class="profile-menu">
           <div class="profile-header">
             <img id="menuProfileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="menu-profile-image" alt="User">
@@ -611,7 +591,6 @@
       </div>
 
       <a class="brand-logo" href="./dashboard.html">
-        <span class="brand-mark">CH</span>
         <span class="brand-name">Creator<span>Hub</span></span>
       </a>
     </div>
@@ -625,10 +604,8 @@
     </div>
   </div>
 
-  <!-- CONTAINER FRAME -->
   <div class="main">
     
-    <!-- HERO COMPONENT -->
     <div class="hero">
       <div class="hero-title">Discover Premium <span>Ebooks</span> From Top Digital Creators</div>
       <div class="hero-desc">Buy premium ebooks with secure checkout, live order tracking, automated fulfillment, and instant access through the CreatorHub marketplace ecosystem.</div>
@@ -638,12 +615,10 @@
       </div>
     </div>
 
-    <!-- DYNAMIC BOOKSHELF GRID SECTION -->
     <div id="books" class="section">
       <div class="section-title">Featured Collection</div>
       <div class="section-desc">Browse latest premium ebooks uploaded by creators.</div>
       
-      <!-- CONTROLS ROW -->
       <div class="filters">
         <button class="filter-btn filter-active" onclick="filterBooks('all',this)">All Books</button>
         <button class="filter-btn" onclick="filterBooks('trending',this)">Trending</button>
@@ -651,7 +626,6 @@
         <button class="filter-btn" onclick="filterBooks('low',this)">Budget Reads</button>
       </div>
 
-      <!-- DYNAMIC CARD STORAGE TARGET -->
       <div id="booksGrid" class="books-grid">
         <div class="skeleton-grid">
           <div class="skeleton-card"></div>
@@ -663,7 +637,6 @@
       </div>
     </div>
 
-    <!-- MARKETING / PERKS ROW SECTION -->
     <div id="features" class="section">
       <div class="section-title">Why Readers Love CreatorHub</div>
       <div class="section-desc">A premium ebook buying experience with secure payments, live tracking, fulfillment systems, and trusted creators.</div>
@@ -704,7 +677,6 @@
 
   </div>
 
-  <!-- THEME ALIGNED FOOTER -->
   <footer class="footer">
     <div class="footer-grid">
       <div>
@@ -759,7 +731,6 @@
     </div>
   </footer>
 
-  <!-- SCRIPT PIPELINES -->
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec";
 
@@ -780,8 +751,9 @@
       document.getElementById("profileMenu").classList.toggle("show");
     }
 
+    // Is global click detector se outside-click par menu safely close ho jayega
     window.addEventListener("click", function(e){
-      let wrap = document.querySelector(".profile-wrap");
+      let wrap = document.getElementById("profileWrap");
       if(wrap && !wrap.contains(e.target)){
         document.getElementById("profileMenu").classList.remove("show");
       }
@@ -797,10 +769,26 @@
       let loginBtn = document.getElementById("loginBtn");
       let profileWrap = document.getElementById("profileWrap");
 
+      // LocalStorage se actual dynamic cached images fetch karke check karega
+      let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
+      let email = localStorage.getItem("creatorhub_profile_email");
+      
       if(token){
         loginBtn.style.display = "none";
         profileWrap.style.display = "flex";
-      }else{
+
+        if(cachedUser && email){
+          try {
+            let data = JSON.parse(cachedUser)[email];
+            if(data && data.profile_image){
+              document.getElementById("profileImage").src = driveImage(data.profile_image);
+              document.getElementById("menuProfileImage").src = driveImage(data.profile_image);
+              document.getElementById("menuName").innerText = data.name || "CreatorHub User";
+              document.getElementById("menuEmail").innerText = data.email || email;
+            }
+          } catch(e) { console.log("Cache parsing skipped"); }
+        }
+      } else {
         loginBtn.style.display = "inline-block";
         profileWrap.style.display = "none";
       }
