@@ -286,7 +286,6 @@ const CACHE_KEY = "creatorhub_profile_cache_v6";
 const DEFAULT_AVATAR = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Crect width='260' height='260' rx='130' fill='%23d9e1ec'/%3E%3Ccircle cx='130' cy='96' r='45' fill='%2394a3b8'/%3E%3Cpath d='M48 232c12-58 49-87 82-87s70 29 82 87' fill='%2394a3b8'/%3E%3C/svg%3E";
 const DEFAULT_COVER = `linear-gradient(110deg, rgba(37,99,235,.92), rgba(20,148,152,.9))`;
 
-// Persistent cache pointers
 const state = {
   profileImageUrl : "",
   coverImageUrl   : "",
@@ -384,7 +383,7 @@ function saveCache(email, user){
 
 async function fetchJSON(url, options, timeoutMs){
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs || 35000); // Stable threshold buffer
+  const timer = setTimeout(() => controller.abort(), timeoutMs || 35000);
   try{
     const response = await fetch(url, {
       ...(options || {}),
@@ -427,7 +426,6 @@ function fillProfile(user){
   $("totalBooks").value = user.total_books || 0;
   $("totalOrders").value = user.total_orders || 0;
 
-  // Sync existing URL tracks cleanly from sheets object row
   state.savedProfileUrl = user.profile_image || "";
   state.savedCoverUrl = user.cover_image || "";
 
@@ -450,7 +448,7 @@ function collectPayload(){
   payload.total_books = $("totalBooks").value || 0;
   payload.total_orders = $("totalOrders").value || 0;
 
-  // PRESERVE LOGIC FIX: Send raw base64 if selected, otherwise pass existing server link
+  // CHOTA ISSUE FIX: Selected base64 if it exists, otherwise keep saved cloud link
   payload.profile_image = state.profileImageUrl || state.savedProfileUrl || "";
   payload.cover_image = state.coverImageUrl || state.savedCoverUrl || "";
 
@@ -478,7 +476,7 @@ async function loadProfile(){
     state.coverImageUrl = "";
 
     fillProfile(data.user);
-    showNotice(""); // Clears template error messages container instantly
+    showNotice(""); 
     setStatus("Profile loaded.");
   }catch(err){
     showNotice("Unable to load live profile. Displaying cached structures.");
