@@ -62,7 +62,7 @@
     .topbar-left{
       display: flex;
       align-items: center;
-      gap: 20px; /* Profiles aur Logo ke beech proper spacing */
+      gap: 20px;
     }
     .brand-logo{
       display: flex;
@@ -116,7 +116,7 @@
     ===================================================== */
     .profile-wrap{
       position: relative;
-      display: none; /* Login hone par JS se flex hoga */
+      display: none;
       align-items: center;
     }
     .profile-image{
@@ -137,7 +137,7 @@
     .profile-menu{
       position: absolute;
       top: 68px;
-      left: 0; /* Menu left alignment se ab perfectly identity ke neeche khulege */
+      left: 0;
       width: 280px;
       background: #0d1628;
       border: 1px solid #182a64;
@@ -215,7 +215,7 @@
 
     /* =====================================================
     MAIN GRID CONTENT WRAPPER
-    ===================================================== */
+    ========================================================= */
     .main{
       max-width: 1400px;
       margin: auto;
@@ -299,10 +299,52 @@
     }
 
     /* =====================================================
+    SEARCH INTERFACE COMPONENT
+    ===================================================== */
+    .search-container {
+      margin-top: 40px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #dce4f0;
+      box-shadow: 0 4px 15px rgba(16, 24, 40, 0.02);
+    }
+    .search-wrapper {
+      position: relative;
+      width: 100%;
+    }
+    .search-input {
+      width: 100%;
+      padding: 16px 20px 16px 50px;
+      border-radius: 9px;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      font-size: 16px;
+      color: #101828;
+      font-weight: 500;
+      outline: none;
+      transition: all 0.25s ease;
+    }
+    .search-input:focus {
+      border-color: #2f62e9;
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.1);
+    }
+    .search-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      color: #94a3b8;
+      user-select: none;
+    }
+
+    /* =====================================================
     DYNAMIC SECTION MAPS
     ===================================================== */
     .section{
-      margin-top: 60px;
+      margin-top: 40px;
     }
     .section-title{
       font-size: 38px;
@@ -323,7 +365,7 @@
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
-      margin-top: 28px;
+      margin-top: 24px;
     }
     .filter-btn{
       min-height: 46px;
@@ -479,71 +521,10 @@
     }
 
     /* =====================================================
-    FOOTER FRAME LAYOUT
+    FOOTER ELEMENT
     ===================================================== */
-    .footer{
+    #footerContainer {
       margin-top: 100px;
-      background: #0d1628;
-      color: #fff;
-      padding: 70px 34px 40px;
-    }
-    .footer-grid{
-      max-width: 1400px;
-      margin: auto;
-      display: grid;
-      grid-template-columns: 1.5fr repeat(4, minmax(0, 1fr));
-      gap: 40px;
-    }
-    .footer-logo{
-      font-size: 28px;
-      font-weight: 950;
-      letter-spacing: -0.02em;
-    }
-    .footer-logo span{
-      color: #21b7e8;
-    }
-    .footer-text{
-      margin-top: 16px;
-      line-height: 1.6;
-      color: #63728a;
-      max-width: 300px;
-      font-size: 14px;
-    }
-    .footer-title{
-      font-size: 16px;
-      font-weight: 950;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #21b7e8;
-    }
-    .footer-links{
-      display: grid;
-      gap: 12px;
-    }
-    .footer-links a{
-      color: #e7edf8;
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 0.2s, transform 0.2s;
-    }
-    .footer-links a:hover{
-      color: #21b7e8;
-      transform: translateX(3px);
-    }
-    .footer-bottom{
-      max-width: 1400px;
-      margin: auto;
-      margin-top: 60px;
-      padding-top: 26px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 20px;
-      color: #63728a;
-      font-size: 14px;
-      font-weight: 500;
     }
 
     /* =====================================================
@@ -554,14 +535,11 @@
       .main { padding: 24px 20px 70px; }
       .hero { padding: 40px 30px; }
       .hero-title { font-size: 38px; }
-      .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media(max-width: 640px){
       .topbar-left .brand-name, .nav a { display: none; }
       .hero-actions { flex-direction: column; }
       .hero-btn { width: 100%; }
-      .footer-grid { grid-template-columns: minmax(0, 1fr); }
-      .footer-bottom { flex-direction: column; text-align: center; }
     }
   </style>
 </head>
@@ -612,6 +590,13 @@
       <div class="hero-actions">
         <a href="#books" class="hero-btn primary">Browse Marketplace</a>
         <a href="my-orders.html" class="hero-btn secondary">Track Your Order</a>
+      </div>
+    </div>
+
+    <div class="search-container">
+      <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="homepageSearch" class="search-input" placeholder="Search premium ebooks by title, author name or category keywords..." oninput="handleSearchFilter()">
       </div>
     </div>
 
@@ -677,62 +662,14 @@
 
   </div>
 
-  <footer class="footer">
-    <div class="footer-grid">
-      <div>
-        <div class="footer-logo">Creator<span>Hub</span></div>
-        <div class="footer-text">
-          Buy • Sell • Earn From Digital Products<br><br>
-          CreatorHub is a digital ebook marketplace where independent creators upload and sell digital products globally.
-        </div>
-      </div>
-      <div>
-        <div class="footer-title">Discover</div>
-        <div class="footer-links">
-          <a href="#">Trending Books</a>
-          <a href="#">Top Selling Books</a>
-          <a href="#">Highest Rated Books</a>
-          <a href="#">Authors</a>
-          <a href="#">Blog</a>
-        </div>
-      </div>
-      <div>
-        <div class="footer-title">Learn</div>
-        <div class="footer-links">
-          <a href="#">Guides</a>
-          <a href="#">Learning Center</a>
-          <a href="#">Earning Tips</a>
-          <a href="#">Editorial Policy</a>
-        </div>
-      </div>
-      <div>
-        <div class="footer-title">Legal</div>
-        <div class="footer-links">
-          <a href="#">About</a>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms & Conditions</a>
-          <a href="#">Platform Rules</a>
-          <a href="#">Disclaimer</a>
-        </div>
-      </div>
-      <div>
-        <div class="footer-title">Support</div>
-        <div class="footer-links">
-          <a href="#">FAQ</a>
-          <a href="#">Support Center</a>
-          <a href="#">Contact</a>
-          <a href="#">Sitemap</a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div>© 2026 CreatorHub Marketplace</div>
-      <div>Secure Payments • Live Tracking • Creator Earnings</div>
-    </div>
-  </footer>
+  <div id="footerContainer"></div>
 
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec";
+
+    // GLOBAL CACHE STORAGE FOR FILTERS
+    window.MASTER_CATALOG_POOL = [];
+    window.CURRENT_ACTIVE_FILTER_TYPE = "all";
 
     function driveImage(url){
       if(!url) return "";
@@ -751,7 +688,6 @@
       document.getElementById("profileMenu").classList.toggle("show");
     }
 
-    // Is global click detector se outside-click par menu safely close ho jayega
     window.addEventListener("click", function(e){
       let wrap = document.getElementById("profileWrap");
       if(wrap && !wrap.contains(e.target)){
@@ -768,8 +704,6 @@
       let token = localStorage.getItem("user_token");
       let loginBtn = document.getElementById("loginBtn");
       let profileWrap = document.getElementById("profileWrap");
-
-      // LocalStorage se actual dynamic cached images fetch karke check karega
       let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
       let email = localStorage.getItem("creatorhub_profile_email");
       
@@ -805,9 +739,9 @@
           return;
         }
 
-        let books = data.products.reverse();
-        window.ALL_BOOKS = books;
-        renderBooks(books);
+        // Filter and update globally cached tracking master collection pools safely
+        window.MASTER_CATALOG_POOL = data.products.reverse();
+        renderBooks(window.MASTER_CATALOG_POOL);
       }catch(err){
         document.getElementById("booksGrid").innerHTML = "<div style='grid-column:1/-1; text-align:center; color:#ef4444; padding:40px 0; font-weight:700;'>Failed to load ebooks</div>";
       }
@@ -818,7 +752,7 @@
       grid.innerHTML = "";
 
       if(books.length === 0){
-        grid.innerHTML = "<div style='grid-column:1/-1; text-align:center; color:#63728a; padding:40px 0; font-weight:700;'>No books match this filter</div>";
+        grid.innerHTML = "<div style='grid-column:1/-1; text-align:center; color:#63728a; padding:40px 0; font-weight:700;'>No books match your criteria</div>";
         return;
       }
 
@@ -836,33 +770,61 @@
       });
     }
 
+    /* REAL-TIME ADAPTIVE SEARCH FILTER LOGIC SYSTEM */
+    function handleSearchFilter() {
+      const searchToken = document.getElementById("homepageSearch").value.toLowerCase().trim();
+      let structuralBaseCollection = window.MASTER_CATALOG_POOL || [];
+
+      // Phase 1: Apply type category constraints first
+      if(window.CURRENT_ACTIVE_FILTER_TYPE === "trending") {
+        structuralBaseCollection = structuralBaseCollection.filter(b => Number(b.price||0) >= 300);
+      } else if(window.CURRENT_ACTIVE_FILTER_TYPE === "high") {
+        structuralBaseCollection = structuralBaseCollection.filter(b => String(b.title||"").length > 15);
+      } else if(window.CURRENT_ACTIVE_FILTER_TYPE === "low") {
+        structuralBaseCollection = structuralBaseCollection.filter(b => Number(b.price||0) < 300);
+      }
+
+      // Phase 2: Intersect text specifications mapping loops variables
+      let multiFilteredResults = structuralBaseCollection.filter(bookItem => {
+        return (
+          (bookItem.title && bookItem.title.toLowerCase().includes(searchToken)) ||
+          (bookItem.author && bookItem.author.toLowerCase().includes(searchToken)) ||
+          (bookItem.category && bookItem.category.toLowerCase().includes(searchToken))
+        );
+      });
+
+      renderBooks(multiFilteredResults);
+    }
+
     function filterBooks(type, button){
       document.querySelectorAll(".filter-btn").forEach(btn=>{
         btn.classList.remove("filter-active");
       });
       button.classList.add("filter-active");
 
-      let books = window.ALL_BOOKS || [];
+      window.CURRENT_ACTIVE_FILTER_TYPE = type;
+      handleSearchFilter(); // Re-trigger mapping to intersect search inputs safely
+    }
 
-      if(type === "all"){
-        renderBooks(books);
-        return;
-      }
-      if(type === "trending"){
-        renderBooks(books.filter(b => Number(b.price||0) >= 300));
-        return;
-      }
-      if(type === "high"){
-        renderBooks(books.filter(b => String(b.title||"").length > 15));
-        return;
-      }
-      if(type === "low"){
-        renderBooks(books.filter(b => Number(b.price||0) < 300));
+    /* ASYNC FOOTER HTML LOADER MODULE */
+    async function injectExternalFooter(){
+      try {
+        let footerRes = await fetch("footer.html");
+        if(footerRes.ok) {
+          let footerHTML = await footerRes.text();
+          document.getElementById("footerContainer").innerHTML = footerHTML;
+        } else {
+          throw new Error("Footer reference path invalid");
+        }
+      } catch(e) {
+        console.error("External footer stream injection dropped fallback trace:", e);
       }
     }
 
+    // Trigger central script runtime paths execution
     updateLoginUI();
     loadBooks();
+    injectExternalFooter();
   </script>
 </body>
 </html>
