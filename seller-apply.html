@@ -1,232 +1,649 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Become a Seller</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Become a Seller - CreatorHub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family: 'Poppins', sans-serif;
-}
+  <style>
+    /* =====================================================
+    CORE RESET & CREATORHUB PREMIUM THEME INTERFACES
+    ===================================================== */
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body{
+      background: #f6f8fc;
+      color: #101828;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
 
-body{
-height:100vh;
-background: linear-gradient(135deg,#6a11cb,#2575fc);
-display:flex;
-align-items:center;
-justify-content:center;
-position:relative;
-}
+    ::-webkit-scrollbar{
+      width: 6px;
+    }
+    ::-webkit-scrollbar-thumb{
+      background: #3157c9;
+      border-radius: 20px;
+    }
 
-/* BACK BUTTON */
-.back-btn{
-position:absolute;
-top:20px;
-left:20px;
-font-size:22px;
-cursor:pointer;
-color:#fff;
-background: rgba(255,255,255,0.2);
-padding:8px 12px;
-border-radius:50%;
-}
+    /* =====================================================
+    TOPBAR / NAVIGATION LAYER
+    ===================================================== */
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      min-height: 114px;
+      background: #fff;
+      border-bottom: 1px solid #dce4f0;
+      padding: 26px 34px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .topbar-left{
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .brand-logo{
+      display: flex;
+      align-items: center;
+    }
+    .brand-name{
+      font-size: 25px;
+      font-weight: 950;
+      color: #06142c;
+      letter-spacing: -0.02em;
+    }
+    .brand-name span{
+      color: #2f62e9;
+    }
+    .back-btn{
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 800;
+      color: #5d6d85;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s ease;
+    }
+    .back-btn:hover{
+      color: #2f62e9;
+    }
+    .badge{
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: #eef3f9;
+      color: #2f62e9;
+      font-weight: 950;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      border: 1px solid rgba(49, 87, 201, 0.1);
+    }
 
-/* CARD */
-.container{
-width:350px;
-padding:30px;
-border-radius:20px;
-background: rgba(255,255,255,0.1);
-backdrop-filter: blur(15px);
-color:#fff;
-}
+    /* =====================================================
+    PROFILE BLOCK Dropdown Menu
+    ===================================================== */
+    .profile-wrap{
+      position: relative;
+      display: none;
+      align-items: center;
+    }
+    .profile-image{
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #d9e1ec;
+      border: 3px solid #fff;
+      box-shadow: 0 8px 20px rgba(16, 24, 40, 0.12);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      cursor: pointer;
+    }
+    .profile-image:hover{
+      transform: scale(1.04);
+      border-color: #2f62e9;
+    }
+    .profile-menu{
+      position: absolute;
+      top: 68px;
+      left: 0;
+      width: 280px;
+      background: #0d1628;
+      border: 1px solid #182a64;
+      border-radius: 14px;
+      padding: 20px;
+      display: none;
+      box-shadow: 0 20px 45px rgba(16, 24, 40, 0.25);
+      z-index: 1000;
+    }
+    .profile-menu.show{
+      display: block;
+      animation: menuFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes menuFadeIn{
+      from { opacity: 0; transform: translateY(8px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .profile-header{
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 14px;
+    }
+    .menu-profile-image{
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    #menuName{
+      color: #fff;
+      font-size: 16px;
+      font-weight: 800;
+    }
+    #menuEmail{
+      margin-top: 3px;
+      font-size: 13px;
+      color: #63728a;
+      word-break: break-all;
+    }
+    .profile-menu a{
+      display: flex;
+      align-items: center;
+      height: 46px;
+      padding: 0 14px;
+      border-radius: 8px;
+      color: #e7edf8;
+      font-size: 15px;
+      font-weight: 700;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .profile-menu a:hover{
+      background: #182a64;
+      transform: translateX(4px);
+    }
+    .logout-btn{
+      margin-top: 14px;
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ef4444;
+      color: #fff;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .logout-btn:hover{
+      opacity: 0.9;
+    }
 
-h2{
-text-align:center;
-margin-bottom:20px;
-}
+    /* =====================================================
+    MAIN CONTAINERS & LAYOUT HEADERS
+    ===================================================== */
+    .main{
+      max-width: 1300px;
+      margin: auto;
+      padding: 36px 24px 90px;
+    }
+    .header{
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .icon{
+      width: 80px;
+      height: 80px;
+      margin: auto;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      background: #eef3f9;
+      color: #2f62e9;
+      border: 1px solid #dce4f0;
+      box-shadow: 0 10px 35px rgba(16, 24, 40, 0.05);
+    }
+    h1{
+      margin-top: 20px;
+      font-size: 43px;
+      font-weight: 950;
+      color: #06142c;
+      letter-spacing: -0.02em;
+    }
+    .desc{
+      margin-top: 10px;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #63728a;
+      max-width: 750px;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
-.input{
-margin-bottom:15px;
-}
+    /* =====================================================
+    GRID ARCHITECTURE (Split Information vs Form Card)
+    ===================================================== */
+    .grid{
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 32px;
+      margin-top: 40px;
+      align-items: start;
+    }
+    @media(max-width: 1000px){
+      .grid{ grid-template-columns: 1fr; }
+    }
 
-.input input{
-width:100%;
-padding:12px;
-border:none;
-border-radius:10px;
-background: rgba(255,255,255,0.2);
-color:#fff;
-}
+    .card{
+      background: #fff;
+      border: 1px solid #dce4f0;
+      border-radius: 9px;
+      padding: 36px;
+      box-shadow: 0 18px 45px rgba(16,24,40,.04);
+    }
+    .card-title{
+      font-size: 22px;
+      font-weight: 950;
+      color: #06142c;
+      margin-bottom: 24px;
+      letter-spacing: -0.01em;
+    }
 
-button{
-width:100%;
-padding:12px;
-border:none;
-border-radius:10px;
-background:#00ffcc;
-color:#000;
-font-weight:bold;
-cursor:pointer;
-}
+    /* =====================================================
+    INPUT MANAGEMENT STRUCTURE
+    ===================================================== */
+    .input-field {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+    .input-field label {
+      font-size: 13px;
+      font-weight: 800;
+      color: #26364f;
+    }
+    .input-field input{
+      width: 100%;
+      min-height: 54px;
+      border: 1px solid #d9e3f0;
+      border-radius: 9px;
+      background: #fff;
+      color: #101828;
+      outline: none;
+      padding: 12px 14px;
+      font-size: 15px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .input-field input:focus{
+      border-color: #3157c9;
+      box-shadow: 0 0 0 4px rgba(49, 87, 201, 0.12);
+    }
 
-.status{
-margin-top:15px;
-text-align:center;
-font-weight:bold;
-}
+    /* BUTTON ACTION */
+    button {
+      width: 100%;
+      min-height: 54px;
+      border: none;
+      border-radius: 9px;
+      background: #2f62e9;
+      color: #fff;
+      font-weight: 900;
+      font-size: 16px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s ease;
+    }
+    button:hover {
+      background: #2455cf;
+    }
 
-.success{ color:#00ffcc; }
-.pending{ color:yellow; }
-.rejected{ color:#ff4d4d; }
+    /* =====================================================
+    REAL-TIME APP STATUS STATES
+    ===================================================== */
+    .status {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 800;
+      font-size: 15px;
+      display: none;
+    }
+    .status.success { display: block; background: #e7f8ef; color: #0f9f57; border: 1px solid rgba(15, 159, 87, 0.15); }
+    .status.pending { display: block; background: #fff7df; color: #b7791f; border: 1px solid rgba(183, 121, 31, 0.15); }
+    .status.rejected { display: block; background: #fef2f2; color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.15); }
 
-.loader{
-display:none;
-margin:auto;
-border:4px solid rgba(255,255,255,0.2);
-border-top:4px solid #fff;
-border-radius:50%;
-width:30px;
-height:30px;
-animation:spin 1s linear infinite;
-}
+    /* LOADER PRELOADER EFFECT */
+    .loader {
+      display: none;
+      margin: 20px auto 0;
+      width: 28px;
+      height: 28px;
+      border: 3px solid #dce4f0;
+      border-top-color: #2f62e9;
+      border-radius: 50%;
+      animation: spinLoader 0.8s linear infinite;
+    }
+    @keyframes spinLoader {
+      to { transform: rotate(360deg); }
+    }
 
-@keyframes spin{
-0%{transform:rotate(0);}
-100%{transform:rotate(360deg);}
-}
-</style>
+    /* LEFT INFO BLOCKS SECTIONS */
+    .info-list {
+      display: grid;
+      gap: 20px;
+    }
+    .info-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 20px;
+      background: #fff;
+      border: 1px solid #dce4f0;
+      border-radius: 9px;
+      box-shadow: 0 8px 24px rgba(16,24,40,.01);
+    }
+    .info-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: #eef3f9;
+      color: #2f62e9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .info-text h3 {
+      font-size: 17px;
+      font-weight: 900;
+      color: #06142c;
+      margin-bottom: 4px;
+    }
+    .info-text p {
+      color: #63728a;
+      font-size: 14px;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    /* =====================================================
+    FOOTER TERMINAL SPECIFICATION
+    ===================================================== */
+    .footer {
+      margin-top: 80px;
+      text-align: center;
+      line-height: 1.6;
+      color: #63728a;
+      font-size: 14px;
+      font-weight: 500;
+      border-top: 1px solid #dce4f0;
+      padding-top: 24px;
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- BACK BUTTON -->
-<div class="back-btn" onclick="goHome()">←</div>
+  <!-- TOPBAR NAVIGATION LAYER -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div id="profileWrap" class="profile-wrap">
+        <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile View">
+        
+        <div id="profileMenu" class="profile-menu">
+          <div class="profile-header">
+            <img id="menuProfileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="menu-profile-image" alt="User">
+            <div>
+              <div id="menuName">CreatorHub User</div>
+              <div id="menuEmail">user@email.com</div>
+            </div>
+          </div>
+          <a href="profile.html">My Profile</a>
+          <a class="active" href="seller-apply.html">Become Seller</a>
+          <a href="tranding.html">Trending Books</a>
+          <a href="library.html">Library</a>
+          <a href="topselling.html">Top Selling</a>
+          <div class="logout-btn" onclick="logout()">Logout</div>
+        </div>
+      </div>
 
-<div class="container">
-<h2>Become a Seller</h2>
+      <div class="back-btn" onclick="goHome()"><i class="fa-solid fa-arrow-left"></i> Back to Home</div>
+    </div>
 
-<div class="input">
-<input type="text" id="name" placeholder="Full Name">
-</div>
+    <a class="brand-logo" href="./dashboard.html">
+      <span class="brand-name">Creator<span>Hub</span></span>
+    </a>
 
-<div class="input">
-<input type="text" id="phone" placeholder="Phone Number">
-</div>
+    <div class="badge">Seller Portal</div>
+  </div>
 
-<div class="input">
-<input type="text" id="upi" placeholder="UPI ID">
-</div>
+  <!-- CONTAINER SYSTEM WRAPPER -->
+  <div class="main">
+    
+    <!-- CONTEXT INTRO BLOCK -->
+    <div class="header">
+      <div class="icon"><i class="fa-solid fa-store"></i></div>
+      <h1>Become a Creator & Seller</h1>
+      <p class="desc">Join the CreatorHub digital ecosystem. Monetize your premium ebooks, track automated withdrawals, and reach readers globally.</p>
+    </div>
 
-<button onclick="applySeller()">Apply Now</button>
+    <!-- MAIN CORE FORM MATRIX GRID -->
+    <div class="grid">
+      
+      <!-- LEFT MODULE: PROGRAM VALUES AND PERKS -->
+      <div class="info-list">
+        <div class="info-item">
+          <div class="info-icon"><i class="fa-solid fa-bolt"></i></div>
+          <div class="info-text">
+            <h3>Automated AI Approvals</h3>
+            <p>Our intelligent fraud detection system cross-verifies details to approve authentic applications instantly.</p>
+          </div>
+        </div>
 
-<div class="loader" id="loader"></div>
-<div class="status" id="status"></div>
+        <div class="info-item">
+          <div class="info-icon"><i class="fa-solid fa-wallet"></i></div>
+          <div class="info-text">
+            <h3>Direct UPI Settlements</h3>
+            <p>Earn directly into your secure wallet. Once approved, manage payouts directly to your registered UPI handle.</p>
+          </div>
+        </div>
 
-</div>
+        <div class="info-item">
+          <div class="info-icon"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="info-text">
+            <h3>Fulfillment Network Protection</h3>
+            <p>Access our seamless automatic digital delivery and nationwide courier print publishing infrastructure channels.</p>
+          </div>
+        </div>
+      </div>
 
-<script>
+      <!-- RIGHT MODULE: ONBOARDING INTERACTIVE FORM CARD -->
+      <div class="card">
+        <div class="card-title">Registration Form</div>
+        
+        <div class="input-field">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" placeholder="Enter your full name">
+        </div>
 
-/* ================= CONFIG ================= */
+        <div class="input-field">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" placeholder="Enter 10-digit mobile number">
+        </div>
 
-const API = "https://script.google.com/macros/s/AKfycby78v_g_Of7t49vF1Rccn52ObqaSAcm6DLcIB_-3ATqDLHfaLr-jk82BZi5hmw3Al92aw/exec"
+        <div class="input-field">
+          <label for="upi">UPI ID</label>
+          <input type="text" id="upi" placeholder="username@bank">
+        </div>
 
-/* ================= BACK ================= */
+        <button onclick="applySeller()">Apply to Become Seller <i class="fa-solid fa-paper-plane"></i></button>
 
-function goHome(){
-window.location.href = "index.html";
-}
+        <div class="loader" id="loader"></div>
+        <div id="status"></div>
+      </div>
 
-/* ================= APPLY ================= */
+    </div>
 
-async function applySeller(){
+    <!-- TERMINAL PLATFORM FOOTER -->
+    <div class="footer">
+      Secure Marketplace Onboarding Infrastructure • Automated Verification Pipeline
+    </div>
+  </div>
 
-const name = document.getElementById("name").value.trim();
-const phone = document.getElementById("phone").value.trim();
-const upi = document.getElementById("upi").value.trim();
+  <!-- STREAM PIPELINE LOGICS -->
+  <script>
+    const API = "https://script.google.com/macros/s/AKfycby78v_g_Of7t49vF1Rccn52ObqaSAcm6DLcIB_-3ATqDLHfaLr-jk82BZi5hmw3Al92aw/exec";
 
-/* 🔥 GET USER DATA */
-const user = JSON.parse(localStorage.getItem("user") || "{}");
-const email = user.email;
+    function driveImage(url){
+      if(!url) return "";
+      if(url.includes("uc?id=")){
+        let id = url.split("id=")[1].split("&")[0];
+        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+      }
+      if(url.includes("/d/")){
+        let id = url.split("/d/")[1].split("/")[0];
+        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+      }
+      return url;
+    }
 
-const statusDiv = document.getElementById("status");
-const loader = document.getElementById("loader");
+    function toggleProfileMenu(){
+      document.getElementById("profileMenu").classList.toggle("show");
+    }
 
-/* VALIDATION */
-if(!name || !phone || !upi){
-statusDiv.innerHTML = "⚠️ Fill all fields";
-statusDiv.className = "status rejected";
-return;
-}
+    window.addEventListener("click", function(e){
+      let wrap = document.getElementById("profileWrap");
+      if(wrap && !wrap.contains(e.target)){
+        document.getElementById("profileMenu").classList.remove("show");
+      }
+    });
 
-if(!email){
-statusDiv.innerHTML = "⚠️ Login first";
-statusDiv.className = "status rejected";
-return;
-}
+    function logout(){
+      localStorage.clear();
+      window.location.href = "login.html";
+    }
 
-/* LOADING */
-loader.style.display = "block";
-statusDiv.innerHTML = "";
+    function goHome(){
+      window.location.href = "index.html";
+    }
 
-try{
+    function updateLoginUI(){
+      let token = localStorage.getItem("user_token");
+      let profileWrap = document.getElementById("profileWrap");
 
-/* 🔥 GET REQUEST (NO NETWORK ERROR) */
-const url = `${API}?action=apply_seller&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&upi=${encodeURIComponent(upi)}`;
+      let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
+      let email = localStorage.getItem("creatorhub_profile_email");
+      
+      if(token || localStorage.getItem("user")){
+        profileWrap.style.display = "flex";
 
-const res = await fetch(url);
-const data = await res.json();
+        if(cachedUser && email){
+          try {
+            let data = JSON.parse(cachedUser)[email];
+            if(data && data.profile_image){
+              document.getElementById("profileImage").src = driveImage(data.profile_image);
+              document.getElementById("menuProfileImage").src = driveImage(data.profile_image);
+              document.getElementById("menuName").innerText = data.name || "CreatorHub User";
+              document.getElementById("menuEmail").innerText = data.email || email;
+            }
+          } catch(e) { console.log("Cache compilation processing bypassed"); }
+        }
+      }
+    }
 
-loader.style.display = "none";
+    async function applySeller(){
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const upi = document.getElementById("upi").value.trim();
 
-/* RESPONSE */
-if(data.success){
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      const email = user.email;
 
-if(data.status === "approved"){
-statusDiv.innerHTML = "✅ Approved!";
-statusDiv.className = "status success";
-}
-else if(data.status === "pending"){
-statusDiv.innerHTML = "⏳ Pending";
-statusDiv.className = "status pending";
-}
-else{
-statusDiv.innerHTML = "❌ Rejected";
-statusDiv.className = "status rejected";
-}
+      const statusDiv = document.getElementById("status");
+      const loader = document.getElementById("loader");
 
-}else{
-statusDiv.innerHTML = "❌ Error";
-statusDiv.className = "status rejected";
-}
+      statusDiv.style.display = "none";
 
-}catch(err){
+      if(!name || !phone || !upi){
+        statusDiv.innerHTML = "⚠️ Please fill all fields";
+        statusDiv.className = "status rejected";
+        statusDiv.style.display = "block";
+        return;
+      }
 
-loader.style.display = "none";
-statusDiv.innerHTML = "⚠️ Network error";
-statusDiv.className = "status rejected";
+      if(!email){
+        statusDiv.innerHTML = "⚠️ Session missing. Please login first";
+        statusDiv.className = "status rejected";
+        statusDiv.style.display = "block";
+        return;
+      }
 
-}
+      loader.style.display = "block";
+      statusDiv.innerHTML = "";
 
-}
+      try{
+        const url = `${API}?action=apply_seller&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&upi=${encodeURIComponent(upi)}`;
+        const res = await fetch(url);
+        const data = await res.json();
 
-/* ================= AUTO FILL ================= */
+        loader.style.display = "none";
 
-window.onload = () => {
+        if(data.success){
+          if(data.status === "approved"){
+            statusDiv.innerHTML = "🎉 Congratulations! Application Approved Successfully.";
+            statusDiv.className = "status success";
+          }
+          else if(data.status === "pending"){
+            statusDiv.innerHTML = "⏳ Application Under Review. AI Screening Pending.";
+            statusDiv.className = "status pending";
+          }
+          else{
+            statusDiv.innerHTML = "❌ Application Verification Failed / Rejected.";
+            statusDiv.className = "status rejected";
+          }
+        }else{
+          statusDiv.innerHTML = "❌ Framework integration error processing application";
+          statusDiv.className = "status rejected";
+        }
+        statusDiv.style.display = "block";
+      }catch(err){
+        loader.style.display = "none";
+        statusDiv.innerHTML = "⚠️ Network timeout interfacing with the security database tunnel.";
+        statusDiv.className = "status rejected";
+        statusDiv.style.display = "block";
+      }
+    }
 
-const user = JSON.parse(localStorage.getItem("user") || "{}");
-
-if(user.name){
-document.getElementById("name").value = user.name;
-}
-
-}
-
-</script>
-
+    window.onload = () => {
+      updateLoginUI();
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      if(user.name){
+        document.getElementById("name").value = user.name;
+      }
+    }
+  </script>
 </body>
 </html>
