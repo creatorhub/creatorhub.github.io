@@ -385,7 +385,7 @@
     }
 
     /* =====================================================
-    TRANSACTION LOG COMPONENTS
+    TRANSACTION LOG COMPONENTS WITH SEE ALL
     ===================================================== */
     .section-title{
       font-size: 22px;
@@ -406,6 +406,11 @@
       border-radius: 9px;
       background: #f6f8fc;
       border: 1px solid #dce4f0;
+      transition: all 0.2s ease;
+    }
+    /* Dynamic control class for hidden elements */
+    .txn.hidden-item {
+      display: none !important;
     }
     .txn-left{
       display: flex;
@@ -440,6 +445,30 @@
     }
     .credit{ color: #0f9f57; }
     .debit{ color: #ef4444; }
+
+    /* See All Trigger Button Style */
+    .see-all-container {
+      margin-top: 18px;
+      text-align: center;
+    }
+    .see-all-btn {
+      background: #eef3f9;
+      color: #2f62e9;
+      border: 1px solid rgba(49, 87, 201, 0.1);
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .see-all-btn:hover {
+      background: #2f62e9;
+      color: #fff;
+    }
 
     .empty{
       padding: 40px;
@@ -549,11 +578,15 @@
           </div>
         </div>
 
-        <!-- HISTORY LEDGER -->
+        <!-- HISTORY LEDGER WITH SEE ALL OVERLAY -->
         <div class="card" style="margin-top:28px;">
           <div class="section-title">Transaction History</div>
           <div id="transactions" class="transactions">
             <div class="empty">Loading transactions history...</div>
+          </div>
+          <!-- Dynamic Hide button element container -->
+          <div id="seeAllContainer" class="see-all-container" style="display: none;">
+            <button id="seeAllBtn" class="see-all-btn" onclick="toggleTransactionsLayout()">See All <i class="fa-solid fa-chevron-down"></i></button>
           </div>
         </div>
       </div>
@@ -615,6 +648,7 @@
 
     let USER = JSON.parse(localStorage.getItem("user") || "{}");
     const USER_EMAIL = USER.email || "";
+    let isListExpanded = false; // Layout control tracking flag
 
     function driveImage(url){
       if(!url) return "";
@@ -691,6 +725,23 @@
       }catch(err){ console.log(err); }
     }
 
+    // Safe parsing algorithm designed specifically to avoid standard Invalid Date Errors
+    function safeParseDate(dateStr) {
+      if(!dateStr) return new Date();
+      // Safely standardizes formats with special commas/slashes
+      let cleaned = String(dateStr).replace(/,/g, "").replace(/-/g, "/").trim();
+      let d = new Date(cleaned);
+      if (isNaN(d.getTime())) {
+        // Fallback processing structure if string is still unparsed
+        let parts = cleaned.split(/[\s/:]+/);
+        if(parts.length >= 3) {
+          return new Date(); 
+        }
+        return new Date();
+      }
+      return d;
+    }
+
     async function loadTransactions(){
       if(!USER_EMAIL){
         document.getElementById("transactions").innerHTML = '<div class="empty">Please login first.</div>';
@@ -708,22 +759,32 @@
 
         if(!data.success || !data.transactions || data.transactions.length===0){
           box.innerHTML = '<div class="empty">No transactions found yet.</div>';
+          document.getElementById("seeAllContainer").style.display = "none";
           return;
         }
 
         box.innerHTML="";
-        data.transactions.reverse().forEach(txn=>{
+        let txns = data.transactions.reverse();
+
+        txns.forEach((txn, index)=>{
           let type = txn.type || "credit";
           let icon = type==="withdraw" ? "↗" : "₹";
           let amountClass = type==="withdraw" ? "debit" : "credit";
+          
+          // Injected safe parsed date object compilation string
+          let dateObj = safeParseDate(txn.created_at || txn.date);
+          let displayDate = dateObj.toLocaleString("en-IN", { hour12: true });
+
+          // 4 items se zada hone par automatic structural items hidden class me chale jayenge
+          let hideClass = index >= 4 ? "hidden-item" : "";
 
           box.innerHTML += `
-            <div class="txn">
+            <div class="txn ${hideClass}">
               <div class="txn-left">
                 <div class="txn-icon">${icon}</div>
                 <div>
                   <h3>${txn.message || "Transaction"}</h3>
-                  <p>${new Date(txn.created_at).toLocaleString()}</p>
+                  <p>${displayDate}</p>
                 </div>
               </div>
               <div class="txn-amount ${amountClass}">
@@ -732,7 +793,38 @@
             </div>
           `;
         });
+
+        // Agar list items total 4 se badi hai tabhi view module active hoga
+        if(txns.length > 4) {
+          document.getElementById("seeAllContainer").style.display = "block";
+        } else {
+          document.getElementById("seeAllContainer").style.display = "none";
+        }
+
+        isListExpanded = false;
       }catch(err){ console.log(err); }
+    }
+
+    // Dynamic UI Toggle expansion logic to seamlessly handle the layouts without displacements
+    function toggleTransactionsLayout() {
+      let hiddenItems = document.querySelectorAll(".transactions .txn");
+      let btn = document.getElementById("seeAllBtn");
+
+      if(!isListExpanded) {
+        // Expand list layout view
+        hiddenItems.forEach((item, index) => {
+          if(index >= 4) item.style.setProperty("display", "flex", "important");
+        });
+        btn.innerHTML = 'View Less <i class="fa-solid fa-chevron-up"></i>';
+        isListExpanded = true;
+      } else {
+        // Shrink back list items down to equal alignment standard state
+        hiddenItems.forEach((item, index) => {
+          if(index >= 4) item.style.setProperty("display", "none", "important");
+        });
+        btn.innerHTML = 'See All <i class="fa-solid fa-chevron-down"></i>';
+        isListExpanded = false;
+      }
     }
 
     async function withdrawMoney(){
@@ -770,7 +862,17 @@
     }
 
     function scrollWithdraw(){
-      document.getElementById("withdrawTarget").scrollIntoView({ behavior: "smooth" });
+      const target = document.getElementById("withdrawTarget");
+      const offset = 140;
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const targetRect = target.getBoundingClientRect().top;
+      const targetPosition = targetRect - bodyRect;
+      const offsetPosition = targetPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
     }
 
     updateLoginUI();
