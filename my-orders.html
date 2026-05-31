@@ -456,6 +456,7 @@
 
 <body>
 
+  <!-- TOPBAR NAVIGATION LAYER -->
   <div class="topbar">
     <div class="topbar-left">
       <div id="profileWrap" class="profile-wrap">
@@ -488,14 +489,17 @@
     <div class="badge">My Orders</div>
   </div>
 
+  <!-- CONTAINER CONTEXT SYSTEM FRAME -->
   <div class="main">
     
+    <!-- CONTEXT HEADER -->
     <div class="header">
       <div class="icon"><i class="fa-solid fa-box-open"></i></div>
       <h1>My Orders</h1>
       <p class="desc">Manage your CreatorHub ebook purchases, monitor payment status, view live fulfillment progress, and access order tracking in real-time.</p>
     </div>
 
+    <!-- METRICS CARD ROW -->
     <div class="stats">
       <div class="stat">
         <h3>Total Orders</h3>
@@ -511,6 +515,7 @@
       </div>
     </div>
 
+    <!-- CARD RENDER TARGET HOOK CONTAINER -->
     <div id="ordersContainer">
       <div class="empty">
         <div class="empty-icon"><i class="fa-solid fa-circle-notch fa-spin" style="color: #2f62e9;"></i></div>
@@ -519,6 +524,7 @@
       </div>
     </div>
 
+    <!-- COMPLIANCE TERMINAL SECTION -->
     <div class="footer">
       CreatorHub secure ecommerce infrastructure powered by automated order synchronization and real-time tracking systems.<br>
       All orders are loaded directly from your live backend database.
@@ -526,8 +532,10 @@
 
   </div>
 
+  <!-- CORE INTEGRATED ENGINES -->
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbx2g1ZxS8_var6e35p06AVDEiYRGu-cKE5boAtr762x4JA_6qMaKfso32cOfVkeTeUq/exec";
+    // Live endpoints dynamically restored from working configurations
+    const API_URL = "https://script.google.com/macros/s/AKfycbz9g1ZxS8_var6e35p06AVDEiYRGu-cKE5boAtr762x4JA_6qMaKfso32cOfVkeTeUq/exec";
     const PRODUCT_API = "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec";
 
     function driveImage(url){
@@ -588,7 +596,7 @@
     }
 
     /* =====================================================
-    ⚡ PREMIUM HIGH-VELOCITY PARALLEL FETCH ENGINE
+    ORIGINAL FULL WORKING ORDER STREAM COMPILER
     ===================================================== */
     async function loadOrders(){
       try{
@@ -606,14 +614,9 @@
           return;
         }
 
-        // Promise.all se dono request ek sath (parallel) chalingi, wait time aadha ho jayega
-        const [ordersResponse, productsResponse] = await Promise.all([
-          fetch(API_URL + "?action=getOrders&email=" + encodeURIComponent(userEmail)),
-          fetch(PRODUCT_API + "?action=products")
-        ]);
-
-        const data = await ordersResponse.json();
-        const productsData = await productsResponse.json();
+        // Live original chronological dynamic sync fetching logic
+        let res = await fetch(API_URL + "?action=getOrders&email=" + encodeURIComponent(userEmail));
+        let data = await res.json();
 
         if(!data.success || !data.orders || !data.orders.length){
           document.getElementById("ordersContainer").innerHTML = `
@@ -627,9 +630,12 @@
         }
 
         let orders = data.orders.reverse();
+
+        let productsRes = await fetch(PRODUCT_API + "?action=products");
+        let productsData = await productsRes.json();
         let ALL_PRODUCTS = productsData.products || [];
 
-        // UI Metrics Updating
+        // METRICS DATA STATS
         document.getElementById("totalOrders").innerHTML = orders.length;
 
         let active = orders.filter(o => String(o.order_status || "").toLowerCase() !== "expired").length;
@@ -637,9 +643,8 @@
 
         let total = 0;
         orders.forEach(o => { total += Number(o.total_amount || 0); });
-        document.getElementById("totalSpent").innerHTML = "₹" + total.toLocaleString("en-IN", {minimumFractionDigits: 2});
+        document.getElementById("totalSpent").innerHTML = "₹" + total;
 
-        // Fast HTML String Compiling
         let html = "";
         orders.forEach(order=>{
           let product = ALL_PRODUCTS.find(p => String(p.id) === String(order.book_id));
@@ -664,7 +669,7 @@
                     <span class="status ${expired ? 'expired' : ''}">
                       ${expired ? 'Expired' : (order.order_status || 'Processing')}
                     </span>
-                    <div class="price">₹${Number(order.total_amount || 0).toFixed(2)}</div>
+                    <div class="price">₹${order.total_amount || 0}</div>
                   </div>
 
                   <div class="meta-grid">
@@ -682,7 +687,7 @@
                     </div>
                     <div class="meta-box">
                       <div class="meta-label">Order Date</div>
-                      <div class="meta-value">${new Date(order.created_at).toLocaleDateString("en-IN")}</div>
+                      <div class="meta-value">${new Date(order.created_at).toLocaleDateString()}</div>
                     </div>
                   </div>
 
