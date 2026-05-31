@@ -12,15 +12,15 @@
    CREATORHUB STANDARD LIGHT UI INTERFACE VARIABLES
    ========================================================= */
 :root {
-    --bg-primary: #f8fafc;       /* Subtle canvas slate white */
-    --bg-secondary: #ffffff;     /* Pure high-fidelity white panels */
-    --text-primary: #0f172a;     /* Deep slate font weights */
-    --text-secondary: #475569;   /* Muted text layout labels */
+    --bg-primary: #f8fafc;       
+    --bg-secondary: #ffffff;     
+    --text-primary: #0f172a;     
+    --text-secondary: #475569;   
     --text-muted: #94a3b8;
-    --accent-blue: #2563eb;     /* Platform Royal Blue */
+    --accent-blue: #2563eb;     
     --accent-blue-hover: #1d4ed8;
     --accent-blue-light: #eff6ff;
-    --accent-red: #ef4444;       /* Remove action text color red */
+    --accent-red: #ef4444;       
     --border-color: #e2e8f0;
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.02);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
@@ -122,6 +122,7 @@ body{
     border: 1px solid var(--border-color);
     box-shadow: var(--shadow-sm);
     align-items: center;
+    cursor: pointer; /* Clickable card indicate karne ke liye */
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -281,7 +282,7 @@ body{
 .spinner {
     width: 26px;
     height: 26px;
-    border: 3px solid var(--border-color);
+    border: 3px solid #cbd5e1;
     border-top: 3px solid var(--accent-blue);
     border-radius: 50%;
     animation: pipelineRotation 0.8s linear infinite;
@@ -303,6 +304,7 @@ body{
 </head>
 <body>
 
+<!-- TOPBAR NAVBAR -->
 <div class="header">
     <div class="back-btn" onclick="history.back()">
         <span>←</span> Back
@@ -310,8 +312,10 @@ body{
     <div class="title">CreatorHub Marketplace</div>
 </div>
 
+<!-- CONTAINER LAYOUT CORE GRID -->
 <div class="container">
     
+    <!-- LEFT PANEL STACK -->
     <div class="left-panel-stack">
         <h2>Your Shopping Cart</h2>
         <div id="cartViewportMesh" class="cart-items-list">
@@ -322,6 +326,7 @@ body{
         </div>
     </div>
 
+    <!-- RIGHT PANEL SUMMARY FRAME CARD -->
     <div id="totalSummaryBox" class="total-summary-card" style="display:none">
         <div class="summary-headline">Order Overview</div>
         <div class="summary-row">
@@ -334,14 +339,15 @@ body{
         </div>
         <div class="summary-row">
             <div>Instant Delivery</div>
-            <div style="color: #16a34a; font-weight: 600;">FREE</div>
+            <div id="deliveryFeeContainer">₹70</div> <!-- Delivery charge ₹70 updated -->
         </div>
         <div class="grand-total-row">
             <div>Total Amount</div>
             <div id="totalPriceContainer">₹0</div>
         </div>
 
-        <button class="buy-btn-trigger" onclick="placeCartOrderTunnel()">
+        <!-- Secure Checkout click now routes to checkout.html -->
+        <button class="buy-btn-trigger" onclick="redirectToCheckout()">
             🔒 Secure Checkout
         </button>
         
@@ -353,15 +359,12 @@ body{
 </div>
 
 <script>
-/* CORE DATA CHANNEL API CONFIG HOOKS */
 const RETRIEVE_PRODUCT_API = "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
-const DISPATCH_PAYMENT_API = "https://script.google.com/macros/s/AKfycbyK8NocIvdPbMftllnwJh1EHZFhuJcISiTMoq2J8zdvQAswRoNS8llQfyW7QhHrvj_W/exec";
 
 let SYSTEM_LOCAL_CART_POOL = JSON.parse(localStorage.getItem("cart") || "[]");
 SYSTEM_LOCAL_CART_POOL = [...new Set(SYSTEM_LOCAL_CART_POOL)];
 localStorage.setItem("cart", JSON.stringify(SYSTEM_LOCAL_CART_POOL));
 
-/* Clean DOM Escaping Security String Module */
 function escapeHTMLString(contentString){
     return String(contentString).replace(/[&<>"']/g, function(matchCharacter){
         return({
@@ -370,7 +373,6 @@ function escapeHTMLString(contentString){
     });
 }
 
-/* Direct High Res Google Drive Link Thumbnail Converter */
 function resolveAssetCoverThumbnail(urlLink){
     if(!urlLink) return "https://picsum.photos/400/600";
     try {
@@ -378,11 +380,11 @@ function resolveAssetCoverThumbnail(urlLink){
         if(urlLink.includes("id=")){ extractedId = urlLink.split("id=")[1].split("&")[0]; }
         else if(urlLink.includes("/file/d/")){ extractedId = urlLink.split("/file/d/")[1].split("/")[0]; }
         if(extractedId){ return "https://drive.google.com/thumbnail?id=" + extractedId + "&sz=w500"; }
-    } catch(err) { console.error("Asset matrix thumbnail conversion fault catch trace:", err); }
+    } catch(err) { console.error("Thumbnail conversion error:", err); }
     return urlLink;
 }
 
-/* PARALLEL FETCH CORE SYSTEM INGEST Engine */
+/* PARALLEL FETCH CORE SYSTEM INGEST ENGINE */
 async function loadTargetCartMetadata(){
     const viewportMeshContainer = document.getElementById("cartViewportMesh");
     const summaryCardBoxWrapper = document.getElementById("totalSummaryBox");
@@ -406,26 +408,27 @@ async function loadTargetCartMetadata(){
 
                 if(!verifiedProductNode) return;
 
-                // STRICT BACKEND CHECK: Matches 'status === "approved"' from backend upload structures
                 if(verifiedProductNode.status && verifiedProductNode.status !== "approved") return;
                 if(verifiedProductNode.ai_status && verifiedProductNode.ai_status !== "approved") return;
 
                 compiledSubtotalPriceCount += Number(verifiedProductNode.price || 0);
                 let targetAssetImage = verifiedProductNode.front_cover || verifiedProductNode.image || "";
 
+                // Card has onclick trigger sending user to book.html page
                 htmlCompilationStringStream += `
-                    <div class="card">
+                    <div class="card" onclick="transitToTargetBookProfile('${verifiedProductNode.id}')">
                         <img src="${resolveAssetCoverThumbnail(targetAssetImage)}" onerror="this.src='https://picsum.photos/400/600'" alt="Cover Matrice">
                         <div class="info">
                             <div class="item-title">${escapeHTMLString(verifiedProductNode.title || "Untitled Creation")}</div>
                             <div class="item-price">₹${verifiedProductNode.price || 0}</div>
-                            <button class="btn-remove" onclick="executeRemoveCartItem(${indexRankingOffset})">Remove Item</button>
+                            <button class="btn-remove" onclick="executeRemoveCartItem(event, ${indexRankingOffset})">Remove Item</button>
                         </div>
                     </div>`;
             });
 
             let configurationPlatformFee = 29;
-            let finalCalculatedGrandTotal = compiledSubtotalPriceCount + configurationPlatformFee;
+            let configurationDeliveryFee = 70; // Delivery fee ₹70 set strictly
+            let finalCalculatedGrandTotal = compiledSubtotalPriceCount + configurationPlatformFee + configurationDeliveryFee;
 
             document.getElementById("subTotalContainer").innerText = "₹" + compiledSubtotalPriceCount;
             document.getElementById("totalPriceContainer").innerText = "₹" + finalCalculatedGrandTotal;
@@ -435,22 +438,26 @@ async function loadTargetCartMetadata(){
         viewportMeshContainer.innerHTML = htmlCompilationStringStream || "<div class='empty-cart-state'>🛒 Your shopping cart is empty.</div>";
 
     } catch(err) {
-        console.error("System fatal connection stream interruption exception:", err);
+        console.error("System fatal connection error:", err);
         viewportMeshContainer.innerHTML = "<div class='empty-cart-state' style='color:#ef4444; border-color:#fca5a5; background:#fff5f5;'>Failed to synchronize cart layout buffers. Please reload.</div>";
     }
 }
 
-/* REMOVE ARRAY VARIABLE FRAME HANDLERS */
-function executeRemoveCartItem(indexOffsetPosition){
+function executeRemoveCartItem(event, indexOffsetPosition){
+    event.stopPropagation(); // Prevents triggers redirecting user to book profile during card delete actions
     SYSTEM_LOCAL_CART_POOL.splice(indexOffsetPosition, 1);
     localStorage.setItem("cart", JSON.stringify(SYSTEM_LOCAL_CART_POOL));
     loadTargetCartMetadata();
 }
 
-/* DISPATCH CHECKOUT TUNNEL ROUTING CHANNELS */
-async function placeCartOrderTunnel(){
-    if(SYSTEM_LOCAL_CART_POOL.length === 0){ alert("Cart Empty"); return; }
+/* REDIRECTION SCHEMAS HOOKS */
+function transitToTargetBookProfile(targetBookIdToken){
+    location.href = "book.html?id=" + targetBookIdToken; // Open book.html on book asset clicks
+}
 
+function redirectToCheckout() {
+    if(SYSTEM_LOCAL_CART_POOL.length === 0){ alert("Cart Empty"); return; }
+    
     let cachedUserPayload = JSON.parse(localStorage.getItem("user") || "{}");
     let targetBuyerEmailString = cachedUserPayload.email || (cachedUserPayload.user && cachedUserPayload.user.email);
 
@@ -459,34 +466,11 @@ async function placeCartOrderTunnel(){
         location.href = "login.html";
         return;
     }
-
-    try {
-        let dispatchResponse = await fetch(PAYMENT_API, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                action: "create_cart_order",
-                products: SYSTEM_LOCAL_CART_POOL,
-                buyer: targetBuyerEmailString
-            })
-        });
-
-        let allocationPaymentData = await dispatchResponse.json();
-
-        if(allocationPaymentData.payment_session_id){
-            // Cashfree Sandbox production endpoint token routing direction flows
-            let secureSessionGatewayURL = "https://sandbox.cashfree.com/pg/view/payment-session-id?payment_session_id=" + allocationPaymentData.payment_session_id;
-            window.location.href = secureSessionGatewayURL;
-        } else {
-            alert(allocationPaymentData.message || "Gateway authentication tunnel mapping rejected transaction.");
-        }
-    } catch(e) {
-        console.error("Payment pipeline handshake crash fault trace exception:", e);
-        alert("Transaction processing timeout exceeded limits.");
-    }
+    
+    // Redirects explicitly to checkout.html passing first product profile ID parameters
+    location.href = "checkout.html?id=" + SYSTEM_LOCAL_CART_POOL[0];
 }
 
-// Fire system runtime synchronization initialization thread loops smoothly on load
 window.addEventListener("DOMContentLoaded", loadTargetCartMetadata);
 </script>
 </body>
