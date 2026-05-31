@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Ebook Viewer - CreatorHub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -248,7 +248,6 @@
 </head>
 <body>
 
-  <!-- TOPBAR HEADER PLATFORM -->
   <div class="topbar">
     <div class="topbar-left">
       <div id="profileWrap" class="profile-wrap">
@@ -286,7 +285,6 @@
     </div>
   </div>
 
-  <!-- CORE PDF VIEWER CONTENT STAGE -->
   <div class="viewer-container">
     <div id="loaderState" class="empty-state">
       <div style="text-align: center;">
@@ -350,9 +348,12 @@
       }
     }
 
+    /* =====================================================
+    ⚡ RESTORED ORIGINAL VIEWER EXTRACTION LOGIC
+    ===================================================== */
     function initializeBookViewer(){
       try {
-        const pdfUrl = localStorage.getItem("viewerPDF");
+        let pdfUrl = localStorage.getItem("viewerPDF");
         const bookDataRaw = localStorage.getItem("viewerBook");
 
         if(!pdfUrl) {
@@ -364,6 +365,15 @@
         if(bookDataRaw) {
           const book = JSON.parse(bookDataRaw);
           document.getElementById("bookMainTitle").innerText = `📖 Reading: ${book.title || "Premium Ebook"}`;
+        }
+
+        // Puraana fallback URL normalization pattern taaki Drive embedded content break na ho
+        if (pdfUrl.includes("open?id=")) {
+          pdfUrl = pdfUrl.replace("open?id=", "file/d/") + "/preview";
+        } else if (pdfUrl.includes("uc?id=")) {
+          pdfUrl = pdfUrl.replace("uc?id=", "file/d/") + "/preview";
+        } else if (pdfUrl.includes("/d/") && !pdfUrl.includes("/preview")) {
+          pdfUrl = pdfUrl.split("/edit")[0].split("/view")[0] + "/preview";
         }
 
         const frame = document.getElementById("pdfViewerFrame");
