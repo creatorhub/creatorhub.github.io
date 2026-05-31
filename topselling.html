@@ -1,366 +1,648 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>Top Selling Books</title><style>
-
-:root{
---bg:#020617;
---card:#111827;
---accent:#22c55e;
---orange:#f97316;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top Selling Books | CreatorHub</title>
+<style>
+/* =========================================================
+   CREATORHUB ADVANCED LIGHT DESIGN SYSTEM VARIABLE TOKENS
+   ========================================================= */
+:root {
+    --bg-primary: #f8fafc;       /* Modern soft white background */
+    --bg-secondary: #ffffff;     /* Pure white card backgrounds */
+    --text-primary: #0f172a;     /* Deep slate text colors */
+    --text-secondary: #475569;   /* Muted paragraph fonts */
+    --text-muted: #94a3b8;
+    --accent-blue: #2563eb;     /* Main Platform Royal Blue */
+    --accent-blue-hover: #1d4ed8;
+    --accent-blue-light: #eff6ff;
+    --accent-orange: #f97316;    /* Top seller badge color orange */
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.02);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
 }
 
 *{
-box-sizing:border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
-
-/* PAGE */
 
 body{
-margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:var(--bg);
-color:white;
-animation:fadePage .6s ease;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
-/* HEADER */
-
+/* =========================================================
+   NAVBAR LAYER
+   ========================================================= */
 .header{
-display:flex;
-align-items:center;
-padding:16px;
-border-bottom:1px solid #1f2937;
-background:#020617;
-position:sticky;
-top:0;
-z-index:999;
+    height: 75px;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    position: sticky;
+    top: 0;
+    z-index: 999;
 }
 
-.back{
-font-size:22px;
-cursor:pointer;
-margin-right:10px;
-color:var(--accent);
-transition:.2s;
+.back-btn-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 14px;
+    transition: color 0.2s, transform 0.2s;
+    user-select: none;
+    margin-right: 15px;
+    border: 1px solid var(--border-color);
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: var(--bg-secondary);
 }
 
-.back:hover{
-transform:translateX(-5px);
+.back-btn-wrapper:hover {
+    color: var(--accent-blue);
+    border-color: var(--accent-blue);
+    background-color: var(--accent-blue-light);
+    transform: translateX(-3px);
 }
 
 .title{
-font-size:20px;
-font-weight:bold;
-color:var(--accent);
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
 }
 
-/* CONTAINER */
+/* =========================================================
+   MARKETPLACE ANALYTICS COUTERS STRIP
+   ========================================================= */
+.analytics-dashboard-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
 
+.analytic-metric-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: var(--shadow-sm);
+}
+
+.analytic-icon-box {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background-color: var(--accent-blue-light);
+    color: var(--accent-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.analytic-body-text h4 {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.analytic-body-text p {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-top: 2px;
+}
+
+/* =========================================================
+   CONTROL DECK BAR (SEARCH & FILTER SLIDER)
+   ========================================================= */
+.control-filter-deck {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 35px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.search-field-container {
+    position: relative;
+    width: 100%;
+}
+
+.search-field-container input {
+    width: 100%;
+    padding: 14px 16px 14px 44px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
+    font-size: 15px;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+}
+
+.search-field-container input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    background-color: var(--bg-secondary);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.search-field-container::before {
+    content: "🔍";
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 15px;
+    color: var(--text-muted);
+}
+
+.category-tab-slider {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+}
+
+.category-tab-slider::-webkit-scrollbar {
+    height: 4px;
+}
+
+.category-tab-slider::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 10px;
+}
+
+.filter-pill-trigger {
+    padding: 8px 16px;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+.filter-pill-trigger.active-state, .filter-pill-trigger:hover {
+    background-color: var(--text-primary);
+    color: var(--bg-secondary);
+    border-color: var(--text-primary);
+}
+
+/* =========================================================
+   MAIN VIEWPORT GRID CANVAS
+   ========================================================= */
 .container{
-padding:25px;
-max-width:900px;
-margin:auto;
+    padding: 40px;
+    max-width: 1400px;
+    margin: auto;
 }
 
-/* LIST */
-
-.list{
-display:flex;
-flex-direction:column;
-gap:18px;
-animation:fadeUp .7s ease;
+.catalog-grid-mesh {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 30px;
 }
 
-/* CARD */
-
-.card{
-
-display:flex;
-
-gap:14px;
-
-background:linear-gradient(145deg,#111827,#020617);
-
-padding:14px;
-
-border-radius:14px;
-
-border:1px solid #1f2937;
-
-box-shadow:0 10px 25px rgba(0,0,0,0.6);
-
-cursor:pointer;
-
-transition:.25s;
-
+/* HOMEPAGE GRID BLOCKS COMPONENT CORES */
+.product-grid-card {
+    background-color: var(--bg-secondary);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.card:hover{
-
-transform:translateY(-6px) scale(1.02);
-
-box-shadow:0 20px 40px rgba(0,0,0,.9);
-
+.product-grid-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
 }
 
-/* IMAGE */
-
-.card img{
-
-width:90px;
-
-aspect-ratio:2/3;
-
-object-fit:cover;
-
-border-radius:10px;
-
+.image-container-frame {
+    width: 100%;
+    aspect-ratio: 2/3;
+    position: relative;
+    background-color: var(--bg-primary);
+    overflow: hidden;
+    border-bottom: 1px solid var(--border-color);
 }
 
-/* INFO */
-
-.info{
-flex:1;
+.product-grid-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
 }
 
-/* NAME */
-
-.name{
-font-size:17px;
-font-weight:bold;
+.product-grid-card:hover .image-container-frame img {
+    transform: scale(1.03);
 }
 
-/* SALES */
-
-.sales{
-color:var(--orange);
-font-size:14px;
-margin-top:6px;
+/* FLOATING PREMIUM BADGE ACCENT OVER IMAGE */
+.badge-top-selling {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 50px;
+    background-color: rgba(255, 255, 255, 0.95);
+    color: var(--accent-orange);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border: 1px solid #ffedd5;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    z-index: 2;
 }
 
-/* BUY BUTTON */
-
-.buy{
-
-margin-top:10px;
-
-padding:8px 12px;
-
-border:none;
-
-border-radius:8px;
-
-cursor:pointer;
-
-background:linear-gradient(90deg,#22c55e,#4ade80);
-
-color:black;
-
-font-weight:bold;
-
-transition:.2s;
-
+.card-info-details {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
-.buy:hover{
-transform:scale(1.05);
-box-shadow:0 0 10px #22c55e;
+.title-string-clamp {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.4;
+    height: 42px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 6px;
 }
 
-/* BADGE */
-
-.badge{
-
-font-size:11px;
-
-background:var(--orange);
-
-padding:2px 6px;
-
-border-radius:6px;
-
-margin-left:6px;
-
-color:black;
-
+.sales-analytics-row {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin-bottom: 12px;
 }
 
-/* ANIMATION */
-
-@keyframes fadePage{
-from{
-opacity:0;
-transform:translateY(20px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
+.footer-interaction-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid var(--bg-primary);
 }
 
-@keyframes fadeUp{
-from{
-opacity:0;
-transform:translateY(40px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
+.pricing-value {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--accent-blue);
 }
 
-</style></head><body><div class="header">
-<div class="back" onclick="history.back()">⬅</div>
-<div class="title">Top Selling Books</div>
-</div><div class="container"><div id="books" class="list">
-Loading...
-</div></div><script>
-
-/* MAIN API */
-
-const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
-
-/* DRIVE IMAGE FIX */
-
-function driveImage(link){
-
-if(!link) return "https://picsum.photos/400"
-
-try{
-
-let id=""
-
-if(link.includes("id=")){
-id=link.split("id=")[1].split("&")[0]
+/* FLAT PLATFORM SUBMIT BUTTONS STYLE */
+.buy-trigger {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--accent-blue);
+    color: var(--bg-secondary);
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
 }
 
-if(link.includes("/file/d/")){
-id=link.split("/file/d/")[1].split("/")[0]
+.buy-trigger:hover {
+    background-color: var(--accent-blue-hover);
 }
 
-if(id){
-return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000"
+/* =========================================================
+   STATUS LAYOUT LOG FRAME CONTAINER HOOKS
+   ========================================================= */
+.status-display-block {
+    grid-column: 1 / -1;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 60px 20px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
 }
 
-}catch{}
-
-return link
-
+.spinner-element {
+    width: 26px;
+    height: 26px;
+    border: 3px solid var(--border-color);
+    border-top: 3px solid var(--accent-blue);
+    border-radius: 50%;
+    animation: pipelineRotation 0.8s linear infinite;
+    margin: 0 auto 15px auto;
 }
 
-/* LOAD BOOKS */
+.status-header-text {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
 
-async function load(){
+.status-message-text {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
 
-try{
+@keyframes pipelineRotation {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
-let productsRes=await fetch(API+"?db=products&t="+Date.now())
-let products=await productsRes.json()
+/* =========================================================
+   RESPONSIVE DESIGN BREAKPOINT PARAMETERS
+   ========================================================= */
+@media(max-width: 900px) {
+    .analytics-dashboard-strip { grid-template-columns: 1fr; gap: 12px; }
+    .container { padding: 25px 15px; }
+    .catalog-grid-mesh { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 16px; }
+    .title-string-clamp { font-size: 14px; height: 38px; }
+    .pricing-value { font-size: 15px; }
+}
+</style>
+</head>
+<body>
 
-let ordersRes=await fetch(API+"?db=orders&t="+Date.now())
-let orders=await ordersRes.json()
-
-if(!Array.isArray(products)) products=[]
-if(!Array.isArray(orders)) orders=[]
-
-/* ONLY APPROVED */
-
-products=products.filter(p=>p.ai_status==="approved")
-
-/* CALCULATE SALES */
-
-products.forEach(p=>{
-
-let sales=orders.filter(o=>
-
-String(o.productId)===String(p.id) &&
-o.payment==="paid"
-
-).length
-
-p.sales=sales
-
-})
-
-/* SORT */
-
-products.sort((a,b)=>b.sales-a.sales)
-
-let box=document.getElementById("books")
-
-let html=""
-
-/* TOP 20 */
-
-products.slice(0,20).forEach((p,i)=>{
-
-html+=`
-
-<div class="card" onclick="openBook('${p.id}')">
-
-<img src="${driveImage(p.image)}">
-
-<div class="info">
-
-<div class="name">
-
-${p.title || "Untitled"}
-
-${i<3?'<span class="badge">Top Seller</span>':''}
-
+<div class="header">
+    <div class="back-btn-wrapper" onclick="history.back()">
+        <span>←</span> Back
+    </div>
+    <div class="title">Top Selling Books</div>
 </div>
 
-<div class="sales">
+<div class="container">
+    
+    <div class="analytics-dashboard-strip">
+        <div class="analytic-metric-card">
+            <div class="analytic-icon-box">💎</div>
+            <div class="analytic-body-text">
+                <h4>Top Selling Volume</h4>
+                <p id="totalSalesCount">00 Copies</p>
+            </div>
+        </div>
+        <div class="analytic-metric-card">
+            <div class="analytic-icon-box">📦</div>
+            <div class="analytic-body-text">
+                <h4>Platform Approved Stock</h4>
+                <p id="totalApprovedCount">00 Items</p>
+            </div>
+        </div>
+        <div class="analytic-metric-card">
+            <div class="analytic-icon-box">⚡</div>
+            <div class="analytic-body-text">
+                <h4>Bestselling Segment</h4>
+                <p id="topCategoryString">General</p>
+            </div>
+        </div>
+    </div>
 
-📈 ${p.sales} sales
+    <div class="control-filter-deck">
+        <div class="search-field-container">
+            <input type="text" id="catalogSearchInput" placeholder="Filter top sellers by keywords, titles, categories..." oninput="filterCatalogMeshStream()">
+        </div>
+        <div class="category-tab-slider" id="tabsSliderContainer">
+            <span class="filter-pill-trigger active-state" onclick="switchCategoryFilterTab(this, 'ALL')">All Collections</span>
+        </div>
+    </div>
 
+    <div id="catalogMeshViewport" class="catalog-grid-mesh">
+        <div class="status-display-block">
+            <div class="spinner-element"></div>
+            <div class="status-header-text">Syncing Central Catalog Layers</div>
+            <div class="status-message-text">Fetching statistical transaction tables safely from datastores...</div>
+        </div>
+    </div>
 </div>
 
-<button class="buy"
-onclick="buyNow(event,'${p.id}')">
+<script>
+/* =========================================================
+   CORE CONTROL STORAGE ARRAYS & ENDPOINT PATH CHANNELS
+   ========================================================= */
+const PLATFORM_CORE_API = "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
 
-Buy
+let CENTRAL_CATALOG_DATA_POOL = [];
+let CURRENT_ACTIVE_FILTER_CATEGORY = "ALL";
 
-</button>
-
-</div>
-
-</div>
-
-`
-
-})
-
-box.innerHTML=html || "No Books Found"
-
-}catch{
-
-document.getElementById("books").innerHTML="Books Loading Failed"
-
+/* High Res Google Drive Link Thumbnail Converter */
+function resolveAssetCoverThumbnail(urlLink){
+    if(!urlLink) return "https://picsum.photos/400/600";
+    try {
+        let extractedId = "";
+        if(urlLink.includes("id=")){ extractedId = urlLink.split("id=")[1].split("&")[0]; }
+        if(urlLink.includes("/file/d/")){ extractedId = urlLink.split("/file/d/")[1].split("/")[0]; }
+        if(extractedId){ return "https://drive.google.com/thumbnail?id=" + extractedId + "&sz=w1000"; }
+    } catch(err) { console.error("Asset link extraction error trap caught exception:", err); }
+    return urlLink;
 }
 
+/* ASYNC HIGH-SPEED PIPELINE EXECUTION INGESTION DATASTREAM ENGINE */
+async function loadTopSellingBooksPipeline(){
+    const canvasViewportContainer = document.getElementById("catalogMeshViewport");
+    
+    try {
+        // Parallel requests resolve structural load blocks completely
+        const [productsStreamResponse, sellersStreamResponse] = await Promise.all([
+            fetch(PLATFORM_CORE_API + "?action=products&t=" + Date.now()),
+            fetch(PLATFORM_CORE_API + "?action=sellers&t=" + Date.now()) // Analytical logs fallback validation links
+        ]);
+
+        let productPayloadData = await productsStreamResponse.json();
+        let formattedProductsArray = productPayloadData.products || productPayloadData;
+        let transactionOrdersLogArray = [];
+
+        try {
+            let orderPayloadData = await sellersStreamResponse.json();
+            transactionOrdersLogArray = orderPayloadData.orders || orderPayloadData || [];
+        } catch(e){ console.warn("Analytical transaction registers log returned empty matrix fallback array injection."); }
+
+        if(!Array.isArray(formattedProductsArray)) formattedProductsArray = [];
+        if(!Array.isArray(transactionOrdersLogArray)) transactionOrdersLogArray = [];
+
+        // STRICT CORRECTION MATCH FIELD: Filters rows based on 'status === "approved"'
+        CENTRAL_CATALOG_DATA_POOL = formattedProductsArray.filter(itemRow => (itemRow.status || itemRow.ai_status) === "approved");
+
+        if(CENTRAL_CATALOG_DATA_POOL.length === 0) {
+            canvasViewportContainer.innerHTML = `
+                <div class="status-display-block">
+                    <div class="status-header-text">No Publications Available</div>
+                    <div class="status-message-text"> platform catalog data does not contain approved items at this interval node.</div>
+                </div>`;
+            return;
+        }
+
+        let totalPlatformSalesAccumulatorCount = 0;
+        let dynamicCategoryDistributionMap = {};
+
+        // Analytical score aggregation iteration mapping loops
+        CENTRAL_CATALOG_DATA_POOL.forEach(bookNode => {
+            let isolatedSalesCalculationMatches = transactionOrdersLogArray.filter(orderNode => 
+                String(orderNode.productId || orderNode.product_id) === String(bookNode.id) && 
+                (orderNode.payment === "paid" || orderNode.status === "paid")
+            ).length;
+            
+            bookNode.sales = bookNode.sales || isolatedSalesCalculationMatches || 0;
+            totalPlatformSalesAccumulatorCount += bookNode.sales;
+            
+            if(bookNode.category) {
+                dynamicCategoryDistributionMap[bookNode.category] = (dynamicCategoryDistributionMap[bookNode.category] || 0) + 1;
+            }
+        });
+
+        // Numeric validation sort vectors algorithm descending logic
+        CENTRAL_CATALOG_DATA_POOL.sort((nodeA, nodeB) => nodeB.sales - nodeA.sales);
+
+        // Populate top analytics counter block fields
+        document.getElementById("totalApprovedCount").innerText = CENTRAL_CATALOG_DATA_POOL.length + " Items";
+        document.getElementById("totalSalesCount").innerText = totalPlatformSalesAccumulatorCount + " Copies";
+        
+        let targetBestsellingCategoryString = "General Content";
+        let comparativeHighestIndexCount = 0;
+        for(let loopCategoryKeyName in dynamicCategoryDistributionMap) {
+            if(dynamicCategoryDistributionMap[loopCategoryKeyName] > comparativeHighestIndexCount) {
+                comparativeHighestIndexCount = dynamicCategoryDistributionMap[loopCategoryKeyName];
+                targetBestsellingCategoryString = loopCategoryKeyName;
+            }
+        }
+        document.getElementById("topCategoryString").innerText = targetBestsellingCategoryString;
+
+        // Populate slider navigational filtering container pills nodes
+        const sliderTabsNavigationContainer = document.getElementById("tabsSliderContainer");
+        for(let singularCategoryKeyName in dynamicCategoryDistributionMap) {
+            let structuralTabSpanElement = document.createElement("span");
+            structuralTabSpanElement.className = "filter-pill-trigger";
+            structuralTabSpanElement.innerText = singularCategoryKeyName;
+            structuralTabSpanElement.setAttribute("onclick", `switchCategoryFilterTab(this, '${singularCategoryKeyName}')`);
+            sliderTabsNavigationContainer.appendChild(structuralTabSpanElement);
+        }
+
+        compileAndRenderCatalogGridMesh(CENTRAL_CATALOG_DATA_POOL);
+
+    } catch(fatalIngestionException) {
+        console.error("System connection tunnel fatal handshake interruption exception:", fatalIngestionException);
+        canvasViewportContainer.innerHTML = `
+            <div class="status-display-block" style="border-color: #fee2e2; background-color: #fff5f5;">
+                <div class="status-header-text" style="color: #b91c1c;">Handshake Handover Dropped</div>
+                <div class="status-message-text" style="color: #991b1b;">Structural parsing pipeline timeout limit or CORS rejection occurred. Check webapp execution configuration settings parameters.</div>
+                <button style="margin-top:15px; background-color:#ef4444; color:white; border:none; padding:8px 20px; border-radius:8px; font-weight:700; cursor:pointer;" onclick="location.reload()">Re-establish System Sync</button>
+            </div>`;
+    }
 }
 
-/* OPEN BOOK */
+/* GRID COMPONENT DESIGN COMPILE MATRIX GENERATOR WRAPPER */
+function compileAndRenderCatalogGridMesh(dataSetTargetCollectionSource){
+    const gridViewportContainerMesh = document.getElementById("catalogMeshViewport");
+    let dynamicHTMLCompilationStringStream = "";
 
-function openBook(id){
+    if(dataSetTargetCollectionSource.length === 0) {
+        gridViewportContainerMesh.innerHTML = `
+            <div class="status-display-block">
+                <div class="status-header-text">Stack Criteria Unmatched</div>
+                <div class="status-message-text">No indexed items inside the datastore parameters match your search filtering conditions.</div>
+            </div>`;
+        return;
+    }
 
-location.href="ebook.html?id="+id
+    dataSetTargetCollectionSource.slice(0, 20).forEach((bookObjectNode, rankingOffsetIndex) => {
+        let referenceCoverImageSource = bookObjectNode.front_cover || bookObjectNode.image || "";
+        let definedCategoryTagLabel = bookObjectNode.category || "General Content";
+        
+        dynamicHTMLCompilationStringStream += `
+            <div class="product-grid-card" onclick="transitToTargetBookProfile('${bookObjectNode.id}')">
+                <div class="image-container-frame">
+                    ${rankingOffsetIndex < 3 ? '<span class="badge-top-selling">⭐ Top Seller</span>' : ''}
+                    <img src="${resolveAssetCoverThumbnail(referenceCoverImageSource)}" onerror="this.src='https://picsum.photos/400/600'" alt="Book Cover High Fidelity Frame">
+                </div>
+                <div class="card-info-details">
+                    <div class="title-string-clamp">${bookObjectNode.title || "Untitled Masterpiece"}</div>
+                    <div class="sales-analytics-row">📈 ${bookObjectNode.sales || 0} copies sold • ${definedCategoryTagLabel}</div>
+                    <div class="footer-interaction-panel">
+                        <div class="pricing-value">₹${bookObjectNode.price || 0}</div>
+                        <button class="buy-trigger" onclick="transitToPaymentTunnel(clickEventObject, '${bookObjectNode.id}')">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
 
+    gridViewportContainerMesh.innerHTML = dynamicHTMLCompilationStringStream;
 }
 
-/* BUY */
-
-function buyNow(e,id){
-
-e.stopPropagation()
-
-localStorage.setItem("buyProduct",id)
-
-location.href="payment.html"
-
+/* CONTROLLER HUB INTERACTION INPUT STACKS METHOD LOOPS */
+function filterCatalogMeshStream() {
+    const searchStringTokenQuery = document.getElementById("catalogSearchInput").value.toLowerCase().trim();
+    
+    let processedFilteredResultCollection = CENTRAL_CATALOG_DATA_POOL.filter(catalogItemNode => {
+        let matchStringValidationFlag = 
+            (catalogItemNode.title && catalogItemNode.title.toLowerCase().includes(searchStringTokenQuery)) ||
+            (catalogItemNode.author_name && catalogItemNode.author_name.toLowerCase().includes(searchStringTokenQuery)) ||
+            (catalogItemNode.category && catalogItemNode.category.toLowerCase().includes(searchStringTokenQuery));
+            
+        let matchCategoryValidationFlag = (CURRENT_ACTIVE_FILTER_CATEGORY === "ALL" || catalogItemNode.category === CURRENT_ACTIVE_FILTER_CATEGORY);
+        
+        return matchStringValidationFlag && matchCategoryValidationFlag;
+    });
+    
+    compileAndRenderCatalogGridMesh(processedFilteredResultCollection);
 }
 
-load()
+function switchCategoryFilterTab(clickedElementTargetContext, categoryStringPillToken) {
+    const totalPillsElementsCollection = document.querySelectorAll(".filter-pill-trigger");
+    totalPillsElementsCollection.forEach(activePillElement => activePillElement.classList.remove("active-state"));
+    
+    clickedElementTargetContext.classList.add("active-state");
+    CURRENT_ACTIVE_FILTER_CATEGORY = categoryStringPillToken;
+    filterCatalogMeshStream();
+}
 
-</script></body>
+/* SYSTEM ROUTING ROUTERS REDIRECTION FLOW CHANNELS */
+function transitToTargetBookProfile(targetBookIdToken){
+    location.href = "ebook.html?id=" + targetBookIdToken;
+}
+
+function transitToPaymentTunnel(clickEventObject, targetBookIdToken){
+    clickEventObject.stopPropagation();
+    localStorage.setItem("buyProduct", targetBookIdToken);
+    location.href = "payment.html";
+}
+
+// Fire runtime ingestion thread processes initialization loops smoothly on DOM load
+window.addEventListener("DOMContentLoaded", loadTopSellingBooksPipeline);
+</script>
+</body>
 </html>
