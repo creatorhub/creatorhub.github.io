@@ -279,6 +279,9 @@ body{display:block;overflow:auto}
 </main>
 
 <script>
+/* =========================================================
+   CORE CONFIG CHANNELS (REPLACE WITH NEW WEBAPP ID)
+   ========================================================= */
 const API_URL = "https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
 const EMAIL_KEY = "creatorhub_profile_email";
 const CACHE_KEY = "creatorhub_profile_cache_v6";
@@ -302,7 +305,7 @@ const textFields = [
 const $ = id => document.getElementById(id);
 
 /* ==================================================
-   UI HELPERS
+   UI MATRIX HELPERS
    ================================================== */
 function setStatus(text){
   $("pageStatus").innerText = text || "";
@@ -331,7 +334,7 @@ function formatNumber(v){
 }
 
 /* ==================================================
-   DRIVE IMAGE HELPERS
+   IMAGE DEEP LOGIC MAPPERS
    ================================================== */
 function getDriveId(url){
   if(!url) return "";
@@ -386,9 +389,6 @@ function setCover(url){
   cover.style.backgroundImage = `url("${finalUrl}")`;
 }
 
-/* ==================================================
-   FILE READER
-   ================================================== */
 function readFileAsBase64(file){
   return new Promise((resolve,reject)=>{
     const reader = new FileReader();
@@ -399,7 +399,7 @@ function readFileAsBase64(file){
 }
 
 /* ==================================================
-   CACHE PARAMETERS
+   CACHE CONTROLLER INDEX
    ================================================== */
 function readCache(email){
   try{
@@ -417,12 +417,10 @@ function saveCache(email, user){
 }
 
 /* ==================================================
-   API FETCH HOOKS (Extended timeout to 45 Seconds)
+   STABILIZED API HANDSHAKE GENERATOR (45 Sec Window)
    ================================================== */
 async function fetchJSON(url, options, timeoutMs){
   const controller = new AbortController();
-  
-  // OPTIMIZATION: Drive execution takes time, increasing threshold buffer
   const timer = setTimeout(() => controller.abort(), timeoutMs || 45000); 
 
   try{
@@ -431,12 +429,17 @@ async function fetchJSON(url, options, timeoutMs){
       signal: controller.signal,
       cache: "no-store"
     });
+    
+    if(!response.ok) throw new Error("HTTP Connection Status Error Node");
     return await response.json();
+  }catch(fetchError){
+    console.error("Fetch operational crash logging:", fetchError);
+    throw fetchError;
   }finally { clearTimeout(timer); }
 }
 
 /* ==================================================
-   LIVE PREVIEW CONTEXT RE-RENDERER
+   LIVE PREVIEW COMPILER VIEWPORT
    ================================================== */
 function updatePreview(){
   $("previewName").innerText = value("name") || "Your Creator Name";
@@ -458,7 +461,7 @@ function updatePreview(){
 }
 
 /* ==================================================
-   FILL PROFILE RECORD INJECTIONS
+   FILL PROFILE BUFFER SEGMENTS
    ================================================== */
 function fillProfile(user){
   if(!user) return;
@@ -483,9 +486,6 @@ function fillProfile(user){
   updatePreview();
 }
 
-/* ==================================================
-   COLLECT SUBMIT RECORD MATRIX DATA
-   ================================================== */
 function collectPayload(){
   const payload = { action: "update_profile" };
 
@@ -507,7 +507,7 @@ function collectPayload(){
 }
 
 /* ==================================================
-   LOAD PROFILE METHOD LOGIC
+   LOAD PROFILE TUNNEL (Fixed JSON Drop Bugs)
    ================================================== */
 async function loadProfile(){
   const email = value("email");
@@ -515,16 +515,16 @@ async function loadProfile(){
 
   showNotice("");
   setBusy(true);
-  setStatus("Loading profile...");
+  setStatus("Loading profile from remote datastore...");
 
   const cached = readCache(email);
   if(cached){ fillProfile(cached); }
 
   try{
-    // Request explicitly extended to handle heavy base64 buffers handshake
-    const data = await fetchJSON(API_URL + "?action=profile&email=" + encodeURIComponent(email), null, 45000);
+    const targetQueryPath = API_URL + (API_URL.includes("?") ? "&" : "?") + "action=profile&email=" + encodeURIComponent(email);
+    const data = await fetchJSON(targetQueryPath, { method: "GET" }, 45000);
 
-    if(!data.success){ throw new Error(data.message); }
+    if(!data || !data.success){ throw new Error(data?.message || "Datastore Handshake Drop"); }
 
     localStorage.setItem(EMAIL_KEY, email);
     saveCache(email, data.user);
@@ -533,34 +533,35 @@ async function loadProfile(){
     state.coverImageUrl = "";
 
     fillProfile(data.user);
+    showNotice(""); // Clear error layout banners smoothly
     setStatus("Profile loaded successfully.");
   }catch(err){
-    console.warn("Handshake fail, reading memory bounds", err);
-    showNotice("Unable to load live profile. Displaying cached structures.");
-    setStatus("Loaded from cache.");
+    console.error("Remote operational load fault execution path:", err);
+    showNotice("Unable to sync live cloud connection. Displaying secure offline cache snapshots.");
+    setStatus("Loaded from local snapshot cache.");
   }finally{ setBusy(false); }
 }
 
 /* ==================================================
-   SAVE PROFILE METHOD LOGIC 
+   SAVE PROFILE TUNNEL
    ================================================== */
 async function saveProfile(){
   const payload = collectPayload();
 
-  if(!payload.email){ showNotice("Email required."); return; }
+  if(!payload.email){ showNotice("Email mapping validation failed."); return; }
 
   showNotice("");
   setBusy(true);
-  setStatus("Saving profile records to server database...");
+  setStatus("Writing profile changes to spreadsheet database...");
 
   try{
     const data = await fetchJSON(API_URL, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify(payload)
-    }, 45000); // 45 seconds storage allocation lock channel
+    }, 45000);
 
-    if(!data.success){ throw new Error(data.message); }
+    if(!data || !data.success){ throw new Error(data?.message || "Datastore Write Sync Rejected"); }
 
     localStorage.setItem(EMAIL_KEY, payload.email);
 
@@ -570,26 +571,26 @@ async function saveProfile(){
     saveCache(payload.email, data.user);
     fillProfile(data.user);
     
-    showNotice(""); // Clear warning alert block on success paths
-    setStatus("Profile updates saved successfully.");
-    alert("Profile Changes Saved to Database ✅");
+    showNotice(""); 
+    setStatus("Profile details committed successfully.");
+    alert("Profile Updates Saved to Cloud Server ✅");
   }catch(err){
-    console.error("Transmission error tracking bounds", err);
-    showNotice("Network timeout tunnel alert. Saved to backup browser cache memory.");
+    console.error("Remote communication execution save failure:", err);
+    showNotice("Cloud sync latency detected. Saved backup snapshot directly inside terminal session workspace.");
     saveCache(payload.email, payload);
-    setStatus("Saved to local session.");
+    setStatus("Saved locally inside memory.");
   }finally{ setBusy(false); }
 }
 
 /* ==================================================
-   IMAGE INTERFACE CONTEXT FILTERS HANDLERS
+   IMAGE MEDIA STREAMS PARSERS
    ================================================== */
 async function handleImage(input, type){
   const file = input.files?.[0];
   if(!file) return;
 
-  if(!file.type.startsWith("image/")){ showNotice("Select a valid image layout file."); return; }
-  if(file.size > 2.5 * 1024 * 1024){ showNotice("Max image size limit exceeded (2.5MB allowed)."); return; }
+  if(!file.type.startsWith("image/")){ showNotice("File vector validation mismatch! Select a proper image format."); return; }
+  if(file.size > 2.5 * 1024 * 1024){ showNotice("Max memory payload restriction boundary triggered (2.5MB max)."); return; }
 
   const base64 = await readFileAsBase64(file);
 
@@ -613,7 +614,7 @@ async function handleImage(input, type){
 }
 
 /* ==================================================
-   INITIALIZATION BOOT BLOCK LOCK SYSTEM
+   INITIALIZATION TRIGGER MOUNTING LOOPS
    ================================================== */
 function init(){
   $("avatarPreview").src = DEFAULT_AVATAR;
@@ -630,7 +631,7 @@ function init(){
     updatePreview();
   }
 
-  /* BUTTON CLICK ASSIGNMENTS LISTENERS */
+  /* BUTTON AND SUBMIT INPUT LISTENERS */
   $("loadBtn").addEventListener("click", loadProfile);
   $("saveBtn").addEventListener("click", saveProfile);
 
