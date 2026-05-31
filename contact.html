@@ -1,207 +1,377 @@
-<!DOCTYPE html><html lang="en"><head><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Contact CreatorHub</title><style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact CreatorHub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-:root{
---bg:#020617;
---card:#111827;
---accent:#22c55e;
+<style>
+/* =========================================================
+   CREATORHUB STANDARD LIGHT UI INTERFACE VARIABLES
+   ========================================================= */
+:root {
+    --bg-primary: #f8fafc;       /* Subtle canvas slate white */
+    --bg-secondary: #ffffff;     /* Pure white card backgrounds */
+    --text-primary: #0f172a;     /* Deep slate text colors */
+    --text-secondary: #475569;   /* Muted structural labels */
+    --text-muted: #94a3b8;
+    --accent-blue: #2563eb;     /* Platform Royal Blue */
+    --accent-blue-hover: #1d4ed8;
+    --accent-blue-light: #eff6ff;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.02);
+    --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.05);
 }
 
-/* PAGE */
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+}
 
 body{
-margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:var(--bg);
-color:white;
-animation:fadePage .6s ease;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    animation: fadePage .5s ease;
 }
 
-/* HEADER */
-
-header{
-display:flex;
-align-items:center;
-padding:15px;
-background:#020617;
-border-bottom:1px solid #1f2937;
-position:sticky;
-top:0;
+/* NAVBAR HEADER STYLES */
+.header{
+    height: 75px;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    box-shadow: var(--shadow-sm);
 }
 
-.back{
-font-size:22px;
-cursor:pointer;
-width:40px;
-color:var(--accent);
-transition:.2s;
+.back-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    user-select: none;
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: 10px;
+    background: var(--bg-secondary);
 }
 
-.back:hover{
-transform:translateX(-5px);
+.back-btn:hover {
+    color: var(--accent-blue);
+    border-color: var(--accent-blue);
+    background-color: var(--accent-blue-light);
+    transform: translateX(-3px);
 }
 
 .title{
-flex:1;
-text-align:center;
-color:var(--accent);
-font-weight:bold;
+    flex: 1;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin-right: 80px; /* To perfectly center align with back button balance offset */
 }
 
-/* CENTER */
-
+/* MAIN FORM CANVAS CONTAINER */
 .container{
-display:flex;
-justify-content:center;
-align-items:center;
-height:85vh;
-padding:20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 75px);
+    padding: 40px 20px;
 }
 
-/* CARD */
-
+/* CONTAINER CARD STRUCTURE */
 .card{
-
-width:100%;
-max-width:450px;
-
-background:linear-gradient(145deg,#111827,#020617);
-
-padding:30px;
-
-border-radius:16px;
-
-border:1px solid #1f2937;
-
-box-shadow:0 15px 35px rgba(0,0,0,.6);
-
-animation:fadeUp .6s ease;
-
+    width: 100%;
+    max-width: 500px;
+    background-color: var(--bg-secondary);
+    padding: 40px;
+    border-radius: 24px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    animation: fadeUp .6s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
-/* TITLE */
 
 h2{
-margin-top:0;
-color:var(--accent);
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
 }
 
-/* INPUT */
+.desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 28px;
+    font-weight: 500;
+}
 
-input,textarea{
+/* FIELD LABELS & GROUP ELEMENTS */
+.form-group {
+    margin-bottom: 20px;
+}
 
-width:100%;
+label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 8px;
+}
 
-padding:13px;
+input, textarea{
+    width: 100%;
+    padding: 14px 16px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    outline: none;
+    transition: all 0.2s ease;
+}
 
-margin-top:12px;
-
-background:#020617;
-
-border:none;
-
-color:white;
-
-border-radius:10px;
-
-font-size:14px;
-
+input:focus, textarea:focus{
+    border-color: var(--accent-blue);
+    background: var(--bg-secondary);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
 }
 
 textarea{
-min-height:120px;
-resize:vertical;
+    min-height: 130px;
+    resize: none;
+    line-height: 1.6;
 }
 
-/* BUTTON */
+/* STATUS NOTIFICATION CONTAINER */
+.status-box {
+    display: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+.status-box.loading {
+    display: block;
+    background: var(--accent-blue-light);
+    color: var(--accent-blue);
+    border: 1px solid rgba(37, 99, 235, 0.15);
+}
+.status-box.success {
+    display: block;
+    background: #dcfce7;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+}
+.status-box.error {
+    display: block;
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+}
 
+/* FLAT PLATFORM SUBMIT TRIGGER BUTTON */
 button{
-
-width:100%;
-
-padding:14px;
-
-margin-top:18px;
-
-background:linear-gradient(90deg,#22c55e,#4ade80);
-
-border:none;
-
-border-radius:12px;
-
-color:black;
-
-font-weight:bold;
-
-cursor:pointer;
-
-transition:.25s;
-
+    width: 100%;
+    height: 54px;
+    border: none;
+    border-radius: 12px;
+    background: var(--accent-blue);
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
 }
 
 button:hover{
-transform:scale(1.03);
-box-shadow:0 0 12px #22c55e;
+    background-color: var(--accent-blue-hover);
+    transform: translateY(-1px);
 }
 
-/* ANIMATION */
+button:disabled {
+    background-color: var(--text-muted);
+    box-shadow: none;
+    cursor: not-allowed;
+}
 
+/* ANIMATION KEYFRAMES */
 @keyframes fadePage{
-
-from{
-opacity:0;
-transform:translateY(20px);
-}
-
-to{
-opacity:1;
-transform:translateY(0);
-}
-
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeUp{
-
-from{
-opacity:0;
-transform:translateY(40px);
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-to{
-opacity:1;
-transform:translateY(0);
+@media(max-width: 600px) {
+    .header { padding: 0 20px; }
+    .title { margin-right: 40px; font-size: 18px; }
+    .card { padding: 25px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <div class="back-btn" onclick="history.back()">
+        <span>←</span> Back
+    </div>
+    <div class="title">Contact CreatorHub</div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <h2>📩 Support Request</h2>
+        <div class="desc">Have questions or facing issues? Send a direct message to our support core engine loop.</div>
+        
+        <div id="statusMessage" class="status-box"></div>
+
+        <form id="contactForm" onsubmit="executeDirectMessageSubmit(event)">
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Your Email Address</label>
+                <input type="email" id="email" placeholder="name@email.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="msg">Message Context</label>
+                <textarea id="msg" placeholder="Describe your issue scenario metrics or question context..." required></textarea>
+            </div>
+
+            <button type="submit" id="submitBtn">Send Message</button>
+        </form>
+    </div>
+</div>
+
+<script>
+/* =========================================================
+   CORE CONFIG CHANNELS (Using your verified Web App ID URL)
+   ========================================================= */
+const SUPPORT_API_GATEWAY = "https://script.google.com/macros/s/AKfycbixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
+
+/* ASYNC DIRECT SERVER DATA TRANSMISSION PIPELINE ENGINE */
+async function executeDirectMessageSubmit(event){
+    event.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const msg = document.getElementById("msg").value.trim();
+    const statusBox = document.getElementById("statusMessage");
+    const submitBtn = document.getElementById("submitBtn");
+
+    if(!name || !email || !msg){
+        updateStatusDisplay("error", "Please fill all required input parameter layers cleanly.");
+        return;
+    }
+
+    // Toggle states to prevent multiple continuous parallel click inputs
+    submitBtn.disabled = true;
+    updateStatusDisplay("loading", "📡 Establishing handshake tunnel... Dispatching variables.");
+
+    try {
+        /* CORS BYPASS TUNNEL LAYER: Passes raw plain text strings array nodes safely */
+        const response = await fetch(SUPPORT_API_GATEWAY, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({
+                action: "contact_form_ticket", // Unique action tag identifier route
+                name: name,
+                email: email,
+                message: msg,
+                timestamp: new Date().toISOString()
+            })
+        });
+
+        const rawTextData = await response.text();
+        let parsedResultJSON;
+
+        try {
+            parsedResultJSON = JSON.parse(rawTextData);
+        } catch(parseErr) {
+            // Fallback: If apps script logs execution blocks instead of true return array schemas
+            if(rawTextData.includes("success") || response.ok) {
+                parsedResultJSON = { success: true };
+            } else {
+                throw new Error("JSON payload stream truncation parsing error node.");
+            }
+        }
+
+        if(parsedResultJSON.success || response.ok) {
+            updateStatusDisplay("success", "🎉 Message committed successfully to database! Support loop will evaluate within 24 hours.");
+            document.getElementById("contactForm").reset();
+        } else {
+            throw new Error(parsedResultJSON.message || "Central dispatch channel verification reject.");
+        }
+
+    } catch(fatalPipelineException) {
+        console.error("Transmission loop crash logging telemetry state:", fatalPipelineException);
+        
+        // Dynamic fallback mechanism option trace link
+        updateStatusDisplay("error", "⚠️ Direct gateway sync latency detected. Launching backup secondary mailto tunnel routing...");
+        
+        setTimeout(() => {
+            statusBox.style.display = "none";
+            executeMailtoRedirectionFallback(name, email, msg);
+        }, 2500);
+
+    } finally {
+        submitBtn.disabled = false;
+    }
 }
 
+/* DISPLAY INTERFACE SWITCH MODULE LOGS */
+function updateStatusDisplay(stateClassType, alertMessageText) {
+    const statusBox = document.getElementById("statusMessage");
+    statusBox.className = "status-box " + stateClassType;
+    statusBox.innerText = alertMessageText;
 }
 
-</style></head><body><header><div class="back" onclick="history.back()">⬅</div><div class="title">Contact CreatorHub</div></header><div class="container"><div class="card"><h2>📩 Support Request</h2><input id="name" placeholder="Your Name"><input id="email" placeholder="Your Email"><textarea id="msg" placeholder="Write your message"></textarea><button onclick="sendMail()">Send Message
-
-</button></div></div><script>
-
-function sendMail(){
-
-let name=document.getElementById("name").value.trim();
-let email=document.getElementById("email").value.trim();
-let msg=document.getElementById("msg").value.trim();
-
-if(!name || !email || !msg){
-
-alert("Please fill all fields");
-return;
-
+/* COMPATIBILITY FALLBACK ROUTING: Fires original layout route if user's API fails */
+function executeMailtoRedirectionFallback(name, email, msg) {
+    let subjectToken = encodeURIComponent("CreatorHub Support Request [Fallback Trace Link]");
+    let bodyToken = encodeURIComponent(
+        "Name : " + name + "\n" +
+        "Email : " + email + "\n\n" +
+        "Message :\n" + msg
+    );
+    window.location.href = `mailto:ayushprajpati6@gmail.com?subject=${subjectToken}&body=${bodyToken}`;
 }
+</script>
 
-let subject=encodeURIComponent("CreatorHub Support Request");
-
-let body=encodeURIComponent(
-"Name : "+name+
-"\nEmail : "+email+
-"\n\nMessage :\n"+msg
-);
-
-window.location.href=
-`mailto:ayushprajpati6@gmail.com?subject=${subject}&body=${body}`;
-
-}
-
-</script></body></html>
+</body>
+</html>
