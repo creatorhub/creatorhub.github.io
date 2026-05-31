@@ -6,13 +6,13 @@
 <title>Trending Books | CreatorHub</title>
 <style>
 /* =========================================================
-   PLATFORM MATCHING LIGHT THEME CORE
+   CREATORHUB EXACT MATCH LIGHT THEME LAYOUT
    ========================================================= */
 :root {
-    --bg: #f1f5f9;       /* Soft light background */
-    --card: #ffffff;     /* Pure white cards */
-    --accent: #2563eb;   /* Platform Royal Blue */
-    --text: #0f172a;     /* Dark slate text */
+    --bg: #f1f5f9;       
+    --card: #ffffff;     
+    --accent: #2563eb;   /* Dashboard Royal Blue */
+    --text: #0f172a;     
     --text-muted: #64748b;
     --border: #e2e8f0;
 }
@@ -30,12 +30,12 @@ body{
     min-height: 100vh;
 }
 
-/* NAVBAR - Matching main layout header precisely */
+/* NAVBAR HEADER STYLE */
 .header{
-    height: 70px;
+    height: 75px;
     display: flex;
     align-items: center;
-    padding: 0 25px;
+    padding: 0 30px;
     border-bottom: 1px solid var(--border);
     background: #ffffff;
     position: sticky;
@@ -45,10 +45,11 @@ body{
 }
 
 .back{
-    font-size: 22px;
+    font-size: 20px;
     cursor: pointer;
     margin-right: 15px;
     color: var(--text-muted);
+    font-weight: bold;
     transition: transform .2s, color .2s;
     user-select: none;
 }
@@ -59,35 +60,35 @@ body{
 }
 
 .title{
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 800;
     color: var(--text);
     letter-spacing: -0.02em;
 }
 
-/* MAIN CONTAINER */
+/* CONTAINER SETUP */
 .container{
-    padding: 30px 20px;
-    max-width: 850px;
+    padding: 35px 20px;
+    max-width: 900px;
     margin: auto;
 }
 
-/* LIST COMPONENT */
+/* CARDS LIST FRAME */
 .list{
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
-/* CARDS DESIGN - Matching library template grids precisely */
+/* DYNAMIC CONTENT GRID LAYOUT */
 .card{
     display: flex;
     gap: 20px;
     background: var(--card);
-    padding: 18px;
-    border-radius: 14px;
+    padding: 20px;
+    border-radius: 16px;
     border: 1px solid var(--border);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     align-items: center;
@@ -95,10 +96,10 @@ body{
 
 .card:hover{
     transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.07);
 }
 
-/* BOOK IMAGE FRAME */
+/* IMAGE COVER THUMBNAIL FRAME */
 .card img{
     width: 85px;
     aspect-ratio: 2/3;
@@ -106,54 +107,48 @@ body{
     border-radius: 10px;
     background: #f8fafc;
     border: 1px solid var(--border);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
 }
 
-/* BOOK CONTENT INFO */
+/* CARD DETAILS BODY */
 .info{
     flex: 1;
     display: flex;
     flex-direction: column;
 }
 
-/* BOOK TITLE WITH COMPACT HANDLING */
 .name-wrapper {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     flex-wrap: wrap;
 }
 
 .name{
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 700;
     color: var(--text);
     line-height: 1.3;
 }
 
-/* ROYAL BLUE PRICE STYLING */
+/* ROYAL BLUE COLOR ACCENT PRICES */
 .price{
     color: var(--accent);
     font-size: 16px;
     font-weight: 700;
-    margin-top: 6px;
+    margin-top: 5px;
 }
 
-/* METADATA METRICS */
 .meta{
     font-size: 13px;
     color: var(--text-muted);
-    margin-top: 5px;
+    margin-top: 6px;
     font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 5px;
 }
 
-/* DASHBOARD STYLE PRIMARY BLUE BUTTON */
+/* BLUE DASHBOARD CUSTOM SUBMIT BUTTON */
 .buy{
-    margin-top: 12px;
-    padding: 8px 18px;
+    margin-top: 14px;
+    padding: 9px 20px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -161,41 +156,70 @@ body{
     color: white;
     font-weight: 700;
     font-size: 13px;
-    transition: background 0.2s, transform 0.2s;
+    transition: background 0.2s, transform 0.1s;
     align-self: flex-start;
-    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.15);
 }
 
 .buy:hover{
     background: #1d4ed8;
-    transform: scale(1.02);
 }
 
-/* TRENDING FIRE BADGE */
+/* FIRE CORNER METRIC BADGE */
 .badge{
-    font-size: 10px;
-    background: #fef2f2;
+    font-size: 11px;
+    background: #fff5f5;
     color: #ef4444;
     padding: 3px 8px;
     border-radius: 6px;
     font-weight: 700;
-    border: 1px solid #fca5a5;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
+    border: 1px solid #fee2e2;
 }
 
-/* LOADING & ERROR STATES */
-.status-msg {
+/* BEAUTIFUL CONTAINER INTERFACES FOR STATUS LOGS */
+.status-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 50px 30px;
     text-align: center;
-    padding: 40px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+}
+
+.status-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.status-msg {
     color: var(--text-muted);
-    font-weight: 500;
-    font-size: 15px;
+    font-size: 14px;
+    max-width: 400px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+.btn-retry {
+    margin-top: 20px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-retry:hover {
+    background: #1d4ed8;
 }
 
 .spinner {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     border: 3px solid #cbd5e1;
     border-top: 3px solid var(--accent);
     border-radius: 50%;
@@ -207,120 +231,146 @@ body{
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+@media(max-width:600px){
+    .card { flex-direction: column; align-items: flex-start; gap: 15px; }
+    .card img { width: 75px; }
+    .buy { width: 100%; text-align: center; }
+}
 </style>
 </head>
 <body>
 
+<!-- NAVBAR HEADER -->
 <div class="header">
-    <div class="back" onclick="history.back()">←</div>
+    <div class="back" onclick="history.back()">← Back</div>
     <div class="title">Trending Books</div>
 </div>
 
+<!-- CENTRAL WRAPPER GRID -->
 <div class="container">
     <div id="books" class="list">
-        <div class="status-msg">
+        <!-- Elegant Initial UI Frame State -->
+        <div class="status-box">
             <div class="spinner"></div>
-            Loading trending books...
+            <div class="status-title">Synchronizing Platform Data</div>
+            <div class="status-msg">Fetching latest analytical sales data tunnels from datastore sheets...</div>
         </div>
     </div>
 </div>
 
 <script>
-/* API TARGET ENDPOINT */
-const API = "https://script.google.com/macros/s/AKfycbxJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
+/* CORE SYSTEM CONFIG INDEX */
+const API = "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
 
-/* COVERT GDRIVE STORAGE LINKS TO DIRECT THUMBNAILS */
+/* Direct Thumbnail Resolver from Database Links */
 function driveImage(link){
-    if(!link) return "https://picsum.photos/400";
+    if(!link) return "https://picsum.photos/400/600";
     try {
         let id = "";
-        if(link.includes("id=")){
-            id = link.split("id=")[1].split("&")[0];
-        }
-        if(link.includes("/file/d/")){
-            id = link.split("/file/d/")[1].split("/")[0];
-        }
-        if(id){
-            return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
-        }
-    } catch(e) { console.error("Image transform error", e); }
+        if(link.includes("id=")){ id = link.split("id=")[1].split("&")[0]; }
+        if(link.includes("/file/d/")){ id = link.split("/file/d/")[1].split("/")[0]; }
+        if(id){ return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000"; }
+    } catch(e) { console.error("Image mapping processing exception:", e); }
     return link;
 }
 
-/* PARALLEL ASYNC PERFORMANCE TUNNEL LOAD Engine */
+/* HIGH-SPEED PARALLEL RENDERING ENGINE PIPELINE */
 async function loadTrendingBooks(){
     const box = document.getElementById("books");
     
     try {
-        // Parallel data fetch pipeline (Khatam karega saare loading delay loops)
+        // Parallel requests prevent connection drop and timeouts
         const [productsRes, ordersRes] = await Promise.all([
-            fetch(API + "?db=products&t=" + Date.now()),
-            fetch(API + "?db=orders&t=" + Date.now())
+            fetch(API + "?action=products&t=" + Date.now()), 
+            fetch(API + "?action=sellers&t=" + Date.now()) // Safe fallback link check parameters
         ]);
 
-        let products = await productsRes.json();
-        let orders = await ordersRes.json();
+        // Validate JSON state structures cleanly
+        let productsData = await productsRes.json();
+        let products = productsData.products || productsData;
+        let orders = [];
+
+        try {
+            let ordersData = await ordersRes.json();
+            orders = ordersData.orders || ordersData || [];
+        } catch(e){ console.warn("Orders logs empty arrays injection fallback mapping active"); }
 
         if(!Array.isArray(products)) products = [];
         if(!Array.isArray(orders)) orders = [];
 
-        // Filter valid AI approved inventory structures
-        products = products.filter(p => p.ai_status === "approved");
+        // FIXED FIELD CHECK: Matches 'status === "approved"' from backend structure
+        products = products.filter(p => (p.status || p.ai_status) === "approved");
 
-        // Compute Metric Vectors mapping execution loops
+        if(products.length === 0) {
+            box.innerHTML = `
+                <div class="status-box">
+                    <div class="status-title">No Books Found</div>
+                    <div class="status-msg">Platform catalog indexing does not contain approved items at this interval.</div>
+                </div>`;
+            return;
+        }
+
+        // Calculate performance vector scores
         products.forEach(p => {
             let sales = orders.filter(o => 
-                String(o.productId) === String(p.id) && o.payment === "paid"
+                String(o.productId || o.product_id) === String(p.id) && (o.payment === "paid" || o.status === "paid")
             ).length;
             
-            p.sales = sales;
-            p.trendingScore = sales * 5;
+            p.sales = p.sales || sales || 0;
+            p.trendingScore = (p.sales * 5) + (Number(p.reads || 0) * 2);
         });
 
-        // Descending Vector Sorting Algorithm
+        // Quick descending order array vector shift sorting
         products.sort((a, b) => b.trendingScore - a.trendingScore);
 
         let html = "";
 
-        // Filter and compile Top 20 Hot Items layout map
+        // Build top hot items catalog stream
         products.slice(0, 20).forEach((p, i) => {
+            let coverImg = p.front_cover || p.image || "";
             html += `
                 <div class="card" onclick="openBook('${p.id}')">
-                    <img src="${driveImage(p.image)}" alt="Book Cover">
+                    <img src="${driveImage(coverImg)}" onerror="this.src='https://picsum.photos/400/600'" alt="Cover Frame">
                     <div class="info">
                         <div class="name-wrapper">
-                            <span class="name">${p.title || "Untitled"}</span>
-                            ${i < 3 ? '<span class="badge">🔥 Hot</span>' : ''}
+                            <span class="name">${p.title || "Untitled Creation"}</span>
+                            ${i < 3 ? '<span class="badge">🔥 Hot Trend</span>' : ''}
                         </div>
                         <div class="price">₹ ${p.price || 0}</div>
-                        <div class="meta">📈 ${p.sales} copies sold</div>
+                        <div class="meta">📈 ${p.sales || 0} items distributed • ${p.category || "General"}</div>
                         <button class="buy" onclick="buyNow(event, '${p.id}')">Buy Now</button>
                     </div>
                 </div>
             `;
         });
 
-        box.innerHTML = html || '<div class="status-msg">No Trending Books Found</div>';
+        box.innerHTML = html;
 
     } catch(err) {
-        console.error("System crash tunnel failure:", err);
-        box.innerHTML = '<div class="status-msg" style="color:#ef4444;">Failed to sync platform metrics. Please reload page.</div>';
+        console.error("Fatal System Exception Ingest Route Break:", err);
+        // Beautiful matching light UI status block layout for crash state recovery
+        box.innerHTML = `
+            <div class="status-box" style="border-color: #fca5a5; background: #fff5f5;">
+                <div class="status-title" style="color: #b91c1c;">Connection Synchronization Failed</div>
+                <div class="status-msg" style="color: #7f1d1d;">Database tunnel mapping rejected request or execution timeout limit hit. Ensure Web App link contains proper structures.</div>
+                <button class="btn-retry" onclick="location.reload()">Retry Connection Tunnel</button>
+            </div>`;
     }
 }
 
-/* DOCUMENT OPEN INGESTION NAVIGATION */
+/* REDIRECTION MAPPING SCHEMAS */
 function openBook(id){
     location.href = "ebook.html?id=" + id;
 }
 
-/* ORDER EXTRACTION ROUTING FLOW */
 function buyNow(e, id){
     e.stopPropagation();
     localStorage.setItem("buyProduct", id);
     location.href = "payment.html";
 }
 
-// Ingest pipeline execution triggers on initialization
+// Ingest target runtime mapping flow loops
 window.addEventListener("DOMContentLoaded", loadTrendingBooks);
 </script>
 </body>
