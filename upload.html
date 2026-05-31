@@ -11,75 +11,70 @@
    
 <style>
 /* =========================================================
-   PREMIUM CYBER-DARK THEME CORE
+   MATCHING LIGHT THEME CORE (Based on image_b1f67f.jpg)
    ========================================================= */
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 body{
-background: radial-gradient(circle at 50% 0%, #0f2d1d 0%, #020617 70%);
-color: #f8fafc;
+background-color: #f1f5f9; /* Soft light background */
+color: #1e293b;
 min-height:100vh;
 overflow-x:hidden;
-letter-spacing: -0.01em;
 }
 
-/* NAVBAR - Glassmorphic */
+/* NAVBAR - Matching top header style */
 .navbar{
 height:75px;
-background: rgba(7, 17, 31, 0.75);
-backdrop-filter: blur(12px);
--webkit-backdrop-filter: blur(12px);
+background: #ffffff;
 display:flex;
 justify-content:space-between;
 align-items:center;
 padding:0 30px;
-border-bottom:1px solid rgba(34, 197, 94, 0.15);
+border-bottom: 1px solid #e2e8f0;
 position: sticky;
 top: 0;
 z-index: 999;
+box-shadow: 0 1px 3px rgba(0,0,0,0.02);
 }
 
 .logo{
-font-size:28px;
+font-size:26px;
 font-weight:800;
-letter-spacing: -0.03em;
-background: linear-gradient(135deg, #ffffff 60%, #22c55e);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
+color: #0f172a;
+letter-spacing: -0.02em;
 }
 
 .logo span{
-color:#22c55e;
--webkit-text-fill-color: #22c55e;
+color: #2563eb; /* Matching Royal Blue */
 }
 
 .profile{
 display:flex;
 align-items:center;
 gap:12px;
-background: rgba(255,255,255,0.03);
+background: #f8fafc;
 padding: 8px 16px;
 border-radius: 100px;
-border: 1px solid rgba(255,255,255,0.05);
+border: 1px solid #e2e8f0;
 }
 
 .profile-dot{
 width:10px;
 height:10px;
 border-radius:50%;
-background:#22c55e;
-box-shadow: 0 0 12px #22c55e;
+background:#2563eb;
+box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
 }
 
 #username {
 font-size: 14px;
 font-weight: 600;
-color: #e2e8f0;
+color: #334155;
 }
 
 /* SIDE MENU */
@@ -89,18 +84,17 @@ top:0;
 left:-300px;
 width:280px;
 height:100%;
-background: rgba(2, 6, 23, 0.95);
-backdrop-filter: blur(16px);
+background: #ffffff;
 z-index:9999;
 padding:30px 24px;
-transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
-border-right:1px solid rgba(34, 197, 94, 0.1);
+transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+border-right:1px solid #e2e8f0;
 overflow:auto;
 }
 
 .side-menu.active{
 left:0;
-box-shadow: 20px 0 50px rgba(0,0,0,0.5);
+box-shadow: 15px 0 30px rgba(0,0,0,0.05);
 }
 
 .menu-top{
@@ -117,17 +111,18 @@ gap:14px;
 }
 
 .menu-avatar{
-width:48px;
-height:48px;
+width:45px;
+height:45px;
 border-radius:50%;
-border: 2px solid #22c55e;
+border: 2px solid #2563eb;
 padding: 2px;
-background: #020617;
+background: #ffffff;
 }
 
 #menuName {
 font-size: 16px;
 font-weight: 700;
+color: #0f172a;
 }
 
 .menu-profile p {
@@ -136,9 +131,9 @@ color: #64748b;
 }
 
 .close-btn{
-font-size:24px;
+font-size:22px;
 cursor:pointer;
-color: #64748b;
+color: #94a3b8;
 transition: color .2s;
 }
 
@@ -148,25 +143,23 @@ color: #ef4444;
 
 .side-menu a{
 display:block;
-padding:14px 18px;
-margin-top:10px;
+padding:12px 16px;
+margin-top:8px;
 border-radius:12px;
-background: rgba(255,255,255,0.02);
-color:#child;
-color: #css-text-color;
-color: #94a3b8;
+background: #f8fafc;
+color: #475569;
 text-decoration:none;
 font-weight: 500;
 font-size: 14px;
-transition: all .3s;
-border: 1px solid transparent;
+transition: all .2s;
+border: 1px solid #e2e8f0;
 }
 
 .side-menu a:hover{
-background: rgba(34, 197, 94, 0.08);
-color: #22c55e;
-border-color: rgba(34, 197, 94, 0.2);
-transform: translateX(8px);
+background: #f1f5f9;
+color: #2563eb;
+border-color: #cbd5e1;
+transform: translateX(5px);
 }
 
 #overlay{
@@ -175,8 +168,8 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.7);
-backdrop-filter: blur(4px);
+background:rgba(15, 23, 42, 0.3);
+backdrop-filter: blur(2px);
 display:none;
 z-index:9998;
 }
@@ -184,42 +177,32 @@ z-index:9998;
 /* CONTAINER LAYOUT */
 .container{
 width:95%;
-max-width:1440px;
-margin: 40px auto;
+max-width:1400px;
+margin: 35px auto;
 padding:0 20px;
 display:grid;
 grid-template-columns:2.6fr 1fr;
-gap:30px;
+gap:25px;
 align-items:start;
 }
 
-/* CARDS WITH GLOW */
+/* CARDS - Matching library template grids precisely */
 .card{
-background: rgba(11, 22, 38, 0.65);
-backdrop-filter: blur(20px);
--webkit-backdrop-filter: blur(20px);
-padding:35px;
-border-radius:24px;
-border:1px solid rgba(255,255,255,0.06);
-box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+background: #ffffff;
+padding:30px;
+border-radius:16px;
+border: 1px solid #e2e8f0;
+box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 position: relative;
-overflow: hidden;
-}
-
-.card::before {
-content: '';
-position: absolute;
-top: 0; left: 0; width: 100%; height: 2px;
-background: linear-gradient(90deg, transparent, #22c55e, transparent);
 }
 
 /* BACK TO HOME BUTTON */
 .back-btn {
-background: rgba(255, 255, 255, 0.03);
-border: 1px solid rgba(255, 255, 255, 0.08);
-color: #94a3b8;
-padding: 10px 18px;
-border-radius: 12px;
+background: #ffffff;
+border: 1px solid #cbd5e1;
+color: #475569;
+padding: 10px 16px;
+border-radius: 10px;
 cursor: pointer;
 margin-bottom: 25px;
 font-size: 13px;
@@ -231,9 +214,9 @@ transition: all .2s;
 }
 
 .back-btn:hover {
-background: rgba(255, 255, 255, 0.07);
-color: #fff;
-border-color: rgba(255, 255, 255, 0.15);
+background: #f8fafc;
+color: #0f172a;
+border-color: #94a3b8;
 }
 
 /* HEADINGS */
@@ -245,21 +228,21 @@ margin-bottom:30px;
 }
 
 .icon-box{
-width:64px;
-height:64px;
-border-radius:18px;
-background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(20, 83, 45, 0.3));
-border: 1px solid rgba(34, 197, 94, 0.3);
+width:60px;
+height:60px;
+border-radius:14px;
+background: #eff6ff;
+border: 1px solid #bfdbfe;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:26px;
-box-shadow: 0 8px 20px rgba(34, 197, 94, 0.1);
+font-size:24px;
 }
 
 .heading h2 {
-font-size: 26px;
+font-size: 24px;
 font-weight: 800;
+color: #0f172a;
 letter-spacing: -0.02em;
 }
 
@@ -282,67 +265,64 @@ grid-template-columns:1fr 1fr 1fr;
 gap:20px;
 }
 
-/* HIGH TECH INPUTS */
+/* INPUTS FIELD STYLING */
 label{
 display:block;
-margin-top:22px;
+margin-top:20px;
 margin-bottom:8px;
-font-size:13px;
-font-weight: 600;
-color: #94a3b8;
+font-size:12px;
+font-weight: 700;
+color: #475569;
 text-transform: uppercase;
-letter-spacing: 0.05em;
+letter-spacing: 0.03em;
 }
 
 input,
 textarea,
 select{
 width:100%;
-padding:15px 18px;
-border-radius:14px;
-border:1px solid rgba(255,255,255,0.08);
-background: #040b14;
-color:white;
+padding:14px 16px;
+border-radius:12px;
+border: 1px solid #cbd5e1;
+background: #ffffff;
+color: #0f172a;
 font-size:14px;
-transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+transition: all .2s ease;
 }
 
 input:focus,
 textarea:focus,
 select:focus{
 outline: none;
-border-color: #22c55e;
-background: #06111f;
-box-shadow: 0 0 15px rgba(34, 197, 94, 0.12);
+border-color: #2563eb;
+box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
 }
 
 textarea{
-height:140px;
+height:130px;
 resize:none;
 }
 
 .counter{
 text-align:right;
 font-size:12px;
-color:#475569;
+color:#94a3b8;
 margin-top:6px;
-font-weight: 500;
 }
 
-/* BRAND NEW GLOWING AI BUTTON */
+/* AI AUTO FILL BUTTON */
 .ai-btn{
 width:100%;
-padding:15px;
+padding:14px;
 margin-top:15px;
-border-radius:14px;
-border: 1px solid transparent;
-background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(20, 83, 45, 0.1) 100%);
-border-color: rgba(34, 197, 94, 0.3);
-color:#22c55e;
-font-weight:700;
+border-radius:12px;
+border: 1px solid #bfdbfe;
+background: #eff6ff;
+color: #2563eb;
+font-weight: 700;
 font-size: 14px;
 cursor:pointer;
-transition:all .3s;
+transition: all .2s;
 display: flex;
 justify-content: center;
 align-items: center;
@@ -350,130 +330,122 @@ gap: 8px;
 }
 
 .ai-btn:hover{
-background: linear-gradient(135deg, rgba(34, 197, 94, 0.25) 0%, rgba(20, 83, 45, 0.2) 100%);
-box-shadow: 0 0 20px rgba(34, 197, 94, 0.15);
-transform: translateY(-1px);
+background: #dbeafe;
+border-color: #3b82f6;
 }
 
 .ai-text{
 text-align:center;
 font-size:12px;
-color:#475569;
-margin-top:10px;
+color:#64748b;
+margin-top:8px;
 }
 
-/* PREMIUM FILE BOXES */
+/* FILE UPLOAD CONTAINERS */
 .upload-box,
 .pdf-box{
-height:160px;
-border:2px dashed rgba(255,255,255,0.12);
-border-radius:18px;
+height:150px;
+border: 2px dashed #cbd5e1;
+border-radius:14px;
 display:flex;
 align-items:center;
 justify-content:center;
 flex-direction:column;
-background: rgba(4, 11, 20, 0.5);
+background: #f8fafc;
 cursor:pointer;
 margin-top:10px;
-transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+transition: all .2s;
 text-align:center;
 overflow:hidden;
 position:relative;
-color: #94a3b8;
+color: #64748b;
 font-size: 14px;
 font-weight: 500;
-gap: 8px;
+gap: 6px;
 }
 
 .upload-box:hover,
 .pdf-box:hover{
-border-color:#22c55e;
-background: rgba(34, 197, 94, 0.03);
-color: #fff;
+border-color: #2563eb;
+background: #eff6ff;
+color: #2563eb;
 }
 
 .preview{
 width:100%;
 height:100%;
 object-fit:contain;
-background:#040b14;
-border-radius:16px;
+background: #f8fafc;
+border-radius:12px;
 display:none;
 position:absolute;
 top:0;
 left:0;
 }
    
-/* SUBMIT BUTTON - Cyber Stream Gradient */
+/* DASHBOARD STYLE PRIMARY BUTTON */
 .upload-btn{
 width:100%;
-padding:18px;
-margin-top:30px;
+padding:16px;
+margin-top:25px;
 border:none;
-border-radius:16px;
-background: linear-gradient(90deg, #10b981, #22c55e);
-color:white;
-font-size:18px;
+border-radius:12px;
+background: #2563eb; /* Matches the Dashboard button color exactly */
+color: white;
+font-size:16px;
 font-weight:700;
-letter-spacing: -0.01em;
 cursor:pointer;
-transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+transition: all .2s;
 display:flex;
 justify-content:center;
 align-items:center;
-gap:12px;
-box-shadow: 0 10px 25px rgba(34,197,94,0.25);
+gap:10px;
+box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
 }
 
 .upload-btn:hover:not(:disabled){
-transform:translateY(-3px);
-box-shadow: 0 15px 30px rgba(34,197,94,0.4);
-background: linear-gradient(90deg, #059669, #16a34a);
+background: #1d4ed8;
+box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
 }
 
 .upload-btn:disabled {
 opacity: 0.6;
 cursor: not-allowed;
-background: #334155;
+background: #94a3b8;
 box-shadow: none;
 }
 
 .approval{
 text-align:center;
 font-size:13px;
-margin-top:15px;
+margin-top:14px;
 color:#64748b;
-font-weight: 500;
 }
 
-/* CARDS RIGHT SIDEBAR */
+/* CARDS RIGHT SIDEBAR PANEL */
 .side-card{
-background: rgba(11, 22, 38, 0.6);
-backdrop-filter: blur(20px);
--webkit-backdrop-filter: blur(20px);
-padding:26px;
-border-radius:20px;
-border:1px solid rgba(255,255,255,0.05);
-margin-bottom:24px;
+background: #ffffff;
+padding:24px;
+border-radius:16px;
+border: 1px solid #e2e8f0;
+margin-bottom:20px;
+box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 .side-card h3{
-font-size:18px;
+font-size:16px;
 font-weight: 700;
-margin-bottom:18px;
-color:#22c55e;
-display: flex;
-align-items: center;
-gap: 10px;
+margin-bottom:16px;
+color: #0f172a;
 }
 
 .side-list{
 display:flex;
 flex-direction:column;
-gap:14px;
+gap:12px;
 font-size:14px;
 line-height:1.5;
-color:#cbd5e1;
+color: #475569;
 }
 
 .side-list div {
@@ -483,88 +455,81 @@ gap: 10px;
 }
 
 .side-list div::before {
-content: "✓";
-color: #22c55e;
+content: "•";
+color: #2563eb;
 font-weight: bold;
 }
 
 .highlight{
-margin-top:20px;
-padding:14px;
-border-radius:14px;
-background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(20, 83, 45, 0.2) 100%);
-border: 1px solid rgba(34, 197, 94, 0.2);
+margin-top:16px;
+padding:12px;
+border-radius:10px;
+background: #f0fdf4;
+border: 1px solid #bbf7d0;
 text-align:center;
-color:#bbf7d0;
+color: #16a34a;
 font-size:13px;
 font-weight:600;
 }
 
-/* FEATURES GRID IN CARDS */
+/* ADVANTAGE GRIDS */
 .feature-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:18px;
-margin-top:30px;
+gap:16px;
+margin-top:25px;
 }
 
 .feature-box{
 display:flex;
 align-items:center;
-gap:14px;
-padding:18px;
-border-radius:18px;
-background: rgba(255,255,255,0.02);
-border:1px solid rgba(255,255,255,0.04);
-transition: all .2s;
-}
-
-.feature-box:hover {
-background: rgba(255,255,255,0.04);
-border-color: rgba(255,255,255,0.08);
+gap:12px;
+padding:16px;
+border-radius:14px;
+background: #f8fafc;
+border: 1px solid #e2e8f0;
 }
 
 .feature-icon{
-width:46px;
-height:46px;
-border-radius:14px;
-background: rgba(34, 197, 94, 0.1);
-border: 1px solid rgba(34, 197, 94, 0.2);
+width:44px;
+height:44px;
+border-radius:10px;
+background: #f1f5f9;
+border: 1px solid #cbd5e1;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:20px;
+font-size:18px;
 flex-shrink:0;
 }
 
 .feature-box h4{
 font-size:14px;
 font-weight: 700;
-color:#e2e8f0;
+color: #334155;
 }
 
 .feature-box p{
 font-size:12px;
-line-height:1.4;
-color:#64748b;
+color: #64748b;
 margin-top:2px;
 }
 
 /* FOOTER SETUP */
 footer{
 margin-top:60px;
-padding:50px 30px;
-background:#020617;
-border-top: 1px solid rgba(255,255,255,0.05);
+padding:40px 20px;
+background: #ffffff;
+border-top: 1px solid #e2e8f0;
 }
 
-/* RESPONSIVE LAYOUTS */
+/* RESPONSIVE RENDERING RULES */
 @media(max-width:900px){
 .container{
 display:flex;
 flex-direction:column;
 padding:0 15px;
-margin: 20px auto;
+margin: 15px auto;
 }
 
 .grid2,
@@ -575,12 +540,7 @@ grid-template-columns:1fr;
 
 .card,
 .side-card{
-padding:22px;
-}
-
-.upload-btn{
-font-size:16px;
-padding: 16px;
+padding:20px;
 }
 }
 
@@ -593,9 +553,10 @@ padding: 16px;
 
 <body>
 
+<!-- NAVBAR -->
 <div class="navbar">
 <div style="display:flex;align-items:center;gap:15px;">
-<div onclick="openMenu()" style="font-size:22px;cursor:pointer;color: #94a3b8; transition: color 0.2s;" onmouseover="this.style.color='#22c55e'" onmouseout="this.style.color='#94a3b8'">☰</div>
+<div onclick="openMenu()" style="font-size:22px;cursor:pointer;color: #475569;">☰</div>
 <div class="logo">Creator<span>Hub</span></div>
 </div>
 <div class="profile">
@@ -604,6 +565,7 @@ padding: 16px;
 </div>
 </div>
 
+<!-- SIDE MENU -->
 <div id="menu" class="side-menu">
 <div class="menu-top">
 <div class="menu-profile">
@@ -615,19 +577,21 @@ padding: 16px;
 </div>
 <div class="close-btn" onclick="closeMenu()">✕</div>
 </div>
-<a href="index.html">🏠 Home</a>
-<a href="library.html">📚 My Library</a>
-<a href="orders.html">📦 Orders</a>
-<a href="wallet.html">💼 Wallet</a>
-<a href="premium.html">⭐ Premium</a>
-<a href="trending.html">🔥 Trending</a>
-<a href="topselling.html">💎 Top Selling</a>
-<a href="rated.html">✨ Highest Rated</a>
+<a href="index.html">Home</a>
+<a href="library.html">My Library</a>
+<a href="orders.html">Orders</a>
+<a href="wallet.html">Wallet</a>
+<a href="premium.html">Premium</a>
+<a href="trending.html">Trending</a>
+<a href="topselling.html">Top Selling</a>
+<a href="rated.html">Highest Rated</a>
 </div>
 
 <div id="overlay" onclick="closeMenu()"></div>
 
+<!-- MAIN LAYOUT -->
 <div class="container">
+<!-- LEFT AREA FORM -->
 <div class="card">
 <button class="back-btn" onclick="location.href='index.html'">
 ← Back To Home
@@ -637,7 +601,7 @@ padding: 16px;
 <div class="icon-box">📚</div>
 <div>
 <h2>Upload Ebook</h2>
-<p>Publish your digital creation and scale globally</p>
+<p>Upload your ebook and reach thousands of readers</p>
 </div>
 </div>
 
@@ -647,15 +611,15 @@ padding: 16px;
 </div>
 
 <label>Book Description</label>
-<textarea id="description" placeholder="Write an engaging overview of your ebook..."></textarea>
+<textarea id="description" placeholder="Provide a summary of your content..."></textarea>
 <div class="counter" id="counter">0/1000</div>
 
 <button class="ai-btn" id="aiBtn" onclick="autoFillAI()">✨ AI Help Auto Fill</button>
-<div class="ai-text">Smart assistant reads your PDF structure and pre-fills metadata</div>
+<div class="ai-text">AI reads your PDF and fills details automatically</div>
 
 <div class="grid3" style="margin-top:18px;">
-<input id="category" placeholder="Category (e.g. Tech, Finance)">
-<input id="language" placeholder="Language (e.g. English)">
+<input id="category" placeholder="Category">
+<input id="language" placeholder="Language">
 <select id="bookSize">
 <option disabled selected hidden>Select Book Size</option>
 <option>A4</option>
@@ -665,118 +629,122 @@ padding: 16px;
 </div>
 
 <div class="grid2" style="margin-top:16px;">
-<input id="tags" placeholder="Tags (comma separated)">
-<input id="isbn" placeholder="ISBN (Optional)">
+<input id="tags" placeholder="Tags">
+<input id="isbn" placeholder="ISBN">
 </div>
 
 <div class="grid3" style="margin-top:16px;">
-<input id="price" placeholder="Price (INR)">
-<input id="pages" placeholder="Pages count" readonly style="background: rgba(255,255,255,0.01); color: #64748b;">
-<label style="display:flex;align-items:center;gap:10px;margin:0;cursor:pointer; user-select:none;">
-<input type="checkbox" id="printVersion" style="width:auto;margin:0; accent-color:#22c55e;"> Print Version
+<input id="price" placeholder="Price">
+<input id="pages" placeholder="Pages" readonly style="background: #f1f5f9; color: #94a3b8;">
+<label style="display:flex;align-items:center;gap:10px;margin:0;cursor:pointer;">
+<input type="checkbox" id="printVersion" style="width:auto;margin:0; accent-color:#2563eb;"> Print Version Available
 </label>
 </div>
 
+<!-- COVERS -->
 <div class="grid2" style="margin-top: 15px;">
 <div>
-<label>Front Cover Image</label>
+<label>Front Cover</label>
 <div class="upload-box" onclick="front.click()">
 <div id="frontText">🖼️ Upload Front Cover</div>
 <img id="frontPreview" class="preview">
 </div>
 <input hidden type="file" id="front" accept="image/*">
-<button id="removeFront" style="display:none;margin-top:8px;background:#ef4444;color:white;border:none;padding:8px 12px;border-radius:8px;cursor:pointer; width:100%; font-weight:600; font-size:12px;">Remove Front Cover</button>
+<button id="removeFront" style="display:none;margin-top:8px;background:#ef4444;color:white;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;width:100%;font-weight:600;font-size:12px;">Remove</button>
 </div>
 
 <div>
-<label>Back Cover Image</label>
+<label>Back Cover</label>
 <div class="upload-box" onclick="back.click()">
 <div id="backText">🖼️ Upload Back Cover</div>
 <img id="backPreview" class="preview">
 </div>
 <input hidden type="file" id="back" accept="image/*">
-<button id="removeBack" style="display:none;margin-top:8px;background:#ef4444;color:white;border:none;padding:8px 12px;border-radius:8px;cursor:pointer; width:100%; font-weight:600; font-size:12px;">Remove Back Cover</button>
+<button id="removeBack" style="display:none;margin-top:8px;background:#ef4444;color:white;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;width:100%;font-weight:600;font-size:12px;">Remove</button>
 </div>
 </div>
 
-<label style="margin-top:25px;">Ebook Document File</label>
+<!-- PDF BLOCK -->
+<label style="margin-top:20px;">PDF File</label>
 <div class="pdf-box" onclick="pdf.click()" id="pdfBox">
-<div id="pdfText">📥 Click to select document PDF</div>
+<div id="pdfText">📄 Click to Upload PDF</div>
 </div>
 <input hidden type="file" id="pdf" accept="application/pdf">
 
+<!-- RUN BLOCK ENGINE -->
 <button class="upload-btn" id="uploadBtn" onclick="uploadBook()">
-<span id="uploadText">Publish Ebook to Marketplace</span>
+<span id="uploadText">Upload Ebook</span>
 <span id="uploadLoader" style="display:none;width:22px;height:22px;border:3px solid rgba(255,255,255,0.3);border-top:3px solid white;border-radius:50%;animation:spin 1s linear infinite;"></span>
 </button>
 
-<div class="approval">🔒 Safe Processing & Instant AI Security Moderation Tunnel</div>
+<div class="approval">📋 Your ebook will be reviewed after AI approval</div>
 
 <div class="feature-grid">
 <div class="feature-box">
 <div class="feature-icon">🔒</div>
 <div>
-<h4>Encrypted Storage</h4>
-<p>Multi-layer system protection</p>
+<h4>Secure Upload</h4>
+<p>Your files are encrypted and protected</p>
 </div>
 </div>
 <div class="feature-box">
 <div class="feature-icon">⚡</div>
 <div>
-<h4>Neural Scan</h4>
-<p>AI moderation clears tracks instantly</p>
+<h4>Fast Approval</h4>
+<p>AI reviews ebooks within minutes</p>
 </div>
 </div>
 <div class="feature-box">
 <div class="feature-icon">📈</div>
 <div>
-<h4>Global Distribution</h4>
-<p>SEO configured indexing layout</p>
+<h4>Better Reach</h4>
+<p>Quality ebooks get more visibility</p>
 </div>
 </div>
 <div class="feature-box">
 <div class="feature-icon">💰</div>
 <div>
-<h4>90% Creators Cut</h4>
-<p>Direct system split directly into wallet</p>
+<h4>Earn More</h4>
+<p>Sell globally and grow income</p>
 </div>
 </div>
 </div>
 </div>
 
+<!-- RIGHT SIDEBAR -->
 <div>
 <div class="side-card">
-<h3>📝 Upload Guidelines</h3>
+<h3>Upload Guidelines</h3>
 <div class="side-list">
-<div>High-quality vector layout PDF format only</div>
-<div>Professional 300DPI aspect cover ratios</div>
-<div>No distribution of non-copyright material</div>
-<div>Automated system checking mechanisms active</div>
-<div>Approval structures optimized parameters</div>
+<div>High-quality PDF ebooks only</div>
+<div>Professional front & back covers</div>
+<div>No piracy or harmful content</div>
+<div>AI checks all uploads automatically</div>
+<div>Fast review & approval process</div>
 </div>
-<div class="highlight">High fidelity covers scale system engagement by 400%</div>
+<div class="highlight">Better quality ebooks get more visibility</div>
 </div>
 
 <div class="side-card">
-<h3>🤖 AI Integration Engine</h3>
+<h3>AI Smart Assistant</h3>
 <div class="side-list">
-<div>Deep-scans assets content patterns context</div>
-<div>Generates metadata indexing headers tags</div>
-<div>Formulates optimized category mappings</div>
-<div>Flags malicious source architecture layouts</div>
-<div>Fires system clearing response metrics</div>
+<div>AI reads your PDF automatically</div>
+<div>Generates title & description</div>
+<div>Suggests category and tags</div>
+<div>Detects harmful or spam content</div>
+<div>Smart AI moderation system</div>
 </div>
-<div class="highlight">AI processes structures securely mapping execution pipelines</div>
+<div class="highlight">AI helps creators publish faster</div>
 </div>
 
 <div class="side-card">
-<h3 style="color:#a78bfa;">💡 System Vector Tips</h3>
+<h3 style="color:#7c3aed;">Tips for Better Results</h3>
 <div class="side-list">
-<div>• Maintain high contrast font colors</div>
-<div>• Provide extensive searchable metadata</div>
-<div>• Group tags mapping broad indexing terms</div>
-<div>• Verify asset uniqueness prior publishing</div>
-<div>• Keep profile settings fully active</div>
+<div>• Use clear and attractive covers</div>
+<div>• Write detailed descriptions</div>
+<div>• Choose accurate category & tags</div>
+<div>• Keep content original</div>
+<div>• Follow platform guidelines</div>
 </div>
 </div>
 </div>
@@ -784,6 +752,7 @@ padding: 16px;
 
 <div id="footer"></div>
 
+<!-- SYSTEM SCRIPTS PROCESS ENGINES -->
 <script>
 /* =========================================================
    API CONFIG
@@ -826,7 +795,6 @@ const printVersion = document.getElementById("printVersion");
    FAST UI INITIALIZATION (Loading Issue Solved Here)
    ========================================================= */
 window.addEventListener("DOMContentLoaded", () => {
-    // Phase 1: Local Storage se instant user load karo taaki user stuck na rahe
     try {
         let localUser = JSON.parse(localStorage.getItem("user")) || {};
         let cachedName = localUser.name || (localUser.user && localUser.user.name) || "Creator";
@@ -837,10 +805,8 @@ window.addEventListener("DOMContentLoaded", () => {
         menuName.innerText = "Creator";
     }
     
-    // Phase 2: Background Auth & Check Server status smoothly
     loadUser();
     
-    // Phase 3: Silent Google Client Initialize (No UI Block)
     gapi.load("client", () => {
         gapi.client.init({
             apiKey: API_KEY,
@@ -871,7 +837,6 @@ async function loadUser(){
         
         if(!email) return;
 
-        // Parallel Fetch User and Status
         const [userRes, sellerRes] = await Promise.all([
             fetch(UPLOAD_API, {
                 method: "POST",
@@ -1089,23 +1054,19 @@ async function uploadBook(){
     uploadLoader.style.display = "block";
 
     try {
-        // 1. Trigger Google Authorization Prompt
         await initGoogle();
 
-        // 2. Extract PDF text & Create Target Folder on Drive in Parallel
         const [pdfText, bookFolderId] = await Promise.all([
             extractPDFText(pdf.files[0]),
             createDriveFolder(title.value)
         ]);
 
-        // 3. PARALLEL STREAM MULTIPART ASSETS UPLOAD (3x Processing Speed Boost)
         const [pdfId, frontId, backId] = await Promise.all([
             uploadToDrive(pdf.files[0], bookFolderId),
             uploadToDrive(front.files[0], bookFolderId),
             uploadToDrive(back.files[0], bookFolderId)
         ]);
 
-        // 4. Fire Single Clean Structure Request to Apps Script Backend
         let payload = {
             action: "uploadEbook",
             email: userEmail,
