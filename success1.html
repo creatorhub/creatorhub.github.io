@@ -1,699 +1,555 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
-<title>CreatorHub Payment Success</title>
-
-<link rel="preconnect"
-href="https://fonts.googleapis.com">
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-rel="stylesheet">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Inter',sans-serif;
-}
-
-body{
-
-background:
-linear-gradient(
-180deg,
-#020617,
-#071120
-);
-
-min-height:100vh;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-padding:25px;
-
-color:white;
-
-overflow-x:hidden;
-
-}
-
-/* ======================================================
-CARD
-====================================================== */
-
-.success-card{
-
-width:100%;
-max-width:720px;
-
-background:#0f172a;
-
-border:
-1px solid rgba(255,255,255,.06);
-
-border-radius:40px;
-
-padding:60px 40px;
-
-text-align:center;
-
-box-shadow:
-0 30px 90px rgba(0,0,0,.55);
-
-position:relative;
-
-overflow:hidden;
-
-}
-
-/* ======================================================
-GLOW
-====================================================== */
-
-.success-glow{
-
-position:absolute;
-
-width:600px;
-height:600px;
-
-background:
-radial-gradient(
-circle,
-rgba(34,197,94,.22),
-transparent
-);
-
-top:-300px;
-right:-300px;
-
-pointer-events:none;
-
-}
-
-/* ======================================================
-ICON
-====================================================== */
-
-.icon{
-
-width:130px;
-height:130px;
-
-margin:auto;
-
-border-radius:50%;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-font-size:68px;
-font-weight:900;
-
-background:
-linear-gradient(
-135deg,
-#16a34a,
-#4ade80
-);
-
-box-shadow:
-0 20px 60px rgba(34,197,94,.35);
-
-animation:pop .7s ease;
-
-}
-
-@keyframes pop{
-
-0%{
-transform:scale(.5);
-opacity:0;
-}
-
-100%{
-transform:scale(1);
-opacity:1;
-}
-
-}
-
-/* ======================================================
-TITLE
-====================================================== */
-
-h1{
-
-margin-top:35px;
-
-font-size:52px;
-font-weight:900;
-
-line-height:1.2;
-
-}
-
-.desc{
-
-margin-top:20px;
-
-font-size:17px;
-
-line-height:1.9;
-
-opacity:.8;
-
-max-width:560px;
-
-margin-left:auto;
-margin-right:auto;
-
-}
-
-/* ======================================================
-ORDER BOX
-====================================================== */
-
-.order-box{
-
-margin-top:40px;
-
-padding:30px;
-
-border-radius:30px;
-
-background:#081225;
-
-text-align:left;
-
-border:
-1px solid rgba(255,255,255,.05);
-
-}
-
-.row{
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-gap:20px;
-
-margin-top:18px;
-
-font-size:16px;
-
-}
-
-.row:first-child{
-margin-top:0;
-}
-
-.label{
-opacity:.65;
-}
-
-.value{
-font-weight:800;
-word-break:break-word;
-}
-
-.green{
-color:#4ade80;
-}
-
-/* ======================================================
-LOADER
-====================================================== */
-
-.loader{
-
-width:58px;
-height:58px;
-
-border-radius:50%;
-
-border:5px solid rgba(255,255,255,.08);
-
-border-top:
-5px solid #4ade80;
-
-margin:40px auto 0;
-
-animation:spin 1s linear infinite;
-
-}
-
-@keyframes spin{
-
-100%{
-transform:rotate(360deg);
-}
-
-}
-
-/* ======================================================
-STATUS
-====================================================== */
-
-.status{
-
-margin-top:22px;
-
-font-size:18px;
-font-weight:700;
-
-color:#4ade80;
-
-line-height:1.8;
-
-}
-
-/* ======================================================
-BUTTON
-====================================================== */
-
-.btn{
-
-display:inline-flex;
-
-align-items:center;
-justify-content:center;
-
-margin-top:40px;
-
-height:68px;
-
-padding:0 34px;
-
-border-radius:24px;
-
-background:
-linear-gradient(
-90deg,
-#16a34a,
-#4ade80
-);
-
-color:white;
-
-font-size:18px;
-font-weight:900;
-
-text-decoration:none;
-
-transition:.3s;
-
-}
-
-.btn:hover{
-transform:translateY(-4px);
-}
-
-/* ======================================================
-NOTE
-====================================================== */
-
-.note{
-
-margin-top:30px;
-
-opacity:.58;
-
-font-size:14px;
-
-line-height:1.9;
-
-}
-
-/* ======================================================
-MOBILE
-====================================================== */
-
-@media(max-width:700px){
-
-.success-card{
-padding:45px 24px;
-border-radius:30px;
-}
-
-h1{
-font-size:38px;
-}
-
-.icon{
-width:110px;
-height:110px;
-font-size:58px;
-}
-
-.order-box{
-padding:24px;
-}
-
-.row{
-font-size:15px;
-}
-
-.btn{
-width:100%;
-}
-
-}
-
-</style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Payment Success - CreatorHub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* =====================================================
+    CORE RESET & CREATORHUB PREMIUM THEME INTERFACES
+    ===================================================== */
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body{
+      background: #f6f8fc;
+      color: #101828;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    ::-webkit-scrollbar{
+      width: 6px;
+    }
+    ::-webkit-scrollbar-thumb{
+      background: #3157c9;
+      border-radius: 20px;
+    }
+
+    /* =====================================================
+    TOPBAR / NAVIGATION LAYER
+    ===================================================== */
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      min-height: 114px;
+      background: #fff;
+      border-bottom: 1px solid #dce4f0;
+      padding: 26px 34px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .topbar-left{
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .brand-logo{
+      display: flex;
+      align-items: center;
+    }
+    .brand-name{
+      font-size: 25px;
+      font-weight: 950;
+      color: #06142c;
+      letter-spacing: -0.02em;
+    }
+    .brand-name span{
+      color: #2f62e9;
+    }
+    .back-btn{
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 800;
+      color: #5d6d85;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s ease;
+    }
+    .back-btn:hover{
+      color: #2f62e9;
+    }
+    .badge{
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: #eef3f9;
+      color: #2f62e9;
+      font-weight: 950;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      border: 1px solid rgba(49, 87, 201, 0.1);
+    }
+
+    /* =====================================================
+    PROFILE BLOCK Dropdown Menu
+    ===================================================== */
+    .profile-wrap{
+      position: relative;
+      display: none;
+      align-items: center;
+    }
+    .profile-image{
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #d9e1ec;
+      border: 3px solid #fff;
+      box-shadow: 0 8px 20px rgba(16, 24, 40, 0.12);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      cursor: pointer;
+    }
+    .profile-image:hover{
+      transform: scale(1.04);
+      border-color: #2f62e9;
+    }
+    .profile-menu{
+      position: absolute;
+      top: 68px;
+      left: 0;
+      width: 280px;
+      background: #0d1628;
+      border: 1px solid #182a64;
+      border-radius: 14px;
+      padding: 20px;
+      display: none;
+      box-shadow: 0 20px 45px rgba(16, 24, 40, 0.25);
+      z-index: 1000;
+    }
+    .profile-menu.show{
+      display: block;
+      animation: menuFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes menuFadeIn{
+      from { opacity: 0; transform: translateY(8px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .profile-header{
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 14px;
+    }
+    .menu-profile-image{
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    #menuName{
+      color: #fff;
+      font-size: 16px;
+      font-weight: 800;
+    }
+    #menuEmail{
+      margin-top: 3px;
+      font-size: 13px;
+      color: #63728a;
+      word-break: break-all;
+    }
+    .profile-menu a{
+      display: flex;
+      align-items: center;
+      height: 46px;
+      padding: 0 14px;
+      border-radius: 8px;
+      color: #e7edf8;
+      font-size: 15px;
+      font-weight: 700;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .profile-menu a:hover{
+      background: #182a64;
+      transform: translateX(4px);
+    }
+    .logout-btn{
+      margin-top: 14px;
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ef4444;
+      color: #fff;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .logout-btn:hover{
+      opacity: 0.9;
+    }
+
+    /* =====================================================
+    MAIN CORE CARD CONTAINERS
+    ===================================================== */
+    .main{
+      max-width: 1200px;
+      margin: auto;
+      padding: 50px 24px 90px;
+    }
+
+    .success-card{
+      width: 100%;
+      max-width: 680px;
+      background: #fff;
+      border: 1px solid #dce4f0;
+      border-radius: 9px;
+      padding: 50px 40px;
+      text-align: center;
+      box-shadow: 0 18px 45px rgba(16,24,40,.04);
+      margin: 0 auto;
+    }
+
+    .icon-wrapper {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #e7f8ef;
+      border: 1px solid rgba(15, 159, 87, 0.1);
+      font-size: 44px;
+      color: #0f9f57;
+      box-shadow: 0 10px 30px rgba(15, 159, 87, 0.08);
+      animation: popEffect 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes popEffect {
+      0% { transform: scale(0.6); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    h1{
+      font-size: 38px;
+      font-weight: 950;
+      color: #06142c;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .desc{
+      margin-top: 14px;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #63728a;
+      max-width: 540px;
+      margin-left: auto;
+      margin-right: auto;
+      font-weight: 500;
+    }
+
+    /* =====================================================
+    ORDER DETAILS SPECIFICATION PANEL BOX
+    ===================================================== */
+    .order-box{
+      margin-top: 36px;
+      padding: 24px 28px;
+      border-radius: 8px;
+      background: #f6f8fc;
+      text-align: left;
+      border: 1px solid #dce4f0;
+    }
+
+    .row{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 14px 0;
+      border-bottom: 1px solid #eef3f9;
+      font-size: 15px;
+    }
+    .row:last-child {
+      border-bottom: none;
+    }
+
+    .label{
+      color: #5d6d85;
+      font-weight: 700;
+    }
+
+    .value{
+      font-weight: 800;
+      color: #06142c;
+      word-break: break-all;
+    }
+
+    .green{
+      color: #0f9f57 !important;
+    }
+
+    /* =====================================================
+    LOADER PROGRESS BLOCK
+    ===================================================== */
+    .loader{
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 3px solid #dce4f0;
+      border-top-color: #2f62e9;
+      margin: 32px auto 0;
+      animation: spinLoader 0.8s linear infinite;
+    }
+
+    @keyframes spinLoader{
+      100% { transform: rotate(360deg); }
+    }
+
+    .status{
+      margin-top: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #2f62e9;
+    }
+
+    /* REDIRECT ACTION TRIGGER */
+    .btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 32px;
+      min-height: 54px;
+      padding: 0 34px;
+      border-radius: 9px;
+      background: #101c2f;
+      color: white;
+      font-size: 16px;
+      font-weight: 900;
+      text-decoration: none;
+      transition: background 0.2s ease;
+      width: 100%;
+    }
+    .btn:hover{
+      background: #182a64;
+    }
+
+    .note{
+      margin-top: 24px;
+      color: #63728a;
+      font-size: 13px;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    @media(max-width:768px){
+      .topbar{ min-height: auto; padding: 20px 24px; }
+      .main { padding: 30px 16px; }
+      .success-card{ padding: 40px 24px; }
+      h1{ font-size: 28px; }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="success-card">
-
-<div class="success-glow"></div>
-
-<!-- ======================================================
-ICON
-====================================================== -->
-
-<div class="icon">
-✓
-</div>
-
-<!-- ======================================================
-TITLE
-====================================================== -->
-
-<h1>
-Payment Successful
-</h1>
-
-<p class="desc">
-
-Your payment has been processed successfully.
-
-Your order has been confirmed and forwarded automatically to the CreatorHub fulfillment system for processing and delivery.
-
-</p>
-
-<!-- ======================================================
-ORDER INFO
-====================================================== -->
-
-<div class="order-box">
-
-<div class="row">
-
-<div class="label">
-Order ID
-</div>
-
-<div
-id="orderId"
-class="value">
-
-Loading...
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="label">
-Payment Status
-</div>
-
-<div class="value green">
-PAID
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="label">
-Fulfillment
-</div>
-
-<div
-id="fulfillment"
-class="value">
-
-Qikink Processing
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="label">
-Delivery Region
-</div>
-
-<div class="value">
-India
-</div>
-
-</div>
-
-</div>
-
-<!-- ======================================================
-LOADER
-====================================================== -->
-
-<div
-class="loader"
-id="loader">
-</div>
-
-<!-- ======================================================
-STATUS
-====================================================== -->
-
-<div
-id="status"
-class="status">
-
-Confirming payment...
-
-</div>
-
-<!-- ======================================================
-BUTTON
-====================================================== -->
-
-<a
-href="index.html"
-class="btn">
-
-Back To CreatorHub
-
-</a>
-
-<!-- ======================================================
-NOTE
-====================================================== -->
-
-<div class="note">
-
-Please do not close this page while we activate tracking and complete order confirmation.
-
-</div>
-
-</div>
-
-<script>
-
-/* ======================================================
-API
-====================================================== */
-
-const API_URL =
-"https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec"
-
-/* ======================================================
-GET ORDER ID
-====================================================== */
-
-const params =
-new URLSearchParams(
-window.location.search
-)
-
-let orderId =
-params.get("order_id")
-
-if(!orderId){
-
-orderId =
-localStorage.getItem("order_id")
-
-}
-
-/* ======================================================
-SHOW ORDER ID
-====================================================== */
-
-document.getElementById(
-"orderId"
-).innerHTML =
-orderId || "N/A"
-
-/* ======================================================
-CONFIRM PAYMENT
-====================================================== */
-
-async function confirmPayment(){
-
-try{
-
-if(!orderId){
-
-document.getElementById(
-"status"
-).innerHTML =
-"Invalid order ID"
-
-document.getElementById(
-"loader"
-).style.display="none"
-
-return
-
-}
-
-/* ======================================================
-PAYMENT SUCCESS API
-====================================================== */
-
-let res =
-await fetch(API_URL,{
-
-method:"POST",
-
-mode:"cors",
-
-headers:{
-"Content-Type":"text/plain;charset=utf-8"
-},
-
-body:JSON.stringify({
-
-action:"paymentSuccess",
-
-order_id:orderId
-
-})
-
-})
-
-let result =
-await res.json()
-
-/* ======================================================
-FAILED
-====================================================== */
-
-if(!result.success){
-
-document.getElementById(
-"status"
-).innerHTML =
-result.message ||
-"Payment confirmation failed"
-
-document.getElementById(
-"loader"
-).style.display="none"
-
-return
-
-}
-
-/* ======================================================
-SUCCESS
-====================================================== */
-
-document.getElementById(
-"status"
-).innerHTML =
-
-"Order confirmed successfully"
-
-localStorage.setItem(
-"order_id",
-orderId
-)
-
-setTimeout(()=>{
-
-window.location.href =
-"track.html?order_id=" + orderId
-
-},2500)
-
-document.getElementById(
-"fulfillment"
-).innerHTML =
-
-"Qikink Order Created"
-
-document.getElementById(
-"loader"
-).style.display="none"
-
-/* ======================================================
-CLEAR STORAGE
-====================================================== */
-
-
-
-/* OPTIONAL */
-
-localStorage.removeItem(
-"shippingAddress"
-)
-
-localStorage.removeItem(
-"paymentBook"
-)
-
-}catch(err){
-
-console.log(err)
-
-document.getElementById(
-"status"
-).innerHTML =
-
-"Server connection failed"
-
-document.getElementById(
-"loader"
-).style.display="none"
-
-}
-
-}
-
-/* ======================================================
-START
-====================================================== */
-
-confirmPayment()
-
-</script>
-
+  <div class="topbar">
+    <div class="topbar-left">
+      <div id="profileWrap" class="profile-wrap">
+        <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile View">
+        
+        <div id="profileMenu" class="profile-menu">
+          <div class="profile-header">
+            <img id="menuProfileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="menu-profile-image" alt="User">
+            <div>
+              <div id="menuName">CreatorHub User</div>
+              <div id="menuEmail">user@email.com</div>
+            </div>
+          </div>
+          <a href="profile.html">My Profile</a>
+          <a href="seller-apply.html">Become Seller</a>
+          <a href="tranding.html">Trending Books</a>
+          <a href="library.html">Library</a>
+          <a href="topselling.html">Top Selling</a>
+          <div class="logout-btn" onclick="logout()">Logout</div>
+        </div>
+      </div>
+
+      <div class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i> Back to Home</div>
+    </div>
+
+    <a class="brand-logo" href="./dashboard.html">
+      <span class="brand-name">Creator<span>Hub</span></span>
+    </a>
+
+    <div class="badge">Invoice Terminal</div>
+  </div>
+
+  <div class="main">
+
+    <div class="success-card">
+      <div class="icon-wrapper"><i class="fa-solid fa-check"></i></div>
+
+      <h1>Payment Successful</h1>
+      <p class="desc">Your payment has been processed successfully. Your order has been confirmed and forwarded automatically to the CreatorHub fulfillment system for processing and delivery.</p>
+
+      <div class="order-box">
+        <div class="row">
+          <div class="label">Order ID</div>
+          <div id="orderId" class="value">Loading...</div>
+        </div>
+
+        <div class="row">
+          <div class="label">Payment Status</div>
+          <div class="value green">PAID</div>
+        </div>
+
+        <div class="row">
+          <div class="label">Fulfillment</div>
+          <div id="fulfillment" class="value">Qikink Processing</div>
+        </div>
+
+        <div class="row">
+          <div class="label">Delivery Region</div>
+          <div class="value">India</div>
+        </div>
+      </div>
+
+      <div class="loader" id="loader"></div>
+      <div id="status" class="status">Confirming payment status...</div>
+
+      <a href="index.html" class="btn">Back To CreatorHub</a>
+
+      <div class="note">Please do not close this page while we activate tracking and complete order confirmation.</div>
+    </div>
+
+  </div>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec";
+
+    const params = new URLSearchParams(window.location.search);
+    let orderId = params.get("order_id") || localStorage.getItem("order_id");
+
+    function driveImage(url){
+      if(!url) return "";
+      if(url.includes("uc?id=")){
+        let id = url.split("id=")[1].split("&")[0];
+        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+      }
+      if(url.includes("/d/")){
+        let id = url.split("/d/")[1].split("/")[0];
+        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+      }
+      return url;
+    }
+
+    function toggleProfileMenu(){
+      document.getElementById("profileMenu").classList.toggle("show");
+    }
+
+    window.addEventListener("click", function(e){
+      let wrap = document.getElementById("profileWrap");
+      if(wrap && !wrap.contains(e.target)){
+        document.getElementById("profileMenu").classList.remove("show");
+      }
+    });
+
+    function logout(){
+      localStorage.clear();
+      window.location.href = "login.html";
+    }
+
+    function goBack(){
+      window.location.href = "index.html";
+    }
+
+    function updateLoginUI(){
+      let token = localStorage.getItem("user_token");
+      let profileWrap = document.getElementById("profileWrap");
+
+      let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
+      let email = localStorage.getItem("creatorhub_profile_email");
+      
+      if(token || localStorage.getItem("user")){
+        profileWrap.style.display = "flex";
+
+        if(cachedUser && email){
+          try {
+            let data = JSON.parse(cachedUser)[email];
+            if(data && data.profile_image){
+              document.getElementById("profileImage").src = driveImage(data.profile_image);
+              document.getElementById("menuProfileImage").src = driveImage(data.profile_image);
+              document.getElementById("menuName").innerText = data.name || "CreatorHub User";
+              document.getElementById("menuEmail").innerText = data.email || email;
+            }
+          } catch(e) { console.log("Cache processing skipped"); }
+        }
+      }
+    }
+
+    // Assures safe UI allocation prior to async calls
+    document.getElementById("orderId").innerHTML = orderId || "N/A";
+
+    /* =====================================================
+    DETERMINISTIC INVOICE STABILIZATION SYNC INTERFACE
+    ===================================================== */
+    async function confirmPayment(){
+      try{
+        if(!orderId){
+          document.getElementById("status").innerHTML = "Invalid order ID context reference.";
+          document.getElementById("loader").style.display = "none";
+          return;
+        }
+
+        let res = await fetch(API_URL,{
+          method: "POST",
+          mode: "cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({ action: "paymentSuccess", order_id: orderId })
+        });
+
+        let result = await res.json();
+
+        if(!result.success){
+          document.getElementById("status").innerHTML = result.message || "Payment confirmation validation timed out.";
+          document.getElementById("status").style.color = "#ef4444";
+          document.getElementById("loader").style.display = "none";
+          return;
+        }
+
+        // Action updates on core sync loop complete
+        document.getElementById("status").innerHTML = "Order synchronized and confirmed successfully.";
+        document.getElementById("status").style.color = "#0f9f57";
+        document.getElementById("fulfillment").innerHTML = "Qikink Order Created";
+        document.getElementById("loader").style.display = "none";
+
+        localStorage.setItem("order_id", orderId);
+
+        // Dynamic cleaning allocations
+        localStorage.removeItem("shippingAddress");
+        localStorage.removeItem("paymentBook");
+
+        setTimeout(() => {
+          window.location.href = "track.html?order_id=" + orderId;
+        }, 2000);
+
+      } catch(err) {
+        console.log(err);
+        document.getElementById("status").innerHTML = "Database communication link connection failed.";
+        document.getElementById("status").style.color = "#ef4444";
+        document.getElementById("loader").style.display = "none";
+      }
+    }
+
+    updateLoginUI();
+    confirmPayment();
+  </script>
 </body>
 </html>
