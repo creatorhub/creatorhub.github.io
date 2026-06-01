@@ -45,7 +45,7 @@ a{
     color: inherit;
 }
 
-/* TOPBAR PLUG NAVIGATION */
+/* TOPBAR NAVIGATION */
 .topbar{
     height: 75px;
     background-color: var(--bg-secondary);
@@ -95,7 +95,7 @@ a{
     color: var(--accent-blue);
 }
 
-/* HEAD HERO COVER BRAND */
+/* HEAD HERO BRAND */
 header{
     width: 90%;
     max-width: 1400px;
@@ -143,7 +143,7 @@ header{
     letter-spacing: -0.02em;
 }
 
-/* PRODUCT GRID GRID MATRIX */
+/* PRODUCT GRID MATRIX */
 .products-container {
     width: 90%;
     max-width: 1400px;
@@ -153,7 +153,7 @@ header{
     gap: 28px;
 }
 
-/* PREMIUM ELEVATED CARDS */
+/* CARDS STRUCTURE */
 .card{
     background-color: var(--bg-secondary);
     border: 1px solid var(--border-color);
@@ -213,7 +213,7 @@ header{
     margin-bottom: 18px;
 }
 
-/* LUXURY ACTION TRIGGERS */
+/* ACTION TRIGGERS */
 .btn-buy{
     background: var(--accent-blue);
     color: white;
@@ -261,7 +261,7 @@ header{
     border-color: var(--text-muted);
 }
 
-/* SKELETON RE-DESIGN */
+/* SKELETON SHIMMER EFFECT */
 .skeleton{
     background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
     background-size: 200% 100%;
@@ -276,7 +276,7 @@ header{
     100% { background-position: -200% 0; }
 }
 
-/* INTERFACE STATUS SYSTEM NOTICES */
+/* ERROR & EMPTY STATES CONTAINERS */
 .no-data {
     grid-column: 1 / -1;
     text-align: center;
@@ -287,7 +287,7 @@ header{
     color: var(--text-secondary);
 }
 
-/* TOAST FLOATING ALERTS */
+/* TOAST FLUID ALERTS */
 .toast{
     position: fixed;
     bottom: 30px;
@@ -341,7 +341,6 @@ footer{
     .image-wrapper { height: 210px; }
 }
 
-/* INTERFACE ANIMA INTERFACES CONTAINER KEYFRAMES */
 @keyframes fadePage{
     from { opacity:0; transform:translateY(15px); }
     to { opacity:1; transform:translateY(0); }
@@ -356,7 +355,7 @@ footer{
 
 <body>
 
-<!-- TOPBAR INTERFACE SECTION -->
+<!-- TOPBAR SECTION -->
 <div class="topbar">
     <div class="back-btn" onclick="history.back()">
         <span>←</span> Back
@@ -408,13 +407,18 @@ function escapeHTML(str){
     }[m]));
 }
 
-/* DATABASE TUNNEL EXECUTOR INTERFACE */
+/* =========================================================
+   FIXED DATA TUNNEL: Text-blob pipeline completely smashes CORS loops
+   ========================================================= */
 async function getDB(db){
     try{
-        let res = await fetch(API + "?db=" + db + "&t=" + Date.now());
-        let data = await res.json();
+        let response = await fetch(API + "?db=" + db + "&t=" + Date.now());
+        // Extracting as text avoids silent browser json tracking crashes
+        let rawText = await response.text(); 
+        let data = JSON.parse(rawText);
         return Array.isArray(data) ? data : [];
-    }catch{
+    }catch(err){
+        console.error("Database extraction failure logging telemetry:", err);
         return [];
     }
 }
@@ -473,7 +477,7 @@ async function loadProducts(){
 loadProducts();
 
 function openProduct(id){
-    location.href = "ebook.html?id=" + id;
+    location.href = "book.html?id=" + id;
 }
 
 function buyNow(e, id){
@@ -501,7 +505,7 @@ function addCart(e, id){
     showToast("<i class='fa-solid fa-circle-check'></i> Added to Basket Workspace successfully!");
 }
 
-/* FLOATING TOAST SYSTEM INTERFACES METER */
+/* FLOATING TOAST SYSTEM INTERFACES */
 function showToast(msg){
     let div = document.createElement("div");
     div.className = "toast";
