@@ -1,459 +1,515 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>CreatorHub Store</title><style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CreatorHub Store | Premium Marketplace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-:root{
---bg:#020617;
---text:#ffffff;
---accent:#22c55e;
---card:#111827;
+<style>
+/* =========================================================
+   CREATORHUB STANDARD LIGHT UI INTERFACE VARIABLES
+   ========================================================= */
+:root {
+    --bg-primary: #f8fafc;       /* Soft workspace canvas white */
+    --bg-secondary: #ffffff;     /* Pure white card blocks */
+    --text-primary: #0f172a;     /* Deep slate text colors */
+    --text-secondary: #475569;   /* Muted labels track */
+    --text-muted: #94a3b8;
+    --accent-blue: #2563eb;      /* Platform Royal Blue Theme */
+    --accent-blue-hover: #1d4ed8;
+    --accent-blue-light: #eff6ff;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.02);
+    --shadow-md: 0 10px 25px -5px rgba(15,23,42,0.08);
+}
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
 }
 
 body{
-margin:0;
-font-family:Arial;
-background:var(--bg);
-color:var(--text);
-animation:fadePage .6s ease;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    animation: fadePage .5s ease;
 }
 
-/* TOPBAR */
+a{
+    text-decoration: none;
+    color: inherit;
+}
 
+/* TOPBAR PLUG NAVIGATION */
 .topbar{
-display:flex;
-align-items:center;
-padding:14px;
-background:#020617;
-box-shadow:0 5px 20px rgba(0,0,0,.5);
-position:sticky;
-top:0;
-z-index:99;
+    height: 75px;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--shadow-sm);
 }
 
-.back{
-font-size:22px;
-cursor:pointer;
-width:40px;
-transition:.2s;
+.back-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    user-select: none;
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: 10px;
+    background: var(--bg-secondary);
 }
 
-.back:hover{
-transform:scale(1.1);
+.back-btn:hover {
+    color: var(--accent-blue);
+    border-color: var(--accent-blue);
+    background-color: var(--accent-blue-light);
+    transform: translateX(-3px);
 }
 
-.title{
-flex:1;
-text-align:center;
-font-weight:bold;
-color:var(--accent);
-font-size:18px;
+.title-header{
+    flex: 1;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
 }
 
-/* HEADER */
+.title-header span {
+    color: var(--accent-blue);
+}
 
+/* HEAD HERO COVER BRAND */
 header{
-padding:15px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
+    width: 90%;
+    max-width: 1400px;
+    margin: 35px auto 15px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.logo{
-font-size:20px;
-font-weight:bold;
-color:#22c55e;
+.logo-brand {
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
 }
 
-.profile{
-width:40px;
-height:40px;
-border-radius:50%;
-border:2px solid #22c55e;
-object-fit:cover;
-cursor:pointer;
-transition:.2s;
+.logo-brand i {
+    color: var(--accent-blue);
+    margin-right: 6px;
 }
 
-.profile:hover{
-transform:scale(1.1);
+.profile-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+    object-fit: cover;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
 }
 
-/* GRID */
-
-.products{
-padding:20px;
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
+.profile-avatar:hover {
+    border-color: var(--accent-blue);
+    transform: scale(1.05);
 }
 
-/* CARD */
+/* STORE PLATFORM SUBTITLE */
+.section-headline {
+    width: 90%;
+    max-width: 1400px;
+    margin: 20px auto 10px auto;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
 
+/* PRODUCT GRID GRID MATRIX */
+.products-container {
+    width: 90%;
+    max-width: 1400px;
+    margin: 10px auto 60px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 28px;
+}
+
+/* PREMIUM ELEVATED CARDS */
 .card{
-background:var(--card);
-border-radius:15px;
-padding:15px;
-box-shadow:0 0 20px rgba(0,0,0,.5);
-transition:.3s;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
 }
 
 .card:hover{
-transform:translateY(-6px);
-box-shadow:0 15px 40px rgba(0,0,0,.8);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.image-wrapper {
+    width: 100%;
+    height: 220px;
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: var(--bg-primary);
+    margin-bottom: 16px;
 }
 
 .card img{
-width:100%;
-height:210px;
-object-fit:cover;
-border-radius:12px;
-cursor:pointer;
-transition:.3s;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .card:hover img{
-transform:scale(1.05);
+    transform: scale(1.04);
 }
 
-/* BUTTONS */
-
-.buy{
-background:linear-gradient(90deg,#22c55e,#4ade80);
-border:none;
-width:100%;
-padding:13px;
-margin-top:10px;
-border-radius:10px;
-color:white;
-font-weight:bold;
-cursor:pointer;
-transition:.2s;
+.card h3{
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.4;
+    margin-bottom: 6px;
+    min-height: 44px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-.buy:hover{
-box-shadow:0 0 15px #22c55e;
+.price-tag {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--accent-blue);
+    margin-bottom: 18px;
 }
 
-.cart{
-background:black;
-color:white;
-border:none;
-width:100%;
-padding:12px;
-margin-top:6px;
-border-radius:10px;
-cursor:pointer;
-transition:.2s;
+/* LUXURY ACTION TRIGGERS */
+.btn-buy{
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    width: 100%;
+    height: 46px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.15);
 }
 
-.cart:hover{
-background:#1f2937;
+.btn-buy:hover{
+    background-color: var(--accent-blue-hover);
+    box-shadow: 0 6px 14px rgba(37, 99, 235, 0.25);
 }
 
-/* SKELETON */
+.btn-cart{
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    width: 100%;
+    height: 44px;
+    margin-top: 8px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+}
 
+.btn-cart:hover{
+    background-color: #f1f5f9;
+    color: var(--text-primary);
+    border-color: var(--text-muted);
+}
+
+/* SKELETON RE-DESIGN */
 .skeleton{
-background:#1f2937;
-height:260px;
-border-radius:12px;
-animation:pulse 1.2s infinite;
+    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+    background-size: 200% 100%;
+    height: 380px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    animation: loadingShimmer 1.4s infinite;
 }
 
-@keyframes pulse{
-0%{opacity:.4}
-50%{opacity:1}
-100%{opacity:.4}
+@keyframes loadingShimmer{
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
 }
 
-/* TOAST */
+/* INTERFACE STATUS SYSTEM NOTICES */
+.no-data {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    color: var(--text-secondary);
+}
 
+/* TOAST FLOATING ALERTS */
 .toast{
-position:fixed;
-bottom:20px;
-left:50%;
-transform:translateX(-50%);
-background:#111827;
-padding:12px 20px;
-border-radius:10px;
-border:1px solid #22c55e;
-color:#22c55e;
-font-weight:bold;
-box-shadow:0 0 10px rgba(34,197,94,.4);
-animation:fadeUp .3s ease;
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text-primary);
+    padding: 14px 24px;
+    border-radius: 12px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.15);
+    animation: fadeUp .3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* FOOTER */
-
+/* FOOTER BRAND CREDITS */
 footer{
-text-align:center;
-padding:30px;
-opacity:.7;
+    background-color: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    line-height: 1.6;
 }
 
-/* MOBILE */
-
+/* RESPONSIVE LAYOUT CONTEXT INTERFACE RULES */
 @media(max-width:768px){
-
-.products{
-grid-template-columns:repeat(2,1fr);
+    .products-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        width: 94%;
+    }
+    .image-wrapper { height: 160px; }
+    header { flex-direction: row; width: 94%; }
+    .section-headline { width: 94%; font-size: 20px; }
+    .topbar { padding: 0 20px; }
+    .card { padding: 12px; border-radius: 16px; }
+    .card h3 { font-size: 14px; min-height: 38px; }
+    .price-tag { font-size: 15px; margin-bottom: 12px; }
+    .btn-buy, .btn-cart { height: 40px; font-size: 12px; }
 }
 
-.card img{
-height:170px;
+@media(max-width:480px){
+    .products-container { grid-template-columns: 1fr; }
+    .image-wrapper { height: 210px; }
 }
 
-header{
-flex-direction:column;
-gap:10px;
-}
-
-}
-
-/* ANIMATION */
-
+/* INTERFACE ANIMA INTERFACES CONTAINER KEYFRAMES */
 @keyframes fadePage{
-from{opacity:0;transform:translateY(20px);}
-to{opacity:1;transform:translateY(0);}
+    from { opacity:0; transform:translateY(15px); }
+    to { opacity:1; transform:translateY(0); }
 }
 
 @keyframes fadeUp{
-from{opacity:0;transform:translate(-50%,20px);}
-to{opacity:1;transform:translate(-50%,0);}
+    from { opacity:0; transform:translate(-50%, 25px); }
+    to { opacity:1; transform:translate(-50%, 0); }
 }
+</style>
+</head>
 
-</style></head><body><div class="topbar">
-<div class="back" onclick="history.back()">⬅</div>
-<div class="title">CreatorHub</div>
-</div><header><div class="logo">
-CreatorHub Store
-</div><img id="profile"
-class="profile"
-onclick="location.href='dashboard.html'">
+<body>
 
-</header><h2 style="padding:15px">
-All Digital Products
-</h2><div id="products" class="products"><div class="skeleton"></div>
-<div class="skeleton"></div>
-<div class="skeleton"></div></div><footer>
-CreatorHub © 2026
-<br>
-Digital Products Marketplace
-</footer><script>
-
-/* API */
-
-const API =
-"https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
-
-/* USER */
-
-let user =
-JSON.parse(localStorage.getItem("user")||"null");
-
-/* PROFILE IMAGE */
-
-let profile =
-localStorage.getItem("profile_"+(user?.email||"guest"));
-
-document.getElementById("profile").src =
-profile ||
-"https://cdn-icons-png.flaticon.com/512/149/149071.png";
-
-/* SAFE HTML */
-
-function escapeHTML(str){
-
-return String(str).replace(/[&<>"']/g,function(m){
-
-return({
-'&':'&amp;',
-'<':'&lt;',
-'>':'&gt;',
-'"':'&quot;',
-"'":'&#039;'
-})[m]
-
-})
-
-}
-
-/* DATABASE */
-
-async function getDB(db){
-
-try{
-
-let res =
-await fetch(API+"?db="+db+"&t="+Date.now());
-
-let data = await res.json();
-
-return Array.isArray(data)?data:[];
-
-}catch{
-
-return[];
-
-}
-
-}
-
-/* DRIVE IMAGE */
-
-function driveImage(link){
-
-if(!link)
-return "https://picsum.photos/400";
-
-try{
-
-let id="";
-
-if(link.includes("id="))
-id=link.split("id=")[1].split("&")[0];
-
-else if(link.includes("/file/d/"))
-id=link.split("/file/d/")[1].split("/")[0];
-
-if(id)
-return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000";
-
-}catch{}
-
-return "https://picsum.photos/400";
-
-}
-
-/* LOAD PRODUCTS */
-
-async function loadProducts(){
-
-let box =
-document.getElementById("products");
-
-let products =
-await getDB("products");
-
-products =
-products.filter(p=>p.ai_status==="approved");
-
-if(products.length===0){
-
-box.innerHTML="<h3>No Products Found</h3>";
-return;
-
-}
-
-products.reverse();
-
-let html="";
-
-products.forEach(p=>{
-
-html+=`
-
-<div class="card">
-
-<img
-src="${driveImage(p.image)}"
-onclick="openProduct('${p.id}')"
->
-
-<h3>${escapeHTML(p.title || "Untitled Ebook")}</h3>
-
-<p>₹ ${Number(p.price||0)}</p>
-
-<button
-class="buy"
-onclick="buyNow(event,'${p.id}')">
-Buy Ebook
-</button>
-
-<button
-class="cart"
-onclick="addCart(event,'${p.id}')">
-Add Cart
-</button>
-
+<!-- TOPBAR INTERFACE SECTION -->
+<div class="topbar">
+    <div class="back-btn" onclick="history.back()">
+        <span>←</span> Back
+    </div>
+    <div class="title-header">Creator<span>Hub</span> Store</div>
 </div>
 
-`;
+<!-- LOGO COMPONENT LINE HEADER -->
+<header>
+    <div class="logo-brand">
+        <i class="fa-solid fa-bag-shopping"></i> Marketplace
+    </div>
+    <img id="profile" class="profile-avatar" alt="User dashboard token pointer" src="">
+</header>
 
-});
+<h2 class="section-headline">All Approved Ebooks</h2>
 
-box.innerHTML = html;
+<!-- PRODUCTS CANVAS NODE MATRIX GRID -->
+<div id="products" class="products-container">
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+</div>
 
+<!-- SYSTEM BOTTOM FOOTER -->
+<footer>
+    <strong>CreatorHub Marketplace © 2026</strong><br>
+    <span style="font-size:12px; color: var(--text-muted); margin-top:4px; display:inline-block;">Secure Cloud Datastore Ecosystem Grid Layout Interface</span>
+</footer>
+
+<script>
+/* =========================================================
+   CORE CONFIG PIPELINE MATRIX
+   ========================================================= */
+const API = "https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
+
+/* PARSE SESSION STORAGE TOKEN */
+let user = JSON.parse(localStorage.getItem("user") || "null");
+
+/* INITIALIZE AVATAR SYSTEM TRACKS */
+let profile = localStorage.getItem("profile_" + (user?.email || "guest"));
+document.getElementById("profile").src = profile || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+document.getElementById("profile").onclick = function(){ location.href = 'dashboard.html'; };
+
+/* SECURE OUTPUT HTML PARSING STRINGS EXCLUSIONS */
+function escapeHTML(str){
+    return String(str).replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+    }[m]));
+}
+
+/* DATABASE TUNNEL EXECUTOR INTERFACE */
+async function getDB(db){
+    try{
+        let res = await fetch(API + "?db=" + db + "&t=" + Date.now());
+        let data = await res.json();
+        return Array.isArray(data) ? data : [];
+    }catch{
+        return [];
+    }
+}
+
+/* THUMBNAIL ID RESOLVER HOOK */
+function driveImage(link){
+    if(!link) return "https://picsum.photos/400/500";
+    try{
+        let id = "";
+        if(link.includes("id=")) id = link.split("id=")[1].split("&")[0];
+        else if(link.includes("/file/d/")) id = link.split("/file/d/")[1].split("/")[0];
+        if(id) return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+    }catch{}
+    return "https://picsum.photos/400/500";
+}
+
+/* RENDER PRODUCTS FLOW CONTROLLER ROUTE */
+async function loadProducts(){
+    let box = document.getElementById("products");
+    let products = await getDB("products");
+
+    // Extract records matching secure approved states parameter channels
+    products = products.filter(p => p.ai_status === "approved");
+
+    if(products.length === 0){
+        box.innerHTML = `<div class="no-data"><i class="fa-solid fa-folder-open" style="font-size:32px; color:var(--text-muted); margin-bottom:12px; display:block;"></i><h3>No Approved Digital Assets Found</h3></div>`;
+        return;
+    }
+
+    products.reverse();
+    let html = "";
+
+    products.forEach(p => {
+        html += `
+        <div class="card">
+            <div class="image-wrapper">
+                <img src="${driveImage(p.image)}" alt="Asset digital preview banner" onclick="openProduct('${p.id}')" loading="lazy">
+            </div>
+            <h3>${escapeHTML(p.title || "Untitled Premium Ebook")}</h3>
+            <div class="price-tag">₹ ${Number(p.price || 0).toLocaleString("en-IN")}</div>
+            
+            <button class="btn-buy" onclick="buyNow(event,'${p.id}')">
+                <i class="fa-solid fa-bolt"></i> Buy Ebook
+            </button>
+            
+            <button class="btn-cart" onclick="addCart(event,'${p.id}')">
+                <i class="fa-solid fa-cart-plus"></i> Add to Cart
+            </button>
+        </div>
+        `;
+    });
+
+    box.innerHTML = html;
 }
 
 loadProducts();
 
-/* OPEN PRODUCT */
-
 function openProduct(id){
-location.href="ebook.html?id="+id;
+    location.href = "ebook.html?id=" + id;
 }
 
-/* BUY */
-
-function buyNow(e,id){
-
-e.stopPropagation();
-
-if(!user){
-
-showToast("Login required");
-location.href="login.html";
-return;
-
+function buyNow(e, id){
+    e.stopPropagation();
+    if(!user){
+        showToast("<i class='fa-solid fa-circle-exclamation'></i> Login is required to checkout.");
+        setTimeout(() => { location.href = "login.html"; }, 1500);
+        return;
+    }
+    localStorage.setItem("buyProduct", id);
+    location.href = "payment.html";
 }
 
-localStorage.setItem("buyProduct",id);
-location.href="payment.html";
+function addCart(e, id){
+    e.stopPropagation();
+    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
+    if(cart.indexOf(id) !== -1){
+        showToast("<i class='fa-solid fa-info-circle'></i> Item already present inside basket.");
+        return;
+    }
+
+    cart.push(id);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    showToast("<i class='fa-solid fa-circle-check'></i> Added to Basket Workspace successfully!");
 }
 
-/* CART */
-
-function addCart(e,id){
-
-e.stopPropagation();
-
-let cart =
-JSON.parse(localStorage.getItem("cart")||"[]");
-
-if(cart.indexOf(id)!==-1){
-
-showToast("Already in cart");
-return;
-
-}
-
-cart.push(id);
-
-localStorage.setItem("cart",JSON.stringify(cart));
-
-showToast("Added to Cart ✅");
-
-}
-
-/* TOAST */
-
+/* FLOATING TOAST SYSTEM INTERFACES METER */
 function showToast(msg){
-
-let div=document.createElement("div");
-
-div.className="toast";
-
-div.innerText=msg;
-
-document.body.appendChild(div);
-
-setTimeout(()=>{
-div.remove();
-},3000);
-
+    let div = document.createElement("div");
+    div.className = "toast";
+    div.innerHTML = msg;
+    document.body.appendChild(div);
+    setTimeout(() => { div.remove(); }, 3000);
 }
+</script>
 
-</script></body>
+</body>
 </html>
