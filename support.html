@@ -18,7 +18,7 @@
     --text-primary: #0f172a;     /* Deep slate text colors */
     --text-secondary: #475569;   /* Muted structural labels */
     --text-muted: #94a3b8;
-    --accent-blue: #2563eb;     /* Main Platform Royal Blue */
+    --accent-blue: #2563eb;      /* Main Platform Royal Blue */
     --accent-blue-hover: #1d4ed8;
     --accent-blue-light: #eff6ff;
     --border-color: #e2e8f0;
@@ -304,11 +304,11 @@ a{
     font-weight: 700;
 }
 
-/* THREE-COLUMN INTEGRATION SUPPORT DECK GRID (Clean Spacing Configured) */
+/* THREE-COLUMN INTEGRATION SUPPORT DECK GRID */
 .support-grid{
     display: grid;
     grid-template-columns: 1.2fr 1fr 1fr;
-    gap: 25px; /* Fixed compressed padding cell spacing */
+    gap: 25px; 
     margin-bottom: 45px;
     align-items: stretch;
 }
@@ -383,7 +383,7 @@ a{
 .faq-text h4{ font-size: 14px; font-weight: 700; }
 .faq-text p{ font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
 
-/* CONTACT SUBMIT SHEET inputs */
+/* CONTACT SUBMIT SHEET LAYOUT */
 .contact-box h2 { font-size: 20px; font-weight: 800; }
 .contact-box input,
 .contact-box textarea,
@@ -407,10 +407,23 @@ a{
     background: var(--bg-secondary);
 }
 
+/* FIXED STATUS LABEL CONTAINER */
+.contact-status {
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 10px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: none;
+}
+.contact-status.loading { display: block; background: var(--accent-blue-light); color: var(--accent-blue); }
+.contact-status.success { display: block; background: #e8f5e9; color: #2e7d32; }
+.contact-status.error { display: block; background: #ffebee; color: #c62828; }
+
 .contact-btn{
     width: 100%;
     padding: 14px;
-    margin-top: 20px;
+    margin-top: 15px;
     background: var(--accent-blue);
     color: white;
     border: none;
@@ -420,8 +433,8 @@ a{
     cursor: pointer;
     transition: background 0.2s;
 }
-
-.contact-btn:hover { background-color: var(--accent-blue-hover); }
+.contact-btn:disabled { background-color: var(--text-muted); cursor: not-allowed; }
+.contact-btn:hover:not(:disabled) { background-color: var(--accent-blue-hover); }
 
 /* CHAT BOT INTERFACE PANEL */
 .ai-box h2 { font-size: 20px; font-weight: 800; }
@@ -659,20 +672,26 @@ a{
         <div id="faq-container" class="box faq-box">
             </div>
 
+        <!-- FIXED WORKING CONTACT SUPPORT SECTION -->
         <div class="box contact-box">
             <h2>Contact Support</h2>
-            <p style="color: var(--text-secondary); margin: 10px 0 20px 0; font-size:14px; font-weight:500;">We usually respond within <span style="color: var(--accent-blue); font-weight:700;">24 hours.</span></p>
-            <input placeholder="Enter your name">
-            <input placeholder="Enter your email">
-            <select>
-                <option>Select issue subject segment</option>
-                <option>Transaction processing failure</option>
-                <option>Fulfillment tracking latency</option>
-                <option>Asset access encryption drop</option>
-            </select>
-            <input placeholder="Order ID Reference (Optional)">
-            <textarea rows="4" placeholder="Describe your issue scenario metrics context..."></textarea>
-            <button class="contact-btn" onclick="alert('Message Dispatched Successfully ✅')">Send Message</button>
+            <p style="color: var(--text-secondary); margin: 10px 0 15px 0; font-size:14px; font-weight:500;">We usually respond within <span style="color: var(--accent-blue); font-weight:700;">24 hours.</span></p>
+            
+            <div id="contactStatusBox" class="contact-status"></div>
+
+            <form id="supportContactForm" onsubmit="submitSupportTicket(event)">
+                <input type="text" id="contactName" placeholder="Enter your name" required>
+                <input type="email" id="contactEmail" placeholder="Enter your email" required>
+                <select id="contactSubject" required>
+                    <option value="">Select issue subject segment</option>
+                    <option value="Transaction processing failure">Transaction processing failure</option>
+                    <option value="Fulfillment tracking latency">Fulfillment tracking latency</option>
+                    <option value="Asset access encryption drop">Asset access encryption drop</option>
+                </select>
+                <input type="text" id="contactOrderRef" placeholder="Order ID Reference (Optional)">
+                <textarea id="contactMsg" rows="4" placeholder="Describe your issue scenario metrics context..." required></textarea>
+                <button type="submit" id="contactSubmitBtn" class="contact-btn">Send Message</button>
+            </form>
         </div>
 
         <div class="box ai-box">
@@ -722,7 +741,6 @@ fetch("faq.html")
     .then(res => res.text())
     .then(data => { document.getElementById("faq-container").innerHTML = data; })
     .catch(() => {
-        // Fallback placeholder code map loops injection to handle if external layout is missing
         document.getElementById("faq-container").innerHTML = `
             <div class="faq-header"><h2>Frequently Answered Queries</h2><a href="#">See All</a></div>
             <div class="faq-item" onclick="toggleAnswer(this)"><div class="faq-question-row"><span>How do I download my ebook after purchase?</span><i class="fa fa-chevron-down"></i></div><div class="faq-answer">Navigate directly to your platform personal Library section after checking verification. Download links trigger instantly.</div></div>
@@ -737,6 +755,61 @@ fetch("footer.html")
     .catch(err => console.log("External footer ingestion process loop drop:", err));
 
 const SUPPORT_API = "https://script.google.com/macros/s/AKfycbzAb-KxyouUn2oSQqqjKfkgJhjOXF7_4Kw83Xw-9CeUotl8ydzV8WykhkzhDOQzJJI11Q/exec";
+
+/* NEW CONNECTED SUPPORT CHANNEL SUBMIT HANDLER */
+const CONTACT_API_URL = "https://script.google.com/macros/s/AKfycbxFVrezXIRyw83bjYWmVTWqaP1Zyp2O0wZSUd5nrwAty0-3M1w-RJJ65ulWR6RhH3dZ3Q/exec";
+
+async function submitSupportTicket(event) {
+    event.preventDefault();
+    
+    const name = document.getElementById("contactName").value.trim();
+    const email = document.getElementById("contactEmail").value.trim();
+    const subject = document.getElementById("contactSubject").value;
+    const orderRef = document.getElementById("contactOrderRef").value.trim();
+    const messageContent = document.getElementById("contactMsg").value.trim();
+    const submitBtn = document.getElementById("contactSubmitBtn");
+    const statusBox = document.getElementById("contactStatusBox");
+
+    submitBtn.disabled = true;
+    statusBox.className = "contact-status loading";
+    statusBox.style.display = "block";
+    statusBox.innerText = "📡 Connecting to cloud gateway...";
+
+    // Append extra context meta parameters to the final text block string array cleanly
+    const fullConstructedMessage = `Subject Category: ${subject}\nReference Order ID: ${orderRef || "None Entered"}\n\nMessage Context:\n${messageContent}`;
+
+    try {
+        const response = await fetch(CONTACT_API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({
+                action: "contact_form_ticket",
+                name: name,
+                email: email,
+                message: fullConstructedMessage
+            })
+        });
+
+        if(!response.ok) throw new Error("Network Pipeline Error Connection");
+
+        const textOutput = await response.text();
+        const parsedData = JSON.parse(textOutput);
+
+        if(parsedData.success) {
+            statusBox.className = "contact-status success";
+            statusBox.innerText = "✅ Message dispatched successfully directly to CreatorHub desk!";
+            document.getElementById("supportContactForm").reset();
+        } else {
+            throw new Error(parsedData.message || "Endpoint Denied Operation");
+        }
+    } catch(err) {
+        console.error("Support transmission loop error:", err);
+        statusBox.className = "contact-status error";
+        statusBox.innerText = "❌ Timeout or network dropped. Please re-verify endpoint deployment.";
+    } finally {
+        submitBtn.disabled = false;
+    }
+}
 
 /* CHAT BOT MESSAGE DISPATCH PROCESSING PIPELINE STREAMS */
 async function sendMessage(){
