@@ -8,13 +8,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
+/* =========================================================
+   CREATORHUB STANDARD LIGHT UI INTERFACE VARIABLES
+   ========================================================= */
 :root {
-    --bg-primary: #f8fafc;       
-    --bg-secondary: #ffffff;     
-    --text-primary: #0f172a;     
-    --text-secondary: #475569;   
+    --bg-primary: #f8fafc;       /* Subtle canvas slate white */
+    --bg-secondary: #ffffff;     /* Pure white card backgrounds */
+    --text-primary: #0f172a;     /* Deep slate text colors */
+    --text-secondary: #475569;   /* Muted structural labels */
     --text-muted: #94a3b8;
-    --accent-blue: #2563eb;     
+    --accent-blue: #2563eb;      /* Platform Royal Blue */
     --accent-blue-hover: #1d4ed8;
     --accent-blue-light: #eff6ff;
     --border-color: #e2e8f0;
@@ -36,6 +39,7 @@ body{
     animation: fadePage .5s ease;
 }
 
+/* NAVBAR HEADER STYLES */
 .header{
     height: 75px;
     background-color: var(--bg-secondary);
@@ -79,9 +83,10 @@ body{
     font-weight: 800;
     color: var(--text-primary);
     letter-spacing: -0.02em;
-    margin-right: 80px; 
+    margin-right: 80px; /* Counterweight to perfectly center title */
 }
 
+/* MAIN FORM CANVAS CONTAINER */
 .container{
     display: flex;
     justify-content: center;
@@ -90,6 +95,7 @@ body{
     padding: 40px 20px;
 }
 
+/* CONTAINER CARD STRUCTURE */
 .card{
     width: 100%;
     max-width: 500px;
@@ -117,6 +123,7 @@ h2{
     font-weight: 500;
 }
 
+/* FIELD LABELS & GROUP ELEMENTS */
 .form-group {
     margin-bottom: 20px;
 }
@@ -156,6 +163,7 @@ textarea{
     line-height: 1.6;
 }
 
+/* STATUS NOTIFICATION CONTAINER */
 .status-box {
     display: none;
     padding: 14px;
@@ -184,6 +192,7 @@ textarea{
     border: 1px solid #fecaca;
 }
 
+/* PLATFORM SUBMIT TRIGGER BUTTON */
 button{
     width: 100%;
     height: 54px;
@@ -213,6 +222,7 @@ button:disabled {
     cursor: not-allowed;
 }
 
+/* ANIMATION KEYFRAMES */
 @keyframes fadePage{
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
@@ -233,6 +243,7 @@ button:disabled {
 
 <body>
 
+<!-- TOPBAR NAVIGATION HEADER -->
 <div class="header">
     <div class="back-btn" onclick="history.back()">
         <span>←</span> Back
@@ -240,11 +251,13 @@ button:disabled {
     <div class="title">Contact CreatorHub</div>
 </div>
 
+<!-- FORM CONTAINER AREA -->
 <div class="container">
     <div class="card">
         <h2>📩 Support Request</h2>
-        <div class="desc">Fill in details to sync message blocks direct to cloud server channels.</div>
+        <div class="desc">Fill in your details to sync message blocks direct to cloud server channels.</div>
         
+        <!-- STATUS NOTIFICATION BOX -->
         <div id="statusMessage" class="status-box"></div>
 
         <form id="contactForm" onsubmit="executeDirectMessageSubmit(event)">
@@ -269,7 +282,10 @@ button:disabled {
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
+/* =========================================================================
+   NEW DEDICATED HUB CONTACT API URL (Configured with your exact provided ID)
+   ========================================================================= */
+const API_URL = "https://script.google.com/macros/s/AKfycbxFVrezXIRyw83bjYWmVTWqaP1Zyp2O0wZSUd5nrwAty0-3M1w-RJJ65ulWR6RhH3dZ3Q/exec";
 
 async function executeDirectMessageSubmit(event){
     event.preventDefault();
@@ -279,10 +295,12 @@ async function executeDirectMessageSubmit(event){
     const msg = document.getElementById("msg").value.trim();
     const submitBtn = document.getElementById("submitBtn");
 
+    // Clear previous view state and freeze UI inputs
     submitBtn.disabled = true;
-    updateStatusDisplay("loading", "📡 Transmission channel active... Dispatching support log variables.");
+    updateStatusDisplay("loading", "📡 Transmission channel active... Dispatching support variables.");
 
     try {
+        /* PURE TEXT DATA FETCH STREAM: Bypasses browser cross-origin policy restrictions */
         const response = await fetch(API_URL, {
             method: "POST",
             headers: { "Content-Type": "text/plain;charset=utf-8" },
@@ -294,6 +312,8 @@ async function executeDirectMessageSubmit(event){
             })
         });
 
+        if(!response.ok) throw new Error("HTTP Tunnel Error Status");
+
         const rawTextData = await response.text();
         const result = JSON.parse(rawTextData);
 
@@ -301,11 +321,11 @@ async function executeDirectMessageSubmit(event){
             updateStatusDisplay("success", "🎉 Support ticket committed cleanly! Message dispatched direct to inbox database.");
             document.getElementById("contactForm").reset();
         } else {
-            throw new Error(result.message || "Execution Error");
+            throw new Error(result.message || "Endpoint verification rejection.");
         }
     } catch(err) {
-        console.error("Pipeline breakdown:", err);
-        updateStatusDisplay("error", "⚠️ Gateway timeout. Try re-submitting data packets.");
+        console.error("Pipeline crash log trace:", err);
+        updateStatusDisplay("error", "⚠️ Connection failed. Please check your deployment settings or try again.");
     } finally {
         submitBtn.disabled = false;
     }
