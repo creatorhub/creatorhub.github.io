@@ -65,6 +65,7 @@ a{
     font-weight: 900;
     color: var(--text-primary);
     letter-spacing: -0.02em;
+    cursor: pointer;
 }
 
 .logo span {
@@ -83,7 +84,7 @@ a{
     transition: color 0.2s;
 }
 
-.nav-links a:hover{
+.nav-links a:hover, .nav-links a.active{
     color: var(--accent-blue);
 }
 
@@ -93,6 +94,15 @@ a{
     gap: 20px;
     color: var(--text-secondary);
     font-size: 16px;
+}
+
+.nav-right i {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.nav-right i:hover {
+    color: var(--accent-blue);
 }
 
 .search-box{
@@ -407,7 +417,7 @@ a{
     background: var(--bg-secondary);
 }
 
-/* FIXED STATUS LABEL CONTAINER */
+/* STATUS LABEL CONTAINER */
 .contact-status {
     font-size: 12px;
     font-weight: 600;
@@ -496,7 +506,7 @@ a{
     cursor: pointer;
 }
 
-/* INTERMEDIATE HOVER PACKAGING SHIPPING BAR */
+/* INTERMEDIATE SHIPPING BAR */
 .delivery{
     background: var(--bg-secondary);
     padding: 30px;
@@ -540,7 +550,7 @@ a{
     border-color: var(--accent-blue);
 }
 
-/* HORIZONTAL SYSTEM METRICS FOOT METERS */
+/* HORIZONTAL METRICS FOOT METERS */
 .features{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -565,7 +575,7 @@ a{
     margin-top: 40px;
 }
 
-/* RESPONSIVE LAYOUT CONTEXT MEDIA VIEWPORTS RULES */
+/* RESPONSIVE LAYOUT MEDIA VIEWPORTS RULES */
 @media(max-width: 1020px){
     .support-grid { grid-template-columns: 1fr; gap: 24px; }
     .box { min-height: auto; }
@@ -588,26 +598,26 @@ a{
 <body>
 
 <div class="navbar">
-    <div class="logo">Creator<span>Hub</span></div>
+    <div class="logo" onclick="window.location.href='./index.html'">Creator<span>Hub</span></div>
     <div class="nav-links">
-        <a href="#">Home</a>
-        <a href="#">Categories</a>
-        <a href="#">Top Creators</a>
-        <a href="#">Become Seller</a>
-        <a href="#">Dashboard</a>
+        <a href="./index.html">Home</a>
+        <a href="./products.html">Categories</a>
+        <a href="./products.html?filter=top">Top Creators</a>
+        <a href="./dashboard.html?action=become_seller">Become Seller</a>
+        <a href="./dashboard.html">Dashboard</a>
     </div>
     <div class="nav-right">
-        <input class="search-box" placeholder="Search ebooks...">
-        <i class="fa fa-search"></i>
-        <i class="fa fa-cart-shopping"></i>
-        <i class="fa fa-bell"></i>
+        <input class="search-box" placeholder="Search ebooks..." onkeypress="if(event.key==='Enter') window.location.href='./products.html?search='+encodeURIComponent(this.value)">
+        <i class="fa fa-search" onclick="window.location.href='./products.html'"></i>
+        <i class="fa fa-cart-shopping" onclick="window.location.href='./cart.html'"></i>
+        <i class="fa fa-bell" onclick="window.location.href='./dashboard.html?tab=notifications'"></i>
     </div>
 </div>
 
 <div class="container">
     
     <div class="back-home">
-        <a href="index.html">
+        <a href="./index.html">
             <i class="fa fa-arrow-left"></i> Back to Home
         </a>
     </div>
@@ -617,8 +627,8 @@ a{
             <h1>How can we <span>help</span> you?</h1>
             <p>Find answers to your questions or connect with support team 24/7.</p>
             <div class="hero-search">
-                <input placeholder="Search help articles...">
-                <button>Search</button>
+                <input placeholder="Search help articles..." id="articleSearch">
+                <button onclick="alert('Searching knowledge base strings...')">Search</button>
             </div>
         </div>
         <div>
@@ -632,38 +642,38 @@ a{
             <i class="fa fa-book"></i>
             <h3>Buying & Payments</h3>
             <p>Learn about payments, currency tokens and safe refunds.</p>
-            <a href="#">View Articles →</a>
+            <a href="./faq.html?cat=payments">View Articles →</a>
         </div>
         <div class="card">
             <i class="fa fa-download"></i>
             <h3>Downloads & Access</h3>
             <p>Download your purchased asset items safely.</p>
-            <a href="#">View Articles →</a>
+            <a href="./faq.html?cat=downloads">View Articles →</a>
         </div>
         <div class="card">
             <i class="fa fa-wallet"></i>
             <h3>Selling & Earnings</h3>
             <p>Learn about automated wallet system payouts.</p>
-            <a href="#">View Articles →</a>
+            <a href="./faq.html?cat=selling">View Articles →</a>
         </div>
         <div class="card">
             <i class="fa fa-shield"></i>
             <h3>Account Security</h3>
             <p>Configure authentication settings variables parameters.</p>
-            <a href="#">View Articles →</a>
+            <a href="./faq.html?cat=security">View Articles →</a>
         </div>
         <div class="card">
             <i class="fa fa-bug"></i>
             <h3>Report Issue</h3>
             <p>Encountering interface logic drops or errors?</p>
-            <a href="#">Report Now →</a>
+            <a href="#supportContactForm" onclick="document.getElementById('contactSubject').value='Asset access encryption drop'">Report Now →</a>
         </div>
         <div class="card" style="position: relative;">
             <div class="badge">NEW</div>
             <i class="fa fa-truck"></i>
             <h3>Delivery Tracking</h3>
             <p>Fulfillment system order transport metrics records.</p>
-            <a href="#">View Articles →</a>
+            <a href="./orders.html">View Tracking →</a>
         </div>
     </div>
 
@@ -672,7 +682,6 @@ a{
         <div id="faq-container" class="box faq-box">
             </div>
 
-        <!-- FIXED WORKING CONTACT SUPPORT SECTION -->
         <div class="box contact-box">
             <h2>Contact Support</h2>
             <p style="color: var(--text-secondary); margin: 10px 0 15px 0; font-size:14px; font-weight:500;">We usually respond within <span style="color: var(--accent-blue); font-weight:700;">24 hours.</span></p>
@@ -720,7 +729,7 @@ a{
             <div>🛡️ Secure Vacuum Protective Packing</div>
             <div>🔄 Seamless Dispatched Returns</div>
         </div>
-        <button class="delivery-btn">Learn More Advantages →</button>
+        <button class="delivery-btn" onclick="window.location.href='./shipping-info.html'">Learn More Advantages →</button>
         <div style="clear:both"></div>
     </div>
 
@@ -755,10 +764,9 @@ fetch("footer.html")
     .catch(err => console.log("External footer ingestion process loop drop:", err));
 
 const SUPPORT_API = "https://script.google.com/macros/s/AKfycbzAb-KxyouUn2oSQqqjKfkgJhjOXF7_4Kw83Xw-9CeUotl8ydzV8WykhkzhDOQzJJI11Q/exec";
-
-/* NEW CONNECTED SUPPORT CHANNEL SUBMIT HANDLER */
 const CONTACT_API_URL = "https://script.google.com/macros/s/AKfycbxFVrezXIRyw83bjYWmVTWqaP1Zyp2O0wZSUd5nrwAty0-3M1w-RJJ65ulWR6RhH3dZ3Q/exec";
 
+/* NEW CONNECTED SUPPORT CHANNEL SUBMIT HANDLER */
 async function submitSupportTicket(event) {
     event.preventDefault();
     
@@ -775,7 +783,6 @@ async function submitSupportTicket(event) {
     statusBox.style.display = "block";
     statusBox.innerText = "📡 Connecting to cloud gateway...";
 
-    // Append extra context meta parameters to the final text block string array cleanly
     const fullConstructedMessage = `Subject Category: ${subject}\nReference Order ID: ${orderRef || "None Entered"}\n\nMessage Context:\n${messageContent}`;
 
     try {
