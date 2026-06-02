@@ -826,6 +826,10 @@ height:58px;
 <div class="bg-blur-1"></div>
 <div class="bg-blur-2"></div>
 
+<!-- ===================================
+TOPBAR
+=================================== -->
+
 <div class="topbar">
 
 <div class="logo">
@@ -860,9 +864,17 @@ Back Home
 
 </div>
 
+<!-- ===================================
+MAIN
+=================================== -->
+
 <div class="main">
 
 <div class="login-grid">
+
+<!-- ===================================
+LEFT
+=================================== -->
 
 <div class="left">
 
@@ -885,6 +897,8 @@ Discover Premium <span>Ebooks</span> From Top Creators
 Access your ebook library, subscriptions, wallet, seller dashboard, orders and premium content through the CreatorHub digital marketplace ecosystem.
 
 </div>
+
+<!-- STATS -->
 
 <div class="stats">
 
@@ -925,6 +939,8 @@ Fast payments, live order tracking and secure marketplace systems.
 </div>
 
 </div>
+
+<!-- FEATURES -->
 
 <div class="features">
 
@@ -996,6 +1012,10 @@ Protected login system, encrypted payments and trusted infrastructure.
 
 </div>
 
+<!-- ===================================
+RIGHT CARD
+=================================== -->
+
 <div class="card">
 
 <div
@@ -1015,6 +1035,8 @@ Login to access your ebooks, subscriptions, wallet and orders.
 
 </div>
 
+<!-- EMAIL -->
+
 <div class="group">
 
 <div class="label">
@@ -1029,6 +1051,8 @@ placeholder="Enter your email"
 >
 
 </div>
+
+<!-- PASSWORD -->
 
 <div class="group">
 
@@ -1045,6 +1069,8 @@ placeholder="Enter your password"
 
 </div>
 
+<!-- BUTTON -->
+
 <button
 class="login-btn"
 onclick="login()"
@@ -1059,9 +1085,13 @@ class="loader"
 Please wait...
 </div>
 
+<!-- DIVIDER -->
+
 <div class="divider">
 OR CONTINUE WITH
 </div>
+
+<!-- GOOGLE -->
 
 <div class="google-box">
 
@@ -1079,6 +1109,8 @@ data-width="320">
 </div>
 
 </div>
+
+<!-- LINKS -->
 
 <div class="links">
 
@@ -1245,7 +1277,7 @@ alert("Server error")
 }
 
 /* ===================================
-GOOGLE LOGIN (100% FIXED BACK TO FORMDATA)
+GOOGLE LOGIN (FIXED BACK TO ORIGINAL FORMDATA)
 =================================== */
 
 async function handleGoogleLogin(response){
@@ -1257,7 +1289,7 @@ showLoader(true)
 let gdata =
 parseJwt(response.credential)
 
-let form = new FormData() // 👈 Fixed structural type format
+let form = new FormData() // 👈 100% Original FormData Format Lock
 
 form.append(
 "action",
