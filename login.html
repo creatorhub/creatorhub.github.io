@@ -650,7 +650,8 @@ async function handleGoogleLogin(response){
         showLoader(true);
         let gdata = parseJwt(response.credential);
 
-        let form = new URLSearchParams();
+        // FIXED 100%: Form layout switched back to original FormData mapping
+        let form = new FormData();
         form.append("action", "google_login");
         form.append("email", gdata.email);
         form.append("name", gdata.name);
