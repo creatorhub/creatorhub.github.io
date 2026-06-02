@@ -50,7 +50,7 @@
       position: sticky;
       top: 0;
       z-index: 999;
-      min-height: 80px; /* Trimmed excessive height to match standard */
+      min-height: 80px; /* Purani excessive height ko trim kiya layout ke liye */
       background: #fff;
       border-bottom: 1px solid #dce4f0;
       padding: 16px 34px;
@@ -81,11 +81,11 @@
     .nav{
       display: flex;
       align-items: center;
-      gap: 20px; /* Tighter links gap to stop overlap */
+      gap: 20px; /* Links gap tighter kiya taaki overlap crash na ho */
     }
     .nav a{
       color: #5d6d85;
-      font-size: 14px; /* Balanced clean standard labels text */
+      font-size: 14px; /* Standard clean readable dynamic font */
       font-weight: 700;
       transition: color 0.2s ease;
     }
@@ -93,20 +93,20 @@
       color: #2f62e9;
     }
     .login-btn{
-      height: 38px !important; /* Fixed corporate line layout height */
+      height: 38px !important; /* Perfect align operational line height */
       min-height: auto !important;
       border: 0;
       border-radius: 10px;
       padding: 0 18px;
       background: #2f62e9;
       color: #fff;
-      font-size: 13px !important; /* Managed font sizes precisely */
+      font-size: 13px !important; /* Managed precisely inside boundaries */
       font-weight: 700 !important;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      white-space: nowrap !important; /* Restricts the text lines from breaking down inside padding bounds */
+      white-space: nowrap !important; /* Text line tootne se rokega hard-core bounds mein */
       box-shadow: 0 4px 10px rgba(47, 98, 233, 0.15);
       transition: background 0.2s ease, transform 0.2s ease;
     }
@@ -124,7 +124,7 @@
       align-items: center;
     }
     .profile-image{
-      width: 44px; /* Synchronized perfectly with topbar elements */
+      width: 44px; /* Perfectly mapped with navigation parallel bar rows */
       height: 44px;
       border-radius: 50%;
       object-fit: cover;
@@ -525,14 +525,14 @@
     }
 
     /* =====================================================
-    FOOTER ELEMENT
+    FOOTER AUTOMATIC CONSTRAINT
     ===================================================== */
     #footerContainer {
       margin-top: 100px;
     }
 
     /* =====================================================
-    RESPONSIVE MEDIA SYSTEM CRASH SAFETY LAYER
+    RESPONSIVE MEDIA OVERLAP CRASH SAFETY LAYER
     ===================================================== */
     @media(max-width: 900px){
       .topbar{ min-height: auto; padding: 14px 20px; }
@@ -551,7 +551,7 @@
       }
     }
     @media(max-width: 640px){
-      .topbar-left .brand-name { display: none; } /* Kept safe profile layout alignment views */
+      .topbar-left .brand-name { display: none; } /* Kept safe dynamic profile image layout links alignment */
       .nav a { font-size: 11px; }
       .nav { gap: 10px; }
       .hero-actions { flex-direction: column; }
@@ -691,4 +691,157 @@
       if(!url) return "";
       if(url.includes("uc?id=")){
         let id = url.split("id=")[1].split("&")[0];
-        retur
+        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+      }
+      if(url.includes("/d/")){
+        let id = url.split("/d/")[1].split("/")[0];
+        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+      }
+      return url;
+    }
+
+    function toggleProfileMenu(){
+      document.getElementById("profileMenu").classList.toggle("show");
+    }
+
+    window.addEventListener("click", function(e){
+      let wrap = document.getElementById("profileWrap");
+      if(wrap && !wrap.contains(e.target)){
+        document.getElementById("profileMenu").classList.remove("show");
+      }
+    });
+
+    function logout(){
+      localStorage.clear();
+      window.location.href = "login.html";
+    }
+
+    function updateLoginUI(){
+      let token = localStorage.getItem("user_token");
+      let loginBtn = document.getElementById("loginBtn");
+      let profileWrap = document.getElementById("profileWrap");
+      let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
+      let email = localStorage.getItem("creatorhub_profile_email");
+      
+      if(token){
+        loginBtn.style.display = "none";
+        profileWrap.style.display = "flex";
+
+        if(cachedUser && email){
+          try {
+            let data = JSON.parse(cachedUser)[email];
+            if(data && data.profile_image){
+              document.getElementById("profileImage").src = driveImage(data.profile_image);
+              document.getElementById("menuProfileImage").src = driveImage(data.profile_image);
+              document.getElementById("menuName").innerText = data.name || "CreatorHub User";
+              document.getElementById("menuEmail").innerText = data.email || email;
+            }
+          } catch(e) { console.log("Cache parsing skipped"); }
+        }
+      } else {
+        loginBtn.style.display = "inline-block";
+        profileWrap.style.display = "none";
+      }
+    }
+
+    /* ORIGINAL EXTREMELY FAST LOADING PRODUCT PIPELINE */
+    async function loadBooks(){
+      try{
+        let res = await fetch(API_URL + "?action=products");
+        let data = await res.json();
+        let grid = document.getElementById("booksGrid");
+
+        if(!data.success || !data.products){
+          grid.innerHTML = "<div style='grid-column:1/-1; text-align:center; color:#63728a; padding:40px 0; font-weight:700;'>No ebooks found</div>";
+          return;
+        }
+
+        // Filter and update globally cached tracking master collection pools safely
+        window.MASTER_CATALOG_POOL = data.products.reverse();
+        renderBooks(window.MASTER_CATALOG_POOL);
+      }catch(err){
+        document.getElementById("booksGrid").innerHTML = "<div style='grid-column:1/-1; text-align:center; color:#ef4444; padding:40px 0; font-weight:700;'>Failed to load ebooks</div>";
+      }
+    }
+
+    function renderBooks(books){
+      let grid = document.getElementById("booksGrid");
+      grid.innerHTML = "";
+
+      if(books.length === 0){
+        grid.innerHTML = "<div style='grid-column:1/-1; text-align:center; color:#63728a; padding:40px 0; font-weight:700;'>No books match your criteria</div>";
+        return;
+      }
+
+      books.forEach(book=>{
+        grid.innerHTML += `
+          <div class="book" onclick="window.location.href='book.html?id=${book.id}'">
+            <img class="book-cover" src="${driveImage(book.front_cover)}" loading="lazy" alt="Cover">
+            <div class="book-content">
+              <div class="book-title">${book.title || "Untitled"}</div>
+              <div class="book-author">by ${book.author || "Unknown"}</div>
+              <div class="book-price">₹${Number(book.price||0)}</div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    /* REAL-TIME ADAPTIVE SEARCH FILTER LOGIC SYSTEM */
+    function handleSearchFilter() {
+      const searchToken = document.getElementById("homepageSearch").value.toLowerCase().trim();
+      let structuralBaseCollection = window.MASTER_CATALOG_POOL || [];
+
+      // Phase 1: Apply type category constraints first
+      if(window.CURRENT_ACTIVE_FILTER_TYPE === "trending") {
+        structuralBaseCollection = structuralBaseCollection.filter(b => Number(b.price||0) >= 300);
+      } else if(window.CURRENT_ACTIVE_FILTER_TYPE === "high") {
+        structuralBaseCollection = structuralBaseCollection.filter(b => String(b.title||"").length > 15);
+      } else if(window.CURRENT_ACTIVE_FILTER_TYPE === "low") {
+        structuralBaseCollection = structuralBaseCollection.filter(b => Number(b.price||0) < 300);
+      }
+
+      // Phase 2: Intersect text specifications mapping loops variables
+      let multiFilteredResults = structuralBaseCollection.filter(bookItem => {
+        return (
+          (bookItem.title && bookItem.title.toLowerCase().includes(searchToken)) ||
+          (bookItem.author && bookItem.author.toLowerCase().includes(searchToken)) ||
+          (bookItem.category && bookItem.category.toLowerCase().includes(searchToken))
+        );
+      });
+
+      renderBooks(multiFilteredResults);
+    }
+
+    function filterBooks(type, button){
+      document.querySelectorAll(".filter-btn").forEach(btn=>{
+        btn.classList.remove("filter-active");
+      });
+      button.classList.add("filter-active");
+
+      window.CURRENT_ACTIVE_FILTER_TYPE = type;
+      handleSearchFilter(); // Re-trigger mapping to intersect search inputs safely
+    }
+
+    /* ASYNC FOOTER HTML STREAM INJECTION LOADER */
+    async function injectExternalFooter(){
+      try {
+        let footerRes = await fetch("footer.html");
+        if(footerRes.ok) {
+          let footerHTML = await footerRes.text();
+          document.getElementById("footerContainer").innerHTML = footerHTML;
+        } else {
+          throw new Error("Footer reference path invalid");
+        }
+      } catch(e) {
+        console.error("External footer stream injection dropped fallback trace:", e);
+      }
+    }
+
+    // Trigger central script runtime paths execution
+    updateLoginUI();
+    loadBooks();
+    injectExternalFooter();
+  </script>
+</body>
+</html>
