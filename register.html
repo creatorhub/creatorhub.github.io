@@ -23,6 +23,7 @@
     --accent-blue-light: #eff6ff;
     --border-color: #e2e8f0;
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.02);
+    --shadow-md: 0 20px 40px -5px rgba(15,23,42,0.06);
     --shadow-lg: 0 30px 60px -15px rgba(15,23,42,0.12);
 }
 
@@ -43,10 +44,6 @@ body{
     overflow-x: hidden;
     min-height: 100vh;
     position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
 }
 
 /* BLUR ATMOSPHERE BACKGROUND SHIELDS */
@@ -72,16 +69,215 @@ body{
     z-index: 0;
 }
 
-/* INTERFACE LOGICAL CARD BLOCK */
-.card{
+/* TOPBAR */
+.topbar{
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 40px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.logo{
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+}
+
+.logo span{
+    color: var(--accent-blue);
+}
+
+.top-links{
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.top-links a{
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.top-links a:hover{
+    color: var(--accent-blue);
+}
+
+.home-btn{
+    height: 46px;
+    padding: 0 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-blue) !important;
+    color: white !important;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.15);
+    transition: background-color 0.2s ease !important;
+}
+
+.home-btn:hover {
+    background-color: var(--accent-blue-hover) !important;
+}
+
+/* MAIN FULL PAGE SPACE GRID */
+.main{
     position: relative;
     z-index: 2;
+    max-width: 1400px;
+    margin: auto;
+    padding: 40px 24px 80px;
+}
+
+.login-grid{
+    display: grid;
+    grid-template-columns: 1.1fr 480px;
+    gap: 60px;
+    align-items: center;
+    min-height: 75vh;
+}
+
+/* LEFT BRAND CONTENT SHIELD */
+.left{
+    padding-right: 20px;
+}
+
+.tag{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: var(--accent-blue-light);
+    border: 1px solid #dbeafe;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent-blue);
+    margin-bottom: 24px;
+}
+
+.tag-dot{
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+}
+
+.hero-title{
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+}
+
+.hero-title span{
+    color: var(--accent-blue);
+}
+
+.hero-desc{
+    margin-top: 20px;
+    max-width: 650px;
+    line-height: 1.6;
+    font-size: 16px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* SYSTEM STATUS STATS MATRIX */
+.stats{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 36px;
+}
+
+.stat{
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    padding: 40px 35px;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-sm);
+}
+
+.stat-number{
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--accent-blue);
+}
+
+.stat-text{
+    margin-top: 6px;
+    line-height: 1.5;
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* FUNCTIONAL GRID UTILITIES FEATURES */
+.features{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-top: 24px;
+}
+
+.feature{
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.25s ease;
+}
+
+.feature:hover{
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--text-muted);
+}
+
+.feature-icon{
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background: var(--accent-blue-light);
+    color: var(--accent-blue);
+}
+
+.feature h3{
+    margin-top: 14px;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+.feature p{
+    margin-top: 8px;
+    line-height: 1.5;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+/* INTERFACE RIGHT CARD FOR REGISTRATION */
+.card{
+    position: relative;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
     border-radius: 24px;
-    width: 100%;
-    max-width: 460px;
+    padding: 35px;
     box-shadow: var(--shadow-lg);
     animation: fadePage .4s ease;
 }
@@ -110,13 +306,12 @@ body{
     border-color: var(--accent-blue);
 }
 
-/* CARD HEAD HEADLINES */
 .card h2{
     font-size: 32px;
     font-weight: 800;
     text-align: center;
     letter-spacing: -0.02em;
-    margin-top: 25px;
+    margin-top: 15px;
     color: var(--text-primary);
 }
 
@@ -130,16 +325,16 @@ body{
     font-size: 14px;
     line-height: 1.5;
     color: var(--text-secondary);
-    margin-bottom: 24px;
+    margin-bottom: 28px;
 }
 
-/* DATA FIELD MODULES */
-.group {
+/* INPUT COMPONENT MODULES */
+.group{
     margin-bottom: 16px;
 }
 
-.label {
-    margin-bottom: 6px;
+.label{
+    margin-bottom: 8px;
     font-size: 13px;
     font-weight: 700;
     color: var(--text-primary);
@@ -166,7 +361,7 @@ body{
     box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
 }
 
-/* DISPATCH COMMAND ACTION BUTTON */
+/* ACTION PROCESSING TRIGGERS BUTTON */
 .register-btn{
     width: 100%;
     height: 54px;
@@ -195,7 +390,7 @@ body{
     transform: none;
 }
 
-/* UTILITY PATH LINK */
+/* UTILITY ROUTE LINK */
 .link{
     margin-top: 24px;
     text-align: center;
@@ -215,7 +410,20 @@ body{
     to { opacity: 1; transform: translateY(0); }
 }
 
-@media(max-width: 480px){
+/* RESPONSIVE LAYOUT CONTEXT INTERFACES */
+@media(max-width: 1100px){
+    .login-grid{ grid-template-columns: 1fr; gap: 40px; }
+    .hero-title{ font-size: 48px; }
+}
+
+@media(max-width: 700px){
+    .topbar{ padding: 18px 20px; }
+    .top-links a{ display: none; }
+    .main{ padding: 20px 14px 60px; }
+    .hero-title{ font-size: 36px; }
+    .hero-desc{ font-size: 14px; }
+    .stats{ grid-template-columns: 1fr; }
+    .features{ grid-template-columns: 1fr; }
     .card{ padding: 30px 20px; border-radius: 20px; }
     .card h2{ font-size: 26px; }
     .input, .register-btn { height: 50px; }
@@ -228,43 +436,114 @@ body{
 <div class="bg-blur-1"></div>
 <div class="bg-blur-2"></div>
 
-<div class="card">
-    <div class="back" onclick="location.href='index.html'">A🡠</div>
-
-    <h2>Creator<span>Hub</span> Register</h2>
-    <div class="card-sub">Create your digital profile to join the marketplace grid ecosystem.</div>
-
-    <!-- FIELD: Full Name -->
-    <div class="group">
-        <label class="label">Full Name</label>
-        <input id="name" class="input" placeholder="Enter your full name">
+<!-- TOPBAR NAVBAR -->
+<div class="topbar">
+    <div class="logo">Creator<span>Hub</span></div>
+    <div class="top-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="library.html">Library</a>
+        <a href="subscription.html">Subscription</a>
+        <a href="support.html">Support</a>
+        <a href="index.html" class="home-btn">Back Home</a>
     </div>
+</div>
 
-    <!-- FIELD: Email Address -->
-    <div class="group">
-        <label class="label">Email Address</label>
-        <input id="email" class="input" type="email" placeholder="Enter your email address">
-    </div>
+<!-- MAIN WORKSPACE CORE CANVAS -->
+<div class="main">
+    <div class="login-grid">
 
-    <!-- FIELD: Secure Password -->
-    <div class="group">
-        <label class="label">Password</label>
-        <input id="password" class="input" type="password" placeholder="Create secure password">
-    </div>
+        <!-- LEFT HUB VISUAL BRAND INFO -->
+        <div class="left">
+            <div class="tag">
+                <div class="tag-dot"></div>
+                Trusted By Thousands Of Readers & Creators
+            </div>
+            <div class="hero-title">Join The Premium <span>Marketplace</span> For Ebooks</div>
+            <div class="hero-desc">
+                Create your account gateway to publish digital assets, access secure global libraries, manage automated creator wallets and monitor hardcopy parcel shipments.
+            </div>
 
-    <!-- BUTTON DISPATCH TRIGGER -->
-    <button id="registerBtn" class="register-btn" onclick="registerUser()">
-        Create Account
-    </button>
+            <!-- STATS COUNTERS -->
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">10K+</div>
+                    <div class="stat-text">Premium ebooks uploaded by creators across multiple categories.</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-text">Instant digital delivery and secure access to purchased content.</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">99%</div>
+                    <div class="stat-text">Fast payments, live order tracking and secure marketplace systems.</div>
+                </div>
+            </div>
 
-    <div class="link" onclick="location.href='login.html'">
-        Already have account? Login to Platform
+            <!-- PLATFORM FEATURES -->
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">📚</div>
+                    <h3>Digital Library</h3>
+                    <p>Access your purchased ebooks anytime directly from your library dashboard.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">💰</div>
+                    <h3>Creator Earnings</h3>
+                    <p>Sell ebooks and manage wallet earnings through the seller dashboard.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🚚</div>
+                    <h3>Live Tracking</h3>
+                    <p>Track printing, packaging and courier delivery status in real-time.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Secure Platform</h3>
+                    <p>Protected login system, encrypted payments and trusted infrastructure.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT DATA INGESTION REGISTRATION CARD -->
+        <div class="card">
+            <div class="back" onclick="location.href='index.html'">⬅</div>
+            <h2>Create Account</h2>
+            <div class="card-sub">Get started by building your cloud master identity token profile.</div>
+
+            <!-- CAPTURE: Name Row -->
+            <div class="group">
+                <label class="label">Full Name</label>
+                <input id="name" class="input" placeholder="Enter your full name">
+            </div>
+
+            <!-- CAPTURE: Email Row -->
+            <div class="group">
+                <label class="label">Email Address</label>
+                <input id="email" class="input" type="email" placeholder="Enter your email address">
+            </div>
+
+            <!-- CAPTURE: Password Row -->
+            <div class="group">
+                <label class="label">Password</label>
+                <input id="password" class="input" type="password" placeholder="Create secure password">
+            </div>
+
+            <!-- DISPATCH EVENT ACTION -->
+            <button id="registerBtn" class="register-btn" onclick="registerUser()">
+                Create Account
+            </button>
+
+            <div class="link" onclick="location.href='login.html'">
+                Already have account? Login to Platform
+            </div>
+        </div>
+
     </div>
 </div>
 
 <script>
 /* =========================================================
-   CORE CONFIG PIPELINE MATRIX
+   CORE AUTH CONFIGURATION EXECUTORS
    ========================================================= */
 const API = "https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec";
 
@@ -302,7 +581,7 @@ async function registerUser(){
         if(data.success){
             btn.innerText = "Authenticating Secure Session...";
 
-            // 🔥 AUTO LOGIN PIPELINE
+            // 🔥 AUTO LOGIN SESSION ALIGNED WITH LOGIN API SYSTEM
             let loginRes = await fetch(API, {
                 method: "POST",
                 body: new URLSearchParams({
@@ -315,7 +594,7 @@ async function registerUser(){
             let loginText = await loginRes.text();
             let loginData = JSON.parse(loginText);
 
-            // 🔐 SECURE SESSION WRITE OPERATION
+            // 🔐 LOCAL STORAGE KEY STATIONS SYNCHRONIZATION
             if(loginData.success){
                 localStorage.setItem("user_email", loginData.user.email);
                 localStorage.setItem("user_name", loginData.user.name || "User");
