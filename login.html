@@ -1277,7 +1277,7 @@ alert("Server error")
 }
 
 /* ===================================
-GOOGLE LOGIN (FIXED BACK TO ORIGINAL FORMDATA)
+GOOGLE LOGIN (FIXED TO FORMDATA ONLY)
 =================================== */
 
 async function handleGoogleLogin(response){
@@ -1289,7 +1289,8 @@ showLoader(true)
 let gdata =
 parseJwt(response.credential)
 
-let form = new FormData() // 👈 100% Original FormData Format Lock
+// Mapped safely with exact operational logic fields
+let form = new FormData()
 
 form.append(
 "action",
