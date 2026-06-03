@@ -2,1414 +2,201 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width,initial-scale=1.0">
-
-<title>
-CreatorHub • Login
-</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CreatorHub • Login</title>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
-
-<link rel="preconnect"
-href="https://fonts.googleapis.com">
-
-<link href="
-https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Inter',sans-serif;
-}
-
-html{
-scroll-behavior:smooth;
-}
-
-body{
-
-background:
-linear-gradient(
-180deg,
-#020617,
-#071120
-);
-
-color:white;
-
-overflow-x:hidden;
-
-min-height:100vh;
-
-position:relative;
-
-}
-
-/* ===================================
-BACKGROUND EFFECT
-=================================== */
-
-.bg-blur-1{
-
-position:fixed;
-
-top:-250px;
-right:-200px;
-
-width:700px;
-height:700px;
-
-border-radius:50%;
-
-background:
-radial-gradient(
-circle,
-rgba(34,197,94,.15),
-transparent
-);
-
-z-index:0;
-
-}
-
-.bg-blur-2{
-
-position:fixed;
-
-bottom:-250px;
-left:-200px;
-
-width:650px;
-height:650px;
-
-border-radius:50%;
-
-background:
-radial-gradient(
-circle,
-rgba(59,130,246,.10),
-transparent
-);
-
-z-index:0;
-
-}
-
-/* ===================================
-TOPBAR
-=================================== */
-
-.topbar{
-
-position:relative;
-z-index:10;
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-padding:22px 30px;
-
-}
-
-.logo{
-
-font-size:38px;
-font-weight:900;
-
-}
-
-.logo span{
-color:#4ade80;
-}
-
-.top-links{
-
-display:flex;
-align-items:center;
-gap:28px;
-
-}
-
-.top-links a{
-
-color:white;
-
-text-decoration:none;
-
-font-size:15px;
-font-weight:700;
-
-opacity:.8;
-
-transition:.25s;
-
-}
-
-.top-links a:hover{
-
-opacity:1;
-
-color:#4ade80;
-
-}
-
-.home-btn{
-
-height:52px;
-
-padding:0 24px;
-
-border-radius:18px;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-background:
-linear-gradient(
-90deg,
-#16a34a,
-#4ade80
-);
-
-font-weight:800;
-
-}
-
-/* ===================================
-MAIN
-=================================== */
-
-.main{
-
-position:relative;
-z-index:2;
-
-max-width:1450px;
-
-margin:auto;
-
-padding:
-30px 24px 80px;
-
-}
-
-/* ===================================
-GRID
-=================================== */
-
-.login-grid{
-
-display:grid;
-
-grid-template-columns:
-1.1fr 480px;
-
-gap:60px;
-
-align-items:center;
-
-min-height:78vh;
-
-}
-
-/* ===================================
-LEFT
-=================================== */
-
-.left{
-
-padding-right:20px;
-
-}
-
-.tag{
-
-display:inline-flex;
-align-items:center;
-gap:10px;
-
-padding:14px 20px;
-
-border-radius:999px;
-
-background:
-rgba(255,255,255,.05);
-
-border:
-1px solid rgba(255,255,255,.06);
-
-font-size:14px;
-font-weight:700;
-
-margin-bottom:28px;
-
-}
-
-.tag-dot{
-
-width:10px;
-height:10px;
-
-border-radius:50%;
-
-background:#4ade80;
-
-}
-
-.hero-title{
-
-font-size:86px;
-font-weight:900;
-
-line-height:1.02;
-
-max-width:760px;
-
-}
-
-.hero-title span{
-color:#4ade80;
-}
-
-.hero-desc{
-
-margin-top:28px;
-
-max-width:700px;
-
-line-height:2;
-
-font-size:18px;
-
-opacity:.75;
-
-}
-
-/* ===================================
-STATS
-=================================== */
-
-.stats{
-
-display:grid;
-
-grid-template-columns:
-repeat(3,1fr);
-
-gap:18px;
-
-margin-top:42px;
-
-}
-
-.stat{
-
-background:
-rgba(15,23,42,.82);
-
-border:
-1px solid rgba(255,255,255,.06);
-
-padding:24px;
-
-border-radius:26px;
-
-backdrop-filter:blur(12px);
-
-}
-
-.stat-number{
-
-font-size:34px;
-font-weight:900;
-
-color:#4ade80;
-
-}
-
-.stat-text{
-
-margin-top:10px;
-
-line-height:1.7;
-
-font-size:14px;
-
-opacity:.72;
-
-}
-
-/* ===================================
-FEATURES
-=================================== */
-
-.features{
-
-display:grid;
-
-grid-template-columns:
-repeat(2,1fr);
-
-gap:18px;
-
-margin-top:24px;
-
-}
-
-.feature{
-
-background:
-rgba(15,23,42,.82);
-
-border:
-1px solid rgba(255,255,255,.06);
-
-padding:22px;
-
-border-radius:26px;
-
-backdrop-filter:blur(12px);
-
-transition:.25s;
-
-}
-
-.feature:hover{
-
-transform:translateY(-4px);
-
-border-color:
-rgba(74,222,128,.18);
-
-}
-
-.feature-icon{
-
-width:58px;
-height:58px;
-
-border-radius:18px;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-font-size:26px;
-
-background:
-linear-gradient(
-135deg,
-#16a34a,
-#4ade80
-);
-
-}
-
-.feature h3{
-
-margin-top:18px;
-
-font-size:22px;
-font-weight:900;
-
-}
-
-.feature p{
-
-margin-top:12px;
-
-line-height:1.8;
-
-font-size:14px;
-
-opacity:.72;
-
-}
-
-/* ===================================
-CARD
-=================================== */
-
-.card{
-
-position:relative;
-
-background:
-rgba(15,23,42,.95);
-
-border:
-1px solid rgba(255,255,255,.08);
-
-border-radius:34px;
-
-padding:38px;
-
-backdrop-filter:blur(20px);
-
-box-shadow:
-0 30px 90px rgba(0,0,0,.45);
-
-}
-
-/* ===================================
-BACK
-=================================== */
-
-.back{
-
-position:absolute;
-
-top:22px;
-left:22px;
-
-width:48px;
-height:48px;
-
-border-radius:14px;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-background:#081225;
-
-cursor:pointer;
-
-font-size:20px;
-
-transition:.25s;
-
-}
-
-.back:hover{
-
-transform:translateX(-3px);
-
-background:#0d1a35;
-
-}
-
-/* ===================================
-CARD HEAD
-=================================== */
-
-.card h2{
-
-font-size:42px;
-font-weight:900;
-
-text-align:center;
-
-}
-
-.card-sub{
-
-margin-top:12px;
-
-text-align:center;
-
-font-size:15px;
-
-line-height:1.8;
-
-opacity:.7;
-
-margin-bottom:32px;
-
-}
-
-/* ===================================
-INPUTS
-=================================== */
-
-.group{
-
-margin-bottom:18px;
-
-}
-
-.label{
-
-margin-bottom:10px;
-
-font-size:14px;
-font-weight:700;
-
-opacity:.85;
-
-}
-
-.input{
-
-width:100%;
-
-height:64px;
-
-padding:0 18px;
-
-border:none;
-outline:none;
-
-border-radius:18px;
-
-background:#020617;
-
-color:white;
-
-font-size:15px;
-
-border:
-1px solid rgba(255,255,255,.06);
-
-transition:.25s;
-
-}
-
-.input:focus{
-
-border-color:#4ade80;
-
-box-shadow:
-0 0 0 4px rgba(34,197,94,.10);
-
-}
-
-/* ===================================
-BUTTON
-=================================== */
-
-.login-btn{
-
-width:100%;
-
-height:64px;
-
-border:none;
-
-border-radius:20px;
-
-margin-top:10px;
-
-background:
-linear-gradient(
-90deg,
-#16a34a,
-#4ade80
-);
-
-color:white;
-
-font-size:16px;
-font-weight:900;
-
-cursor:pointer;
-
-transition:.3s;
-
-}
-
-.login-btn:hover{
-
-transform:translateY(-3px);
-
-box-shadow:
-0 15px 35px rgba(34,197,94,.22);
-
-}
-
-/* ===================================
-DIVIDER
-=================================== */
-
-.divider{
-
-display:flex;
-align-items:center;
-
-gap:12px;
-
-margin:30px 0;
-
-font-size:12px;
-
-opacity:.45;
-
-}
-
-.divider::before,
-.divider::after{
-
-content:"";
-
-height:1px;
-flex:1;
-
-background:
-rgba(255,255,255,.08);
-
-}
-
-/* ===================================
-GOOGLE
-=================================== */
-
-.google-box{
-
-display:flex;
-justify-content:center;
-
-}
-
-/* ===================================
-LINKS
-=================================== */
-
-.links{
-
-margin-top:28px;
-
-display:grid;
-
-gap:14px;
-
-}
-
-.links div{
-
-text-align:center;
-
-font-size:14px;
-
-opacity:.72;
-
-cursor:pointer;
-
-transition:.25s;
-
-}
-
-.links div:hover{
-
-color:#4ade80;
-
-transform:translateY(-1px);
-
-}
-
-/* ===================================
-LOADER
-=================================== */
-
-.loader{
-
-display:none;
-
-margin-top:18px;
-
-text-align:center;
-
-font-size:14px;
-
-color:#4ade80;
-
-}
-
-/* ===================================
-MOBILE
-=================================== */
-
-@media(max-width:1100px){
-
-.login-grid{
-
-grid-template-columns:1fr;
-
-gap:40px;
-
-}
-
-.hero-title{
-
-font-size:58px;
-
-}
-
-}
-
-@media(max-width:700px){
-
-.topbar{
-
-padding:18px 16px;
-
-}
-
-.top-links a{
-display:none;
-}
-
-.main{
-
-padding:20px 14px 60px;
-
-}
-
-.hero-title{
-
-font-size:48px;
-
-}
-
-.hero-desc{
-
-font-size:15px;
-
-}
-
-.stats{
-
-grid-template-columns:1fr;
-
-}
-
-.features{
-
-grid-template-columns:1fr;
-
-}
-
-.card{
-
-padding:34px 22px;
-
-border-radius:28px;
-
-}
-
-.card h2{
-
-font-size:34px;
-
-}
-
-.input{
-
-height:58px;
-
-}
-
-.login-btn{
-
-height:58px;
-
-}
-
-}
-
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+html{scroll-behavior:smooth;}
+body{background:linear-gradient(180deg,#020617,#071120);color:white;overflow-x:hidden;min-height:100vh;position:relative;}
+
+/* BACKGROUND EFFECT */
+.bg-blur-1{position:fixed;top:-250px;right:-200px;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(34,197,94,.15),transparent);z-index:0;}
+.bg-blur-2{position:fixed;bottom:-250px;left:-200px;width:650px;height:650px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.10),transparent);z-index:0;}
+
+/* TOPBAR */
+.topbar{position:relative;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:22px 30px;}
+.logo{font-size:38px;font-weight:900;}
+.logo span{color:#4ade80;}
+.top-links{display:flex;align-items:center;gap:28px;}
+.top-links a{color:white;text-decoration:none;font-size:15px;font-weight:700;opacity:.8;transition:.25s;}
+.top-links a:hover{opacity:1;color:#4ade80;}
+.home-btn{height:52px;padding:0 24px;border-radius:18px;display:flex;align-items:center;justify-content:center;background:linear-gradient(90deg,#16a34a,#4ade80);font-weight:800;color:white;text-decoration:none;}
+
+/* MAIN SYSTEM Grid */
+.main{position:relative;z-index:2;max-width:1450px;margin:auto;padding:30px 24px 80px;}
+.login-grid{display:grid;grid-template-columns:1.1fr 480px;gap:60px;align-items:center;min-height:78vh;}
+.left{padding-right:20px;}
+.tag{display:inline-flex;align-items:center;gap:10px;padding:14px 20px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);font-size:14px;font-weight:700;margin-bottom:28px;}
+.tag-dot{width:10px;height:10px;border-radius:50%;background:#4ade80;}
+.hero-title{font-size:86px;font-weight:900;line-height:1.02;max-width:760px;}
+.hero-title span{color:#4ade80;}
+.hero-desc{margin-top:28px;max-width:700px;line-height:2;font-size:18px;opacity:.75;}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:42px;}
+.stat{background:rgba(15,23,42,.82);border:1px solid rgba(255,255,255,.06);padding:24px;border-radius:26px;backdrop-filter:blur(12px);}
+.stat-number{font-size:34px;font-weight:900;color:#4ade80;}
+.stat-text{margin-top:10px;line-height:1.7;font-size:14px;opacity:.72;}
+
+/* FEATURES */
+.features{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:24px;}
+.feature{background:rgba(15,23,42,.82);border:1px solid rgba(255,255,255,.06);padding:22px;border-radius:26px;backdrop-filter:blur(12px);transition:.25s;}
+.feature:hover{transform:translateY(-4px);border-color:rgba(74,222,128,.18);}
+.feature-icon{width:58px;height:58px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#16a34a,#4ade80);}
+.feature h3{margin-top:18px;font-size:22px;font-weight:900;}
+.feature p{margin-top:12px;line-height:1.8;font-size:14px;opacity:.72;}
+
+/* CARD CONTAINER */
+.card{position:relative;background:rgba(15,23,42,.95);border:1px solid rgba(255,255,255,.08);border-radius:34px;padding:38px;backdrop-filter:blur(20px);box-shadow:0 30px 90px rgba(0,0,0,.45);}
+.back{position:absolute;top:22px;left:22px;width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:#081225;cursor:pointer;font-size:20px;transition:.25s;}
+.back:hover{transform:translateX(-3px);background:#0d1a35;}
+.card h2{font-size:42px;font-weight:900;text-align:center;}
+.card-sub{margin-top:12px;text-align:center;font-size:15px;line-height:1.8;opacity:.7;margin-bottom:32px;}
+
+/* INPUT FIELD MATRIX */
+.group{margin-bottom:18px;}
+.label{margin-bottom:10px;font-size:14px;font-weight:700;opacity:.85;}
+.input{width:100%;height:64px;padding:0 18px;border:none;outline:none;border-radius:18px;background:#020617;color:white;font-size:15px;border:1px solid rgba(255,255,255,.06);transition:.25s;}
+.input:focus{border-color:#4ade80;box-shadow:0 0 0 4px rgba(34,197,94,.10);}
+
+/* LOGIN ACTION BUTTONS */
+.login-btn{width:100%;height:64px;border:none;border-radius:20px;margin-top:10px;background:linear-gradient(90deg,#16a34a,#4ade80);color:white;font-weight:900;font-size:16px;cursor:pointer;transition:.3s;}
+.login-btn:hover{transform:translateY(-3px);box-shadow:0 15px 35px rgba(34,197,94,.22);}
+.divider{display:flex;align-items:center;gap:12px;margin:30px 0;font-size:12px;opacity:.45;}
+.divider::before,.divider::after{content:"";height:1px;flex:1;background:rgba(255,255,255,.08);}
+.google-box{display:flex;justify-content:center;}
+
+/* LINK FOOT PATHWAYS */
+.links{margin-top:28px;display:grid;gap:14px;}
+.links div{text-align:center;font-size:14px;opacity:.72;cursor:pointer;transition:.25s;}
+.links div:hover{color:#4ade80;transform:translateY(-1px);}
+.loader{display:none;margin-top:18px;text-align:center;font-size:14px;color:#4ade80;}
+
+/* RESPONSIVE LAYOUT WINDOW CONFIGS */
+@media(max-width:1100px){.login-grid{grid-template-columns:1fr;gap:40px;}.hero-title{font-size:58px;}}
+@media(max-width:700px){.topbar{padding:18px 16px;}.top-links a{display:none;}.main{padding:20px 14px 60px;}.hero-title{font-size:48px;}.hero-desc{font-size:15px;}.stats{grid-template-columns:1fr;}.features{grid-template-columns:1fr;}.card{padding:34px 22px;border-radius:28px;}.card h2{font-size:34px;}.input{height:58px;}.login-btn{height:58px;}}
 </style>
-
 </head>
 
 <body>
-
 <div class="bg-blur-1"></div>
 <div class="bg-blur-2"></div>
 
-<!-- ===================================
-TOPBAR
-=================================== -->
-
 <div class="topbar">
-
-<div class="logo">
-Creator<span>Hub</span>
-</div>
-
+<div class="logo">Creator<span>Hub</span></div>
 <div class="top-links">
-
-<a href="dashboard.html">
-Dashboard 
-</a>
-
-<a href="library.html">
-Library 
-</a>
-
-<a href="subscription.html">
-Subscription
-</a>
-
-<a href="support.html">
-Support 
-</a>
-
-<a
-href="index.html"
-class="home-btn">
-Back Home
-</a>
-
+<a href="dashboard.html">Dashboard</a>
+<a href="library.html">Library</a>
+<a href="subscription.html">Subscription</a>
+<a href="support.html">Support</a>
+<a href="index.html" class="home-btn">Back Home</a>
 </div>
-
 </div>
-
-<!-- ===================================
-MAIN
-=================================== -->
 
 <div class="main">
-
 <div class="login-grid">
-
-<!-- ===================================
-LEFT
-=================================== -->
-
 <div class="left">
-
-<div class="tag">
-
-<div class="tag-dot"></div>
-
-Trusted By Thousands Of Readers & Creators
-
-</div>
-
-<div class="hero-title">
-
-Discover Premium <span>Ebooks</span> From Top Creators
-
-</div>
-
-<div class="hero-desc">
-
-Access your ebook library, subscriptions, wallet, seller dashboard, orders and premium content through the CreatorHub digital marketplace ecosystem.
-
-</div>
-
-<!-- STATS -->
-
+<div class="tag"><div class="tag-dot"></div>Trusted By Thousands Of Readers & Creators</div>
+<div class="hero-title">Discover Premium <span>Ebooks</span> From Top Creators</div>
+<div class="hero-desc">Access your ebook library, subscriptions, wallet, seller dashboard, orders and premium content through the CreatorHub digital marketplace ecosystem.</div>
 <div class="stats">
-
-<div class="stat">
-
-<div class="stat-number">
-10K+
+<div class="stat"><div class="stat-number">10K+</div><div class="stat-text">Premium ebooks uploaded by creators across multiple categories.</div></div>
+<div class="stat"><div class="stat-number">24/7</div><div class="stat-text">Instant digital delivery and secure access to purchased content.</div></div>
+<div class="stat"><div class="stat-number">99%</div><div class="stat-text">Fast payments, live order tracking and secure marketplace systems.</div></div>
 </div>
-
-<div class="stat-text">
-Premium ebooks uploaded by creators across multiple categories.
-</div>
-
-</div>
-
-<div class="stat">
-
-<div class="stat-number">
-24/7
-</div>
-
-<div class="stat-text">
-Instant digital delivery and secure access to purchased content.
-</div>
-
-</div>
-
-<div class="stat">
-
-<div class="stat-number">
-99%
-</div>
-
-<div class="stat-text">
-Fast payments, live order tracking and secure marketplace systems.
-</div>
-
-</div>
-
-</div>
-
-<!-- FEATURES -->
-
 <div class="features">
-
-<div class="feature">
-
-<div class="feature-icon">
-📚
+<div class="feature"><div class="feature-icon">📚</div><h3>Digital Library</h3><p>Access your purchased ebooks anytime directly from your library dashboard.</p></div>
+<div class="feature"><div class="feature-icon">💰</div><h3>Creator Earnings</h3><p>Sell ebooks and manage wallet earnings through the seller dashboard.</p></div>
+<div class="feature"><div class="feature-icon">🚚</div><h3>Live Tracking</h3><p>Track printing, packaging and courier delivery status in real-time.</p></div>
+<div class="feature"><div class="feature-icon">🔒</div><h3>Secure Platform</h3><p>Protected login system, encrypted payments and trusted infrastructure.</p></div>
 </div>
-
-<h3>
-Digital Library
-</h3>
-
-<p>
-Access your purchased ebooks anytime directly from your library dashboard.
-</p>
-
 </div>
-
-<div class="feature">
-
-<div class="feature-icon">
-💰
-</div>
-
-<h3>
-Creator Earnings
-</h3>
-
-<p>
-Sell ebooks and manage wallet earnings through the seller dashboard.
-</p>
-
-</div>
-
-<div class="feature">
-
-<div class="feature-icon">
-🚚
-</div>
-
-<h3>
-Live Tracking
-</h3>
-
-<p>
-Track printing, packaging and courier delivery status in real-time.
-</p>
-
-</div>
-
-<div class="feature">
-
-<div class="feature-icon">
-🔒
-</div>
-
-<h3>
-Secure Platform
-</h3>
-
-<p>
-Protected login system, encrypted payments and trusted infrastructure.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- ===================================
-RIGHT CARD
-=================================== -->
 
 <div class="card">
-
-<div
-class="back"
-onclick="location.href='index.html'"
->
-⬅
-</div>
-
-<h2>
-Welcome Back
-</h2>
-
-<div class="card-sub">
-
-Login to access your ebooks, subscriptions, wallet and orders.
-
-</div>
-
-<!-- EMAIL -->
-
-<div class="group">
-
-<div class="label">
-Email Address
-</div>
-
-<input
-id="email"
-class="input"
-type="email"
-placeholder="Enter your email"
->
-
-</div>
-
-<!-- PASSWORD -->
-
-<div class="group">
-
-<div class="label">
-Password
-</div>
-
-<input
-id="password"
-class="input"
-type="password"
-placeholder="Enter your password"
->
-
-</div>
-
-<!-- BUTTON -->
-
-<button
-class="login-btn"
-onclick="login()"
->
-Login To CreatorHub
-</button>
-
-<div
-id="loader"
-class="loader"
->
-Please wait...
-</div>
-
-<!-- DIVIDER -->
-
-<div class="divider">
-OR CONTINUE WITH
-</div>
-
-<!-- GOOGLE -->
-
+<div class="back" onclick="location.href='index.html'">⬅</div>
+<h2>Welcome Back</h2>
+<div class="card-sub">Login to access your ebooks, subscriptions, wallet and orders.</div>
+<div class="group"><div class="label">Email Address</div><input id="email" class="input" type="email" placeholder="Enter your email"></div>
+<div class="group"><div class="label">Password</div><input id="password" class="input" type="password" placeholder="Enter your password"></div>
+<button class="login-btn" onclick="login()">Login To CreatorHub</button>
+<div id="loader" class="loader">Please wait...</div>
+<div class="divider">OR CONTINUE WITH</div>
 <div class="google-box">
-
-<div id="g_id_onload"
-data-client_id="895144937824-ojsv6ca2nn67h2mmne6td4r0hr89kmok.apps.googleusercontent.com"
-data-callback="handleGoogleLogin">
+<div id="g_id_onload" data-client_id="895144937824-ojsv6ca2nn67h2mmne6td4r0hr89kmok.apps.googleusercontent.com" data-callback="handleGoogleLogin"></div>
+<div class="g_id_signin" data-type="standard" data-size="large" data-theme="filled_black" data-shape="pill" data-width="320"></div>
 </div>
-
-<div class="g_id_signin"
-data-type="standard"
-data-size="large"
-data-theme="filled_black"
-data-shape="pill"
-data-width="320">
-</div>
-
-</div>
-
-<!-- LINKS -->
-
 <div class="links">
-
-<div onclick="location.href='register.html'">
-Create New Account
+<div onclick="location.href='register.html'">Create New Account</div>
+<div onclick="location.href='forgot.html'">Forgot Password</div>
+<div onclick="location.href='recovery.html'">Recover Deleted Account</div>
 </div>
-
-<div onclick="location.href='forgot.html'">
-Forgot Password
 </div>
-
-<div onclick="location.href='recovery.html'">
-Recover Deleted Account
 </div>
-
-</div>
-
-</div>
-
-</div>
-
 </div>
 
 <script>
-
-/* ===================================
-API
-=================================== */
-
-const API =
-"https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec"
-
-/* ===================================
-LOADER
-=================================== */
+const API = "https://script.google.com/macros/s/AKfycbwg4Xxd1he7OWkjMgeaXhEtCG2mvW9MtceFA-vcKykLB_LODR4_RtIi7wWbv9sKiy1V/exec";
 
 function showLoader(show){
-
-document.getElementById(
-"loader"
-).style.display =
-show ? "block" : "none"
-
+document.getElementById("loader").style.display = show ? "block" : "none";
 }
-
-/* ===================================
-LOGIN
-=================================== */
 
 async function login(){
-
-let email =
-document.getElementById(
-"email"
-).value.trim().toLowerCase()
-
-let password =
-document.getElementById(
-"password"
-).value.trim()
-
-if(!email || !password){
-
-alert("Please fill all fields")
-return
-
-}
-
-showLoader(true)
-
+let email = document.getElementById("email").value.trim().toLowerCase();
+let password = document.getElementById("password").value.trim();
+if(!email || !password){ alert("Please fill all fields"); return; }
+showLoader(true);
 try{
-
-let form = new FormData()
-
-form.append(
-"action",
-"login"
-)
-
-form.append(
-"email",
-email
-)
-
-form.append(
-"password",
-password
-)
-
-let res =
-await fetch(API,{
-method:"POST",
-body:form
-})
-
-let text =
-await res.text()
-
-let data =
-JSON.parse(text)
-
-showLoader(false)
-
-if(!data.success){
-
-alert(
-data.message ||
-"Login failed"
-)
-
-return
-
+// Form parameters mapped inside payload matching e.parameter parser flawlessly
+let res = await fetch(API, {
+    method: "POST",
+    body: JSON.stringify({ action: "login", email: email, password: password })
+});
+let data = await res.json();
+showLoader(false);
+if(!data.success){ alert(data.message || "Login failed"); return; }
+localStorage.setItem("user_email", data.user.email);
+localStorage.setItem("user_name", data.user.name || "User");
+localStorage.setItem("user_token", data.token || "");
+if(data.user.profile_image){ localStorage.setItem("user_image", data.user.profile_image); }
+localStorage.setItem("user", JSON.stringify({email:data.user.email, token:data.token}));
+alert("Login Successful ✅");
+window.location.href = "index.html";
+}catch(err){ showLoader(false); console.log(err); alert("Server error"); }
 }
-
-/* SAVE USER */
-
-localStorage.setItem(
-"user_email",
-data.user.email
-)
-
-localStorage.setItem(
-"user_name",
-data.user.name || "User"
-)
-
-localStorage.setItem(
-"user_token",
-data.token || ""
-)
-
-if(data.user.profile_image){
-
-localStorage.setItem(
-"user_image",
-data.user.profile_image
-)
-
-}
-
-localStorage.setItem(
-"user",
-JSON.stringify({
-email:data.user.email,
-token:data.token
-})
-)
-
-alert("Login Successful ✅")
-
-window.location.href =
-"index.html"
-
-}catch(err){
-
-showLoader(false)
-
-console.log(err)
-
-alert("Server error")
-
-}
-
-}
-
-/* ===================================
-GOOGLE LOGIN
-=================================== */
 
 async function handleGoogleLogin(response){
-
 try{
-
-showLoader(true)
-
-let gdata =
-parseJwt(response.credential)
-
-let form =
-new URLSearchParams()
-
-form.append(
-"action",
-"google_login"
-)
-
-form.append(
-"email",
-gdata.email
-)
-
-form.append(
-"name",
-gdata.name
-)
-
-let res =
-await fetch(API,{
-method:"POST",
-body:form
-})
-
-let text =
-await res.text()
-
-let data =
-JSON.parse(text)
-
-showLoader(false)
-
-if(!data.success){
-
-alert("Google login failed")
-return
-
+showLoader(true);
+let gdata = parseJwt(response.credential);
+let res = await fetch(API, {
+    method: "POST",
+    body: JSON.stringify({ action: "google_login", email: gdata.email, name: gdata.name, profile_image: gdata.picture || "" })
+});
+let data = await res.json();
+showLoader(false);
+if(!data.success){ alert("Google login failed"); return; }
+localStorage.setItem("user_email", data.user.email);
+localStorage.setItem("user_name", data.user.name || "User");
+localStorage.setItem("user_token", data.token || "");
+if(data.user.profile_image){ localStorage.setItem("user_image", data.user.profile_image); }
+localStorage.setItem("user", JSON.stringify({email:data.user.email, token:data.token}));
+alert("Google Login Successful ✅");
+window.location.href = "index.html";
+}catch(e){ showLoader(false); console.log(e); alert("Google login failed"); }
 }
-
-/* SAVE USER */
-
-localStorage.setItem(
-"user_email",
-data.user.email
-)
-
-localStorage.setItem(
-"user_name",
-data.user.name || "User"
-)
-
-localStorage.setItem(
-"user_token",
-data.token || ""
-)
-
-if(data.user.profile_image){
-
-localStorage.setItem(
-"user_image",
-data.user.profile_image
-)
-
-}
-
-localStorage.setItem(
-"user",
-JSON.stringify({
-email:data.user.email,
-token:data.token
-})
-)
-
-alert("Google Login Successful ✅")
-
-window.location.href =
-"index.html"
-
-}catch(e){
-
-showLoader(false)
-
-console.log(e)
-
-alert("Google login failed")
-
-}
-
-}
-
-/* ===================================
-JWT
-=================================== */
 
 function parseJwt(token){
-
-var base64Url =
-token.split('.')[1]
-
-var base64 =
-base64Url
-.replace(/-/g,'+')
-.replace(/_/g,'/')
-
-var jsonPayload =
-decodeURIComponent(
-atob(base64)
-.split('')
-.map(function(c){
-
-return '%' +
-('00' + c.charCodeAt(0).toString(16)).slice(-2)
-
-}).join('')
-)
-
-return JSON.parse(jsonPayload)
-
+var base64Url = token.split('.')[1];
+var base64 = base64Url.replace(/-/g,'+').replace(/_/g,'/');
+var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c){return '%'+('00'+c.charCodeAt(0).toString(16)).slice(-2);}).join(''));
+return JSON.parse(jsonPayload);
 }
-
 </script>
-
 </body>
-  </html>
+</html>
