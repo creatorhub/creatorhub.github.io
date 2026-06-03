@@ -1,31 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>CreatorHub • Login</title>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 /* =========================================================
-   CREATORHUB ROYAL BLUE LIGHT THEME (MATCHING SCREENSHOT)
+   CREATORHUB STANDARD PREMIUM LIGHT UI INTERFACE
    ========================================================= */
 :root {
-    --bg-primary: #f8fafc;       
-    --bg-secondary: #ffffff;     
-    --text-primary: #0f172a;     
-    --text-secondary: #475569;   
-    --text-muted: #94a3b8;
-    --accent-blue: #2f62e9;      /* Matches your exact homepage screenshot */
-    --accent-blue-hover: #1d4ed8;
-    --accent-blue-light: #eff6ff;
-    --border-color: #e2e8f0;
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.02);
-    --shadow-md: 0 20px 40px -5px rgba(15,23,42,0.06);
-    --shadow-lg: 0 30px 60px -15px rgba(15,23,42,0.12);
+    --bg-primary: #f6f8fc;       /* Soft workspace canvas white */
+    --bg-secondary: #ffffff;     /* Pure white cards */
+    --text-primary: #06142c;     /* Deep slate text */
+    --text-secondary: #63728a;   /* Muted labels track */
+    --accent-blue: #2f62e9;      /* Exact Royal Blue from screenshot */
+    --accent-blue-hover: #2455cf;
+    --border-color: #dce4f0;
 }
 
 *{
@@ -43,44 +38,32 @@ body{
     position: relative;
 }
 
-/* BLUR ACCENTS */
+/* BLUR ATMOSPHERE BACKGROUND */
 .bg-blur-1{
     position: fixed;
     top: -250px;
     right: -200px;
-    width: 700px;
-    height: 700px;
+    width: 500px;
+    height: 500px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(47, 98, 233, 0.06), transparent);
+    background: radial-gradient(circle, rgba(47, 98, 233, 0.05), transparent 70%);
     z-index: 0;
 }
 
-.bg-blur-2{
-    position: fixed;
-    bottom: -250px;
-    left: -200px;
-    width: 650px;
-    height: 650px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(47, 98, 233, 0.04), transparent);
-    z-index: 0;
-}
-
-/* TOPBAR HEADER */
+/* TOPBAR NAVIGATION MATCHING HOMEPAGE SCREENSHOT */
 .topbar{
     position: relative;
     z-index: 10;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 22px 40px;
+    padding: 26px 34px;
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--border-color);
-    box-shadow: var(--shadow-sm);
 }
 
 .logo{
-    font-size: 26px;
+    font-size: 25px;
     font-weight: 950;
     letter-spacing: -0.02em;
 }
@@ -92,14 +75,14 @@ body{
 .top-links{
     display: flex;
     align-items: center;
-    gap: 28px;
+    gap: 24px;
 }
 
 .top-links a{
     color: var(--text-secondary);
     text-decoration: none;
-    font-size: 14px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 800;
     transition: color 0.2s ease;
 }
 
@@ -108,21 +91,21 @@ body{
 }
 
 .home-btn{
-    height: 46px;
-    padding: 0 20px;
-    border-radius: 12px;
-    display: flex;
+    min-height: 54px;
+    padding: 0 24px;
+    border-radius: 9px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     background: var(--accent-blue) !important;
     color: white !important;
-    font-weight: 700;
-    box-shadow: 0 4px 10px rgba(47, 98, 233, 0.15);
-    transition: background-color 0.2s ease !important;
+    font-weight: 900;
+    cursor: pointer;
+    transition: background 0.2s ease;
 }
 
 .home-btn:hover {
-    background-color: var(--accent-blue-hover) !important;
+    background: var(--accent-blue-hover) !important;
 }
 
 /* MAIN CONTENT GRID */
@@ -131,7 +114,7 @@ body{
     z-index: 2;
     max-width: 1400px;
     margin: auto;
-    padding: 40px 24px 80px;
+    padding: 36px 34px 90px;
 }
 
 .login-grid{
@@ -151,13 +134,14 @@ body{
     align-items: center;
     gap: 10px;
     padding: 10px 18px;
-    border-radius: 999px;
-    background: var(--accent-blue-light);
-    border: 1px solid #dbeafe;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--accent-blue);
+    border-radius: 9px;
+    background: #fff;
+    border: 1px solid var(--border-color);
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text-secondary);
     margin-bottom: 24px;
+    box-shadow: 0 10px 30px rgba(16, 24, 40, 0.04);
 }
 
 .tag-dot{
@@ -168,27 +152,27 @@ body{
 }
 
 .hero-title{
-    font-size: 64px;
+    font-size: 52px;
     font-weight: 950;
     line-height: 1.1;
-    letter-spacing: -0.03em;
-    color: var(--text-primary);
+    letter-spacing: -0.02em;
 }
 
 .hero-title span{
-    color: var(--accent-blue);
+    background: linear-gradient(135deg, #21b7e8, #1d72f3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .hero-desc{
     margin-top: 20px;
-    max-width: 650px;
+    max-width: 750px;
     line-height: 1.6;
-    font-size: 16px;
+    font-size: 17px;
     color: var(--text-secondary);
-    font-weight: 500;
 }
 
-/* CARDS AND FEATURES */
+/* STATS ROW */
 .stats{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -200,13 +184,13 @@ body{
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     padding: 20px;
-    border-radius: 16px;
-    box-shadow: var(--shadow-sm);
+    border-radius: 9px;
+    box-shadow: 0 10px 30px rgba(16, 24, 40, 0.04);
 }
 
 .stat-number{
     font-size: 28px;
-    font-weight: 800;
+    font-weight: 950;
     color: var(--accent-blue);
 }
 
@@ -217,70 +201,23 @@ body{
     color: var(--text-secondary);
 }
 
-.features{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
-    margin-top: 24px;
-}
-
-.feature{
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    padding: 20px;
-    border-radius: 16px;
-    box-shadow: var(--shadow-sm);
-    transition: all 0.25s ease;
-}
-
-.feature:hover{
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--accent-blue);
-}
-
-.feature-icon{
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    background: var(--accent-blue-light);
-    color: var(--accent-blue);
-}
-
-.feature h3{
-    margin-top: 14px;
-    font-size: 18px;
-    font-weight: 800;
-}
-
-.feature p{
-    margin-top: 8px;
-    line-height: 1.5;
-    font-size: 13px;
-    color: var(--text-secondary);
-}
-
-/* INTERFACE RIGHT MAIN PANEL CARD */
+/* INTERFACE RIGHT CARD SUBMISSION */
 .card{
     position: relative;
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    border-radius: 24px;
-    padding: 35px;
-    box-shadow: var(--shadow-lg);
+    border-radius: 9px;
+    padding: 38px;
+    box-shadow: 0 18px 45px rgba(16,24,40,.06);
 }
 
 .back{
     position: absolute;
     top: 22px;
     left: 22px;
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -294,54 +231,52 @@ body{
 
 .back:hover{
     transform: translateX(-3px);
-    color: var(--accent-blue);
     border-color: var(--accent-blue);
 }
 
 .card h2{
     font-size: 32px;
-    font-weight: 900;
+    font-weight: 950;
     text-align: center;
-    letter-spacing: -0.02em;
     margin-top: 15px;
+    letter-spacing: -0.02em;
 }
 
 .card-sub{
     margin-top: 8px;
     text-align: center;
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: 15px;
+    line-height: 1.6;
     color: var(--text-secondary);
-    margin-bottom: 28px;
+    margin-bottom: 32px;
 }
 
 .group{
-    margin-bottom: 16px;
+    margin-bottom: 18px;
 }
 
 .label{
-    margin-bottom: 8px;
-    font-size: 13px;
-    font-weight: 700;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 800;
 }
 
 .input{
     width: 100%;
     height: 54px;
-    padding: 0 16px;
+    padding: 0 18px;
     outline: none;
-    border-radius: 12px;
+    border-radius: 9px;
     background: var(--bg-primary);
     color: var(--text-primary);
-    font-size: 14px;
-    font-weight: 500;
-    border: 1px solid var(--border-color);
+    font-size: 15px;
+    border: 1px solid #cbd5e1;
     transition: all 0.2s ease;
 }
 
 .input:focus{
     border-color: var(--accent-blue);
-    background: var(--bg-secondary);
+    background: #fff;
     box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.1);
 }
 
@@ -349,34 +284,32 @@ body{
     width: 100%;
     height: 54px;
     border: none;
-    border-radius: 12px;
-    margin-top: 8px;
+    border-radius: 9px;
+    margin-top: 10px;
     background: var(--accent-blue);
     color: white;
-    font-size: 15px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 900;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(47, 98, 233, 0.2);
-    transition: all 0.2s ease;
+    transition: background 0.2s ease;
 }
 
 .login-btn:hover{
-    background-color: var(--accent-blue-hover);
-    transform: translateY(-2px);
+    background: var(--accent-blue-hover);
 }
 
 .divider{
     display: flex;
     align-items: center;
     gap: 12px;
-    margin: 24px 0;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--text-muted);
-    letter-spacing: 0.05em;
+    margin: 30px 0;
+    font-size: 12px;
+    font-weight: 800;
+    color: #94a3b8;
 }
 
-.divider::before,.divider::after{
+.divider::before,
+.divider::after{
     content: "";
     height: 1px;
     flex: 1;
@@ -389,18 +322,18 @@ body{
 }
 
 .links{
-    margin-top: 24px;
+    margin-top: 28px;
     display: grid;
-    gap: 12px;
+    gap: 14px;
 }
 
 .links div{
     text-align: center;
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 700;
     color: var(--text-secondary);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease;
 }
 
 .links div:hover{
@@ -409,29 +342,26 @@ body{
 
 .loader{
     display: none;
-    margin-top: 14px;
+    margin-top: 18px;
     text-align: center;
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 700;
     color: var(--accent-blue);
 }
 
-/* MOBILE RESPONSIVE MAPS */
+/* RESPONSIVE LAYOUTS */
 @media(max-width: 1100px){
     .login-grid{ grid-template-columns: 1fr; gap: 40px; }
-    .hero-title{ font-size: 48px; }
+    .hero-title{ font-size: 38px; }
 }
 
 @media(max-width: 700px){
-    .topbar{ padding: 18px 20px; }
+    .topbar{ padding: 20px; }
     .top-links a{ display: none; }
-    .main{ padding: 20px 14px 60px; }
-    .hero-title{ font-size: 36px; }
+    .main{ padding: 24px 20px 70px; }
     .stats{ grid-template-columns: 1fr; }
-    .features{ grid-template-columns: 1fr; }
-    .card{ padding: 30px 20px; border-radius: 20px; }
-    .card h2{ font-size: 26px; }
-    .input, .login-btn { height: 50px; }
+    .card{ padding: 30px 20px; }
+    .card h2{ font-size: 28px; }
 }
 </style>
 </head>
@@ -439,7 +369,6 @@ body{
 <body>
 
 <div class="bg-blur-1"></div>
-<div class="bg-blur-2"></div>
 
 <div class="topbar">
     <div class="logo">Creator<span>Hub</span></div>
@@ -467,13 +396,8 @@ body{
 
             <div class="stats">
                 <div class="stat"><div class="stat-number">10K+</div><div class="stat-text">Premium ebooks uploaded by creators.</div></div>
-                <div class="stat"><div class="stat-number">24/7</div><div class="stat-text">Instant digital delivery system access.</div></div>
-                <div class="stat"><div class="stat-number">99%</div><div class="stat-text">Fast payments, live order tracking loops.</div></div>
-            </div>
-
-            <div class="features">
-                <div class="feature"><div class="feature-icon">📚</div><h3>Digital Library</h3><p>Access your purchased ebooks anytime directly from library.</p></div>
-                <div class="feature"><div class="feature-icon">💰</div><h3>Creator Earnings</h3><p>Sell ebooks and manage wallet earnings easily.</p></div>
+                <div class="stat"><div class="stat-number">24/7</div><div class="stat-text">Instant digital delivery access.</div></div>
+                <div class="stat"><div class="stat-number">99%</div><div class="stat-text">Fast secure marketplace systems.</div></div>
             </div>
         </div>
 
@@ -536,23 +460,34 @@ async function login(){
     showLoader(true);
 
     try{
-        // 🚀 100% FIXED RAW STRING TRANSFERS: Avoids CORS Content-Type header triggers to eliminate Server Error
+        // 🚀 100% FIXED PIPELINE: Sending data inside text/plain payload context to force browser preflight block bypass
         let res = await fetch(API, {
             method: "POST",
-            mode: "no-cors", 
             headers: { "Content-Type": "text/plain" },
             body: JSON.stringify({ action: "login", email: email, password: password })
         });
-
-        // Since no-cors returns an opaque response, we assume execution success and read dynamic token validations safely
+        
+        let data = await res.json();
         showLoader(false);
-        alert("Login Dispatched Successfully ✅ (Check Index Feed)");
+
+        if(!data.success){
+            alert(data.message || "Login failed");
+            return;
+        }
+
+        localStorage.setItem("user_email", data.user.email);
+        localStorage.setItem("user_name", data.user.name || "User");
+        localStorage.setItem("user_token", data.token || "");
+        if(data.user.profile_image){ localStorage.setItem("user_image", data.user.profile_image); }
+        localStorage.setItem("user", JSON.stringify({email:data.user.email, token:data.token}));
+
+        alert("Login Successful ✅");
         window.location.href = "index.html";
 
     }catch(err){
         showLoader(false);
         console.error(err);
-        alert("Server network communication error");
+        alert("Server communication error. Please ensure Web App deployment settings are correct.");
     }
 }
 
@@ -561,19 +496,25 @@ async function handleGoogleLogin(response){
         showLoader(true);
         let gdata = parseJwt(response.credential);
 
-        // 🚀 FIXED FOR RAW PLAINTEXT EXECUTION PIPELINES
-        await fetch(API, {
+        let res = await fetch(API, {
             method: "POST",
-            mode: "no-cors",
             headers: { "Content-Type": "text/plain" },
             body: JSON.stringify({ action: "google_login", email: gdata.email, name: gdata.name, profile_image: gdata.picture || "" })
         });
-
+        
+        let data = await res.json();
         showLoader(false);
-        localStorage.setItem("user_email", gdata.email);
-        localStorage.setItem("user_name", gdata.name || "User");
-        localStorage.setItem("user_token", "google_active_session_token");
-        if(gdata.picture) { localStorage.setItem("user_image", gdata.picture); }
+
+        if(!data.success){
+            alert("Google login failed");
+            return;
+        }
+
+        localStorage.setItem("user_email", data.user.email);
+        localStorage.setItem("user_name", data.user.name || "User");
+        localStorage.setItem("user_token", data.token || "");
+        if(data.user.profile_image){ localStorage.setItem("user_image", data.user.profile_image); }
+        localStorage.setItem("user", JSON.stringify({email:data.user.email, token:data.token}));
 
         alert("Google Login Successful ✅");
         window.location.href = "index.html";
@@ -581,7 +522,7 @@ async function handleGoogleLogin(response){
     }catch(e){
         showLoader(false);
         console.error(e);
-        alert("Google auth parsing failed");
+        alert("Google auth communication failed");
     }
 }
 
