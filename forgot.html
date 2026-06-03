@@ -1,648 +1,237 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Forgot Password - CreatorHub</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-/* =========================================================
-   CREATORHUB STANDARD LIGHT UI INTERFACE VARIABLES
-   ========================================================= */
-:root {
-    --bg-primary: #f8fafc;       /* Soft workspace canvas white */
-    --bg-secondary: #ffffff;     /* Pure white high-fidelity cards */
-    --text-primary: #0f172a;     /* Deep slate text colors */
-    --text-secondary: #475569;   /* Muted labels track */
-    --text-muted: #94a3b8;
-    --accent-blue: #2563eb;      /* Platform Royal Blue Theme */
-    --accent-blue-hover: #1d4ed8;
-    --accent-blue-light: #eff6ff;
-    --border-color: #e2e8f0;
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.02);
-    --shadow-md: 0 20px 40px -5px rgba(15,23,42,0.06);
-    --shadow-lg: 0 30px 60px -15px rgba(15,23,42,0.12);
-}
-
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
-}
-
-html{
-    scroll-behavior: smooth;
-}
 
 body{
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    overflow-x: hidden;
-    min-height: 100vh;
-    position: relative;
+margin:0;
+font-family:Arial;
+background:#020617;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
 }
 
-/* BLUR ATMOSPHERE BACKGROUND SHIELDS */
-.bg-blur-1{
-    position: fixed;
-    top: -250px;
-    right: -200px;
-    width: 700px;
-    height: 700px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(37, 99, 235, 0.06), transparent);
-    z-index: 0;
-}
-
-.bg-blur-2{
-    position: fixed;
-    bottom: -250px;
-    left: -200px;
-    width: 650px;
-    height: 650px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(37, 99, 235, 0.04), transparent);
-    z-index: 0;
-}
-
-/* TOPBAR */
-.topbar{
-    position: relative;
-    z-index: 10;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 22px 40px;
-    background: var(--bg-secondary);
-    border-bottom: 1px solid var(--border-color);
-    box-shadow: var(--shadow-sm);
-}
-
-.logo{
-    font-size: 26px;
-    font-weight: 900;
-    letter-spacing: -0.02em;
-}
-
-.logo span{
-    color: var(--accent-blue);
-}
-
-.top-links{
-    display: flex;
-    align-items: center;
-    gap: 28px;
-}
-
-.top-links a{
-    color: var(--text-secondary);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
-    transition: color 0.2s ease;
-}
-
-.top-links a:hover{
-    color: var(--accent-blue);
-}
-
-.home-btn{
-    height: 46px;
-    padding: 0 20px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--accent-blue) !important;
-    color: white !important;
-    font-weight: 700;
-    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.15);
-    transition: background-color 0.2s ease !important;
-}
-
-.home-btn:hover {
-    background-color: var(--accent-blue-hover) !important;
-}
-
-/* MAIN FULL PAGE SPACE GRID */
-.main{
-    position: relative;
-    z-index: 2;
-    max-width: 1400px;
-    margin: auto;
-    padding: 40px 24px 80px;
-}
-
-.login-grid{
-    display: grid;
-    grid-template-columns: 1.1fr 480px;
-    gap: 60px;
-    align-items: center;
-    min-height: 75vh;
-}
-
-/* LEFT BRAND CONTENT SHIELD */
-.left{
-    padding-right: 20px;
-}
-
-.tag{
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 18px;
-    border-radius: 999px;
-    background: var(--accent-blue-light);
-    border: 1px solid #dbeafe;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--accent-blue);
-    margin-bottom: 24px;
-}
-
-.tag-dot{
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--accent-blue);
-}
-
-.hero-title{
-    font-size: 64px;
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-    color: var(--text-primary);
-}
-
-.hero-title span{
-    color: var(--accent-blue);
-}
-
-.hero-desc{
-    margin-top: 20px;
-    max-width: 650px;
-    line-height: 1.6;
-    font-size: 16px;
-    color: var(--text-secondary);
-    font-weight: 500;
-}
-
-/* SYSTEM STATUS STATS MATRIX */
-.stats{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-    margin-top: 36px;
-}
-
-.stat{
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    padding: 20px;
-    border-radius: 16px;
-    box-shadow: var(--shadow-sm);
-}
-
-.stat-number{
-    font-size: 28px;
-    font-weight: 800;
-    color: var(--accent-blue);
-}
-
-.stat-text{
-    margin-top: 6px;
-    line-height: 1.5;
-    font-size: 13px;
-    color: var(--text-secondary);
-    font-weight: 500;
-}
-
-/* FUNCTIONAL GRID UTILITIES FEATURES */
-.features{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
-    margin-top: 24px;
-}
-
-.feature{
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    padding: 20px;
-    border-radius: 16px;
-    box-shadow: var(--shadow-sm);
-    transition: all 0.25s ease;
-}
-
-.feature:hover{
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--text-muted);
-}
-
-.feature-icon{
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    background: var(--accent-blue-light);
-    color: var(--accent-blue);
-}
-
-.feature h3{
-    margin-top: 14px;
-    font-size: 18px;
-    font-weight: 800;
-    letter-spacing: -0.01em;
-}
-
-.feature p{
-    margin-top: 8px;
-    line-height: 1.5;
-    font-size: 13px;
-    color: var(--text-secondary);
-}
-
-/* INTERFACE RIGHT CARD FOR PASSWORD RECOVERY */
 .card{
-    position: relative;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 24px;
-    padding: 35px;
-    box-shadow: var(--shadow-lg);
-    animation: fadePage .4s ease;
+background:#111827;
+padding:35px;
+border-radius:18px;
+width:90%;
+max-width:420px;
+box-shadow:0 10px 30px rgba(0,0,0,.8);
 }
 
-.back{
-    position: absolute;
-    top: 22px;
-    left: 22px;
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    cursor: pointer;
-    font-size: 16px;
-    color: var(--text-secondary);
-    transition: all 0.2s ease;
+h2{
+text-align:center;
+color:#22c55e;
+margin-bottom:10px;
 }
 
-.back:hover{
-    transform: translateX(-3px);
-    color: var(--accent-blue);
-    border-color: var(--accent-blue);
+input{
+width:100%;
+padding:14px;
+margin-top:14px;
+border:none;
+border-radius:12px;
+background:#020617;
+color:white;
+outline:none;
 }
 
-.card h2{
-    font-size: 32px;
-    font-weight: 800;
-    text-align: center;
-    letter-spacing: -0.02em;
-    margin-top: 15px;
-    color: var(--text-primary);
+button{
+width:100%;
+padding:14px;
+margin-top:18px;
+border:none;
+border-radius:12px;
+background:#22c55e;
+color:black;
+font-weight:bold;
+cursor:pointer;
 }
 
-.card-sub{
-    margin-top: 8px;
-    text-align: center;
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--text-secondary);
-    margin-bottom: 24px;
+button:hover{
+opacity:.9;
 }
 
-/* INPUT COMPONENT MODULES */
-.group{
-    margin-bottom: 14px;
-}
-
-.label{
-    margin-bottom: 6px;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text-primary);
-    display: block;
-}
-
-.input{
-    width: 100%;
-    height: 50px;
-    padding: 0 16px;
-    outline: none;
-    border-radius: 12px;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    font-size: 14px;
-    font-weight: 500;
-    border: 1px solid var(--border-color);
-    transition: all 0.2s ease;
-}
-
-.input:focus{
-    border-color: var(--accent-blue);
-    background: var(--bg-secondary);
-    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-}
-
-/* ACTION PROCESSING TRIGGERS BUTTONS */
-.action-btn{
-    width: 100%;
-    height: 48px;
-    border: none;
-    border-radius: 12px;
-    margin-top: 4px;
-    margin-bottom: 12px;
-    background: var(--accent-blue);
-    color: white;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
-    transition: all 0.2s ease;
-}
-
-.action-btn:hover{
-    background-color: var(--accent-blue-hover);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 14px rgba(37, 99, 235, 0.25);
-}
-
-/* UTILITY ROUTE LINK */
 .link{
-    margin-top: 18px;
-    text-align: center;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all 0.2s ease;
+margin-top:15px;
+text-align:center;
+opacity:.8;
+cursor:pointer;
 }
 
-.link:hover{
-    color: var(--accent-blue);
-}
-
-@keyframes fadePage{
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* RESPONSIVE LAYOUT CONTEXT INTERFACES */
-@media(max-width: 1100px){
-    .login-grid{ grid-template-columns: 1fr; gap: 40px; }
-    .hero-title{ font-size: 48px; }
-}
-
-@media(max-width: 700px){
-    .topbar{ padding: 18px 20px; }
-    .top-links a{ display: none; }
-    .main{ padding: 20px 14px 60px; }
-    .hero-title{ font-size: 36px; }
-    .hero-desc{ font-size: 14px; }
-    .stats{ grid-template-columns: 1fr; }
-    .features{ grid-template-columns: 1fr; }
-    .card{ padding: 30px 20px; border-radius: 20px; }
-    .card h2{ font-size: 26px; }
-    .input, .action-btn { height: 48px; }
-}
 </style>
+
 </head>
 
 <body>
 
-<div class="bg-blur-1"></div>
-<div class="bg-blur-2"></div>
+<div class="card">
 
-<!-- TOPBAR NAVBAR -->
-<div class="topbar">
-    <div class="logo">Creator<span>Hub</span></div>
-    <div class="top-links">
-        <a href="dashboard.html">Dashboard</a>
-        <a href="library.html">Library</a>
-        <a href="subscription.html">Subscription</a>
-        <a href="support.html">Support</a>
-        <a href="index.html" class="home-btn">Back Home</a>
-    </div>
+<h2>Reset Password</h2>
+
+<input id="email" placeholder="Enter your email">
+
+<button onclick="sendOTP()">Send OTP</button>
+
+<input id="otp" placeholder="Enter OTP">
+
+<button onclick="verifyOTP()">Verify OTP</button>
+
+<input id="newpass" type="password" placeholder="New Password">
+
+<button onclick="resetPass()">Reset Password</button>
+
+<div class="link" onclick="location.href='login.html'">
+Back to Login
 </div>
 
-<!-- MAIN WORKSPACE CORE CANVAS -->
-<div class="main">
-    <div class="login-grid">
-
-        <!-- LEFT HUB VISUAL BRAND INFO -->
-        <div class="left">
-            <div class="tag">
-                <div class="tag-dot"></div>
-                Trusted By Thousands Of Readers & Creators
-            </div>
-            <div class="hero-title">Securely Recover Your <span>Account</span> Access</div>
-            <div class="hero-desc">
-                Follow our encrypted step-by-step OTP authentication system to verify your identity, reset password configurations, and maintain active marketplace session tokens.
-            </div>
-
-            <!-- STATS COUNTERS -->
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-number">10K+</div>
-                    <div class="stat-text">Premium ebooks uploaded by creators across multiple categories.</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-text">Instant digital delivery and secure access to purchased content.</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">99%</div>
-                    <div class="stat-text">Fast payments, live order tracking and secure marketplace systems.</div>
-                </div>
-            </div>
-
-            <!-- PLATFORM FEATURES -->
-            <div class="features">
-                <div class="feature">
-                    <div class="feature-icon">📚</div>
-                    <h3>Digital Library</h3>
-                    <p>Access your purchased ebooks anytime directly from your library dashboard.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">💰</div>
-                    <h3>Creator Earnings</h3>
-                    <p>Sell ebooks and manage wallet earnings through the seller dashboard.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">🚚</div>
-                    <h3>Live Tracking</h3>
-                    <p>Track printing, packaging and courier delivery status in real-time.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">🔒</div>
-                    <h3>Secure Platform</h3>
-                    <p>Protected login system, encrypted payments and trusted infrastructure.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- RIGHT RECOVERY CARD NODE -->
-        <div class="card">
-            <div class="back" onclick="location.href='login.html'">⬅</div>
-            <h2>Reset Password</h2>
-            <div class="card-sub">Authenticate security validation states via encrypted credentials.</div>
-
-            <!-- STEP 1: Email Address Field -->
-            <div class="group">
-                <label class="label">Email Address</label>
-                <input id="email" class="input" placeholder="Enter registered email">
-            </div>
-            <button class="action-btn" onclick="sendOTP()"><i class="fa-solid fa-paper-plane" style="margin-right:6px;"></i> Send Verification OTP</button>
-
-            <!-- STEP 2: Token OTP Field -->
-            <div class="group">
-                <label class="label">One-Time Password (OTP)</label>
-                <input id="otp" class="input" placeholder="Enter secure 6-digit OTP">
-            </div>
-            <button class="action-btn" onclick="verifyOTP()"><i class="fa-solid fa-shield-check" style="margin-right:6px;"></i> Verify Token Identity</button>
-
-            <!-- STEP 3: Password Update Field -->
-            <div class="group">
-                <label class="label">New Password Payload</label>
-                <input id="newpass" class="input" type="password" placeholder="Create new master password">
-            </div>
-            <button class="action-btn" onclick="resetPass()" style="background: linear-gradient(90deg, #2563eb, #1d4ed8); margin-bottom: 0;"><i class="fa-solid fa-key" style="margin-right:6px;"></i> Commit Reset Password</button>
-
-            <div class="link" onclick="location.href='login.html'">
-                Return to Login Portal
-            </div>
-        </div>
-
-    </div>
 </div>
 
 <script>
-/* =========================================================
-   CORE CONFIG PIPELINE MATRIX
-   ========================================================= */
-const API = "https://script.google.com/macros/s/AKfycbwg4Xxd1he7OWkjMgeaXhEtCG2mvW9MtceFA-vcKykLB_LODR4_RtIi7wWbv9sKiy1V/exec";
 
-let verified = false;
+const API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec"
 
-/* SEND OTP ROUTE LOOP */
+let verified=false
+
+/* SEND OTP */
+
 async function sendOTP(){
-    let email = document.getElementById("email").value.trim();
 
-    if(!email){
-        alert("Enter your email");
-        return;
-    }
+let email=document.getElementById("email").value.trim()
 
-    try{
-        let form = new FormData();
-        form.append("action", "send_otp");
-        form.append("email", email);
+if(!email){
 
-        let res = await fetch(API, {
-            method: "POST",
-            body: form
-        });
+alert("Enter your email")
 
-        let data = await res.json();
+return
 
-        if(data.success){
-            alert("OTP sent to your email successfully ✅");
-        } else {
-            alert(data.message || "Account identity context not found");
-        }
-    } catch(e) {
-        console.error("OTP Transmission Failures:", e);
-        alert("Network or pipeline server connection drop.");
-    }
 }
 
-/* VERIFY ENCRYPTED SECURITY TOKEN OTP */
+let form=new FormData()
+
+form.append("action","send_otp")
+form.append("email",email)
+
+let res=await fetch(API,{
+method:"POST",
+body:form
+})
+
+let data=await res.json()
+
+if(data.success){
+
+alert("OTP sent to your email")
+
+}else{
+
+alert(data.message || "Account not found")
+
+}
+
+}
+
+/* VERIFY OTP */
+
 async function verifyOTP(){
-    let email = document.getElementById("email").value.trim();
-    let otp = document.getElementById("otp").value.trim();
 
-    if(!otp){
-        alert("Enter OTP");
-        return;
-    }
+let email=document.getElementById("email").value.trim()
+let otp=document.getElementById("otp").value.trim()
 
-    try{
-        let form = new FormData();
-        form.append("action", "verify_otp");
-        form.append("email", email);
-        form.append("otp", otp);
+if(!otp){
 
-        let res = await fetch(API, {
-            method: "POST",
-            body: form
-        });
+alert("Enter OTP")
 
-        let data = await res.json();
+return
 
-        if(data.success){
-            verified = true;
-            alert("OTP token identity verified securely! ✅");
-        } else {
-            alert("Invalid verification token pattern.");
-        }
-    } catch(e) {
-        console.error("Verification sync drops:", e);
-        alert("Server failed validation routines.");
-    }
 }
 
-/* COMMIT NEW PASSWORD STRUCTURES TO DATASTORE */
+let form=new FormData()
+
+form.append("action","verify_otp")
+form.append("email",email)
+form.append("otp",otp)
+
+let res=await fetch(API,{
+method:"POST",
+body:form
+})
+
+let data=await res.json()
+
+if(data.success){
+
+verified=true
+
+alert("OTP verified")
+
+}else{
+
+alert("Invalid OTP")
+
+}
+
+}
+
+/* RESET PASSWORD */
+
 async function resetPass(){
-    if(!verified){
-        alert("Verify OTP token first");
-        return;
-    }
 
-    let email = document.getElementById("email").value.trim();
-    let pass = document.getElementById("newpass").value.trim();
+if(!verified){
 
-    if(pass.length < 6){
-        alert("Password must be at least 6 characters long");
-        return;
-    }
+alert("Verify OTP first")
 
-    try{
-        let form = new FormData();
-        form.append("action", "reset_password");
-        form.append("email", email);
-        form.append("password", pass);
+return
 
-        let res = await fetch(API, {
-            method: "POST",
-            body: form
-        });
-
-        let data = await res.json();
-
-        if(data.success){
-            alert("Password updated successfully! ✅");
-            window.location.href = "login.html";
-        } else {
-            alert(data.message || "Reset operational pipeline failure");
-        }
-    } catch(e) {
-        console.error("Reset storage crash:", e);
-        alert("Server storage mutation error.");
-    }
 }
+
+let email=document.getElementById("email").value.trim()
+let pass=document.getElementById("newpass").value.trim()
+
+if(pass.length<6){
+
+alert("Password must be at least 6 characters")
+
+return
+
+}
+
+let form=new FormData()
+
+form.append("action","reset_password")
+form.append("email",email)
+form.append("password",pass)
+
+let res=await fetch(API,{
+method:"POST",
+body:form
+})
+
+let data=await res.json()
+
+if(data.success){
+
+alert("Password updated successfully")
+
+location.href="login.html"
+
+}else{
+
+alert(data.message || "Reset failed")
+
+}
+
+}
+
 </script>
 
 </body>
