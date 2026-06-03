@@ -1182,7 +1182,7 @@ showLoader(true)
 
 try{
 
-// 🚀 MATCHES PERFECTLY WITH THE JSON BACKEND EXPECTATION
+// 🚀 FIXED: Sent as pure JSON Text stream payload to stop Server Error 
 let res = await fetch(API,{
 method:"POST",
 body: JSON.stringify({
@@ -1259,7 +1259,7 @@ alert("Server error")
 }
 
 /* ===================================
-GOOGLE LOGIN (100% FIXED RAW JSON STRING STREAM)
+GOOGLE LOGIN (FIXED VIA PURE JSON MATRIX)
 =================================== */
 
 async function handleGoogleLogin(response){
@@ -1271,7 +1271,7 @@ showLoader(true)
 let gdata =
 parseJwt(response.credential)
 
-// 🚀 TARGETS THE googleLogin(data) FUNCTION DIRECTLY WITHOUT INTERRUPTING DATA FIELDS
+// 🚀 FIXED: Sent as pure JSON payload stream to match googleLogin(data) flawlessly
 let res = await fetch(API,{
 method:"POST",
 body: JSON.stringify({
