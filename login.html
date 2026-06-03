@@ -93,7 +93,7 @@ body{
     text-decoration: none;
 }
 
-/* 🚀 SCREEN-FILLING MATRIX GRID DESIGN */
+/* SCREEN-FILLING MATRIX GRID DESIGN */
 .main{
     position: relative;
     z-index: 2;
@@ -107,7 +107,7 @@ body{
 
 .login-grid{
     display: grid;
-    grid-template-columns: 1.2fr 550px; /* Expands card container boundary sizes */
+    grid-template-columns: 1.2fr 550px; 
     width: 100%;
     min-height: calc(100vh - 97px);
 }
@@ -327,7 +327,6 @@ body{
     color: var(--accent-blue);
 }
 
-/* RESPONSIVE LAYOUT RESPONSIVENESS CAPTURES */
 @media(max-width: 1200px) {
     .login-grid { grid-template-columns: 1fr; }
     .left { border-right: 0; border-bottom: 1px solid var(--border-color); padding: 40px 30px; }
@@ -338,9 +337,6 @@ body{
 </head>
 
 <body>
-
-<!-- HIDDEN IFRAME TARGET TO PREVENT REFRESH AND DROP NETWORK BLOCKS -->
-<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(window.submitted) handleIframeResponse();"></iframe>
 
 <div class="topbar">
     <div class="logo">Creator<span>Hub</span></div>
@@ -370,7 +366,7 @@ body{
             <div class="stats">
                 <div class="stat"><div class="stat-number">10K+</div><div class="stat-text">Premium ebooks uploaded by creators across fields.</div></div>
                 <div class="stat"><div class="stat-number">24/7</div><div class="stat-text">Instant digital delivery access guarantees.</div></div>
-                <div class="stat"><div class="stat-number">99%</div><div class="stat-text">Fast secure payment gateway tracking loops.</div></div>
+                <div class="stat"><div class="stat-number">99%</div><div class="stat-text">Fast secure marketplace systems.</div></div>
             </div>
         </div>
 
@@ -380,24 +376,17 @@ body{
                 <h2>Welcome Back</h2>
                 <div class="card-sub">Login to access your ebooks, subscriptions, wallet and orders.</div>
 
-                <!-- 🚀 NATIVE FORM BOUNDARY: Direct raw hitting on Google Apps Script Web URL -->
-                <form id="loginForm" action="https://script.google.com/macros/s/AKfycbwg4Xxd1he7OWkjMgeaXhEtCG2mvW9MtceFA-vcKykLB_LODR4_RtIi7wWbv9sKiy1V/exec" method="POST" target="hidden_iframe" onsubmit="submitVerificationForm()">
-                    
-                    <input type="hidden" name="action" value="login">
+                <div class="group">
+                    <div class="label">Email Address</div>
+                    <input id="email" class="input" type="email" placeholder="Enter your registered email" required>
+                </div>
 
-                    <div class="group">
-                        <div class="label">Email Address</div>
-                        <input id="email" name="email" class="input" type="email" placeholder="Enter your registered email" required>
-                    </div>
+                <div class="group">
+                    <div class="label">Password</div>
+                    <input id="password" class="input" type="password" placeholder="Enter your password" required>
+                </div>
 
-                    <div class="group">
-                        <div class="label">Password</div>
-                        <input id="password" name="password" class="input" type="password" placeholder="Enter password account token" required>
-                    </div>
-
-                    <button type="submit" class="login-btn">Login To CreatorHub</button>
-                </form>
-                
+                <button class="login-btn" onclick="login()">Login To CreatorHub</button>
                 <div id="loader" class="loader">Verifying session profile...</div>
 
                 <div class="divider">OR CONTINUE WITH</div>
@@ -430,29 +419,49 @@ body{
 <script>
 const API = "https://script.google.com/macros/s/AKfycbwg4Xxd1he7OWkjMgeaXhEtCG2mvW9MtceFA-vcKykLB_LODR4_RtIi7wWbv9sKiy1V/exec";
 
-function submitVerificationForm(){
-    window.submitted = true;
-    showLoader(true);
-}
-
 function showLoader(show){
     document.getElementById("loader").style.display = show ? "block" : "none";
 }
 
-// 🚀 FIXED: Cross-Origin Safe Form Storage Engine Validation Sync
-async function handleIframeResponse() {
-    window.submitted = false;
+async function login(){
     let email = document.getElementById("email").value.trim().toLowerCase();
-    
-    // Save transient profile session to trick homepage security loops securely 
-    localStorage.setItem("user_email", email);
-    localStorage.setItem("user_name", email.split('@')[0].toUpperCase());
-    localStorage.setItem("user_token", "session_active_token_v9");
-    localStorage.setItem("user", JSON.stringify({ email: email, token: "session_active_token_v9" }));
+    let password = document.getElementById("password").value.trim();
 
-    showLoader(false);
-    alert("Login Successful ✅ (Profile Synced To Homepage)");
-    window.location.href = "index.html";
+    if(!email || !password){ alert("Please fill all fields"); return; }
+    showLoader(true);
+
+    try{
+        // 🚀 THE FINAL FIX: Plaintext stream format that passes the CORS preflight check 
+        // while perfectly allowing the backend script to read JSON string data inside Drive database
+        let res = await fetch(API, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({ action: "login", email: email, password: password })
+        });
+        
+        let data = await res.json();
+        showLoader(false);
+
+        if(!data.success){
+            alert(data.message || "Login failed");
+            return;
+        }
+
+        // Lock values inside local storage parameters so homepage updates profile look instantly
+        localStorage.setItem("user_email", data.user.email);
+        localStorage.setItem("user_name", data.user.name || "User");
+        localStorage.setItem("user_token", data.token || "");
+        if(data.user.profile_image){ localStorage.setItem("user_image", data.user.profile_image); }
+        localStorage.setItem("user", JSON.stringify({ email: data.user.email, token: data.token }));
+
+        alert("Login Successful ✅");
+        window.location.href = "index.html";
+
+    }catch(err){
+        showLoader(false);
+        console.error(err);
+        alert("Server communication error. Please try again.");
+    }
 }
 
 async function handleGoogleLogin(response){
@@ -460,19 +469,25 @@ async function handleGoogleLogin(response){
         showLoader(true);
         let gdata = parseJwt(response.credential);
 
-        // Submits securely to cloud file systems using pure fetch pipelines
-        await fetch(API, {
+        let res = await fetch(API, {
             method: "POST",
-            mode: "no-cors",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
             body: JSON.stringify({ action: "google_login", email: gdata.email, name: gdata.name, profile_image: gdata.picture || "" })
         });
-
+        
+        let data = await res.json();
         showLoader(false);
-        localStorage.setItem("user_email", gdata.email);
-        localStorage.setItem("user_name", gdata.name || "User");
-        localStorage.setItem("user_token", "google_active_session_token");
-        if(gdata.picture) { localStorage.setItem("user_image", gdata.picture); }
-        localStorage.setItem("user", JSON.stringify({ email: gdata.email, token: "google_active_session_token" }));
+
+        if(!data.success){
+            alert("Google login failed");
+            return;
+        }
+
+        localStorage.setItem("user_email", data.user.email);
+        localStorage.setItem("user_name", data.user.name || "User");
+        localStorage.setItem("user_token", data.token || "");
+        if(data.user.profile_image){ localStorage.setItem("user_image", data.user.profile_image); }
+        localStorage.setItem("user", JSON.stringify({ email: data.user.email, token: data.token }));
 
         alert("Google Login Successful ✅");
         window.location.href = "index.html";
