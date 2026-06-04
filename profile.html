@@ -12,7 +12,6 @@ body{min-height:100vh;background:#f6f8fc;color:#101828;display:flex;overflow:hid
 a{text-decoration:none;color:inherit}
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
-
 .sidebar{width:320px;min-height:100vh;background:#0d1628;color:#fff;padding:28px 22px;position:fixed;left:0;top:0;bottom:0;overflow-y:auto}
 .brand{display:flex;align-items:center;gap:14px;margin-bottom:28px}
 .brand-mark{width:50px;height:50px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#21b7e8,#1d72f3);font-size:23px;font-weight:900}
@@ -20,7 +19,6 @@ button{cursor:pointer}
 .menu{display:grid;gap:12px;margin-top:20px}
 .menu a{min-height:50px;border-radius:9px;display:flex;align-items:center;padding:0 16px;color:#e7edf8;font-size:16px;font-weight:800;border:1px solid transparent}
 .menu a:hover,.menu a.active{background:#182a64;border-color:#3157c9}
-
 .main{margin-left:320px;width:calc(100% - 320px);height:100vh;overflow-y:auto;background:#f6f8fc}
 .topbar{min-height:104px;background:#fff;border-bottom:1px solid #dce4f0;padding:24px 34px;display:flex;align-items:center;justify-content:space-between;gap:20px;position:sticky;top:0;z-index:10}
 .title h1{font-size:40px;line-height:1;font-weight:900;color:#06142c}
@@ -30,17 +28,14 @@ button{cursor:pointer}
 .btn:disabled{opacity:.7;cursor:wait}
 .btn-primary{background:#2f62e9;color:#fff}
 .btn-light{background:#fff;color:#101828;border:1px solid #d9e3f0}
-
 .content{padding:34px;display:grid;gap:28px}
 .notice{display:none;background:#fff7df;color:#8a5b00;border:1px solid #f2d37b;border-radius:9px;padding:14px 16px;font-weight:800}
 .notice.ok{background:#dcfce7;color:#166534;border-color:#bbf7d0}
-
 .hero{background:#fff;border:1px solid #dce4f0;border-radius:9px;box-shadow:0 18px 45px rgba(16,24,40,.08);overflow:hidden}
 .cover{min-height:280px;background:linear-gradient(110deg,rgba(37,99,235,.92),rgba(20,148,152,.9));background-size:cover;background-position:center;position:relative}
 .cover-tools{position:absolute;right:22px;bottom:22px;display:flex;gap:11px;flex-wrap:wrap;justify-content:flex-end}
 .file-btn{min-height:48px;border-radius:9px;background:#101c2f;color:#fff;border:1px solid rgba(255,255,255,.16);padding:0 16px;display:inline-flex;align-items:center;font-weight:900}
 .file-btn input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
-
 .identity{padding:0 30px 30px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:24px;align-items:end}
 .avatar{width:145px;height:145px;border-radius:50%;object-fit:cover;background:#d9e1ec;border:6px solid #fff;margin-top:-72px;box-shadow:0 18px 38px rgba(16,24,40,.18);position:relative;z-index:2}
 .identity h2{font-size:38px;line-height:1;font-weight:900;color:#06142c;overflow-wrap:anywhere}
@@ -48,12 +43,10 @@ button{cursor:pointer}
 .chips{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
 .chip{min-height:34px;border-radius:999px;padding:0 13px;display:inline-flex;align-items:center;background:#eef3f9;color:#1955d6;font-size:13px;font-weight:900}
 .chip.green{background:#e7f8ef;color:#0f9f57}
-
 .grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(340px,.88fr);gap:28px;align-items:start}
 .card{background:#fff;border:1px solid #dce4f0;border-radius:9px;box-shadow:0 18px 45px rgba(16,24,40,.08);padding:25px}
 .card h3{color:#06142c;font-size:22px;font-weight:900;margin-bottom:6px}
 .card p{color:#63728a;font-size:15px;margin-bottom:22px;line-height:1.6}
-
 .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
 .field{display:grid;gap:8px}
 .field.full{grid-column:1/-1}
@@ -61,20 +54,17 @@ label{color:#26364f;font-size:14px;font-weight:900}
 input,textarea,select{width:100%;min-height:54px;border:1px solid #d9e3f0;border-radius:9px;background:#fff;color:#101828;outline:none;padding:12px 14px}
 textarea{min-height:122px;resize:vertical;line-height:1.5}
 input:focus,textarea:focus,select:focus{border-color:#3157c9;box-shadow:0 0 0 4px rgba(49,87,201,.12)}
-
+input[readonly]{background:#eef3f9;color:#475569}
 .stat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .stat{min-height:124px;background:#eef3f9;border:1px solid #dce4f0;border-radius:9px;padding:18px;display:grid;align-content:space-between}
 .stat span{color:#5d6d85;font-size:13px;font-weight:900;text-transform:uppercase}
 .stat strong{color:#06142c;font-size:30px;font-weight:900}
 .mini-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:18px}
-
 .link-preview{display:grid;gap:12px}
 .link-item{min-height:56px;border:1px solid #dce4f0;background:#eef3f9;border-radius:9px;padding:0 15px;display:flex;align-items:center;justify-content:space-between;gap:15px}
 .link-item strong{color:#06142c}
 .link-item span{color:#63728a;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}
-
 .footer-slot{padding:0 34px 34px}
-
 @media(max-width:1220px){.grid{grid-template-columns:1fr}}
 @media(max-width:900px){
 body{display:block;overflow:auto}
@@ -116,6 +106,7 @@ body{display:block;overflow:auto}
 </aside>
 
 <main class="main">
+
 <header class="topbar">
   <div class="title">
     <h1>Creator Profile</h1>
@@ -129,6 +120,7 @@ body{display:block;overflow:auto}
 </header>
 
 <div class="content">
+
 <div class="notice" id="notice"></div>
 
 <section class="hero">
@@ -218,19 +210,15 @@ body{display:block;overflow:auto}
       </div>
 
       <div class="field">
-        <label>Status</label>
-        <select id="status">
-          <option value="active">active</option>
-          <option value="paused">paused</option>
-          <option value="blocked">blocked</option>
-        </select>
+        <label>Account Role</label>
+        <input id="accountRole" type="text" value="CreatorHub Member" readonly>
       </div>
     </div>
   </form>
 
   <aside class="card">
     <h3>Creator Stats</h3>
-    <p>Stats preview and editable backend fields.</p>
+    <p>Your creator activity summary and marketplace performance preview.</p>
 
     <div class="stat-grid">
       <div class="stat"><span>Wallet Balance</span><strong id="walletView">Rs 0</strong></div>
@@ -274,9 +262,11 @@ body{display:block;overflow:auto}
     </div>
   </aside>
 </section>
+
 </div>
 
 <div class="footer-slot" id="footerContainer"></div>
+
 </main>
 
 <script>
@@ -297,7 +287,18 @@ const state = {
 };
 
 const fields = [
-  "email","name","bio","phone","website","instagram","youtube","telegram","twitter","country","state","city","status"
+  "email",
+  "name",
+  "bio",
+  "phone",
+  "website",
+  "instagram",
+  "youtube",
+  "telegram",
+  "twitter",
+  "country",
+  "state",
+  "city"
 ];
 
 const $ = id => document.getElementById(id);
@@ -437,12 +438,6 @@ function saveCache(email,user){
   }catch(e){}
 }
 
-async function getJSON(url){
-  const res = await fetch(url);
-  const text = await res.text();
-  return JSON.parse(text);
-}
-
 async function postJSON(url,payload){
   const res = await fetch(url,{
     method:"POST",
@@ -450,7 +445,29 @@ async function postJSON(url,payload){
   });
 
   const text = await res.text();
-  return JSON.parse(text);
+
+  try{
+    return JSON.parse(text);
+  }catch(e){
+    return {
+      success:false,
+      message:"API returned non JSON"
+    };
+  }
+}
+
+async function getJSON(url){
+  const res = await fetch(url);
+  const text = await res.text();
+
+  try{
+    return JSON.parse(text);
+  }catch(e){
+    return {
+      success:false,
+      message:"API returned non JSON"
+    };
+  }
 }
 
 function updatePreview(){
@@ -458,7 +475,7 @@ function updatePreview(){
   $("previewEmail").innerText = value("email") || "Enter email";
 
   $("levelChip").innerText = $("creatorLevel").value || "Beginner";
-  $("statusChip").innerText = $("status").value || "active";
+  $("statusChip").innerText = "active";
   $("verifiedChip").innerText = $("verified").value === "true" ? "Verified" : "Not verified";
 
   $("walletView").innerText = formatMoney($("walletBalance").value);
@@ -515,6 +532,8 @@ function collectPayload(){
     }
   });
 
+  payload.status = "active";
+  payload.account_role = "CreatorHub Member";
   payload.creator_level = $("creatorLevel").value;
   payload.verified = $("verified").value === "true";
 
