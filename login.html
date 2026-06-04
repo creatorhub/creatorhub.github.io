@@ -1,852 +1,702 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CreatorHub Auth</title>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CreatorHub Login</title>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --bg: #f6f8fc;
-      --panel: #ffffff;
-      --ink: #07152f;
-      --muted: #61708a;
-      --line: #dce4f0;
-      --blue: #2f62e9;
-      --blue-dark: #2455cf;
-      --green: #16a34a;
-      --red: #dc2626;
-    }
+<style>
+:root{
+  --bg:#f6f8fc;
+  --card:#fff;
+  --text:#07152f;
+  --muted:#64748b;
+  --line:#dce4f0;
+  --blue:#2f62e9;
+  --blue2:#2455cf;
+  --red:#dc2626;
+  --green:#16a34a;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{min-height:100vh;background:var(--bg);color:var(--text)}
+.topbar{
+  min-height:82px;
+  padding:18px 38px;
+  background:#fff;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:22px;
+}
+.logo{font-size:27px;font-weight:900}
+.logo span{color:var(--blue)}
+.nav{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.nav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:800}
+.nav a:hover{color:var(--blue)}
+.home{
+  min-height:44px;
+  padding:0 18px;
+  border-radius:8px;
+  background:var(--blue);
+  color:#fff!important;
+  display:inline-flex;
+  align-items:center;
+}
+.page{
+  min-height:calc(100vh - 82px);
+  display:grid;
+  grid-template-columns:minmax(0,1.2fr) 520px;
+}
+.hero{
+  padding:64px 80px;
+  border-right:1px solid var(--line);
+  background:linear-gradient(135deg,#fff,#edf4ff);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.badge{
+  width:max-content;
+  margin-bottom:28px;
+  padding:11px 16px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:#fff;
+  color:var(--muted);
+  font-size:13px;
+  font-weight:800;
+}
+h1{
+  max-width:850px;
+  font-size:60px;
+  line-height:1.08;
+  font-weight:900;
+}
+h1 span{color:var(--blue)}
+.hero p{
+  max-width:720px;
+  margin-top:22px;
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.7;
+}
+.stats{
+  margin-top:42px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+.stat{
+  padding:22px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:8px;
+}
+.stat strong{
+  display:block;
+  color:var(--blue);
+  font-size:28px;
+  font-weight:900;
+}
+.stat span{
+  display:block;
+  margin-top:8px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+  font-weight:600;
+}
+.auth{
+  padding:42px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.box{width:100%;max-width:420px}
+.tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-bottom:26px;
+  padding:6px;
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:8px;
+}
+.tab{
+  min-height:42px;
+  border:0;
+  border-radius:7px;
+  background:transparent;
+  color:var(--muted);
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+}
+.tab.active{
+  background:#fff;
+  color:var(--blue);
+  box-shadow:0 1px 5px rgba(16,24,40,.08);
+}
+.screen{display:none}
+.screen.active{display:block}
+h2{font-size:34px;font-weight:900}
+.sub{
+  margin-top:10px;
+  margin-bottom:26px;
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.6;
+}
+.group{margin-bottom:16px}
+label{
+  display:block;
+  margin-bottom:8px;
+  font-size:13px;
+  font-weight:800;
+}
+input{
+  width:100%;
+  min-height:54px;
+  padding:0 16px;
+  border:1px solid #cbd5e1;
+  border-radius:8px;
+  outline:none;
+  background:var(--bg);
+  color:var(--text);
+  font-size:15px;
+}
+input:focus{
+  border-color:var(--blue);
+  background:#fff;
+  box-shadow:0 0 0 4px rgba(47,98,233,.1);
+}
+.primary{
+  width:100%;
+  min-height:56px;
+  margin-top:8px;
+  border:0;
+  border-radius:8px;
+  background:var(--blue);
+  color:#fff;
+  font-size:15px;
+  font-weight:900;
+  cursor:pointer;
+}
+.primary:hover{background:var(--blue2)}
+.row{
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.linkbtn{
+  min-height:44px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:#fff;
+  color:var(--muted);
+  font-size:13px;
+  font-weight:800;
+  cursor:pointer;
+}
+.linkbtn:hover{color:var(--blue);border-color:var(--blue)}
+.divider{
+  margin:28px 0;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:#94a3b8;
+  font-size:12px;
+  font-weight:900;
+}
+.divider:before,.divider:after{
+  content:"";
+  height:1px;
+  flex:1;
+  background:var(--line);
+}
+.googlebox{display:flex;justify-content:center;min-height:44px}
+.msg{
+  display:none;
+  margin-bottom:18px;
+  padding:12px 14px;
+  border-radius:8px;
+  font-size:13px;
+  font-weight:800;
+  line-height:1.45;
+}
+.msg.ok{display:block;color:#166534;background:#dcfce7;border:1px solid #bbf7d0}
+.msg.bad{display:block;color:#991b1b;background:#fee2e2;border:1px solid #fecaca}
+.loader{
+  display:none;
+  margin-top:14px;
+  text-align:center;
+  color:var(--blue);
+  font-size:13px;
+  font-weight:800;
+}
+.loader.show{display:block}
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: "Inter", sans-serif;
-    }
-
-    body {
-      min-height: 100vh;
-      background: var(--bg);
-      color: var(--ink);
-    }
-
-    .topbar {
-      min-height: 84px;
-      padding: 20px 40px;
-      background: var(--panel);
-      border-bottom: 1px solid var(--line);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-    }
-
-    .logo {
-      font-size: 26px;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .logo span {
-      color: var(--blue);
-    }
-
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 22px;
-      flex-wrap: wrap;
-    }
-
-    .nav a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 800;
-    }
-
-    .nav a:hover {
-      color: var(--blue);
-    }
-
-    .home {
-      min-height: 44px;
-      padding: 0 18px;
-      border-radius: 8px;
-      background: var(--blue);
-      color: #fff !important;
-      display: inline-flex;
-      align-items: center;
-    }
-
-    .layout {
-      min-height: calc(100vh - 84px);
-      display: grid;
-      grid-template-columns: minmax(0, 1.15fr) 520px;
-    }
-
-    .brand {
-      padding: 64px 80px;
-      border-right: 1px solid var(--line);
-      background:
-        linear-gradient(135deg, rgba(255,255,255,0.98), rgba(238,244,252,0.92)),
-        url("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=80");
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .badge {
-      width: fit-content;
-      margin-bottom: 28px;
-      padding: 11px 16px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #fff;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 800;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--blue);
-      flex: 0 0 auto;
-    }
-
-    h1 {
-      max-width: 880px;
-      font-size: clamp(38px, 5vw, 64px);
-      line-height: 1.08;
-      font-weight: 900;
-      letter-spacing: 0;
-    }
-
-    h1 span {
-      color: var(--blue);
-    }
-
-    .brand p {
-      max-width: 760px;
-      margin-top: 22px;
-      color: var(--muted);
-      font-size: 18px;
-      line-height: 1.7;
-    }
-
-    .stats {
-      margin-top: 44px;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .stat {
-      min-width: 0;
-      padding: 22px;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-    }
-
-    .stat strong {
-      display: block;
-      color: var(--blue);
-      font-size: 28px;
-      font-weight: 900;
-    }
-
-    .stat span {
-      display: block;
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.5;
-      font-weight: 600;
-    }
-
-    .auth {
-      background: #fff;
-      padding: 44px 42px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .box {
-      width: 100%;
-      max-width: 420px;
-    }
-
-    .tabs {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      margin-bottom: 28px;
-      padding: 6px;
-      background: var(--bg);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-    }
-
-    .tab {
-      min-height: 42px;
-      border: 0;
-      border-radius: 7px;
-      background: transparent;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 900;
-      cursor: pointer;
-    }
-
-    .tab.active {
-      background: #fff;
-      color: var(--blue);
-      box-shadow: 0 1px 5px rgba(16, 24, 40, 0.08);
-    }
-
-    .screen {
-      display: none;
-    }
-
-    .screen.active {
-      display: block;
-    }
-
-    h2 {
-      font-size: 34px;
-      font-weight: 900;
-      letter-spacing: 0;
-    }
-
-    .sub {
-      margin-top: 10px;
-      margin-bottom: 28px;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    .group {
-      margin-bottom: 16px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--ink);
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    input {
-      width: 100%;
-      min-height: 54px;
-      padding: 0 16px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      outline: none;
-      background: var(--bg);
-      color: var(--ink);
-      font-size: 15px;
-    }
-
-    input:focus {
-      border-color: var(--blue);
-      background: #fff;
-      box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.1);
-    }
-
-    .primary {
-      width: 100%;
-      min-height: 56px;
-      margin-top: 8px;
-      border: 0;
-      border-radius: 8px;
-      background: var(--blue);
-      color: #fff;
-      font-size: 15px;
-      font-weight: 900;
-      cursor: pointer;
-    }
-
-    .primary:hover {
-      background: var(--blue-dark);
-    }
-
-    .secondary-row {
-      margin-top: 20px;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .link-btn {
-      min-height: 44px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #fff;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    .link-btn:hover {
-      color: var(--blue);
-      border-color: var(--blue);
-    }
-
-    .divider {
-      margin: 28px 0;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      color: #94a3b8;
-      font-size: 12px;
-      font-weight: 900;
-    }
-
-    .divider::before,
-    .divider::after {
-      content: "";
-      height: 1px;
-      flex: 1;
-      background: var(--line);
-    }
-
-    .google-box {
-      display: flex;
-      justify-content: center;
-      min-height: 44px;
-    }
-
-    .message {
-      display: none;
-      margin-bottom: 18px;
-      padding: 12px 14px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 800;
-      line-height: 1.45;
-    }
-
-    .message.ok {
-      display: block;
-      color: #166534;
-      background: #dcfce7;
-      border: 1px solid #bbf7d0;
-    }
-
-    .message.bad {
-      display: block;
-      color: #991b1b;
-      background: #fee2e2;
-      border: 1px solid #fecaca;
-    }
-
-    .loader {
-      display: none;
-      margin-top: 14px;
-      text-align: center;
-      color: var(--blue);
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .loader.show {
-      display: block;
-    }
-
-    @media (max-width: 1080px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-
-      .brand {
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
-        padding: 46px 32px;
-      }
-
-      .auth {
-        padding: 42px 24px;
-      }
-    }
-
-    @media (max-width: 680px) {
-      .topbar {
-        align-items: flex-start;
-        flex-direction: column;
-        padding: 18px 20px;
-      }
-
-      .nav {
-        justify-content: flex-start;
-        gap: 14px;
-      }
-
-      .brand {
-        padding: 34px 20px;
-      }
-
-      .stats {
-        grid-template-columns: 1fr;
-        margin-top: 30px;
-      }
-
-      h2 {
-        font-size: 30px;
-      }
-
-      .secondary-row {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+@media(max-width:1050px){
+  .page{grid-template-columns:1fr}
+  .hero{border-right:0;border-bottom:1px solid var(--line);padding:46px 30px}
+  h1{font-size:44px}
+}
+@media(max-width:680px){
+  .topbar{align-items:flex-start;flex-direction:column;padding:18px 20px}
+  .nav{gap:14px}
+  .hero{padding:34px 20px}
+  .stats{grid-template-columns:1fr}
+  .auth{padding:34px 20px}
+  h2{font-size:30px}
+  .row{grid-template-columns:1fr}
+}
+</style>
 </head>
 
 <body>
-  <header class="topbar">
-    <div class="logo">Creator<span>Hub</span></div>
-    <nav class="nav">
-      <a href="dashboard.html">Dashboard</a>
-      <a href="library.html">Library</a>
-      <a href="subscription.html">Subscription</a>
-      <a href="support.html">Support</a>
-      <a href="index.html" class="home">Back Home</a>
-    </nav>
-  </header>
 
-  <main class="layout">
-    <section class="brand">
-      <div class="badge"><span class="dot"></span>Trusted by readers and creators</div>
-      <h1>Access premium <span>ebooks</span> from top creators</h1>
-      <p>Login, create an account, recover access, and manage your CreatorHub profile through one secure dashboard.</p>
+<header class="topbar">
+  <div class="logo">Creator<span>Hub</span></div>
+  <nav class="nav">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="library.html">Library</a>
+    <a href="subscription.html">Subscription</a>
+    <a href="support.html">Support</a>
+    <a class="home" href="index.html">Back Home</a>
+  </nav>
+</header>
 
-      <div class="stats">
-        <div class="stat"><strong>10K+</strong><span>Premium ebooks and creator resources.</span></div>
-        <div class="stat"><strong>24/7</strong><span>Instant digital access for members.</span></div>
-        <div class="stat"><strong>99%</strong><span>Fast and reliable marketplace flow.</span></div>
+<main class="page">
+  <section class="hero">
+    <div class="badge">Trusted by readers and creators</div>
+    <h1>Access premium <span>ebooks</span> from top creators</h1>
+    <p>Login, create an account, recover access, and manage your CreatorHub profile through one secure dashboard.</p>
+
+    <div class="stats">
+      <div class="stat"><strong>10K+</strong><span>Premium ebooks and creator resources.</span></div>
+      <div class="stat"><strong>24/7</strong><span>Instant digital access for members.</span></div>
+      <div class="stat"><strong>99%</strong><span>Fast and reliable marketplace flow.</span></div>
+    </div>
+  </section>
+
+  <section class="auth">
+    <div class="box">
+      <div class="tabs">
+        <button class="tab active" type="button" data-screen="login">Login</button>
+        <button class="tab" type="button" data-screen="register">Register</button>
       </div>
-    </section>
 
-    <section class="auth">
-      <div class="box">
-        <div class="tabs">
-          <button class="tab active" type="button" data-screen="login">Login</button>
-          <button class="tab" type="button" data-screen="register">Register</button>
+      <div id="message" class="msg"></div>
+
+      <form id="login" class="screen active">
+        <h2>Welcome Back</h2>
+        <p class="sub">Login to access your ebooks, subscriptions, wallet and orders.</p>
+
+        <div class="group">
+          <label>Email Address</label>
+          <input id="loginEmail" type="email" placeholder="Enter your email">
         </div>
 
-        <div id="message" class="message"></div>
+        <div class="group">
+          <label>Password</label>
+          <input id="loginPassword" type="password" placeholder="Enter your password">
+        </div>
 
-        <form id="login" class="screen active">
-          <h2>Welcome Back</h2>
-          <p class="sub">Login to access your ebooks, subscriptions, wallet and orders.</p>
+        <button class="primary" type="submit">Login To CreatorHub</button>
+        <div id="loginLoader" class="loader">Checking account...</div>
 
-          <div class="group">
-            <label for="loginEmail">Email Address</label>
-            <input id="loginEmail" type="email" autocomplete="email" placeholder="Enter your email">
+        <div class="divider">OR CONTINUE WITH</div>
+
+        <div class="googlebox">
+          <div
+            id="g_id_onload"
+            data-client_id="895144937824-ojsv6ca2nn67h2mmne6td4r0hr89kmok.apps.googleusercontent.com"
+            data-callback="handleGoogleLogin">
           </div>
-
-          <div class="group">
-            <label for="loginPassword">Password</label>
-            <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Enter your password">
+          <div
+            class="g_id_signin"
+            data-type="standard"
+            data-size="large"
+            data-theme="filled_blue"
+            data-shape="pill"
+            data-width="320">
           </div>
+        </div>
 
-          <button class="primary" type="submit">Login To CreatorHub</button>
-          <div class="loader" id="loginLoader">Checking account...</div>
+        <div class="row">
+          <button class="linkbtn" type="button" data-screen="forgot">Forgot Password</button>
+          <button class="linkbtn" type="button" data-screen="recover">Recover Account</button>
+        </div>
+      </form>
 
-          <div class="divider">OR CONTINUE WITH</div>
+      <form id="register" class="screen">
+        <h2>Create Account</h2>
+        <p class="sub">Register once and start using your CreatorHub account.</p>
 
-          <div class="google-box">
-            <div
-              id="g_id_onload"
-              data-client_id="895144937824-ojsv6ca2nn67h2mmne6td4r0hr89kmok.apps.googleusercontent.com"
-              data-callback="handleGoogleLogin">
-            </div>
-            <div
-              class="g_id_signin"
-              data-type="standard"
-              data-size="large"
-              data-theme="filled_blue"
-              data-shape="pill"
-              data-width="320">
-            </div>
-          </div>
+        <div class="group">
+          <label>Full Name</label>
+          <input id="registerName" type="text" placeholder="Enter your name">
+        </div>
 
-          <div class="secondary-row">
-            <button class="link-btn" type="button" data-screen="forgot">Forgot Password</button>
-            <button class="link-btn" type="button" data-screen="recover">Recover Account</button>
-          </div>
-        </form>
+        <div class="group">
+          <label>Email Address</label>
+          <input id="registerEmail" type="email" placeholder="Enter your email">
+        </div>
 
-        <form id="register" class="screen">
-          <h2>Create Account</h2>
-          <p class="sub">Register once and start using your CreatorHub account.</p>
+        <div class="group">
+          <label>Password</label>
+          <input id="registerPassword" type="password" placeholder="Create password">
+        </div>
 
-          <div class="group">
-            <label for="registerName">Full Name</label>
-            <input id="registerName" type="text" autocomplete="name" placeholder="Enter your name">
-          </div>
+        <button class="primary" type="submit">Create Account</button>
+        <div id="registerLoader" class="loader">Creating account...</div>
+      </form>
 
-          <div class="group">
-            <label for="registerEmail">Email Address</label>
-            <input id="registerEmail" type="email" autocomplete="email" placeholder="Enter your email">
-          </div>
+      <form id="forgot" class="screen">
+        <h2>Reset Password</h2>
+        <p class="sub">Send OTP to your email, verify it, then set a new password.</p>
 
-          <div class="group">
-            <label for="registerPassword">Password</label>
-            <input id="registerPassword" type="password" autocomplete="new-password" placeholder="Create password">
-          </div>
+        <div class="group">
+          <label>Email Address</label>
+          <input id="forgotEmail" type="email" placeholder="Enter your registered email">
+        </div>
 
-          <button class="primary" type="submit">Create Account</button>
-          <div class="loader" id="registerLoader">Creating account...</div>
-        </form>
+        <button id="sendOtpBtn" class="primary" type="button">Send OTP</button>
 
-        <form id="forgot" class="screen">
-          <h2>Reset Password</h2>
-          <p class="sub">Send OTP to your email, verify it, then set a new password.</p>
+        <div class="group" style="margin-top:16px">
+          <label>OTP Code</label>
+          <input id="otpCode" type="text" placeholder="Enter 6 digit OTP">
+        </div>
 
-          <div class="group">
-            <label for="forgotEmail">Email Address</label>
-            <input id="forgotEmail" type="email" autocomplete="email" placeholder="Enter your registered email">
-          </div>
+        <div class="group">
+          <label>New Password</label>
+          <input id="newPassword" type="password" placeholder="Enter new password">
+        </div>
 
-          <button class="primary" id="sendOtpBtn" type="button">Send OTP</button>
+        <button class="primary" type="submit">Reset Password</button>
+        <div id="forgotLoader" class="loader">Processing request...</div>
 
-          <div class="group" style="margin-top:16px;">
-            <label for="otpCode">OTP Code</label>
-            <input id="otpCode" type="text" inputmode="numeric" placeholder="Enter 6 digit OTP">
-          </div>
+        <div class="row">
+          <button class="linkbtn" type="button" data-screen="login">Back To Login</button>
+          <button class="linkbtn" type="button" data-screen="register">Create Account</button>
+        </div>
+      </form>
 
-          <div class="group">
-            <label for="newPassword">New Password</label>
-            <input id="newPassword" type="password" autocomplete="new-password" placeholder="Enter new password">
-          </div>
+      <form id="recover" class="screen">
+        <h2>Recover Account</h2>
+        <p class="sub">Restore a deleted account if it is still available for recovery.</p>
 
-          <button class="primary" type="submit">Reset Password</button>
-          <div class="loader" id="forgotLoader">Processing request...</div>
+        <div class="group">
+          <label>Email Address</label>
+          <input id="recoverEmail" type="email" placeholder="Enter your account email">
+        </div>
 
-          <div class="secondary-row">
-            <button class="link-btn" type="button" data-screen="login">Back To Login</button>
-            <button class="link-btn" type="button" data-screen="register">Create Account</button>
-          </div>
-        </form>
+        <button class="primary" type="submit">Recover Account</button>
+        <div id="recoverLoader" class="loader">Recovering account...</div>
 
-        <form id="recover" class="screen">
-          <h2>Recover Account</h2>
-          <p class="sub">Restore a deleted account if it is still available for recovery.</p>
+        <div class="row">
+          <button class="linkbtn" type="button" data-screen="login">Back To Login</button>
+          <button class="linkbtn" type="button" data-screen="register">Create Account</button>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
 
-          <div class="group">
-            <label for="recoverEmail">Email Address</label>
-            <input id="recoverEmail" type="email" autocomplete="email" placeholder="Enter your account email">
-          </div>
+<script>
+const API = "https://script.google.com/macros/s/AKfycbwg4Xxd1he7OWkjMgeaXhEtCG2mvW9MtceFA-vcKykLB_LODR4_RtIi7wWbv9sKiy1V/exec";
 
-          <button class="primary" type="submit">Recover Account</button>
-          <div class="loader" id="recoverLoader">Recovering account...</div>
+const messageBox = document.getElementById("message");
 
-          <div class="secondary-row">
-            <button class="link-btn" type="button" data-screen="login">Back To Login</button>
-            <button class="link-btn" type="button" data-screen="register">Create Account</button>
-          </div>
-        </form>
-      </div>
-    </section>
-  </main>
+function showMessage(text,type){
+  messageBox.textContent = text;
+  messageBox.className = "msg " + (type === "ok" ? "ok" : "bad");
+}
 
-  <script>
-    const API = "https://script.google.com/macros/s/AKfycbwg4Xxd1he7OWkjMgeaXhEtCG2mvW9MtceFA-vcKykLB_LODR4_RtIi7wWbv9sKiy1V/exec";
+function clearMessage(){
+  messageBox.textContent = "";
+  messageBox.className = "msg";
+}
 
-    const messageBox = document.getElementById("message");
+function showScreen(id){
+  clearMessage();
 
-    function showMessage(text, type) {
-      messageBox.textContent = text;
-      messageBox.className = "message " + (type === "ok" ? "ok" : "bad");
-    }
+  document.querySelectorAll(".screen").forEach(screen=>{
+    screen.classList.toggle("active", screen.id === id);
+  });
 
-    function clearMessage() {
-      messageBox.textContent = "";
-      messageBox.className = "message";
-    }
+  document.querySelectorAll(".tab").forEach(tab=>{
+    tab.classList.toggle("active", tab.dataset.screen === id);
+  });
+}
 
-    function showScreen(id) {
-      clearMessage();
+function setLoading(id,show){
+  document.getElementById(id).classList.toggle("show", show);
+}
 
-      document.querySelectorAll(".screen").forEach(screen => {
-        screen.classList.toggle("active", screen.id === id);
-      });
+function cleanEmail(value){
+  return String(value || "").trim().toLowerCase();
+}
 
-      document.querySelectorAll(".tab").forEach(tab => {
-        tab.classList.toggle("active", tab.dataset.screen === id);
-      });
-    }
+function saveSession(data){
+  const userData = {
+    id: data.user.id || "",
+    email: data.user.email || "",
+    name: data.user.name || "User",
+    token: data.token || "",
+    profile_image: data.user.profile_image || ""
+  };
 
-    function setLoading(id, loading) {
-      document.getElementById(id).classList.toggle("show", loading);
-    }
+  localStorage.setItem("isLoggedIn","true");
+  localStorage.setItem("login","true");
+  localStorage.setItem("loggedIn","true");
 
-    function cleanEmail(value) {
-      return String(value || "").trim().toLowerCase();
-    }
+  localStorage.setItem("user_email",userData.email);
+  localStorage.setItem("user_name",userData.name);
+  localStorage.setItem("user_token",userData.token);
+  localStorage.setItem("token",userData.token);
 
-    function saveSession(data) {
-      localStorage.setItem("user_email", data.user.email);
-      localStorage.setItem("user_name", data.user.name || "User");
-      localStorage.setItem("user_token", data.token || "");
-      localStorage.setItem("user", JSON.stringify({
-        email: data.user.email,
-        name: data.user.name || "User",
-        token: data.token || ""
-      }));
+  localStorage.setItem("user_image",userData.profile_image);
+  localStorage.setItem("profile_image",userData.profile_image);
 
-      if (data.user.profile_image) {
-        localStorage.setItem("user_image", data.user.profile_image);
-      }
-    }
+  localStorage.setItem("user",JSON.stringify(userData));
+  localStorage.setItem("currentUser",JSON.stringify(userData));
+  localStorage.setItem("creatorhub_user",JSON.stringify(userData));
+}
 
-    async function postToApi(payload) {
-      const res = await fetch(API, {
-        method: "POST",
-        body: JSON.stringify(payload)
-      });
+async function postToApi(payload){
+  const res = await fetch(API,{
+    method:"POST",
+    body:JSON.stringify(payload)
+  });
 
-      const text = await res.text();
+  const text = await res.text();
 
-      try {
-        return JSON.parse(text);
-      } catch (err) {
-        console.error("API returned non JSON:", text);
-        return {
-          success: false,
-          message: "API error. Apps Script deployment or database JSON check karo."
-        };
-      }
-    }
+  try{
+    return JSON.parse(text);
+  }catch(err){
+    console.error("API returned non JSON:", text);
+    return {
+      success:false,
+      message:"API error. Apps Script deployment ya users.json check karo."
+    };
+  }
+}
 
-    document.querySelectorAll("[data-screen]").forEach(button => {
-      button.addEventListener("click", () => showScreen(button.dataset.screen));
+document.querySelectorAll("[data-screen]").forEach(btn=>{
+  btn.addEventListener("click",()=>showScreen(btn.dataset.screen));
+});
+
+document.getElementById("login").addEventListener("submit",async function(e){
+  e.preventDefault();
+  clearMessage();
+
+  const email = cleanEmail(document.getElementById("loginEmail").value);
+  const password = document.getElementById("loginPassword").value.trim();
+
+  if(!email || !password){
+    showMessage("Email aur password dono fill karo.","bad");
+    return;
+  }
+
+  setLoading("loginLoader",true);
+
+  const data = await postToApi({
+    action:"login",
+    email:email,
+    password:password
+  });
+
+  setLoading("loginLoader",false);
+
+  if(!data.success){
+    showMessage(data.message || "Invalid login.","bad");
+    return;
+  }
+
+  saveSession(data);
+  showMessage("Login successful. Redirecting...","ok");
+
+  setTimeout(()=>{
+    window.location.href = "index.html";
+  },700);
+});
+
+document.getElementById("register").addEventListener("submit",async function(e){
+  e.preventDefault();
+  clearMessage();
+
+  const name = document.getElementById("registerName").value.trim();
+  const email = cleanEmail(document.getElementById("registerEmail").value);
+  const password = document.getElementById("registerPassword").value.trim();
+
+  if(!name || !email || !password){
+    showMessage("Name, email aur password fill karo.","bad");
+    return;
+  }
+
+  setLoading("registerLoader",true);
+
+  const data = await postToApi({
+    action:"register",
+    name:name,
+    email:email,
+    password:password
+  });
+
+  setLoading("registerLoader",false);
+
+  if(!data.success){
+    showMessage(data.message || "Registration failed.","bad");
+    return;
+  }
+
+  showScreen("login");
+  showMessage("Account created. Ab login karo.","ok");
+  document.getElementById("loginEmail").value = email;
+});
+
+document.getElementById("sendOtpBtn").addEventListener("click",async function(){
+  clearMessage();
+
+  const email = cleanEmail(document.getElementById("forgotEmail").value);
+
+  if(!email){
+    showMessage("OTP ke liye email enter karo.","bad");
+    return;
+  }
+
+  setLoading("forgotLoader",true);
+
+  const data = await postToApi({
+    action:"send_otp",
+    email:email
+  });
+
+  setLoading("forgotLoader",false);
+  showMessage(data.message || "OTP request completed.", data.success ? "ok" : "bad");
+});
+
+document.getElementById("forgot").addEventListener("submit",async function(e){
+  e.preventDefault();
+  clearMessage();
+
+  const email = cleanEmail(document.getElementById("forgotEmail").value);
+  const otp = document.getElementById("otpCode").value.trim();
+  const password = document.getElementById("newPassword").value.trim();
+
+  if(!email || !otp || !password){
+    showMessage("Email, OTP aur new password fill karo.","bad");
+    return;
+  }
+
+  setLoading("forgotLoader",true);
+
+  const verify = await postToApi({
+    action:"verify_otp",
+    email:email,
+    otp:otp
+  });
+
+  if(!verify.success){
+    setLoading("forgotLoader",false);
+    showMessage(verify.message || "Invalid OTP.","bad");
+    return;
+  }
+
+  const reset = await postToApi({
+    action:"reset_password",
+    email:email,
+    password:password
+  });
+
+  setLoading("forgotLoader",false);
+
+  if(!reset.success){
+    showMessage(reset.message || "Password reset failed.","bad");
+    return;
+  }
+
+  showScreen("login");
+  showMessage("Password reset successful. Ab login karo.","ok");
+  document.getElementById("loginEmail").value = email;
+});
+
+document.getElementById("recover").addEventListener("submit",async function(e){
+  e.preventDefault();
+  clearMessage();
+
+  const email = cleanEmail(document.getElementById("recoverEmail").value);
+
+  if(!email){
+    showMessage("Recover karne ke liye email enter karo.","bad");
+    return;
+  }
+
+  setLoading("recoverLoader",true);
+
+  const data = await postToApi({
+    action:"recover_account",
+    email:email
+  });
+
+  setLoading("recoverLoader",false);
+
+  if(!data.success){
+    showMessage(data.message || "Recovery failed.","bad");
+    return;
+  }
+
+  showScreen("login");
+  showMessage("Account recovered. Ab login karo.","ok");
+  document.getElementById("loginEmail").value = email;
+});
+
+async function handleGoogleLogin(response){
+  clearMessage();
+
+  try{
+    const gdata = parseJwt(response.credential);
+
+    const data = await postToApi({
+      action:"google_login",
+      email:gdata.email,
+      name:gdata.name,
+      profile_image:gdata.picture || ""
     });
 
-    document.getElementById("login").addEventListener("submit", async event => {
-      event.preventDefault();
-      clearMessage();
-
-      const email = cleanEmail(document.getElementById("loginEmail").value);
-      const password = document.getElementById("loginPassword").value.trim();
-
-      if (!email || !password) {
-        showMessage("Email aur password dono fill karo.", "bad");
-        return;
-      }
-
-      setLoading("loginLoader", true);
-
-      const data = await postToApi({
-        action: "login",
-        email: email,
-        password: password
-      });
-
-      setLoading("loginLoader", false);
-
-      if (!data.success) {
-        showMessage(data.message || "Login failed.", "bad");
-        return;
-      }
-
-      saveSession(data);
-      showMessage("Login successful. Redirecting...", "ok");
-
-      setTimeout(() => {
-        window.location.href = "index.html";
-      }, 700);
-    });
-
-    document.getElementById("register").addEventListener("submit", async event => {
-      event.preventDefault();
-      clearMessage();
-
-      const name = document.getElementById("registerName").value.trim();
-      const email = cleanEmail(document.getElementById("registerEmail").value);
-      const password = document.getElementById("registerPassword").value.trim();
-
-      if (!name || !email || !password) {
-        showMessage("Name, email aur password fill karo.", "bad");
-        return;
-      }
-
-      setLoading("registerLoader", true);
-
-      const data = await postToApi({
-        action: "register",
-        name: name,
-        email: email,
-        password: password
-      });
-
-      setLoading("registerLoader", false);
-
-      if (!data.success) {
-        showMessage(data.message || "Registration failed.", "bad");
-        return;
-      }
-
-      showScreen("login");
-      showMessage("Account created. Ab login karo.", "ok");
-      document.getElementById("loginEmail").value = email;
-      document.getElementById("loginPassword").value = "";
-    });
-
-    document.getElementById("sendOtpBtn").addEventListener("click", async () => {
-      clearMessage();
-
-      const email = cleanEmail(document.getElementById("forgotEmail").value);
-
-      if (!email) {
-        showMessage("OTP ke liye email enter karo.", "bad");
-        return;
-      }
-
-      setLoading("forgotLoader", true);
-
-      const data = await postToApi({
-        action: "send_otp",
-        email: email
-      });
-
-      setLoading("forgotLoader", false);
-      showMessage(data.message || (data.success ? "OTP sent." : "OTP failed."), data.success ? "ok" : "bad");
-    });
-
-    document.getElementById("forgot").addEventListener("submit", async event => {
-      event.preventDefault();
-      clearMessage();
-
-      const email = cleanEmail(document.getElementById("forgotEmail").value);
-      const otp = document.getElementById("otpCode").value.trim();
-      const password = document.getElementById("newPassword").value.trim();
-
-      if (!email || !otp || !password) {
-        showMessage("Email, OTP aur new password fill karo.", "bad");
-        return;
-      }
-
-      setLoading("forgotLoader", true);
-
-      const verify = await postToApi({
-        action: "verify_otp",
-        email: email,
-        otp: otp
-      });
-
-      if (!verify.success) {
-        setLoading("forgotLoader", false);
-        showMessage(verify.message || "Invalid OTP.", "bad");
-        return;
-      }
-
-      const reset = await postToApi({
-        action: "reset_password",
-        email: email,
-        password: password
-      });
-
-      setLoading("forgotLoader", false);
-
-      if (!reset.success) {
-        showMessage(reset.message || "Password reset failed.", "bad");
-        return;
-      }
-
-      showScreen("login");
-      showMessage("Password reset successful. Ab login karo.", "ok");
-      document.getElementById("loginEmail").value = email;
-    });
-
-    document.getElementById("recover").addEventListener("submit", async event => {
-      event.preventDefault();
-      clearMessage();
-
-      const email = cleanEmail(document.getElementById("recoverEmail").value);
-
-      if (!email) {
-        showMessage("Recover karne ke liye email enter karo.", "bad");
-        return;
-      }
-
-      setLoading("recoverLoader", true);
-
-      const data = await postToApi({
-        action: "recover_account",
-        email: email
-      });
-
-      setLoading("recoverLoader", false);
-
-      if (!data.success) {
-        showMessage(data.message || "Recovery failed.", "bad");
-        return;
-      }
-
-      showScreen("login");
-      showMessage("Account recovered. Ab login karo.", "ok");
-      document.getElementById("loginEmail").value = email;
-    });
-
-    async function handleGoogleLogin(response) {
-      clearMessage();
-
-      try {
-        const gdata = parseJwt(response.credential);
-
-        const data = await postToApi({
-          action: "google_login",
-          email: gdata.email,
-          name: gdata.name,
-          profile_image: gdata.picture || ""
-        });
-
-        if (!data.success) {
-          showMessage(data.message || "Google login failed.", "bad");
-          return;
-        }
-
-        saveSession(data);
-        showMessage("Google login successful. Redirecting...", "ok");
-
-        setTimeout(() => {
-          window.location.href = "index.html";
-        }, 700);
-      } catch (err) {
-        console.error(err);
-        showMessage("Google login failed.", "bad");
-      }
+    if(!data.success){
+      showMessage(data.message || "Google login failed.","bad");
+      return;
     }
 
-    function parseJwt(token) {
-      const base64Url = token.split(".")[1];
-      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    saveSession(data);
+    showMessage("Google login successful. Redirecting...","ok");
 
-      const jsonPayload = decodeURIComponent(atob(base64).split("").map(c => {
-        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(""));
+    setTimeout(()=>{
+      window.location.href = "index.html";
+    },700);
+  }catch(err){
+    console.error(err);
+    showMessage("Google login failed.","bad");
+  }
+}
 
-      return JSON.parse(jsonPayload);
-    }
-  </script>
+function parseJwt(token){
+  const base64Url = token.split(".")[1];
+  const base64 = base64Url.replace(/-/g,"+").replace(/_/g,"/");
+  const jsonPayload = decodeURIComponent(atob(base64).split("").map(c=>{
+    return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(""));
+  return JSON.parse(jsonPayload);
+}
+</script>
+
 </body>
 </html>
