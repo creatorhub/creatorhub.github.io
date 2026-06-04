@@ -30,6 +30,7 @@ a{text-decoration:none;color:inherit}
 .profile-menu a{display:flex;align-items:center;height:44px;padding:0 14px;border-radius:8px;color:#e7edf8;font-size:14px;font-weight:800}
 .profile-menu a:hover{background:#182a64}
 .logout-btn{margin-top:14px;height:46px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#ef4444;color:#fff;font-weight:900;font-size:14px;cursor:pointer}
+
 .main{max-width:1400px;margin:auto;padding:36px 34px 90px}
 .hero{background:#fff;border:1px solid #dce4f0;border-radius:9px;padding:60px 50px;box-shadow:0 18px 45px rgba(16,24,40,.06)}
 .hero-title{font-size:52px;font-weight:900;line-height:1.1;color:#06142c;max-width:850px}
@@ -39,17 +40,20 @@ a{text-decoration:none;color:inherit}
 .hero-btn{min-height:52px;border-radius:9px;padding:0 26px;font-size:15px;font-weight:900;display:inline-flex;align-items:center;justify-content:center}
 .hero-btn.primary{background:#2f62e9;color:#fff}
 .hero-btn.secondary{background:#fff;color:#101828;border:1px solid #d9e3f0}
+
 .search-container{margin-top:40px;background:#fff;padding:20px;border-radius:12px;border:1px solid #dce4f0}
 .search-wrapper{position:relative;width:100%}
-.search-icon{position:absolute;left:18px;top:50%;transform:translateY(-50%);color:#94a3b8}
-.search-input{width:100%;padding:16px 20px 16px 50px;border-radius:9px;border:1px solid #cbd5e1;background:#f8fafc;font-size:16px;color:#101828;outline:none}
+.search-icon{position:absolute;left:18px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:13px;font-weight:900}
+.search-input{width:100%;padding:16px 20px 16px 72px;border-radius:9px;border:1px solid #cbd5e1;background:#f8fafc;font-size:16px;color:#101828;outline:none}
 .search-input:focus{border-color:#2f62e9;background:#fff;box-shadow:0 0 0 4px rgba(47,98,233,.1)}
-.section{margin-top:40px}
+
+.section{margin-top:44px}
 .section-title{font-size:36px;font-weight:900;color:#06142c}
-.section-desc{margin-top:8px;color:#63728a;font-size:16px}
+.section-desc{margin-top:8px;color:#63728a;font-size:16px;line-height:1.6}
 .filters{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
 .filter-btn{min-height:44px;padding:0 20px;border:1px solid #d9e3f0;border-radius:9px;background:#fff;color:#26364f;font-size:14px;font-weight:800;cursor:pointer}
 .filter-active{background:#182a64;color:#fff;border-color:#3157c9}
+
 .books-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px;margin-top:32px}
 .book{background:#fff;border:1px solid #dce4f0;border-radius:9px;overflow:hidden;cursor:pointer;box-shadow:0 10px 30px rgba(16,24,40,.04);transition:.2s}
 .book:hover{transform:translateY(-5px);border-color:#3157c9}
@@ -58,15 +62,33 @@ a{text-decoration:none;color:inherit}
 .book-title{font-size:15px;font-weight:900;color:#06142c;line-height:1.4;min-height:42px}
 .book-author{margin-top:8px;font-size:13px;color:#63728a}
 .book-price{margin-top:14px;font-size:22px;font-weight:900;color:#2f62e9}
-.features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:32px}
-.feature{background:#fff;padding:28px;border-radius:9px;border:1px solid #dce4f0}
-.feature-icon{width:52px;height:52px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#eef3f9;color:#2f62e9;font-size:22px;font-weight:900}
-.feature h3{margin-top:18px;font-size:19px;font-weight:900;color:#06142c}
-.feature p{margin-top:10px;line-height:1.6;color:#63728a;font-size:15px}
+
+.info-grid,.features,.category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:32px}
+.info-card,.feature,.category-card{background:#fff;padding:28px;border-radius:9px;border:1px solid #dce4f0;box-shadow:0 10px 30px rgba(16,24,40,.03)}
+.info-card strong{display:block;color:#2f62e9;font-size:30px;font-weight:900}
+.info-card span,.feature p,.category-card p{display:block;margin-top:10px;line-height:1.6;color:#63728a;font-size:15px}
+.feature-icon,.category-icon{width:52px;height:52px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#eef3f9;color:#2f62e9;font-size:20px;font-weight:900}
+.feature h3,.category-card h3{margin-top:18px;font-size:19px;font-weight:900;color:#06142c}
 .empty{grid-column:1/-1;text-align:center;color:#63728a;padding:42px 0;font-weight:800;background:#fff;border:1px solid #dce4f0;border-radius:9px}
+
+.cta{margin-top:54px;background:#06142c;color:#fff;border-radius:9px;padding:42px;border:1px solid #182a64}
+.cta h2{font-size:34px;font-weight:900}
+.cta p{margin-top:12px;max-width:760px;color:#cbd5e1;line-height:1.7}
+.cta-actions{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}
+
+.footer{background:#0d1628;color:#dbeafe;margin-top:40px;border-top:1px solid #182a64}
+.footer-inner{max-width:1400px;margin:auto;padding:44px 34px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px}
+.footer-brand{font-size:26px;font-weight:900;color:#fff}
+.footer-brand span{color:#60a5fa}
+.footer p{margin-top:14px;color:#94a3b8;line-height:1.7;font-size:14px}
+.footer h4{color:#fff;font-size:15px;font-weight:900;margin-bottom:14px}
+.footer a{display:block;color:#94a3b8;font-size:14px;font-weight:700;margin-top:10px}
+.footer a:hover{color:#fff}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding:18px 34px;text-align:center;color:#94a3b8;font-size:13px;font-weight:700}
+
 @media(max-width:1200px){.books-grid{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:950px){.books-grid{grid-template-columns:repeat(3,1fr)}.features{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:700px){.topbar{align-items:flex-start;flex-direction:column;padding:14px 20px}.main{padding:24px 20px 70px}.hero{padding:38px 24px}.hero-title{font-size:38px}.books-grid{grid-template-columns:repeat(2,1fr)}.features{grid-template-columns:1fr}.nav{gap:12px}.nav a{font-size:12px}}
+@media(max-width:950px){.books-grid{grid-template-columns:repeat(3,1fr)}.features,.info-grid,.category-grid{grid-template-columns:repeat(2,1fr)}.footer-inner{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.topbar{align-items:flex-start;flex-direction:column;padding:14px 20px}.main{padding:24px 20px 70px}.hero{padding:38px 24px}.hero-title{font-size:38px}.books-grid{grid-template-columns:repeat(2,1fr)}.features,.info-grid,.category-grid,.footer-inner{grid-template-columns:1fr}.nav{gap:12px}.nav a{font-size:12px}.cta{padding:30px 22px}.section-title{font-size:30px}}
 </style>
 </head>
 
@@ -121,6 +143,14 @@ a{text-decoration:none;color:inherit}
     </div>
   </section>
 
+  <section class="section">
+    <div class="info-grid">
+      <div class="info-card"><strong>10K+</strong><span>Premium ebooks and creator resources across multiple learning categories.</span></div>
+      <div class="info-card"><strong>24/7</strong><span>Instant access to your library, orders, wallet and subscriptions.</span></div>
+      <div class="info-card"><strong>99%</strong><span>Fast marketplace flow built for simple buying and creator selling.</span></div>
+    </div>
+  </section>
+
   <section class="search-container">
     <div class="search-wrapper">
       <span class="search-icon">Search</span>
@@ -145,29 +175,71 @@ a{text-decoration:none;color:inherit}
   </section>
 
   <section class="section">
+    <div class="section-title">Popular Categories</div>
+    <div class="section-desc">Explore ebooks made for learning, business, creativity and growth.</div>
+
+    <div class="category-grid">
+      <div class="category-card"><div class="category-icon">01</div><h3>Business</h3><p>Guides for startups, finance, selling and marketplace growth.</p></div>
+      <div class="category-card"><div class="category-icon">02</div><h3>Education</h3><p>Study notes, skill guides, exam material and practical learning books.</p></div>
+      <div class="category-card"><div class="category-icon">03</div><h3>Creator Tools</h3><p>Resources for designers, writers, sellers and digital creators.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
     <div class="section-title">Why Readers Love CreatorHub</div>
     <div class="section-desc">A premium ebook buying experience with secure payments, live tracking and trusted creators.</div>
 
     <div class="features">
-      <div class="feature">
-        <div class="feature-icon">1</div>
-        <h3>Instant Checkout</h3>
-        <p>Fast and secure payments with a simple buying experience.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">2</div>
-        <h3>Digital Access</h3>
-        <p>Access your ebooks and resources through your CreatorHub account.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">3</div>
-        <h3>Trusted Creators</h3>
-        <p>Explore premium ebooks from creators, experts and digital sellers.</p>
-      </div>
+      <div class="feature"><div class="feature-icon">1</div><h3>Instant Checkout</h3><p>Fast and secure payments with a simple buying experience.</p></div>
+      <div class="feature"><div class="feature-icon">2</div><h3>Digital Access</h3><p>Access your ebooks and resources through your CreatorHub account.</p></div>
+      <div class="feature"><div class="feature-icon">3</div><h3>Trusted Creators</h3><p>Explore premium ebooks from creators, experts and digital sellers.</p></div>
+      <div class="feature"><div class="feature-icon">4</div><h3>Order Tracking</h3><p>Track your orders and purchases from your account dashboard.</p></div>
+      <div class="feature"><div class="feature-icon">5</div><h3>Seller Access</h3><p>Creators can apply to sell their ebooks through CreatorHub.</p></div>
+      <div class="feature"><div class="feature-icon">6</div><h3>Library System</h3><p>Your purchased ebooks stay organized in your personal library.</p></div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2>Start exploring premium creator ebooks today</h2>
+    <p>Login to access your profile, library, orders, wallet and subscription dashboard. New here? Create an account and start building your digital reading library.</p>
+    <div class="cta-actions">
+      <a href="login.html" class="hero-btn primary">Login Now</a>
+      <a href="seller-apply.html" class="hero-btn secondary">Become Seller</a>
     </div>
   </section>
 
 </div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Creator<span>Hub</span></div>
+      <p>CreatorHub is a premium ebook marketplace for readers, creators and digital sellers. Discover useful resources and manage everything from one account.</p>
+    </div>
+    <div>
+      <h4>Marketplace</h4>
+      <a href="index.html#books">Featured Books</a>
+      <a href="tranding.html">Trending</a>
+      <a href="topselling.html">Top Selling</a>
+      <a href="library.html">Library</a>
+    </div>
+    <div>
+      <h4>Account</h4>
+      <a href="login.html">Login</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="my-orders.html">Orders</a>
+      <a href="wallet.html">Wallet</a>
+    </div>
+    <div>
+      <h4>Support</h4>
+      <a href="support.html">Help Center</a>
+      <a href="subscription.html">Subscription</a>
+      <a href="seller-apply.html">Become Seller</a>
+      <a href="profile.html">Profile</a>
+    </div>
+  </div>
+  <div class="footer-bottom">Copyright 2026 CreatorHub. All rights reserved.</div>
+</footer>
 
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec";
@@ -177,21 +249,15 @@ window.CURRENT_ACTIVE_FILTER_TYPE = "all";
 
 function driveImage(url){
   if(!url) return "";
-
-  if(url.includes("ui-avatars.com")){
-    return url;
-  }
-
+  if(url.includes("ui-avatars.com")) return url;
   if(url.includes("uc?id=")){
     let id = url.split("id=")[1].split("&")[0];
     return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
   }
-
   if(url.includes("/d/")){
     let id = url.split("/d/")[1].split("/")[0];
     return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
   }
-
   return url;
 }
 
@@ -202,13 +268,8 @@ function getUserFromStorage(){
     localStorage.getItem("creatorhub_user");
 
   let user = {};
-
   if(userText){
-    try{
-      user = JSON.parse(userText) || {};
-    }catch(e){
-      user = {};
-    }
+    try{ user = JSON.parse(userText) || {}; }catch(e){ user = {}; }
   }
 
   return {
@@ -216,18 +277,13 @@ function getUserFromStorage(){
     email: user.email || localStorage.getItem("user_email") || "",
     name: user.name || localStorage.getItem("user_name") || "CreatorHub User",
     token: user.token || localStorage.getItem("user_token") || localStorage.getItem("token") || "",
-    profile_image:
-      user.profile_image ||
-      localStorage.getItem("user_image") ||
-      localStorage.getItem("profile_image") ||
-      ""
+    profile_image: user.profile_image || localStorage.getItem("user_image") || localStorage.getItem("profile_image") || ""
   };
 }
 
 function updateLoginUI(){
   let loginBtn = document.getElementById("loginBtn");
   let profileWrap = document.getElementById("profileWrap");
-
   let user = getUserFromStorage();
 
   let isLoggedIn =
@@ -264,7 +320,6 @@ function toggleProfileMenu(){
 window.addEventListener("click",function(e){
   let wrap = document.getElementById("profileWrap");
   let menu = document.getElementById("profileMenu");
-
   if(wrap && menu && !wrap.contains(e.target)){
     menu.classList.remove("show");
   }
@@ -283,7 +338,6 @@ function logout(){
   localStorage.removeItem("user");
   localStorage.removeItem("currentUser");
   localStorage.removeItem("creatorhub_user");
-
   window.location.href = "login.html";
 }
 
@@ -322,7 +376,7 @@ function renderBooks(books){
         <div class="book-content">
           <div class="book-title">${book.title || "Untitled"}</div>
           <div class="book-author">by ${book.author || "Unknown"}</div>
-          <div class="book-price">₹${Number(book.price || 0)}</div>
+          <div class="book-price">&#8377;${Number(book.price || 0)}</div>
         </div>
       </div>
     `;
@@ -333,17 +387,9 @@ function handleSearchFilter(){
   let searchToken = document.getElementById("homepageSearch").value.toLowerCase().trim();
   let books = window.MASTER_CATALOG_POOL || [];
 
-  if(window.CURRENT_ACTIVE_FILTER_TYPE === "trending"){
-    books = books.filter(b => Number(b.price || 0) >= 300);
-  }
-
-  if(window.CURRENT_ACTIVE_FILTER_TYPE === "high"){
-    books = books.filter(b => String(b.title || "").length > 15);
-  }
-
-  if(window.CURRENT_ACTIVE_FILTER_TYPE === "low"){
-    books = books.filter(b => Number(b.price || 0) < 300);
-  }
+  if(window.CURRENT_ACTIVE_FILTER_TYPE === "trending") books = books.filter(b => Number(b.price || 0) >= 300);
+  if(window.CURRENT_ACTIVE_FILTER_TYPE === "high") books = books.filter(b => String(b.title || "").length > 15);
+  if(window.CURRENT_ACTIVE_FILTER_TYPE === "low") books = books.filter(b => Number(b.price || 0) < 300);
 
   if(searchToken){
     books = books.filter(book=>{
@@ -359,10 +405,7 @@ function handleSearchFilter(){
 }
 
 function filterBooks(type,button){
-  document.querySelectorAll(".filter-btn").forEach(btn=>{
-    btn.classList.remove("filter-active");
-  });
-
+  document.querySelectorAll(".filter-btn").forEach(btn=>btn.classList.remove("filter-active"));
   button.classList.add("filter-active");
   window.CURRENT_ACTIVE_FILTER_TYPE = type;
   handleSearchFilter();
