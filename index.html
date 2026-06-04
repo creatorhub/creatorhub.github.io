@@ -1,849 +1,376 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CreatorHub • Premium Ebook Marketplace</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CreatorHub - Premium Ebook Marketplace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <style>
-    /* =====================================================
-    CORE RESET & CREATORHUB PREMIUM BRAND THEME
-    ===================================================== */
-    *{
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
-    html{
-      scroll-behavior: smooth;
-    }
-    body{
-      background: #f6f8fc;
-      color: #101828;
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
-    a{
-      text-decoration: none;
-      color: inherit;
-    }
-    img{
-      display: block;
-      max-width: 100%;
-    }
-
-    ::-webkit-scrollbar{
-      width: 6px;
-    }
-    ::-webkit-scrollbar-thumb{
-      background: #3157c9;
-      border-radius: 20px;
-    }
-
-    /* =====================================================
-    TOPBAR / NAVIGATION NAVIGATION (100% MOBILE FIXED)
-    ===================================================== */
-    .topbar{
-      position: sticky;
-      top: 0;
-      z-index: 999;
-      min-height: 80px; /* Purani excessive height ko trim kiya layout ke liye */
-      background: #fff;
-      border-bottom: 1px solid #dce4f0;
-      padding: 16px 34px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-    .topbar-left{
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    .brand-logo{
-      display: flex;
-      align-items: center;
-    }
-    .brand-name{
-      font-size: 25px;
-      font-weight: 950;
-      color: #06142c;
-      letter-spacing: -0.02em;
-    }
-    .brand-name span{
-      color: #2f62e9;
-    }
-
-    .nav{
-      display: flex;
-      align-items: center;
-      gap: 20px; /* Links gap tighter kiya taaki overlap crash na ho */
-    }
-    .nav a{
-      color: #5d6d85;
-      font-size: 14px; /* Standard clean readable dynamic font */
-      font-weight: 700;
-      transition: color 0.2s ease;
-    }
-    .nav a:hover{
-      color: #2f62e9;
-    }
-    .login-btn{
-      height: 36px !important;
-      min-height: auto !important;
-      border: 0;
-      border-radius: 8px;
-      padding: 0 16px;
-      background: #2f62e9 !important;
-      color: #ffffff !important; /* Text color pure white lock kiya */
-      font-size: 13px !important;
-      font-weight: 700 !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      cursor: pointer;
-      white-space: nowrap !important;
-      text-decoration: none !important;
-      box-shadow: 0 4px 10px rgba(47, 98, 233, 0.15);
-      transition: background 0.2s ease;
-    }
-    .login-btn:hover{
-      background: #2455cf !important;
-      color: #ffffff !important;
-    }
-    
-
-    /* =====================================================
-    PROFILE LAYER & POPUP PANEL MAP
-    ===================================================== */
-    .profile-wrap{
-      position: relative;
-      display: none;
-      align-items: center;
-    }
-    .profile-image{
-      width: 44px; /* Perfectly mapped with navigation parallel bar rows */
-      height: 44px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: #d9e1ec;
-      border: 2px solid #fff;
-      box-shadow: 0 8px 20px rgba(16, 24, 40, 0.12);
-      transition: transform 0.2s ease, border-color 0.2s ease;
-      cursor: pointer;
-    }
-    .profile-image:hover{
-      transform: scale(1.04);
-      border-color: #2f62e9;
-    }
-    .profile-menu{
-      position: absolute;
-      top: 55px;
-      left: 0;
-      width: 280px;
-      background: #0d1628;
-      border: 1px solid #182a64;
-      border-radius: 14px;
-      padding: 20px;
-      display: none;
-      box-shadow: 0 20px 45px rgba(16, 24, 40, 0.25);
-      z-index: 1000;
-    }
-    .profile-menu.show{
-      display: block;
-      animation: menuFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    @keyframes menuFadeIn{
-      from { opacity: 0; transform: translateY(8px) scale(0.97); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    .profile-header{
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      margin-bottom: 14px;
-    }
-    .menu-profile-image{
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-    #menuName{
-      color: #fff;
-      font-size: 16px;
-      font-weight: 800;
-    }
-    #menuEmail{
-      margin-top: 3px;
-      font-size: 13px;
-      color: #63728a;
-      word-break: break-all;
-    }
-    .profile-menu a{
-      display: flex;
-      align-items: center;
-      height: 46px;
-      padding: 0 14px;
-      border-radius: 8px;
-      color: #e7edf8;
-      font-size: 15px;
-      font-weight: 700;
-      transition: background 0.2s, transform 0.2s;
-    }
-    .profile-menu a:hover{
-      background: #182a64;
-      transform: translateX(4px);
-    }
-    .logout-btn{
-      margin-top: 14px;
-      height: 48px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #ef4444;
-      color: #fff;
-      font-weight: 800;
-      font-size: 15px;
-      cursor: pointer;
-      transition: opacity 0.2s;
-    }
-    .logout-btn:hover{
-      opacity: 0.9;
-    }
-
-    /* =====================================================
-    MAIN GRID CONTENT WRAPPER
-    ========================================================= */
-    .main{
-      max-width: 1400px;
-      margin: auto;
-      padding: 36px 34px 90px;
-    }
-
-    /* =====================================================
-    HERO SYSTEM BLOCK
-    ===================================================== */
-    .hero{
-      background: #fff;
-      border: 1px solid #dce4f0;
-      border-radius: 9px;
-      padding: 60px 50px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 18px 45px rgba(16,24,40,.06);
-    }
-    .hero::before{
-      content: "";
-      position: absolute;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(49, 87, 201, 0.05), transparent 70%);
-      right: -150px;
-      top: -150px;
-    }
-    .hero-title{
-      font-size: 52px;
-      font-weight: 950;
-      line-height: 1.1;
-      color: #06142c;
-      max-width: 850px;
-      letter-spacing: -0.02em;
-    }
-    .hero-title span{
-      background: linear-gradient(135deg, #21b7e8, #1d72f3);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero-desc{
-      margin-top: 20px;
-      max-width: 750px;
-      line-height: 1.6;
-      color: #63728a;
-      font-size: 17px;
-    }
-    .hero-actions{
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-top: 36px;
-    }
-    .hero-btn{
-      min-height: 54px;
-      border: 0;
-      border-radius: 9px;
-      padding: 0 28px;
-      font-size: 16px;
-      font-weight: 900;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .hero-btn.primary{
-      background: #2f62e9;
-      color: #fff;
-    }
-    .hero-btn.primary:hover{
-      background: #2455cf;
-    }
-    .hero-btn.secondary{
-      background: #fff;
-      color: #101828;
-      border: 1px solid #d9e3f0;
-    }
-    .hero-btn.secondary:hover{
-      border-color: #3157c9;
-    }
-
-    /* =====================================================
-    SEARCH INTERFACE COMPONENT
-    ===================================================== */
-    .search-container {
-      margin-top: 40px;
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      border: 1px solid #dce4f0;
-      box-shadow: 0 4px 15px rgba(16, 24, 40, 0.02);
-    }
-    .search-wrapper {
-      position: relative;
-      width: 100%;
-    }
-    .search-input {
-      width: 100%;
-      padding: 16px 20px 16px 50px;
-      border-radius: 9px;
-      border: 1px solid #cbd5e1;
-      background: #f8fafc;
-      font-size: 16px;
-      color: #101828;
-      font-weight: 500;
-      outline: none;
-      transition: all 0.25s ease;
-    }
-    .search-input:focus {
-      border-color: #2f62e9;
-      background: #fff;
-      box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.1);
-    }
-    .search-icon {
-      position: absolute;
-      left: 18px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 18px;
-      color: #94a3b8;
-      user-select: none;
-    }
-
-    /* =====================================================
-    DYNAMIC SECTION MAPS
-    ===================================================== */
-    .section{
-      margin-top: 40px;
-    }
-    .section-title{
-      font-size: 38px;
-      font-weight: 950;
-      color: #06142c;
-      letter-spacing: -0.02em;
-    }
-    .section-desc{
-      margin-top: 8px;
-      color: #63728a;
-      font-size: 16px;
-    }
-
-    /* =====================================================
-    FILTERS CONTROL RENDER
-    ===================================================== */
-    .filters{
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 24px;
-    }
-    .filter-btn{
-      min-height: 46px;
-      padding: 0 22px;
-      border: 1px solid #d9e3f0;
-      border-radius: 9px;
-      background: #fff;
-      color: #26364f;
-      font-size: 14px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .filter-btn:hover{
-      border-color: #3157c9;
-    }
-    .filter-active{
-      background: #182a64;
-      color: #fff;
-      border-color: #3157c9;
-    }
-
-    /* =====================================================
-    EBOOK DYNAMIC CARD CONTENT GRID
-    ===================================================== */
-    .books-grid{
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 24px;
-      margin-top: 32px;
-    }
-
-    @media(max-width: 1200px){ .books-grid{ grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-    @media(max-width: 950px){ .books-grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-    @media(max-width: 600px){ .books-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-
-    .book{
-      background: #fff;
-      border: 1px solid #dce4f0;
-      border-radius: 9px;
-      overflow: hidden;
-      cursor: pointer;
-      box-shadow: 0 10px 30px rgba(16, 24, 40, 0.04);
-      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-    }
-    .book:hover{
-      transform: translateY(-5px);
-      border-color: #3157c9;
-      box-shadow: 0 18px 40px rgba(16, 24, 40, 0.09);
-    }
-    .book-cover{
-      width: 100%;
-      aspect-ratio: 3/4;
-      object-fit: cover;
-      background: #eef3f9;
-      border-bottom: 1px solid #dce4f0;
-    }
-    .book-content{
-      padding: 18px;
-    }
-    .book-title{
-      font-size: 15px;
-      font-weight: 800;
-      color: #06142c;
-      line-height: 1.4;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      min-height: 42px;
-    }
-    .book-author{
-      margin-top: 8px;
-      font-size: 13px;
-      color: #63728a;
-      font-weight: 500;
-    }
-    .book-price{
-      margin-top: 14px;
-      font-size: 22px;
-      font-weight: 950;
-      color: #2f62e9;
-    }
-
-    /* =====================================================
-    FEATURES COMPONENT BLOCKS
-    ===================================================== */
-    .features{
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 28px;
-      margin-top: 36px;
-    }
-    .feature{
-      background: #fff;
-      padding: 32px;
-      border-radius: 9px;
-      border: 1px solid #dce4f0;
-      box-shadow: 0 10px 30px rgba(16, 24, 40, 0.04);
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .feature:hover{
-      transform: translateY(-4px);
-      border-color: #3157c9;
-    }
-    .feature-icon{
-      width: 54px;
-      height: 54px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      background: #eef3f9;
-      color: #2f62e9;
-    }
-    .feature h3{
-      margin-top: 20px;
-      font-size: 20px;
-      font-weight: 950;
-      color: #06142c;
-    }
-    .feature p{
-      margin-top: 10px;
-      line-height: 1.6;
-      color: #63728a;
-      font-size: 15px;
-    }
-
-    @media(max-width: 1000px){ .features{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media(max-width: 700px){ .features{ grid-template-columns: minmax(0, 1fr); } }
-
-    /* =====================================================
-    SKELETON CONTAINER LAYER
-    ===================================================== */
-    .skeleton-grid{
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 24px;
-      width: 100%;
-    }
-    .skeleton-card{
-      height: 350px;
-      border-radius: 9px;
-      background: linear-gradient(90deg, #eef3f9 25%, #e2eaf4 50%, #eef3f9 75%);
-      background-size: 200% 100%;
-      animation: skeletonPulse 1.4s ease infinite;
-      border: 1px solid #dce4f0;
-    }
-    @keyframes skeletonPulse{
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-
-    /* =====================================================
-    FOOTER AUTOMATIC CONSTRAINT
-    ===================================================== */
-    #footerContainer {
-      margin-top: 100px;
-    }
-
-    /* =====================================================
-    RESPONSIVE MEDIA OVERLAP CRASH SAFETY LAYER
-    ===================================================== */
-    @media(max-width: 900px){
-      .topbar{ min-height: auto; padding: 14px 20px; }
-      .main { padding: 24px 20px 70px; }
-      .hero { padding: 40px 30px; }
-      .hero-title { font-size: 38px; }
-    }
-    @media(max-width: 768px){
-      .nav { gap: 12px; }
-      .nav a { font-size: 12px; }
-      .login-btn {
-        height: 32px !important;
-        padding: 0 12px !important;
-        font-size: 12px !important;
-        border-radius: 8px;
-      }
-    }
-    @media(max-width: 640px){
-      .topbar-left .brand-name { display: none; } /* Kept safe dynamic profile image layout links alignment */
-      .nav a { font-size: 11px; }
-      .nav { gap: 10px; }
-      .hero-actions { flex-direction: column; }
-      .hero-btn { width: 100%; }
-    }
-  </style>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#f6f8fc;color:#101828;min-height:100vh;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+.topbar{position:sticky;top:0;z-index:999;min-height:80px;background:#fff;border-bottom:1px solid #dce4f0;padding:16px 34px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.topbar-left{display:flex;align-items:center;gap:20px}
+.brand-name{font-size:25px;font-weight:900;color:#06142c}
+.brand-name span{color:#2f62e9}
+.nav{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.nav a{color:#5d6d85;font-size:14px;font-weight:800}
+.nav a:hover{color:#2f62e9}
+.login-btn{height:38px;border:0;border-radius:8px;padding:0 16px;background:#2f62e9;color:#fff!important;font-size:13px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;white-space:nowrap}
+.profile-wrap{position:relative;display:none;align-items:center}
+.profile-image{width:44px;height:44px;border-radius:50%;object-fit:cover;background:#d9e1ec;border:2px solid #fff;box-shadow:0 8px 20px rgba(16,24,40,.12);cursor:pointer}
+.profile-menu{position:absolute;top:55px;left:0;width:290px;background:#0d1628;border:1px solid #182a64;border-radius:14px;padding:20px;display:none;box-shadow:0 20px 45px rgba(16,24,40,.25);z-index:1000}
+.profile-menu.show{display:block}
+.profile-header{display:flex;align-items:center;gap:12px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:14px}
+.menu-profile-image{width:50px;height:50px;border-radius:50%;object-fit:cover;background:#d9e1ec}
+#menuName{color:#fff;font-size:16px;font-weight:900}
+#menuEmail{margin-top:4px;font-size:13px;color:#94a3b8;word-break:break-all}
+.profile-menu a{display:flex;align-items:center;height:44px;padding:0 14px;border-radius:8px;color:#e7edf8;font-size:14px;font-weight:800}
+.profile-menu a:hover{background:#182a64}
+.logout-btn{margin-top:14px;height:46px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#ef4444;color:#fff;font-weight:900;font-size:14px;cursor:pointer}
+.main{max-width:1400px;margin:auto;padding:36px 34px 90px}
+.hero{background:#fff;border:1px solid #dce4f0;border-radius:9px;padding:60px 50px;box-shadow:0 18px 45px rgba(16,24,40,.06)}
+.hero-title{font-size:52px;font-weight:900;line-height:1.1;color:#06142c;max-width:850px}
+.hero-title span{color:#2f62e9}
+.hero-desc{margin-top:20px;max-width:750px;line-height:1.6;color:#63728a;font-size:17px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
+.hero-btn{min-height:52px;border-radius:9px;padding:0 26px;font-size:15px;font-weight:900;display:inline-flex;align-items:center;justify-content:center}
+.hero-btn.primary{background:#2f62e9;color:#fff}
+.hero-btn.secondary{background:#fff;color:#101828;border:1px solid #d9e3f0}
+.search-container{margin-top:40px;background:#fff;padding:20px;border-radius:12px;border:1px solid #dce4f0}
+.search-wrapper{position:relative;width:100%}
+.search-icon{position:absolute;left:18px;top:50%;transform:translateY(-50%);color:#94a3b8}
+.search-input{width:100%;padding:16px 20px 16px 50px;border-radius:9px;border:1px solid #cbd5e1;background:#f8fafc;font-size:16px;color:#101828;outline:none}
+.search-input:focus{border-color:#2f62e9;background:#fff;box-shadow:0 0 0 4px rgba(47,98,233,.1)}
+.section{margin-top:40px}
+.section-title{font-size:36px;font-weight:900;color:#06142c}
+.section-desc{margin-top:8px;color:#63728a;font-size:16px}
+.filters{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.filter-btn{min-height:44px;padding:0 20px;border:1px solid #d9e3f0;border-radius:9px;background:#fff;color:#26364f;font-size:14px;font-weight:800;cursor:pointer}
+.filter-active{background:#182a64;color:#fff;border-color:#3157c9}
+.books-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px;margin-top:32px}
+.book{background:#fff;border:1px solid #dce4f0;border-radius:9px;overflow:hidden;cursor:pointer;box-shadow:0 10px 30px rgba(16,24,40,.04);transition:.2s}
+.book:hover{transform:translateY(-5px);border-color:#3157c9}
+.book-cover{width:100%;aspect-ratio:3/4;object-fit:cover;background:#eef3f9;border-bottom:1px solid #dce4f0}
+.book-content{padding:18px}
+.book-title{font-size:15px;font-weight:900;color:#06142c;line-height:1.4;min-height:42px}
+.book-author{margin-top:8px;font-size:13px;color:#63728a}
+.book-price{margin-top:14px;font-size:22px;font-weight:900;color:#2f62e9}
+.features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:32px}
+.feature{background:#fff;padding:28px;border-radius:9px;border:1px solid #dce4f0}
+.feature-icon{width:52px;height:52px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#eef3f9;color:#2f62e9;font-size:22px;font-weight:900}
+.feature h3{margin-top:18px;font-size:19px;font-weight:900;color:#06142c}
+.feature p{margin-top:10px;line-height:1.6;color:#63728a;font-size:15px}
+.empty{grid-column:1/-1;text-align:center;color:#63728a;padding:42px 0;font-weight:800;background:#fff;border:1px solid #dce4f0;border-radius:9px}
+@media(max-width:1200px){.books-grid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:950px){.books-grid{grid-template-columns:repeat(3,1fr)}.features{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.topbar{align-items:flex-start;flex-direction:column;padding:14px 20px}.main{padding:24px 20px 70px}.hero{padding:38px 24px}.hero-title{font-size:38px}.books-grid{grid-template-columns:repeat(2,1fr)}.features{grid-template-columns:1fr}.nav{gap:12px}.nav a{font-size:12px}}
+</style>
 </head>
 
 <body>
 
-  <div class="topbar">
-    <div class="topbar-left">
-      <div id="profileWrap" class="profile-wrap">
-        <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile View">
-        
-        <div id="profileMenu" class="profile-menu">
-          <div class="profile-header">
-            <img id="menuProfileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="menu-profile-image" alt="User">
-            <div>
-              <div id="menuName">CreatorHub User</div>
-            </div>
+<div class="topbar">
+  <div class="topbar-left">
+    <div id="profileWrap" class="profile-wrap">
+      <img id="profileImage" class="profile-image" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" onclick="toggleProfileMenu()" alt="Profile">
+
+      <div id="profileMenu" class="profile-menu">
+        <div class="profile-header">
+          <img id="menuProfileImage" class="menu-profile-image" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" alt="User">
+          <div>
+            <div id="menuName">CreatorHub User</div>
+            <div id="menuEmail">user@email.com</div>
           </div>
-          <a href="profile.html">My Profile</a>
-          <a href="seller-apply.html">Become Seller</a>
-          <a href="tranding.html">Trending Books</a>
-          <a href="library.html">Library</a>
-          <a href="topselling.html">Top Selling</a>
-          <div class="logout-btn" onclick="logout()">Logout</div>
         </div>
+
+        <a href="profile.html">My Profile</a>
+        <a href="seller-apply.html">Become Seller</a>
+        <a href="tranding.html">Trending Books</a>
+        <a href="library.html">Library</a>
+        <a href="topselling.html">Top Selling</a>
+        <div class="logout-btn" onclick="logout()">Logout</div>
       </div>
-
-      <a class="brand-logo" href="./dashboard.html">
-        <span class="brand-name">Creator<span>Hub</span></span>
-      </a>
     </div>
 
-    <div class="nav">
-      <a href="cart.html">Cart</a>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="subscription.html">Subscription</a>
-      <a href="wallet.html">Wallet</a>
-      <a href="my-orders.html">Order</a>
-      <a id="loginBtn" href="login.html" class="login-btn">Login</a>
-    </div>
+    <a href="index.html">
+      <span class="brand-name">Creator<span>Hub</span></span>
+    </a>
   </div>
 
-  <div class="main">
-    
-    <div class="hero">
-      <div class="hero-title">Discover Premium <span>Ebooks</span> From Top Digital Creators</div>
-      <div class="hero-desc">Buy premium ebooks with secure checkout, live order tracking, automated fulfillment, and instant access through the CreatorHub marketplace ecosystem.</div>
-      <div class="hero-actions">
-        <a href="#books" class="hero-btn primary">Browse Marketplace</a>
-        <a href="my-orders.html" class="hero-btn secondary">Track Your Order</a>
-      </div>
-    </div>
-
-    <div class="search-container">
-      <div class="search-wrapper">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="homepageSearch" class="search-input" placeholder="Search premium ebooks by title, author name or category keywords..." oninput="handleSearchFilter()">
-      </div>
-    </div>
-
-    <div id="books" class="section">
-      <div class="section-title">Featured Collection</div>
-      <div class="section-desc">Browse latest premium ebooks uploaded by creators.</div>
-      
-      <div class="filters">
-        <button class="filter-btn filter-active" onclick="filterBooks('all',this)">All Books</button>
-        <button class="filter-btn" onclick="filterBooks('trending',this)">Trending</button>
-        <button class="filter-btn" onclick="filterBooks('high',this)">High Rated</button>
-        <button class="filter-btn" onclick="filterBooks('low',this)">Budget Reads</button>
-      </div>
-
-      <div id="booksGrid" class="books-grid">
-        <div class="skeleton-grid">
-          <div class="skeleton-card"></div>
-          <div class="skeleton-card"></div>
-          <div class="skeleton-card"></div>
-          <div class="skeleton-card"></div>
-          <div class="skeleton-card"></div>
-        </div>
-      </div>
-    </div>
-
-    <div id="features" class="section">
-      <div class="section-title">Why Readers Love CreatorHub</div>
-      <div class="section-desc">A premium ebook buying experience with secure payments, live tracking, fulfillment systems, and trusted creators.</div>
-      
-      <div class="features">
-        <div class="feature">
-          <div class="feature-icon">⚡</div>
-          <h3>Instant Checkout</h3>
-          <p>Fast and secure payments powered by Cashfree payment systems.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">📦</div>
-          <h3>Print & Delivery</h3>
-          <p>Automatic printing and nationwide delivery powered through fulfillment systems.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">🚚</div>
-          <h3>Live Tracking</h3>
-          <p>Track printing, packaging, courier updates, and deliveries in real-time.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">🔒</div>
-          <h3>Secure Platform</h3>
-          <p>Protected transactions, encrypted systems, and trusted marketplace infrastructure.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">📚</div>
-          <h3>Massive Collection</h3>
-          <p>Explore a growing collection of premium ebooks from creators and experts.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">🎯</div>
-          <h3>Personalized Discovery</h3>
-          <p>Find trending and recommended ebooks tailored to your interests.</p>
-        </div>
-      </div>
-    </div>
-
+  <div class="nav">
+    <a href="cart.html">Cart</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="subscription.html">Subscription</a>
+    <a href="wallet.html">Wallet</a>
+    <a href="my-orders.html">Order</a>
+    <a id="loginBtn" href="login.html" class="login-btn">Login</a>
   </div>
+</div>
 
-  <div id="footerContainer"></div>
+<div class="main">
 
-  <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec";
+  <section class="hero">
+    <div class="hero-title">Discover Premium <span>Ebooks</span> From Top Digital Creators</div>
+    <div class="hero-desc">Buy premium ebooks with secure checkout, live order tracking, automated fulfillment, and instant access through the CreatorHub marketplace ecosystem.</div>
+    <div class="hero-actions">
+      <a href="#books" class="hero-btn primary">Browse Marketplace</a>
+      <a href="my-orders.html" class="hero-btn secondary">Track Your Order</a>
+    </div>
+  </section>
 
-    // GLOBAL CACHE STORAGE FOR FILTERS
-    window.MASTER_CATALOG_POOL = [];
-    window.CURRENT_ACTIVE_FILTER_TYPE = "all";
+  <section class="search-container">
+    <div class="search-wrapper">
+      <span class="search-icon">Search</span>
+      <input type="text" id="homepageSearch" class="search-input" placeholder="Search premium ebooks by title, author name or category..." oninput="handleSearchFilter()">
+    </div>
+  </section>
 
-    function driveImage(url){
-      if(!url) return "";
-      if(url.includes("uc?id=")){
-        let id = url.split("id=")[1].split("&")[0];
-        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
-      }
-      if(url.includes("/d/")){
-        let id = url.split("/d/")[1].split("/")[0];
-        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
-      }
-      return url;
+  <section id="books" class="section">
+    <div class="section-title">Featured Collection</div>
+    <div class="section-desc">Browse latest premium ebooks uploaded by creators.</div>
+
+    <div class="filters">
+      <button class="filter-btn filter-active" onclick="filterBooks('all',this)">All Books</button>
+      <button class="filter-btn" onclick="filterBooks('trending',this)">Trending</button>
+      <button class="filter-btn" onclick="filterBooks('high',this)">High Rated</button>
+      <button class="filter-btn" onclick="filterBooks('low',this)">Budget Reads</button>
+    </div>
+
+    <div id="booksGrid" class="books-grid">
+      <div class="empty">Loading ebooks...</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title">Why Readers Love CreatorHub</div>
+    <div class="section-desc">A premium ebook buying experience with secure payments, live tracking and trusted creators.</div>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">1</div>
+        <h3>Instant Checkout</h3>
+        <p>Fast and secure payments with a simple buying experience.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">2</div>
+        <h3>Digital Access</h3>
+        <p>Access your ebooks and resources through your CreatorHub account.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">3</div>
+        <h3>Trusted Creators</h3>
+        <p>Explore premium ebooks from creators, experts and digital sellers.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec";
+
+window.MASTER_CATALOG_POOL = [];
+window.CURRENT_ACTIVE_FILTER_TYPE = "all";
+
+function driveImage(url){
+  if(!url) return "";
+
+  if(url.includes("ui-avatars.com")){
+    return url;
+  }
+
+  if(url.includes("uc?id=")){
+    let id = url.split("id=")[1].split("&")[0];
+    return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+  }
+
+  if(url.includes("/d/")){
+    let id = url.split("/d/")[1].split("/")[0];
+    return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+  }
+
+  return url;
+}
+
+function getUserFromStorage(){
+  let userText =
+    localStorage.getItem("user") ||
+    localStorage.getItem("currentUser") ||
+    localStorage.getItem("creatorhub_user");
+
+  let user = {};
+
+  if(userText){
+    try{
+      user = JSON.parse(userText) || {};
+    }catch(e){
+      user = {};
+    }
+  }
+
+  return {
+    id: user.id || "",
+    email: user.email || localStorage.getItem("user_email") || "",
+    name: user.name || localStorage.getItem("user_name") || "CreatorHub User",
+    token: user.token || localStorage.getItem("user_token") || localStorage.getItem("token") || "",
+    profile_image:
+      user.profile_image ||
+      localStorage.getItem("user_image") ||
+      localStorage.getItem("profile_image") ||
+      ""
+  };
+}
+
+function updateLoginUI(){
+  let loginBtn = document.getElementById("loginBtn");
+  let profileWrap = document.getElementById("profileWrap");
+
+  let user = getUserFromStorage();
+
+  let isLoggedIn =
+    localStorage.getItem("isLoggedIn") === "true" ||
+    localStorage.getItem("login") === "true" ||
+    localStorage.getItem("loggedIn") === "true" ||
+    user.token ||
+    user.email;
+
+  if(isLoggedIn){
+    loginBtn.style.display = "none";
+    profileWrap.style.display = "flex";
+
+    let avatar =
+      user.profile_image ||
+      "https://ui-avatars.com/api/?name=" +
+      encodeURIComponent(user.name || "CreatorHub User") +
+      "&background=2f62e9&color=fff";
+
+    document.getElementById("profileImage").src = driveImage(avatar);
+    document.getElementById("menuProfileImage").src = driveImage(avatar);
+    document.getElementById("menuName").innerText = user.name || "CreatorHub User";
+    document.getElementById("menuEmail").innerText = user.email || "";
+  }else{
+    loginBtn.style.display = "inline-flex";
+    profileWrap.style.display = "none";
+  }
+}
+
+function toggleProfileMenu(){
+  document.getElementById("profileMenu").classList.toggle("show");
+}
+
+window.addEventListener("click",function(e){
+  let wrap = document.getElementById("profileWrap");
+  let menu = document.getElementById("profileMenu");
+
+  if(wrap && menu && !wrap.contains(e.target)){
+    menu.classList.remove("show");
+  }
+});
+
+function logout(){
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("login");
+  localStorage.removeItem("loggedIn");
+  localStorage.removeItem("user_email");
+  localStorage.removeItem("user_name");
+  localStorage.removeItem("user_token");
+  localStorage.removeItem("token");
+  localStorage.removeItem("user_image");
+  localStorage.removeItem("profile_image");
+  localStorage.removeItem("user");
+  localStorage.removeItem("currentUser");
+  localStorage.removeItem("creatorhub_user");
+
+  window.location.href = "login.html";
+}
+
+async function loadBooks(){
+  let grid = document.getElementById("booksGrid");
+
+  try{
+    let res = await fetch(API_URL + "?action=products");
+    let data = await res.json();
+
+    if(!data.success || !data.products || !data.products.length){
+      grid.innerHTML = "<div class='empty'>No ebooks found</div>";
+      return;
     }
 
-    function toggleProfileMenu(){
-      document.getElementById("profileMenu").classList.toggle("show");
-    }
+    window.MASTER_CATALOG_POOL = data.products.reverse();
+    renderBooks(window.MASTER_CATALOG_POOL);
+  }catch(err){
+    grid.innerHTML = "<div class='empty'>Failed to load ebooks</div>";
+  }
+}
 
-    window.addEventListener("click", function(e){
-      let wrap = document.getElementById("profileWrap");
-      if(wrap && !wrap.contains(e.target)){
-        document.getElementById("profileMenu").classList.remove("show");
-      }
+function renderBooks(books){
+  let grid = document.getElementById("booksGrid");
+  grid.innerHTML = "";
+
+  if(!books || books.length === 0){
+    grid.innerHTML = "<div class='empty'>No books match your search</div>";
+    return;
+  }
+
+  books.forEach(book=>{
+    grid.innerHTML += `
+      <div class="book" onclick="window.location.href='book.html?id=${book.id || ""}'">
+        <img class="book-cover" src="${driveImage(book.front_cover || book.cover || "")}" loading="lazy" alt="Book Cover">
+        <div class="book-content">
+          <div class="book-title">${book.title || "Untitled"}</div>
+          <div class="book-author">by ${book.author || "Unknown"}</div>
+          <div class="book-price">₹${Number(book.price || 0)}</div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function handleSearchFilter(){
+  let searchToken = document.getElementById("homepageSearch").value.toLowerCase().trim();
+  let books = window.MASTER_CATALOG_POOL || [];
+
+  if(window.CURRENT_ACTIVE_FILTER_TYPE === "trending"){
+    books = books.filter(b => Number(b.price || 0) >= 300);
+  }
+
+  if(window.CURRENT_ACTIVE_FILTER_TYPE === "high"){
+    books = books.filter(b => String(b.title || "").length > 15);
+  }
+
+  if(window.CURRENT_ACTIVE_FILTER_TYPE === "low"){
+    books = books.filter(b => Number(b.price || 0) < 300);
+  }
+
+  if(searchToken){
+    books = books.filter(book=>{
+      return (
+        String(book.title || "").toLowerCase().includes(searchToken) ||
+        String(book.author || "").toLowerCase().includes(searchToken) ||
+        String(book.category || "").toLowerCase().includes(searchToken)
+      );
     });
+  }
 
-    function logout(){
-      localStorage.clear();
-      window.location.href = "login.html";
-    }
+  renderBooks(books);
+}
 
-    function updateLoginUI(){
-      let token = localStorage.getItem("user_token");
-      let loginBtn = document.getElementById("loginBtn");
-      let profileWrap = document.getElementById("profileWrap");
-      let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
-      let email = localStorage.getItem("creatorhub_profile_email");
-      
-      if(token){
-        loginBtn.style.display = "none";
-        profileWrap.style.display = "flex";
+function filterBooks(type,button){
+  document.querySelectorAll(".filter-btn").forEach(btn=>{
+    btn.classList.remove("filter-active");
+  });
 
-        if(cachedUser && email){
-          try {
-            let data = JSON.parse(cachedUser)[email];
-            if(data && data.profile_image){
-              document.getElementById("profileImage").src = driveImage(data.profile_image);
-              document.getElementById("menuProfileImage").src = driveImage(data.profile_image);
-              document.getElementById("menuName").innerText = data.name || "CreatorHub User";
-              document.getElementById("menuEmail").innerText = data.email || email;
-            }
-          } catch(e) { console.log("Cache parsing skipped"); }
-        }
-      } else {
-        loginBtn.style.display = "inline-block";
-        profileWrap.style.display = "none";
-      }
-    }
+  button.classList.add("filter-active");
+  window.CURRENT_ACTIVE_FILTER_TYPE = type;
+  handleSearchFilter();
+}
 
-    /* ORIGINAL EXTREMELY FAST LOADING PRODUCT PIPELINE */
-    async function loadBooks(){
-      try{
-        let res = await fetch(API_URL + "?action=products");
-        let data = await res.json();
-        let grid = document.getElementById("booksGrid");
+updateLoginUI();
+loadBooks();
+</script>
 
-        if(!data.success || !data.products){
-          grid.innerHTML = "<div style='grid-column:1/-1; text-align:center; color:#63728a; padding:40px 0; font-weight:700;'>No ebooks found</div>";
-          return;
-        }
-
-        // Filter and update globally cached tracking master collection pools safely
-        window.MASTER_CATALOG_POOL = data.products.reverse();
-        renderBooks(window.MASTER_CATALOG_POOL);
-      }catch(err){
-        document.getElementById("booksGrid").innerHTML = "<div style='grid-column:1/-1; text-align:center; color:#ef4444; padding:40px 0; font-weight:700;'>Failed to load ebooks</div>";
-      }
-    }
-
-    function renderBooks(books){
-      let grid = document.getElementById("booksGrid");
-      grid.innerHTML = "";
-
-      if(books.length === 0){
-        grid.innerHTML = "<div style='grid-column:1/-1; text-align:center; color:#63728a; padding:40px 0; font-weight:700;'>No books match your criteria</div>";
-        return;
-      }
-
-      books.forEach(book=>{
-        grid.innerHTML += `
-          <div class="book" onclick="window.location.href='book.html?id=${book.id}'">
-            <img class="book-cover" src="${driveImage(book.front_cover)}" loading="lazy" alt="Cover">
-            <div class="book-content">
-              <div class="book-title">${book.title || "Untitled"}</div>
-              <div class="book-author">by ${book.author || "Unknown"}</div>
-              <div class="book-price">₹${Number(book.price||0)}</div>
-            </div>
-          </div>
-        `;
-      });
-    }
-
-    /* REAL-TIME ADAPTIVE SEARCH FILTER LOGIC SYSTEM */
-    function handleSearchFilter() {
-      const searchToken = document.getElementById("homepageSearch").value.toLowerCase().trim();
-      let structuralBaseCollection = window.MASTER_CATALOG_POOL || [];
-
-      // Phase 1: Apply type category constraints first
-      if(window.CURRENT_ACTIVE_FILTER_TYPE === "trending") {
-        structuralBaseCollection = structuralBaseCollection.filter(b => Number(b.price||0) >= 300);
-      } else if(window.CURRENT_ACTIVE_FILTER_TYPE === "high") {
-        structuralBaseCollection = structuralBaseCollection.filter(b => String(b.title||"").length > 15);
-      } else if(window.CURRENT_ACTIVE_FILTER_TYPE === "low") {
-        structuralBaseCollection = structuralBaseCollection.filter(b => Number(b.price||0) < 300);
-      }
-
-      // Phase 2: Intersect text specifications mapping loops variables
-      let multiFilteredResults = structuralBaseCollection.filter(bookItem => {
-        return (
-          (bookItem.title && bookItem.title.toLowerCase().includes(searchToken)) ||
-          (bookItem.author && bookItem.author.toLowerCase().includes(searchToken)) ||
-          (bookItem.category && bookItem.category.toLowerCase().includes(searchToken))
-        );
-      });
-
-      renderBooks(multiFilteredResults);
-    }
-
-    function filterBooks(type, button){
-      document.querySelectorAll(".filter-btn").forEach(btn=>{
-        btn.classList.remove("filter-active");
-      });
-      button.classList.add("filter-active");
-
-      window.CURRENT_ACTIVE_FILTER_TYPE = type;
-      handleSearchFilter(); // Re-trigger mapping to intersect search inputs safely
-    }
-
-    /* ASYNC FOOTER HTML STREAM INJECTION LOADER */
-    async function injectExternalFooter(){
-      try {
-        let footerRes = await fetch("footer.html");
-        if(footerRes.ok) {
-          let footerHTML = await footerRes.text();
-          document.getElementById("footerContainer").innerHTML = footerHTML;
-        } else {
-          throw new Error("Footer reference path invalid");
-        }
-      } catch(e) {
-        console.error("External footer stream injection dropped fallback trace:", e);
-      }
-    }
-
-    // Trigger central script runtime paths execution
-    updateLoginUI();
-    loadBooks();
-    injectExternalFooter();
-  </script>
 </body>
 </html>
