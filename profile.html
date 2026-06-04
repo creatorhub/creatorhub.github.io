@@ -4,54 +4,56 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CreatorHub Profile</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
 body{min-height:100vh;background:#f6f8fc;color:#101828;display:flex;overflow:hidden}
 a{text-decoration:none;color:inherit}
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
 
-.sidebar{width:338px;min-height:100vh;background:#0d1628;color:#fff;padding:30px 23px;position:fixed;left:0;top:0;bottom:0;overflow-y:auto}
-.brand{display:flex;align-items:center;gap:14px;margin-bottom:30px}
-.brand-mark{width:52px;height:52px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#21b7e8,#1d72f3);font-size:26px;font-weight:950}
-.brand-name{font-size:25px;font-weight:950}
-.menu{display:grid;gap:16px;margin-top:20px}
-.menu a{min-height:54px;border-radius:9px;display:flex;align-items:center;gap:13px;padding:0 18px;color:#e7edf8;font-size:20px;font-weight:850;border:1px solid transparent}
+.sidebar{width:320px;min-height:100vh;background:#0d1628;color:#fff;padding:28px 22px;position:fixed;left:0;top:0;bottom:0;overflow-y:auto}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+.brand-mark{width:50px;height:50px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#21b7e8,#1d72f3);font-size:23px;font-weight:900}
+.brand-name{font-size:25px;font-weight:900}
+.menu{display:grid;gap:12px;margin-top:20px}
+.menu a{min-height:50px;border-radius:9px;display:flex;align-items:center;padding:0 16px;color:#e7edf8;font-size:16px;font-weight:800;border:1px solid transparent}
 .menu a:hover,.menu a.active{background:#182a64;border-color:#3157c9}
 
-.main{margin-left:338px;width:calc(100% - 338px);height:100vh;overflow-y:auto;background:#f6f8fc}
-.topbar{min-height:114px;background:#fff;border-bottom:1px solid #dce4f0;padding:26px 34px;display:flex;align-items:center;justify-content:space-between;gap:20px;position:sticky;top:0;z-index:10}
-.title h1{font-size:43px;line-height:1;font-weight:950;letter-spacing:-.02em}
-.title p{margin-top:8px;color:#63728a;font-size:17px}
-.actions{display:flex;gap:13px;flex-wrap:wrap;justify-content:flex-end}
-.btn{min-height:54px;border:0;border-radius:9px;padding:0 20px;display:inline-flex;align-items:center;justify-content:center;gap:9px;font-size:18px;font-weight:900}
+.main{margin-left:320px;width:calc(100% - 320px);height:100vh;overflow-y:auto;background:#f6f8fc}
+.topbar{min-height:104px;background:#fff;border-bottom:1px solid #dce4f0;padding:24px 34px;display:flex;align-items:center;justify-content:space-between;gap:20px;position:sticky;top:0;z-index:10}
+.title h1{font-size:40px;line-height:1;font-weight:900;color:#06142c}
+.title p{margin-top:8px;color:#63728a;font-size:16px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+.btn{min-height:50px;border:0;border-radius:9px;padding:0 18px;display:inline-flex;align-items:center;justify-content:center;font-size:15px;font-weight:900}
 .btn:disabled{opacity:.7;cursor:wait}
 .btn-primary{background:#2f62e9;color:#fff}
-.btn-primary:hover{background:#2455cf}
 .btn-light{background:#fff;color:#101828;border:1px solid #d9e3f0}
-.btn-light:hover{border-color:#3157c9}
 
-.content{padding:36px 34px;display:grid;gap:28px}
+.content{padding:34px;display:grid;gap:28px}
 .notice{display:none;background:#fff7df;color:#8a5b00;border:1px solid #f2d37b;border-radius:9px;padding:14px 16px;font-weight:800}
+.notice.ok{background:#dcfce7;color:#166534;border-color:#bbf7d0}
+
 .hero{background:#fff;border:1px solid #dce4f0;border-radius:9px;box-shadow:0 18px 45px rgba(16,24,40,.08);overflow:hidden}
-.cover{min-height:300px;background:linear-gradient(110deg,rgba(37,99,235,.92),rgba(20,148,152,.9)),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1400' height='420' viewBox='0 0 1400 420'%3E%3Crect width='1400' height='420' fill='%230f172a'/%3E%3Cpath fill='%23fff' fill-opacity='.09' d='M0 280c150-80 290-84 450-14s331 72 520-11 312-78 430-20v185H0z'/%3E%3Ccircle cx='180' cy='70' r='92' fill='%23fff' fill-opacity='.08'/%3E%3Ccircle cx='1060' cy='88' r='138' fill='%23fff' fill-opacity='.08'/%3E%3C/svg%3E");background-size:cover;background-position:center;position:relative}
+.cover{min-height:280px;background:linear-gradient(110deg,rgba(37,99,235,.92),rgba(20,148,152,.9));background-size:cover;background-position:center;position:relative}
 .cover-tools{position:absolute;right:22px;bottom:22px;display:flex;gap:11px;flex-wrap:wrap;justify-content:flex-end}
-.file-btn{min-height:50px;border-radius:9px;background:#101c2f;color:#fff;border:1px solid rgba(255,255,255,.16);padding:0 17px;display:inline-flex;align-items:center;gap:8px;font-weight:900}
+.file-btn{min-height:48px;border-radius:9px;background:#101c2f;color:#fff;border:1px solid rgba(255,255,255,.16);padding:0 16px;display:inline-flex;align-items:center;font-weight:900}
 .file-btn input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+
 .identity{padding:0 30px 30px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:24px;align-items:end}
-.avatar{width:150px;height:150px;border-radius:50%;object-fit:cover;background:#d9e1ec;border:6px solid #fff;margin-top:-74px;box-shadow:0 18px 38px rgba(16,24,40,.18);position:relative;z-index:2}
-.identity h2{font-size:40px;line-height:1;font-weight:950;color:#06142c;overflow-wrap:anywhere}
-.identity p{margin-top:12px;color:#63728a;font-size:19px;overflow-wrap:anywhere}
+.avatar{width:145px;height:145px;border-radius:50%;object-fit:cover;background:#d9e1ec;border:6px solid #fff;margin-top:-72px;box-shadow:0 18px 38px rgba(16,24,40,.18);position:relative;z-index:2}
+.identity h2{font-size:38px;line-height:1;font-weight:900;color:#06142c;overflow-wrap:anywhere}
+.identity p{margin-top:12px;color:#63728a;font-size:18px;overflow-wrap:anywhere}
 .chips{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
-.chip{min-height:36px;border-radius:999px;padding:0 14px;display:inline-flex;align-items:center;background:#eef3f9;color:#1955d6;font-size:14px;font-weight:950}
+.chip{min-height:34px;border-radius:999px;padding:0 13px;display:inline-flex;align-items:center;background:#eef3f9;color:#1955d6;font-size:13px;font-weight:900}
 .chip.green{background:#e7f8ef;color:#0f9f57}
 
-.grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(360px,.88fr);gap:28px;align-items:start}
+.grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(340px,.88fr);gap:28px;align-items:start}
 .card{background:#fff;border:1px solid #dce4f0;border-radius:9px;box-shadow:0 18px 45px rgba(16,24,40,.08);padding:25px}
-.card h3{color:#06142c;font-size:23px;font-weight:950;margin-bottom:6px}
-.card p{color:#63728a;font-size:15px;margin-bottom:22px}
+.card h3{color:#06142c;font-size:22px;font-weight:900;margin-bottom:6px}
+.card p{color:#63728a;font-size:15px;margin-bottom:22px;line-height:1.6}
+
 .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
 .field{display:grid;gap:8px}
 .field.full{grid-column:1/-1}
@@ -61,9 +63,9 @@ textarea{min-height:122px;resize:vertical;line-height:1.5}
 input:focus,textarea:focus,select:focus{border-color:#3157c9;box-shadow:0 0 0 4px rgba(49,87,201,.12)}
 
 .stat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.stat{min-height:130px;background:#eef3f9;border:1px solid #dce4f0;border-radius:9px;padding:18px;display:grid;align-content:space-between}
-.stat span{color:#5d6d85;font-size:14px;font-weight:950;text-transform:uppercase}
-.stat strong{color:#06142c;font-size:32px;font-weight:950}
+.stat{min-height:124px;background:#eef3f9;border:1px solid #dce4f0;border-radius:9px;padding:18px;display:grid;align-content:space-between}
+.stat span{color:#5d6d85;font-size:13px;font-weight:900;text-transform:uppercase}
+.stat strong{color:#06142c;font-size:30px;font-weight:900}
 .mini-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:18px}
 
 .link-preview{display:grid;gap:12px}
@@ -71,16 +73,15 @@ input:focus,textarea:focus,select:focus{border-color:#3157c9;box-shadow:0 0 0 4p
 .link-item strong{color:#06142c}
 .link-item span{color:#63728a;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}
 
-@media(max-width:1220px){
-.grid{grid-template-columns:1fr}
-}
+.footer-slot{padding:0 34px 34px}
+
+@media(max-width:1220px){.grid{grid-template-columns:1fr}}
 @media(max-width:900px){
 body{display:block;overflow:auto}
 .sidebar{position:static;width:100%;min-height:auto}
 .menu{grid-template-columns:repeat(2,minmax(0,1fr))}
 .main{margin-left:0;width:100%;height:auto}
 .topbar{align-items:flex-start;flex-direction:column}
-.actions{justify-content:flex-start}
 .identity{grid-template-columns:1fr}
 .chips{justify-content:flex-start}
 }
@@ -98,24 +99,23 @@ body{display:block;overflow:auto}
 <body>
 
 <aside class="sidebar">
-  <a class="brand" href="./dashboard.html">
+  <a class="brand" href="index.html">
     <span class="brand-mark">CH</span>
     <span class="brand-name">CreatorHub</span>
   </a>
 
   <nav class="menu">
-    <a href="./index.html">Home</a>
-    <a href="./dashboard.html">Dashboard</a>
-    <a href="./products.html">Products</a>
-    <a href="./orders.html">Orders</a>
-    <a href="./wallet.html">Wallet</a>
-    <a href="./reviews.html">Reviews</a>
-    <a class="active" href="./profile.html">Profile</a>
+    <a href="index.html">Home</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="products.html">Products</a>
+    <a href="orders.html">Orders</a>
+    <a href="wallet.html">Wallet</a>
+    <a href="reviews.html">Reviews</a>
+    <a class="active" href="profile.html">Profile</a>
   </nav>
 </aside>
 
 <main class="main">
-
 <header class="topbar">
   <div class="title">
     <h1>Creator Profile</h1>
@@ -123,25 +123,24 @@ body{display:block;overflow:auto}
   </div>
 
   <div class="actions">
-    <button class="btn btn-light" id="loadBtn" type="button">↻ Load Profile</button>
-    <button class="btn btn-primary" id="saveBtn" type="button">✓ Save Changes</button>
+    <button class="btn btn-light" id="loadBtn" type="button">Load Profile</button>
+    <button class="btn btn-primary" id="saveBtn" type="button">Save Changes</button>
   </div>
 </header>
 
 <div class="content">
-
 <div class="notice" id="notice"></div>
 
 <section class="hero">
   <div class="cover" id="coverPreview">
     <div class="cover-tools">
-      <label class="file-btn">+ Cover<input id="coverImage" type="file" accept="image/*"></label>
-      <label class="file-btn">▧ Avatar<input id="profileImage" type="file" accept="image/*"></label>
+      <label class="file-btn">Cover<input id="coverImage" type="file" accept="image/*"></label>
+      <label class="file-btn">Avatar<input id="profileImage" type="file" accept="image/*"></label>
     </div>
   </div>
 
   <div class="identity">
-    <img class="avatar" id="avatarPreview" alt="Creator profile image" src="">
+    <img class="avatar" id="avatarPreview" alt="Creator profile image">
     <div>
       <h2 id="previewName">Your Creator Name</h2>
       <p id="previewEmail">Enter email and load profile</p>
@@ -161,48 +160,48 @@ body{display:block;overflow:auto}
 
     <div class="form-grid">
       <div class="field">
-        <label for="email">Email</label>
-        <input id="email" name="email" type="email" autocomplete="email" required placeholder="creator@email.com">
+        <label>Email</label>
+        <input id="email" type="email" required placeholder="creator@email.com">
       </div>
 
       <div class="field">
-        <label for="name">Name</label>
-        <input id="name" name="name" type="text" autocomplete="name" placeholder="Creator name">
+        <label>Name</label>
+        <input id="name" type="text" placeholder="Creator name">
       </div>
 
       <div class="field full">
-        <label for="bio">Bio</label>
-        <textarea id="bio" name="bio" maxlength="500" placeholder="Tell your audience what you create."></textarea>
+        <label>Bio</label>
+        <textarea id="bio" maxlength="500" placeholder="Tell your audience what you create."></textarea>
       </div>
 
       <div class="field">
-        <label for="phone">Phone</label>
-        <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+91">
+        <label>Phone</label>
+        <input id="phone" type="tel" placeholder="+91">
       </div>
 
       <div class="field">
-        <label for="website">Website</label>
-        <input id="website" name="website" type="url" placeholder="https://">
+        <label>Website</label>
+        <input id="website" type="url" placeholder="https://">
       </div>
 
       <div class="field">
-        <label for="country">Country</label>
-        <input id="country" name="country" type="text" value="India">
+        <label>Country</label>
+        <input id="country" type="text" value="India">
       </div>
 
       <div class="field">
-        <label for="state">State</label>
-        <input id="state" name="state" type="text" placeholder="State">
+        <label>State</label>
+        <input id="state" type="text" placeholder="State">
       </div>
 
       <div class="field">
-        <label for="city">City</label>
-        <input id="city" name="city" type="text" placeholder="City">
+        <label>City</label>
+        <input id="city" type="text" placeholder="City">
       </div>
 
       <div class="field">
-        <label for="creatorLevel">Creator Level</label>
-        <select id="creatorLevel" name="creator_level">
+        <label>Creator Level</label>
+        <select id="creatorLevel">
           <option>Beginner</option>
           <option>Rising Creator</option>
           <option>Pro Creator</option>
@@ -211,16 +210,16 @@ body{display:block;overflow:auto}
       </div>
 
       <div class="field">
-        <label for="verified">Verified</label>
-        <select id="verified" name="verified">
+        <label>Verified</label>
+        <select id="verified">
           <option value="false">false</option>
           <option value="true">true</option>
         </select>
       </div>
 
       <div class="field">
-        <label for="status">Status</label>
-        <select id="status" name="status">
+        <label>Status</label>
+        <select id="status">
           <option value="active">active</option>
           <option value="paused">paused</option>
           <option value="blocked">blocked</option>
@@ -234,17 +233,17 @@ body{display:block;overflow:auto}
     <p>Stats preview and editable backend fields.</p>
 
     <div class="stat-grid">
-      <div class="stat"><span>Wallet Balance</span><strong id="walletView">₹0</strong></div>
-      <div class="stat"><span>Total Profit</span><strong id="profitView">₹0</strong></div>
+      <div class="stat"><span>Wallet Balance</span><strong id="walletView">Rs 0</strong></div>
+      <div class="stat"><span>Total Profit</span><strong id="profitView">Rs 0</strong></div>
       <div class="stat"><span>Total Books</span><strong id="booksView">0</strong></div>
       <div class="stat"><span>Total Orders</span><strong id="ordersView">0</strong></div>
     </div>
 
     <div class="mini-form">
-      <div class="field"><label for="walletBalance">Wallet</label><input id="walletBalance" name="wallet_balance" type="number" min="0" step="0.01"></div>
-      <div class="field"><label for="totalProfit">Profit</label><input id="totalProfit" name="total_profit" type="number" min="0" step="0.01"></div>
-      <div class="field"><label for="totalBooks">Books</label><input id="totalBooks" name="total_books" type="number" min="0" step="1"></div>
-      <div class="field"><label for="totalOrders">Orders</label><input id="totalOrders" name="total_orders" type="number" min="0" step="1"></div>
+      <div class="field"><label>Wallet</label><input id="walletBalance" type="number" min="0" step="0.01"></div>
+      <div class="field"><label>Profit</label><input id="totalProfit" type="number" min="0" step="0.01"></div>
+      <div class="field"><label>Books</label><input id="totalBooks" type="number" min="0" step="1"></div>
+      <div class="field"><label>Orders</label><input id="totalOrders" type="number" min="0" step="1"></div>
     </div>
   </aside>
 </section>
@@ -255,10 +254,10 @@ body{display:block;overflow:auto}
     <p>Public social handles for the creator profile.</p>
 
     <div class="form-grid">
-      <div class="field"><label for="instagram">Instagram</label><input id="instagram" name="instagram" type="text" placeholder="@username"></div>
-      <div class="field"><label for="youtube">YouTube</label><input id="youtube" name="youtube" type="text" placeholder="Channel link or handle"></div>
-      <div class="field"><label for="telegram">Telegram</label><input id="telegram" name="telegram" type="text" placeholder="@username"></div>
-      <div class="field"><label for="twitter">Twitter / X</label><input id="twitter" name="twitter" type="text" placeholder="@username"></div>
+      <div class="field"><label>Instagram</label><input id="instagram" type="text" placeholder="@username"></div>
+      <div class="field"><label>YouTube</label><input id="youtube" type="text" placeholder="Channel link or handle"></div>
+      <div class="field"><label>Telegram</label><input id="telegram" type="text" placeholder="@username"></div>
+      <div class="field"><label>Twitter / X</label><input id="twitter" type="text" placeholder="@username"></div>
     </div>
   </section>
 
@@ -275,87 +274,141 @@ body{display:block;overflow:auto}
     </div>
   </aside>
 </section>
-
 </div>
+
+<div class="footer-slot" id="footerContainer"></div>
 </main>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
+const PROFILE_API = "https://script.google.com/macros/s/AKfycbixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
+const AUTH_API = "https://script.google.com/macros/s/AKfycbwg4Xxd1he7OWkjMgeaXhEtCG2mvW9MtceFA-vcKykLB_LODR4_RtIi7wWbv9sKiy1V/exec";
+
 const EMAIL_KEY = "creatorhub_profile_email";
 const CACHE_KEY = "creatorhub_profile_cache_v6";
 
-const DEFAULT_AVATAR = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Crect width='260' height='260' rx='130' fill='%23d9e1ec'/%3E%3Ccircle cx='130' cy='96' r='45' fill='%2394a3b8'/%3E%3Cpath d='M48 232c12-58 49-87 82-87s70 29 82 87' fill='%2394a3b8'/%3E%3C/svg%3E";
-const DEFAULT_COVER = `linear-gradient(110deg, rgba(37,99,235,.92), rgba(20,148,152,.9))`;
+const DEFAULT_AVATAR = "https://ui-avatars.com/api/?name=CreatorHub+User&background=2f62e9&color=fff";
+const DEFAULT_COVER = "linear-gradient(110deg, rgba(37,99,235,.92), rgba(20,148,152,.9))";
 
 const state = {
-  profileImageUrl : "",
-  coverImageUrl   : "",
-  savedProfileUrl : "",
-  savedCoverUrl   : ""
+  profileImageUrl: "",
+  coverImageUrl: "",
+  savedProfileUrl: "",
+  savedCoverUrl: ""
 };
 
-const textFields = [
-  "email", "name", "bio", "phone", "website", "instagram", "youtube", "telegram", "twitter", "country", "state", "city", "status"
+const fields = [
+  "email","name","bio","phone","website","instagram","youtube","telegram","twitter","country","state","city","status"
 ];
 
 const $ = id => document.getElementById(id);
 
-function setStatus(text){ $("pageStatus").innerText = text || ""; }
-function showNotice(text){
+function setStatus(text){
+  $("pageStatus").innerText = text || "";
+}
+
+function showNotice(text,type){
   $("notice").innerText = text || "";
+  $("notice").className = type === "ok" ? "notice ok" : "notice";
   $("notice").style.display = text ? "block" : "none";
 }
+
 function setBusy(flag){
   $("loadBtn").disabled = flag;
   $("saveBtn").disabled = flag;
 }
-function value(id){ return ($(id).value || "").trim(); }
-function formatMoney(v){ return "₹" + Number(v || 0).toLocaleString("en-IN"); }
-function formatNumber(v){ return Number(v || 0).toLocaleString("en-IN"); }
+
+function value(id){
+  return ($(id).value || "").trim();
+}
+
+function formatMoney(v){
+  return "Rs " + Number(v || 0).toLocaleString("en-IN");
+}
+
+function formatNumber(v){
+  return Number(v || 0).toLocaleString("en-IN");
+}
+
+function getLoggedUser(){
+  let userText =
+    localStorage.getItem("user") ||
+    localStorage.getItem("currentUser") ||
+    localStorage.getItem("creatorhub_user");
+
+  let user = {};
+
+  if(userText){
+    try{
+      user = JSON.parse(userText) || {};
+    }catch(e){
+      user = {};
+    }
+  }
+
+  return {
+    email: user.email || localStorage.getItem("user_email") || localStorage.getItem(EMAIL_KEY) || "",
+    name: user.name || localStorage.getItem("user_name") || "",
+    profile_image: user.profile_image || localStorage.getItem("user_image") || localStorage.getItem("profile_image") || "",
+    token: user.token || localStorage.getItem("user_token") || localStorage.getItem("token") || ""
+  };
+}
+
+function syncLoginStorage(user){
+  if(!user || !user.email) return;
+
+  const old = getLoggedUser();
+
+  const userData = {
+    email: user.email,
+    name: user.name || old.name || "CreatorHub User",
+    token: old.token || "",
+    profile_image: user.profile_image || old.profile_image || ""
+  };
+
+  localStorage.setItem("isLoggedIn","true");
+  localStorage.setItem("login","true");
+  localStorage.setItem("loggedIn","true");
+
+  localStorage.setItem("user_email",userData.email);
+  localStorage.setItem("user_name",userData.name);
+  localStorage.setItem("user_token",userData.token);
+  localStorage.setItem("token",userData.token);
+
+  localStorage.setItem("user_image",userData.profile_image);
+  localStorage.setItem("profile_image",userData.profile_image);
+
+  localStorage.setItem("user",JSON.stringify(userData));
+  localStorage.setItem("currentUser",JSON.stringify(userData));
+  localStorage.setItem("creatorhub_user",JSON.stringify(userData));
+}
 
 function getDriveId(url){
   if(!url) return "";
   const text = String(url);
   const match = text.match(/[?&]id=([^&]+)/);
-  if(match && match[1]){ return match[1]; }
-  if(text.includes("/d/")){ return text.split("/d/")[1].split("/")[0]; }
+  if(match && match[1]) return match[1];
+  if(text.includes("/d/")) return text.split("/d/")[1].split("/")[0];
   return "";
 }
 
-function imageCandidates(url){
-  if(!url){ return [DEFAULT_AVATAR]; }
-  const text = String(url).trim();
-  if(text.startsWith("data:image")){ return [text, DEFAULT_AVATAR]; }
-  const id = getDriveId(text);
+function driveImage(url){
+  if(!url) return "";
+  if(url.includes("ui-avatars.com") || url.startsWith("data:image")) return url;
+
+  const id = getDriveId(url);
   if(id){
-    return [
-      "https://drive.google.com/thumbnail?id=" + id + "&sz=w1200",
-      "https://drive.google.com/uc?export=view&id=" + id,
-      text,
-      DEFAULT_AVATAR
-    ];
+    return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1200";
   }
-  return [text, DEFAULT_AVATAR];
+
+  return url;
 }
 
 function setAvatar(url){
-  const img = $("avatarPreview");
-  const list = imageCandidates(url);
-  let index = 0;
-  img.onerror = function(){
-    index++;
-    if(index < list.length){ img.src = list[index]; }
-    else{ img.onerror = null; img.src = DEFAULT_AVATAR; }
-  };
-  img.src = list[0];
+  $("avatarPreview").src = driveImage(url) || DEFAULT_AVATAR;
 }
 
 function setCover(url){
-  const cover = $("coverPreview");
-  if(!url){ cover.style.backgroundImage = DEFAULT_COVER; return; }
-  const id = getDriveId(url);
-  const finalUrl = id ? "https://drive.google.com/thumbnail?id=" + id + "&sz=w1600" : url;
-  cover.style.backgroundImage = `url("${finalUrl}")`;
+  $("coverPreview").style.backgroundImage = url ? `url("${driveImage(url)}")` : DEFAULT_COVER;
 }
 
 function readFileAsBase64(file){
@@ -371,33 +424,39 @@ function readCache(email){
   try{
     const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
     return cache[email] || null;
-  }catch(err){ return null; }
+  }catch(e){
+    return null;
+  }
 }
 
-function saveCache(email, user){
+function saveCache(email,user){
   try{
     const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
     cache[email] = user;
-    localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
-  }catch(err){}
+    localStorage.setItem(CACHE_KEY,JSON.stringify(cache));
+  }catch(e){}
 }
 
-/* BULLETPROOF CORS TUNNEL: Direct plain response handler fixes net::ERR_FAILED */
-async function fetchJSON(url, options){
-  try {
-    const response = await fetch(url, options || {});
-    // Extracting response directly as raw text payload to prevent internal CORS policy blocks
-    const rawTextData = await response.text(); 
-    return JSON.parse(rawTextData);
-  } catch(err) {
-    console.error("Connection trace log:", err);
-    throw err;
-  }
+async function getJSON(url){
+  const res = await fetch(url);
+  const text = await res.text();
+  return JSON.parse(text);
+}
+
+async function postJSON(url,payload){
+  const res = await fetch(url,{
+    method:"POST",
+    body:JSON.stringify(payload)
+  });
+
+  const text = await res.text();
+  return JSON.parse(text);
 }
 
 function updatePreview(){
   $("previewName").innerText = value("name") || "Your Creator Name";
   $("previewEmail").innerText = value("email") || "Enter email";
+
   $("levelChip").innerText = $("creatorLevel").value || "Beginner";
   $("statusChip").innerText = $("status").value || "active";
   $("verifiedChip").innerText = $("verified").value === "true" ? "Verified" : "Not verified";
@@ -416,12 +475,16 @@ function updatePreview(){
 
 function fillProfile(user){
   if(!user) return;
-  textFields.forEach(key => {
-    if($(key)){ $(key).value = user[key] ?? ""; }
+
+  fields.forEach(key=>{
+    if($(key)){
+      $(key).value = user[key] ?? "";
+    }
   });
 
   $("creatorLevel").value = user.creator_level || "Beginner";
-  $("verified").value = String(Boolean(user.verified));
+  $("verified").value = String(user.verified === true || user.verified === "true");
+
   $("walletBalance").value = user.wallet_balance || 0;
   $("totalProfit").value = user.total_profit || 0;
   $("totalBooks").value = user.total_books || 0;
@@ -430,20 +493,31 @@ function fillProfile(user){
   state.savedProfileUrl = user.profile_image || "";
   state.savedCoverUrl = user.cover_image || "";
 
-  if(!state.profileImageUrl) setAvatar(state.savedProfileUrl);
-  if(!state.coverImageUrl) setCover(state.savedCoverUrl);
+  if(!state.profileImageUrl){
+    setAvatar(state.savedProfileUrl);
+  }
+
+  if(!state.coverImageUrl){
+    setCover(state.savedCoverUrl);
+  }
 
   updatePreview();
 }
 
 function collectPayload(){
-  const payload = { action: "update_profile" };
-  textFields.forEach(key => {
-    if($(key)){ payload[key] = value(key); }
+  const payload = {
+    action:"update_profile"
+  };
+
+  fields.forEach(key=>{
+    if($(key)){
+      payload[key] = value(key);
+    }
   });
 
   payload.creator_level = $("creatorLevel").value;
   payload.verified = $("verified").value === "true";
+
   payload.wallet_balance = $("walletBalance").value || 0;
   payload.total_profit = $("totalProfit").value || 0;
   payload.total_books = $("totalBooks").value || 0;
@@ -456,72 +530,125 @@ function collectPayload(){
 }
 
 async function loadProfile(){
-  const email = value("email");
-  if(!email){ showNotice("Enter email first."); return; }
+  const email = value("email").toLowerCase();
+
+  if(!email){
+    showNotice("Enter email first.");
+    return;
+  }
+
   showNotice("");
   setBusy(true);
   setStatus("Loading profile...");
 
   const cached = readCache(email);
-  if(cached){ fillProfile(cached); }
+
+  if(cached){
+    fillProfile(cached);
+  }
 
   try{
-    const data = await fetchJSON(API_URL + "?action=profile&email=" + encodeURIComponent(email));
-    if(!data.success){ throw new Error(data.message); }
+    const data = await getJSON(PROFILE_API + "?action=profile&email=" + encodeURIComponent(email));
 
-    localStorage.setItem(EMAIL_KEY, email);
-    saveCache(email, data.user);
-    
+    if(!data.success){
+      throw new Error(data.message || "Profile not found");
+    }
+
+    localStorage.setItem(EMAIL_KEY,email);
+    saveCache(email,data.user);
+
     state.profileImageUrl = "";
     state.coverImageUrl = "";
 
     fillProfile(data.user);
-    showNotice(""); 
+    syncLoginStorage(data.user);
+
+    showNotice("Profile loaded successfully.","ok");
     setStatus("Profile loaded.");
   }catch(err){
-    showNotice("Unable to load live profile. Displaying cached structures.");
-    setStatus("Load failed.");
-  }finally{ setBusy(false); }
+    if(cached){
+      showNotice("Live load failed. Cached profile shown.");
+      setStatus("Cached profile loaded.");
+    }else{
+      showNotice("Profile not found. Fill details and save a new profile.");
+      setStatus("Ready to create profile.");
+    }
+  }finally{
+    setBusy(false);
+  }
 }
 
 async function saveProfile(){
   const payload = collectPayload();
-  if(!payload.email){ showNotice("Email required."); return; }
+  payload.email = String(payload.email || "").trim().toLowerCase();
+
+  if(!payload.email){
+    showNotice("Email required.");
+    return;
+  }
+
   showNotice("");
   setBusy(true);
   setStatus("Saving profile...");
 
   try{
-    const data = await fetchJSON(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(payload)
-    });
+    const data = await postJSON(PROFILE_API,payload);
 
-    if(!data.success){ throw new Error(data.message); }
+    if(!data.success){
+      throw new Error(data.message || "Save failed");
+    }
 
-    localStorage.setItem(EMAIL_KEY, payload.email);
+    const user = data.user || payload;
+
+    localStorage.setItem(EMAIL_KEY,payload.email);
+
     state.profileImageUrl = "";
     state.coverImageUrl = "";
 
-    saveCache(payload.email, data.user);
-    fillProfile(data.user);
+    saveCache(payload.email,user);
+    fillProfile(user);
+    syncLoginStorage(user);
+
+    if(user.profile_image){
+      postJSON(AUTH_API,{
+        action:"updateProfileImage",
+        email:payload.email,
+        profile_image:user.profile_image
+      }).catch(()=>{});
+    }
+
     setStatus("Profile saved.");
-    alert("Profile Updates Saved to Cloud Server ✅");
+    showNotice("Profile saved successfully.","ok");
   }catch(err){
     console.error(err);
-    showNotice("Save failed.");
-    setStatus("Save failed.");
-  }finally{ setBusy(false); }
+
+    saveCache(payload.email,payload);
+    syncLoginStorage(payload);
+
+    showNotice("Cloud save failed. Profile saved locally for preview.");
+    setStatus("Local profile saved.");
+  }finally{
+    setBusy(false);
+  }
 }
 
-async function handleImage(input, type){
-  const file = input.files?.[0];
+async function handleImage(input,type){
+  const file = input.files && input.files[0];
+
   if(!file) return;
-  if(!file.type.startsWith("image/")){ showNotice("Select valid image."); return; }
-  if(file.size > 2.5 * 1024 * 1024){ showNotice("Max image size 2.5MB."); return; }
+
+  if(!file.type.startsWith("image/")){
+    showNotice("Select valid image.");
+    return;
+  }
+
+  if(file.size > 2.5 * 1024 * 1024){
+    showNotice("Max image size 2.5MB.");
+    return;
+  }
 
   const base64 = await readFileAsBase64(file);
+
   if(type === "profile"){
     state.profileImageUrl = base64;
     setAvatar(base64);
@@ -530,50 +657,91 @@ async function handleImage(input, type){
     setCover(base64);
   }
 
-  const email = value("email");
+  const email = value("email").toLowerCase();
+
   if(email){
-    const cached = readCache(email) || { email };
-    if(type === "profile"){ cached.profile_image = base64; }
-    else { cached.cover_image = base64; }
-    saveCache(email, cached);
+    const cached = readCache(email) || {email};
+
+    if(type === "profile"){
+      cached.profile_image = base64;
+    }else{
+      cached.cover_image = base64;
+    }
+
+    saveCache(email,cached);
   }
+
   updatePreview();
 }
 
-function init(){
-  $("avatarPreview").src = DEFAULT_AVATAR;
-  $("coverPreview").style.backgroundImage = DEFAULT_COVER;
+async function injectFooter(){
+  try{
+    const res = await fetch("footer.html");
+    if(res.ok){
+      $("footerContainer").innerHTML = await res.text();
+    }
+  }catch(e){}
+}
 
-  const savedEmail = localStorage.getItem(EMAIL_KEY) || "";
+function init(){
+  setAvatar(DEFAULT_AVATAR);
+  setCover("");
+
+  const loggedUser = getLoggedUser();
+  const savedEmail = loggedUser.email || localStorage.getItem(EMAIL_KEY) || "";
+
   if(savedEmail){
-    $("email").value = savedEmail;
-    const cached = readCache(savedEmail);
-    if(cached){ fillProfile(cached); }
-    loadProfile();
-  }else{
-    updatePreview();
+    $("email").value = savedEmail.toLowerCase();
   }
 
-  $("loadBtn").addEventListener("click", loadProfile);
-  $("saveBtn").addEventListener("click", saveProfile);
+  if(loggedUser.name){
+    $("name").value = loggedUser.name;
+  }
 
-  $("profileForm").addEventListener("submit", function(event){
-    event.preventDefault();
+  if(loggedUser.profile_image){
+    state.savedProfileUrl = loggedUser.profile_image;
+    setAvatar(loggedUser.profile_image);
+  }
+
+  const cached = savedEmail ? readCache(savedEmail.toLowerCase()) : null;
+
+  if(cached){
+    fillProfile(cached);
+  }
+
+  updatePreview();
+
+  if(savedEmail){
+    loadProfile();
+  }
+
+  $("loadBtn").addEventListener("click",loadProfile);
+  $("saveBtn").addEventListener("click",saveProfile);
+
+  $("profileForm").addEventListener("submit",function(e){
+    e.preventDefault();
     saveProfile();
   });
 
-  $("profileImage").addEventListener("change", function(event){ handleImage(event.target, "profile"); });
-  $("coverImage").addEventListener("change", function(event){ handleImage(event.target, "cover"); });
-
-  document.querySelectorAll("input,textarea,select").forEach(control => {
-    control.addEventListener("input", updatePreview);
-    control.addEventListener("change", updatePreview);
+  $("profileImage").addEventListener("change",function(e){
+    handleImage(e.target,"profile");
   });
 
+  $("coverImage").addEventListener("change",function(e){
+    handleImage(e.target,"cover");
+  });
+
+  document.querySelectorAll("input,textarea,select").forEach(control=>{
+    control.addEventListener("input",updatePreview);
+    control.addEventListener("change",updatePreview);
+  });
+
+  injectFooter();
   setStatus("Ready");
 }
 
-document.addEventListener("DOMContentLoaded", init);
+document.addEventListener("DOMContentLoaded",init);
 </script>
+
 </body>
 </html>
