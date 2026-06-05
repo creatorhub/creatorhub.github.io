@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CreatorHub Store | Advanced Settings</title>
+<title>CreatorHub Store | Advanced Enterprise Settings</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -45,7 +45,7 @@ body{
 }
 
 /* =========================================================
-   LEFT GLOBAL SIDEBAR
+   LEFT GLOBAL NAVIGATION SIDEBAR
    ========================================================= */
 .sidebar {
     width: 260px;
@@ -131,7 +131,7 @@ body{
 
 .page-title { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
 
-/* SETTINGS CONTENT CONTAINER GRID */
+/* MASTER CONTENT CONTAINER ENGINE GRID */
 .settings-container {
     padding: 40px;
     display: grid;
@@ -171,7 +171,7 @@ body{
     box-shadow: var(--shadow-sm); 
 }
 
-/* CARDS CONFIGURATION SLATES */
+/* CARDS STRUCTURAL LAYOUT */
 .settings-view { display: none; }
 .settings-view.active { display: block; animation: subFade 0.2s ease-out; }
 
@@ -192,6 +192,8 @@ body{
 .form-group { margin-bottom: 20px; position: relative; }
 .form-group.full-width { grid-column: 1 / -1; }
 .form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--text-secondary); }
+
+.input-helper-text { font-size: 12px; color: var(--text-muted); margin-top: 6px; line-height: 1.4; }
 
 .input-wrapper {
     position: relative;
@@ -214,10 +216,7 @@ body{
 .form-input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.08); }
 .form-input:disabled { background: #f1f5f9; color: var(--text-muted); cursor: not-allowed; border-color: var(--border-color); }
 
-select.form-input {
-    cursor: pointer;
-    appearance: none;
-}
+select.form-input { cursor: pointer; appearance: none; }
 
 .form-textarea {
     width: 100%;
@@ -234,7 +233,7 @@ select.form-input {
 }
 .form-textarea:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.08); }
 
-/* EYE PASWORD VISIBILITY TOGGLE */
+/* PASSWORD TOGGLE BADGE EYE EYES ICON */
 .eye-toggle {
     position: absolute;
     right: 16px;
@@ -250,24 +249,19 @@ select.form-input {
 }
 .eye-toggle:hover { color: var(--accent-blue); }
 
-/* LIVE CHECKBOX TOGGLES */
+/* SYSTEM TOGGLES SWITCH ROWS */
 .toggle-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 0;
+    padding: 16px 0;
     border-bottom: 1px solid var(--border-color);
 }
 .toggle-row:last-child { border-bottom: none; }
 .toggle-info h4 { font-size: 15px; font-weight: 700; color: var(--text-primary); }
 .toggle-info p { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
 
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 26px;
-}
+.switch { position: relative; display: inline-block; width: 50px; height: 26px; }
 .switch input { opacity: 0; width: 0; height: 0; }
 .slider {
     position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
@@ -280,14 +274,14 @@ select.form-input {
 input:checked + .slider { background-color: var(--accent-blue); }
 input:checked + .slider:before { transform: translateX(24px); }
 
-/* ALERT SYSTEM NOTIFICATIONS */
+/* REALTIME NOTIFICATION ALERTS BANNER */
 .msg-box {
     display: none; padding: 14px 18px; border-radius: 8px; font-size: 14px; font-weight: 700; margin-bottom: 24px;
 }
 .msg-box.success { display: block; color: #065f46; background: #ecfdf5; border: 1px solid #a7f3d0; }
 .msg-box.error { display: block; color: #991b1b; background: #fee2e2; border: 1px solid #fecaca; }
 
-/* BUTTON MATRICES */
+/* PROCESS CONTROL BUTTONS */
 .btn-primary { 
     background: var(--accent-blue); color: white; border: none; padding: 14px 28px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.2s ease;
 }
@@ -298,7 +292,7 @@ input:checked + .slider:before { transform: translateX(24px); }
 }
 .btn-danger:hover { background: var(--red-alert); color: white; }
 
-/* MEDIA RESPONSIVE FLUID ENGINE */
+/* MEDIA INTERACTION COLLAPSIBLE SCALES */
 @media(max-width:1050px){
     .sidebar { width: 70px; }
     .sidebar-brand span, .menu-item span { display: none; }
@@ -317,7 +311,7 @@ input:checked + .slider:before { transform: translateX(24px); }
 
 <body>
 
-<!-- LEFT SIDEBAR MAP MODULE -->
+<!-- SIDEBAR LINK NAVIGATION NODES -->
 <aside class="sidebar">
     <div class="sidebar-brand">Creator<span>Hub</span></div>
     <div class="sidebar-menu">
@@ -332,30 +326,30 @@ input:checked + .slider:before { transform: translateX(24px); }
 
 <div class="main-wrapper">
     <header class="topbar">
-        <div class="page-title"><i class="fa-solid fa-sliders" style="color: var(--accent-blue);"></i> System Configuration Hub</div>
+        <div class="page-title"><i class="fa-solid fa-sliders" style="color: var(--accent-blue);"></i> Control Management Center</div>
     </header>
 
     <div class="settings-container">
         
-        <!-- SIDE NAVIGATION SECTION TABS -->
+        <!-- SIDE NAVIGATION SECTION TABS TRACKS -->
         <div class="settings-tabs">
             <button class="tab-btn active" onclick="switchSection(event, 'account')"><i class="fa-solid fa-circle-user"></i> <span>Account Info</span></button>
             <button class="tab-btn" onclick="switchSection(event, 'branding')"><i class="fa-solid fa-id-card"></i> <span>Store Branding</span></button>
             <button class="tab-btn" onclick="switchSection(event, 'security')"><i class="fa-solid fa-key"></i> <span>Security & Access</span></button>
             <button class="tab-btn" onclick="switchSection(event, 'payout')"><i class="fa-solid fa-building-columns"></i> <span>Payout Bank Node</span></button>
+            <button class="tab-btn" onclick="switchSection(event, 'compliance')"><i class="fa-solid fa-file-invoice-dollar"></i> <span>Tax & Compliance</span></button>
             <button class="tab-btn" onclick="switchSection(event, 'notifications')"><i class="fa-solid fa-bell"></i> <span>Notifications</span></button>
-            <button class="tab-btn" onclick="switchSection(event, 'developer')"><i class="fa-solid fa-terminal"></i> <span>Developer Console</span></button>
             <button class="tab-btn" onclick="switchSection(event, 'system')"><i class="fa-solid fa-layer-group"></i> <span>System Controls</span></button>
         </div>
 
         <div class="settings-content">
             <div id="alertBox" class="msg-box"></div>
 
-            <!-- SECTION 1: DETAILED DEEP ACCOUNT GENERAL INFO (IMAGE URL REMOVED) -->
+            <!-- SECTION 1: ACCOUNT GENERAL INFO DETAILED -->
             <div id="account" class="settings-view active">
                 <section class="settings-card">
                     <div class="card-title">Detailed Profile Configurations</div>
-                    <div class="card-desc">Update your personal identification records, contact streams, and identity tracking.</div>
+                    <div class="card-desc">Update your personal identification records, contact streams, and identity tracking parameters securely.</div>
                     <form onsubmit="saveGeneralInfo(event)">
                         <div class="form-grid">
                             <div class="form-group"><label>Account Email (Locked)</label><input id="accEmail" class="form-input" type="email" disabled></div>
@@ -383,65 +377,100 @@ input:checked + .slider:before { transform: translateX(24px); }
                 </section>
             </div>
 
-            <!-- SECTION 2: NEW STORE BRANDING SETTINGS -->
+            <!-- SECTION 2: 🚀 UPGRADED: STORE BRANDING LONG DETAILED MATRICES -->
             <div id="branding" class="settings-view">
                 <section class="settings-card">
-                    <div class="card-title">Marketplace Store Branding</div>
-                    <div class="card-desc">Configure the public appearance tags for your ebook storefront.</div>
+                    <div class="card-title">Global Store Metadata Branding</div>
+                    <div class="card-desc">Configure the public structural properties, subdomain indices, and global visibility taglines of your premium digital storefront.</div>
                     <form onsubmit="saveStoreBranding(event)">
                         <div class="form-grid">
-                            <div class="form-group"><label>Store Custom Title</label><input id="storeTitle" class="form-input" type="text" placeholder="Ayush Excel Specialist Hub"></div>
-                            <div class="form-group"><label>Public Support Email</label><input id="storeSupportEmail" class="form-input" type="email" placeholder="support@yourstore.com"></div>
-                            <div class="form-group full-width"><label>Store Tagline Descriptor</label><input id="storeTagline" class="form-input" type="text" placeholder="Premium data entry and creator ebooks delivered instantly."></div>
+                            <div class="form-group">
+                                <label>Store Custom Platform Title</label>
+                                <input id="storeTitle" class="form-input" type="text" placeholder="Ayush Data Specialist Store">
+                                <div class="input-helper-text">This value overwrites the global HTML head text and main marketplace title across web clients dynamically.</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Public Dedicated Support Email Routing Link</label>
+                                <input id="storeSupportEmail" class="form-input" type="email" placeholder="support@creatorhub.io">
+                                <div class="input-helper-text">Customers will automatically route transactional refund disputes, download errors, and ebook support queries to this desk node.</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Custom Marketplace Storefront URL Handle</label>
+                                <input id="storeSubdomain" class="form-input" type="text" placeholder="ayushhub">
+                                <div class="input-helper-text">Configures your lean routing gateway index node path mapping parameters inside github pages layouts.</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Customer Support SLA SLA Time-window</label>
+                                <select id="storeSlaWindow" class="form-input">
+                                    <option value="12">Instant (Within 12 Hours Response Guarantee)</option>
+                                    <option value="24">Standard (Within 24 Hours Verification Review)</option>
+                                    <option value="48">Flexible (Within 48 Hours Working Frameworks)</option>
+                                </select>
+                                <div class="input-helper-text">Displays a trust metrics badge overlaying buyers product details views on payment.html layouts.</div>
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Marketplace Primary Pitch Tagline Descriptor</label>
+                                <input id="storeTagline" class="form-input" type="text" placeholder="Premium PDF to Excel, automated data entry cleaning scripts, and growth books.">
+                                <div class="input-helper-text">Appears as a prominent layout bold title right below your marketplace top navigation panels to drive viewer conversion loops.</div>
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Custom Storefront Footer Legal Disclaimer Notice</label>
+                                <textarea id="storeFooterNotice" class="form-textarea" placeholder="CreatorHub Marketplace Ecosystem Interface. All rights reserved. Powered by cloud datastore architectures."></textarea>
+                                <div class="input-helper-text">This textual block automatically maps layout definitions directly at the base of your store.html page for legal compliance.</div>
+                            </div>
                         </div>
-                        <button type="submit" class="btn-primary">Deploy Branding Nodes</button>
+                        <button type="submit" class="btn-primary">Deploy Branding Infrastructure</button>
                     </form>
                 </section>
             </div>
 
-            <!-- SECTION 3: SECURITY WITH EYE ICON ACCENTS -->
+            <!-- SECTION 3: SECURITY WITH FULL DYNAMIC EYE EYES ICON TOGGLE ACCESS -->
             <div id="security" class="settings-view">
                 <section class="settings-card">
-                    <div class="card-title">Security Gateway Credentials</div>
-                    <div class="card-desc">Modify access validation passwords sequence to safe tracking parameters layers.</div>
+                    <div class="card-title">Security Encryption Keys</div>
+                    <div class="card-desc">Modify dashboard session password sequence matrices to secure your digital presence from unauthorized script intrusions.</div>
                     <form onsubmit="saveSecurityCredentials(event)">
+                        
                         <div class="form-group">
-                            <label>Current Security Password</label>
+                            <label>Current Gateway Validation Password</label>
                             <div class="input-wrapper">
                                 <input id="currPass" class="form-input" type="password" required placeholder="••••••••">
                                 <button type="button" class="eye-toggle" onclick="togglePasswordVisibility('currPass', this)"><i class="fa-solid fa-eye"></i></button>
                             </div>
+                            <div class="input-helper-text">Required to securely apply password overwrite arrays to Apps Script database streams.</div>
                         </div>
+
                         <div class="form-grid">
                             <div class="form-group">
-                                <label>New Secure Password</label>
+                                <label>New Secure Password Sequence</label>
                                 <div class="input-wrapper">
                                     <input id="newPass" class="form-input" type="password" required placeholder="••••••••">
                                     <button type="button" class="eye-toggle" onclick="togglePasswordVisibility('newPass', this)"><i class="fa-solid fa-eye"></i></button>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Confirm New Security Match</label>
+                                <label>Confirm New Password Vector</label>
                                 <div class="input-wrapper">
                                     <input id="confPass" class="form-input" type="password" required placeholder="••••••••">
                                     <button type="button" class="eye-toggle" onclick="togglePasswordVisibility('confPass', this)"><i class="fa-solid fa-eye"></i></button>
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn-primary">Overwrite Password Token</button>
+                        <button type="submit" class="btn-primary">Commit Security Password Overwrite</button>
                     </form>
                 </section>
             </div>
 
-            <!-- SECTION 4: PAYOUT SETTLEMENT ROUTING -->
+            <!-- SECTION 4: SETTLE BANK PAYOUT NODE -->
             <div id="payout" class="settings-view">
                 <section class="settings-card">
                     <div class="card-title">Fulfillment Settlement & Bank Node Settings</div>
-                    <div class="card-desc">Configure automation balance withdraw destinations and split processing parameters.</div>
+                    <div class="card-desc">Configure automated wallet payouts routes and cash splitting parameters cleanly.</div>
                     <form onsubmit="savePayoutNode(event)">
                         <div class="form-grid">
                             <div class="form-group"><label>Settlement Bank Account Holder Name</label><input id="bankHolder" class="form-input" type="text" placeholder="EX: AYUSH PRAJAPATI"></div>
-                            <div class="form-group"><label>Core Bank Name</label><input id="bankName" class="form-input" type="text" placeholder="State Bank of India"></div>
+                            <div class="form-group"><label>Core Bank Corporate Name</label><input id="bankName" class="form-input" type="text" placeholder="State Bank of India"></div>
+                            
                             <div class="form-group">
                                 <label>Account Number String Node</label>
                                 <div class="input-wrapper">
@@ -449,6 +478,7 @@ input:checked + .slider:before { transform: translateX(24px); }
                                     <button type="button" class="eye-toggle" onclick="togglePasswordVisibility('bankAccNo', this)"><i class="fa-solid fa-eye"></i></button>
                                 </div>
                             </div>
+
                             <div class="form-group"><label>IFSC Routing Code</label><input id="bankIfsc" class="form-input" type="text" placeholder="SBIN0000000"></div>
                         </div>
                         <button type="submit" class="btn-primary">Lock Bank Configuration Routing</button>
@@ -456,7 +486,52 @@ input:checked + .slider:before { transform: translateX(24px); }
                 </section>
             </div>
 
-            <!-- SECTION 5: NEW NOTIFICATIONS DYNAMIC TOGGLES -->
+            <!-- SECTION 5: 🚀 REPLACED REPLACEMENT: TAXATION & AUTOMATED COMPLIANCE SECTION -->
+            <div id="compliance" class="settings-view">
+                <section class="settings-card">
+                    <div class="card-title">Taxation, Invoicing & Automated Compliance</div>
+                    <div class="card-desc">Manage your GST settings, dynamic HSN parameters code mapping, and transactional sales invoice layouts generation properties.</div>
+                    <form onsubmit="saveTaxCompliance(event)">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>GSTIN / Tax Registration Identification Number</label>
+                                <input id="taxGstin" class="form-input" type="text" placeholder="22AAAAA0000A1Z5">
+                                <div class="input-helper-text">Optional field. If added, this number prints on customer checkout slips for business B2B purchase claims.</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Default Digital Assets HSN SAC Code Mapping</label>
+                                <input id="taxHsnCode" class="form-input" type="text" placeholder="998431 (Digital Ebooks)">
+                                <div class="input-helper-text">Standard accounting system parameters to map online marketplace delivery nodes precisely.</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Automated Billing Invoice Sheet Template</label>
+                                <select id="taxInvoiceTemplate" class="form-input">
+                                    <option value="minimalist">Clean Slate Minimalist Layout</option>
+                                    <option value="enterprise">Royal Blue Enterprise Corporate</option>
+                                    <option value="compact">Lean Dynamic Receipts Stream</option>
+                                </select>
+                                <div class="input-helper-text">Selects the look of the auto-generated PDF receipts generated on checkout confirmation loops.</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Tax Class Bracket Enforcement</label>
+                                <select id="taxBracket" class="form-input">
+                                    <option value="0">Zero Tax Class / Exempt Operations</option>
+                                    <option value="18">Integrated GST Enforced (18% Digital Content standard)</option>
+                                </select>
+                                <div class="input-helper-text">Enforces tax math rules automatically right before balance processing hits Cashfree split pipelines.</div>
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Custom Checkout Invoicing Terms & Purchase Claims Agreements</label>
+                                <textarea id="taxTerms" class="form-textarea" placeholder="All sales of premium digital items and database files are 100% final. No refunds are initiated post download link generation locks."></textarea>
+                                <div class="input-helper-text">This legal block appends right below purchase logs inside users digital ebook library dashboard tabs.</div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">Commit Compliance Parameters</button>
+                    </form>
+                </section>
+            </div>
+
+            <!-- SECTION 6: NOTIFICATIONS SWITCHES -->
             <div id="notifications" class="settings-view">
                 <section class="settings-card">
                     <div class="card-title">Alert & Notification Dispatches</div>
@@ -477,35 +552,19 @@ input:checked + .slider:before { transform: translateX(24px); }
                 </section>
             </div>
 
-            <!-- SECTION 6: DEVELOPER CONSOLE ENDPOINTS -->
-            <div id="developer" class="settings-view">
-                <section class="settings-card">
-                    <div class="card-title">Developer Integration Endpoint Infrastructure</div>
-                    <div class="card-desc">Bind cloud datastore parameters to avoid AI pipeline cost loops natively.</div>
-                    <form onsubmit="saveDeveloperConfigs(event)">
-                        <div class="form-group"><label>Target Apps Script Core Deploy URL Link</label><input id="devApiUrl" class="form-input" type="text" placeholder="https://script.google.com/macros/s/.../exec"></div>
-                        <div class="form-grid">
-                            <div class="form-group"><label>Master Google Drive Folder Storage ID</label><input id="devDriveId" class="form-input" type="text" placeholder="1x8A_uB9..._zQpLmK"></div>
-                            <div class="form-group"><label>Active Webhook Routing Node</label><input id="devWebhook" class="form-input" type="text" placeholder="https://api.creatorhub.io/v1/sync"></div>
-                        </div>
-                        <button type="submit" class="btn-primary">Deploy Integration Arrays</button>
-                    </form>
-                </section>
-            </div>
-
-            <!-- SECTION 7: ADVANCED CONTROLS (DELETE ACCOUNT MOVED TO delete.html) -->
+            <!-- SECTION 7: SYSTEM CONTROLS WIPE LOOP & DELETE ROUTING -->
             <div id="system" class="settings-view">
                 <section class="settings-card">
                     <div class="card-title">Ecosystem Local Space Clear Loop</div>
-                    <div class="card-desc">Wipe transient data cache models cleanly from browser execution threads.</div>
+                    <div class="card-desc">Wipe transient data cache models cleanly from browser execution threads to force live updates.</div>
                     <button class="btn-primary" style="background:#475569" onclick="clearDataCache()">Clear Cache Models Stream</button>
                 </section>
                 <section class="settings-card" style="border-color: rgba(239, 68, 68, 0.25);">
                     <div class="card-title" style="color:var(--red-alert);">Profile Destruction Framework</div>
-                    <div class="card-desc">Disconnect account binding instance or delete metadata. All storage configurations destroy instantly.</div>
+                    <div class="card-desc">Disconnect account binding instance or delete metadata metadata sequence. Proceed with caution.</div>
                     <div style="display:flex; gap: 14px; flex-wrap:wrap;">
                         <button class="btn-primary" style="background:#64748b" onclick="triggerLogoffSequence()">Sign Out Profile Instance</button>
-                        <!-- 🚀 BYPASS ROUTING DIRECTLY TO YOUR delete.html PAGE -->
+                        <!-- 🚀 DYNAMIC BYPASS ROUTING DIRECTLY TO YOUR delete.html PAGE -->
                         <button class="btn-danger" onclick="location.href='delete.html'">Delete CreatorHub Account</button>
                     </div>
                 </section>
@@ -516,10 +575,11 @@ input:checked + .slider:before { transform: translateX(24px); }
 </div>
 
 <script>
-const CORE_PROFILE_API = "https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
+// Master Profile API endpoint reference link
+const MASTER_PROFILE_API = "https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
 
-let USER_STORE = JSON.parse(localStorage.getItem("user") || "{}");
-let sessionMail = USER_STORE.email || localStorage.getItem("user_email") || "test@gmail.com";
+let SYSTEM_USER = JSON.parse(localStorage.getItem("user") || "{}");
+let globalEmailToken = SYSTEM_USER.email || localStorage.getItem("user_email") || "test@gmail.com";
 
 function pushAlert(text, mode) {
     const banner = document.getElementById("alertBox");
@@ -528,13 +588,16 @@ function pushAlert(text, mode) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+/* 🚀 PASSWORD VISIBILITY EYEBALL INTERACTION ENGINE ROUTINES */
 function togglePasswordVisibility(inputId, btnElement) {
     const inputField = document.getElementById(inputId);
     const iconElement = btnElement.querySelector('i');
     if (inputField.type === "password") {
-        inputField.type = "text"; iconElement.className = "fa-solid fa-eye-slash";
+        inputField.type = "text"; 
+        iconElement.className = "fa-solid fa-eye-slash"; // Changes visually to slashed eyeball icon
     } else {
-        inputField.type = "password"; iconElement.className = "fa-solid fa-eye";
+        inputField.type = "password"; 
+        iconElement.className = "fa-solid fa-eye";
     }
 }
 
@@ -547,32 +610,37 @@ function switchSection(e, sectionId) {
 }
 
 function loadConfigValues() {
-    // General setups mappings
-    document.getElementById("accEmail").value = sessionMail;
-    document.getElementById("accName").value = localStorage.getItem("user_name") || USER_STORE.name || "Creator";
+    // Account initial loading mapping arrays
+    document.getElementById("accEmail").value = globalEmailToken;
+    document.getElementById("accName").value = localStorage.getItem("user_name") || SYSTEM_USER.name || "Creator";
     document.getElementById("accUsername").value = localStorage.getItem("user_username") || "";
     document.getElementById("accPhone").value = localStorage.getItem("user_phone") || "";
     document.getElementById("accBizType").value = localStorage.getItem("user_biz_type") || "individual";
     document.getElementById("accCountry").value = localStorage.getItem("user_country") || "India";
     document.getElementById("accBio").value = localStorage.getItem("user_bio") || "";
 
-    // Branding configurations
+    // Branding configuration tracks loading
     document.getElementById("storeTitle").value = localStorage.getItem("store_title") || "";
     document.getElementById("storeSupportEmail").value = localStorage.getItem("store_support_mail") || "";
+    document.getElementById("storeSubdomain").value = localStorage.getItem("store_subdomain_node") || "";
+    document.getElementById("storeSlaWindow").value = localStorage.getItem("store_sla_window") || "24";
     document.getElementById("storeTagline").value = localStorage.getItem("store_tagline") || "";
+    document.getElementById("storeFooterNotice").value = localStorage.getItem("store_footer_notice") || "";
 
-    // Payout settings vectors
+    // Settlement payout loads
     document.getElementById("bankHolder").value = localStorage.getItem("settle_holder") || "";
     document.getElementById("bankName").value = localStorage.getItem("settle_bank") || "";
     document.getElementById("bankAccNo").value = localStorage.getItem("settle_acc_node") || "";
     document.getElementById("bankIfsc").value = localStorage.getItem("settle_ifsc") || "";
 
-    // Developer properties
-    document.getElementById("devApiUrl").value = localStorage.getItem("dev_core_api") || CORE_PROFILE_API;
-    document.getElementById("devDriveId").value = localStorage.getItem("dev_drive_id") || "";
-    document.getElementById("devWebhook").value = localStorage.getItem("dev_webhook_node") || "";
+    // Taxation & Compliance systems matrix loading
+    document.getElementById("taxGstin").value = localStorage.getItem("tax_gstin_no") || "";
+    document.getElementById("taxHsnCode").value = localStorage.getItem("tax_hsn_sac") || "";
+    document.getElementById("taxInvoiceTemplate").value = localStorage.getItem("tax_invoice_layout") || "minimalist";
+    document.getElementById("taxBracket").value = localStorage.getItem("tax_rate_bracket") || "0";
+    document.getElementById("taxTerms").value = localStorage.getItem("tax_checkout_terms") || "";
 
-    // Notification states switches
+    // Notifications toggle parameters state track loops
     document.getElementById("notifyOrder").checked = localStorage.getItem("opt_notify_order") !== "false";
     document.getElementById("notifyPayout").checked = localStorage.getItem("opt_notify_payout") !== "false";
     document.getElementById("notifyMarketing").checked = localStorage.getItem("opt_notify_market") === "true";
@@ -588,16 +656,19 @@ async function saveGeneralInfo(e) {
     localStorage.setItem("user_country", document.getElementById("accCountry").value.trim());
     localStorage.setItem("user_bio", document.getElementById("accBio").value.trim());
 
-    USER_STORE.name = name; localStorage.setItem("user", JSON.stringify(USER_STORE));
-    pushAlert("Detailed profile architecture updated and saved successfully! ✅", "ok");
+    SYSTEM_USER.name = name; localStorage.setItem("user", JSON.stringify(SYSTEM_USER));
+    pushAlert("Detailed profile architecture configurations saved successfully! ✅", "ok");
 }
 
 function saveStoreBranding(e) {
     e.preventDefault();
     localStorage.setItem("store_title", document.getElementById("storeTitle").value.trim());
     localStorage.setItem("store_support_mail", document.getElementById("storeSupportEmail").value.trim());
+    localStorage.setItem("store_subdomain_node", document.getElementById("storeSubdomain").value.trim());
+    localStorage.setItem("store_sla_window", document.getElementById("storeSlaWindow").value);
     localStorage.setItem("store_tagline", document.getElementById("storeTagline").value.trim());
-    pushAlert("Storefront branding nodes successfully configured! 🎨", "ok");
+    localStorage.setItem("store_footer_notice", document.getElementById("storeFooterNotice").value.trim());
+    pushAlert("Global store metadata branding schemas successfully deployed! 🎨", "ok");
 }
 
 function saveSecurityCredentials(e) {
@@ -605,7 +676,7 @@ function saveSecurityCredentials(e) {
     let nPass = document.getElementById("newPass").value;
     let cPass = document.getElementById("confPass").value;
     if(nPass !== cPass) { pushAlert("Error! Password confirmation mismatch validation blocks.", "bad"); return; }
-    pushAlert("Security password token sequence modified successfully! 🔒", "ok");
+    pushAlert("Security gateway credential passcodes successfully updated! 🔒", "ok");
 }
 
 function savePayoutNode(e) {
@@ -614,27 +685,30 @@ function savePayoutNode(e) {
     localStorage.setItem("settle_bank", document.getElementById("bankName").value.trim());
     localStorage.setItem("settle_acc_node", document.getElementById("bankAccNo").value.trim());
     localStorage.setItem("settle_ifsc", document.getElementById("bankIfsc").value.trim());
-    pushAlert("Settlement payout configurations securely locked into bank node! 🏦", "ok");
+    pushAlert("Fulfillment settlement configuration matrix securely locked! 🏦", "ok");
 }
 
-function saveDeveloperConfigs(e) {
+/* 🚀 COMPLIANCE PROCESS DATA STORAGE SYNC ENGINE LOGIC */
+function saveTaxCompliance(e) {
     e.preventDefault();
-    localStorage.setItem("dev_core_api", document.getElementById("devApiUrl").value.trim());
-    localStorage.setItem("dev_drive_id", document.getElementById("devDriveId").value.trim());
-    localStorage.setItem("dev_webhook_node", document.getElementById("devWebhook").value.trim());
-    pushAlert("Developer console endpoints initialized into system frameworks! 🚀", "ok");
+    localStorage.setItem("tax_gstin_no", document.getElementById("taxGstin").value.trim());
+    localStorage.setItem("tax_hsn_sac", document.getElementById("taxHsnCode").value.trim());
+    localStorage.setItem("tax_invoice_layout", document.getElementById("taxInvoiceTemplate").value);
+    localStorage.setItem("tax_rate_bracket", document.getElementById("taxBracket").value);
+    localStorage.setItem("tax_checkout_terms", document.getElementById("taxTerms").value.trim());
+    pushAlert("Automated compliance and billing matrices successfully deployed! 📊", "ok");
 }
 
 function clearDataCache() {
     localStorage.removeItem("creatorhub_dashboard_cache_v3");
-    alert("Application data space cleared smoothly. Hot cache reload verified!");
+    alert("Application hot transient cache storage models wiped cleanly! 🚀");
 }
 
 function triggerLogoffSequence() {
     localStorage.clear(); window.location.href = "login.html";
 }
 
-// Listening to live switch changes configurations
+// Watching state switches inputs dynamically
 document.getElementById("notifyOrder").addEventListener("change", e => localStorage.setItem("opt_notify_order", e.target.checked));
 document.getElementById("notifyPayout").addEventListener("change", e => localStorage.setItem("opt_notify_payout", e.target.checked));
 document.getElementById("notifyMarketing").addEventListener("change", e => localStorage.setItem("opt_notify_market", e.target.checked));
