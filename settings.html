@@ -189,14 +189,12 @@ body{
 
 /* INPUT STYLES MATRICES */
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 20px;}
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 20px;}
 .form-group { margin-bottom: 20px; position: relative; }
 .form-group.full-width { grid-column: 1 / -1; }
 .form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--text-secondary); }
 
 .input-helper-text { font-size: 12px; color: var(--text-muted); margin-top: 6px; line-height: 1.4; }
 
-/* Absolute context positioning wrapper layer for password eyes elements */
 .input-wrapper {
     position: relative;
     display: flex;
@@ -207,7 +205,7 @@ body{
 .form-input {
     width: 100%;
     min-height: 50px;
-    padding: 0 50px 0 16px; /* Right padding extra for preventing text covering eye icons */
+    padding: 0 54px 0 16px; /* Space on right side to ensure eye icon doesn't clip text */
     border: 1px solid #cbd5e1;
     border-radius: 8px;
     background: #ffffff;
@@ -236,23 +234,24 @@ select.form-input { cursor: pointer; appearance: none; padding-right: 16px; }
 }
 .form-textarea:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.08); }
 
-/* Eye Button layout depth metrics to handle instant touch bindings */
+/* 🚀 FIXED CSS: Dynamic Eye Overlay parameters styled to capture events flawlessly */
 .eye-toggle {
     position: absolute;
     right: 4px;
     top: 50%;
     transform: translateY(-50%);
-    background: transparent;
-    border: none;
+    background: transparent !important;
+    border: none !important;
     color: var(--text-muted);
     cursor: pointer;
     font-size: 16px;
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10; /* Brought to top to intercept browser clicks cleanly */
+    z-index: 50; /* Placed exactly over the input frame layer */
+    outline: none;
 }
 .eye-toggle:hover { color: var(--accent-blue); }
 
@@ -443,7 +442,8 @@ input:checked + .slider:before { transform: translateX(24px); }
                             <label>Current Gateway Validation Password</label>
                             <div class="input-wrapper">
                                 <input id="currPass" class="form-input" type="password" required placeholder="••••••••">
-                                <button type="button" class="eye-toggle" onclick="togglePasswordVisibility('currPass', this)"><i class="fa-solid fa-eye"></i></button>
+                                <!-- 🚀 FIXED TYPE: Changed to explicit type="button" to completely block browser auto-submit behavior -->
+                                <button type="button" class="eye-toggle" data-target="currPass"><i class="fa-solid fa-eye"></i></button>
                             </div>
                             <div class="input-helper-text">Required to securely apply password overwrite arrays to Apps Script database streams.</div>
                         </div>
@@ -453,14 +453,14 @@ input:checked + .slider:before { transform: translateX(24px); }
                                 <label>New Secure Password Sequence</label>
                                 <div class="input-wrapper">
                                     <input id="newPass" class="form-input" type="password" required placeholder="••••••••">
-                                    <button type="button" class="eye-toggle" onclick="togglePasswordVisibility('newPass', this)"><i class="fa-solid fa-eye"></i></button>
+                                    <button type="button" class="eye-toggle" data-target="newPass"><i class="fa-solid fa-eye"></i></button>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Confirm New Password Vector</label>
                                 <div class="input-wrapper">
                                     <input id="confPass" class="form-input" type="password" required placeholder="••••••••">
-                                    <button type="button" class="eye-toggle" onclick="togglePasswordVisibility('confPass', this)"><i class="fa-solid fa-eye"></i></button>
+                                    <button type="button" class="eye-toggle" data-target="confPass"><i class="fa-solid fa-eye"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -483,7 +483,7 @@ input:checked + .slider:before { transform: translateX(24px); }
                                 <label>Account Number String Node</label>
                                 <div class="input-wrapper">
                                     <input id="bankAccNo" class="form-input" type="password" placeholder="000000000000">
-                                    <button type="button" class="eye-toggle" onclick="togglePasswordVisibility('bankAccNo', this)"><i class="fa-solid fa-eye"></i></button>
+                                    <button type="button" class="eye-toggle" data-target="bankAccNo"><i class="fa-solid fa-eye"></i></button>
                                 </div>
                             </div>
 
@@ -595,20 +595,6 @@ function pushAlert(text, mode) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-/* LIVE DYNAMIC PASSWORD VISION EYE TOGGLE ENGINE */
-function togglePasswordVisibility(inputId, btnElement) {
-    const inputField = document.getElementById(inputId);
-    const iconElement = btnElement.querySelector('i');
-    
-    if (inputField.type === "password") {
-        inputField.type = "text"; 
-        iconElement.className = "fa-solid fa-eye-slash";
-    } else {
-        inputField.type = "password"; 
-        iconElement.className = "fa-solid fa-eye";
-    }
-}
-
 function switchSection(e, sectionId) {
     document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
     document.querySelectorAll(".settings-view").forEach(view => view.classList.remove("active"));
@@ -715,6 +701,29 @@ function clearDataCache() {
 function triggerLogoffSequence() {
     localStorage.clear(); window.location.href = "login.html";
 }
+
+// 🚀 FIXED ARCHITECTURE: Event delegation approach to hook clicks perfectly without breaking browser streams
+document.addEventListener("click", function(e) {
+    const btn = e.target.closest(".eye-toggle");
+    if (!btn) return;
+    
+    e.preventDefault(); // Blocks form submission or redirection loops completely
+    e.stopPropagation(); // Restricts event bubbling bounds
+    
+    const targetId = btn.getAttribute("data-target");
+    const inputField = document.getElementById(targetId);
+    const icon = btn.querySelector("i");
+    
+    if (inputField && icon) {
+        if (inputField.type === "password") {
+            inputField.type = "text";
+            icon.className = "fa-solid fa-eye-slash";
+        } else {
+            inputField.type = "password";
+            icon.className = "fa-solid fa-eye";
+        }
+    }
+});
 
 document.getElementById("notifyOrder").addEventListener("change", e => localStorage.setItem("opt_notify_order", e.target.checked));
 document.getElementById("notifyPayout").addEventListener("change", e => localStorage.setItem("opt_notify_payout", e.target.checked));
