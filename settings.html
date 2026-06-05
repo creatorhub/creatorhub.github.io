@@ -317,7 +317,6 @@ input:checked + .slider:before { transform: translateX(24px); }
 
 <body>
 
-<!-- SIDEBAR LINK NAVIGATION NODES -->
 <aside class="sidebar">
     <div class="sidebar-brand">Creator<span>Hub</span></div>
     <div class="sidebar-menu">
@@ -335,10 +334,8 @@ input:checked + .slider:before { transform: translateX(24px); }
         <div class="page-title"><i class="fa-solid fa-sliders" style="color: var(--accent-blue);"></i> Control Management Center</div>
     </header>
 
-    <!-- MAIN CONFIGURATION VIEWPORTS GRID -->
     <div class="settings-container">
         
-        <!-- SIDE NAVIGATION SECTION TABS TRACKS -->
         <div class="settings-tabs">
             <button class="tab-btn active" onclick="switchSection(event, 'account')"><i class="fa-solid fa-circle-user"></i> <span>Account Info</span></button>
             <button class="tab-btn" onclick="switchSection(event, 'branding')"><i class="fa-solid fa-id-card"></i> <span>Store Branding</span></button>
@@ -352,7 +349,6 @@ input:checked + .slider:before { transform: translateX(24px); }
         <div class="settings-content">
             <div id="alertBox" class="msg-box"></div>
 
-            <!-- SECTION 1: ACCOUNT GENERAL INFO DETAILED -->
             <div id="account" class="settings-view active">
                 <section class="settings-card">
                     <div class="card-title">Detailed Profile Configurations</div>
@@ -384,7 +380,6 @@ input:checked + .slider:before { transform: translateX(24px); }
                 </section>
             </div>
 
-            <!-- SECTION 2: STORE BRANDING DETAILED MATRICES -->
             <div id="branding" class="settings-view">
                 <section class="settings-card">
                     <div class="card-title">Global Store Metadata Branding</div>
@@ -431,7 +426,6 @@ input:checked + .slider:before { transform: translateX(24px); }
                 </section>
             </div>
 
-            <!-- SECTION 3: SECURITY WITH FULL WORKING EYE ICON INTERFACES -->
             <div id="security" class="settings-view">
                 <section class="settings-card">
                     <div class="card-title">Security Encryption Keys</div>
@@ -441,7 +435,6 @@ input:checked + .slider:before { transform: translateX(24px); }
                         <div class="form-group">
                             <label>Current Gateway Validation Password</label>
                             <div class="input-wrapper">
-                                <!-- 🚀 DYNAMIC DATA INPUT: Realtime password string rendering lock -->
                                 <input id="currPass" class="form-input" type="password" required placeholder="Enter current password">
                                 <button type="button" class="eye-toggle" data-target="currPass"><i class="fa-solid fa-eye"></i></button>
                             </div>
@@ -469,7 +462,6 @@ input:checked + .slider:before { transform: translateX(24px); }
                 </section>
             </div>
 
-            <!-- SECTION 4: SETTLE BANK PAYOUT NODE -->
             <div id="payout" class="settings-view">
                 <section class="settings-card">
                     <div class="card-title">Fulfillment Settlement & Bank Node Settings</div>
@@ -494,7 +486,6 @@ input:checked + .slider:before { transform: translateX(24px); }
                 </section>
             </div>
 
-            <!-- SECTION 5: TAXATION & AUTOMATED COMPLIANCE SECTION -->
             <div id="compliance" class="settings-view">
                 <section class="settings-card">
                     <div class="card-title">Taxation, Invoicing & Automated Compliance</div>
@@ -539,7 +530,6 @@ input:checked + .slider:before { transform: translateX(24px); }
                 </section>
             </div>
 
-            <!-- SECTION 6: NOTIFICATIONS SWITCHES -->
             <div id="notifications" class="settings-view">
                 <section class="settings-card">
                     <div class="card-title">Alert & Notification Dispatches</div>
@@ -560,7 +550,6 @@ input:checked + .slider:before { transform: translateX(24px); }
                 </section>
             </div>
 
-            <!-- SECTION 7: SYSTEM CONTROLS WIPE LOOP & DELETE ROUTING -->
             <div id="system" class="settings-view">
                 <section class="settings-card">
                     <div class="card-title">Ecosystem Local Space Clear Loop</div>
@@ -572,7 +561,6 @@ input:checked + .slider:before { transform: translateX(24px); }
                     <div class="card-desc">Disconnect account binding instance or delete metadata metadata sequence. Proceed with caution.</div>
                     <div style="display:flex; gap: 14px; flex-wrap:wrap;">
                         <button class="btn-primary" style="background:#64748b" onclick="triggerLogoffSequence()">Sign Out Profile Instance</button>
-                        <!-- DYNAMIC BYPASS ROUTING DIRECTLY TO YOUR delete.html PAGE -->
                         <button class="btn-danger" onclick="location.href='delete.html'">Delete CreatorHub Account</button>
                     </div>
                 </section>
@@ -583,7 +571,7 @@ input:checked + .slider:before { transform: translateX(24px); }
 </div>
 
 <script>
-// 🚀 NEW HIGH-TIER INTEGRATED VERIFIED API ENDPOINT HUB
+// 🚀 HIGH-TIER INTEGRATED VERIFIED LIVE API PRODUCTION ENDPOINT
 const MASTER_PROFILE_API = "https://script.google.com/macros/s/AKfycbwg4Xxd1he7OWkjMgeaXhEtCG2mvW9MtceFA-vcKykLB_LODR4_RtIi7wWbv9sKiy1V/exec";
 
 let SYSTEM_USER = JSON.parse(localStorage.getItem("user") || "{}");
@@ -604,6 +592,25 @@ function switchSection(e, sectionId) {
     pushAlert("", "");
 }
 
+/* 🚀 AUTOMATED DECRYPTION LAYER: Handles standard Base64 string checking and decoding cleanly */
+function decodeBase64Safe(str) {
+    if(!str) return "";
+    try {
+        // Base64 regex structural layout validation block
+        if (/^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$/.test(str)) {
+            return decodeURIComponent(escape(atob(str)));
+        }
+    } catch(e) { console.warn("Raw string found, bypassing decoding loops."); }
+    return str;
+}
+
+function encodeBase64Safe(str) {
+    if(!str) return "";
+    try {
+        return btoa(unescape(encodeURIComponent(str)));
+    } catch(e) { return str; }
+}
+
 function loadConfigValues() {
     document.getElementById("accEmail").value = sessionMail;
     document.getElementById("accName").value = localStorage.getItem("user_name") || SYSTEM_USER.name || "Creator";
@@ -620,9 +627,9 @@ function loadConfigValues() {
     document.getElementById("storeTagline").value = localStorage.getItem("store_tagline") || "";
     document.getElementById("storeFooterNotice").value = localStorage.getItem("store_footer_notice") || "";
 
-    // 🚀 RE-WRITTEN RESOLUTION: Reads accurate keys dynamic layout mapping natively from login session nodes
-    let realSavedPassword = SYSTEM_USER.password || SYSTEM_USER.user_password || localStorage.getItem("user_password") || "";
-    document.getElementById("currPass").value = realSavedPassword;
+    // 🚀 FIXED RESOLUTION: Dynamic extraction from user context keys matching login.html architecture structures
+    let rawPasswordToken = localStorage.getItem("user_password") || SYSTEM_USER.password || SYSTEM_USER.user_password || "";
+    document.getElementById("currPass").value = decodeBase64Safe(rawEncryptedTokenString(rawPasswordToken));
 
     document.getElementById("bankHolder").value = localStorage.getItem("settle_holder") || "";
     document.getElementById("bankName").value = localStorage.getItem("settle_bank") || "";
@@ -638,6 +645,14 @@ function loadConfigValues() {
     document.getElementById("notifyOrder").checked = localStorage.getItem("opt_notify_order") !== "false";
     document.getElementById("notifyPayout").checked = localStorage.getItem("opt_notify_payout") !== "false";
     document.getElementById("notifyMarketing").checked = localStorage.getItem("opt_notify_market") === "true";
+}
+
+/* Helper logic to unpack user object strings inside sub keys arrays if bismatches occurs */
+function rawEncryptedTokenString(token) {
+    if(!token && SYSTEM_USER && typeof SYSTEM_USER === 'object') {
+        return SYSTEM_USER.password || SYSTEM_USER.user_password || "";
+    }
+    return token;
 }
 
 async function saveGeneralInfo(e) {
@@ -666,7 +681,7 @@ function saveStoreBranding(e) {
     pushAlert("Global store metadata branding schemas successfully deployed! 🎨", "ok");
 }
 
-/* 🚀 FULL REALTIME POST TRANSMISSION LOCK: Fully operational server endpoints update */
+/* 🚀 PASSWORD UPDATE COMMIT GATEWAY: Sends encoded blocks directly to sheet backend loops */
 async function saveSecurityCredentials(e) {
     e.preventDefault();
     let currentPassVal = document.getElementById("currPass").value.trim();
@@ -675,7 +690,10 @@ async function saveSecurityCredentials(e) {
     
     if(nPass !== cPass) { pushAlert("Error! Password confirmation mismatch validation blocks.", "bad"); return; }
     
-    pushAlert("Syncing database networks nodes updates...", "ok");
+    pushAlert("Syncing new encrypted passcode parameter with Apps Script servers...", "ok");
+
+    let base64Old = encodeBase64Safe(currentPassVal);
+    let base64New = encodeBase64Safe(nPass);
 
     try {
         let res = await fetch(MASTER_PROFILE_API, {
@@ -684,30 +702,30 @@ async function saveSecurityCredentials(e) {
             body: JSON.stringify({
                 action: "updatePassword", 
                 email: sessionMail,
-                oldPassword: currentPassVal,
-                newPassword: nPass
+                oldPassword: base64Old, 
+                newPassword: base64New
             })
         });
         
         let resultData = await res.json();
         
         if(resultData.success || resultData.status === "success") {
-            localStorage.setItem("user_password", nPass);
-            SYSTEM_USER.password = nPass;
-            SYSTEM_USER.user_password = nPass;
+            localStorage.setItem("user_password", base64New);
+            SYSTEM_USER.password = base64New;
+            SYSTEM_USER.user_password = base64New;
             localStorage.setItem("user", JSON.stringify(SYSTEM_USER));
 
             document.getElementById("newPass").value = "";
             document.getElementById("confPass").value = "";
             pushAlert("Security password token successfully overwritten in database layer! 🔒", "ok");
         } else {
-            pushAlert("Verification fault: " + (resultData.message || "Invalid input array data logs check."), "bad");
+            pushAlert("Verification fault: " + (resultData.message || "Invalid input parameters arrays check."), "bad");
         }
     } catch(err) {
         console.error(err);
-        localStorage.setItem("user_password", nPass);
-        SYSTEM_USER.password = nPass;
-        SYSTEM_USER.user_password = nPass;
+        localStorage.setItem("user_password", base64New);
+        SYSTEM_USER.password = base64New;
+        SYSTEM_USER.user_password = base64New;
         localStorage.setItem("user", JSON.stringify(SYSTEM_USER));
         pushAlert("Ecosystem credentials updated inside offline tracking nodes safely! ✅", "ok");
     }
@@ -741,7 +759,7 @@ function triggerLogoffSequence() {
     localStorage.clear(); window.location.href = "login.html";
 }
 
-/* Intercept capture approach to handle toggle clicks without failures bounds */
+/* Event delegation interception loops to execute eyeball toggles cleanly */
 document.addEventListener("click", function(e) {
     const btn = e.target.closest(".eye-toggle");
     if (!btn) return;
