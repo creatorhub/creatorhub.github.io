@@ -1,549 +1,749 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CreatorHub Store | Wallet Management</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CreatorHub • Wallet Center Pro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-<style>
-/* =========================================================
-   CREATORHUB ADVANCED PRODUCTION VARIABLES (image_b36c0c.jpg)
-   ========================================================= */
-:root {
-    --bg-primary: #f8fafc;       /* Clean space layout canvas white */
-    --bg-secondary: #ffffff;     /* Pure white container modules */
-    --sidebar-dark: #0f172a;     /* Deep navy blue sidebar matrix lock */
-    --sidebar-hover: #1e293b;    
-    --text-primary: #0f172a;     
-    --text-secondary: #475569;   
-    --text-muted: #64748b;
-    --accent-blue: #2f62e9;      /* Signature Royal Blue Theme Accent */
-    --accent-blue-hover: #1d4ed8;
-    --border-color: #e2e8f0;
-    --shadow-sm: 0 1px 2px rgba(15,23,42,0.05);
-    --shadow-md: 0 12px 30px -4px rgba(15,23,42,0.06), 0 4px 12px -2px rgba(15,23,42,0.03);
-    --red-alert: #ef4444;
-    --green-success: #10b981;
-    --amber-warning: #f59e0b;
-}
+  <style>
+    /* =====================================================
+    CORE RESET & CREATORHUB PREMIUM THEME INTERFACES
+    ===================================================== */
+    :root {
+      --bg-primary: #f8fafc;       
+      --bg-secondary: #ffffff;     
+      --sidebar-dark: #0f172a;     
+      --sidebar-hover: #1e293b;    
+      --text-primary: #0f172a;     
+      --text-secondary: #475569;   
+      --text-muted: #64748b;
+      --accent-blue: #2f62e9;      
+      --accent-blue-hover: #1d4ed8;
+      --border-color: #e2e8f0;
+      --shadow-sm: 0 1px 2px rgba(15,23,42,0.05);
+      --shadow-md: 0 12px 30px -4px rgba(15,23,42,0.06);
+      --red-alert: #ef4444;
+      --green-success: #10b981;
+      --amber-warning: #f59e0b;
+    }
 
-*{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Inter', sans-serif;
-}
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body{
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      overflow-x: hidden;
+    }
 
-body{
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    min-height: 100vh;
-    display: flex;
-    overflow-x: hidden;
-}
+    /* =====================================================
+    LEFT SIDEBAR MODULE LAYOUT (MATCHING DASHBOARD & STORE)
+    ===================================================== */
+    .sidebar {
+      width: 260px;
+      background-color: var(--sidebar-dark);
+      min-height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      border-right: 1px solid rgba(255,255,255,0.05);
+    }
+    .sidebar-brand {
+      padding: 28px 24px;
+      font-size: 22px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .sidebar-brand span { color: var(--accent-blue); }
+    .sidebar-menu {
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      color: #94a3b8;
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .menu-item:hover {
+      background-color: var(--sidebar-hover);
+      color: #ffffff;
+    }
+    .menu-item.active {
+      background-color: var(--accent-blue);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(47, 98, 233, 0.25);
+    }
+    .menu-item i { width: 20px; text-align: center; }
 
-/* =========================================================
-   LEFT GLOBAL SIDEBAR FRAMEWORK
-   ========================================================= */
-.sidebar {
-    width: 260px;
-    background-color: var(--sidebar-dark);
-    min-height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    z-index: 100;
-    border-right: 1px solid rgba(255,255,255,0.05);
-}
+    /* =====================================================
+    RIGHT CONTENT CONTROLLERS WRAPPER
+    ===================================================== */
+    .main-wrapper {
+      margin-left: 260px;
+      width: calc(100% - 260px);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-.sidebar-brand {
-    padding: 28px 24px;
-    font-size: 22px;
-    font-weight: 900;
-    color: #ffffff;
-    letter-spacing: -0.02em;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-}
+    .topbar{
+      height: 75px;
+      background-color: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+    }
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .back-btn {
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .back-btn:hover { color: var(--accent-blue); }
 
-.sidebar-brand span { color: var(--accent-blue); }
+    /* PROFILE MODULE INLINE DROPDOWN ELEMENTS */
+    .profile-wrap {
+      position: relative;
+      display: none;
+      align-items: center;
+    }
+    .profile-image {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--border-color);
+      cursor: pointer;
+    }
+    .profile-menu {
+      position: absolute;
+      top: 55px;
+      left: 0;
+      width: 280px;
+      background: #0d1628;
+      border: 1px solid #182a64;
+      border-radius: 12px;
+      padding: 20px;
+      display: none;
+      box-shadow: var(--shadow-md);
+      z-index: 1000;
+    }
+    .profile-menu.show { display: block; animation: subFade 0.2s ease-out; }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 12px;
+    }
+    .menu-profile-image { width: 44px; height: 44px; border-radius: 50%; }
+    #menuName { color: #fff; font-size: 15px; font-weight: 800; }
+    #menuEmail { margin-top: 2px; font-size: 12px; color: #63728a; word-break: break-all; }
+    .profile-menu a {
+      display: flex;
+      align-items: center;
+      height: 42px;
+      padding: 0 12px;
+      border-radius: 6px;
+      color: #e7edf8;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .profile-menu a:hover { background: #182a64; }
+    .logout-btn {
+      margin-top: 12px;
+      height: 44px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--red-alert);
+      color: #fff;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+    }
 
-.sidebar-menu {
-    padding: 24px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    flex: 1;
-}
+    /* MAIN CONTAINER INTERFACE BLOCKS */
+    .content-area {
+      padding: 40px;
+      flex: 1;
+      max-width: 1400px;
+      width: 100%;
+    }
+    .header-block { margin-bottom: 32px; }
+    .title { font-size: 36px; font-weight: 900; letter-spacing: -0.02em; color: var(--text-primary); }
+    .desc { font-size: 15px; color: var(--text-secondary); margin-top: 8px; max-width: 800px; }
 
-.menu-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
-    color: #94a3b8;
-    font-size: 14px;
-    font-weight: 700;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
+    /* =====================================================
+    HIGH-END BALANCE METRICS GRAPHICS SECTION
+    ===================================================== */
+    .balance-card-premium {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 32px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 40px;
+    }
+    @media(max-width: 900px) { .balance-card-premium { flex-direction: column; align-items: stretch; gap: 24px; } }
+    
+    .balance-left-col { flex: 1; }
+    .balance-label { font-size: 13px; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
+    .balance-val { font-size: 56px; font-weight: 950; color: var(--accent-blue); letter-spacing: -0.03em; margin-top: 8px; line-height: 1; }
+    .balance-hint { font-size: 14px; color: var(--text-muted); margin-top: 12px; font-weight: 500; }
+    
+    .stats-row-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 180px);
+      gap: 16px;
+    }
+    @media(max-width: 900px) { .stats-row-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media(max-width: 600px) { .stats-row-grid { grid-template-columns: 1fr; } }
+    
+    .stat-node-box {
+      padding: 18px;
+      border-radius: 10px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+    }
+    .stat-node-box h3 { font-size: 11px; color: var(--text-secondary); font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; }
+    .stat-node-box h2 { font-size: 22px; font-weight: 900; color: var(--text-primary); margin-top: 6px; letter-spacing: -0.01em; }
 
-.menu-item:hover {
-    background-color: var(--sidebar-hover);
-    color: #ffffff;
-}
+    /* LAYOUT ARCHITECTURE SPLIT PANELS */
+    .layout-split-matrix {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 32px;
+    }
+    @media(max-width: 1150px) { .layout-split-matrix { grid-template-columns: 1fr; } }
 
-.menu-item.active {
-    background-color: var(--accent-blue);
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(47, 98, 233, 0.25);
-}
+    .content-panel-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 32px;
+      box-shadow: var(--shadow-sm);
+    }
 
-.menu-item i { width: 20px; text-align: center; }
+    /* CONTROL INPUT INTERFACES FORM GROUP */
+    .panel-title-bold { font-size: 20px; font-weight: 900; color: var(--text-primary); margin-bottom: 6px; letter-spacing: -0.01em; }
+    .panel-desc-text { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.5; }
+    
+    .form-group-block { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
+    .form-group-block label { font-size: 13px; font-weight: 700; color: var(--text-secondary); }
+    .form-input-element {
+      width: 100%;
+      min-height: 50px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--text-primary);
+      outline: none;
+      padding: 12px 16px;
+      font-size: 15px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .form-input-element:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.08); }
+    #withdrawStatus { font-size: 14px; font-weight: 700; margin-top: 14px; color: var(--accent-blue); }
 
-/* =========================================================
-   RIGHT AREA MAIN CONTAINER ENGINE
-   ========================================================= */
-.main-wrapper {
-    margin-left: 260px; 
-    width: calc(100% - 260px);
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
+    /* CORE BUTTON ARRAYS ELEMENTS */
+    .action-trigger-btn {
+      width: 100%;
+      min-height: 50px;
+      background: var(--accent-blue);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s ease;
+    }
+    .action-trigger-btn:hover { background-color: var(--accent-blue-hover); }
 
-.topbar{
-    height: 75px;
-    background-color: var(--bg-secondary);
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 40px;
-    position: sticky;
-    top: 0;
-    z-index: 90;
-}
+    /* =====================================================
+    DYNAMIC TRANSACTION LEDGERS ROWS STYLES
+    ===================================================== */
+    .transactions-stack-box { display: flex; flex-direction: column; gap: 14px; }
+    .txn-row-node {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 18px 20px;
+      border-radius: 10px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+    }
+    .txn-row-node.hidden-item { display: none !important; }
+    
+    .txn-left-cluster { display: flex; gap: 14px; align-items: center; }
+    .txn-icon-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 800;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      color: var(--accent-blue);
+    }
+    .txn-meta h3 { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+    .txn-meta p { margin-top: 4px; color: var(--text-muted); font-size: 12px; }
+    
+    .txn-value-text { font-size: 18px; font-weight: 800; }
+    .txn-value-text.credit { color: var(--green-success); }
+    .txn-value-text.debit { color: var(--red-alert); }
 
-.page-title { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
+    .see-all-wrapper-container { margin-top: 20px; text-align: center; }
+    .see-all-toggle-action {
+      background: #ffffff;
+      color: var(--accent-blue);
+      border: 1px solid var(--border-color);
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .see-all-toggle-action:hover { background: var(--bg-primary); border-color: #cbd5e1; }
 
-.content-area {
-    padding: 40px;
-    flex: 1;
-    max-width: 1400px;
-    width: 100%;
-    margin: 0 auto;
-}
+    .empty {
+      padding: 48px;
+      text-align: center;
+      border-radius: 10px;
+      background: #ffffff;
+      color: var(--text-muted);
+      font-weight: 700;
+      border: 1px dashed var(--border-color);
+      font-size: 14px;
+    }
 
-/* =========================================================
-   LONG DETAILED METRICS GRAPHICS GRID
-   ========================================================= */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
-    margin-bottom: 32px;
-}
+    /* INLINE REGULATORY DISCLOSURES LISTS */
+    .regulatory-info-list { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+    .regulatory-node { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--text-secondary); font-weight: 500; line-height: 1.5; }
+    .regulatory-node i { color: var(--accent-blue); margin-top: 2px; }
 
-.stat-card {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 24px;
-    box-shadow: var(--shadow-sm);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-    overflow: hidden;
-}
+    footer {
+      background-color: var(--bg-secondary);
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 600;
+      margin-top: 60px;
+      line-height: 1.6;
+    }
 
-.stat-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-}
-
-.stat-label { font-size: 13px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
-
-.stat-icon-box {
-    width: 38px;
-    height: 38px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-}
-.stat-card:nth-child(1) .stat-icon-box { background: #eff6ff; color: var(--accent-blue); }
-.stat-card:nth-child(2) .stat-icon-box { background: #fffbeb; color: var(--amber-warning); }
-.stat-card:nth-child(3) .stat-icon-box { background: #ecfdf5; color: var(--green-success); }
-.stat-card:nth-child(4) .stat-icon-box { background: #fdf2f8; color: #db2777; }
-
-.stat-value { font-size: 32px; font-weight: 900; color: var(--text-primary); letter-spacing: -0.02em; line-height: 1; }
-.stat-sub-text { font-size: 12px; color: var(--text-muted); margin-top: 10px; display: flex; align-items: center; gap: 4px; }
-
-/* LAYOUT STRUCTURAL BLOCKS MATRIX */
-.layout-split {
-    display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: 32px;
-    margin-bottom: 32px;
-}
-
-.wallet-card {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 32px;
-    box-shadow: var(--shadow-sm);
-}
-
-.card-title { font-size: 18px; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.01em; }
-.card-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.5; }
-
-/* ALERT ACTION BANNER */
-.msg-box {
-    display: none; padding: 14px 18px; border-radius: 8px; font-size: 14px; font-weight: 700; margin-bottom: 24px;
-}
-.msg-box.success { display: block; color: #065f46; background: #ecfdf5; border: 1px solid #a7f3d0; }
-.msg-box.error { display: block; color: #991b1b; background: #fee2e2; border: 1px solid #fecaca; }
-
-/* INPUT LOGIC FORM GROUP ELEMENT */
-.form-group { margin-bottom: 20px; }
-.form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--text-secondary); }
-
-.input-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-.input-currency-badge {
-    position: absolute; left: 16px; font-size: 16px; font-weight: 800; color: var(--text-secondary); pointer-events: none;
-}
-.form-input {
-    width: 100%;
-    min-height: 52px;
-    padding: 0 16px 0 38px; /* Left indent spacer for currency symbol tracks */
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    background: #ffffff;
-    color: var(--text-primary);
-    font-size: 16px;
-    font-weight: 700;
-    outline: none;
-    transition: all 0.2s ease;
-}
-.form-input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.08); }
-
-.input-helper { font-size: 12px; color: var(--text-muted); margin-top: 6px; line-height: 1.4; }
-
-.btn-primary { 
-    width: 100%; background: var(--accent-blue); color: white; border: none; padding: 14px 28px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.2s ease;
-}
-.btn-primary:hover { background-color: var(--accent-blue-hover); }
-
-/* LINK ROUTER Settle INFO BADGES */
-.payout-node-details {
-    background: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 16px;
-    margin-top: 20px;
-}
-.node-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; }
-.node-row:last-child { margin-bottom: 0; }
-.node-label { color: var(--text-secondary); font-weight: 500; }
-.node-value { color: var(--text-primary); font-weight: 700; }
-
-/* LEDGER TRANSACTIONS MATRIX TABLE */
-.table-wrapper { overflow-x: auto; margin-top: 16px; }
-table { width: 100%; min-width: 800px; border-collapse: collapse; text-align: left; }
-th, td { padding: 16px 14px; border-bottom: 1px solid var(--border-color); }
-th { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-td { font-size: 14px; color: var(--text-primary); font-weight: 500; }
-
-.table-title-bold { font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
-.table-sub-id { font-size: 11px; color: var(--text-muted); font-family: monospace; }
-
-.badge {
-    display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700;
-}
-.badge.success { background: #ecfdf5; color: #047857; }
-.badge.warning { background: #fffbeb; color: #b45309; }
-.badge.danger { background: #fef2f2; color: #b91c1c; }
-
-.amt-credited { color: var(--green-success); font-weight: 700; }
-.amt-debited { color: var(--text-primary); font-weight: 700; }
-
-/* RESPONSIVE LAYOUT SCALES */
-@media(max-width:1200px) {
-    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-    .layout-split { grid-template-columns: 1fr; }
-}
-@media(max-width:1050px) {
-    .sidebar { width: 70px; }
-    .sidebar-brand span, .menu-item span { display: none; }
-    .sidebar-brand { padding: 24px 0; text-align: center; }
-    .menu-item { justify-content: center; }
-    .main-wrapper { margin-left: 70px; width: calc(100% - 70px); }
-}
-@media(max-width:768px) {
-    .stats-grid { grid-template-columns: 1fr; gap: 16px; }
-    .content-area { padding: 20px; }
-}
-@keyframes subFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-</style>
+    @keyframes subFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
 </head>
 
 <body>
 
-<!-- LEFT GLOBAL NAVIGATION SIDEBAR ARCHITECTURE -->
-<aside class="sidebar">
+  <!-- LEFT GLOBAL SIDEBAR ATTACHMENT PANEL FRAME -->
+  <aside class="sidebar">
     <div class="sidebar-brand">Creator<span>Hub</span></div>
     <div class="sidebar-menu">
-        <div class="menu-item" onclick="location.href='index.html'"><i class="fa-solid fa-house"></i> <span>Home</span></div>
-        <div class="menu-item" onclick="location.href='dashboard.html'"><i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span></div>
-        <div class="menu-item" onclick="location.href='store.html'"><i class="fa-solid fa-bag-shopping"></i> <span>Product Store</span></div>
-        <div class="menu-item" onclick="location.href='library.html'"><i class="fa-solid fa-book-open"></i> <span>Library</span></div>
-        <div class="menu-item active" onclick="location.href='wallet.html'"><i class="fa-solid fa-wallet"></i> <span>Wallet</span></div>
-        <div class="menu-item" onclick="location.href='settings.html'"><i class="fa-solid fa-gear"></i> <span>Settings</span></div>
+      <div class="menu-item" onclick="location.href='index.html'"><i class="fa-solid fa-house"></i> <span>Home</span></div>
+      <div class="menu-item" onclick="location.href='dashboard.html'"><i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span></div>
+      <div class="menu-item" onclick="location.href='store.html'"><i class="fa-solid fa-bag-shopping"></i> <span>Product Store</span></div>
+      <div class="menu-item" onclick="location.href='library.html'"><i class="fa-solid fa-book-open"></i> <span>Library</span></div>
+      <div class="menu-item active" onclick="location.href='wallet1.html'"><i class="fa-solid fa-wallet"></i> <span>Wallet</span></div>
+      <div class="menu-item" onclick="location.href='settings.html'"><i class="fa-solid fa-gear"></i> <span>Settings</span></div>
     </div>
-</aside>
+  </aside>
 
-<div class="main-wrapper">
+  <!-- RIGHT CONTAINER CONTENT WORKSPACE LAYERS -->
+  <div class="main-wrapper">
+    
     <header class="topbar">
-        <div class="page-title"><i class="fa-solid fa-wallet" style="color: var(--accent-blue);"></i> Financial Ledger Wallet</div>
+      <div class="topbar-left">
+        <div id="profileWrap" class="profile-wrap">
+          <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile View">
+          
+          <div id="profileMenu" class="profile-menu">
+            <div class="profile-header">
+              <img id="menuProfileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="menu-profile-image" alt="User">
+              <div>
+                <div id="menuName">CreatorHub User</div>
+                <small id="menuEmail">Loading...</small>
+              </div>
+            </div>
+            <a href="profile.html">My Profile</a>
+            <a href="seller-apply.html">Become Seller</a>
+            <a href="tranding.html">Trending Books</a>
+            <a href="library.html">Library</a>
+            <a href="topselling.html">Top Selling</a>
+            <div class="logout-btn" onclick="logout()">Logout</div>
+          </div>
+        </div>
+        <div class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i> Back to Home</div>
+      </div>
+      <div class="badge">Wallet Center Pro</div>
     </header>
 
     <main class="content-area">
-        
-        <div id="alertBox" class="msg-box"></div>
+      <div class="header-block">
+        <h1 class="title">Financial Ledger Wallet</h1>
+        <p class="desc">Track digital marketplace bookstore earnings, monitor processing clearing statuses, and manage your settlement disbursements seamlessly.</p>
+      </div>
 
-        <!-- =========================================================
-             ENTERPRISE LEVEL STATS CARDS GRAPHICS ROW
-             ========================================================= -->
-        <section class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-header"><span class="stat-label">Available Balance</span><div class="stat-icon-box"><i class="fa-solid fa-money-bill-wave"></i></div></div>
-                <div id="valAvailable" class="stat-value">₹0</div>
-                <div class="stat-sub-text"><i class="fa-solid fa-circle-check" style="color:var(--green-success)"></i> Ready for instant payout release</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-header"><span class="stat-label">Pending Settlements</span><div class="stat-icon-box"><i class="fa-solid fa-clock"></i></div></div>
-                <div id="valPending" class="stat-value">₹0</div>
-                <div class="stat-sub-text"><i class="fa-solid fa-spinner fa-spin"></i> In escrow clearing validation cycle</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-header"><span class="stat-label">Total Withdrawn</span><div class="stat-icon-box"><i class="fa-solid fa-building-columns"></i></div></div>
-                <div id="valWithdrawn" class="stat-value">₹0</div>
-                <div class="stat-sub-text"><i class="fa-solid fa-arrow-up-right-from-square"></i> Dispatched to linked savings node</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-header"><span class="stat-label">Lifetime Revenue</span><div class="stat-icon-box"><i class="fa-solid fa-chart-line"></i></div></div>
-                <div id="valLifetime" class="stat-value">₹0</div>
-                <div class="stat-sub-text"><i class="fa-solid fa-bolt" style="color:var(--amber-warning)"></i> Total processing volume index</div>
-            </div>
-        </section>
-
-        <div class="layout-split">
-            
-            <!-- LEDGER TRANSACTION HISTORY CARD -->
-            <div class="wallet-card">
-                <div class="card-title">Ledger Transaction Activity History</div>
-                <div class="card-desc">Comprehensive matrix track records of incoming store orders split balances and payout releases.</div>
-                
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Transaction / Reference Description</th>
-                                <th>Type</th>
-                                <th>Amount Base</th>
-                                <th>Status Node</th>
-                                <th>Timestamp</th>
-                            </tr>
-                        </thead>
-                        <tbody id="ledgerTableBody">
-                            <!-- Dynamic fallback state handled via execution script loops -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- EXPRESS PAYOUT ACTION GATEWAY PANEL -->
-            <div class="wallet-card" style="height: max-content;">
-                <div class="card-title">Express Balance Withdrawal</div>
-                <div class="card-desc">Execute an automated payout release stream directly into your registered operational bank node parameters.</div>
-                
-                <form onsubmit="executeWithdrawRequest(event)">
-                    <div class="form-group">
-                        <label>Amount to Payout Release</label>
-                        <div class="input-container">
-                            <span class="input-currency-badge">₹</span>
-                            <input id="withdrawInput" class="form-input" type="number" step="1" min="100" placeholder="Enter amount (Min ₹100)" required>
-                        </div>
-                        <div class="input-helper">Processing fees: ₹0.00 standard protocol. Cashfree split distribution system ready.</div>
-                    </div>
-                    <button type="submit" class="btn-primary">Initiate Payout Stream</button>
-                </form>
-
-                <!-- DESTINATION BANK HIGHLIGHT SUMMARY BLOCK -->
-                <div class="payout-node-details">
-                    <div style="font-size: 12px; font-weight: 800; color: var(--text-secondary); margin-bottom: 12px; text-transform:uppercase; letter-spacing:0.02em;"><i class="fa-solid fa-shield-halved"></i> Destination Routing Target</div>
-                    <div class="node-row"><span class="node-label">Holder Name</span><span id="nodeHolder" class="node-value">Not Linked</span></div>
-                    <div class="node-row"><span class="node-label">Corporate Bank</span><span id="nodeBank" class="node-value">Configure in Settings</span></div>
-                    <div class="node-row"><span class="node-label">Routing IFSC</span><span id="nodeIfsc" class="node-value">XXXXXXXXXXX</span></div>
-                </div>
-            </div>
-
+      <!-- =====================================================
+           ENTERPRISE LEVEL METRICS DUAL HEADER CARD MODULE
+           ===================================================== -->
+      <section class="balance-card-premium">
+        <div class="balance-left-col">
+          <div class="balance-label">Available Liquid Balance</div>
+          <div id="availableBalance" class="balance-val">₹0.00</div>
+          <div class="balance-hint"><i class="fa-solid fa-circle-check" style="color:var(--green-success)"></i> Cleared assets are locked and available for express deployment withdrawal settlements.</div>
         </div>
-    </main>
-</div>
 
-<script>
-// Dashboard cache index key reference link
-const CORE_CACHE_TRACK = "creatorhub_dashboard_cache_v3";
+        <div class="stats-row-grid">
+          <div class="stat-node-box">
+            <h3>Pending Balance</h3>
+            <h2 id="pendingBalance">₹0.00</h2>
+          </div>
+          <div class="stat-node-box">
+            <h3>Withdrawn</h3>
+            <h2 id="withdrawnBalance">₹0.00</h2>
+          </div>
+          <div class="stat-node-box">
+            <h3>Total Earnings</h3>
+            <h2 id="totalEarnings">₹0.00</h2>
+          </div>
+        </div>
+      </section>
 
-let availableLiquidBalance = 0; // Runtime evaluation balance limits checks
-
-function pushAlert(text, mode) {
-    const banner = document.getElementById("alertBox");
-    banner.innerText = text;
-    banner.className = "msg-box " + (mode === "ok" ? "success" : "error");
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function formatCurrency(val) {
-    return "₹" + Number(val || 0).toLocaleString("en-IN");
-}
-
-function loadWalletEcosystem() {
-    // 1. Linking destination payout vectors from local storage structures
-    let holder = localStorage.getItem("settle_holder") || "";
-    let bank = localStorage.getItem("settle_bank") || "";
-    let ifsc = localStorage.getItem("settle_ifsc") || "";
-
-    if(holder) document.getElementById("nodeHolder").innerText = holder;
-    if(bank) document.getElementById("nodeBank").innerText = bank;
-    if(ifsc) document.getElementById("nodeIfsc").innerText = ifsc;
-
-    // 2. Fetching metrics parameters straight from dashboard cached memory arrays to maintain 100% data fidelity
-    try {
-        let cachedObject = JSON.parse(localStorage.getItem(CORE_CACHE_TRACK) || "null");
-        if(cachedObject && cachedObject.data && cachedObject.data.wallet) {
-            let wallet = cachedObject.data.wallet;
-            
-            availableLiquidBalance = Number(wallet.available || 0);
-            
-            document.getElementById("valAvailable").innerText = formatCurrency(wallet.available);
-            document.getElementById("valPending").innerText = formatCurrency(wallet.pending);
-            document.getElementById("valWithdrawn").innerText = formatCurrency(wallet.withdrawn);
-            document.getElementById("valLifetime").innerText = formatCurrency(wallet.lifetime);
-
-            // Render live transaction details mapping loops from recent order models arrays
-            if(cachedObject.data.recent_orders && cachedObject.data.recent_orders.length > 0) {
-                renderTransactionLedger(cachedObject.data.recent_orders);
-                return;
-            }
-        }
-    } catch(e) { console.error("Cache read trace error loops:", e); }
-
-    // Fallback operational templates if empty parameters logs found
-    renderFallbackLedger();
-}
-
-function renderTransactionLedger(orders) {
-    const tbody = document.getElementById("ledgerTableBody");
-    let html = "";
-
-    orders.forEach((order, index) => {
-        let profit = Number(order.seller_profit || 0);
-        let timestamp = order.created_at ? new Date(order.created_at).toLocaleDateString('en-IN', {day: '2-digit', month: 'short', year: 'numeric'}) : "Recent";
+      <!-- PANELS MATRIX LAYOUT GRID SPLIT -->
+      <div class="layout-split-matrix">
         
-        html += `
-            <tr>
-                <td>
-                    <div class="table-title-bold">${order.book_title || "Premium Digital Asset Payout"}</div>
-                    <div class="table-sub-id">REF: TXN-${order.id || '00' + index}</div>
-                </td>
-                <td><span class="badge success">Store Sale Split</span></td>
-                <td><span class="amt-credited">+₹${profit.toLocaleString("en-IN")}</span></td>
-                <td><span class="badge success"><i class="fa-solid fa-circle-check"></i> Settled</span></td>
-                <td>${timestamp}</td>
-            </tr>
-        `;
+        <!-- LEFT BOUND DETAILS ACTIVITY HISTORY TABLE -->
+        <div class="content-panel-card">
+          <h2 class="panel-title-bold">Transaction Ledgers History</h2>
+          <p class="panel-desc-text">Comprehensive data binding matrix showing recent store orders distribution logs and payment settlements streams maps.</p>
+          
+          <div id="transactions" class="transactions-stack-box">
+            <div class="empty">Loading transactions history...</div>
+          </div>
+
+          <div id="seeAllContainer" class="see-all-wrapper-container" style="display: none;">
+            <button id="seeAllBtn" class="see-all-toggle-action" onclick="toggleTransactionsLayout()">See All <i class="fa-solid fa-chevron-down"></i></button>
+          </div>
+        </div>
+
+        <!-- RIGHT BOUND EXPRESS DISBURSEMENT CONTROLLERS -->
+        <div id="withdrawTarget" class="content-panel-card" style="height: max-content;">
+          <h2 class="panel-title-bold">Express Balance Withdrawal</h2>
+          <p class="panel-desc-text">Execute an automated payout release routing directly into your verified digital payment gateway arrays handles.</p>
+          
+          <div class="form-group-block">
+            <label for="name">Beneficiary Full Name</label>
+            <input id="name" class="form-input-element" placeholder="Enter beneficiary name">
+          </div>
+          <div class="form-group-block">
+            <label for="phone">Contact Phone Number</label>
+            <input id="phone" class="form-input-element" placeholder="Enter contact number">
+          </div>
+          <div class="form-group-block">
+            <label for="withdrawAmount">Withdrawal Settlement Amount</label>
+            <input id="withdrawAmount" class="form-input-element" placeholder="Enter amount (₹)">
+          </div>
+          <div class="form-group-block">
+            <label for="upi">Target UPI ID Handle</label>
+            <input id="upi" class="form-input-element" placeholder="username@bank">
+          </div>
+
+          <button class="action-trigger-btn" style="margin-top: 12px;" onclick="withdrawMoney()"><i class="fa-solid fa-paper-plane"></i> Request Withdrawal</button>
+          <div id="withdrawStatus"></div>
+
+          <!-- REGULATORY FRAMEWORKS ADVICE NOTICES -->
+          <div style="border-top:1px solid var(--border-color); padding-top:20px; margin-top:24px;">
+            <div class="regulatory-info-list">
+              <div class="regulatory-node"><i class="fa-solid fa-circle-info"></i> <span>Seller earnings stay in pending balance until release date loops settle.</span></div>
+              <div class="regulatory-node"><i class="fa-solid fa-circle-info"></i> <span>Minimum withdrawal execution block threshold is limited at ₹100.</span></div>
+              <div class="regulatory-node"><i class="fa-solid fa-circle-info"></i> <span>Ecosystem processing handles encrypted backend verification checks natively.</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <footer>
+      <strong>© 2026 CreatorHub Wallet System</strong><br>
+      <span style="font-size:11px; color: var(--text-muted); margin-top:4px; display:inline-block;">Secure Earnings • Live Transactions • Protected Withdrawals</span>
+    </footer>
+  </div>
+
+  <!-- SCRIPT ENGINE PIPELINES CORE LOGICS (100% WORKING INTEGRATED) -->
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec";
+
+    let USER = JSON.parse(localStorage.getItem("user") || "{}");
+    const USER_EMAIL = USER.email || "";
+    let isListExpanded = false; 
+
+    function driveImage(url){
+      if(!url) return "";
+      if(url.includes("uc?id=")){
+        let id = url.split("id=")[1].split("&")[0];
+        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+      }
+      if(url.includes("/d/")){
+        let id = url.split("/d/")[1].split("/")[0];
+        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+      }
+      return url;
+    }
+
+    function toggleProfileMenu(){
+      document.getElementById("profileMenu").classList.toggle("show");
+    }
+
+    window.addEventListener("click", function(e){
+      let wrap = document.getElementById("profileWrap");
+      if(wrap && !wrap.contains(e.target)){
+        document.getElementById("profileMenu").classList.remove("show");
+      }
     });
-    tbody.innerHTML = html;
-}
 
-function renderFallbackLedger() {
-    const tbody = document.getElementById("ledgerTableBody");
-    tbody.innerHTML = `
-        <tr>
-            <td><div class="table-title-bold">Initial System Integration Grant Ledger</div><div class="table-sub-id">REF: TXN-INIT-CH99</div></td>
-            <td><span class="badge" style="background:#f1f5f9; color:#475569">Platform Allocation</span></td>
-            <td><span class="amt-credited">+₹0</span></td>
-            <td><span class="badge success"><i class="fa-solid fa-circle-check"></i> Active</span></td>
-            <td>Active Stack</td>
-        </tr>
-    `;
-}
-
-function executeWithdrawRequest(e) {
-    e.preventDefault();
-    pushAlert("", ""); // Flush notifications status fields
-
-    let inputAmount = Math.floor(Number(document.getElementById("withdrawInput").value));
-    let targetBankLinked = localStorage.getItem("settle_acc_node") || "";
-
-    if(!targetBankLinked) {
-        pushAlert("Payout routing failed! Please navigate to Settings panel and securely link your Payout Bank Node parameters first.", "bad");
-        return;
+    function logout(){
+      localStorage.clear();
+      window.location.href = "login.html";
     }
 
-    if(inputAmount > availableLiquidBalance) {
-        pushAlert(`Insufficient liquid funds balance index! Current maximum processing withdrawal threshold bound limit is: ${formatCurrency(availableLiquidBalance)}`, "bad");
-        return;
+    function goBack(){
+      window.location.href = "index.html";
     }
 
-    if(inputAmount < 100) {
-        pushAlert("Security violation limit bounds! Minimum digital settlement payout execution block requires a threshold of ₹100.", "bad");
-        return;
+    function updateLoginUI(){
+      let token = localStorage.getItem("user_token");
+      let profileWrap = document.getElementById("profileWrap");
+
+      let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
+      let email = localStorage.getItem("creatorhub_profile_email");
+      
+      if(token || USER_EMAIL){
+        profileWrap.style.display = "flex";
+
+        if(cachedUser && email){
+          try {
+            let data = JSON.parse(cachedUser)[email];
+            if(data && data.profile_image){
+              document.getElementById("profileImage").src = driveImage(data.profile_image);
+              document.getElementById("menuProfileImage").src = driveImage(data.profile_image);
+              document.getElementById("menuName").innerText = data.name || "CreatorHub User";
+              document.getElementById("menuEmail").innerText = data.email || email;
+            }
+          } catch(e) { console.log("Cache compilation skipped"); }
+        }
+      }
     }
 
-    // Dynamic processing runtime changes logs simulation variables 
-    availableLiquidBalance -= inputAmount;
-    document.getElementById("valAvailable").innerText = formatCurrency(availableLiquidBalance);
-    
-    // Injecting live simulated data nodes stream inside history grids logs directly
-    const tbody = document.getElementById("ledgerTableBody");
-    let refCode = "WD-" + Math.random().toString(36).substr(2, 9).toUpperCase();
-    let currentDate = new Date().toLocaleDateString('en-IN', {day: '2-digit', month: 'short', year: 'numeric'});
-    
-    let inlineRowHtml = `
-        <tr>
-            <td><div class="table-title-bold">Bank Node Payout Release Request</div><div class="table-sub-id">REF: ${refCode}</div></td>
-            <td><span class="badge" style="background:#fef2f2; color:#b91c1c;">Withdrawal Debit</span></td>
-            <td><span class="amt-debited">-₹${inputAmount.toLocaleString("en-IN")}</span></td>
-            <td><span class="badge warning"><i class="fa-solid fa-spinner fa-spin"></i> Processing</span></td>
-            <td>${currentDate}</td>
-        </tr>
-    `;
-    tbody.insertAdjacentHTML('afterbegin', inlineRowHtml);
-    document.getElementById("withdrawInput").value = "";
-    
-    pushAlert(`Payout stream initialized! ₹${inputAmount.toLocaleString("en-IN")} is successfully queued for distribution splitting to Cashfree networks node. 🚀`, "ok");
-}
+    async function loadWallet(){
+      try{
+        let res = await fetch(API_URL,{
+          method:"POST",
+          headers:{ "Content-Type":"text/plain;charset=utf-8" },
+          body:JSON.stringify({ action:"getWallet", email:USER_EMAIL })
+        });
+        let data = await res.json();
+        if(!data.success) return;
 
-document.addEventListener("DOMContentLoaded", loadWalletEcosystem);
-</script>
+        let wallet = data.wallet;
+        document.getElementById("availableBalance").innerHTML = "₹" + Number(wallet.available||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        document.getElementById("pendingBalance").innerHTML = "₹" + Number(wallet.pending||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        document.getElementById("withdrawnBalance").innerHTML = "₹" + Number(wallet.withdrawn||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        document.getElementById("totalEarnings").innerHTML = "₹" + Number(wallet.total_earnings||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      }catch(err){ console.log(err); }
+    }
 
+    function safeParseDate(dateStr) {
+      if(!dateStr) return new Date();
+      let cleaned = String(dateStr).replace(/,/g, "").replace(/-/g, "/").trim();
+      let d = new Date(cleaned);
+      if (isNaN(d.getTime())) {
+        let parts = cleaned.split(/[\s/:]+/);
+        if(parts.length >= 3) { return new Date(); }
+        return new Date();
+      }
+      return d;
+    }
+
+    async function loadTransactions(){
+      if(!USER_EMAIL){
+        document.getElementById("transactions").innerHTML = '<div class="empty">Please login first.</div>';
+        return;
+      }
+
+      try{
+        let res = await fetch(API_URL,{
+          method:"POST",
+          headers:{ "Content-Type":"text/plain;charset=utf-8" },
+          body:JSON.stringify({ action:"getTransactions", email:USER_EMAIL })
+        });
+        let data = await res.json();
+        let box = document.getElementById("transactions");
+
+        if(!data.success || !data.transactions || data.transactions.length===0){
+          box.innerHTML = '<div class="empty">No transactions found yet.</div>';
+          document.getElementById("seeAllContainer").style.display = "none";
+          return;
+        }
+
+        box.innerHTML="";
+        let txns = data.transactions.reverse();
+
+        txns.forEach((txn, index)=>{
+          let type = txn.type || "credit";
+          let icon = type==="withdraw" ? "↗" : "₹";
+          let amountClass = type==="withdraw" ? "debit" : "credit";
+          
+          let dateObj = safeParseDate(txn.created_at || txn.date);
+          let displayDate = dateObj.toLocaleString("en-IN", { hour12: true });
+
+          let hideClass = index >= 4 ? "hidden-item" : "";
+
+          box.innerHTML += `
+            <div class="txn-row-node ${hideClass}">
+              <div class="txn-left-cluster">
+                <div class="txn-icon-badge">${icon}</div>
+                <div class="txn-meta">
+                  <h3>${txn.message || "Transaction"}</h3>
+                  <p>${displayDate}</p>
+                </div>
+              </div>
+              <div class="txn-value-text ${amountClass}">
+                ${type==="withdraw"?"-":"+"}₹${Number(txn.amount||0).toFixed(2)}
+              </div>
+            </div>
+          `;
+        });
+
+        if(txns.length > 4) {
+          document.getElementById("seeAllContainer").style.display = "block";
+        } else {
+          document.getElementById("seeAllContainer").style.display = "none";
+        }
+
+        isListExpanded = false;
+      }catch(err){ console.log(err); }
+    }
+
+    function toggleTransactionsLayout() {
+      let hiddenItems = document.querySelectorAll(".transactions-stack-box .txn-row-node");
+      let btn = document.getElementById("seeAllBtn");
+
+      if(!isListExpanded) {
+        hiddenItems.forEach((item, index) => {
+          if(index >= 4) item.style.setProperty("display", "flex", "important");
+        });
+        btn.innerHTML = 'View Less <i class="fa-solid fa-chevron-up"></i>';
+        isListExpanded = true;
+      } else {
+        hiddenItems.forEach((item, index) => {
+          if(index >= 4) item.style.setProperty("display", "none", "important");
+        });
+        btn.innerHTML = 'See All <i class="fa-solid fa-chevron-down"></i>';
+        isListExpanded = false;
+      }
+    }
+
+    async function withdrawMoney(){
+      let amount = document.getElementById("withdrawAmount").value.trim();
+      let upi = document.getElementById("upi").value.trim();
+      let name = document.getElementById("name").value;
+      let phone = document.getElementById("phone").value;
+
+      if(!amount || !upi){
+        alert("Please fill all fields");
+        return;
+      }
+
+      document.getElementById("withdrawStatus").innerHTML = "Processing withdrawal request...";
+
+      try{
+        let res = await fetch(API_URL,{
+          method:"POST",
+          headers:{ "Content-Type":"text/plain;charset=utf-8" },
+          body:JSON.stringify({ action:"withdraw", email:USER_EMAIL, name:name, phone:phone, amount:amount, upi:upi })
+        });
+        let data = await res.json();
+        document.getElementById("withdrawStatus").innerHTML = data.message;
+
+        if(data.success){
+          document.getElementById("withdrawAmount").value = "";
+          document.getElementById("upi").value = "";
+          loadWallet();
+          loadTransactions();
+        }
+      }catch(err){
+        console.log(err);
+        document.getElementById("withdrawStatus").innerHTML = "Server error";
+      }
+    }
+
+    updateLoginUI();
+    loadWallet();
+    loadTransactions();
+  </script>
 </body>
 </html>
