@@ -10,17 +10,17 @@
 
 <style>
 /* =========================================================
-   CREATORHUB HIGH-END PREMIUM ENTERPRISE LIGHT VARIABLES
+   CREATORHUB HIGH-END PREMIUM ENTERPRISE VARIABLES
    ========================================================= */
 :root {
-    --bg-primary: #f8fafc;       /* Extremely clean slate workspace white */
+    --bg-primary: #f8fafc;       
     --bg-secondary: #ffffff;     
-    --sidebar-dark: #0f172a;     /* Deep navy black sidebar grid lines */
+    --sidebar-dark: #0f172a;     
     --sidebar-hover: #1e293b;    
     --text-primary: #0f172a;     
     --text-secondary: #475569;   
     --text-muted: #64748b;
-    --accent-blue: #2f62e9;      /* Authentic Signature Royal Blue Theme */
+    --accent-blue: #2f62e9;      
     --accent-blue-hover: #1d4ed8;
     --border-color: #e2e8f0;
     --shadow-sm: 0 1px 2px rgba(15,23,42,0.05);
@@ -45,7 +45,7 @@ body{
 }
 
 /* =========================================================
-   LEFT GLOBAL NAVIGATION SIDEBAR MODULE LOCK
+   LEFT GLOBAL SIDEBAR
    ========================================================= */
 .sidebar {
     width: 260px;
@@ -106,7 +106,7 @@ body{
 .menu-item i { width: 20px; text-align: center; }
 
 /* =========================================================
-   RIGHT SIDE WORKSPACE GRID LAYOUT
+   RIGHT SIDE WORKSPACE LAYOUT
    ========================================================= */
 .main-wrapper {
     margin-left: 260px; 
@@ -131,11 +131,11 @@ body{
 
 .page-title { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
 
-/* PREMIUM SIDE MENU NAVIGATION LAYOUT MATRIX */
+/* SETTINGS CONTENT CONTAINER GRID */
 .settings-container {
     padding: 40px;
     display: grid;
-    grid-template-columns: 260px 1fr;
+    grid-template-columns: 280px 1fr;
     gap: 48px;
     flex: 1;
     max-width: 1400px;
@@ -171,7 +171,7 @@ body{
     box-shadow: var(--shadow-sm); 
 }
 
-/* CARDS PREMIUM CONTAINER SLATES */
+/* CARDS CONFIGURATION SLATES */
 .settings-view { display: none; }
 .settings-view.active { display: block; animation: subFade 0.2s ease-out; }
 
@@ -187,13 +187,12 @@ body{
 .card-title { font-size: 18px; font-weight: 800; margin-bottom: 4px; letter-spacing: -0.01em; }
 .card-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.5; }
 
-/* PREMIUM HIGH-TIER INPUT DECORATIONS */
+/* INPUT STYLES MATRICES */
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 20px;}
 .form-group { margin-bottom: 20px; position: relative; }
 .form-group.full-width { grid-column: 1 / -1; }
 .form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--text-secondary); }
 
-/* 🚀 EYE WRAPPER INPUT STRUCTURE METHOD */
 .input-wrapper {
     position: relative;
     display: flex;
@@ -215,7 +214,27 @@ body{
 .form-input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.08); }
 .form-input:disabled { background: #f1f5f9; color: var(--text-muted); cursor: not-allowed; border-color: var(--border-color); }
 
-/* 🚀 TOGGLE PASWORD EYE ICON BUTTON */
+select.form-input {
+    cursor: pointer;
+    appearance: none;
+}
+
+.form-textarea {
+    width: 100%;
+    min-height: 110px;
+    padding: 14px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--text-primary);
+    font-size: 15px;
+    outline: none;
+    resize: vertical;
+    transition: all 0.2s ease;
+}
+.form-textarea:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.08); }
+
+/* EYE PASWORD VISIBILITY TOGGLE */
 .eye-toggle {
     position: absolute;
     right: 16px;
@@ -228,18 +247,47 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: color 0.2s ease;
 }
 .eye-toggle:hover { color: var(--accent-blue); }
 
-/* ALERT BANNER WRAPPER CHANNELS */
+/* LIVE CHECKBOX TOGGLES */
+.toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.toggle-row:last-child { border-bottom: none; }
+.toggle-info h4 { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+.toggle-info p { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+    position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #cbd5e1; transition: .3s; border-radius: 34px;
+}
+.slider:before {
+    position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px;
+    background-color: white; transition: .3s; border-radius: 50%;
+}
+input:checked + .slider { background-color: var(--accent-blue); }
+input:checked + .slider:before { transform: translateX(24px); }
+
+/* ALERT SYSTEM NOTIFICATIONS */
 .msg-box {
     display: none; padding: 14px 18px; border-radius: 8px; font-size: 14px; font-weight: 700; margin-bottom: 24px;
 }
 .msg-box.success { display: block; color: #065f46; background: #ecfdf5; border: 1px solid #a7f3d0; }
 .msg-box.error { display: block; color: #991b1b; background: #fee2e2; border: 1px solid #fecaca; }
 
-/* ACTION MATRIX ACTION BUTTONS */
+/* BUTTON MATRICES */
 .btn-primary { 
     background: var(--accent-blue); color: white; border: none; padding: 14px 28px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.2s ease;
 }
@@ -250,7 +298,7 @@ body{
 }
 .btn-danger:hover { background: var(--red-alert); color: white; }
 
-/* MEDIA ADAPTIVE COLLAPSIBLE LOOPS */
+/* MEDIA RESPONSIVE FLUID ENGINE */
 @media(max-width:1050px){
     .sidebar { width: 70px; }
     .sidebar-brand span, .menu-item span { display: none; }
@@ -269,7 +317,7 @@ body{
 
 <body>
 
-<!-- LEFT GLOBAL SIDEBAR ACCESS TERMINALS -->
+<!-- LEFT SIDEBAR MAP MODULE -->
 <aside class="sidebar">
     <div class="sidebar-brand">Creator<span>Hub</span></div>
     <div class="sidebar-menu">
@@ -284,17 +332,18 @@ body{
 
 <div class="main-wrapper">
     <header class="topbar">
-        <div class="page-title"><i class="fa-solid fa-sliders" style="color: var(--accent-blue);"></i> Control Management Center</div>
+        <div class="page-title"><i class="fa-solid fa-sliders" style="color: var(--accent-blue);"></i> System Configuration Hub</div>
     </header>
 
-    <!-- MAIN CONFIGURATION VIEWPORTS GRID -->
     <div class="settings-container">
         
-        <!-- INNER NAVIGATION SUB CONTROL TAB STRIPS -->
+        <!-- SIDE NAVIGATION SECTION TABS -->
         <div class="settings-tabs">
             <button class="tab-btn active" onclick="switchSection(event, 'account')"><i class="fa-solid fa-circle-user"></i> <span>Account Info</span></button>
+            <button class="tab-btn" onclick="switchSection(event, 'branding')"><i class="fa-solid fa-id-card"></i> <span>Store Branding</span></button>
             <button class="tab-btn" onclick="switchSection(event, 'security')"><i class="fa-solid fa-key"></i> <span>Security & Access</span></button>
             <button class="tab-btn" onclick="switchSection(event, 'payout')"><i class="fa-solid fa-building-columns"></i> <span>Payout Bank Node</span></button>
+            <button class="tab-btn" onclick="switchSection(event, 'notifications')"><i class="fa-solid fa-bell"></i> <span>Notifications</span></button>
             <button class="tab-btn" onclick="switchSection(event, 'developer')"><i class="fa-solid fa-terminal"></i> <span>Developer Console</span></button>
             <button class="tab-btn" onclick="switchSection(event, 'system')"><i class="fa-solid fa-layer-group"></i> <span>System Controls</span></button>
         </div>
@@ -302,29 +351,60 @@ body{
         <div class="settings-content">
             <div id="alertBox" class="msg-box"></div>
 
-            <!-- SECTION 1: GENERAL IDENTITY OVERVIEWS -->
+            <!-- SECTION 1: DETAILED DEEP ACCOUNT GENERAL INFO (IMAGE URL REMOVED) -->
             <div id="account" class="settings-view active">
                 <section class="settings-card">
-                    <div class="card-title">General Profile Configurations</div>
-                    <div class="card-desc">Update your credentials token mappings and marketplace branding variables.</div>
+                    <div class="card-title">Detailed Profile Configurations</div>
+                    <div class="card-desc">Update your personal identification records, contact streams, and identity tracking.</div>
                     <form onsubmit="saveGeneralInfo(event)">
                         <div class="form-grid">
-                            <div class="form-group"><label>Account Email Identifier</label><input id="accEmail" class="form-input" type="email" disabled></div>
-                            <div class="form-group"><label>Creator Display Name</label><input id="accName" class="form-input" type="text" required></div>
-                            <div class="form-group full-width"><label>Profile Avatar URL Link</label><input id="accImage" class="form-input" type="text" placeholder="Direct link raw source string text"></div>
+                            <div class="form-group"><label>Account Email (Locked)</label><input id="accEmail" class="form-input" type="email" disabled></div>
+                            <div class="form-group"><label>Creator Full Name</label><input id="accName" class="form-input" type="text" required></div>
+                            <div class="form-group"><label>Public Username Handle</label><input id="accUsername" class="form-input" type="text" placeholder="e.g. ayush_prajapati"></div>
+                            <div class="form-group"><label>Contact Phone Number</label><input id="accPhone" class="form-input" type="tel" placeholder="+91 00000-00000"></div>
+                            
+                            <div class="form-group">
+                                <label>Business Account Type</label>
+                                <select id="accBizType" class="form-input">
+                                    <option value="individual">Individual Freelancer</option>
+                                    <option value="agency">Agency / Corporate Entity</option>
+                                    <option value="publisher">Ebook Publisher</option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label>Registered Country Region</label><input id="accCountry" class="form-input" type="text" placeholder="India"></div>
+                            
+                            <div class="form-group full-width">
+                                <label>Creator Biography / Business Description</label>
+                                <textarea id="accBio" class="form-textarea" placeholder="Describe your digital asset specialization services..."></textarea>
+                            </div>
                         </div>
                         <button type="submit" class="btn-primary">Update Profile Engine</button>
                     </form>
                 </section>
             </div>
 
-            <!-- SECTION 2: SECURITY MODIFICATION (WITH DYNAMIC PASWORD TOGGLE EYE) -->
+            <!-- SECTION 2: NEW STORE BRANDING SETTINGS -->
+            <div id="branding" class="settings-view">
+                <section class="settings-card">
+                    <div class="card-title">Marketplace Store Branding</div>
+                    <div class="card-desc">Configure the public appearance tags for your ebook storefront.</div>
+                    <form onsubmit="saveStoreBranding(event)">
+                        <div class="form-grid">
+                            <div class="form-group"><label>Store Custom Title</label><input id="storeTitle" class="form-input" type="text" placeholder="Ayush Excel Specialist Hub"></div>
+                            <div class="form-group"><label>Public Support Email</label><input id="storeSupportEmail" class="form-input" type="email" placeholder="support@yourstore.com"></div>
+                            <div class="form-group full-width"><label>Store Tagline Descriptor</label><input id="storeTagline" class="form-input" type="text" placeholder="Premium data entry and creator ebooks delivered instantly."></div>
+                        </div>
+                        <button type="submit" class="btn-primary">Deploy Branding Nodes</button>
+                    </form>
+                </section>
+            </div>
+
+            <!-- SECTION 3: SECURITY WITH EYE ICON ACCENTS -->
             <div id="security" class="settings-view">
                 <section class="settings-card">
                     <div class="card-title">Security Gateway Credentials</div>
                     <div class="card-desc">Modify access validation passwords sequence to safe tracking parameters layers.</div>
                     <form onsubmit="saveSecurityCredentials(event)">
-                        
                         <div class="form-group">
                             <label>Current Security Password</label>
                             <div class="input-wrapper">
@@ -332,7 +412,6 @@ body{
                                 <button type="button" class="eye-toggle" onclick="togglePasswordVisibility('currPass', this)"><i class="fa-solid fa-eye"></i></button>
                             </div>
                         </div>
-
                         <div class="form-grid">
                             <div class="form-group">
                                 <label>New Secure Password</label>
@@ -354,7 +433,7 @@ body{
                 </section>
             </div>
 
-            <!-- SECTION 3: BANK PAYOUT SETTLEMENT ROUTINGS -->
+            <!-- SECTION 4: PAYOUT SETTLEMENT ROUTING -->
             <div id="payout" class="settings-view">
                 <section class="settings-card">
                     <div class="card-title">Fulfillment Settlement & Bank Node Settings</div>
@@ -363,7 +442,6 @@ body{
                         <div class="form-grid">
                             <div class="form-group"><label>Settlement Bank Account Holder Name</label><input id="bankHolder" class="form-input" type="text" placeholder="EX: AYUSH PRAJAPATI"></div>
                             <div class="form-group"><label>Core Bank Name</label><input id="bankName" class="form-input" type="text" placeholder="State Bank of India"></div>
-                            
                             <div class="form-group">
                                 <label>Account Number String Node</label>
                                 <div class="input-wrapper">
@@ -371,7 +449,6 @@ body{
                                     <button type="button" class="eye-toggle" onclick="togglePasswordVisibility('bankAccNo', this)"><i class="fa-solid fa-eye"></i></button>
                                 </div>
                             </div>
-
                             <div class="form-group"><label>IFSC Routing Code</label><input id="bankIfsc" class="form-input" type="text" placeholder="SBIN0000000"></div>
                         </div>
                         <button type="submit" class="btn-primary">Lock Bank Configuration Routing</button>
@@ -379,7 +456,28 @@ body{
                 </section>
             </div>
 
-            <!-- SECTION 4: DEVELOPER DRIVE ARCHITECTURE ARRAYS -->
+            <!-- SECTION 5: NEW NOTIFICATIONS DYNAMIC TOGGLES -->
+            <div id="notifications" class="settings-view">
+                <section class="settings-card">
+                    <div class="card-title">Alert & Notification Dispatches</div>
+                    <div class="card-desc">Manage system triggers for orders tracking updates and server transactions loops.</div>
+                    
+                    <div class="toggle-row">
+                        <div class="toggle-info"><h4>Email Order Statements</h4><p>Receive transaction slips immediately after digital purchases logs hit Drive.</p></div>
+                        <label class="switch"><input type="checkbox" id="notifyOrder" checked><span class="slider"></span></label>
+                    </div>
+                    <div class="toggle-row">
+                        <div class="toggle-info"><h4>Wallet Payout Trigger Updates</h4><p>Get alerted whenever cash balances route successfully to linked banks arrays.</p></div>
+                        <label class="switch"><input type="checkbox" id="notifyPayout" checked><span class="slider"></span></label>
+                    </div>
+                    <div class="toggle-row">
+                        <div class="toggle-info"><h4>Marketing Newsletter Analytics</h4><p>Receive monthly optimization tips about Instagram and growth ebook strategies.</p></div>
+                        <label class="switch"><input type="checkbox" id="notifyMarketing"><span class="slider"></span></label>
+                    </div>
+                </section>
+            </div>
+
+            <!-- SECTION 6: DEVELOPER CONSOLE ENDPOINTS -->
             <div id="developer" class="settings-view">
                 <section class="settings-card">
                     <div class="card-title">Developer Integration Endpoint Infrastructure</div>
@@ -395,17 +493,21 @@ body{
                 </section>
             </div>
 
-            <!-- SECTION 5: ADVANCED CACHE/LOGOFF INSTANCES -->
+            <!-- SECTION 7: ADVANCED CONTROLS (DELETE ACCOUNT MOVED TO delete.html) -->
             <div id="system" class="settings-view">
                 <section class="settings-card">
                     <div class="card-title">Ecosystem Local Space Clear Loop</div>
                     <div class="card-desc">Wipe transient data cache models cleanly from browser execution threads.</div>
                     <button class="btn-primary" style="background:#475569" onclick="clearDataCache()">Clear Cache Models Stream</button>
                 </section>
-                <section class="settings-card" style="border-color: rgba(239, 68, 68, 0.2);">
+                <section class="settings-card" style="border-color: rgba(239, 68, 68, 0.25);">
                     <div class="card-title" style="color:var(--red-alert);">Profile Destruction Framework</div>
-                    <div class="card-desc">Disconnect account binding instance securely. All storage tracking cache keys destroy instantly.</div>
-                    <button class="btn-danger" onclick="triggerLogoffSequence()">Sign Out Profile Instance</button>
+                    <div class="card-desc">Disconnect account binding instance or delete metadata. All storage configurations destroy instantly.</div>
+                    <div style="display:flex; gap: 14px; flex-wrap:wrap;">
+                        <button class="btn-primary" style="background:#64748b" onclick="triggerLogoffSequence()">Sign Out Profile Instance</button>
+                        <!-- 🚀 BYPASS ROUTING DIRECTLY TO YOUR delete.html PAGE -->
+                        <button class="btn-danger" onclick="location.href='delete.html'">Delete CreatorHub Account</button>
+                    </div>
                 </section>
             </div>
 
@@ -426,70 +528,84 @@ function pushAlert(text, mode) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-/* 🚀 DYNAMIC LOGIC: LIVE DYNAMIC PASWORD VISION EYE EYE TOGGLE ENGINE */
 function togglePasswordVisibility(inputId, btnElement) {
     const inputField = document.getElementById(inputId);
     const iconElement = btnElement.querySelector('i');
-    
     if (inputField.type === "password") {
-        inputField.type = "text";
-        iconElement.className = "fa-solid fa-eye-slash"; // Swaps dynamically to slash look
+        inputField.type = "text"; iconElement.className = "fa-solid fa-eye-slash";
     } else {
-        inputField.type = "password";
-        iconElement.className = "fa-solid fa-eye";
+        inputField.type = "password"; iconElement.className = "fa-solid fa-eye";
     }
 }
 
 function switchSection(e, sectionId) {
     document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
     document.querySelectorAll(".settings-view").forEach(view => view.classList.remove("active"));
-
     e.currentTarget.classList.add("active");
     document.getElementById(sectionId).classList.add("active");
     pushAlert("", "");
 }
 
 function loadConfigValues() {
+    // General setups mappings
     document.getElementById("accEmail").value = sessionMail;
     document.getElementById("accName").value = localStorage.getItem("user_name") || USER_STORE.name || "Creator";
-    document.getElementById("accImage").value = localStorage.getItem("user_image") || USER_STORE.profile_image || "";
-    
+    document.getElementById("accUsername").value = localStorage.getItem("user_username") || "";
+    document.getElementById("accPhone").value = localStorage.getItem("user_phone") || "";
+    document.getElementById("accBizType").value = localStorage.getItem("user_biz_type") || "individual";
+    document.getElementById("accCountry").value = localStorage.getItem("user_country") || "India";
+    document.getElementById("accBio").value = localStorage.getItem("user_bio") || "";
+
+    // Branding configurations
+    document.getElementById("storeTitle").value = localStorage.getItem("store_title") || "";
+    document.getElementById("storeSupportEmail").value = localStorage.getItem("store_support_mail") || "";
+    document.getElementById("storeTagline").value = localStorage.getItem("store_tagline") || "";
+
+    // Payout settings vectors
     document.getElementById("bankHolder").value = localStorage.getItem("settle_holder") || "";
     document.getElementById("bankName").value = localStorage.getItem("settle_bank") || "";
     document.getElementById("bankAccNo").value = localStorage.getItem("settle_acc_node") || "";
     document.getElementById("bankIfsc").value = localStorage.getItem("settle_ifsc") || "";
 
+    // Developer properties
     document.getElementById("devApiUrl").value = localStorage.getItem("dev_core_api") || CORE_PROFILE_API;
     document.getElementById("devDriveId").value = localStorage.getItem("dev_drive_id") || "";
     document.getElementById("devWebhook").value = localStorage.getItem("dev_webhook_node") || "";
+
+    // Notification states switches
+    document.getElementById("notifyOrder").checked = localStorage.getItem("opt_notify_order") !== "false";
+    document.getElementById("notifyPayout").checked = localStorage.getItem("opt_notify_payout") !== "false";
+    document.getElementById("notifyMarketing").checked = localStorage.getItem("opt_notify_market") === "true";
 }
 
 async function saveGeneralInfo(e) {
     e.preventDefault();
     let name = document.getElementById("accName").value.trim();
-    let image = document.getElementById("accImage").value.trim();
-
     localStorage.setItem("user_name", name);
-    localStorage.setItem("user_image", image);
-    USER_STORE.name = name; USER_STORE.profile_image = image;
-    localStorage.setItem("user", JSON.stringify(USER_STORE));
+    localStorage.setItem("user_username", document.getElementById("accUsername").value.trim());
+    localStorage.setItem("user_phone", document.getElementById("accPhone").value.trim());
+    localStorage.setItem("user_biz_type", document.getElementById("accBizType").value);
+    localStorage.setItem("user_country", document.getElementById("accCountry").value.trim());
+    localStorage.setItem("user_bio", document.getElementById("accBio").value.trim());
 
-    try {
-        await fetch(CORE_PROFILE_API, {
-            method: "POST",
-            body: JSON.stringify({ action: "updateGeneralAccount", email: sessionMail, name: name, image: image })
-        });
-    } catch(err) {}
-    pushAlert("General account identity array saved successfully! ✅", "ok");
+    USER_STORE.name = name; localStorage.setItem("user", JSON.stringify(USER_STORE));
+    pushAlert("Detailed profile architecture updated and saved successfully! ✅", "ok");
+}
+
+function saveStoreBranding(e) {
+    e.preventDefault();
+    localStorage.setItem("store_title", document.getElementById("storeTitle").value.trim());
+    localStorage.setItem("store_support_mail", document.getElementById("storeSupportEmail").value.trim());
+    localStorage.setItem("store_tagline", document.getElementById("storeTagline").value.trim());
+    pushAlert("Storefront branding nodes successfully configured! 🎨", "ok");
 }
 
 function saveSecurityCredentials(e) {
     e.preventDefault();
     let nPass = document.getElementById("newPass").value;
     let cPass = document.getElementById("confPass").value;
-
     if(nPass !== cPass) { pushAlert("Error! Password confirmation mismatch validation blocks.", "bad"); return; }
-    pushAlert("Security password token sequence successfully modified inside credentials database! 🔒", "ok");
+    pushAlert("Security password token sequence modified successfully! 🔒", "ok");
 }
 
 function savePayoutNode(e) {
@@ -498,7 +614,7 @@ function savePayoutNode(e) {
     localStorage.setItem("settle_bank", document.getElementById("bankName").value.trim());
     localStorage.setItem("settle_acc_node", document.getElementById("bankAccNo").value.trim());
     localStorage.setItem("settle_ifsc", document.getElementById("bankIfsc").value.trim());
-    pushAlert("Settlement payout configurations securely locked into browser storage arrays! 🏦", "ok");
+    pushAlert("Settlement payout configurations securely locked into bank node! 🏦", "ok");
 }
 
 function saveDeveloperConfigs(e) {
@@ -506,7 +622,7 @@ function saveDeveloperConfigs(e) {
     localStorage.setItem("dev_core_api", document.getElementById("devApiUrl").value.trim());
     localStorage.setItem("dev_drive_id", document.getElementById("devDriveId").value.trim());
     localStorage.setItem("dev_webhook_node", document.getElementById("devWebhook").value.trim());
-    pushAlert("Developer console endpoints successfully initialized into system frameworks! 🚀", "ok");
+    pushAlert("Developer console endpoints initialized into system frameworks! 🚀", "ok");
 }
 
 function clearDataCache() {
@@ -515,11 +631,13 @@ function clearDataCache() {
 }
 
 function triggerLogoffSequence() {
-    if(confirm("Terminate configuration instances? All system storage configurations clear completely.")) {
-        localStorage.clear();
-        window.location.href = "login.html";
-    }
+    localStorage.clear(); window.location.href = "login.html";
 }
+
+// Listening to live switch changes configurations
+document.getElementById("notifyOrder").addEventListener("change", e => localStorage.setItem("opt_notify_order", e.target.checked));
+document.getElementById("notifyPayout").addEventListener("change", e => localStorage.setItem("opt_notify_payout", e.target.checked));
+document.getElementById("notifyMarketing").addEventListener("change", e => localStorage.setItem("opt_notify_market", e.target.checked));
 
 document.addEventListener("DOMContentLoaded", loadConfigValues);
 </script>
