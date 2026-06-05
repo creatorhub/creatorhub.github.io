@@ -325,7 +325,7 @@ input:checked + .slider:before { transform: translateX(24px); }
         <div class="menu-item" onclick="location.href='dashboard.html'"><i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span></div>
         <div class="menu-item" onclick="location.href='store.html'"><i class="fa-solid fa-bag-shopping"></i> <span>Product Store</span></div>
         <div class="menu-item" onclick="location.href='library.html'"><i class="fa-solid fa-book-open"></i> <span>Library</span></div>
-        <div class="menu-item" onclick="location.href='wallet1.html'"><i class="fa-solid fa-wallet"></i> <span>Wallet</span></div>
+        <div class="menu-item" onclick="location.href='wallet.html'"><i class="fa-solid fa-wallet"></i> <span>Wallet</span></div>
         <div class="menu-item active" onclick="location.href='settings.html'"><i class="fa-solid fa-gear"></i> <span>Settings</span></div>
     </div>
 </aside>
@@ -431,7 +431,7 @@ input:checked + .slider:before { transform: translateX(24px); }
                 </section>
             </div>
 
-            <!-- SECTION 3: SECURITY WITH CORRESPONDING IDs MAPPED FOR EYEBALL TOGGLES -->
+            <!-- SECTION 3: SECURITY WITH FULL DYNAMIC EYE EYES ICON TOGGLE ACCESS -->
             <div id="security" class="settings-view">
                 <section class="settings-card">
                     <div class="card-title">Security Encryption Keys</div>
@@ -441,8 +441,8 @@ input:checked + .slider:before { transform: translateX(24px); }
                         <div class="form-group">
                             <label>Current Gateway Validation Password</label>
                             <div class="input-wrapper">
-                                <!-- 🚀 FIXED ARRAYS: Linked ID parameters specifically matching the button target bindings -->
-                                <input id="currPass" class="form-input" type="password" required placeholder="••••••••">
+                                <!-- 🚀 FIXED & EDITABLE: This field is now completely active, edit-ready, and receives pre-loaded data tokens -->
+                                <input id="currPass" class="form-input" type="password" required placeholder="Enter current password">
                                 <button type="button" class="eye-toggle" data-target="currPass"><i class="fa-solid fa-eye"></i></button>
                             </div>
                             <div class="input-helper-text">Required to securely apply password overwrite arrays to Apps Script database streams.</div>
@@ -604,6 +604,7 @@ function switchSection(e, sectionId) {
 }
 
 function loadConfigValues() {
+    // Account initial loading mapping arrays
     document.getElementById("accEmail").value = globalEmailToken;
     document.getElementById("accName").value = localStorage.getItem("user_name") || SYSTEM_USER.name || "Creator";
     document.getElementById("accUsername").value = localStorage.getItem("user_username") || "";
@@ -612,6 +613,7 @@ function loadConfigValues() {
     document.getElementById("accCountry").value = localStorage.getItem("user_country") || "India";
     document.getElementById("accBio").value = localStorage.getItem("user_bio") || "";
 
+    // Branding configuration tracks loading
     document.getElementById("storeTitle").value = localStorage.getItem("store_title") || "";
     document.getElementById("storeSupportEmail").value = localStorage.getItem("store_support_mail") || "";
     document.getElementById("storeSubdomain").value = localStorage.getItem("store_subdomain_node") || "";
@@ -619,17 +621,23 @@ function loadConfigValues() {
     document.getElementById("storeTagline").value = localStorage.getItem("store_tagline") || "";
     document.getElementById("storeFooterNotice").value = localStorage.getItem("store_footer_notice") || "";
 
+    // 🚀 FIXED LOADING MAPPINGS: Dynamically loading current active password token values directly into fields
+    document.getElementById("currPass").value = localStorage.getItem("user_password") || SYSTEM_USER.password || "12345678";
+
+    // Settlement payout loads
     document.getElementById("bankHolder").value = localStorage.getItem("settle_holder") || "";
     document.getElementById("bankName").value = localStorage.getItem("settle_bank") || "";
     document.getElementById("bankAccNo").value = localStorage.getItem("settle_acc_node") || "";
     document.getElementById("bankIfsc").value = localStorage.getItem("settle_ifsc") || "";
 
+    // Taxation & Compliance systems matrix loading
     document.getElementById("taxGstin").value = localStorage.getItem("tax_gstin_no") || "";
     document.getElementById("taxHsnCode").value = localStorage.getItem("tax_hsn_sac") || "";
     document.getElementById("taxInvoiceTemplate").value = localStorage.getItem("tax_invoice_layout") || "minimalist";
     document.getElementById("taxBracket").value = localStorage.getItem("tax_rate_bracket") || "0";
     document.getElementById("taxTerms").value = localStorage.getItem("tax_checkout_terms") || "";
 
+    // Notifications toggle parameters state track loops
     document.getElementById("notifyOrder").checked = localStorage.getItem("opt_notify_order") !== "false";
     document.getElementById("notifyPayout").checked = localStorage.getItem("opt_notify_payout") !== "false";
     document.getElementById("notifyMarketing").checked = localStorage.getItem("opt_notify_market") === "true";
@@ -663,9 +671,14 @@ function saveStoreBranding(e) {
 
 function saveSecurityCredentials(e) {
     e.preventDefault();
+    let currentPassVal = document.getElementById("currPass").value.trim();
     let nPass = document.getElementById("newPass").value;
     let cPass = document.getElementById("confPass").value;
+    
     if(nPass !== cPass) { pushAlert("Error! Password confirmation mismatch validation blocks.", "bad"); return; }
+    
+    // Save locally to reflect live tokens immediately
+    localStorage.setItem("user_password", currentPassVal);
     pushAlert("Security gateway credential passcodes successfully updated! 🔒", "ok");
 }
 
@@ -697,7 +710,7 @@ function triggerLogoffSequence() {
     localStorage.clear(); window.location.href = "login.html";
 }
 
-/* 🚀 FIXED ARCHITECTURE: Event delegation approach to dynamically locate elements correctly without failing */
+/* FIXED ARCHITECTURE: Event delegation approach to dynamically locate elements correctly without failing */
 document.addEventListener("click", function(e) {
     const btn = e.target.closest(".eye-toggle");
     if (!btn) return;
@@ -712,7 +725,7 @@ document.addEventListener("click", function(e) {
     if (inputField && icon) {
         if (inputField.type === "password") {
             inputField.type = "text";
-            icon.className = "fa-solid fa-eye-slash"; // Changes cleanly to slashed eye icon layout
+            icon.className = "fa-solid fa-eye-slash"; 
         } else {
             inputField.type = "password";
             icon.className = "fa-solid fa-eye";
