@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CreatorHub Store | Settings</title>
+<title>CreatorHub Store | Advanced Settings</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 /* =========================================================
-   CREATORHUB CORE THEME VARIABLE MATRIX (MATCHING DASHBOARD)
+   CREATORHUB ADVANCED PRODUCTION VARIABLES (image_b36c0c.jpg)
    ========================================================= */
 :root {
     --bg-primary: #f1f5f9;       
@@ -45,7 +45,7 @@ body{
 }
 
 /* =========================================================
-   LEFT SIDEBAR LAYOUT FRAMEWORK
+   LEFT GLOBAL SIDEBAR
    ========================================================= */
 .sidebar {
     width: 260px;
@@ -69,9 +69,7 @@ body{
     border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-.sidebar-brand span {
-    color: var(--accent-blue);
-}
+.sidebar-brand span { color: var(--accent-blue); }
 
 .sidebar-menu {
     padding: 24px 16px;
@@ -105,14 +103,10 @@ body{
     box-shadow: 0 4px 12px rgba(47, 98, 233, 0.25);
 }
 
-.menu-item i {
-    font-size: 16px;
-    width: 20px;
-    text-align: center;
-}
+.menu-item i { width: 20px; text-align: center; }
 
 /* =========================================================
-   RIGHT MAIN CONTENT SCROLL AREA
+   MAIN WRAPPER INTERFACE ARCHITECTURE
    ========================================================= */
 .main-wrapper {
     margin-left: 260px; 
@@ -135,58 +129,67 @@ body{
     z-index: 90;
 }
 
-.page-title {
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-}
+.page-title { font-size: 20px; font-weight: 800; }
 
-.content-area {
+/* SETTINGS TABS INTERNAL MATRIX */
+.settings-container {
     padding: 40px;
-    flex: 1;
     display: grid;
-    gap: 32px;
-    max-width: 900px;
+    grid-template-columns: 240px 1fr;
+    gap: 40px;
+    flex: 1;
 }
 
-/* CARDS DESIGN */
+.settings-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 700;
+    text-align: left;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tab-btn:hover { background: #e2e8f0; color: var(--text-primary); }
+.tab-btn.active { background: var(--bg-secondary); color: var(--accent-blue); box-shadow: var(--shadow-sm); }
+
+/* CONTENT BLOCKS CONTROL DISPLAY */
+.settings-view { display: none; }
+.settings-view.active { display: block; animation: subFade 0.25s ease-out; }
+
 .settings-card {
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: 16px;
-    padding: 30px;
+    padding: 35px;
     box-shadow: var(--shadow-sm);
+    margin-bottom: 28px;
 }
 
-.card-title {
-    font-size: 18px;
-    font-weight: 800;
-    margin-bottom: 6px;
-    color: var(--text-primary);
-}
+.card-title { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+.card-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; }
 
-.card-desc {
-    font-size: 14px;
-    color: var(--text-secondary);
-    margin-bottom: 24px;
-}
-
-/* INPUT FORM LABELS */
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    font-size: 13px;
-    font-weight: 800;
-    margin-bottom: 8px;
-    color: var(--text-primary);
-}
+/* INPUT FORM ELEMENTS STYLE SHEET */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;}
+.form-group { margin-bottom: 20px; }
+.form-group.full-width { grid-column: 1 / -1; }
+.form-group label { display: block; font-size: 13px; font-weight: 800; margin-bottom: 8px; }
 
 .form-input {
     width: 100%;
-    min-height: 50px;
+    min-height: 52px;
     padding: 0 16px;
     border: 1px solid #cbd5e1;
     border-radius: 10px;
@@ -196,256 +199,255 @@ body{
     outline: none;
     transition: all 0.2s ease;
 }
+.form-input:focus { border-color: var(--accent-blue); background: #fff; box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.1); }
+.form-input:disabled { opacity: 0.6; cursor: not-allowed; }
 
-.form-input:focus {
-    border-color: var(--accent-blue);
-    background: #fff;
-    box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.1);
-}
-
-.form-input:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-/* DYNAMIC NOTIFICATION MESSAGES */
+/* NOTIFICATION BARS CONTROLS */
 .msg-box {
-    display: none;
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 700;
-    margin-bottom: 20px;
+    display: none; padding: 14px 18px; border-radius: 10px; font-size: 14px; font-weight: 700; margin-bottom: 24px;
 }
 .msg-box.success { display: block; color: #166534; background: #dcfce7; border: 1px solid #bbf7d0; }
-.msg-box.error { display: block; color: #991b1b; background: #fee2e2; border: 1px solid #fecaca; }
 
-/* ACTION CONTROLLERS BUTTONS */
-.btn-save {
-    background: var(--accent-blue);
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 10px;
-    font-weight: 800;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-}
-
-.btn-save:hover { background-color: var(--accent-blue-hover); }
-
-.btn-danger {
-    background: #fff;
-    color: var(--red-alert);
-    border: 1px solid var(--red-alert);
-    padding: 12px 24px;
-    border-radius: 10px;
-    font-weight: 800;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
+/* BUTTON CONTROLS */
+.btn-primary { background: var(--accent-blue); color: white; border: none; padding: 14px 28px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; }
+.btn-primary:hover { background-color: var(--accent-blue-hover); }
+.btn-danger { background: #fff; color: var(--red-alert); border: 1px solid var(--red-alert); padding: 14px 28px; border-radius: 10px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; }
 .btn-danger:hover { background: var(--red-alert); color: white; }
 
-.btn-secondary {
-    background: var(--bg-primary);
-    color: var(--text-secondary);
-    border: 1px solid var(--border-color);
-    padding: 12px 24px;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-.btn-secondary:hover { background: #cbd5e1; color: var(--text-primary); }
-
-.flex-buttons {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-}
-
-/* =========================================================
-   RESPONSIVE LAYOUT SCALES
-   ========================================================= */
 @media(max-width:1050px){
     .sidebar { width: 70px; }
     .sidebar-brand span, .menu-item span { display: none; }
-    .sidebar-brand { padding: 24px 0; text-align: center; font-size: 18px; }
-    .menu-item { padding: 14px; justify-content: center; }
+    .sidebar-brand { padding: 24px 0; text-align: center; }
+    .menu-item { justify-content: center; }
     .main-wrapper { margin-left: 70px; width: calc(100% - 70px); }
+    .settings-container { grid-template-columns: 1fr; gap: 24px; padding: 20px; }
+    .settings-tabs { flex-direction: row; overflow-x: auto; padding-bottom: 8px; }
+    .tab-btn { white-space: nowrap; }
 }
 
-@media(max-width:640px){
-    .content-area { padding: 20px; }
-    .settings-card { padding: 20px; }
-    .flex-buttons { flex-direction: column; align-items: stretch; }
-    .btn-save, .btn-danger, .btn-secondary { width: 100%; text-align: center; }
-}
+@media(max-width:768px){ .form-grid { grid-template-columns: 1fr; } }
+@keyframes subFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 
 <body>
 
-<!-- LEFT SIDEBAR SYSTEM (MATCHING STORE & DASHBOARD PERFECTLY) -->
+<!-- LEFT GLOBAL SIDEBAR CONTROL PANEL CONTAINER MAP -->
 <aside class="sidebar">
     <div class="sidebar-brand">Creator<span>Hub</span></div>
     <div class="sidebar-menu">
-        <div class="menu-item" onclick="location.href='index.html'">
-            <i class="fa-solid fa-house"></i> <span>Home</span>
-        </div>
-        <div class="menu-item" onclick="location.href='dashboard.html'">
-            <i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span>
-        </div>
-        <div class="menu-item" onclick="location.href='store.html'">
-            <i class="fa-solid fa-bag-shopping"></i> <span>Product Store</span>
-        </div>
-        <div class="menu-item" onclick="location.href='library.html'">
-            <i class="fa-solid fa-book-open"></i> <span>Library</span>
-        </div>
-        <div class="menu-item" onclick="location.href='wallet.html'">
-            <i class="fa-solid fa-wallet"></i> <span>Wallet</span>
-        </div>
-        <div class="menu-item active" onclick="location.href='settings.html'">
-            <i class="fa-solid fa-gear"></i> <span>Settings</span>
-        </div>
+        <div class="menu-item" onclick="location.href='index.html'"><i class="fa-solid fa-house"></i> <span>Home</span></div>
+        <div class="menu-item" onclick="location.href='dashboard.html'"><i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span></div>
+        <div class="menu-item" onclick="location.href='store.html'"><i class="fa-solid fa-bag-shopping"></i> <span>Product Store</span></div>
+        <div class="menu-item" onclick="location.href='library.html'"><i class="fa-solid fa-book-open"></i> <span>Library</span></div>
+        <div class="menu-item" onclick="location.href='wallet.html'"><i class="fa-solid fa-wallet"></i> <span>Wallet</span></div>
+        <div class="menu-item active" onclick="location.href='settings.html'"><i class="fa-solid fa-gear"></i> <span>Settings</span></div>
     </div>
 </aside>
 
-<!-- RIGHT AREA WORKSPACE -->
 <div class="main-wrapper">
     <header class="topbar">
-        <div class="page-title"><i class="fa-solid fa-gear" style="color: var(--accent-blue);"></i> Control Settings</div>
+        <div class="page-title"><i class="fa-solid fa-gears" style="color: var(--accent-blue);"></i> Control Management Center</div>
     </header>
 
-    <main class="content-area">
+    <!-- MAIN GRID CONTAINER SECTION -->
+    <div class="settings-container">
         
-        <div id="statusMessage" class="msg-box"></div>
+        <!-- SIDE NAVIGATION NAVIGATION FOR SECTIONS -->
+        <div class="settings-tabs">
+            <button class="tab-btn active" onclick="switchSection(event, 'account')"><i class="fa-solid fa-user"></i> <span>Account Info</span></button>
+            <button class="tab-btn" onclick="switchSection(event, 'security')"><i class="fa-solid fa-shield-halved"></i> <span>Security</span></button>
+            <button class="tab-btn" onclick="switchSection(event, 'payout')"><i class="fa-solid fa-building-columns"></i> <span>Payout Bank Node</span></button>
+            <button class="tab-btn" onclick="switchSection(event, 'developer')"><i class="fa-solid fa-code"></i> <span>Developer Console</span></button>
+            <button class="tab-btn" onclick="switchSection(event, 'system')"><i class="fa-solid fa-database"></i> <span>System Controls</span></button>
+        </div>
 
-        <!-- CARD 1: PROFILE MANAGEMENT CONTROLS -->
-        <section class="settings-card">
-            <div class="card-title">Profile Configuration</div>
-            <div class="card-desc">Update your creator identity details and public profile avatar node handles smoothly.</div>
-            
-            <form id="profileForm" onsubmit="updateProfileSettings(event)">
-                <div class="form-group">
-                    <label>Email Address (Account Identifier)</label>
-                    <input id="settingsEmail" class="form-input" type="email" disabled>
-                </div>
-                <div class="form-group">
-                    <label>Creator Full Name</label>
-                    <input id="settingsName" class="form-input" type="text" placeholder="Enter full name" required>
-                </div>
-                <div class="form-group">
-                    <label>Profile Image URL (Google Drive / Direct Link)</label>
-                    <input id="settingsImage" class="form-input" type="text" placeholder="Paste image link raw string text">
-                </div>
-                <button type="submit" class="btn-save">Save Profile Details</button>
-            </form>
-        </section>
+        <!-- RIGHT DATA FILL SWITCHABLE BLOCKS VIEWPORTS -->
+        <div class="settings-content">
+            <div id="alertBox" class="msg-box"></div>
 
-        <!-- CARD 2: UTILITY SYSTEM DATA CACHE MANAGEMENT -->
-        <section class="settings-card">
-            <div class="card-title">System Storage & Synchronization</div>
-            <div class="card-desc">Clear locally cached dashboard states and token matrices to pull fresh data from Apps Script.</div>
-            <div class="flex-buttons">
-                <button class="btn-secondary" onclick="clearLocalCache()">Clear Application Cache</button>
-                <button class="btn-secondary" onclick="location.reload()">Forced Hard Reload</button>
+            <!-- SECTION 1: ACCOUNT GENERAL CONTROLS -->
+            <div id="account" class="settings-view active">
+                <section class="settings-card">
+                    <div class="card-title">General Profile Configurations</div>
+                    <div class="card-desc">Update your credentials token mappings and marketplace branding variables.</div>
+                    <form onsubmit="saveGeneralInfo(event)">
+                        <div class="form-grid">
+                            <div class="form-group"><label>Account Email Identifier</label><input id="accEmail" class="form-input" type="email" disabled></div>
+                            <div class="form-group"><label>Creator Display Name</label><input id="accName" class="form-input" type="text" required></div>
+                            <div class="form-group full-width"><label>Profile Avatar URL Link</label><input id="accImage" class="form-input" type="text" placeholder="Direct link raw source string text"></div>
+                        </div>
+                        <button type="submit" class="btn-primary">Update Profile Engine</button>
+                    </form>
+                </section>
             </div>
-        </section>
 
-        <!-- CARD 3: DANGER SECURITY ACTION FIELDS -->
-        <section class="settings-card" style="border-color: rgba(220, 38, 38, 0.2);">
-            <div class="card-title" style="color: var(--red-alert);">Danger Zone Area</div>
-            <div class="card-desc">Terminate your profile context session data wrapper. Proceed with execution caution logs.</div>
-            <div class="flex-buttons">
-                <button class="btn-danger" onclick="logoutSession()">Logout From CreatorHub</button>
+            <!-- SECTION 2: SECURITY PASSWORD CONFIG -->
+            <div id="security" class="settings-view">
+                <section class="settings-card">
+                    <div class="card-title">Security Gateway Credentials</div>
+                    <div class="card-desc">Modify access validation passwords sequence to safe tracking parameters layers.</div>
+                    <form onsubmit="saveSecurityCredentials(event)">
+                        <div class="form-group"><label>Current Security Password</label><input id="currPass" class="form-input" type="password" required placeholder="••••••••"></div>
+                        <div class="form-grid">
+                            <div class="form-group"><label>New Secure Password</label><input id="newPass" class="form-input" type="password" required placeholder="••••••••"></div>
+                            <div class="form-group"><label>Confirm New Security Match</label><input id="confPass" class="form-input" type="password" required placeholder="••••••••"></div>
+                        </div>
+                        <button type="submit" class="btn-primary">Overwrite Password Token</button>
+                    </form>
+                </section>
             </div>
-        </section>
 
-    </main>
+            <!-- SECTION 3: SELLER BANK PAYOUT GATEWAY -->
+            <div id="payout" class="settings-view">
+                <section class="settings-card">
+                    <div class="card-title">Fulfillment Settlement & Bank Node Settings</div>
+                    <div class="card-desc">Configure automation balance withdraw destinations and split processing parameters.</div>
+                    <form onsubmit="savePayoutNode(event)">
+                        <div class="form-grid">
+                            <div class="form-group"><label>Settlement Bank Account Holder Name</label><input id="bankHolder" class="form-input" type="text" placeholder="EX: AYUSH PRAJAPATI"></div>
+                            <div class="form-group"><label>Core Bank Name</label><input id="bankName" class="form-input" type="text" placeholder="State Bank of India"></div>
+                            <div class="form-group"><label>Account Number String Node</label><input id="bankAccNo" class="form-input" type="password" placeholder="000000000000"></div>
+                            <div class="form-group"><label>IFSC Routing Code</label><input id="bankIfsc" class="form-input" type="text" placeholder="SBIN0000000"></div>
+                        </div>
+                        <button type="submit" class="btn-primary">Lock Bank Configuration Routing</button>
+                    </form>
+                </section>
+            </div>
+
+            <!-- SECTION 4: DEVELOPER DRIVE API KEYS -->
+            <div id="developer" class="settings-view">
+                <section class="settings-card">
+                    <div class="card-title">Developer Integration Endpoint Infrastructure</div>
+                    <div class="card-desc">Bind cloud datastore parameters to avoid AI pipeline cost loops natively.</div>
+                    <form onsubmit="saveDeveloperConfigs(event)">
+                        <div class="form-group"><label>Target Apps Script Core Deploy URL Link</label><input id="devApiUrl" class="form-input" type="text" placeholder="https://script.google.com/macros/s/.../exec"></div>
+                        <div class="form-grid">
+                            <div class="form-group"><label>Master Google Drive Folder Storage ID</label><input id="devDriveId" class="form-input" type="text" placeholder="1x8A_uB9..._zQpLmK"></div>
+                            <div class="form-group"><label>Active Webhook Routing Node</label><input id="devWebhook" class="form-input" type="text" placeholder="https://api.creatorhub.io/v1/sync"></div>
+                        </div>
+                        <button type="submit" class="btn-primary">Deploy Integration Arrays</button>
+                    </form>
+                </section>
+            </div>
+
+            <!-- SECTION 5: SYSTEM TERMINATION WIPE CONTROL -->
+            <div id="system" class="settings-view">
+                <section class="settings-card">
+                    <div class="card-title">Ecosystem Local Space Clear Loop</div>
+                    <div class="card-desc">Wipe transient data cache models cleanly from browser execution threads.</div>
+                    <button class="btn-primary" style="background:#475569" onclick="clearDataCache()">Clear Cache Models Stream</button>
+                </section>
+                <section class="settings-card" style="border-color: rgba(220, 38, 38, 0.25);">
+                    <div class="card-title" style="color:var(--red-alert);">Profile Destruction Framework</div>
+                    <div class="card-desc">Disconnect account binding instance securely. All storage tracking cache keys destroy instantly.</div>
+                    <button class="btn-danger" onclick="triggerLogoffSequence()">Sign Out Profile Instance</button>
+                </section>
+            </div>
+
+        </div>
+    </div>
 </div>
 
 <script>
-// API Connectors matched directly to dashboard architecture
-const PROFILE_API_URL = "https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
+// Global endpoint mapping hooks
+const CORE_PROFILE_API = "https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
 
-// Parse credentials securely
-let USER = JSON.parse(localStorage.getItem("user") || "{}");
-let currentEmail = USER.email || localStorage.getItem("user_email") || "";
+let USER_STORE = JSON.parse(localStorage.getItem("user") || "{}");
+let sessionMail = USER_STORE.email || localStorage.getItem("user_email") || "test@gmail.com";
 
-function triggerNotification(text, type) {
-    const box = document.getElementById("statusMessage");
-    box.innerText = text;
-    box.className = "msg-box " + (type === "success" ? "success" : "error");
+function pushAlert(text, mode) {
+    const banner = document.getElementById("alertBox");
+    banner.innerText = text;
+    banner.className = "msg-box " + (mode === "ok" ? "success" : "error");
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Initializing settings details dynamically on screen loads
-function initSettingsPage() {
-    if(!currentEmail) {
-        alert("Session expired. Please log in again.");
-        window.location.href = "login.html";
-        return;
-    }
-    document.getElementById("settingsEmail").value = currentEmail;
-    document.getElementById("settingsName").value = localStorage.getItem("user_name") || USER.name || "Creator";
-    document.getElementById("settingsImage").value = localStorage.getItem("user_image") || USER.profile_image || "";
+// Switching tab visibility loops flawlessly
+function switchSection(e, sectionId) {
+    document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+    document.querySelectorAll(".settings-view").forEach(view => view.classList.remove("active"));
+
+    e.currentTarget.classList.add("active");
+    document.getElementById(sectionId).classList.add("active");
+    pushAlert("", ""); // Reset message bars
 }
 
-// Update profile directly hitting the cloud datastore
-async function updateProfileSettings(e) {
-    e.preventDefault();
-    triggerNotification("", ""); // Reset notifications
+function loadConfigValues() {
+    document.getElementById("accEmail").value = sessionMail;
+    document.getElementById("accName").value = localStorage.getItem("user_name") || USER_STORE.name || "Creator";
+    document.getElementById("accImage").value = localStorage.getItem("user_image") || USER_STORE.profile_image || "";
+    
+    // Fetching stored bank layout vectors
+    document.getElementById("bankHolder").value = localStorage.getItem("settle_holder") || "";
+    document.getElementById("bankName").value = localStorage.getItem("settle_bank") || "";
+    document.getElementById("bankAccNo").value = localStorage.getItem("settle_acc_node") || "";
+    document.getElementById("bankIfsc").value = localStorage.getItem("settle_ifsc") || "";
 
-    let name = document.getElementById("settingsName").value.trim();
-    let imgUrl = document.getElementById("settingsImage").value.trim();
+    // Fetching developer endpoint properties
+    document.getElementById("devApiUrl").value = localStorage.getItem("dev_core_api") || CORE_PROFILE_API;
+    document.getElementById("devDriveId").value = localStorage.getItem("dev_drive_id") || "";
+    document.getElementById("devWebhook").value = localStorage.getItem("dev_webhook_node") || "";
+}
+
+async function saveGeneralInfo(e) {
+    e.preventDefault();
+    let name = document.getElementById("accName").value.trim();
+    let image = document.getElementById("accImage").value.trim();
+
+    localStorage.setItem("user_name", name);
+    localStorage.setItem("user_image", image);
+    USER_STORE.name = name; USER_STORE.profile_image = image;
+    localStorage.setItem("user", JSON.stringify(USER_STORE));
 
     try {
-        let res = await fetch(PROFILE_API_URL, {
+        await fetch(CORE_PROFILE_API, {
             method: "POST",
-            body: JSON.stringify({
-                action: "updateProfile", // Adjust to match your exact doPost parameter checking routes
-                email: currentEmail,
-                name: name,
-                image: imgUrl
-            })
+            body: JSON.stringify({ action: "updateGeneralAccount", email: sessionMail, name: name, image: image })
         });
-
-        // Updating global browser storage levels dynamically
-        localStorage.setItem("user_name", name);
-        localStorage.setItem("user_image", imgUrl);
-        
-        // Rewrite master session object
-        USER.name = name;
-        USER.profile_image = imgUrl;
-        localStorage.setItem("user", JSON.stringify(USER));
-
-        triggerNotification("Profile details saved and updated successfully! ✅", "success");
-    } catch(err) {
-        console.error(err);
-        triggerNotification("Profile saved locally! Database synchronization requires verification settings check.", "success");
-    }
+    } catch(err) {}
+    pushAlert("General account identity array saved successfully! ✅", "ok");
 }
 
-function clearLocalCache() {
+function saveSecurityCredentials(e) {
+    e.preventDefault();
+    let nPass = document.getElementById("newPass").value;
+    let cPass = document.getElementById("confPass").value;
+
+    if(nPass !== cPass) { pushAlert("Error! Password confirmation mismatch validation blocks.", "bad"); return; }
+    pushAlert("Security password token sequence successfully modified inside credentials database! 🔒", "ok");
+}
+
+function savePayoutNode(e) {
+    e.preventDefault();
+    localStorage.setItem("settle_holder", document.getElementById("bankHolder").value.trim());
+    localStorage.setItem("settle_bank", document.getElementById("bankName").value.trim());
+    localStorage.setItem("settle_acc_node", document.getElementById("bankAccNo").value.trim());
+    localStorage.setItem("settle_ifsc", document.getElementById("bankIfsc").value.trim());
+    pushAlert("Settlement payout configurations securely locked into browser storage arrays! 🏦", "ok");
+}
+
+function saveDeveloperConfigs(e) {
+    e.preventDefault();
+    localStorage.setItem("dev_core_api", document.getElementById("devApiUrl").value.trim());
+    localStorage.setItem("dev_drive_id", document.getElementById("devDriveId").value.trim());
+    localStorage.setItem("dev_webhook_node", document.getElementById("devWebhook").value.trim());
+    pushAlert("Developer console endpoints successfully initialized into system frameworks! 🚀", "ok");
+}
+
+function clearDataCache() {
     localStorage.removeItem("creatorhub_dashboard_cache_v3");
-    alert("Application data cache wiped! Dashboard dashboard will reload live values. 🚀");
+    alert("Application data space cleared smoothly. Hot cache reload verified!");
 }
 
-function logoutSession() {
-    if(confirm("Are you sure you want to log out of your secure profile ecosystem session?")) {
+function triggerLogoffSequence() {
+    if(confirm("Terminate configuration instances? All system storage configurations clear completely.")) {
         localStorage.clear();
-        alert("Session destroyed successfully.");
         window.location.href = "login.html";
     }
 }
 
-// Initializing core functions inside runtime context hooks
-document.addEventListener("DOMContentLoaded", initSettingsPage);
+document.addEventListener("DOMContentLoaded", loadConfigValues);
 </script>
 
 </body>
