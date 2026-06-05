@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CreatorHub Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<!-- 🚀 ADDED: FontAwesome CDN icons framework support to match store structure -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
@@ -13,19 +15,86 @@ body{min-height:100vh;background:#f6f8fc;color:#101828;display:flex;overflow:hid
 a{text-decoration:none;color:inherit}
 button{font:inherit}
 
-.sidebar{width:338px;min-height:100vh;background:#0d1628;color:#fff;padding:30px 23px;position:fixed;left:0;top:0;bottom:0;overflow-y:auto}
-.brand{display:flex;align-items:center;gap:14px;margin-bottom:18px}
-.brand-mark{width:52px;height:52px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#21b7e8,#1d72f3);font-size:26px;font-weight:950}
-.brand-name{font-size:25px;font-weight:950}
+/* =========================================================
+   🚀 FIXED SIDEBAR THEME GRAPHICS (EXACT MATCH TO STORE CANVAS)
+   ========================================================= */
+.sidebar {
+    width: 260px;
+    background-color: #0f172a; /* Smooth deep dark navy matching store matrix precisely */
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    border-right: 1px solid rgba(255,255,255,0.05);
+    padding: 0; 
+    overflow-y: auto;
+}
 
-.back-btn{width:100%;min-height:46px;border:1px solid #24344d;border-radius:9px;background:#111c31;color:#e7edf8;font-size:17px;font-weight:850;cursor:pointer;margin:0 0 20px}
-.back-btn:hover{background:#182a64;border-color:#3157c9}
+.sidebar-brand {
+    padding: 28px 24px;
+    font-size: 22px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
 
-.menu{display:grid;gap:16px;margin-top:20px}
-.menu a{min-height:54px;border-radius:9px;display:flex;align-items:center;gap:13px;padding:0 18px;color:#e7edf8;font-size:20px;font-weight:850;border:1px solid transparent}
-.menu a:hover,.menu a.active{background:#182a64;border-color:#3157c9}
+.sidebar-brand span {
+    color: #2f62e9; /* Active Royal Blue */
+}
 
-.main{margin-left:338px;width:calc(100% - 338px);height:100vh;overflow-y:auto;background:#f6f8fc}
+.sidebar-menu {
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: #94a3b8;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.menu-item:hover {
+    background-color: #1e293b;
+    color: #ffffff;
+}
+
+.menu-item.active {
+    background-color: #2f62e9;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(47, 98, 233, 0.25);
+}
+
+.menu-item i {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
+
+/* =========================================================
+   🚀 FIXED CONTENT WORKSPACE AREA CONTAINER WIDTH
+   ========================================================= */
+.main {
+    margin-left: 260px !important; /* Locks push boundary values dynamically */
+    width: calc(100% - 260px) !important;
+    height: 100vh;
+    overflow-y: auto;
+    background: #f6f8fc;
+}
+
 .topbar{min-height:114px;background:#fff;border-bottom:1px solid #dce4f0;padding:26px 34px;display:flex;align-items:center;justify-content:space-between;gap:20px;position:sticky;top:0;z-index:10}
 .title h1{font-size:43px;line-height:1;font-weight:950;letter-spacing:-.02em}
 .title p{margin-top:8px;color:#63728a;font-size:17px}
@@ -65,25 +134,26 @@ td{color:#101828;font-size:14px}
 .pending{background:#fff7df;color:#b98100}
 
 .review-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-.review-item{background:#eef3f9;border:1px solid #dce4f0;border-radius:9px;padding:18px}
+.review-item{background:#eef3f9;border:1px solid #dce4f0;border-radius:99px;padding:18px}
 .review-user{color:#06142c;font-size:17px;font-weight:950;margin-bottom:8px}
 .review-text{color:#63728a;font-size:14px;line-height:1.6}
 .empty{color:#63728a;padding:18px 0}
 
+/* FLUID CORE SIDEBAR COLLAPSIBLE VIEW QUERIES */
+@media(max-width:1050px){
+    .sidebar { width: 70px; padding: 0 !important; }
+    .sidebar-brand span, .menu-item span { display: none; }
+    .sidebar-brand { padding: 24px 0; text-align: center; font-size: 18px; }
+    .menu-item { padding: 14px; justify-content: center; }
+    .main { margin-left: 70px !important; width: calc(100% - 70px) !important; }
+}
 @media(max-width:1220px){
 .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .content-grid{grid-template-columns:1fr}
 }
-@media(max-width:900px){
-body{display:block;overflow:auto}
-.sidebar{position:static;width:100%;min-height:auto}
-.menu{grid-template-columns:repeat(2,minmax(0,1fr))}
-.main{margin-left:0;width:100%;height:auto}
-.topbar{align-items:flex-start;flex-direction:column}
-}
 @media(max-width:640px){
 .sidebar,.topbar,.content{padding:22px}
-.menu,.stats-grid,.review-grid{grid-template-columns:1fr}
+.stats-grid,.review-grid{grid-template-columns:1fr}
 .title h1{font-size:34px}
 .profile-box{width:100%}
 }
@@ -92,21 +162,31 @@ body{display:block;overflow:auto}
 
 <body>
 
+<!-- =========================================================
+     🚀 NEW INTEGRATED SIDEBAR DESIGN INTERFACE MATRIX (100% FIXED)
+     ========================================================= -->
 <aside class="sidebar">
-  <a class="brand" href="./dashboard.html">
-    <span class="brand-mark">CH</span>
-    <span class="brand-name">CreatorHub</span>
-  </a>
-
-  <nav class="menu">
-    <a href="./index.html">Home</a>
-    <a class="active" href="./dashboard.html">Dashboard</a>
-    <a href="./products.html">Products</a>
-    <a href="./orders.html">Orders</a>
-    <a href="./wallet.html">Wallet</a>
-    <a href="./reviews.html">Reviews</a>
-    <a href="./profile.html">Profile</a>
-  </nav>
+    <div class="sidebar-brand">Creator<span>Hub</span></div>
+    <div class="sidebar-menu">
+        <div class="menu-item" onclick="location.href='index.html'">
+            <i class="fa-solid fa-house"></i> <span>Home</span>
+        </div>
+        <div class="menu-item active" onclick="location.href='dashboard.html'">
+            <i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span>
+        </div>
+        <div class="menu-item" onclick="location.href='store.html'">
+            <i class="fa-solid fa-bag-shopping"></i> <span>Product Store</span>
+        </div>
+        <div class="menu-item" onclick="location.href='library.html'">
+            <i class="fa-solid fa-book-open"></i> <span>Library</span>
+        </div>
+        <div class="menu-item" onclick="location.href='wallet.html'">
+            <i class="fa-solid fa-wallet"></i> <span>Wallet</span>
+        </div>
+        <div class="menu-item" onclick="location.href='settings.html'">
+            <i class="fa-solid fa-gear"></i> <span>Settings</span>
+        </div>
+    </div>
 </aside>
 
 <main class="main">
