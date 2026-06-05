@@ -10,23 +10,23 @@
 
 <style>
 /* =========================================================
-   CREATORHUB ADVANCED PRODUCTION VARIABLES (image_b36c0c.jpg)
+   CREATORHUB HIGH-END PREMIUM ENTERPRISE LIGHT VARIABLES
    ========================================================= */
 :root {
-    --bg-primary: #f1f5f9;       
+    --bg-primary: #f8fafc;       /* Extremely clean slate workspace white */
     --bg-secondary: #ffffff;     
-    --sidebar-dark: #0f172a;     
+    --sidebar-dark: #0f172a;     /* Deep navy black sidebar grid lines */
     --sidebar-hover: #1e293b;    
     --text-primary: #0f172a;     
     --text-secondary: #475569;   
-    --text-muted: #94a3b8;
-    --accent-blue: #2f62e9;      
-    --accent-blue-hover: #1e40af;
+    --text-muted: #64748b;
+    --accent-blue: #2f62e9;      /* Authentic Signature Royal Blue Theme */
+    --accent-blue-hover: #1d4ed8;
     --border-color: #e2e8f0;
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.02);
-    --shadow-md: 0 12px 30px -5px rgba(15,23,42,0.08);
-    --red-alert: #dc2626;
-    --green-success: #16a34a;
+    --shadow-sm: 0 1px 2px rgba(15,23,42,0.05);
+    --shadow-md: 0 8px 24px -4px rgba(15,23,42,0.04), 0 4px 12px -2px rgba(15,23,42,0.02);
+    --red-alert: #ef4444;
+    --green-success: #10b981;
 }
 
 *{
@@ -45,7 +45,7 @@ body{
 }
 
 /* =========================================================
-   LEFT GLOBAL SIDEBAR
+   LEFT GLOBAL NAVIGATION SIDEBAR MODULE LOCK
    ========================================================= */
 .sidebar {
     width: 260px;
@@ -106,7 +106,7 @@ body{
 .menu-item i { width: 20px; text-align: center; }
 
 /* =========================================================
-   MAIN WRAPPER INTERFACE ARCHITECTURE
+   RIGHT SIDE WORKSPACE GRID LAYOUT
    ========================================================= */
 .main-wrapper {
     margin-left: 260px; 
@@ -129,15 +129,16 @@ body{
     z-index: 90;
 }
 
-.page-title { font-size: 20px; font-weight: 800; }
+.page-title { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
 
-/* SETTINGS TABS INTERNAL MATRIX */
+/* PREMIUM SIDE MENU NAVIGATION LAYOUT MATRIX */
 .settings-container {
     padding: 40px;
     display: grid;
-    grid-template-columns: 240px 1fr;
-    gap: 40px;
+    grid-template-columns: 260px 1fr;
+    gap: 48px;
     flex: 1;
+    max-width: 1400px;
 }
 
 .settings-tabs {
@@ -151,7 +152,7 @@ body{
     align-items: center;
     gap: 12px;
     padding: 14px 18px;
-    border: none;
+    border: 1px solid transparent;
     background: transparent;
     color: var(--text-secondary);
     font-size: 14px;
@@ -163,57 +164,93 @@ body{
 }
 
 .tab-btn:hover { background: #e2e8f0; color: var(--text-primary); }
-.tab-btn.active { background: var(--bg-secondary); color: var(--accent-blue); box-shadow: var(--shadow-sm); }
+.tab-btn.active { 
+    background: var(--bg-secondary); 
+    color: var(--accent-blue); 
+    border-color: var(--border-color);
+    box-shadow: var(--shadow-sm); 
+}
 
-/* CONTENT BLOCKS CONTROL DISPLAY */
+/* CARDS PREMIUM CONTAINER SLATES */
 .settings-view { display: none; }
-.settings-view.active { display: block; animation: subFade 0.25s ease-out; }
+.settings-view.active { display: block; animation: subFade 0.2s ease-out; }
 
 .settings-card {
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 35px;
+    border-radius: 12px;
+    padding: 32px;
     box-shadow: var(--shadow-sm);
     margin-bottom: 28px;
 }
 
-.card-title { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
-.card-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; }
+.card-title { font-size: 18px; font-weight: 800; margin-bottom: 4px; letter-spacing: -0.01em; }
+.card-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.5; }
 
-/* INPUT FORM ELEMENTS STYLE SHEET */
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;}
-.form-group { margin-bottom: 20px; }
+/* PREMIUM HIGH-TIER INPUT DECORATIONS */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 20px;}
+.form-group { margin-bottom: 20px; position: relative; }
 .form-group.full-width { grid-column: 1 / -1; }
-.form-group label { display: block; font-size: 13px; font-weight: 800; margin-bottom: 8px; }
+.form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--text-secondary); }
+
+/* 🚀 EYE WRAPPER INPUT STRUCTURE METHOD */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
 
 .form-input {
     width: 100%;
-    min-height: 52px;
+    min-height: 50px;
     padding: 0 16px;
     border: 1px solid #cbd5e1;
-    border-radius: 10px;
-    background: var(--bg-primary);
+    border-radius: 8px;
+    background: #ffffff;
     color: var(--text-primary);
     font-size: 15px;
     outline: none;
     transition: all 0.2s ease;
 }
-.form-input:focus { border-color: var(--accent-blue); background: #fff; box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.1); }
-.form-input:disabled { opacity: 0.6; cursor: not-allowed; }
+.form-input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.08); }
+.form-input:disabled { background: #f1f5f9; color: var(--text-muted); cursor: not-allowed; border-color: var(--border-color); }
 
-/* NOTIFICATION BARS CONTROLS */
-.msg-box {
-    display: none; padding: 14px 18px; border-radius: 10px; font-size: 14px; font-weight: 700; margin-bottom: 24px;
+/* 🚀 TOGGLE PASWORD EYE ICON BUTTON */
+.eye-toggle {
+    position: absolute;
+    right: 16px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
 }
-.msg-box.success { display: block; color: #166534; background: #dcfce7; border: 1px solid #bbf7d0; }
+.eye-toggle:hover { color: var(--accent-blue); }
 
-/* BUTTON CONTROLS */
-.btn-primary { background: var(--accent-blue); color: white; border: none; padding: 14px 28px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; }
+/* ALERT BANNER WRAPPER CHANNELS */
+.msg-box {
+    display: none; padding: 14px 18px; border-radius: 8px; font-size: 14px; font-weight: 700; margin-bottom: 24px;
+}
+.msg-box.success { display: block; color: #065f46; background: #ecfdf5; border: 1px solid #a7f3d0; }
+.msg-box.error { display: block; color: #991b1b; background: #fee2e2; border: 1px solid #fecaca; }
+
+/* ACTION MATRIX ACTION BUTTONS */
+.btn-primary { 
+    background: var(--accent-blue); color: white; border: none; padding: 14px 28px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.2s ease;
+}
 .btn-primary:hover { background-color: var(--accent-blue-hover); }
-.btn-danger { background: #fff; color: var(--red-alert); border: 1px solid var(--red-alert); padding: 14px 28px; border-radius: 10px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; }
+
+.btn-danger { 
+    background: #fff; color: var(--red-alert); border: 1px solid var(--red-alert); padding: 14px 28px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; 
+}
 .btn-danger:hover { background: var(--red-alert); color: white; }
 
+/* MEDIA ADAPTIVE COLLAPSIBLE LOOPS */
 @media(max-width:1050px){
     .sidebar { width: 70px; }
     .sidebar-brand span, .menu-item span { display: none; }
@@ -226,13 +263,13 @@ body{
 }
 
 @media(max-width:768px){ .form-grid { grid-template-columns: 1fr; } }
-@keyframes subFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes subFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 
 <body>
 
-<!-- LEFT GLOBAL SIDEBAR CONTROL PANEL CONTAINER MAP -->
+<!-- LEFT GLOBAL SIDEBAR ACCESS TERMINALS -->
 <aside class="sidebar">
     <div class="sidebar-brand">Creator<span>Hub</span></div>
     <div class="sidebar-menu">
@@ -247,26 +284,25 @@ body{
 
 <div class="main-wrapper">
     <header class="topbar">
-        <div class="page-title"><i class="fa-solid fa-gears" style="color: var(--accent-blue);"></i> Control Management Center</div>
+        <div class="page-title"><i class="fa-solid fa-sliders" style="color: var(--accent-blue);"></i> Control Management Center</div>
     </header>
 
-    <!-- MAIN GRID CONTAINER SECTION -->
+    <!-- MAIN CONFIGURATION VIEWPORTS GRID -->
     <div class="settings-container">
         
-        <!-- SIDE NAVIGATION NAVIGATION FOR SECTIONS -->
+        <!-- INNER NAVIGATION SUB CONTROL TAB STRIPS -->
         <div class="settings-tabs">
-            <button class="tab-btn active" onclick="switchSection(event, 'account')"><i class="fa-solid fa-user"></i> <span>Account Info</span></button>
-            <button class="tab-btn" onclick="switchSection(event, 'security')"><i class="fa-solid fa-shield-halved"></i> <span>Security</span></button>
+            <button class="tab-btn active" onclick="switchSection(event, 'account')"><i class="fa-solid fa-circle-user"></i> <span>Account Info</span></button>
+            <button class="tab-btn" onclick="switchSection(event, 'security')"><i class="fa-solid fa-key"></i> <span>Security & Access</span></button>
             <button class="tab-btn" onclick="switchSection(event, 'payout')"><i class="fa-solid fa-building-columns"></i> <span>Payout Bank Node</span></button>
-            <button class="tab-btn" onclick="switchSection(event, 'developer')"><i class="fa-solid fa-code"></i> <span>Developer Console</span></button>
-            <button class="tab-btn" onclick="switchSection(event, 'system')"><i class="fa-solid fa-database"></i> <span>System Controls</span></button>
+            <button class="tab-btn" onclick="switchSection(event, 'developer')"><i class="fa-solid fa-terminal"></i> <span>Developer Console</span></button>
+            <button class="tab-btn" onclick="switchSection(event, 'system')"><i class="fa-solid fa-layer-group"></i> <span>System Controls</span></button>
         </div>
 
-        <!-- RIGHT DATA FILL SWITCHABLE BLOCKS VIEWPORTS -->
         <div class="settings-content">
             <div id="alertBox" class="msg-box"></div>
 
-            <!-- SECTION 1: ACCOUNT GENERAL CONTROLS -->
+            <!-- SECTION 1: GENERAL IDENTITY OVERVIEWS -->
             <div id="account" class="settings-view active">
                 <section class="settings-card">
                     <div class="card-title">General Profile Configurations</div>
@@ -282,23 +318,43 @@ body{
                 </section>
             </div>
 
-            <!-- SECTION 2: SECURITY PASSWORD CONFIG -->
+            <!-- SECTION 2: SECURITY MODIFICATION (WITH DYNAMIC PASWORD TOGGLE EYE) -->
             <div id="security" class="settings-view">
                 <section class="settings-card">
                     <div class="card-title">Security Gateway Credentials</div>
                     <div class="card-desc">Modify access validation passwords sequence to safe tracking parameters layers.</div>
                     <form onsubmit="saveSecurityCredentials(event)">
-                        <div class="form-group"><label>Current Security Password</label><input id="currPass" class="form-input" type="password" required placeholder="••••••••"></div>
+                        
+                        <div class="form-group">
+                            <label>Current Security Password</label>
+                            <div class="input-wrapper">
+                                <input id="currPass" class="form-input" type="password" required placeholder="••••••••">
+                                <button type="button" class="eye-toggle" onclick="togglePasswordVisibility('currPass', this)"><i class="fa-solid fa-eye"></i></button>
+                            </div>
+                        </div>
+
                         <div class="form-grid">
-                            <div class="form-group"><label>New Secure Password</label><input id="newPass" class="form-input" type="password" required placeholder="••••••••"></div>
-                            <div class="form-group"><label>Confirm New Security Match</label><input id="confPass" class="form-input" type="password" required placeholder="••••••••"></div>
+                            <div class="form-group">
+                                <label>New Secure Password</label>
+                                <div class="input-wrapper">
+                                    <input id="newPass" class="form-input" type="password" required placeholder="••••••••">
+                                    <button type="button" class="eye-toggle" onclick="togglePasswordVisibility('newPass', this)"><i class="fa-solid fa-eye"></i></button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm New Security Match</label>
+                                <div class="input-wrapper">
+                                    <input id="confPass" class="form-input" type="password" required placeholder="••••••••">
+                                    <button type="button" class="eye-toggle" onclick="togglePasswordVisibility('confPass', this)"><i class="fa-solid fa-eye"></i></button>
+                                </div>
+                            </div>
                         </div>
                         <button type="submit" class="btn-primary">Overwrite Password Token</button>
                     </form>
                 </section>
             </div>
 
-            <!-- SECTION 3: SELLER BANK PAYOUT GATEWAY -->
+            <!-- SECTION 3: BANK PAYOUT SETTLEMENT ROUTINGS -->
             <div id="payout" class="settings-view">
                 <section class="settings-card">
                     <div class="card-title">Fulfillment Settlement & Bank Node Settings</div>
@@ -307,7 +363,15 @@ body{
                         <div class="form-grid">
                             <div class="form-group"><label>Settlement Bank Account Holder Name</label><input id="bankHolder" class="form-input" type="text" placeholder="EX: AYUSH PRAJAPATI"></div>
                             <div class="form-group"><label>Core Bank Name</label><input id="bankName" class="form-input" type="text" placeholder="State Bank of India"></div>
-                            <div class="form-group"><label>Account Number String Node</label><input id="bankAccNo" class="form-input" type="password" placeholder="000000000000"></div>
+                            
+                            <div class="form-group">
+                                <label>Account Number String Node</label>
+                                <div class="input-wrapper">
+                                    <input id="bankAccNo" class="form-input" type="password" placeholder="000000000000">
+                                    <button type="button" class="eye-toggle" onclick="togglePasswordVisibility('bankAccNo', this)"><i class="fa-solid fa-eye"></i></button>
+                                </div>
+                            </div>
+
                             <div class="form-group"><label>IFSC Routing Code</label><input id="bankIfsc" class="form-input" type="text" placeholder="SBIN0000000"></div>
                         </div>
                         <button type="submit" class="btn-primary">Lock Bank Configuration Routing</button>
@@ -315,7 +379,7 @@ body{
                 </section>
             </div>
 
-            <!-- SECTION 4: DEVELOPER DRIVE API KEYS -->
+            <!-- SECTION 4: DEVELOPER DRIVE ARCHITECTURE ARRAYS -->
             <div id="developer" class="settings-view">
                 <section class="settings-card">
                     <div class="card-title">Developer Integration Endpoint Infrastructure</div>
@@ -331,14 +395,14 @@ body{
                 </section>
             </div>
 
-            <!-- SECTION 5: SYSTEM TERMINATION WIPE CONTROL -->
+            <!-- SECTION 5: ADVANCED CACHE/LOGOFF INSTANCES -->
             <div id="system" class="settings-view">
                 <section class="settings-card">
                     <div class="card-title">Ecosystem Local Space Clear Loop</div>
                     <div class="card-desc">Wipe transient data cache models cleanly from browser execution threads.</div>
                     <button class="btn-primary" style="background:#475569" onclick="clearDataCache()">Clear Cache Models Stream</button>
                 </section>
-                <section class="settings-card" style="border-color: rgba(220, 38, 38, 0.25);">
+                <section class="settings-card" style="border-color: rgba(239, 68, 68, 0.2);">
                     <div class="card-title" style="color:var(--red-alert);">Profile Destruction Framework</div>
                     <div class="card-desc">Disconnect account binding instance securely. All storage tracking cache keys destroy instantly.</div>
                     <button class="btn-danger" onclick="triggerLogoffSequence()">Sign Out Profile Instance</button>
@@ -350,7 +414,6 @@ body{
 </div>
 
 <script>
-// Global endpoint mapping hooks
 const CORE_PROFILE_API = "https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
 
 let USER_STORE = JSON.parse(localStorage.getItem("user") || "{}");
@@ -363,14 +426,27 @@ function pushAlert(text, mode) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Switching tab visibility loops flawlessly
+/* 🚀 DYNAMIC LOGIC: LIVE DYNAMIC PASWORD VISION EYE EYE TOGGLE ENGINE */
+function togglePasswordVisibility(inputId, btnElement) {
+    const inputField = document.getElementById(inputId);
+    const iconElement = btnElement.querySelector('i');
+    
+    if (inputField.type === "password") {
+        inputField.type = "text";
+        iconElement.className = "fa-solid fa-eye-slash"; // Swaps dynamically to slash look
+    } else {
+        inputField.type = "password";
+        iconElement.className = "fa-solid fa-eye";
+    }
+}
+
 function switchSection(e, sectionId) {
     document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
     document.querySelectorAll(".settings-view").forEach(view => view.classList.remove("active"));
 
     e.currentTarget.classList.add("active");
     document.getElementById(sectionId).classList.add("active");
-    pushAlert("", ""); // Reset message bars
+    pushAlert("", "");
 }
 
 function loadConfigValues() {
@@ -378,13 +454,11 @@ function loadConfigValues() {
     document.getElementById("accName").value = localStorage.getItem("user_name") || USER_STORE.name || "Creator";
     document.getElementById("accImage").value = localStorage.getItem("user_image") || USER_STORE.profile_image || "";
     
-    // Fetching stored bank layout vectors
     document.getElementById("bankHolder").value = localStorage.getItem("settle_holder") || "";
     document.getElementById("bankName").value = localStorage.getItem("settle_bank") || "";
     document.getElementById("bankAccNo").value = localStorage.getItem("settle_acc_node") || "";
     document.getElementById("bankIfsc").value = localStorage.getItem("settle_ifsc") || "";
 
-    // Fetching developer endpoint properties
     document.getElementById("devApiUrl").value = localStorage.getItem("dev_core_api") || CORE_PROFILE_API;
     document.getElementById("devDriveId").value = localStorage.getItem("dev_drive_id") || "";
     document.getElementById("devWebhook").value = localStorage.getItem("dev_webhook_node") || "";
