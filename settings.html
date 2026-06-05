@@ -195,16 +195,18 @@ body{
 
 .input-helper-text { font-size: 12px; color: var(--text-muted); margin-top: 6px; line-height: 1.4; }
 
+/* 🚀 FIXED: Absolute context positioning wrapper layer for password eyes elements */
 .input-wrapper {
     position: relative;
     display: flex;
+    width: 100%;
     align-items: center;
 }
 
 .form-input {
     width: 100%;
     min-height: 50px;
-    padding: 0 16px;
+    padding: 0 50px 0 16px; /* Right padding extra for preventing text covering eye icons */
     border: 1px solid #cbd5e1;
     border-radius: 8px;
     background: #ffffff;
@@ -214,9 +216,9 @@ body{
     transition: all 0.2s ease;
 }
 .form-input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.08); }
-.form-input:disabled { background: #f1f5f9; color: var(--text-muted); cursor: not-allowed; border-color: var(--border-color); }
+.form-input:disabled { background: #f1f5f9; color: var(--text-muted); cursor: not-allowed; border-color: var(--border-color); padding-right: 16px; }
 
-select.form-input { cursor: pointer; appearance: none; }
+select.form-input { cursor: pointer; appearance: none; padding-right: 16px; }
 
 .form-textarea {
     width: 100%;
@@ -233,19 +235,23 @@ select.form-input { cursor: pointer; appearance: none; }
 }
 .form-textarea:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.08); }
 
-/* PASSWORD TOGGLE BADGE EYE EYES ICON */
+/* 🚀 FIXED: Eye Button layout depth metrics to handle instant touch bindings */
 .eye-toggle {
     position: absolute;
-    right: 16px;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
     background: transparent;
     border: none;
     color: var(--text-muted);
     cursor: pointer;
     font-size: 16px;
-    padding: 4px;
+    width: 42px;
+    height: 42px;
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 10; /* Brought to top to intercept browser clicks cleanly */
 }
 .eye-toggle:hover { color: var(--accent-blue); }
 
@@ -329,6 +335,7 @@ input:checked + .slider:before { transform: translateX(24px); }
         <div class="page-title"><i class="fa-solid fa-sliders" style="color: var(--accent-blue);"></i> Control Management Center</div>
     </header>
 
+    <!-- MAIN CONFIGURATION VIEWPORTS GRID -->
     <div class="settings-container">
         
         <!-- SIDE NAVIGATION SECTION TABS TRACKS -->
@@ -377,7 +384,7 @@ input:checked + .slider:before { transform: translateX(24px); }
                 </section>
             </div>
 
-            <!-- SECTION 2: 🚀 UPGRADED: STORE BRANDING LONG DETAILED MATRICES -->
+            <!-- SECTION 2: STORE BRANDING LONG DETAILED MATRICES -->
             <div id="branding" class="settings-view">
                 <section class="settings-card">
                     <div class="card-title">Global Store Metadata Branding</div>
@@ -486,7 +493,7 @@ input:checked + .slider:before { transform: translateX(24px); }
                 </section>
             </div>
 
-            <!-- SECTION 5: 🚀 REPLACED REPLACEMENT: TAXATION & AUTOMATED COMPLIANCE SECTION -->
+            <!-- SECTION 5: TAXATION & AUTOMATED COMPLIANCE SECTION -->
             <div id="compliance" class="settings-view">
                 <section class="settings-card">
                     <div class="card-title">Taxation, Invoicing & Automated Compliance</div>
@@ -564,7 +571,7 @@ input:checked + .slider:before { transform: translateX(24px); }
                     <div class="card-desc">Disconnect account binding instance or delete metadata metadata sequence. Proceed with caution.</div>
                     <div style="display:flex; gap: 14px; flex-wrap:wrap;">
                         <button class="btn-primary" style="background:#64748b" onclick="triggerLogoffSequence()">Sign Out Profile Instance</button>
-                        <!-- 🚀 DYNAMIC BYPASS ROUTING DIRECTLY TO YOUR delete.html PAGE -->
+                        <!-- DYNAMIC BYPASS ROUTING DIRECTLY TO YOUR delete.html PAGE -->
                         <button class="btn-danger" onclick="location.href='delete.html'">Delete CreatorHub Account</button>
                     </div>
                 </section>
@@ -575,7 +582,6 @@ input:checked + .slider:before { transform: translateX(24px); }
 </div>
 
 <script>
-// Master Profile API endpoint reference link
 const MASTER_PROFILE_API = "https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
 
 let SYSTEM_USER = JSON.parse(localStorage.getItem("user") || "{}");
@@ -588,13 +594,14 @@ function pushAlert(text, mode) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-/* 🚀 PASSWORD VISIBILITY EYEBALL INTERACTION ENGINE ROUTINES */
+/* 🚀 FIXED LOGIC: Toggles type string and icon state layers cleanly on click triggers */
 function togglePasswordVisibility(inputId, btnElement) {
     const inputField = document.getElementById(inputId);
     const iconElement = btnElement.querySelector('i');
+    
     if (inputField.type === "password") {
         inputField.type = "text"; 
-        iconElement.className = "fa-solid fa-eye-slash"; // Changes visually to slashed eyeball icon
+        iconElement.className = "fa-solid fa-eye-slash"; // Toggles back to slashed eye icon cleanly
     } else {
         inputField.type = "password"; 
         iconElement.className = "fa-solid fa-eye";
@@ -656,7 +663,8 @@ async function saveGeneralInfo(e) {
     localStorage.setItem("user_country", document.getElementById("accCountry").value.trim());
     localStorage.setItem("user_bio", document.getElementById("accBio").value.trim());
 
-    SYSTEM_USER.name = name; localStorage.setItem("user", JSON.stringify(SYSTEM_USER));
+    SYSTEM_USER.name = name; SYSTEM_USER.profile_image = localStorage.getItem("user_image") || ""; 
+    localStorage.setItem("user", JSON.stringify(SYSTEM_USER));
     pushAlert("Detailed profile architecture configurations saved successfully! ✅", "ok");
 }
 
@@ -688,7 +696,6 @@ function savePayoutNode(e) {
     pushAlert("Fulfillment settlement configuration matrix securely locked! 🏦", "ok");
 }
 
-/* 🚀 COMPLIANCE PROCESS DATA STORAGE SYNC ENGINE LOGIC */
 function saveTaxCompliance(e) {
     e.preventDefault();
     localStorage.setItem("tax_gstin_no", document.getElementById("taxGstin").value.trim());
@@ -708,7 +715,6 @@ function triggerLogoffSequence() {
     localStorage.clear(); window.location.href = "login.html";
 }
 
-// Watching state switches inputs dynamically
 document.getElementById("notifyOrder").addEventListener("change", e => localStorage.setItem("opt_notify_order", e.target.checked));
 document.getElementById("notifyPayout").addEventListener("change", e => localStorage.setItem("opt_notify_payout", e.target.checked));
 document.getElementById("notifyMarketing").addEventListener("change", e => localStorage.setItem("opt_notify_market", e.target.checked));
