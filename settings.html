@@ -189,13 +189,14 @@ body{
 
 /* INPUT STYLES MATRICES */
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 20px;}
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 20px;}
 .form-group { margin-bottom: 20px; position: relative; }
 .form-group.full-width { grid-column: 1 / -1; }
 .form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--text-secondary); }
 
 .input-helper-text { font-size: 12px; color: var(--text-muted); margin-top: 6px; line-height: 1.4; }
 
-/* 🚀 FIXED: Absolute context positioning wrapper layer for password eyes elements */
+/* Absolute context positioning wrapper layer for password eyes elements */
 .input-wrapper {
     position: relative;
     display: flex;
@@ -235,7 +236,7 @@ select.form-input { cursor: pointer; appearance: none; padding-right: 16px; }
 }
 .form-textarea:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.08); }
 
-/* 🚀 FIXED: Eye Button layout depth metrics to handle instant touch bindings */
+/* Eye Button layout depth metrics to handle instant touch bindings */
 .eye-toggle {
     position: absolute;
     right: 4px;
@@ -360,8 +361,8 @@ input:checked + .slider:before { transform: translateX(24px); }
                     <form onsubmit="saveGeneralInfo(event)">
                         <div class="form-grid">
                             <div class="form-group"><label>Account Email (Locked)</label><input id="accEmail" class="form-input" type="email" disabled></div>
-                            <div class="form-group"><label>Creator Full Name</label><input id="accName" class="form-input" type="text" required></div>
-                            <div class="form-group"><label>Public Username Handle</label><input id="accUsername" class="form-input" type="text" placeholder="e.g. ayush_prajapati"></div>
+                            <div class="form-group"><label>Creator Full Name</label><input id="accName" class="form-input" type="text" required placeholder="Enter your full name"></div>
+                            <div class="form-group"><label>Public Username Handle</label><input id="accUsername" class="form-input" type="text" placeholder="e.g. creatorhub_seller"></div>
                             <div class="form-group"><label>Contact Phone Number</label><input id="accPhone" class="form-input" type="tel" placeholder="+91 00000-00000"></div>
                             
                             <div class="form-group">
@@ -393,7 +394,7 @@ input:checked + .slider:before { transform: translateX(24px); }
                         <div class="form-grid">
                             <div class="form-group">
                                 <label>Store Custom Platform Title</label>
-                                <input id="storeTitle" class="form-input" type="text" placeholder="Ayush Data Specialist Store">
+                                <input id="storeTitle" class="form-input" type="text" placeholder="CreatorHub Digital Store">
                                 <div class="input-helper-text">This value overwrites the global HTML head text and main marketplace title across web clients dynamically.</div>
                             </div>
                             <div class="form-group">
@@ -403,11 +404,11 @@ input:checked + .slider:before { transform: translateX(24px); }
                             </div>
                             <div class="form-group">
                                 <label>Custom Marketplace Storefront URL Handle</label>
-                                <input id="storeSubdomain" class="form-input" type="text" placeholder="ayushhub">
+                                <input id="storeSubdomain" class="form-input" type="text" placeholder="creatorhub_store">
                                 <div class="input-helper-text">Configures your lean routing gateway index node path mapping parameters inside github pages layouts.</div>
                             </div>
                             <div class="form-group">
-                                <label>Customer Support SLA SLA Time-window</label>
+                                <label>Customer Support SLA Time-window</label>
                                 <select id="storeSlaWindow" class="form-input">
                                     <option value="12">Instant (Within 12 Hours Response Guarantee)</option>
                                     <option value="24">Standard (Within 24 Hours Verification Review)</option>
@@ -417,7 +418,7 @@ input:checked + .slider:before { transform: translateX(24px); }
                             </div>
                             <div class="form-group full-width">
                                 <label>Marketplace Primary Pitch Tagline Descriptor</label>
-                                <input id="storeTagline" class="form-input" type="text" placeholder="Premium PDF to Excel, automated data entry cleaning scripts, and growth books.">
+                                <input id="storeTagline" class="form-input" type="text" placeholder="Premium digital files, automated spreadsheet analytics, and creator ebooks delivered instantly.">
                                 <div class="input-helper-text">Appears as a prominent layout bold title right below your marketplace top navigation panels to drive viewer conversion loops.</div>
                             </div>
                             <div class="form-group full-width">
@@ -475,7 +476,7 @@ input:checked + .slider:before { transform: translateX(24px); }
                     <div class="card-desc">Configure automated wallet payouts routes and cash splitting parameters cleanly.</div>
                     <form onsubmit="savePayoutNode(event)">
                         <div class="form-grid">
-                            <div class="form-group"><label>Settlement Bank Account Holder Name</label><input id="bankHolder" class="form-input" type="text" placeholder="EX: AYUSH PRAJAPATI"></div>
+                            <div class="form-group"><label>Settlement Bank Account Holder Name</label><input id="bankHolder" class="form-input" type="text" placeholder="e.g. CREATORHUB SELLER"></div>
                             <div class="form-group"><label>Core Bank Corporate Name</label><input id="bankName" class="form-input" type="text" placeholder="State Bank of India"></div>
                             
                             <div class="form-group">
@@ -594,14 +595,14 @@ function pushAlert(text, mode) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-/* 🚀 FIXED LOGIC: Toggles type string and icon state layers cleanly on click triggers */
+/* LIVE DYNAMIC PASSWORD VISION EYE TOGGLE ENGINE */
 function togglePasswordVisibility(inputId, btnElement) {
     const inputField = document.getElementById(inputId);
     const iconElement = btnElement.querySelector('i');
     
     if (inputField.type === "password") {
         inputField.type = "text"; 
-        iconElement.className = "fa-solid fa-eye-slash"; // Toggles back to slashed eye icon cleanly
+        iconElement.className = "fa-solid fa-eye-slash";
     } else {
         inputField.type = "password"; 
         iconElement.className = "fa-solid fa-eye";
