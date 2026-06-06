@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CreatorHub Store | Premium Asset Marketplace</title>
+<title>CreatorHub Store | Premium Marketplace & Delivery System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2 family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
@@ -138,7 +138,6 @@ body{
     gap: 24px;
 }
 
-/* CART HEADER ICON COUNTER BADGE */
 .cart-header-node {
     position: relative;
     font-size: 20px;
@@ -321,7 +320,7 @@ footer{
 <div class="main-wrapper">
     
     <header class="topbar">
-        <div class="page-title"><i class="fa-solid fa-store" style="color:var(--accent-blue)"></i> Digital Marketplace Dashboard</div>
+        <div class="page-title"><i class="fa-solid fa-truck-ramp-box" style="color:var(--accent-blue)"></i> Delivery & Order Processing Hub</div>
         <div class="topbar-actions">
             <div class="cart-header-node" onclick="location.href='cart.html'">
                 <i class="fa-solid fa-basket-shopping"></i>
@@ -335,20 +334,20 @@ footer{
         
         <section class="metrics-panel">
             <div class="metrics-left">
-                <h1>Approved Digital Assets</h1>
-                <p>Browse through high-converting spreadsheet solutions, growth guides, and creator tools.</p>
+                <h1>Active Physical Bookstore Inventory</h1>
+                <p>Track delivery cycles, monitor secure print-on-demand listings, and purchase directly.</p>
             </div>
             <div class="metrics-grid">
                 <div class="metric-node">
-                    <h3>Products</h3>
+                    <h3>Total Listed</h3>
                     <h2 id="totalProductCount" style="color:var(--accent-blue)">0</h2>
                 </div>
                 <div class="metric-node">
-                    <h3>Approved</h3>
+                    <h3>Live Stock</h3>
                     <h2 id="approvedProductCount" style="color:var(--green-success)">0</h2>
                 </div>
                 <div class="metric-node">
-                    <h3>Categories</h3>
+                    <h3>Hub Routes</h3>
                     <h2 id="categoryProductCount" style="color:var(--amber-warning)">3</h2>
                 </div>
             </div>
@@ -357,13 +356,13 @@ footer{
         <section class="utility-bar">
             <div class="search-wrapper">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="storeSearchInput" class="search-input" placeholder="Search premium assets natively..." oninput="executeLiveStoreFilter()">
+                <input type="text" id="storeSearchInput" class="search-input" placeholder="Search physical book logs..." oninput="executeLiveStoreFilter()">
             </div>
             <div class="filter-group" id="storeFilterContainer">
-                <button class="filter-chip active" onclick="applyCategoryFilter(this, 'all')">All Products</button>
-                <button class="filter-chip" onclick="applyCategoryFilter(this, 'Ebook')">Premium Ebooks</button>
-                <button class="filter-chip" onclick="applyCategoryFilter(this, 'Script')">Scripts & Sheets</button>
-                <button class="filter-chip" onclick="applyCategoryFilter(this, 'Subscription')">Subscriptions</button>
+                <button class="filter-chip active" onclick="applyCategoryFilter(this, 'all')">All Books</button>
+                <button class="filter-chip" onclick="applyCategoryFilter(this, 'Hardcover')">Hardcover</button>
+                <button class="filter-chip" onclick="applyCategoryFilter(this, 'Paperback')">Paperback</button>
+                <button class="filter-chip" onclick="applyCategoryFilter(this, 'Special Edition')">Special Edition</button>
             </div>
         </section>
 
@@ -383,7 +382,7 @@ footer{
 const API = "https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
 
 let user = JSON.parse(localStorage.getItem("user") || "null");
-let cachedStoreProducts = []; // Local memory reference arrays
+let cachedStoreProducts = []; 
 
 if(user) {
     let savedName = localStorage.getItem("user_name") || "User";
@@ -425,25 +424,26 @@ function driveImage(link){
     return link;
 }
 
-/* 🚀 CONVERTED TO TRUE ASYNC PROCESSING LAYER FOR ACCELERATED LIFECYCLES */
+/* 🚀 FIXED CORE: Maps directly to product data array structure status parameters securely */
 async function loadProducts(){
     let box = document.getElementById("products");
     let products = await getDB("products");
     
-    // Cache array reference to allow smooth zero-latency filter switches later
     cachedStoreProducts = products;
     
-    let approvedProducts = products.filter(function(p){ return p.ai_status === "approved"; });
+    // 🚀 RESTORED CRITICAL FILTER: Fixed mismatch by mapping precisely to your backend row validation schema
+    let approvedProducts = products.filter(function(p){ 
+        return p.status === "approved" || p.ai_status === "approved" || p.status === "Active"; 
+    });
 
-    // Sync metrics dashboard indicators instantly
     document.getElementById("totalProductCount").innerText = products.length;
     document.getElementById("approvedProductCount").innerText = approvedProducts.length;
 
     if(approvedProducts.length === 0){
         box.innerHTML = `
         <div class="no-data">
-            <i class="fa-solid fa-folder-open" style="font-size:40px; color:var(--text-muted); margin-bottom:16px; display:block;"></i>
-            <h3>No Approved Digital Assets Found</h3>
+            <i class="fa-solid fa-box-open" style="font-size:40px; color:var(--text-muted); margin-bottom:16px; display:block;"></i>
+            <h3>No Live Inventory Found in Delivery Database</h3>
         </div>`;
         return;
     }
@@ -452,24 +452,24 @@ async function loadProducts(){
     let html = "";
 
     approvedProducts.forEach(function(p){
-        let catValue = p.category || p.type || "Ebook";
-        let authorText = p.author || "Premium Specialist";
+        let catValue = p.category || p.type || "Paperback";
+        let authorText = p.author || "Premium Creator";
         
         html += `
         <div class="card" data-title="${p.title.toLowerCase()}" data-cat="${catValue}">
             <div class="image-wrapper">
-                <img src="${driveImage(p.image)}" alt="Ebook Cover Preview" onclick="openProduct('${p.id}')" loading="lazy">
+                <img src="${driveImage(p.image)}" alt="Physical Book Preview" onclick="openProduct('${p.id}')" loading="lazy">
             </div>
-            <h3>${escapeHTML(p.title || "Untitled Premium Asset")}</h3>
+            <h3>${escapeHTML(p.title || "Untitled Cargo Item")}</h3>
             <span class="card-author">by ${escapeHTML(authorText)}</span>
             <div class="price-tag">₹${Number(p.price || 0)}</div>
             
             <button class="btn-buy" onclick="buyNow(event,'${p.id}')">
-                <i class="fa-solid fa-bolt"></i> Buy Ebook
+                <i class="fa-solid fa-truck-fast"></i> Order Direct Delivery
             </button>
             
             <button class="btn-cart" onclick="addCart(event,'${p.id}')">
-                <i class="fa-solid fa-cart-plus"></i> Add to Cart
+                <i class="fa-solid fa-cart-plus"></i> Add to Cargo
             </button>
         </div>
         `;
@@ -484,7 +484,6 @@ function updateBasketLiveCount() {
     document.getElementById("cartCountBadge").innerText = cart.length;
 }
 
-/* 🚀 INSTANT STRINGS CLIENT FILTER SWITCHER METHODS */
 function executeLiveStoreFilter() {
     let query = document.getElementById("storeSearchInput").value.toLowerCase();
     let targetChip = document.querySelector(".filter-chip.active").innerText;
@@ -503,13 +502,13 @@ function domGridFilterPipeline(query, activeChipLabel) {
     let cards = document.querySelectorAll(".card");
     cards.forEach(card => {
         let title = card.getAttribute("data-title") || "";
-        let cat = card.getAttribute("data-cat") || "Ebook";
+        let cat = card.getAttribute("data-cat") || "Paperback";
         
         let matchQuery = title.includes(query);
-        let matchChip = (activeChipLabel === "All Products") || 
-                        (activeChipLabel === "Premium Ebooks" && cat === "Ebook") || 
-                        (activeChipLabel === "Scripts & Sheets" && cat === "Script") || 
-                        (activeChipLabel === "Subscriptions" && cat === "Subscription");
+        let matchChip = (activeChipLabel === "All Books") || 
+                        (activeChipLabel === "Hardcover" && cat === "Hardcover") || 
+                        (activeChipLabel === "Paperback" && cat === "Paperback") || 
+                        (activeChipLabel === "Special Edition" && cat === "Special Edition");
 
         if(matchQuery && matchChip) {
             card.style.display = "flex";
@@ -524,7 +523,7 @@ function openProduct(id){ location.href = "book.html?id=" + id; }
 function buyNow(e, id){
     e.stopPropagation();
     if(!user){
-        showToast("<i class='fa-solid fa-circle-exclamation'></i> Login is required to checkout.");
+        showToast("<i class='fa-solid fa-circle-exclamation'></i> Login required for dynamic hub dispatch.");
         setTimeout(function(){ location.href = "login.html"; }, 1500);
         return;
     }
@@ -536,13 +535,13 @@ function addCart(e, id){
     e.stopPropagation();
     let cart = JSON.parse(localStorage.getItem("cart") || "[]");
     if(cart.indexOf(id) !== -1){
-        showToast("<i class='fa-solid fa-info-circle'></i> Item already present inside basket.");
+        showToast("<i class='fa-solid fa-info-circle'></i> Item already loaded inside cargo slot.");
         return;
     }
     cart.push(id);
     localStorage.setItem("cart", JSON.stringify(cart));
     updateBasketLiveCount();
-    showToast("<i class='fa-solid fa-circle-check'></i> Added to Basket successfully!");
+    showToast("<i class='fa-solid fa-circle-check'></i> Added to Cargo successfully!");
 }
 
 function showToast(msg){
@@ -553,7 +552,6 @@ function showToast(msg){
     setTimeout(function(){ div.remove(); }, 3000);
 }
 
-// Fire system loaders
 loadProducts();
 </script>
 
