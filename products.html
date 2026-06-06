@@ -10,7 +10,7 @@
 
 <style>
 /* =========================================================
-   CREATORHUB HIGH-END PREMIUM VARIABLES MATRIX
+   CREATORHUB HIGH-END PRODUCTION VARIABLES MATRIX
    ========================================================= */
 :root {
     --bg-primary: #f8fafc;       
@@ -388,7 +388,7 @@ footer{
         </section>
 
         <div id="products" class="products-container">
-            <div class="no-data"><i class="fa-solid fa-circle-notch fa-spin" style="font-size:32px; color:var(--accent-blue)"></i><p style="margin-top:10px;">Connecting safe cache vectors...</p></div>
+            <div class="no-data"><i class="fa-solid fa-circle-notch fa-spin" style="font-size:32px; color:var(--accent-blue)"></i><p style="margin-top:10px;">Connecting live cloud database engine...</p></div>
         </div>
     </main>
 
@@ -398,7 +398,6 @@ footer{
 </div>
 
 <script>
-const DASHBOARD_CACHE_ID = "creatorhub_dashboard_cache_v3";
 let cachedStoreProducts = []; 
 
 function toggleProfileMenuMenu(){
@@ -451,29 +450,28 @@ function driveImage(link){
     return link;
 }
 
-/* 🚀 100% ALIGNED WITH LIBRARY1 PARSING ENGINE FRAMEWORK */
-function loadProductsFromCache(){
+/* 🚀 100% FIXED REAL-TIME DATABASE SYNCHRONIZER LAYER */
+async function loadLiveProductsFromDatabase(){
     let box = document.getElementById("products");
     
     try {
-        let cachedContext = JSON.parse(localStorage.getItem(DASHBOARD_CACHE_ID) || "null");
+        // 🚀 BYPASS STATIC FALLBACKS: Live network stream execution directly from the real target macro API
+        let response = await fetch(API + "?action=products&db=products&t=" + Date.now());
+        let rawData = await response.json();
         
-        // 🚀 EXACT MATCH HOOK: Extracts data straight from your operational storage structure loops
-        if (cachedContext && cachedContext.data && (cachedContext.data.library_books || cachedContext.data.products)) {
-            cachedStoreProducts = cachedContext.data.products || cachedContext.data.library_books;
-        } else {
-            // Fallback context mock if cache is rebuilding
-            cachedStoreProducts = [
-                { id: "101", title: "AI — My New Digital Companion", category: "Paperback", author: "Ayush Prajapati", price: "299" },
-                { id: "102", title: "Complete Instagram Growth Guide", category: "Hardcover", author: "Growth Specialist", price: "499" }
-            ];
-        }
+        // Handle sheet array structural packaging variants cleanly
+        let verifiedProductsList = [];
+        if(rawData && rawData.products) verifiedProductsList = rawData.products;
+        else if(rawData && rawData.data) verifiedProductsList = rawData.data;
+        else if(Array.isArray(rawData)) verifiedProductsList = rawData;
+        
+        cachedStoreProducts = verifiedProductsList.filter(p => p);
 
         let totalCount = cachedStoreProducts.length;
         let uniqueCategoriesSet = new Set();
         
         cachedStoreProducts.forEach(p => {
-            let cat = p.category || p.type || "Paperback";
+            let cat = p.category || p.type || p.book_type || "Paperback";
             uniqueCategoriesSet.add(cat.trim());
         });
 
@@ -491,14 +489,17 @@ function loadProductsFromCache(){
             return;
         }
 
+        cachedStoreProducts.reverse();
         let html = "";
+        
         cachedStoreProducts.forEach(function(p){
-            let itemTitle = p.title || p.book_title || p.name || "Premium Asset Listing";
-            let itemAuthor = p.author || p.book_author || p.writer || "Premium Creator";
-            let itemPrice = p.price || p.book_price || p.rate || 0;
-            let itemImage = p.image || p.book_image || p.cover || p.front_cover || p.cover_image || "";
-            let itemCategory = p.category || p.type || "Paperback";
-            let itemId = p.id || p.book_id || "";
+            // 🚀 ALIGNED STRUCTURAL PROPERTY INTERCEPTORS: Matches exact sheet header columns natively
+            let itemTitle = p.title || p.book_title || p.name || p.bookName || p.book_name || "Premium Book Title";
+            let itemAuthor = p.author || p.book_author || p.writer || p.bookAuthor || "Premium Creator";
+            let itemPrice = p.price || p.book_price || p.rate || p.bookPrice || 0;
+            let itemImage = p.image || p.book_image || p.cover || p.front_cover || p.frontCover || p.cover_image || "";
+            let itemCategory = p.category || p.type || p.book_type || "Paperback";
+            let itemId = p.id || p.book_id || p.bookId || "";
 
             html += `
             <div class="card" data-title="${String(itemTitle).toLowerCase()}" data-cat="${itemCategory}">
@@ -524,8 +525,8 @@ function loadProductsFromCache(){
         updateBasketLiveCount();
 
     } catch(err) {
-        console.error("Store dynamic parsing operation aborted.", err);
-        box.innerHTML = '<div class="no-data"><h3>Failed to load configuration layout slots cleanly.</h3></div>';
+        console.error("Store real-time loading track aborted.", err);
+        box.innerHTML = '<div class="no-data"><i class="fa-solid fa-triangle-exclamation" style="color:var(--red-alert); font-size:32px;"></i><h3>Sync Error! Could not reach cloud datastore framework threads.</h3></div>';
     }
 }
 
@@ -602,9 +603,9 @@ function showToast(msg){
     setTimeout(function(){ div.remove(); }, 3000);
 }
 
-// Initial deployment chains
+// Global initialization track deployment chains
 updateSessionHeaderProfile();
-document.addEventListener("DOMContentLoaded", loadProductsFromCache);
+document.addEventListener("DOMContentLoaded", loadLiveProductsFromDatabase);
 </script>
 
 </body>
