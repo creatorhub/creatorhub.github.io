@@ -10,7 +10,7 @@
 
 <style>
 /* =====================================================
-   CORE RESET & CREATORHUB ORIGINAL HOMEPAGE THEME
+   CREATORHUB ENTERPRISE CORE RESET & THEME STYLES
    ===================================================== */
 *{
   margin: 0;
@@ -30,7 +30,7 @@ body{
 ::-webkit-scrollbar-thumb{ background: #3157c9; border-radius: 20px; }
 
 /* =====================================================
-   TOPBAR / NAVIGATION LAYER (EXACT INDEX STYLE)
+   TOPBAR / NAVIGATION LAYER (EXACT HOMEPAGE MATCH)
    ===================================================== */
 .topbar{
   position: sticky;
@@ -67,56 +67,56 @@ body{
 .logout-btn{ margin-top: 14px; height: 46px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: #ef4444; color: #fff; font-weight: 900; font-size: 14px; cursor: pointer; }
 
 /* =====================================================
-   MAIN CONTAINER LAYOUT & STEPPER PROGRESS BAR
+   MAIN HERO WRAPPER CONTAINER & STEPPER INDICATORS
    ===================================================== */
 .main{ max-width: 1400px; margin: auto; padding: 36px 34px 90px; }
-.hero{ background: #fff; border: 1px solid #dce4f0; border-radius: 9px; padding: 40px 50px; box-shadow: 0 18px 45px rgba(16,24,40,.06); margin-bottom: 40px; text-align: center; }
-.hero-title{ font-size: 42px; font-weight: 900; line-height: 1.1; color: #06142c; }
+.hero{ background: #fff; border: 1px solid #dce4f0; border-radius: 9px; padding: 50px 50px; box-shadow: 0 18px 45px rgba(16,24,40,.06); margin-bottom: 40px; text-align: center; }
+.hero-title{ font-size: 44px; font-weight: 900; line-height: 1.2; color: #06142c; letter-spacing: -0.01em; }
 .hero-title span{ color: #2f62e9; }
-.hero-desc{ margin-top: 12px; line-height: 1.6; color: #63728a; font-size: 16px; }
+.hero-desc{ margin-top: 16px; line-height: 1.6; color: #63728a; font-size: 16px; max-width: 900px; margin-left: auto; margin-right: auto; }
 
-/* STEPPER INTERACTIVE NODES */
-.stepper-container { display: flex; justify-content: center; align-items: center; gap: 40px; margin: 30px auto 10px; max-width: 600px; }
+/* STEPPER INTERACTIVE NODES CONTAINER */
+.stepper-container { display: flex; justify-content: center; align-items: center; gap: 40px; margin: 36px auto 10px; max-width: 600px; }
 .step-node { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.step-circle { width: 36px; height: 36px; border-radius: 50%; background: #e2e8f0; border: 2px solid #cbd5e1; color: #475569; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; transition: all 0.3s; }
+.step-circle { width: 38px; height: 38px; border-radius: 50%; background: #e2e8f0; border: 2px solid #cbd5e1; color: #475569; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; transition: all 0.3s ease; }
 .step-node.active .step-circle { background: #2f62e9; border-color: #2f62e9; color: #ffffff; box-shadow: 0 4px 12px rgba(47, 98, 233, 0.2); }
 .step-node.completed .step-circle { background: #10b981; border-color: #10b981; color: #ffffff; }
 .step-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #475569; }
 
 /* =====================================================
-   SPLIT LAYOUT FORM COMPONENTS MODULES
+   SPLIT GRID MANAGEMENT INTERFACES
    ===================================================== */
-.grid{ display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+.grid{ display: grid; grid-template-columns: 1fr 1.2fr; gap: 36px; align-items: start; }
 @media(max-width: 1000px){ .grid{ grid-template-columns: 1fr; } }
 
-.card{ background: #fff; border: 1px solid #dce4f0; border-radius: 9px; padding: 36px; box-shadow: 0 18px 45px rgba(16,24,40,.04); display: none; }
-.card.active-step-block { display: block; animation: subFade 0.3s ease-out; }
-.card-title{ font-size: 22px; font-weight: 950; color: #06142c; margin-bottom: 24px; letter-spacing: -0.01em; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px; }
+.card{ background: #fff; border: 1px solid #dce4f0; border-radius: 9px; padding: 40px; box-shadow: 0 18px 45px rgba(16,24,40,.04); display: none; }
+.card.active-step-block { display: block; animation: stepFadeIn 0.3s ease-out; }
+.card-title{ font-size: 22px; font-weight: 900; color: #06142c; margin-bottom: 24px; letter-spacing: -0.01em; border-bottom: 1px solid #f1f5f9; padding-bottom: 14px; }
 
-.form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 @media(max-width: 500px){ .form-grid-2 { grid-template-columns: 1fr; } }
 
-.input-field { display: grid; gap: 6px; margin-bottom: 18px; text-align: left; }
-.input-field label { font-size: 13px; font-weight: 800; color: #26364f; text-transform: uppercase; letter-spacing: 0.02em; }
+.input-field { display: grid; gap: 6px; margin-bottom: 20px; text-align: left; }
+.input-field label { font-size: 12px; font-weight: 800; color: #26364f; text-transform: uppercase; letter-spacing: 0.03em; }
 .input-field input, .input-field select, .input-field textarea { width: 100%; min-height: 52px; border: 1px solid #d9e3f0; border-radius: 9px; background: #fff; color: #101828; outline: none; padding: 12px 14px; font-size: 15px; font-weight: 600; transition: all 0.2s ease; }
-.input-field textarea { resize: vertical; min-height: 90px; font-weight: 500; }
+.input-field textarea { resize: vertical; min-height: 100px; font-weight: 500; line-height: 1.5; }
 .input-field input:focus, .input-field select:focus, .input-field textarea:focus { border-color: #2f62e9; box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.1); }
-.input-helper { font-size: 11px; color: #63728a; margin-top: 2px; }
+.input-helper { font-size: 11px; color: #63728a; margin-top: 4px; line-height: 1.4; }
 
-/* COMPLIANCE RULES CHECKBOX */
-.compliance-row { display: flex; gap: 10px; align-items: flex-start; margin-top: 14px; text-align: left; }
-.compliance-row input { width: 18px; height: 18px; accent-color: #2f62e9; margin-top: 2px; cursor: pointer; }
+/* COMPLIANCE CHECKBOX STYLES */
+.compliance-row { display: flex; gap: 12px; align-items: flex-start; margin-top: 18px; text-align: left; }
+.compliance-row input { width: 18px; height: 18px; accent-color: #2f62e9; margin-top: 2px; cursor: pointer; flex-shrink: 0; }
 .compliance-row p { font-size: 13px; color: #475569; line-height: 1.5; font-weight: 500; }
 
-/* BUTTON SYSTEMS DIRECTION NAVIGATION */
-.nav-buttons { display: flex; justify-content: space-between; gap: 16px; margin-top: 24px; border-top: 1px solid #f1f5f9; padding-top: 20px; }
-.btn-nav { min-height: 48px; padding: 0 20px; border-radius: 8px; border: 1px solid #d9e3f0; background: #ffffff; color: #475569; font-size: 14px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; }
+/* BUTTONS DIRECTIONAL TRAFFIC CONTROLS */
+.nav-buttons { display: flex; justify-content: space-between; gap: 16px; margin-top: 28px; border-top: 1px solid #f1f5f9; padding-top: 22px; }
+.btn-nav { min-height: 48px; padding: 0 22px; border-radius: 8px; border: 1px solid #d9e3f0; background: #ffffff; color: #475569; font-size: 14px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; }
 .btn-nav:hover { background: #f8fafc; border-color: #cbd5e1; }
-.btn-nav.next { background: #2f62e9; color: #ffffff; border: none; padding: 0 28px; width: auto; }
+.btn-nav.next { background: #2f62e9; color: #ffffff; border: none; padding: 0 32px; width: auto; }
 .btn-nav.next:hover { background: #2455cf; }
 
-/* REALS STATUS SYSTEM ALERTS */
-.status { margin-top: 20px; padding: 16px; border-radius: 8px; text-align: center; font-weight: 800; font-size: 15px; display: none; }
+/* VERIFICATION STATUS BOX MESSAGES */
+.status { margin-top: 20px; padding: 16px; border-radius: 8px; text-align: center; font-weight: 800; font-size: 14px; line-height: 1.5; display: none; }
 .status.success { display: block; background: #e7f8ef; color: #0f9f57; border: 1px solid rgba(15, 159, 87, 0.15); }
 .status.pending { display: block; background: #fff7df; color: #b7791f; border: 1px solid rgba(183, 121, 31, 0.15); }
 .status.rejected { display: block; background: #fef2f2; color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.15); }
@@ -124,15 +124,15 @@ body{
 .loader { display: none; margin: 20px auto 0; width: 28px; height: 28px; border: 3px solid #dce4f0; border-top-color: #2f62e9; border-radius: 50%; animation: spinLoader 0.8s linear infinite; }
 @keyframes spinLoader { to { transform: rotate(360deg); } }
 
-/* INFO CARDS PERKS LAYOUT */
-.info-list { display: grid; gap: 18px; }
-.info-item { display: flex; gap: 16px; align-items: flex-start; padding: 20px; background: #fff; border: 1px solid #dce4f0; border-radius: 9px; box-shadow: 0 8px 24px rgba(16,24,40,.01); text-align: left; }
-.info-icon { width: 44px; height: 44px; border-radius: 8px; background: #eef3f9; color: #2f62e9; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-.info-text h3 { font-size: 16px; font-weight: 900; color: #06142c; margin-bottom: 4px; }
-.info-text p { color: #63728a; font-size: 14px; line-height: 1.5; font-weight: 500; }
+/* SIDEBAR INFO ITEMS DISPLAY PANELS */
+.info-list { display: grid; gap: 20px; }
+.info-item { display: flex; gap: 16px; align-items: flex-start; padding: 24px; background: #fff; border: 1px solid #dce4f0; border-radius: 9px; box-shadow: 0 8px 24px rgba(16,24,40,.01); text-align: left; }
+.info-icon { width: 46px; height: 46px; border-radius: 8px; background: #eef3f9; color: #2f62e9; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.info-text h3 { font-size: 17px; font-weight: 900; color: #06142c; margin-bottom: 6px; }
+.info-text p { color: #63728a; font-size: 14px; line-height: 1.6; font-weight: 500; }
 
-.footer { margin-top: 80px; text-align: center; line-height: 1.6; color: #63728a; font-size: 14px; font-weight: 500; border-top: 1px solid #dce4f0; padding-top: 24px; }
-@keyframes subFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.footer { margin-top: 90px; text-align: center; line-height: 1.6; color: #63728a; font-size: 14px; font-weight: 500; border-top: 1px solid #dce4f0; padding-top: 26px; }
+@keyframes stepFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 
@@ -173,8 +173,8 @@ body{
 
   <div class="main">
     <section class="hero">
-      <div class="hero-title">Become a Creator & <span>Partner Seller</span></div>
-      <p class="desc">Monetize your premium physical and digital resource assets listings securely with our high-speed logistics and automated wallet payout channels pipeline infrastructure.</p>
+      <div class="hero-title">Become a Verified <span>Partner Seller</span></div>
+      <p class="desc">Deploy your products inside the CreatorHub multi-vendor catalog. Fill in genuine business details across the verification steps to authorize your account pipeline and connect with global courier networks natively.</p>
       
       <div class="stepper-container">
           <div class="step-node active" id="stepIndicator1"><div class="step-circle">1</div><span class="step-label">Identity</span></div>
@@ -186,86 +186,96 @@ body{
     <div class="grid">
       <div class="info-list">
         <div class="info-item">
-          <div class="info-icon"><i class="fa-solid fa-bolt"></i></div>
-          <div class="info-text"><h3>Automated AI Approvals</h3><p>Our systemic validation model auto-verifies seller credentials vectors to clear active onboarding blocks safely.</p></div>
+          <div class="info-icon"><i class="fa-solid fa-user-shield"></i></div>
+          <div class="info-text">
+            <h3>Fraud Prevention Systems</h3>
+            <p>Our real-time regex verification logic structural engines scan data sets pattern instances to block fake onboarding entries automatically.</p>
+          </div>
         </div>
         <div class="info-item">
           <div class="info-icon"><i class="fa-solid fa-wallet"></i></div>
-          <div class="info-text"><h3>Direct UPI Settlements</h3><p>Earn directly into your secure wallet. Once approved, clear payouts directly to your specified active handle.</p></div>
+          <div class="info-text">
+            <h3>Direct Settlement Channels</h3>
+            <p>Earnings route automatically into your unified balance wallet metrics. Manage direct payouts straight into your authorized routing addresses.</p>
+          </div>
         </div>
         <div class="info-item">
-          <div class="info-icon"><i class="fa-solid fa-truck-fast"></i></div>
-          <div class="info-text"><h3>Nationwide Dispatch Channels</h3><p>Connect straight into our automated checkouts processing, print-on-demand networks, and courier shipping nodes pipelines.</p></div>
+          <div class="info-icon"><i class="fa-solid fa-truck-ramp-box"></i></div>
+          <div class="info-text">
+            <h3>Logistics Channel Integration</h3>
+            <p>Unlock access to print-on-demand fulfillment channels, nationwide automatic cargo packaging pipelines, and real-time order lifecycle trackers.</p>
+          </div>
         </div>
       </div>
 
       <div class="form-container">
           
           <div class="card active-step-block" id="formCardStep1">
-              <div class="card-title">Step 1: Onboarding Identity Profile</div>
+              <div class="card-title">Step 1: Creator & Identity Validation</div>
               <div class="form-grid-2">
-                  <div class="input-field"><label>Full Name Legal</label><input type="text" id="name" placeholder="Loading structural session profile data..."></div>
-                  <div class="input-field"><label>Phone Number</label><input type="tel" id="phone" placeholder="Enter 10-digit mobile number"></div>
+                  <div class="input-field"><label>Full Legal Name</label><input type="text" id="name" placeholder="Extracting secure user session profile data..."></div>
+                  <div class="input-field"><label>Phone Number (10 Digits)</label><input type="tel" id="phone" placeholder="Enter genuine mobile number"></div>
               </div>
               <div class="form-grid-2">
-                  <div class="input-field"><label>Business Framework</label>
+                  <div class="input-field"><label>Business Framework Type</label>
                       <select id="accBizType">
-                          <option value="individual">Individual Freelancer</option>
-                          <option value="publisher">Ebook Publisher / Book Creator</option>
-                          <option value="agency">Agency Corporate Entity</option>
+                          <option value="individual">Individual Content Creator</option>
+                          <option value="publisher">Ebook Publisher / Corporate Author</option>
+                          <option value="agency">Registered Distribution Agency</option>
                       </select>
                   </div>
-                  <div class="input-field"><label>PAN / GSTIN Tracking ID</label><input type="text" id="taxId" placeholder="Optional for freelancers"></div>
+                  <div class="input-field"><label>PAN Card Tax Number</label><input type="text" id="taxId" placeholder="ABCDE1234F"></div>
               </div>
               <div class="nav-buttons">
                   <div></div>
-                  <button type="button" class="btn-nav next" onclick="switchFormStep(2)">Next Step <i class="fa-solid fa-arrow-right"></i></button>
+                  <button type="button" class="btn-nav next" onclick="verifyAndNavigateStep(1, 2)">Next Step <i class="fa-solid fa-arrow-right"></i></button>
               </div>
           </div>
 
           <div class="card" id="formCardStep2">
-              <div class="card-title">Step 2: Financial Wallet Payout Node</div>
+              <div class="card-title">Step 2: Settlement Account Payout Details</div>
               <div class="form-grid-2">
-                  <div class="input-field"><label>Account Holder Name</label><input type="text" id="bankHolder" placeholder="LEGAL HOLDER NAME"></div>
-                  <div class="input-field"><label>Core Bank Name</label><input type="text" id="bankName" placeholder="e.g. State Bank of India"></div>
+                  <div class="input-field"><label>Account Holder Name</label><input type="text" id="bankHolder" placeholder="Legal name as registered in bank"></div>
+                  <div class="input-field"><label>Banking Institution Name</label><input type="text" id="bankName" placeholder="e.g. ICICI Bank"></div>
               </div>
               <div class="form-grid-2">
-                  <div class="input-field"><label>Account Number Node</label><input type="password" id="bankAccNo" placeholder="000000000000"></div>
-                  <div class="input-field"><label>IFSC Security Code</label><input type="text" id="bankIfsc" placeholder="SBIN0000000"></div>
+                  <div class="input-field"><label>Account Number</label><input type="password" id="bankAccNo" placeholder="Enter bank account digits number"></div>
+                  <div class="input-field"><label>IFSC Routing Code (11 Characters)</label><input type="text" id="bankIfsc" placeholder="e.g. ICIC0000123"></div>
               </div>
               <div class="input-field">
-                  <label>Settlement UPI Handle ID</label>
+                  <label>Direct Wallet UPI Address</label>
                   <input type="text" id="upi" placeholder="username@bank">
+                  <div class="input-helper">Compulsory settlement field. Automated wallet split processes use this endpoint handle.</div>
               </div>
               <div class="nav-buttons">
                   <button type="button" class="btn-nav" onclick="switchFormStep(1)"><i class="fa-solid fa-arrow-left"></i> Previous</button>
-                  <button type="button" class="btn-nav next" onclick="switchFormStep(3)">Next Step <i class="fa-solid fa-arrow-right"></i></button>
+                  <button type="button" class="btn-nav next" onclick="verifyAndNavigateStep(2, 3)">Next Step <i class="fa-solid fa-arrow-right"></i></button>
               </div>
           </div>
 
           <div class="card" id="formCardStep3">
-              <div class="card-title">Step 3: Fulfillment & Courier Coordinates</div>
+              <div class="card-title">Step 3: Fulfillment Networks & Logistics Hub</div>
               <div class="input-field">
-                  <label>Marketplace Primary Niche</label>
-                  <input type="text" id="storeNiche" placeholder="e.g. Excel Data Cleaning Matrix Scripts, Paperback Books">
+                  <label>Marketplace Catalog Niche Specialization</label>
+                  <input type="text" id="storeNiche" placeholder="e.g. Spreadsheet Solutions, Growth Notebooks, Guides">
               </div>
               <div class="input-field">
-                  <label>Warehouse Pickup & Return Address Facility</label>
-                  <textarea id="warehouseAddress" placeholder="Provide complete accurate address coordinates with local pin code details..."></textarea>
-                  <div class="input-helper">Compulsory location metrics token. Courier transport networks parse this parameter string to initiate automated dispatches runs.</div>
+                  <label>Courier Warehouse Pickup / Return Facility Address</label>
+                  <textarea id="warehouseAddress" placeholder="Provide complete warehouse operational pickup address string with PIN code parameters..."></textarea>
+                  <div class="input-helper">Courier routing webhooks parse this address structure token to calculate live pickup configurations.</div>
               </div>
               
               <div class="compliance-row">
                   <input type="checkbox" id="complianceCheckbox">
-                  <p>I verify my onboarding profile application instance layers data. I agree to comply with the standard 10% platform facilitation split fee logic model upon successful wallet settlements releases processing.</p>
+                  <p>I verify that all business details provided are genuine and correct. I authorize CreatorHub to initialize the system onboarding process and agree to comply with the standard 10% platform fee commission deduction structures on successful balance processing runs.</p>
               </div>
 
               <div class="loader" id="loader"></div>
-              <div id="status"></div>
+              <div id="status" class="status"></div>
 
               <div class="nav-buttons">
                   <button type="button" class="btn-nav" onclick="switchFormStep(2)"><i class="fa-solid fa-arrow-left"></i> Previous</button>
-                  <button type="button" class="btn-nav next" style="background: #10b981;" onclick="applySeller()">Authorize & Submit Application <i class="fa-solid fa-shield-check"></i></button>
+                  <button type="button" class="btn-nav next" style="background: #10b981;" onclick="applySeller()">Submit Application <i class="fa-solid fa-shield-check"></i></button>
               </div>
           </div>
 
@@ -278,21 +288,6 @@ body{
   </div>
 
   <script>
-    const API = "https://script.google.com/macros/s/AKfycby78v_g_Of7t49vF1Rccn52ObqaSAcm6DLcIB_-3ATqDLHfaLr-jk82BZi5hmw3Al92aw/exec";
-
-    function driveImage(url){
-      if(!url) return "";
-      if(url.includes("uc?id=")){
-        let id = url.split("id=")[1].split("&")[0];
-        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w500";
-      }
-      if(url.includes("/d/")){
-        let id = url.split("/d/")[1].split("/")[0];
-        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w500";
-      }
-      return url;
-    }
-
     function toggleProfileMenu(){
       document.getElementById("profileMenu").classList.toggle("show");
     }
@@ -319,19 +314,19 @@ body{
           try {
             let data = JSON.parse(cachedUser)[email];
             if(data && data.profile_image){
-              let imgLink = driveImage(data.profile_image);
+              let id = data.profile_image.includes("id=") ? data.profile_image.split("id=")[1].split("&")[0] : data.profile_image;
+              let imgLink = id.length > 30 ? "https://drive.google.com/thumbnail?id=" + id + "&sz=w500" : data.profile_image;
               document.getElementById("profileImage").src = imgLink;
               document.getElementById("menuProfileImage").src = imgLink;
               document.getElementById("menuName").innerText = data.name || "CreatorHub User";
               document.getElementById("menuEmail").innerText = data.email || email;
               if(data.name) document.getElementById("name").value = data.name;
             }
-          } catch(e) { console.log("Header profile mapping intercept failed."); }
+          } catch(e) { console.log("Header profile mapping failed."); }
         }
       }
     }
 
-    /* 🚀 STEP CONTROL ROUTER DISPATCH MATRICES METHOD */
     function switchFormStep(stepNumber) {
         document.querySelectorAll(".card").forEach(c => c.classList.remove("active-step-block"));
         document.querySelectorAll(".step-node").forEach(sn => {
@@ -346,6 +341,49 @@ body{
             if(i === stepNumber) node.classList.add("active");
         }
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* 🚀 REGEX INTELLIGENT VALIDATOR SWITCH PIPELINE: Blocks processing on input anomalies */
+    function verifyAndNavigateStep(currentStep, nextStep) {
+        if (currentStep === 1) {
+            const phone = document.getElementById("phone").value.trim();
+            const taxId = document.getElementById("taxId").value.trim();
+            
+            // Strictly scans for a 10-digit number format sequence string
+            const phoneRegex = /^[0-9]{10}$/;
+            if (!phoneRegex.test(phone)) {
+                alert("Identity Mismatch: Please input a valid 10-digit smartphone mobile configuration number.");
+                return;
+            }
+
+            // If a tax token is supplied, it strictly checks the 10-character PAN standard format
+            if (taxId.length > 0) {
+                const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+                if (!panRegex.test(taxId.toUpperCase())) {
+                    alert("Taxation Matrix Error: The supplied PAN structure token layout syntax is invalid.");
+                    return;
+                }
+            }
+        } 
+        else if (currentStep === 2) {
+            const ifsc = document.getElementById("bankIfsc").value.trim();
+            const upi = document.getElementById("upi").value.trim();
+            
+            // Standard 11 character alpha-numeric transaction node syntax tracking check
+            const ifscRegex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
+            if (!ifscRegex.test(ifsc.toUpperCase())) {
+                alert("Financial Routing Error: Invalid IFSC code format layout framework.");
+                return;
+            }
+
+            // Evaluates handle structure properties values strictly on both sides of the character
+            const upiRegex = /^[\w\.\-_]+@[\w\.\-_]+$/;
+            if (!upiRegex.test(upi)) {
+                alert("Financial Routing Error: Invalid UPI handle string format configuration link.");
+                return;
+            }
+        }
+        switchFormStep(nextStep);
     }
 
     async function applySeller(){
@@ -370,20 +408,27 @@ body{
 
       statusDiv.style.display = "none";
 
+      // Structural validation execution pass checkpoints
       if(!name || !phone || !upi || !storeNiche || !address || !bHolder || !bName || !bAcc || !bIfsc){
-        statusDiv.innerHTML = "⚠️ Please fill all required structural onboarding fields variables across the steps.";
+        statusDiv.innerHTML = "⚠️ Validation Fault: Missing parameters. Please fill all inputs fields metrics across the 3 step cards.";
         statusDiv.className = "status rejected";
         statusDiv.style.display = "block";
         return;
       }
+      
+      // Strict client-side regex check runs on final submission invocation trigger points
+      if(!/^[0-9]{10}$/.test(phone)) { alert("Invalid Phone Number sequence."); return; }
+      if(!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(bIfsc.toUpperCase())) { alert("Invalid IFSC security layout."); return; }
+      if(!/^[\w\.\-_]+@[\w\.\-_]+$/.test(upi)) { alert("Invalid UPI address handle string."); return; }
+
       if(!isChecked) {
-        statusDiv.innerHTML = "⚠️ Agreement Missing! Please confirm compliance checkbox split configuration parameters policy.";
+        statusDiv.innerHTML = "⚠️ Authorization Fault: Enforced platform compliance ToS deduction policy checkbox validation check failed.";
         statusDiv.className = "status rejected";
         statusDiv.style.display = "block";
         return;
       }
       if(!email){
-        statusDiv.innerHTML = "⚠️ Session missing. Please login first";
+        statusDiv.innerHTML = "⚠️ Identity Error: User verification session context missing from browser storage memory hooks.";
         statusDiv.className = "status rejected";
         statusDiv.style.display = "block";
         return;
@@ -393,7 +438,7 @@ body{
       statusDiv.innerHTML = "";
 
       try{
-        const url = `${API}?action=apply_seller&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&upi=${encodeURIComponent(upi)}&bizType=${encodeURIComponent(bizType)}&taxId=${encodeURIComponent(taxId)}&bankHolder=${encodeURIComponent(bHolder)}&bankName=${encodeURIComponent(bName)}&bankAcc=${encodeURIComponent(bAcc)}&bankIfsc=${encodeURIComponent(bIfsc)}&niche=${encodeURIComponent(storeNiche)}&address=${encodeURIComponent(address)}`;
+        const url = `${API_URL}?action=apply_seller&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&upi=${encodeURIComponent(upi)}&bizType=${encodeURIComponent(bizType)}&taxId=${encodeURIComponent(taxId)}&bankHolder=${encodeURIComponent(bHolder)}&bankName=${encodeURIComponent(bName)}&bankAcc=${encodeURIComponent(bAcc)}&bankIfsc=${encodeURIComponent(bIfsc)}&niche=${encodeURIComponent(storeNiche)}&address=${encodeURIComponent(address)}`;
         const res = await fetch(url);
         const data = await res.json();
 
@@ -401,25 +446,25 @@ body{
 
         if(data.success){
           if(data.status === "approved" || data.status === "Active"){
-            statusDiv.innerHTML = "🎉 Congratulations! Onboarding authorized instance approved successfully inside system records.";
+            statusDiv.innerHTML = "🎉 Identity Verified Successfully! Application approved inside global distribution server clusters.";
             statusDiv.className = "status success";
           }
           else if(data.status === "pending"){
-            statusDiv.innerHTML = "⏳ Application Under Review. AI Screening Pending.";
+            statusDiv.innerHTML = "⏳ Onboarding Suspended: Application queued safely under manual internal data integrity screening loop.";
             statusDiv.className = "status pending";
           }
           else{
-            statusDiv.innerHTML = "❌ Application Verification Failed / Rejected.";
+            statusDiv.innerHTML = "❌ Verification Rejected: Information variables failed parameters checks guidelines models.";
             statusDiv.className = "status rejected";
           }
         }else{
-          statusDiv.innerHTML = "❌ Framework integration error processing application: " + (data.message || "Invalid payload packaging layouts strings context layers.");
+          statusDiv.innerHTML = "❌ System Intercept Error: Backend database pipeline processing failed parsing structural variables: " + (data.message || "Invalid syntax payload.");
           statusDiv.className = "status rejected";
         }
         statusDiv.style.display = "block";
       }catch(err){
         loader.style.display = "none";
-        statusDiv.innerHTML = "⚠️ Network timeout interfacing with the security database tunnel.";
+        statusDiv.innerHTML = "⚠️ Network Exception: Timeout intercepted interfacing with the secure micro datastore security tunnel grids.";
         statusDiv.className = "status rejected";
         statusDiv.style.display = "block";
       }
