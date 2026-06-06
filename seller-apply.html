@@ -2,503 +2,432 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>Become a Seller - CreatorHub</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CreatorHub Store | Become a Seller</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
-/* =========================================================
-   CREATORHUB ENTERPRISE STYLES VARIABLES (MATCHING ALL PAGES)
-   ========================================================= */
-:root {
-    --bg-primary: #f8fafc;       
-    --bg-secondary: #ffffff;     
-    --sidebar-dark: #0f172a;     
-    --sidebar-hover: #1e293b;    
-    --text-primary: #0f172a;     
-    --text-secondary: #475569;   
-    --text-muted: #94a3b8;
-    --accent-blue: #2f62e9;      
-    --accent-blue-hover: #1d4ed8;
-    --border-color: #e2e8f0;
-    --shadow-sm: 0 1px 2px rgba(15,23,42,0.05);
-    --shadow-md: 0 12px 30px -4px rgba(15,23,42,0.06), 0 4px 12px -2px rgba(15,23,42,0.03);
-    --red-alert: #ef4444;
-    --green-success: #10b981;
-    --amber-warning: #f59e0b;
-}
-
+/* =====================================================
+   CORE RESET & CREATORHUB ORIGINAL HOMEPAGE THEME
+   ===================================================== */
 *{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
 }
-
 body{
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    min-height: 100vh;
-    display: flex;
-    overflow-x: hidden;
+  background: #f6f8fc;
+  color: #101828;
+  overflow-x: hidden;
+  min-height: 100vh;
+  position: relative;
 }
 
-/* =========================================================
-   LEFT GLOBAL SIDEBAR NAVIGATION NODES
-   ========================================================= */
-.sidebar {
-    width: 260px;
-    background-color: var(--sidebar-dark);
-    min-height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    z-index: 100;
-    border-right: 1px solid rgba(255,255,255,0.05);
-}
+::-webkit-scrollbar{ width: 6px; }
+::-webkit-scrollbar-thumb{ background: #3157c9; border-radius: 20px; }
 
-.sidebar-brand {
-    padding: 28px 24px;
-    font-size: 22px;
-    font-weight: 900;
-    color: #ffffff;
-    letter-spacing: -0.02em;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-
-.sidebar-brand span { color: var(--accent-blue); }
-
-.sidebar-menu {
-    padding: 24px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    flex: 1;
-}
-
-.menu-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
-    color: #94a3b8;
-    font-size: 14px;
-    font-weight: 700;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.menu-item:hover {
-    background-color: var(--sidebar-hover);
-    color: #ffffff;
-}
-
-.menu-item.active {
-    background-color: var(--accent-blue);
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(47, 98, 233, 0.25);
-}
-
-.menu-item i { width: 20px; text-align: center; }
-
-/* =========================================================
-   WORKSPACE RIGHT CONTENT LAYOUT CENTRE
-   ========================================================= */
-.main-wrapper {
-    margin-left: 260px; 
-    width: calc(100% - 260px);
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
+/* =====================================================
+   TOPBAR / NAVIGATION LAYER (EXACT INDEX STYLE)
+   ===================================================== */
 .topbar{
-    height: 75px;
-    background-color: var(--bg-secondary);
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 40px;
-    position: sticky;
-    top: 0;
-    z-index: 90;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  min-height: 80px;
+  background: #fff;
+  border-bottom: 1px solid #dce4f0;
+  padding: 16px 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
 }
+.topbar-left{ display: flex; align-items: center; gap: 20px; }
+.brand-name{ font-size: 25px; font-weight: 900; color: #06142c; letter-spacing: -0.02em; text-decoration: none; }
+.brand-name span{ color: #2f62e9; }
 
-.page-title { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
+.nav{ display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.nav a{ color: #5d6d85; font-size: 14px; font-weight: 800; text-decoration: none; }
+.nav a:hover{ color: #2f62e9; }
 
-.topbar-actions {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    position: relative;
-}
+/* PROFILE IMAGE DROPDOWN MODULE */
+.profile-wrap{ position: relative; display: none; align-items: center; }
+.profile-image{ width: 44px; height: 44px; border-radius: 50%; object-fit: cover; background: #d9e1ec; border: 2px solid #fff; box-shadow: 0 8px 20px rgba(16,24,40,.12); cursor: pointer; }
+.profile-menu{ position: absolute; top: 55px; left: 0; width: 290px; background: #0d1628; border: 1px solid #182a64; border-radius: 14px; padding: 20px; display: none; box-shadow: 0 20px 45px rgba(16,24,40,.25); z-index: 1000; }
+.profile-menu.show { display: block; }
+.profile-header{ display: flex; align-items: center; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,.08); margin-bottom: 14px; }
+.menu-profile-image{ width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+#menuName{ color: #fff; font-size: 16px; font-weight: 900; }
+#menuEmail{ margin-top: 4px; font-size: 13px; color: #94a3b8; word-break: break-all; }
+.profile-menu a{ display: flex; align-items: center; height: 44px; padding: 0 14px; border-radius: 8px; color: #e7edf8; font-size: 14px; font-weight: 800; text-decoration: none; }
+.profile-menu a:hover{ background: #182a64; }
+.logout-btn{ margin-top: 14px; height: 46px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: #ef4444; color: #fff; font-weight: 900; font-size: 14px; cursor: pointer; }
 
-.profile-avatar {
-    width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--border-color); object-fit: cover; cursor: pointer; transition: all 0.2s;
-}
-.profile-avatar:hover { border-color: var(--accent-blue); transform: scale(1.05); }
+/* =====================================================
+   MAIN CONTAINER LAYOUT & STEPPER PROGRESS BAR
+   ===================================================== */
+.main{ max-width: 1400px; margin: auto; padding: 36px 34px 90px; }
+.hero{ background: #fff; border: 1px solid #dce4f0; border-radius: 9px; padding: 40px 50px; box-shadow: 0 18px 45px rgba(16,24,40,.06); margin-bottom: 40px; text-align: center; }
+.hero-title{ font-size: 42px; font-weight: 900; line-height: 1.1; color: #06142c; }
+.hero-title span{ color: #2f62e9; }
+.hero-desc{ margin-top: 12px; line-height: 1.6; color: #63728a; font-size: 16px; }
 
-/* PROFILE NAVIGATION CHANNELS DROPDOWN PANEL */
-.profile-menu {
-    position: absolute; top: 55px; right: 0; width: 280px; background: #0d1628; border: 1px solid #182a64; border-radius: 12px; padding: 20px; display: none; box-shadow: var(--shadow-md); z-index: 1000;
-}
-.profile-menu.show { display: block; animation: subFade 0.2s ease-out; }
-.profile-header { display: flex; align-items: center; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); margin-bottom: 12px; }
-.menu-profile-image { width: 44px; height: 44px; border-radius: 50%; }
-#menuName { color: #fff; font-size: 15px; font-weight: 800; }
-#menuEmail { margin-top: 2px; font-size: 12px; color: #63728a; word-break: break-all; }
-.profile-menu a { display: flex; align-items: center; height: 42px; padding: 0 12px; border-radius: 6px; color: #e7edf8; font-size: 14px; font-weight: 700; text-decoration: none; }
-.profile-menu a:hover { background: #182a64; }
-.logout-btn { margin-top: 12px; height: 44px; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: var(--red-alert); color: #fff; font-weight: 800; font-size: 14px; cursor: pointer; }
+/* STEPPER INTERACTIVE NODES */
+.stepper-container { display: flex; justify-content: center; align-items: center; gap: 40px; margin: 30px auto 10px; max-width: 600px; }
+.step-node { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.step-circle { width: 36px; height: 36px; border-radius: 50%; background: #e2e8f0; border: 2px solid #cbd5e1; color: #475569; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; transition: all 0.3s; }
+.step-node.active .step-circle { background: #2f62e9; border-color: #2f62e9; color: #ffffff; box-shadow: 0 4px 12px rgba(47, 98, 233, 0.2); }
+.step-node.completed .step-circle { background: #10b981; border-color: #10b981; color: #ffffff; }
+.step-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #475569; }
 
-.content-area {
-    padding: 40px;
-    flex: 1;
-    max-width: 1400px;
-    width: 100%;
-    margin: 0 auto;
-}
+/* =====================================================
+   SPLIT LAYOUT FORM COMPONENTS MODULES
+   ===================================================== */
+.grid{ display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+@media(max-width: 1000px){ .grid{ grid-template-columns: 1fr; } }
 
-.header-block { margin-bottom: 36px; text-align: center; }
-.title { font-size: 32px; font-weight: 900; letter-spacing: -0.02em; color: var(--text-primary); }
-.desc { font-size: 15px; color: var(--text-secondary); margin-top: 8px; max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+.card{ background: #fff; border: 1px solid #dce4f0; border-radius: 9px; padding: 36px; box-shadow: 0 18px 45px rgba(16,24,40,.04); display: none; }
+.card.active-step-block { display: block; animation: subFade 0.3s ease-out; }
+.card-title{ font-size: 22px; font-weight: 950; color: #06142c; margin-bottom: 24px; letter-spacing: -0.01em; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px; }
 
-/* =========================================================
-   STEPPER PROGRESS BAR MATRIX INDICATORS
-   ========================================================= */
-.stepper-container {
-    display: flex; justify-content: center; align-items: center; gap: 48px; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;
-}
-.step-node {
-    display: flex; flex-direction: column; align-items: center; gap: 8px; position: relative;
-}
-.step-circle {
-    width: 40px; height: 40px; border-radius: 50%; background: #e2e8f0; border: 2px solid #cbd5e1; color: var(--text-secondary); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; transition: all 0.3s;
-}
-.step-node.active .step-circle { background: var(--accent-blue); border-color: var(--accent-blue); color: #ffffff; box-shadow: 0 4px 12px rgba(47, 98, 233, 0.2); }
-.step-node.completed .step-circle { background: var(--green-success); border-color: var(--green-success); color: #ffffff; }
-.step-label { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); }
+.form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media(max-width: 500px){ .form-grid-2 { grid-template-columns: 1fr; } }
 
-/* =========================================================
-   ONBOARDING ENHANCED COMPONENTS FORM WIDGETS
-   ========================================================= */
-.form-card {
-    background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 16px; padding: 40px; box-shadow: var(--shadow-sm); max-width: 750px; margin-left: auto; margin-right: auto; display: none;
-}
-.form-card.active-step { display: block; animation: subFade 0.3s ease-out; }
+.input-field { display: grid; gap: 6px; margin-bottom: 18px; text-align: left; }
+.input-field label { font-size: 13px; font-weight: 800; color: #26364f; text-transform: uppercase; letter-spacing: 0.02em; }
+.input-field input, .input-field select, .input-field textarea { width: 100%; min-height: 52px; border: 1px solid #d9e3f0; border-radius: 9px; background: #fff; color: #101828; outline: none; padding: 12px 14px; font-size: 15px; font-weight: 600; transition: all 0.2s ease; }
+.input-field textarea { resize: vertical; min-height: 90px; font-weight: 500; }
+.input-field input:focus, .input-field select:focus, .input-field textarea:focus { border-color: #2f62e9; box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.1); }
+.input-helper { font-size: 11px; color: #63728a; margin-top: 2px; }
 
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
-@media(max-width:600px) { .form-grid { grid-template-columns: 1fr; } }
+/* COMPLIANCE RULES CHECKBOX */
+.compliance-row { display: flex; gap: 10px; align-items: flex-start; margin-top: 14px; text-align: left; }
+.compliance-row input { width: 18px; height: 18px; accent-color: #2f62e9; margin-top: 2px; cursor: pointer; }
+.compliance-row p { font-size: 13px; color: #475569; line-height: 1.5; font-weight: 500; }
 
-.form-group { margin-bottom: 20px; position: relative; }
-.form-group.full-width { grid-column: 1 / -1; }
-.form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.02em; }
+/* BUTTON SYSTEMS DIRECTION NAVIGATION */
+.nav-buttons { display: flex; justify-content: space-between; gap: 16px; margin-top: 24px; border-top: 1px solid #f1f5f9; padding-top: 20px; }
+.btn-nav { min-height: 48px; padding: 0 20px; border-radius: 8px; border: 1px solid #d9e3f0; background: #ffffff; color: #475569; font-size: 14px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; }
+.btn-nav:hover { background: #f8fafc; border-color: #cbd5e1; }
+.btn-nav.next { background: #2f62e9; color: #ffffff; border: none; padding: 0 28px; width: auto; }
+.btn-nav.next:hover { background: #2455cf; }
 
-.form-input {
-    width: 100%; min-height: 50px; padding: 0 16px; border: 1px solid #cbd5e1; border-radius: 8px; background: #ffffff; color: var(--text-primary); font-size: 15px; outline: none; transition: all 0.2s ease; font-weight: 600;
-}
-.form-input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.08); }
+/* REALS STATUS SYSTEM ALERTS */
+.status { margin-top: 20px; padding: 16px; border-radius: 8px; text-align: center; font-weight: 800; font-size: 15px; display: none; }
+.status.success { display: block; background: #e7f8ef; color: #0f9f57; border: 1px solid rgba(15, 159, 87, 0.15); }
+.status.pending { display: block; background: #fff7df; color: #b7791f; border: 1px solid rgba(183, 121, 31, 0.15); }
+.status.rejected { display: block; background: #fef2f2; color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.15); }
 
-select.form-input { cursor: pointer; }
-.form-textarea {
-    width: 100%; min-height: 100px; padding: 14px 16px; border: 1px solid #cbd5e1; border-radius: 8px; background: #ffffff; color: var(--text-primary); font-size: 15px; outline: none; resize: vertical; transition: all 0.2s ease; font-weight: 500;
-}
-.form-textarea:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.08); }
+.loader { display: none; margin: 20px auto 0; width: 28px; height: 28px; border: 3px solid #dce4f0; border-top-color: #2f62e9; border-radius: 50%; animation: spinLoader 0.8s linear infinite; }
+@keyframes spinLoader { to { transform: rotate(360deg); } }
 
-.input-helper-text { font-size: 11px; color: var(--text-muted); margin-top: 6px; line-height: 1.4; }
+/* INFO CARDS PERKS LAYOUT */
+.info-list { display: grid; gap: 18px; }
+.info-item { display: flex; gap: 16px; align-items: flex-start; padding: 20px; background: #fff; border: 1px solid #dce4f0; border-radius: 9px; box-shadow: 0 8px 24px rgba(16,24,40,.01); text-align: left; }
+.info-icon { width: 44px; height: 44px; border-radius: 8px; background: #eef3f9; color: #2f62e9; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.info-text h3 { font-size: 16px; font-weight: 900; color: #06142c; margin-bottom: 4px; }
+.info-text p { color: #63728a; font-size: 14px; line-height: 1.5; font-weight: 500; }
 
-/* COMPLIANCE RULES CHECKBOX ROW */
-.compliance-row { display: flex; gap: 12px; align-items: flex-start; margin-top: 14px; }
-.compliance-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent-blue); margin-top: 2px; cursor: pointer; }
-.compliance-row p { font-size: 13px; color: var(--text-secondary); line-height: 1.5; font-weight: 500; }
-
-/* CONTROLS ROW DIRECTIONAL TRAFFIC BUTTONS */
-.buttons-navigation-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 32px; border-top: 1px solid var(--border-color); padding-top: 24px; }
-.btn-nav {
-    min-height: 48px; padding: 0 24px; border-radius: 8px; border: 1px solid var(--border-color); background: #ffffff; color: var(--text-secondary); font-size: 14px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;
-}
-.btn-nav:hover { background: var(--bg-primary); border-color: #cbd5e1; color: var(--text-primary); }
-.btn-nav.next { background: var(--accent-blue); color: #ffffff; border: none; padding: 0 32px; }
-.btn-nav.next:hover { background: var(--accent-blue-hover); }
-
-/* SYSTEM REALTIME ALERTS ANDpre-spin loaders */
-.status-box { display: none; padding: 14px 18px; border-radius: 8px; font-size: 14px; font-weight: 700; margin-top: 24px; text-align: center; }
-.status-box.success { display: block; color: #065f46; background: #ecfdf5; border: 1px solid #a7f3d0; }
-.status-box.pending { display: block; color: #92400e; background: #fffbeb; border: 1px solid #fef3c7; }
-.status-box.error { display: block; color: #991b1b; background: #fee2e2; border: 1px solid #fecaca; }
-
-.loader-node { display: none; width: 32px; height: 32px; border: 3px solid #cbd5e1; border-top-color: var(--accent-blue); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 24px auto 0; }
-
-@keyframes spin { to { transform: rotate(360deg); } }
+.footer { margin-top: 80px; text-align: center; line-height: 1.6; color: #63728a; font-size: 14px; font-weight: 500; border-top: 1px solid #dce4f0; padding-top: 24px; }
 @keyframes subFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-@media(max-width:1050px) { .sidebar { width: 70px; } .sidebar-brand span, .menu-item span { display: none; } .sidebar-brand { padding: 24px 0; text-align: center; } .menu-item { justify-content: center; } .main-wrapper { margin-left: 70px; width: calc(100% - 70px); } }
 </style>
 </head>
 
 <body>
 
-<aside class="sidebar">
-    <div class="sidebar-brand">Creator<span>Hub</span></div>
-    <div class="sidebar-menu">
-        <div class="menu-item" onclick="location.href='index.html'"><i class="fa-solid fa-house"></i> <span>Home</span></div>
-        <div class="menu-item" onclick="location.href='dashboard.html'"><i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span></div>
-        <div class="menu-item" onclick="location.href='products.html'"><i class="fa-solid fa-bag-shopping"></i> <span>Product Store</span></div>
-        <div class="menu-item" onclick="location.href='library1.html'"><i class="fa-solid fa-book-open"></i> <span>Library</span></div>
-        <div class="menu-item" onclick="location.href='wallet1.html'"><i class="fa-solid fa-wallet"></i> <span>Wallet</span></div>
-        <div class="menu-item active" onclick="location.href='settings.html'"><i class="fa-solid fa-gear"></i> <span>Settings</span></div>
+  <div class="topbar">
+    <div class="topbar-left">
+      <div id="profileWrap" class="profile-wrap">
+        <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile">
+        <div id="profileMenu" class="profile-menu">
+          <div class="profile-header">
+            <img id="menuProfileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="menu-profile-image" alt="User">
+            <div>
+              <div id="menuName">User Profile</div>
+              <div id="menuEmail">user@email.com</div>
+            </div>
+          </div>
+          <a href="profile.html">My Profile</a>
+          <a class="active" href="seller-apply.html">Become Seller</a>
+          <a href="tranding.html">Trending Books</a>
+          <a href="library1.html">Library</a>
+          <a href="topselling.html">Top Selling</a>
+          <div class="logout-btn" onclick="logout()">Logout</div>
+        </div>
+      </div>
     </div>
-</aside>
 
-<div class="main-wrapper">
-    <header class="topbar">
-        <div class="page-title"><i class="fa-solid fa-store" style="color: var(--accent-blue);"></i> Seller Portal Workspace Node</div>
-        <div class="topbar-actions">
-            <img id="headerAvatarNode" class="profile-avatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" onclick="toggleLocalDropdownMenu()">
-            <div id="profileMenu" class="profile-menu">
-                <div class="profile-header">
-                    <img id="menuProfileImage" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="menu-profile-image" alt="User">
-                    <div>
-                        <div id="menuName">CreatorHub User</div>
-                        <div id="menuEmail">user@email.com</div>
-                    </div>
-                </div>
-                <a href="profile.html">My Profile</a>
-                <a class="active" href="seller-apply.html">Become Seller</a>
-                <a href="tranding.html">Trending Books</a>
-                <a href="library1.html">Library</a>
-                <a href="topselling.html">Top Selling</a>
-                <div class="logout-btn" onclick="triggerSessionLogoff()">Logout</div>
-            </div>
+    <a class="brand-name" href="index.html">Creator<span>Hub</span></a>
+
+    <div class="nav">
+      <a href="cart.html">Cart</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="subscription.html">Subscription</a>
+      <a href="wallet.html">Wallet</a>
+      <a href="my-orders.html">Order</a>
+    </div>
+  </div>
+
+  <div class="main">
+    <section class="hero">
+      <div class="hero-title">Become a Creator & <span>Partner Seller</span></div>
+      <p class="desc">Monetize your premium physical and digital resource assets listings securely with our high-speed logistics and automated wallet payout channels pipeline infrastructure.</p>
+      
+      <div class="stepper-container">
+          <div class="step-node active" id="stepIndicator1"><div class="step-circle">1</div><span class="step-label">Identity</span></div>
+          <div class="step-node" id="stepIndicator2"><div class="step-circle">2</div><span class="step-label">Financials</span></div>
+          <div class="step-node" id="stepIndicator3"><div class="step-circle">3</div><span class="step-label">Logistics</span></div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <div class="info-list">
+        <div class="info-item">
+          <div class="info-icon"><i class="fa-solid fa-bolt"></i></div>
+          <div class="info-text"><h3>Automated AI Approvals</h3><p>Our systemic validation model auto-verifies seller credentials vectors to clear active onboarding blocks safely.</p></div>
         </div>
-    </header>
-
-    <main class="content-area">
-        <div class="header-block">
-            <h1 class="title">Enterprise Seller Onboarding</h1>
-            <p class="desc">Complete the verification matrices fields block below to deploy your dedicated storefront account instance instantly.</p>
+        <div class="info-item">
+          <div class="info-icon"><i class="fa-solid fa-wallet"></i></div>
+          <div class="info-text"><h3>Direct UPI Settlements</h3><p>Earn directly into your secure wallet. Once approved, clear payouts directly to your specified active handle.</p></div>
         </div>
-
-        <section class="stepper-container">
-            <div class="step-node active" id="stepIndicator1"><div class="step-circle">1</div><span class="step-label">Identity</span></div>
-            <div class="step-node" id="stepIndicator2"><div class="step-circle">2</div><span class="step-label">Financials</span></div>
-            <div class="step-node" id="stepIndicator3"><div class="step-circle">3</div><span class="step-label">Logistics</span></div>
-        </section>
-
-        <div class="form-card active-step" id="formStepBlock1">
-            <div class="card-title">Step 1: Creator & Identity Validation</div>
-            <div class="form-grid">
-                <div class="form-group"><label>Full Name Legal Profile</label><input type="text" id="sellerName" class="form-input" placeholder="Ayush Prajapati"></div>
-                <div class="form-group"><label>Active Operational Phone</label><input type="tel" id="sellerPhone" class="form-input" placeholder="+91 00000-00000"></div>
-                <div class="form-group"><label>Business Registration Type</label>
-                    <select id="sellerBizType" class="form-input">
-                        <option value="individual">Individual Freelancer</option>
-                        <option value="publisher">Ebook Publisher / Book Author</option>
-                        <option value="agency">Corporate Agency Entity</option>
-                    </select>
-                </div>
-                <div class="form-group"><label>PAN Card / GSTIN Node Reference</label><input type="text" id="sellerTaxId" class="form-input" placeholder="Optional for individual freelancers"></div>
-            </div>
-            <div class="buttons-navigation-row">
-                <div></div>
-                <button type="button" class="btn-nav next" onclick="traverseToStep(2)">Next Step <i class="fa-solid fa-arrow-right"></i></button>
-            </div>
+        <div class="info-item">
+          <div class="info-icon"><i class="fa-solid fa-truck-fast"></i></div>
+          <div class="info-text"><h3>Nationwide Dispatch Channels</h3><p>Connect straight into our automated checkouts processing, print-on-demand networks, and courier shipping nodes pipelines.</p></div>
         </div>
+      </div>
 
-        <div class="form-card" id="formStepBlock2">
-            <div class="card-title">Step 2: Settlement & Banking Payout Node</div>
-            <div class="form-grid">
-                <div class="form-group"><label>Bank Account Holder Name</label><input type="text" id="bankHolder" class="form-input" placeholder="AYUSH PRAJAPATI"></div>
-                <div class="form-group"><label>Core Corporate Bank Name</label><input type="text" id="bankName" class="form-input" placeholder="State Bank of India"></div>
-                <div class="form-group"><label>Account Number String Node</label><input type="password" id="bankAccNo" class="form-input" placeholder="000000000000"></div>
-                <div class="form-group"><label>IFSC Security Routing Code</label><input type="text" id="bankIfsc" class="form-input" placeholder="SBIN0000000"></div>
-                <div class="form-group full-width"><label>Direct Settlement UPI ID Link</label><input type="text" id="sellerUpi" class="form-input" placeholder="username@bank"><div class="input-helper-text">Required to map real-time wallet splitting loops on balance releases.</div></div>
-            </div>
-            <div class="buttons-navigation-row">
-                <button type="button" class="btn-nav" onclick="traverseToStep(1)"><i class="fa-solid fa-arrow-left"></i> Previous</button>
-                <button type="button" class="btn-nav next" onclick="traverseToStep(3)">Next Step <i class="fa-solid fa-arrow-right"></i></button>
-            </div>
-        </div>
+      <div class="form-container">
+          
+          <div class="card active-step-block" id="formCardStep1">
+              <div class="card-title">Step 1: Onboarding Identity Profile</div>
+              <div class="form-grid-2">
+                  <div class="input-field"><label>Full Name Legal</label><input type="text" id="name" placeholder="Loading structural session profile data..."></div>
+                  <div class="input-field"><label>Phone Number</label><input type="tel" id="phone" placeholder="Enter 10-digit mobile number"></div>
+              </div>
+              <div class="form-grid-2">
+                  <div class="input-field"><label>Business Framework</label>
+                      <select id="accBizType">
+                          <option value="individual">Individual Freelancer</option>
+                          <option value="publisher">Ebook Publisher / Book Creator</option>
+                          <option value="agency">Agency Corporate Entity</option>
+                      </select>
+                  </div>
+                  <div class="input-field"><label>PAN / GSTIN Tracking ID</label><input type="text" id="taxId" placeholder="Optional for freelancers"></div>
+              </div>
+              <div class="nav-buttons">
+                  <div></div>
+                  <button type="button" class="btn-nav next" onclick="switchFormStep(2)">Next Step <i class="fa-solid fa-arrow-right"></i></button>
+              </div>
+          </div>
 
-        <div class="form-card" id="formStepBlock3">
-            <div class="card-title">Step 3: Fulfillment & Logistics Mapping</div>
-            <div class="form-group">
-                <label>Primary Inventory Specialization Niche</label>
-                <input type="text" id="storeNiche" class="form-input" placeholder="e.g. Data Entry Spreadsheets, Paperback Ebooks, Growth Guides">
-            </div>
-            <div class="form-group">
-                <label>Courier Pickup / Warehouse Return Facility Address</label>
-                <textarea id="warehouseAddress" class="form-textarea" placeholder="Enter full precise pickup location address with active location pin parameters..."></textarea>
-                <div class="input-helper-text">Compulsory field block. Transport delivery courier integrations use this token vector to initiate automated parcel pickup runs.</div>
-            </div>
-            
-            <div class="compliance-row">
-                <input type="checkbox" id="termsAgreementCheckbox">
-                <p>I strictly authorize the CreatorHub marketplace execution framework agreement. I agree to pay the standard 10% platform facilitation commission split loop on automated balance settlements processing.</p>
-            </div>
+          <div class="card" id="formCardStep2">
+              <div class="card-title">Step 2: Financial Wallet Payout Node</div>
+              <div class="form-grid-2">
+                  <div class="input-field"><label>Account Holder Name</label><input type="text" id="bankHolder" placeholder="LEGAL HOLDER NAME"></div>
+                  <div class="input-field"><label>Core Bank Name</label><input type="text" id="bankName" placeholder="e.g. State Bank of India"></div>
+              </div>
+              <div class="form-grid-2">
+                  <div class="input-field"><label>Account Number Node</label><input type="password" id="bankAccNo" placeholder="000000000000"></div>
+                  <div class="input-field"><label>IFSC Security Code</label><input type="text" id="bankIfsc" placeholder="SBIN0000000"></div>
+              </div>
+              <div class="input-field">
+                  <label>Settlement UPI Handle ID</label>
+                  <input type="text" id="upi" placeholder="username@bank">
+              </div>
+              <div class="nav-buttons">
+                  <button type="button" class="btn-nav" onclick="switchFormStep(1)"><i class="fa-solid fa-arrow-left"></i> Previous</button>
+                  <button type="button" class="btn-nav next" onclick="switchFormStep(3)">Next Step <i class="fa-solid fa-arrow-right"></i></button>
+              </div>
+          </div>
 
-            <div class="loader-node" id="processingLoader"></div>
-            <div id="runtimeStatusAlert" class="status-box"></div>
+          <div class="card" id="formCardStep3">
+              <div class="card-title">Step 3: Fulfillment & Courier Coordinates</div>
+              <div class="input-field">
+                  <label>Marketplace Primary Niche</label>
+                  <input type="text" id="storeNiche" placeholder="e.g. Excel Data Cleaning Matrix Scripts, Paperback Books">
+              </div>
+              <div class="input-field">
+                  <label>Warehouse Pickup & Return Address Facility</label>
+                  <textarea id="warehouseAddress" placeholder="Provide complete accurate address coordinates with local pin code details..."></textarea>
+                  <div class="input-helper">Compulsory location metrics token. Courier transport networks parse this parameter string to initiate automated dispatches runs.</div>
+              </div>
+              
+              <div class="compliance-row">
+                  <input type="checkbox" id="complianceCheckbox">
+                  <p>I verify my onboarding profile application instance layers data. I agree to comply with the standard 10% platform facilitation split fee logic model upon successful wallet settlements releases processing.</p>
+              </div>
 
-            <div class="buttons-navigation-row">
-                <button type="button" class="btn-nav" onclick="traverseToStep(2)"><i class="fa-solid fa-arrow-left"></i> Previous</button>
-                <button type="button" class="btn-nav next" style="background: var(--green-success);" onclick="commitSellerOnboardingApplication()">Submit Application <i class="fa-solid fa-shield-check"></i></button>
-            </div>
-        </div>
+              <div class="loader" id="loader"></div>
+              <div id="status"></div>
 
-    </main>
-</div>
+              <div class="nav-buttons">
+                  <button type="button" class="btn-nav" onclick="switchFormStep(2)"><i class="fa-solid fa-arrow-left"></i> Previous</button>
+                  <button type="button" class="btn-nav next" style="background: #10b981;" onclick="applySeller()">Authorize & Submit Application <i class="fa-solid fa-shield-check"></i></button>
+              </div>
+          </div>
 
-<script>
-// Live secure macro deployment endpoint channel loops reference
-const API = "https://script.google.com/macros/s/AKfycby78v_g_Of7t49vF1Rccn52ObqaSAcm6DLcIB_-3ATqDLHfaLr-jk82BZi5hmw3Al92aw/exec";
+      </div>
+    </div>
 
-let user = JSON.parse(localStorage.getItem("user") || "null");
-let sessionEmail = user?.email || localStorage.getItem("creatorhub_profile_email") || "";
+    <div class="footer">
+      Secure Marketplace Onboarding Infrastructure • Automated Verification Pipeline
+    </div>
+  </div>
 
-function toggleLocalDropdownMenu(){
-    document.getElementById("profileMenu").classList.toggle("show");
-}
+  <script>
+    const API = "https://script.google.com/macros/s/AKfycby78v_g_Of7t49vF1Rccn52ObqaSAcm6DLcIB_-3ATqDLHfaLr-jk82BZi5hmw3Al92aw/exec";
 
-window.addEventListener("click", function(e){
-    let wrap = document.querySelector(".topbar-actions");
-    if(wrap && !wrap.contains(e.target)){
+    function driveImage(url){
+      if(!url) return "";
+      if(url.includes("uc?id=")){
+        let id = url.split("id=")[1].split("&")[0];
+        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w500";
+      }
+      if(url.includes("/d/")){
+        let id = url.split("/d/")[1].split("/")[0];
+        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w500";
+      }
+      return url;
+    }
+
+    function toggleProfileMenu(){
+      document.getElementById("profileMenu").classList.toggle("show");
+    }
+
+    window.addEventListener("click", function(e){
+      let wrap = document.getElementById("profileWrap");
+      if(wrap && !wrap.contains(e.target)){
         document.getElementById("profileMenu").classList.remove("show");
-    }
-});
-
-function triggerSessionLogoff() {
-    localStorage.clear(); window.location.href = "login.html";
-}
-
-function updateSessionProfileUI() {
-    let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
-    if(cachedUser && sessionEmail){
-        try {
-            let data = JSON.parse(cachedUser)[sessionEmail];
-            if(data && data.profile_image){
-                let imgLink = data.profile_image;
-                if(imgLink.includes("id=")) {
-                    let id = imgLink.split("id=")[1].split("&")[0];
-                    imgLink = "https://drive.google.com/thumbnail?id=" + id + "&sz=w500";
-                }
-                document.getElementById("headerAvatarNode").src = imgLink;
-                document.getElementById("menuProfileImage").src = imgLink;
-                document.getElementById("menuName").innerText = data.name || "CreatorHub User";
-                document.getElementById("menuEmail").innerText = data.email || sessionEmail;
-                
-                // Pre-populate name reference seamlessly
-                if(data.name) document.getElementById("sellerName").value = data.name;
-            }
-        } catch(e) { console.warn("Header alignment failed."); }
-    }
-}
-
-/* 🚀 INTERACTIVE MULTI-STEP NAVIGATION MANAGER MATRIX */
-function traverseToStep(stepNumber) {
-    // Structural cleanup arrays loops execution
-    document.querySelectorAll(".form-card").forEach(card => card.classList.remove("active-step"));
-    document.querySelectorAll(".step-node").forEach(node => {
-        node.classList.remove("active");
-        node.classList.remove("completed");
+      }
     });
 
-    // Remap visual node indicator trackers dynamically
-    document.getElementById("formStepBlock" + stepNumber).classList.add("active-step");
-    for(let i = 1; i <= 3; i++) {
-        let element = document.getElementById("stepIndicator" + i);
-        if(i < stepNumber) element.classList.add("completed");
-        if(i === stepNumber) element.classList.add("active");
-    }
-    
-    // Smooth view scrolling lock resetting focus point anchors
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+    function logout(){ localStorage.clear(); window.location.href = "login.html"; }
+    function goHome(){ window.location.href = "index.html"; }
 
-/* 🚀 FINAL CORE SUBMISSION HOOK PIPELINE CONNECTION ROUTINES */
-async function commitSellerOnboardingApplication() {
-    const name = document.getElementById("sellerName").value.trim();
-    const phone = document.getElementById("sellerPhone").value.trim();
-    const bizType = document.getElementById("sellerBizType").value;
-    const taxId = document.getElementById("sellerTaxId").value.trim();
-    
-    const bHolder = document.getElementById("bankHolder").value.trim();
-    const bName = document.getElementById("bankName").value.trim();
-    const bAcc = document.getElementById("bankAccNo").value.trim();
-    const bIfsc = document.getElementById("bankIfsc").value.trim();
-    const upi = document.getElementById("sellerUpi").value.trim();
-    
-    const niche = document.getElementById("storeNiche").value.trim();
-    const warehouse = document.getElementById("warehouseAddress").value.trim();
-    const isChecked = document.getElementById("termsAgreementCheckbox").checked;
-
-    const alertBox = document.getElementById("runtimeStatusAlert");
-    const loader = document.getElementById("processingLoader");
-
-    alertBox.style.display = "none";
-
-    // Structural input metrics validation layers checks
-    if(!name || !phone || !upi || !niche || !warehouse || !bHolder || !bName || !bAcc || !bIfsc) {
-        alertBox.innerText = "⚠️ Missing Fields! Please populate all required configuration fields vectors across the 3 steps.";
-        alertBox.className = "status-box error";
-        alertBox.style.display = "block";
-        return;
-    }
-    if(!isChecked) {
-        alertBox.innerText = "⚠️ Compliance Fault! Enforced platform ToS split revenue policy checkbox validation missing.";
-        alertBox.className = "status-box error";
-        alertBox.style.display = "block";
-        return;
-    }
-    if(!sessionEmail) {
-        alertBox.innerText = "⚠️ Identity Error! Active user validation stream context not detected. Re-login required.";
-        alertBox.className = "status-box error";
-        alertBox.style.display = "block";
-        return;
-    }
-
-    loader.style.display = "block";
-
-    try {
-        // Enforce safe parameterized query execution stream blocks
-        const targetUrl = `${API}?action=apply_seller&name=${encodeURIComponent(name)}&email=${encodeURIComponent(sessionEmail)}&phone=${encodeURIComponent(phone)}&upi=${encodeURIComponent(upi)}&bizType=${encodeURIComponent(bizType)}&taxId=${encodeURIComponent(taxId)}&bankHolder=${encodeURIComponent(bHolder)}&bankName=${encodeURIComponent(bName)}&bankAcc=${encodeURIComponent(bAcc)}&bankIfsc=${encodeURIComponent(bIfsc)}&niche=${encodeURIComponent(niche)}&address=${encodeURIComponent(warehouse)}`;
-        
-        const response = await fetch(targetUrl);
-        const result = await response.json();
-
-        loader.style.display = "none";
-
-        if(result.success) {
-            if(result.status === "approved" || result.status === "Active") {
-                alertBox.innerText = "🎉 Onboarding Authorized! Application Approved Successfully across the system architectures layer.";
-                alertBox.className = "status-box success";
-            } else {
-                alertBox.innerText = "⏳ Screening Imposed! Your application has been logged inside the database queue under pending screening frames loops.";
-                alertBox.className = "status-box pending";
+    function updateLoginUI(){
+      let token = localStorage.getItem("user_token");
+      let profileWrap = document.getElementById("profileWrap");
+      let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
+      let email = localStorage.getItem("creatorhub_profile_email");
+      
+      if(token || localStorage.getItem("user")){
+        profileWrap.style.display = "flex";
+        if(cachedUser && email){
+          try {
+            let data = JSON.parse(cachedUser)[email];
+            if(data && data.profile_image){
+              let imgLink = driveImage(data.profile_image);
+              document.getElementById("profileImage").src = imgLink;
+              document.getElementById("menuProfileImage").src = imgLink;
+              document.getElementById("menuName").innerText = data.name || "CreatorHub User";
+              document.getElementById("menuEmail").innerText = data.email || email;
+              if(data.name) document.getElementById("name").value = data.name;
             }
-        } else {
-            alertBox.innerText = "❌ Transmission Rejection: " + (result.message || "Invalid payload packaging configurations layers parsing warning.");
-            alertBox.className = "status-box error";
+          } catch(e) { console.log("Header profile mapping intercept failed."); }
         }
-        alertBox.style.display = "block";
-
-    } catch(err) {
-        console.error(err);
-        loader.style.display = "none";
-        alertBox.innerText = "⚠️ Network Timeout Exception! System interface failure on pipeline tunnel connection tracks.";
-        alertBox.className = "status-box error";
-        alertBox.style.display = "block";
+      }
     }
-}
 
-// Fire runtime trackers
-document.addEventListener("DOMContentLoaded", updateSessionProfileUI);
-</script>
+    /* 🚀 STEP CONTROL ROUTER DISPATCH MATRICES METHOD */
+    function switchFormStep(stepNumber) {
+        document.querySelectorAll(".card").forEach(c => c.classList.remove("active-step-block"));
+        document.querySelectorAll(".step-node").forEach(sn => {
+            sn.classList.remove("active");
+            sn.classList.remove("completed");
+        });
 
+        document.getElementById("formCardStep" + stepNumber).classList.add("active-step-block");
+        for(let i = 1; i <= 3; i++) {
+            let node = document.getElementById("stepIndicator" + i);
+            if(i < stepNumber) node.classList.add("completed");
+            if(i === stepNumber) node.classList.add("active");
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function applySeller(){
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const upi = document.getElementById("upi").value.trim();
+      const bizType = document.getElementById("accBizType").value;
+      const taxId = document.getElementById("taxId").value.trim();
+      const bHolder = document.getElementById("bankHolder").value.trim();
+      const bName = document.getElementById("bankName").value.trim();
+      const bAcc = document.getElementById("bankAccNo").value.trim();
+      const bIfsc = document.getElementById("bankIfsc").value.trim();
+      const storeNiche = document.getElementById("storeNiche").value.trim();
+      const address = document.getElementById("warehouseAddress").value.trim();
+      const isChecked = document.getElementById("complianceCheckbox").checked;
+
+      const userObj = JSON.parse(localStorage.getItem("user") || "{}");
+      const email = userObj.email || localStorage.getItem("creatorhub_profile_email");
+
+      const statusDiv = document.getElementById("status");
+      const loader = document.getElementById("loader");
+
+      statusDiv.style.display = "none";
+
+      if(!name || !phone || !upi || !storeNiche || !address || !bHolder || !bName || !bAcc || !bIfsc){
+        statusDiv.innerHTML = "⚠️ Please fill all required structural onboarding fields variables across the steps.";
+        statusDiv.className = "status rejected";
+        statusDiv.style.display = "block";
+        return;
+      }
+      if(!isChecked) {
+        statusDiv.innerHTML = "⚠️ Agreement Missing! Please confirm compliance checkbox split configuration parameters policy.";
+        statusDiv.className = "status rejected";
+        statusDiv.style.display = "block";
+        return;
+      }
+      if(!email){
+        statusDiv.innerHTML = "⚠️ Session missing. Please login first";
+        statusDiv.className = "status rejected";
+        statusDiv.style.display = "block";
+        return;
+      }
+
+      loader.style.display = "block";
+      statusDiv.innerHTML = "";
+
+      try{
+        const url = `${API}?action=apply_seller&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&upi=${encodeURIComponent(upi)}&bizType=${encodeURIComponent(bizType)}&taxId=${encodeURIComponent(taxId)}&bankHolder=${encodeURIComponent(bHolder)}&bankName=${encodeURIComponent(bName)}&bankAcc=${encodeURIComponent(bAcc)}&bankIfsc=${encodeURIComponent(bIfsc)}&niche=${encodeURIComponent(storeNiche)}&address=${encodeURIComponent(address)}`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        loader.style.display = "none";
+
+        if(data.success){
+          if(data.status === "approved" || data.status === "Active"){
+            statusDiv.innerHTML = "🎉 Congratulations! Onboarding authorized instance approved successfully inside system records.";
+            statusDiv.className = "status success";
+          }
+          else if(data.status === "pending"){
+            statusDiv.innerHTML = "⏳ Application Under Review. AI Screening Pending.";
+            statusDiv.className = "status pending";
+          }
+          else{
+            statusDiv.innerHTML = "❌ Application Verification Failed / Rejected.";
+            statusDiv.className = "status rejected";
+          }
+        }else{
+          statusDiv.innerHTML = "❌ Framework integration error processing application: " + (data.message || "Invalid payload packaging layouts strings context layers.");
+          statusDiv.className = "status rejected";
+        }
+        statusDiv.style.display = "block";
+      }catch(err){
+        loader.style.display = "none";
+        statusDiv.innerHTML = "⚠️ Network timeout interfacing with the security database tunnel.";
+        statusDiv.className = "status rejected";
+        statusDiv.style.display = "block";
+      }
+    }
+
+    window.onload = () => {
+      updateLoginUI();
+    }
+  </script>
 </body>
 </html>
