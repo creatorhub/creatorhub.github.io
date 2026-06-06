@@ -391,191 +391,253 @@ footer{
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec";
-const DASHBOARD_CACHE_ID = "creatorhub_dashboard_cache_v3";
-let cachedStoreProducts = []; 
+const API_URL = "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec";
+let cachedStoreProducts = [];
 
 function toggleProfileMenuMenu(){
-    document.getElementById("profileMenu").classList.toggle("show");
+  document.getElementById("profileMenu").classList.toggle("show");
 }
 
 window.addEventListener("click", function(e){
-    let avatarWrap = document.querySelector(".topbar-actions");
-    if(avatarWrap && !avatarWrap.contains(e.target)){
-        document.getElementById("profileMenu").classList.remove("show");
-    }
+  let avatarWrap = document.querySelector(".topbar-actions");
+  if(avatarWrap && !avatarWrap.contains(e.target)){
+    document.getElementById("profileMenu").classList.remove("show");
+  }
 });
 
-function logoutSequenceTrigger() {
-    localStorage.clear(); window.location.href = "login.html";
-}
-
-function updateSessionHeaderProfile() {
-    let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
-    let email = localStorage.getItem("creatorhub_profile_email");
-    if(cachedUser && email){
-        try {
-            let data = JSON.parse(cachedUser)[email];
-            if(data && data.profile_image){
-                let imgLink = driveImage(data.profile_image);
-                document.getElementById("profile").src = imgLink;
-                document.getElementById("menuProfileImage").src = imgLink;
-                document.getElementById("menuName").innerText = data.name || "CreatorHub User";
-                document.getElementById("menuEmail").innerText = data.email || email;
-            }
-        } catch(e) { console.log("Header sync fail."); }
-    }
-}
-
-function escapeHTML(str){
-    return String(str).replace(/[&<>"']/g, function(m){
-        return({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;' })[m]
-    });
+function logoutSequenceTrigger(){
+  localStorage.clear();
+  window.location.href = "login.html";
 }
 
 function driveImage(url){
   if(!url) return "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80";
+
   if(url.includes("ui-avatars.com")) return url;
+
   if(url.includes("uc?id=")){
     let id = url.split("id=")[1].split("&")[0];
     return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
   }
+
   if(url.includes("/d/")){
     let id = url.split("/d/")[1].split("/")[0];
     return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
   }
+
   return url;
 }
 
-/* 🚀 100% UNBREAKABLE AUTO-SYNCHRONIZER ENGINE WITH LOCAL STORAGE TRAFFIC CHANNELS */
+function updateSessionHeaderProfile(){
+  let userText =
+    localStorage.getItem("user") ||
+    localStorage.getItem("currentUser") ||
+    localStorage.getItem("creatorhub_user");
+
+  let user = {};
+
+  if(userText){
+    try{ user = JSON.parse(userText); }catch(e){}
+  }
+
+  let email = user.email || localStorage.getItem("user_email") || "";
+  let name = user.name || localStorage.getItem("user_name") || "CreatorHub User";
+  let image = user.profile_image || localStorage.getItem("user_image") || localStorage.getItem("profile_image") || "";
+
+  document.getElementById("profile").src = driveImage(image || "https://ui-avatars.com/api/?name=" + encodeURIComponent(name) + "&background=2f62e9&color=fff");
+  document.getElementById("menuProfileImage").src = driveImage(image || "https://ui-avatars.com/api/?name=" + encodeURIComponent(name) + "&background=2f62e9&color=fff");
+  document.getElementById("menuName").innerText = name;
+  document.getElementById("menuEmail").innerText = email;
+}
+
+function escapeHTML(str){
+  return String(str || "").replace(/[&<>"']/g, function(m){
+    return ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;" })[m];
+  });
+}
+
 async function loadLiveProductsFromDatabase(){
-    let box = document.getElementById("products");
-    let verifiedProductsList = [];
+  let box = document.getElementById("products");
+  box.innerHTML = `
+    <div class="no-data">
+      <i class="fa-solid fa-circle-notch fa-spin" style="font-size:32px;color:var(--accent-blue)"></i>
+      <p style="margin-top:10px;">Loading real ebooks from CreatorHub database...</p>
+    </div>
+  `;
 
-    // Step A: Load real data strictly from the dynamic network endpoint first
-    try {
-        let response = await fetch(API_URL + "?action=products");
-        let data = await response.json();
-        if(data && data.products) verifiedProductsList = data.products;
-        else if(data && data.data) verifiedProductsList = data.data;
-        else if(Array.isArray(rawData)) verifiedProductsList = data;
-    } catch(networkError) {
-        console.warn("Network endpoint blocked. Synchronizing dynamic local storage models.");
+  try{
+    let response = await fetch(API_URL + "?action=products");
+    let data = await response.json();
+
+    let list = [];
+
+    if(data && Array.isArray(data.products)){
+      list = data.products;
+    }else if(data && Array.isArray(data.data)){
+      list = data.data;
+    }else if(Array.isArray(data)){
+      list = data;
     }
 
-    // Step B: If API is slow, pull data from the standard dashboard database object store array
-    if(!verifiedProductsList || verifiedProductsList.length === 0) {
-        try {
-            let cacheContext = JSON.parse(localStorage.getItem(DASHBOARD_CACHE_ID) || "null");
-            if(cacheContext && cacheContext.data) {
-                verifiedProductsList = cacheContext.data.products || cacheContext.data.library_books || [];
-            }
-        } catch(cacheError) { console.error("Cache parsing corrupted."); }
-    }
+    list = list.filter(p => {
+      let status = String(p.status || "approved").toLowerCase();
+      return status === "approved" || status === "active" || status === "live";
+    });
 
-    // 🚀 DUMMY SEED TRACERS REMOVED: Displays explicit local layout data context blocks if array memory slots are fully empty
-    if(!verifiedProductsList || verifiedProductsList.length === 0) {
-        box.innerHTML = `
+    if(!list.length){
+      box.innerHTML = `
         <div class="no-data">
-            <i class="fa-solid fa-box-open" style="font-size:40px; color:var(--text-muted); margin-bottom:16px; display:block;"></i>
-            <h3>No Live Inventory Found in Storage Cache</h3>
-            <p>Sync connection blocked. Please check your system endpoints layers.</p>
-        </div>`;
-        return;
+          <i class="fa-solid fa-box-open" style="font-size:40px;color:var(--text-muted);margin-bottom:16px;display:block;"></i>
+          <h3>No ebooks found</h3>
+          <p>Database connected hai, lekin approved ebooks nahi mile.</p>
+        </div>
+      `;
+      updateMetrics([]);
+      return;
     }
 
-    cachedStoreProducts = verifiedProductsList.filter(p => p);
-    let totalCount = cachedStoreProducts.length;
-    let uniqueCategoriesSet = new Set();
-    
-    cachedStoreProducts.forEach(p => {
-        let cat = p.category || p.type || "Paperback";
-        uniqueCategoriesSet.add(cat.trim());
-    });
-
-    document.getElementById("totalProductCount").innerText = totalCount;
-    document.getElementById("approvedProductCount").innerText = totalCount;
-    document.getElementById("categoryProductCount").innerText = uniqueCategoriesSet.size;
-
-    cachedStoreProducts.reverse();
-    let html = "";
-    
-    cachedStoreProducts.forEach(function(p){
-        let itemTitle = p.title || p.book_title || p.name || "Premium Asset Listing";
-        let itemAuthor = p.author || p.book_author || p.writer || "Premium Creator";
-        let itemPrice = p.price || p.book_price || p.rate || 0;
-        let itemImage = p.front_cover || p.cover || p.image || p.book_image || "";
-        let itemCategory = p.category || p.type || "Paperback";
-        let itemId = p.id || p.book_id || "";
-
-        html += `
-        <div class="card" data-title="${String(itemTitle).toLowerCase()}" data-cat="${itemCategory}">
-            <div class="image-wrapper">
-                <img src="${driveImage(itemImage)}" alt="Book Preview" onclick="openProduct('${itemId}')" loading="lazy">
-            </div>
-            <h3>${escapeHTML(itemTitle)}</h3>
-            <span class="card-author">by ${escapeHTML(itemAuthor)}</span>
-            <div class="price-tag">₹${Number(itemPrice)}</div>
-            
-            <button class="btn-buy" onclick="buyNow(event,'${itemId}')">
-                <i class="fa-solid fa-book-open"></i> Read Ebook
-            </button>
-        </div>
-        `;
-    });
-
-    box.innerHTML = html;
+    cachedStoreProducts = list.reverse();
+    updateMetrics(cachedStoreProducts);
+    renderProducts(cachedStoreProducts);
     updateBasketLiveCount();
+
+  }catch(err){
+    console.error(err);
+    box.innerHTML = `
+      <div class="no-data">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size:40px;color:var(--red-alert);margin-bottom:16px;display:block;"></i>
+        <h3>Failed to load ebooks</h3>
+        <p>API URL ya deployment check karo.</p>
+      </div>
+    `;
+  }
 }
 
-function updateBasketLiveCount() {
-    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    document.getElementById("cartCountBadge").innerText = cart.length;
+function updateMetrics(products){
+  let categories = new Set();
+
+  products.forEach(p => {
+    categories.add(String(p.category || p.type || "General").trim());
+  });
+
+  document.getElementById("totalProductCount").innerText = products.length;
+  document.getElementById("approvedProductCount").innerText = products.length;
+  document.getElementById("categoryProductCount").innerText = categories.size;
 }
 
-function executeLiveStoreFilter() {
-    let query = document.getElementById("storeSearchInput").value.toLowerCase();
-    let targetChip = document.querySelector(".filter-chip.active").innerText;
-    domGridFilterPipeline(query, targetChip);
+function renderProducts(products){
+  let box = document.getElementById("products");
+
+  if(!products.length){
+    box.innerHTML = `
+      <div class="no-data">
+        <h3>No matching ebooks</h3>
+        <p>Search/filter change karke try karo.</p>
+      </div>
+    `;
+    return;
+  }
+
+  let html = "";
+
+  products.forEach(function(p){
+    let itemTitle = p.title || p.book_title || p.name || "Untitled Ebook";
+    let itemAuthor = p.author || p.book_author || p.writer || "CreatorHub Creator";
+    let itemPrice = p.price || p.book_price || p.rate || 0;
+    let itemImage = p.front_cover || p.cover || p.image || p.book_image || "";
+    let itemCategory = p.category || p.type || "General";
+    let itemId = p.id || p.book_id || "";
+
+    html += `
+      <div class="card" data-title="${escapeHTML(itemTitle).toLowerCase()}" data-author="${escapeHTML(itemAuthor).toLowerCase()}" data-cat="${escapeHTML(itemCategory).toLowerCase()}">
+        <div class="image-wrapper">
+          <img src="${driveImage(itemImage)}" alt="${escapeHTML(itemTitle)}" onclick="openProduct('${escapeHTML(itemId)}')" loading="lazy">
+        </div>
+        <h3>${escapeHTML(itemTitle)}</h3>
+        <span class="card-author">by ${escapeHTML(itemAuthor)}</span>
+        <div class="price-tag">₹${Number(itemPrice || 0)}</div>
+
+        <button class="btn-buy" onclick="buyNow(event,'${escapeHTML(itemId)}')">
+          <i class="fa-solid fa-book-open"></i> View Ebook
+        </button>
+      </div>
+    `;
+  });
+
+  box.innerHTML = html;
 }
 
-function applyCategoryFilter(element, type) {
-    document.querySelectorAll(".filter-chip").forEach(chip => chip.classList.remove("active"));
-    element.classList.add("active");
-    let query = document.getElementById("storeSearchInput").value.toLowerCase();
-    domGridFilterPipeline(query, element.innerText);
+function updateBasketLiveCount(){
+  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  document.getElementById("cartCountBadge").innerText = cart.length;
 }
 
-function domGridFilterPipeline(query, activeChipLabel) {
-    let cards = document.querySelectorAll(".card");
-    cards.forEach(card => {
-        let title = card.getAttribute("data-title") || "";
-        let cat = card.getAttribute("data-cat") || "Paperback";
-        
-        let matchQuery = title.includes(query);
-        let matchChip = (activeChipLabel === "All Books") || 
-                        (activeChipLabel === "Hardcover" && cat.toLowerCase().includes("hard")) || 
-                        (activeChipLabel === "Paperback" && cat.toLowerCase().includes("paper")) || 
-                        (activeChipLabel === "Special Edition" && cat.toLowerCase().includes("special"));
-
-        if(matchQuery && matchChip) {
-            card.style.display = "flex";
-        } else {
-            card.style.display = "none";
-        }
-    });
+function executeLiveStoreFilter(){
+  let query = document.getElementById("storeSearchInput").value.toLowerCase().trim();
+  let activeChip = document.querySelector(".filter-chip.active").innerText;
+  filterProducts(query, activeChip);
 }
 
-function openProduct(id){ location.href = "book.html?id=" + id; }
+function applyCategoryFilter(element, type){
+  document.querySelectorAll(".filter-chip").forEach(chip => chip.classList.remove("active"));
+  element.classList.add("active");
 
-function buyNow(e, id){
-    e.stopPropagation();
-    location.href = "book.html?id=" + id;
+  let query = document.getElementById("storeSearchInput").value.toLowerCase().trim();
+  filterProducts(query, element.innerText);
+}
+
+function filterProducts(query, activeChipLabel){
+  let filtered = cachedStoreProducts.filter(p => {
+    let title = String(p.title || p.book_title || p.name || "").toLowerCase();
+    let author = String(p.author || p.book_author || p.writer || "").toLowerCase();
+    let category = String(p.category || p.type || "General").toLowerCase();
+
+    let matchQuery =
+      !query ||
+      title.includes(query) ||
+      author.includes(query) ||
+      category.includes(query);
+
+    let chip = activeChipLabel.toLowerCase();
+
+    let matchChip =
+      chip === "all books" ||
+      category.includes(chip.replace(" books","").trim()) ||
+      (chip === "hardcover" && category.includes("hard")) ||
+      (chip === "paperback" && category.includes("paper")) ||
+      (chip === "special edition" && category.includes("special"));
+
+    return matchQuery && matchChip;
+  });
+
+  renderProducts(filtered);
+}
+
+function openProduct(id){
+  if(!id){
+    alert("Book id missing");
+    return;
+  }
+
+  location.href = "book.html?id=" + encodeURIComponent(id);
+}
+
+function buyNow(e,id){
+  e.stopPropagation();
+
+  if(!id){
+    alert("Book id missing");
+    return;
+  }
+
+  location.href = "book.html?id=" + encodeURIComponent(id);
 }
 
 updateSessionHeaderProfile();
-document.addEventListener("DOMContentLoaded", loadLiveProductsFromDatabase);
-</script>
 
+document.addEventListener("DOMContentLoaded", function(){
+  loadLiveProductsFromDatabase();
+});
+</script>
 </body>
 </html>
