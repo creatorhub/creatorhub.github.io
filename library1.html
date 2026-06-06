@@ -46,7 +46,7 @@ body{
 }
 
 /* =========================================================
-   LEFT GLOBAL SIDEBAR NAVIGATION NODES
+   LEFT GLOBAL NAVIGATION SIDEBAR 
    ========================================================= */
 .sidebar {
     width: 260px;
@@ -107,7 +107,7 @@ body{
 .menu-item i { width: 20px; text-align: center; }
 
 /* =========================================================
-   WORKSPACE CONTENT CONTROLLER
+   RIGHTエリア WORKSPACE MAIN LAYOUT FRAME
    ========================================================= */
 .main-wrapper {
     margin-left: 260px; 
@@ -132,6 +132,61 @@ body{
 
 .page-title { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
 
+/* PROFILE DROPDOWN ATTACHMENT HOOKS */
+.profile-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.profile-image {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+    cursor: pointer;
+}
+.profile-menu {
+    position: absolute;
+    top: 55px;
+    right: 0;
+    width: 280px;
+    background: #0d1628;
+    border: 1px solid #182a64;
+    border-radius: 12px;
+    padding: 20px;
+    display: none;
+    box-shadow: var(--shadow-md);
+    z-index: 1000;
+}
+.profile-menu.show { display: block; animation: subFade 0.2s ease-out; }
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 12px;
+}
+.menu-profile-image { width: 44px; height: 44px; border-radius: 50%; }
+#menuName { color: #fff; font-size: 15px; font-weight: 800; }
+#menuEmail { margin-top: 2px; font-size: 12px; color: #63728a; word-break: break-all; }
+.profile-menu a {
+    display: flex;
+    align-items: center;
+    height: 42px;
+    padding: 0 12px;
+    border-radius: 6px;
+    color: #e7edf8;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+}
+.profile-menu a:hover { background: #182a64; }
+.logout-btn {
+    margin-top: 12px; height: 44px; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: var(--red-alert); color: #fff; font-weight: 800; font-size: 14px; cursor: pointer;
+}
+
 .content-area {
     padding: 40px;
     flex: 1;
@@ -145,7 +200,7 @@ body{
 .desc { font-size: 15px; color: var(--text-secondary); margin-top: 8px; max-width: 800px; }
 
 /* =========================================================
-   PROGRESS METRICS SYSTEM CARD PANEL
+   METRICS PRE-SET METRIC INFRASTRUCTURE PANELS
    ========================================================= */
 .metrics-panel {
     background: var(--bg-secondary);
@@ -183,103 +238,80 @@ body{
 .metric-node h2 { font-size: 24px; font-weight: 900; color: var(--text-primary); margin-top: 6px; }
 
 /* =========================================================
-   SEARCH UTILITY INTERFACE SECTOR
+   TAB MODULAR SEPARATORS CONTROLLERS
    ========================================================= */
-.utility-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 28px;
-}
-@media(max-width: 768px) { .utility-bar { flex-direction: column; align-items: stretch; } }
-
-.search-wrapper {
-    position: relative;
-    flex: 1;
-    max-width: 450px;
-}
-.search-wrapper i {
-    position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 16px;
-}
-.search-input {
-    width: 100%; height: 48px; padding-left: 48px; padding-right: 16px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; font-size: 14px; font-weight: 600; transition: all 0.2s;
-}
-.search-input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.08); }
-
-.filter-group { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; }
+.filter-group { display: flex; gap: 10px; margin-bottom: 32px; overflow-x: auto; padding-bottom: 4px; }
 .filter-chip {
-    padding: 10px 20px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; font-size: 13px; font-weight: 700; color: var(--text-secondary); cursor: pointer; white-space: nowrap; transition: all 0.2s;
+    padding: 12px 24px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; font-weight: 700; color: var(--text-secondary); cursor: pointer; white-space: nowrap; transition: all 0.2s;
 }
 .filter-chip:hover { border-color: #cbd5e1; color: var(--text-primary); }
 .filter-chip.active { background: var(--sidebar-dark); color: #ffffff; border-color: var(--sidebar-dark); }
 
 /* =========================================================
-   HIGH-END DYNAMIC GRID CANVAS
+   DASHBOARD CARD CANVAS SYSTEM GRID 
    ========================================================= */
 .library-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 32px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 28px;
 }
 
 .asset-card {
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    border-radius: 14px;
-    overflow: hidden;
+    border-radius: 12px;
+    padding: 16px;
     box-shadow: var(--shadow-sm);
     display: flex;
     flex-direction: column;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+    position: relative;
 }
-.asset-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.asset-card:hover { transform: translateY(-5px); border-color: var(--accent-blue); box-shadow: var(--shadow-md); }
 
-.thumbnail-wrap {
-    width: 100%; height: 200px; background: #e2e8f0; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;
-}
-.thumbnail-img { width: 100%; height: 100%; object-fit: cover; }
-.asset-category-tag {
-    position: absolute; top: 14px; left: 14px; padding: 4px 10px; border-radius: 6px; background: rgba(15, 23, 42, 0.85); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); color: #ffffff; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
+.cover-wrapper {
+    width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 8px; display: block; background: #eef3f9; border: 1px solid var(--border-color); margin-bottom: 16px;
 }
 
-.asset-details { padding: 24px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-.asset-title { font-size: 18px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.01em; line-height: 1.4; margin-bottom: 8px; }
-.asset-meta-text { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px; }
+.asset-title { font-size: 16px; font-weight: 800; color: var(--text-primary); line-height: 1.4; min-height: 44px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.asset-author { color: var(--text-secondary); font-size: 13px; font-weight: 500; margin-top: 4px; }
 
-/* TRACKING PROGRESS BARS */
-.progress-container { margin-bottom: 20px; }
-.progress-meta-labels { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; }
-.progress-bar-track { width: 100%; height: 6px; background: #f1f5f9; border-radius: 99px; overflow: hidden; }
-.progress-bar-fill { height: 100%; background: var(--accent-blue); border-radius: 99px; transition: width 0.3s ease; }
-
-.action-row { display: flex; gap: 12px; }
-.btn-action {
-    flex: 1; min-height: 44px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; transition: all 0.2s;
+.status-badge {
+    align-self: flex-start; padding: 4px 10px; border-radius: 999px; margin-top: 12px; font-size: 11px; font-weight: 900; background: #ecfdf5; color: #047857; border: 1px solid rgba(4,120,87,0.1); text-transform: uppercase;
 }
-.btn-action.btn-download { background: var(--accent-blue); color: #ffffff; border: none; }
-.btn-action.btn-download:hover { background: var(--accent-blue-hover); }
-.btn-action.btn-read { background: #ffffff; color: var(--text-primary); }
-.btn-action.btn-read:hover { background: var(--bg-primary); border-color: #cbd5e1; }
+.status-badge.premium-tag { background: #fff7df; color: #b7791f; border-color: rgba(183,121,31,0.1); }
+
+.action-trigger-btn {
+    width: 100%; min-height: 42px; border: none; border-radius: 6px; background: #101c2f; color: white; font-size: 14px; font-weight: 800; margin-top: 16px; cursor: pointer; transition: background 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.action-trigger-btn:hover { background: var(--accent-blue); }
+
+.management-row { display: flex; gap: 8px; margin-top: 10px; }
+.btn-manage {
+    flex: 1; min-height: 36px; border: none; border-radius: 6px; color: white; font-size: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;
+}
+.btn-manage.edit { background: #2563eb; }
+.btn-manage.delete { background: #ef4444; }
+
+.subscription-panel {
+    background: #0d1628; border: 1px solid #182a64; padding: 24px 32px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 40px; box-shadow: var(--shadow-md);
+}
+.subscription-panel h2 { font-size: 22px; font-weight: 950; color: #fff; }
+.subscription-panel p { margin-top: 4px; color: #63728a; font-size: 15px; }
+
+.manage-btn {
+    min-height: 48px; padding: 0 24px; border: none; border-radius: 8px; background: var(--accent-blue); color: white; font-size: 14px; font-weight: 800; cursor: pointer; transition: background 0.2s;
+}
+.manage-btn:hover { background: var(--accent-blue-hover); }
 
 .empty-state {
-    grid-column: 1 / -1; padding: 80px 40px; text-align: center; background: #ffffff; border: 1px dashed var(--border-color); border-radius: 14px; color: var(--text-muted);
+    grid-column: 1 / -1; padding: 80px 40px; text-align: center; color: var(--text-muted); font-weight: 700; font-size: 15px;
 }
-.empty-state i { font-size: 48px; color: #cbd5e1; margin-bottom: 16px; }
-.empty-state h3 { font-size: 18px; font-weight: 800; color: var(--text-primary); }
-.empty-state p { font-size: 14px; margin-top: 6px; }
-
-footer {
-    background-color: var(--bg-secondary); border-top: 1px solid var(--border-color); text-align: center; padding: 30px 20px; font-size: 13px; color: var(--text-secondary); font-weight: 600; margin-top: 60px;
+.spinner {
+    width: 44px; height: 44px; border: 4px solid #cbd5e1; border-top-color: var(--accent-blue); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px;
 }
-
-@media(max-width:1050px){
-    .sidebar { width: 70px; }
-    .sidebar-brand span, .menu-item span { display: none; }
-    .sidebar-brand { padding: 24px 0; text-align: center; }
-    .menu-item { justify-content: center; }
-    .main-wrapper { margin-left: 70px; width: calc(100% - 70px); }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes subFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 
@@ -299,227 +331,286 @@ footer {
 
 <div class="main-wrapper">
     <header class="topbar">
-        <div class="page-title"><i class="fa-solid fa-book-open" style="color: var(--accent-blue);"></i> My Digital Asset Library Workspace</div>
+        <div class="page-title"><i class="fa-solid fa-book-open" style="color: var(--accent-blue);"></i> Asset Library Workspace</div>
+        
+        <div id="profileWrap" class="profile-wrap">
+            <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile View">
+            <div id="profileMenu" class="profile-menu">
+                <div class="profile-header">
+                    <img id="menuProfileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="menu-profile-image" alt="User">
+                    <div>
+                        <div id="menuName">CreatorHub User</div>
+                        <div id="menuEmail">user@email.com</div>
+                    </div>
+                </div>
+                <a href="profile.html">My Profile</a>
+                <a href="seller-apply.html">Become Seller</a>
+                <a href="tranding.html">Trending Books</a>
+                <a class="active" href="library1.html">Library</a>
+                <a href="topselling.html">Top Selling</a>
+                <div class="logout-btn" onclick="logout()">Logout</div>
+            </div>
+        </div>
     </header>
 
     <main class="content-area">
         <div class="header-block">
-            <h1 class="title">Purchased Digital Library</h1>
-            <p class="desc">Access, read, and track your purchased premium resources, layout data entry cleaning scripts, and instagram growth books effortlessly.</p>
+            <h1 class="title">My Purchased Library</h1>
+            <p class="desc">Access, read, stream and manage your purchased premium creator resources and ebooks seamlessly from one secure ecosystem space.</p>
         </div>
 
         <section class="metrics-panel">
             <div class="metrics-left">
-                <div class="metrics-label">Total Books Owned</div>
-                <div id="metricTotal" class="metrics-val">0</div>
-                <div class="metrics-hint"><i class="fa-solid fa-cloud-arrow-down" style="color:var(--green-success)"></i> All digital assets are safely bound with active Google Drive download synchronization blocks.</div>
+                <div class="metrics-label">Total Books Cataloged</div>
+                <div id="totalBooks" class="metrics-val">0</div>
+                <div class="metrics-hint"><i class="fa-solid fa-circle-check" style="color:var(--green-success)"></i> System items are dynamically checked and validated natively against cloud storage tokens.</div>
             </div>
             <div class="metrics-grid">
                 <div class="metric-node">
-                    <h3>In Progress</h3>
-                    <h2 id="metricActive" style="color: var(--amber-warning);">0</h2>
+                    <h3>Unlocked</h3>
+                    <h2 id="unlockedBooks" style="color: var(--accent-blue);">0</h2>
                 </div>
                 <div class="metric-node">
-                    <h3>Completed</h3>
-                    <h2 id="metricDone" style="color: var(--green-success);">0</h2>
+                    <h3>Premium Vault</h3>
+                    <h2 id="premiumBooks" style="color: var(--amber-warning);">0</h2>
                 </div>
                 <div class="metric-node">
-                    <h3>Categories</h3>
-                    <h2 id="metricCats">0</h2>
+                    <h3>Subscription</h3>
+                    <h2 id="subscriptionStatus" style="color: var(--green-success);">Inactive</h2>
                 </div>
             </div>
         </section>
 
-        <section class="utility-bar">
-            <div class="search-wrapper">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="libSearch" class="search-input" placeholder="Search by asset title or author..." oninput="executeSearchFilter()">
-            </div>
-            <div class="filter-group" id="filterContainer">
-                <button class="filter-chip active" onclick="applyCategoryFilter(this, 'all')">All Assets</button>
-                <button class="filter-chip" onclick="applyCategoryFilter(this, 'Ebook')">Ebooks</button>
-                <button class="filter-chip" onclick="applyCategoryFilter(this, 'Script')">Automation Scripts</button>
-                <button class="filter-chip" onclick="applyCategoryFilter(this, 'Guide')">Growth Guides</button>
-            </div>
+        <section class="filter-group">
+            <button class="filter-chip active" onclick="filterBooks(this, 'all')">All Shelf Books</button>
+            <button class="filter-chip" onclick="filterBooks(this, 'purchased')">Purchased Assets</button>
+            <button class="filter-chip" onclick="filterBooks(this, 'subscription')">Subscription Items</button>
+            <button class="filter-chip" onclick="filterBooks(this, 'uploads')">My Content Uploads</button>
         </section>
 
-        <section id="libraryDisplayCanvas" class="library-grid">
-            <div class="empty-state"><i class="fa-solid fa-circle-notch fa-spin" style="color: var(--accent-blue);"></i><h3>Syncing structural library vectors...</h3></div>
+        <section id="library" class="library-grid">
+            <div class="empty-state"><div class="spinner"></div><p>Syncing secure cloud data streams...</p></div>
         </section>
+
+        <div class="subscription-panel" id="subBanner" style="display: none;">
+            <div>
+                <h2>👑 Active Enterprise Subscription</h2>
+                <p>Enjoy absolute unrestricted streaming access to all premium ebooks in the catalog shelf safely.</p>
+            </div>
+            <button class="manage-btn" onclick="location.href='subscription.html'">Manage Subscription</button>
+        </div>
     </main>
-
-    <footer>
-        <strong>© 2026 CreatorHub Digital Core Architecture</strong><br>
-        <span style="font-size:11px; color: var(--text-muted); margin-top:4px; display:inline-block;">Secure Asset Bundles • Dynamic Synchronization Blocks • Real-Time Workspace</span>
-    </footer>
 </div>
 
 <script>
-// Dashboard system cache version parameters lookup index track 
-const DASHBOARD_CACHE_ID = "creatorhub_dashboard_cache_v3";
-let globalLibraryArray = []; 
+const ADMIN = "ayushprajpati6@email.com";
+const PRODUCT_API = "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
+const SUBSCRIPTION_API = "https://script.google.com/macros/s/AKfycbyKnVmxYCTskDLpOk_s2Ch1nHnVvD__GVHbnztTCvl4bzYgk7sDx0F1WuJ0CXMORqs/exec";
 
-function driveThumbnail(url) {
-    if(!url) return "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=500&q=80";
-    if(url.includes("uc?id=")) {
-        let id = url.split("id=")[1].split("&")[0];
-        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w500";
-    }
-    if(url.includes("/d/")) {
-        let id = url.split("/d/")[1].split("/")[0];
-        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w500";
-    }
-    return url;
+let user = JSON.parse(localStorage.getItem("user") || "null");
+if(!user){ location.href = "login.html"; }
+
+let isAdmin = String(user.email).toLowerCase() === String(ADMIN).toLowerCase();
+let ALL_PRODUCTS = [];
+let HAS_SUBSCRIPTION = false;
+
+function driveImage(link){
+    if(!link) return "https://picsum.photos/500";
+    let id = "";
+    if(link.includes("id=")){ id = link.split("id=")[1].split("&")[0]; }
+    else if(link.includes("/d/")){ id = link.split("/d/")[1].split("/")[0]; }
+    else { id = link; }
+    return "https://drive.google.com/thumbnail?id=" + id + "&sz=w500";
 }
 
-function syncLibraryMetrics(assets) {
-    document.getElementById("metricTotal").innerText = assets.length;
-    
-    let active = 0, done = 0;
-    let categories = new Set();
-    
-    assets.forEach(asset => {
-        let prog = Number(localStorage.getItem("prog_" + asset.id) || 0);
-        if(prog > 0 && prog < 100) active++;
-        if(prog >= 100) done++;
-        categories.add(asset.category || "Ebook");
+function toggleProfileMenu(){
+    document.getElementById("profileMenu").classList.toggle("show");
+}
+
+window.addEventListener("click", function(e){
+    let wrap = document.getElementById("profileWrap");
+    if(wrap && !wrap.contains(e.target)){
+        document.getElementById("profileMenu").classList.remove("show");
+    }
+});
+
+function logout(){ localStorage.clear(); window.location.href = "login.html"; }
+function goBack(){ window.location.href = "index.html"; }
+
+function updateLoginUI(){
+    let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
+    let email = localStorage.getItem("creatorhub_profile_email");
+    if(cachedUser && email){
+        try {
+            let data = JSON.parse(cachedUser)[email];
+            if(data && data.profile_image){
+                document.getElementById("profileImage").src = driveImage(data.profile_image);
+                document.getElementById("menuProfileImage").src = driveImage(data.profile_image);
+                document.getElementById("menuName").innerText = data.name || "CreatorHub User";
+                document.getElementById("menuEmail").innerText = data.email || email;
+            }
+        } catch(e) { console.log("Cache reading tracers failed."); }
+    }
+}
+
+function showLoader(){
+    document.getElementById("library").innerHTML = `
+        <div class="empty-state">
+            <div class="spinner"></div>
+            <p>Compiling database catalog index models...</p>
+        </div>`;
+}
+
+async function checkSubscription(){
+    try{
+        let res = await fetch(SUBSCRIPTION_API + "?db=subscriptions&t=" + Date.now());
+        let response = await res.json();
+        let subs = Array.isArray(response) ? response : (response.subscriptions || []);
+
+        HAS_SUBSCRIPTION = subs.some(s => 
+            String(s.email).toLowerCase() === String(user.email).toLowerCase() && 
+            String(s.status).toLowerCase() === "active"
+        );
+    }catch(err){
+        console.error("Subscription vector checking crashed.", err);
+        HAS_SUBSCRIPTION = false;
+    }
+}
+
+async function loadData(){
+    try{
+        showLoader();
+        
+        // Execute dynamic streams simultaneously using parallel promises execution hooks
+        const [productRes] = await Promise.all([
+            fetch(PRODUCT_API + "?action=products&t=" + Date.now()),
+            checkSubscription()
+        ]);
+
+        let raw = await productRes.text();
+        let response = {};
+        try { response = JSON.parse(raw); } catch(err) { response = {}; }
+
+        ALL_PRODUCTS = Array.isArray(response) ? response : (response.products || []);
+
+        let accessibleBooks = ALL_PRODUCTS.filter(product => {
+            let owner = String(product.owner).toLowerCase() === String(user.email).toLowerCase();
+            return isAdmin || owner || HAS_SUBSCRIPTION;
+        });
+
+        /* LOCK COUNTER METRICS RENDERS */
+        document.getElementById("totalBooks").innerText = ALL_PRODUCTS.length;
+        document.getElementById("unlockedBooks").innerText = accessibleBooks.length;
+        document.getElementById("premiumBooks").innerText = ALL_PRODUCTS.length;
+        document.getElementById("subscriptionStatus").innerText = HAS_SUBSCRIPTION ? "Active" : "Inactive";
+        
+        document.getElementById("subBanner").style.display = HAS_SUBSCRIPTION ? "flex" : "none";
+
+        renderBooks("all");
+    }catch(err){
+        console.error(err);
+        document.getElementById("library").innerHTML = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation" style="color:var(--red-alert); font-size:36px;"></i><h3>Sync Failure</h3><p>Could not map the global store layout content streams safely.</p></div>';
+    }
+}
+
+function renderBooks(type){
+    let box = document.getElementById("library");
+    box.innerHTML = "";
+
+    let filtered = ALL_PRODUCTS.filter(product => {
+        if(product.status && product.status !== "approved") return false;
+        let owner = String(product.owner).toLowerCase() === String(user.email).toLowerCase();
+        let allow = isAdmin || owner || HAS_SUBSCRIPTION;
+
+        if(type === "uploads") return owner;
+        if(type === "subscription") return HAS_SUBSCRIPTION && allow && !owner;
+        if(type === "purchased") return owner;
+        if(type === "all") return allow;
+        return false;
     });
 
-    document.getElementById("metricActive").innerText = active;
-    document.getElementById("metricDone").innerText = done;
-    document.getElementById("metricCats").innerText = categories.size;
-}
-
-function renderLibraryGrid(assets) {
-    const canvas = document.getElementById("libraryDisplayCanvas");
-    if(!assets || assets.length === 0) {
-        canvas.innerHTML = `
-            <div class="empty-state">
-                <i class="fa-solid fa-folder-open"></i>
-                <h3>No assets found in workspace</h3>
-                <p>Purchased digital books or utility automation templates will map natively here instantly.</p>
-            </div>`;
+    if(filtered.length === 0){
+        box.innerHTML = '<div class="empty-state"><i class="fa-solid fa-book-bookmark"></i><h3>Shelf Section Empty</h3><p>No active ebook assets registered under this configuration tab.</p></div>';
         return;
     }
 
-    let html = "";
-    assets.forEach(asset => {
-        let progValue = Number(localStorage.getItem("prog_" + asset.id) || 0);
-        let category = asset.category || "Ebook";
-        let fallbackDesc = "Premium digital framework asset item built precisely for cross-platform utility scaling standard routines.";
-        
-        html += `
-            <div class="asset-card" data-title="${asset.title.toLowerCase()}" data-cat="${category}">
-                <div class="thumbnail-wrap">
-                    <img class="thumbnail-img" src="${driveThumbnail(asset.cover_image)}" alt="${asset.title}">
-                    <span class="asset-category-tag">${category}</span>
-                </div>
-                <div class="asset-details">
-                    <div>
-                        <h2 class="asset-title">${asset.title}</h2>
-                        <p class="asset-meta-text">${asset.description || fallbackDesc}</p>
-                    </div>
-                    <div>
-                        <div class="progress-container">
-                            <div class="progress-meta-labels">
-                                <span>Reading Track</span>
-                                <span>${progValue}%</span>
-                            </div>
-                            <div class="progress-bar-track">
-                                <div class="progress-bar-fill" style="width: ${progValue}%"></div>
-                            </div>
-                        </div>
-                        <div class="action-row">
-                            <a href="${asset.download_link || '#'}" target="_blank" class="btn-action btn-download" onclick="registerAssetClick('${asset.id}')"><i class="fa-solid fa-arrow-down-to-line"></i> Download</a>
-                            <button class="btn-action btn-read" onclick="updateReadingProgress('${asset.id}', ${progValue})"><i class="fa-solid fa-book-open"></i> Read</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
+    filtered.forEach(product => {
+        let owner = String(product.owner).toLowerCase() === String(user.email).toLowerCase();
+        let allow = isAdmin || owner || HAS_SUBSCRIPTION;
+        let image = driveImage(product.front_cover || product.frontCover || product.image);
+
+        let button = `<button class="action-trigger-btn" onclick="openBook('${product.id}')"><i class="fa-solid fa-book-open"></i> Read Ebook</button>`;
+        let manage = "";
+
+        if(owner || isAdmin){
+            manage = `
+                <div class="management-row">
+                    <button class="btn-manage edit" onclick="editBook('${product.id}')"><i class="fa-solid fa-pen"></i> Edit</button>
+                    <button class="btn-manage delete" onclick="deleteBook('${product.id}')"><i class="fa-solid fa-trash"></i> Delete</button>
+                </div>`;
+        }
+
+        box.innerHTML += `
+            <div class="asset-card">
+                <img class="cover-wrapper" src="${image}" onerror="this.src='https://picsum.photos/500'" alt="Book Cover" loading="lazy">
+                <h3 class="asset-title">${product.title || "Untitled Digital Asset"}</h3>
+                <div class="asset-author">by ${product.author || "Premium Creator"}</div>
+                <span class="status-badge ${allow ? '' : 'premium-tag'}">${allow ? "Unlocked" : "Premium Vault"}</span>
+                ${button}
+                ${manage}
+            </div>`;
     });
-    canvas.innerHTML = html;
 }
 
-function updateReadingProgress(id, currentProgress) {
-    let newProgress = prompt("Enter your current reading progress percentage (0 - 100):", currentProgress);
-    if (newProgress === null) return;
-    
-    let parsedPercent = Math.min(Math.max(parseInt(newProgress) || 0, 0), 100);
-    localStorage.setItem("prog_" + id, parsedPercent);
-    
-    // Quick local state update cascade without heavy server overhead reloads
-    syncLibraryMetrics(globalLibraryArray);
-    renderLibraryGrid(globalLibraryArray);
-}
+function openBook(id){
+    let product = ALL_PRODUCTS.find(p => String(p.id) === String(id));
+    if(!product){ alert("Book parameters not registered."); return; }
 
-function registerAssetClick(id) {
-    let currentProg = Number(localStorage.getItem("prog_" + id) || 0);
-    if(currentProg === 0) {
-        localStorage.setItem("prog_" + id, 10); // Auto seed 10% progress vector as initiation trace mark
-        syncLibraryMetrics(globalLibraryArray);
-        renderLibraryGrid(globalLibraryArray);
+    let owner = String(product.owner).toLowerCase() === String(user.email).toLowerCase();
+    let allow = isAdmin || owner || HAS_SUBSCRIPTION;
+
+    if(!allow){
+        alert("Subscription / Purchase validation parameter criteria missing.");
+        location.href = "subscription.html";
+        return;
     }
+
+    let pdf = product.pdf_url || product.pdf || "";
+    if(!pdf){ alert("PDF streaming source element link missing."); return; }
+
+    localStorage.setItem("viewerPDF", pdf);
+    localStorage.setItem("viewerBook", JSON.stringify(product));
+    location.href = "viewer.html?id=" + id;
 }
 
-function executeSearchFilter() {
-    let query = document.getElementById("libSearch").value.toLowerCase();
-    let selectedChip = document.querySelector(".filter-chip.active").innerText;
-    filterEngineDOM(query, selectedChip);
+function editBook(id){
+    localStorage.setItem("editBookId", id);
+    location.href = "edit-ebook.html";
 }
 
-function applyCategoryFilter(element, type) {
+async function deleteBook(id){
+    let ok = confirm("Are you sure you want to completely remove this digital ebook file from the shelf catalog?");
+    if(!ok) return;
+    try{
+        let res = await fetch(PRODUCT_API,{
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({ action: "deleteBook", id: id, email: user.email })
+        });
+        let data = await res.json();
+        alert(data.message || "Entry Removed.");
+        loadData();
+    }catch(err){ alert("Operational warning trace: " + err.message); }
+}
+
+function filterBooks(element, type){
     document.querySelectorAll(".filter-chip").forEach(chip => chip.classList.remove("active"));
     element.classList.add("active");
-    
-    let query = document.getElementById("libSearch").value.toLowerCase();
-    filterEngineDOM(query, element.innerText);
+    renderBooks(type);
 }
 
-function filterEngineDOM(query, chipText) {
-    let cards = document.querySelectorAll(".asset-card");
-    cards.forEach(card => {
-        let title = card.getAttribute("data-title");
-        let cat = card.getAttribute("data-cat");
-        
-        let matchSearch = title.includes(query);
-        let matchChip = (chipText === "All Assets") || 
-                        (chipText === "Ebooks" && cat === "Ebook") || 
-                        (chipText === "Automation Scripts" && cat === "Script") || 
-                        (chipText === "Growth Guides" && cat === "Guide");
-
-        if(matchSearch && matchChip) {
-            card.style.display = "flex";
-        } else {
-            card.style.display = "none";
-        }
-    });
-}
-
-function initializeLibraryState() {
-    try {
-        let cachedContext = JSON.parse(localStorage.getItem(DASHBOARD_CACHE_ID) || "null");
-        // Extracting asset properties array straight from cached memory layers to avoid redundant API network costs
-        if (cachedContext && cachedContext.data && cachedContext.data.library_books) {
-            globalLibraryArray = cachedContext.data.library_books;
-        } else {
-            // Simulated local memory payload layers for asset definitions matching store portfolio bounds
-            globalLibraryArray = [
-                { id: "101", title: "AI — My New Digital Companion", category: "Ebook", description: "Author exploration guide formatting deep experiences utilizing AI systems as a personal workspace assistant loop." },
-                { id: "102", title: "Complete Instagram Growth Guide", category: "Guide", description: "Rebuilt layout metrics containing optimization parameters to target high scale distribution growth trajectories." },
-                { id: "103", title: "Automated Excel Data Cleaning Matrix", category: "Script", description: "Premium lean VBA/Python configuration script modules to perform data entry normalization sequences instantly." }
-            ];
-        }
-        
-        syncLibraryMetrics(globalLibraryArray);
-        renderLibraryGrid(globalLibraryArray);
-    } catch(err) {
-        console.error("Library memory collection compilation track aborted.", err);
-        renderLibraryGrid([]);
-    }
-}
-
-document.addEventListener("DOMContentLoaded", initializeLibraryState);
+updateLoginUI();
+loadData();
 </script>
 
 </body>
