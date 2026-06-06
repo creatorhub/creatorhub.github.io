@@ -168,7 +168,7 @@
       padding: 0 14px;
       border-radius: 8px;
       color: #e7edf8;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 700;
       transition: background 0.2s, transform 0.2s;
     }
@@ -239,10 +239,10 @@
 
     /* =====================================================
     GRID ARCHITECTURE (Split Information vs Form Card)
-    ===================================================== */
+    ==================================================== */
     .grid{
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
+      grid-template-columns: 1fr 1fr;
       gap: 32px;
       margin-top: 40px;
       align-items: start;
@@ -269,6 +269,13 @@
     /* =====================================================
     INPUT MANAGEMENT STRUCTURE
     ===================================================== */
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media(max-width: 500px){ .form-grid-2 { grid-template-columns: 1fr; } }
+
     .input-field {
       display: grid;
       gap: 6px;
@@ -279,7 +286,7 @@
       font-weight: 800;
       color: #26364f;
     }
-    .input-field input{
+    .input-field input, .input-field select, .input-field textarea {
       width: 100%;
       min-height: 54px;
       border: 1px solid #d9e3f0;
@@ -292,10 +299,13 @@
       font-weight: 600;
       transition: all 0.2s ease;
     }
-    .input-field input:focus{
+    .input-field select { cursor: pointer; }
+    .input-field textarea { resize: vertical; min-height: 100px; font-weight: 500; }
+    .input-field input:focus, .input-field select:focus, .input-field textarea:focus {
       border-color: #3157c9;
       box-shadow: 0 0 0 4px rgba(49, 87, 201, 0.12);
     }
+    .input-helper { font-size: 11px; color: #63728a; margin-top: 2px; line-height: 1.3; }
 
     /* BUTTON ACTION */
     button {
@@ -407,7 +417,6 @@
 
 <body>
 
-  <!-- TOPBAR NAVIGATION LAYER -->
   <div class="topbar">
     <div class="topbar-left">
       <div id="profileWrap" class="profile-wrap">
@@ -424,7 +433,7 @@
           <a href="profile.html">My Profile</a>
           <a class="active" href="seller-apply.html">Become Seller</a>
           <a href="tranding.html">Trending Books</a>
-          <a href="library.html">Library</a>
+          <a href="library1.html">Library</a>
           <a href="topselling.html">Top Selling</a>
           <div class="logout-btn" onclick="logout()">Logout</div>
         </div>
@@ -440,63 +449,81 @@
     <div class="badge">Seller Portal</div>
   </div>
 
-  <!-- CONTAINER SYSTEM WRAPPER -->
   <div class="main">
     
-    <!-- CONTEXT INTRO BLOCK -->
     <div class="header">
       <div class="icon"><i class="fa-solid fa-store"></i></div>
       <h1>Become a Creator & Seller</h1>
-      <p class="desc">Join the CreatorHub digital ecosystem. Monetize your premium ebooks, track automated withdrawals, and reach readers globally.</p>
+      <p class="desc">Join the CreatorHub multi-channel logistics ecosystem. Monetize your premium products, manage automated wallet settlements, and leverage our integrated courier pipelines.</p>
     </div>
 
-    <!-- MAIN CORE FORM MATRIX GRID -->
     <div class="grid">
       
-      <!-- LEFT MODULE: PROGRAM VALUES AND PERKS -->
       <div class="info-list">
         <div class="info-item">
           <div class="info-icon"><i class="fa-solid fa-bolt"></i></div>
           <div class="info-text">
             <h3>Automated AI Approvals</h3>
-            <p>Our intelligent fraud detection system cross-verifies details to approve authentic applications instantly.</p>
+            <p>Our intelligent onboarding engine cross-verifies details to approve seller business instances with zero technical delays loops.</p>
           </div>
         </div>
 
         <div class="info-item">
           <div class="info-icon"><i class="fa-solid fa-wallet"></i></div>
           <div class="info-text">
-            <h3>Direct UPI Settlements</h3>
-            <p>Earn directly into your secure wallet. Once approved, manage payouts directly to your registered UPI handle.</p>
+            <h3>Direct Wallet Splits</h3>
+            <p>Earn directly into your custom balance matrix. Payouts route automatically to your registered bank routing parameters.</p>
           </div>
         </div>
 
         <div class="info-item">
-          <div class="info-icon"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="info-icon"><i class="fa-solid fa-truck-fast"></i></div>
           <div class="info-text">
-            <h3>Fulfillment Network Protection</h3>
-            <p>Access our seamless automatic digital delivery and nationwide courier print publishing infrastructure channels.</p>
+            <h3>Nationwide Dispatch Protect</h3>
+            <p>Access our high-speed dynamic tracking, integrated logistics gateways, and automated checkout fulfillment systems cleanly.</p>
           </div>
         </div>
       </div>
 
-      <!-- RIGHT MODULE: ONBOARDING INTERACTIVE FORM CARD -->
       <div class="card">
-        <div class="card-title">Registration Form</div>
+        <div class="card-title">Seller Onboarding Application</div>
         
-        <div class="input-field">
-          <label for="name">Full Name</label>
-          <input type="text" id="name" placeholder="Enter your full name">
+        <div class="form-grid-2">
+          <div class="input-field">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" placeholder="Ayush Prajapati">
+          </div>
+          <div class="input-field">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" placeholder="Enter 10-digit number">
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="input-field">
+            <label for="accBizType">Business Framework</label>
+            <select id="accBizType">
+              <option value="individual">Individual Freelancer</option>
+              <option value="publisher">Ebook Publisher / Creator</option>
+              <option value="agency">Agency / Corporate Entity</option>
+            </select>
+          </div>
+          <div class="input-field">
+            <label for="upi">UPI Handle</label>
+            <input type="text" id="upi" placeholder="username@bank">
+          </div>
         </div>
 
         <div class="input-field">
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" placeholder="Enter 10-digit mobile number">
+          <label for="storeNiche">Marketplace Niche / Niche Services</label>
+          <input type="text" id="storeNiche" placeholder="e.g. Data Entry Sheets, Ebooks, Instagram Growth Guides">
+          <div class="input-helper">Helps our automated client recommendation loop map your items layout dynamically.</div>
         </div>
 
         <div class="input-field">
-          <label for="upi">UPI ID</label>
-          <input type="text" id="upi" placeholder="username@bank">
+          <label for="warehouseAddress">Courier Pickup / Warehouse Location Address</label>
+          <textarea id="warehouseAddress" placeholder="Enter complete billing/pickup location address with Pincode..."></textarea>
+          <div class="input-helper">Compulsory field. Our transport courier networks parse this parameter to initiate automated package dispatches.</div>
         </div>
 
         <button onclick="applySeller()">Apply to Become Seller <i class="fa-solid fa-paper-plane"></i></button>
@@ -507,13 +534,11 @@
 
     </div>
 
-    <!-- TERMINAL PLATFORM FOOTER -->
     <div class="footer">
       Secure Marketplace Onboarding Infrastructure • Automated Verification Pipeline
     </div>
   </div>
 
-  <!-- STREAM PIPELINE LOGICS -->
   <script>
     const API = "https://script.google.com/macros/s/AKfycby78v_g_Of7t49vF1Rccn52ObqaSAcm6DLcIB_-3ATqDLHfaLr-jk82BZi5hmw3Al92aw/exec";
 
@@ -521,11 +546,11 @@
       if(!url) return "";
       if(url.includes("uc?id=")){
         let id = url.split("id=")[1].split("&")[0];
-        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w500";
       }
       if(url.includes("/d/")){
         let id = url.split("/d/")[1].split("/")[0];
-        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w500";
       }
       return url;
     }
@@ -569,7 +594,7 @@
               document.getElementById("menuName").innerText = data.name || "CreatorHub User";
               document.getElementById("menuEmail").innerText = data.email || email;
             }
-          } catch(e) { console.log("Cache compilation processing bypassed"); }
+          } catch(e) { console.log("Cache mapping error bypassed."); }
         }
       }
     }
@@ -578,17 +603,20 @@
       const name = document.getElementById("name").value.trim();
       const phone = document.getElementById("phone").value.trim();
       const upi = document.getElementById("upi").value.trim();
+      const bizType = document.getElementById("accBizType").value;
+      const storeNiche = document.getElementById("storeNiche").value.trim();
+      const address = document.getElementById("warehouseAddress").value.trim();
 
       const user = JSON.parse(localStorage.getItem("user") || "{}");
-      const email = user.email;
+      const email = user.email || localStorage.getItem("creatorhub_profile_email");
 
       const statusDiv = document.getElementById("status");
       const loader = document.getElementById("loader");
 
       statusDiv.style.display = "none";
 
-      if(!name || !phone || !upi){
-        statusDiv.innerHTML = "⚠️ Please fill all fields";
+      if(!name || !phone || !upi || !storeNiche || !address){
+        statusDiv.innerHTML = "⚠️ Please fill all required fields";
         statusDiv.className = "status rejected";
         statusDiv.style.display = "block";
         return;
@@ -605,7 +633,8 @@
       statusDiv.innerHTML = "";
 
       try{
-        const url = `${API}?action=apply_seller&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&upi=${encodeURIComponent(upi)}`;
+        // 🚀 ADVANCED DATA PAYLOAD QUERY STRING: Transmits wide logistics variables to sheet handlers
+        const url = `${API}?action=apply_seller&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&upi=${encodeURIComponent(upi)}&bizType=${encodeURIComponent(bizType)}&niche=${encodeURIComponent(storeNiche)}&address=${encodeURIComponent(address)}`;
         const res = await fetch(url);
         const data = await res.json();
 
@@ -625,7 +654,7 @@
             statusDiv.className = "status rejected";
           }
         }else{
-          statusDiv.innerHTML = "❌ Framework integration error processing application";
+          statusDiv.innerHTML = "❌ Framework integration error processing application: " + (data.message || "Invalid payload");
           statusDiv.className = "status rejected";
         }
         statusDiv.style.display = "block";
