@@ -107,7 +107,7 @@ body{
 .menu-item i { width: 20px; text-align: center; }
 
 /* =========================================================
-   RIGHTエリア WORKSPACE MAIN LAYOUT FRAME
+   RIGHT SIDE WORKSPACE MAIN LAYOUT FRAME
    ========================================================= */
 .main-wrapper {
     margin-left: 260px; 
@@ -395,7 +395,7 @@ body{
         <div class="subscription-panel" id="subBanner" style="display: none;">
             <div>
                 <h2>👑 Active Enterprise Subscription</h2>
-                <p>Enjoy absolute unrestricted streaming access to all premium ebooks in the catalog shelf safely.</p>
+                <p>Enjoy absolute unrestricted streaming access to ALL ebooks in the catalog shelf safely.</p>
             </div>
             <button class="manage-btn" onclick="location.href='subscription.html'">Manage Subscription</button>
         </div>
@@ -449,7 +449,7 @@ function updateLoginUI(){
                 document.getElementById("menuName").innerText = data.name || "CreatorHub User";
                 document.getElementById("menuEmail").innerText = data.email || email;
             }
-        } catch(e) { console.log("Cache reading tracers failed."); }
+        } catch(e) { console.log("Cache reading failed."); }
     }
 }
 
@@ -472,7 +472,7 @@ async function checkSubscription(){
             String(s.status).toLowerCase() === "active"
         );
     }catch(err){
-        console.error("Subscription vector checking crashed.", err);
+        console.error("Subscription check failed.", err);
         HAS_SUBSCRIPTION = false;
     }
 }
@@ -481,7 +481,6 @@ async function loadData(){
     try{
         showLoader();
         
-        // Execute dynamic streams simultaneously using parallel promises execution hooks
         const [productRes] = await Promise.all([
             fetch(PRODUCT_API + "?action=products&t=" + Date.now()),
             checkSubscription()
@@ -495,10 +494,13 @@ async function loadData(){
 
         let accessibleBooks = ALL_PRODUCTS.filter(product => {
             let owner = String(product.owner).toLowerCase() === String(user.email).toLowerCase();
-            return isAdmin || owner || HAS_SUBSCRIPTION;
+            
+            // 🚀 ALL ACCESS GRANTED IF SUBSCRIPTION IS ACTIVE: Saari books unlock ho jayengi free read ke liye
+            if (isAdmin || owner || HAS_SUBSCRIPTION) return true;
+            return false;
         });
 
-        /* LOCK COUNTER METRICS RENDERS */
+        /* SET METRICS COUNTERS */
         document.getElementById("totalBooks").innerText = ALL_PRODUCTS.length;
         document.getElementById("unlockedBooks").innerText = accessibleBooks.length;
         document.getElementById("premiumBooks").innerText = ALL_PRODUCTS.length;
@@ -520,6 +522,8 @@ function renderBooks(type){
     let filtered = ALL_PRODUCTS.filter(product => {
         if(product.status && product.status !== "approved") return false;
         let owner = String(product.owner).toLowerCase() === String(user.email).toLowerCase();
+        
+        // 🚀 ALL EBOOKS ALLOWED UNRESTRICTED FOR ACTIVE SUBSCRIPTION
         let allow = isAdmin || owner || HAS_SUBSCRIPTION;
 
         if(type === "uploads") return owner;
@@ -535,9 +539,10 @@ function renderBooks(type){
     }
 
     filtered.forEach(product => {
+        let image = driveImage(product.front_cover || product.frontCover || product.image);
         let owner = String(product.owner).toLowerCase() === String(user.email).toLowerCase();
         let allow = isAdmin || owner || HAS_SUBSCRIPTION;
-        let image = driveImage(product.front_cover || product.frontCover || product.image);
+        let isPremiumTag = !allow;
 
         let button = `<button class="action-trigger-btn" onclick="openBook('${product.id}')"><i class="fa-solid fa-book-open"></i> Read Ebook</button>`;
         let manage = "";
@@ -555,7 +560,7 @@ function renderBooks(type){
                 <img class="cover-wrapper" src="${image}" onerror="this.src='https://picsum.photos/500'" alt="Book Cover" loading="lazy">
                 <h3 class="asset-title">${product.title || "Untitled Digital Asset"}</h3>
                 <div class="asset-author">by ${product.author || "Premium Creator"}</div>
-                <span class="status-badge ${allow ? '' : 'premium-tag'}">${allow ? "Unlocked" : "Premium Vault"}</span>
+                <span class="status-badge ${isPremiumTag ? 'premium-tag' : ''}">${isPremiumTag ? "Premium Vault" : "Unlocked"}</span>
                 ${button}
                 ${manage}
             </div>`;
@@ -567,10 +572,12 @@ function openBook(id){
     if(!product){ alert("Book parameters not registered."); return; }
 
     let owner = String(product.owner).toLowerCase() === String(user.email).toLowerCase();
+    
+    // 🚀 UNRESTRICTED SUBSCRIPTION VALIDATION CHECK
     let allow = isAdmin || owner || HAS_SUBSCRIPTION;
 
     if(!allow){
-        alert("Subscription / Purchase validation parameter criteria missing.");
+        alert("Subscription / Purchase validation parameter criteria missing for this premium book.");
         location.href = "subscription.html";
         return;
     }
