@@ -46,7 +46,7 @@ body{
 }
 
 /* =========================================================
-   LEFT SIDEBAR LAYOUT FRAMEWORK
+   LEFT SIDEBAR LAYOUT
    ========================================================= */
 .sidebar {
     width: 260px;
@@ -157,7 +157,6 @@ body{
 }
 .profile-avatar:hover { border-color: var(--accent-blue); transform: scale(1.05); }
 
-/* PROFILE DROPDOWN STYLES MATRIX */
 .profile-menu {
     position: absolute; top: 55px; right: 0; width: 280px; background: #0d1628; border: 1px solid #182a64; border-radius: 12px; padding: 20px; display: none; box-shadow: var(--shadow-md); z-index: 1000;
 }
@@ -279,13 +278,6 @@ body{
 }
 .btn-cart:hover{ background-color: #e2e8f0; color: var(--text-primary); }
 
-/* SCREEN SKELETON RE-RUNNERS */
-.skeleton{
-    background: linear-gradient(90deg, #ffffff 25%, #e2e8f0 50%, #ffffff 75%);
-    background-size: 200% 100%; height: 380px; border-radius: 16px; border: 1px solid var(--border-color); animation: loadingShimmer 1.4s infinite ease-in-out;
-}
-@keyframes loadingShimmer{ 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-
 .no-data {
     grid-column: 1 / -1; text-align: center; padding: 80px 20px; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 16px; color: var(--text-secondary);
 }
@@ -331,7 +323,6 @@ footer{
 </aside>
 
 <div class="main-wrapper">
-    
     <header class="topbar">
         <div class="page-title"><i class="fa-solid fa-truck-ramp-box" style="color:var(--accent-blue)"></i> Delivery & Order Processing Hub</div>
         <div class="topbar-actions">
@@ -340,7 +331,6 @@ footer{
                 <span id="cartCountBadge" class="cart-badge">0</span>
             </div>
             <img id="profile" class="profile-avatar" alt="User Avatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" onclick="toggleProfileMenuMenu()">
-            
             <div id="profileMenu" class="profile-menu">
                 <div class="profile-header">
                     <img id="menuProfileImage" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="menu-profile-image" alt="User">
@@ -360,7 +350,6 @@ footer{
     </header>
 
     <main class="content-area">
-        
         <section class="metrics-panel">
             <div class="metrics-left">
                 <h1>Active Physical Bookstore Inventory</h1>
@@ -377,7 +366,7 @@ footer{
                 </div>
                 <div class="metric-node">
                     <h3>Hub Routes</h3>
-                    <h2 id="categoryProductCount" style="color:var(--amber-warning)">3</h2>
+                    <h2 id="categoryProductCount" style="color:var(--amber-warning)">0</h2>
                 </div>
             </div>
         </section>
@@ -396,9 +385,7 @@ footer{
         </section>
 
         <div id="products" class="products-container">
-            <div class="skeleton"></div>
-            <div class="skeleton"></div>
-            <div class="skeleton"></div>
+            <div class="no-data"><i class="fa-solid fa-circle-notch fa-spin" style="font-size:32px; color:var(--accent-blue)"></i><p style="margin-top:10px;">Connecting safe API lines...</p></div>
         </div>
     </main>
 
@@ -409,7 +396,6 @@ footer{
 
 <script>
 const API = "https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
-
 let user = JSON.parse(localStorage.getItem("user") || "null");
 let cachedStoreProducts = []; 
 
@@ -433,7 +419,6 @@ function updateSessionHeaderProfile() {
         let savedName = localStorage.getItem("user_name") || "User";
         let savedImage = localStorage.getItem("user_image") || "";
         let defaultImageSrc = "https://ui-avatars.com/api/?name=" + encodeURIComponent(savedName) + "&background=2f62e9&color=fff";
-        
         let targetImg = savedImage || defaultImageSrc;
         document.getElementById("profile").src = targetImg;
         document.getElementById("menuProfileImage").src = targetImg;
@@ -452,6 +437,9 @@ async function getDB(db){
     try{
         let res = await fetch(API + "?db=" + db + "&t=" + Date.now());
         let data = await res.json();
+        // 🚀 PARSING RESPONSE WRAPPER: Extracts internal arrays if wrapped under keys safely
+        if(data && data.products) return data.products;
+        if(data && data.data) return data.data;
         return Array.isArray(data) ? data : [];
     }catch(err){
         console.error(err);
@@ -470,19 +458,27 @@ function driveImage(link){
     return link;
 }
 
-/* 🚀 100% FIXED AUTOMATED PARSING ENGINE FOR ASYNC CARD ATTACHMENTS */
 async function loadProducts(){
     let box = document.getElementById("products");
-    let products = await getDB("products");
+    let rawProductsList = await getDB("products");
     
-    cachedStoreProducts = products;
+    cachedStoreProducts = rawProductsList;
     
-    // 🚀 FLAT RECOVERY: Pulls all available inventory records cleanly
-    let approvedProducts = products.filter(function(p){ return p; });
+    // Bypass condition layer to load 100% database entries natively
+    let approvedProducts = rawProductsList.filter(function(p){ return p; });
 
-    // 🚀 INJECTED COUNTER VALUES FIXED: Forces metrics tracking fields to load exactly from database array length
-    document.getElementById("totalProductCount").innerText = approvedProducts.length;
-    document.getElementById("approvedProductCount").innerText = approvedProducts.length;
+    // 🚀 FIXED DYNAMIC BOXES METRICS MATH
+    let totalItemsCount = approvedProducts.length;
+    let uniqueCategoriesSet = new Set();
+    
+    approvedProducts.forEach(p => {
+        let cat = p.category || p.type || p.book_type || "Paperback";
+        uniqueCategoriesSet.add(cat.trim());
+    });
+
+    document.getElementById("totalProductCount").innerText = totalItemsCount;
+    document.getElementById("approvedProductCount").innerText = totalItemsCount;
+    document.getElementById("categoryProductCount").innerText = uniqueCategoriesSet.size; // Real unique types count
 
     if(approvedProducts.length === 0){
         box.innerHTML = `
@@ -496,14 +492,14 @@ async function loadProducts(){
     approvedProducts.reverse();
     let html = "";
 
-    // 🚀 CORE INNERHTML OVERWRITE FIX: Perfectly resolves dynamic keys injection straight into grid frame element string
+    // 🚀 DYNAMIC INJECTION TRACK INTO THE DISPLAY CANVAS DOM
     approvedProducts.forEach(function(p){
-        let itemTitle = p.title || p.book_title || p.name || p.bookName || p.book_name || "Premium Book Title";
-        let itemAuthor = p.author || p.book_author || p.writer || p.bookAuthor || "Premium Creator";
-        let itemPrice = p.price || p.book_price || p.rate || p.bookPrice || 0;
+        let itemTitle = p.title || p.book_title || p.name || p.book_name || "Premium Book Title";
+        let itemAuthor = p.author || p.book_author || p.writer || "Premium Creator";
+        let itemPrice = p.price || p.book_price || p.rate || 0;
         let itemImage = p.image || p.book_image || p.cover || p.front_cover || p.frontCover || "";
-        let itemCategory = p.category || p.type || p.book_type || p.bookType || "Paperback";
-        let itemId = p.id || p.book_id || p.bookId || "";
+        let itemCategory = p.category || p.type || p.book_type || "Paperback";
+        let itemId = p.id || p.book_id || "";
 
         html += `
         <div class="card" data-title="${String(itemTitle).toLowerCase()}" data-cat="${itemCategory}">
@@ -525,7 +521,6 @@ async function loadProducts(){
         `;
     });
 
-    // 🚀 INJECT INTO THE DOM FRAME: Overwrites shimmer skeleton container explicitly
     box.innerHTML = html;
     updateBasketLiveCount();
 }
@@ -544,7 +539,6 @@ function executeLiveStoreFilter() {
 function applyCategoryFilter(element, type) {
     document.querySelectorAll(".filter-chip").forEach(chip => chip.classList.remove("active"));
     element.classList.add("active");
-    
     let query = document.getElementById("storeSearchInput").value.toLowerCase();
     domGridFilterPipeline(query, element.innerText);
 }
@@ -574,7 +568,7 @@ function openProduct(id){ location.href = "book.html?id=" + id; }
 function buyNow(e, id){
     e.stopPropagation();
     if(!user){
-        showToast("<i class='fa-solid fa-circle-exclamation'></i> Login required for dynamic hub dispatch.");
+        showToast("<i class='fa-solid fa-circle-exclamation'></i> Login required for checkout dispatch.");
         setTimeout(function(){ location.href = "login.html"; }, 1500);
         return;
     }
@@ -586,7 +580,7 @@ function addCart(e, id){
     e.stopPropagation();
     let cart = JSON.parse(localStorage.getItem("cart") || "[]");
     if(cart.indexOf(id) !== -1){
-        showToast("<i class='fa-solid fa-info-circle'></i> Item already loaded inside cargo slot.");
+        showToast("<i class='fa-solid fa-info-circle'></i> Item already present in cargo slot.");
         return;
     }
     cart.push(id);
