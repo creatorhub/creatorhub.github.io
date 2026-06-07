@@ -163,7 +163,7 @@ a{text-decoration:none;color:inherit}
         <div class="compliance-row"><input type="checkbox" id="complianceCheckbox"><p>I confirm that all seller details are genuine and authorize CreatorHub to verify my seller onboarding request.</p></div>
         <div class="loader" id="loader"></div>
         <div id="status" class="status"></div>
-        <div class="nav-buttons"><button type="button" class="btn-nav" onclick="switchFormStep(2)"><i class="fa-solid fa-arrow-left"></i> Previous</button><button type="button" class="btn-nav next" style="background:#10b981" onclick="applySeller()">Submit Application <i class="fa-solid fa-shield-check"></i></button></div>
+        <div class="nav-buttons"><button type="button" class="btn-nav" onclick="switchFormStep(2)"><i class="fa-solid fa-arrow-left"></i> Previous</button><button type="button" id="submitSellerBtn" class="btn-nav next" style="background:#10b981" onclick="applySeller()">Submit Application <i class="fa-solid fa-shield-check"></i></button></div>
       </div>
     </div>
   </div>
@@ -340,6 +340,23 @@ async function applySeller(){
     });
 
     const result=await response.json();
+    if(result.blocked && result.status==="approved"){
+  loader.style.display="none";
+  const btn=document.getElementById("submitSellerBtn");
+  btn.disabled=true;
+  btn.innerHTML="Already Approved";
+  setStatusMessage("success","Seller account already approved. You cannot apply again.");
+  return;
+}
+
+if(result.blocked && result.status==="pending"){
+  loader.style.display="none";
+  const btn=document.getElementById("submitSellerBtn");
+  btn.disabled=true;
+  btn.innerHTML="Already Submitted";
+  setStatusMessage("pending","Your seller application is already pending review.");
+  return;
+}
     loader.style.display="none";
 
     if(!result.success){
@@ -361,7 +378,37 @@ async function applySeller(){
   }
 }
 
+  async function checkSellerStatus(){
+  const logged=getLoggedUser();
+  const email=logged.email;
+  if(!email)return;
+
+  try{
+    const response=await fetch(REAL_APPS_SCRIPT_API_URL+"?action=seller&email="+encodeURIComponent(email));
+    const result=await response.json();
+
+    if(result.success && result.seller){
+      const btn=document.getElementById("submitSellerBtn");
+
+      if(result.seller.status==="approved"){
+        btn.disabled=true;
+        btn.innerHTML="Already Approved";
+        setStatusMessage("success","Seller account already approved. You cannot apply again.");
+      }
+
+      if(result.seller.status==="pending"){
+        btn.disabled=true;
+        btn.innerHTML="Already Submitted";
+        setStatusMessage("pending","Your seller application is already pending review.");
+      }
+    }
+  }catch(err){
+    console.log("Seller status check failed",err);
+  }
+}
+
 updateLoginUI();
+checkSellerStatus();
 </script>
 </body>
 </html>
