@@ -1,1365 +1,651 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>
-Edit Ebook • CreatorHub
-</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CreatorHub Store | Edit Ebook Asset</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
+/* =========================================================
+   CREATORHUB ADVANCED PRODUCTION VARIABLES MATRIX
+   ========================================================= */
+:root {
+    --bg-primary: #f8fafc;       
+    --bg-secondary: #ffffff;     
+    --sidebar-dark: #0f172a;     
+    --sidebar-hover: #1e293b;    
+    --text-primary: #0f172a;     
+    --text-secondary: #475569;   
+    --text-muted: #64748b;
+    --accent-blue: #2f62e9;      
+    --accent-blue-hover: #1d4ed8;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 2px rgba(15,23,42,0.05);
+    --shadow-md: 0 12px 30px -4px rgba(15,23,42,0.06), 0 4px 12px -2px rgba(15,23,42,0.03);
+    --red-alert: #ef4444;
+    --green-success: #10b981;
+    --amber-warning: #f59e0b;
+}
 
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
 }
 
 body{
-background:
-linear-gradient(
-180deg,
-#020617 0%,
-#031127 100%
-);
-color:white;
-min-height:100vh;
-overflow-x:hidden;
-}
-
-:root{
---green:#22c55e;
---card:#0f172a;
---border:#1e293b;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    overflow-x: hidden;
 }
 
 /* =========================================================
-TOPBAR
-========================================================= */
+   LEFT FIXED GLOBAL NAVIGATION SIDEBAR 
+   ========================================================= */
+.sidebar {
+    width: 260px;
+    background-color: var(--sidebar-dark);
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    border-right: 1px solid rgba(255,255,255,0.05);
+}
+
+.sidebar-brand {
+    padding: 28px 24px;
+    font-size: 22px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.sidebar-brand span { color: var(--accent-blue); }
+
+.sidebar-menu {
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: #94a3b8;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.menu-item:hover {
+    background-color: var(--sidebar-hover);
+    color: #ffffff;
+}
+
+.menu-item.active {
+    background-color: var(--accent-blue);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(47, 98, 233, 0.25);
+}
+
+.menu-item i { width: 20px; text-align: center; }
+
+/* =========================================================
+   RIGHT SIDE WORKSPACE MAIN LAYOUT FRAME
+   ========================================================= */
+.main-wrapper {
+    margin-left: 260px; 
+    width: calc(100% - 260px);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
 .topbar{
-height:70px;
-display:flex;
-align-items:center;
-gap:18px;
-padding:0 18px;
-position:sticky;
-top:0;
-z-index:999;
-background:rgba(2,6,23,.92);
-backdrop-filter:blur(20px);
-border-bottom:1px solid rgba(255,255,255,.05);
+    height: 75px;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    position: sticky;
+    top: 0;
+    z-index: 90;
 }
 
-.back{
-font-size:24px;
-cursor:pointer;
+.page-title { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
+
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.profile-image {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+    cursor: pointer;
+}
+.profile-menu {
+    position: absolute; top: 55px; right: 0; width: 280px; background: #0d1628; border: 1px solid #182a64; border-radius: 12px; padding: 20px; display: none; box-shadow: var(--shadow-md); z-index: 1000;
+}
+.profile-menu.show { display: block; animation: subFade 0.2s ease-out; }
+.profile-header {
+    display: flex; align-items: center; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); margin-bottom: 12px;
+}
+.menu-profile-image { width: 44px; height: 44px; border-radius: 50%; }
+#menuName { color: #fff; font-size: 15px; font-weight: 800; }
+#menuEmail { margin-top: 2px; font-size: 12px; color: #63728a; word-break: break-all; }
+.profile-menu a {
+    display: flex; align-items: center; height: 42px; padding: 0 12px; border-radius: 6px; color: #e7edf8; font-size: 14px; font-weight: 700; text-decoration: none;
+}
+.profile-menu a:hover { background: #182a64; }
+.logout-btn {
+    margin-top: 12px; height: 44px; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: var(--red-alert); color: #fff; font-weight: 800; font-size: 14px; cursor: pointer;
 }
 
-.title{
-font-size:26px;
-font-weight:800;
+.content-area {
+    padding: 40px;
+    flex: 1;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
 }
 
-.title span{
-color:#4ade80;
-}
+.header-block { margin-bottom: 32px; }
+.title { font-size: 36px; font-weight: 900; letter-spacing: -0.02em; color: var(--text-primary); }
+.desc { font-size: 15px; color: var(--text-secondary); margin-top: 8px; max-width: 800px; }
 
 /* =========================================================
-CONTAINER
-========================================================= */
-
-.container{
-max-width:1100px;
-margin:auto;
-padding:25px 18px 120px;
+   METRICS INFRASTRUCTURE PANELS
+   ========================================================= */
+.metrics-panel {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 32px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
+@media(max-width: 768px) { .metrics-panel { grid-template-columns: 1fr; } }
+
+.metric-node {
+    padding: 16px;
+    border-radius: 10px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+}
+.metric-node h3 { font-size: 11px; color: var(--text-secondary); font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; }
+.metric-node h2 { font-size: 22px; font-weight: 900; color: var(--text-primary); margin-top: 6px; }
 
 /* =========================================================
-CARD
-========================================================= */
+   PREVIEW AND CANVAS SECTIONS
+   ========================================================= */
+.editor-layout-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 32px;
+}
+@media(max-width: 950px) { .editor-layout-grid { grid-template-columns: 1fr; } }
 
-.card{
-background:
-linear-gradient(
-180deg,
-rgba(15,23,42,.96),
-rgba(8,18,37,.98)
-);
-border:1px solid rgba(255,255,255,.05);
-border-radius:32px;
-padding:30px;
-position:relative;
-overflow:hidden;
-box-shadow:0 30px 80px rgba(0,0,0,.45);
-animation:fade .4s ease;
+.preview-sidebar-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    height: fit-content;
+}
+.cover-wrapper-box {
+    text-align: center;
+}
+.preview-label-text { font-size: 12px; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 10px; text-align: left; }
+.preview-element-canvas {
+    width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 8px; background: #eef3f9; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);
 }
 
-@keyframes fade{
-from{
-opacity:0;
-transform:translateY(20px);
+.main-fields-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 32px;
+    box-shadow: var(--shadow-sm);
 }
-to{
-opacity:1;
-transform:translateY(0);
+
+.input-row-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
 }
+@media(max-width: 500px) { .input-row-grid { grid-template-columns: 1fr; } }
+
+.field-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.field-group label { font-size: 12px; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.02em; }
+
+.form-input-element {
+    width: 100%; min-height: 48px; padding: 0 16px; border: 1px solid #cbd5e1; border-radius: 8px; background: #ffffff; color: var(--text-primary); font-size: 14px; outline: none; transition: border-color 0.2s; font-weight: 600;
 }
+.form-input-element:focus { border-color: var(--accent-blue); }
+
+.form-textarea-element {
+    width: 100%; min-height: 120px; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 8px; background: #ffffff; color: var(--text-primary); font-size: 14px; outline: none; resize: vertical; line-height: 1.6; font-weight: 500;
+}
+.form-textarea-element:focus { border-color: var(--accent-blue); }
+
+.file-input-wrapper {
+    border: 1px dashed #cbd5e1; padding: 14px; border-radius: 8px; background: var(--bg-primary); display: flex; align-items: center;
+}
+.file-input-wrapper input { font-size: 13px; font-weight: 600; color: var(--text-secondary); cursor: pointer; width: 100%; }
+
+/* ACTIONS SYSTEM CONTROLLERS */
+.action-trigger-row {
+    display: flex; gap: 16px; margin-top: 32px; border-top: 1px solid var(--border-color); padding-top: 24px;
+}
+.btn-control {
+    min-height: 46px; padding: 0 24px; border: none; border-radius: 6px; font-size: 14px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: opacity 0.2s;
+}
+.btn-control:hover { opacity: 0.9; }
+.btn-control.save-action { background: var(--accent-blue); color: white; flex: 2; }
+.btn-control.delete-action { background: var(--red-alert); color: white; flex: 1; }
+
+.status-alert-overlay {
+    margin-top: 20px; padding: 14px; border-radius: 8px; font-size: 14px; font-weight: 700; text-align: center; display: none;
+}
+.status-alert-overlay.success-state { display: block; background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+.status-alert-overlay.error-state { display: block; background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
 
 /* =========================================================
-HEADER
-========================================================= */
-
-.editor-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:20px;
-flex-wrap:wrap;
-margin-bottom:30px;
+   ANALYTICS ENGINE METRICS GRID SYSTEM 
+   ========================================================= */
+.analytics-section-card {
+    background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 14px; padding: 32px; box-shadow: var(--shadow-sm); margin-top: 32px;
 }
+.section-headline-text { font-size: 20px; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.01em; }
+.section-subdesc-text { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
 
-.editor-title h1{
-font-size:38px;
-font-weight:800;
+.growth-metrics-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px;
 }
+@media(max-width: 650px) { .growth-metrics-grid { grid-template-columns: 1fr 1fr; } }
+@media(max-width: 400px) { .growth-metrics-grid { grid-template-columns: 1fr; } }
 
-.editor-title span{
-color:#4ade80;
+.growth-node-card {
+    background: var(--bg-primary); border: 1px solid var(--border-color); padding: 18px; border-radius: 10px; display: flex; align-items: center; gap: 14px;
 }
-
-.editor-title p{
-margin-top:12px;
-opacity:.75;
-line-height:1.8;
-max-width:600px;
+.growth-node-icon {
+    width: 44px; height: 44px; border-radius: 50%; background: #ffffff; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: var(--shadow-sm);
 }
+.growth-node-card h4 { font-size: 20px; font-weight: 800; color: var(--text-primary); }
+.growth-node-card p { font-size: 12px; color: var(--text-muted); font-weight: 600; margin-top: 2px; }
 
-.live-badge{
-padding:12px 18px;
-border-radius:18px;
-background:rgba(34,197,94,.15);
-border:1px solid rgba(34,197,94,.25);
-color:#4ade80;
-font-weight:bold;
+.seo-optimization-gauge {
+    background: #0f172a; border-radius: 12px; padding: 24px; color: #ffffff; margin-bottom: 24px;
 }
+.gauge-title-label { font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.gauge-track-bar { width: 100%; height: 12px; background: rgba(255,255,255,0.1); border-radius: 99px; overflow: hidden; margin-bottom: 12px; }
+.gauge-fill-bar { height: 100%; background: linear-gradient(90deg, #10b981, #34d399); border-radius: 99px; transition: width 0.4s ease; }
+.gauge-desc-text { font-size: 13px; color: #94a3b8; line-height: 1.5; }
 
-/* =========================================================
-INFO GRID
-========================================================= */
-
-.info-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:18px;
-margin-bottom:30px;
+.grid-utilities-buttons {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
 }
-
-.info-box{
-background:#081225;
-padding:20px;
-border-radius:22px;
-border:1px solid rgba(255,255,255,.05);
+@media(max-width: 700px) { .grid-utilities-buttons { grid-template-columns: 1fr 1fr; } }
+.btn-utility-trigger {
+    min-height: 44px; border: 1px solid var(--border-color); border-radius: 6px; background: #ffffff; color: var(--text-secondary); font-size: 13px; font-weight: 700; cursor: pointer; transition: background 0.2s;
 }
+.btn-utility-trigger:hover { background: var(--bg-primary); color: var(--text-primary); }
 
-.info-box h3{
-font-size:13px;
-opacity:.65;
-margin-bottom:10px;
-}
-
-.info-box p{
-font-size:20px;
-font-weight:bold;
-}
-
-/* =========================================================
-PREVIEW
-========================================================= */
-
-.preview-wrap{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:24px;
-margin-bottom:35px;
-}
-
-.preview-box{
-background:#081225;
-padding:22px;
-border-radius:24px;
-border:1px solid rgba(255,255,255,.05);
-text-align:center;
-}
-
-.preview-label{
-margin-bottom:14px;
-opacity:.75;
-font-weight:bold;
-}
-
-.preview{
-width:100%;
-max-width:240px;
-height:340px;
-object-fit:cover;
-border-radius:18px;
-box-shadow:0 20px 45px rgba(0,0,0,.45);
-}
-
-/* =========================================================
-GRID
-========================================================= */
-
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
-}
-
-/* =========================================================
-GROUP
-========================================================= */
-
-.group{
-margin-top:20px;
-}
-
-.label{
-margin-bottom:10px;
-font-size:14px;
-font-weight:bold;
-opacity:.85;
-}
-
-/* =========================================================
-INPUT
-========================================================= */
-
-.input,
-.textarea,
-.select{
-width:100%;
-padding:18px;
-background:#020617;
-border:1px solid rgba(255,255,255,.06);
-border-radius:18px;
-color:white;
-font-size:15px;
-outline:none;
-transition:.3s;
-}
-
-.input:focus,
-.textarea:focus,
-.select:focus{
-border-color:#22c55e;
-box-shadow:0 0 0 4px rgba(34,197,94,.1);
-}
-
-.textarea{
-min-height:170px;
-resize:none;
-line-height:1.8;
-}
-
-/* =========================================================
-FILE
-========================================================= */
-
-.file-wrap{
-background:#081225;
-padding:18px;
-border-radius:18px;
-border:1px dashed rgba(255,255,255,.1);
-}
-
-.file{
-width:100%;
-}
-
-/* =========================================================
-BUTTONS
-========================================================= */
-
-.actions{
-display:flex;
-gap:18px;
-margin-top:35px;
-}
-
-.btn{
-flex:1;
-padding:18px;
-border:none;
-border-radius:20px;
-font-size:16px;
-font-weight:800;
-cursor:pointer;
-transition:.3s;
-}
-
-.btn:hover{
-transform:translateY(-3px);
-}
-
-.save{
-background:
-linear-gradient(
-90deg,
-#16a34a,
-#4ade80
-);
-color:white;
-}
-
-.delete{
-background:
-linear-gradient(
-90deg,
-#dc2626,
-#ef4444
-);
-color:white;
-}
-
-/* =========================================================
-STATUS
-========================================================= */
-
-.status{
-margin-top:20px;
-padding:16px;
-border-radius:18px;
-display:none;
-font-weight:bold;
-}
-
-.success{
-background:rgba(34,197,94,.15);
-color:#4ade80;
-}
-
-.error{
-background:rgba(239,68,68,.15);
-color:#f87171;
-}
-
-/* =========================================================
-EXTRA
-========================================================= */
-
-.extra-section{
-margin-top:40px;
-background:#081225;
-padding:30px;
-border-radius:30px;
-border:1px solid rgba(255,255,255,.05);
-}
-
-.section-title{
-font-size:32px;
-font-weight:800;
-margin-bottom:14px;
-}
-
-.section-desc{
-opacity:.8;
-line-height:1.9;
-margin-bottom:30px;
-}
-
-.growth-grid{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:18px;
-margin-bottom:35px;
-}
-
-.growth-card{
-background:#020617;
-padding:22px;
-border-radius:22px;
-display:flex;
-align-items:center;
-gap:16px;
-border:1px solid rgba(255,255,255,.05);
-}
-
-.growth-icon{
-width:60px;
-height:60px;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:28px;
-background:rgba(34,197,94,.12);
-}
-
-.growth-card h3{
-font-size:26px;
-font-weight:800;
-}
-
-.growth-card p{
-opacity:.7;
-margin-top:4px;
-}
-
-.insight-box,
-.pro-note{
-background:#020617;
-padding:28px;
-border-radius:26px;
-line-height:2;
-margin-bottom:30px;
-}
-
-.insight-title,
-.pro-title{
-font-size:24px;
-font-weight:800;
-margin-bottom:14px;
-}
-
-.seo-box{
-background:
-linear-gradient(
-90deg,
-#052e16,
-#064e3b
-);
-padding:28px;
-border-radius:26px;
-margin-bottom:30px;
-}
-
-.seo-title{
-font-size:24px;
-font-weight:800;
-margin-bottom:18px;
-}
-
-.seo-bar{
-width:100%;
-height:18px;
-background:rgba(255,255,255,.12);
-border-radius:50px;
-overflow:hidden;
-margin-bottom:18px;
-}
-
-.seo-fill{
-height:100%;
-background:
-linear-gradient(
-90deg,
-#22c55e,
-#4ade80
-);
-border-radius:50px;
-}
-
-.action-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-margin-bottom:30px;
-}
-
-.action-btn{
-padding:18px;
-border:none;
-border-radius:20px;
-background:
-linear-gradient(
-90deg,
-#16a34a,
-#4ade80
-);
-color:white;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
-}
-
-/* =========================================================
-MOBILE
-========================================================= */
-
-@media(max-width:850px){
-
-.preview-wrap,
-.grid,
-.info-grid,
-.growth-grid,
-.action-grid{
-grid-template-columns:1fr;
-}
-
-.actions{
-flex-direction:column;
-}
-
-.editor-title h1{
-font-size:28px;
-}
-
-.card{
-padding:20px;
-}
-
-}
-
+@keyframes subFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 </style>
-
 </head>
 
 <body>
 
-<div class="topbar">
+<aside class="sidebar">
+    <div class="sidebar-brand">Creator<span>Hub</span></div>
+    <div class="sidebar-menu">
+        <div class="menu-item" onclick="location.href='index.html'"><i class="fa-solid fa-house"></i> <span>Home</span></div>
+        <div class="menu-item" onclick="location.href='dashboard.html'"><i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span></div>
+        <div class="menu-item" onclick="location.href='products.html'"><i class="fa-solid fa-bag-shopping"></i> <span>Product Store</span></div>
+        <div class="menu-item active" onclick="location.href='library1.html'"><i class="fa-solid fa-book-open"></i> <span>Library</span></div>
+        <div class="menu-item" onclick="location.href='wallet1.html'"><i class="fa-solid fa-wallet"></i> <span>Wallet</span></div>
+        <div class="menu-item" onclick="location.href='settings.html'"><i class="fa-solid fa-gear"></i> <span>Settings</span></div>
+    </div>
+</aside>
 
-<div class="back"
-onclick="history.back()">
-⬅
-</div>
+<div class="main-wrapper">
+    <header class="topbar">
+        <div class="page-title"><i class="fa-solid fa-pen-to-square" style="color: var(--accent-blue);"></i> Ebook Management Workspace</div>
+        <div class="topbar-actions">
+            <img id="headerAvatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="profile-avatar" onclick="toggleDropdownMenuMenu()">
+            <div id="profileMenu" class="profile-menu">
+                <div class="profile-header">
+                    <img id="menuProfileImage" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="menu-profile-image" alt="User">
+                    <div>
+                        <div id="menuName">CreatorHub User</div>
+                        <div id="menuEmail">user@email.com</div>
+                    </div>
+                </div>
+                <a href="profile.html">My Profile</a>
+                <a href="seller-apply.html">Become Seller</a>
+                <a href="tranding.html">Trending Books</a>
+                <a class="active" href="library1.html">Library</a>
+                <a href="topselling.html">Top Selling</a>
+                <div class="logout-btn" onclick="logoutSequenceTrigger()">Logout</div>
+            </div>
+        </div>
+    </header>
 
-<div class="title">
-Edit <span>Ebook</span>
-</div>
-
-</div>
-
-<div class="container">
-
-<div id="app"></div>
-
+    <main class="content-area">
+        <div id="app">
+            <div class="no-data"><i class="fa-solid fa-circle-notch fa-spin" style="font-size:32px; color:var(--accent-blue)"></i><p style="margin-top:10px;">Interfacing storage cache streams...</p></div>
+        </div>
+    </main>
 </div>
 
 <script>
+const PRODUCT_API = "https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
 
-/* =========================================================
-API
-========================================================= */
+let user = JSON.parse(localStorage.getItem("user") || "null");
+if(!user){ location.href = "login.html"; }
 
-const PRODUCT_API =
-"https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec"
+let BOOK = JSON.parse(localStorage.getItem("viewerBook") || "null");
 
-/* =========================================================
-USER
-========================================================= */
-
-let user =
-JSON.parse(
-localStorage.getItem("user") || "null"
-)
-
-if(!user){
-
-location.href =
-"login.html"
-
+function toggleDropdownMenuMenu(){
+    document.getElementById("profileMenu").classList.toggle("show");
 }
 
-/* =========================================================
-BOOK
-========================================================= */
+window.addEventListener("click", function(e){
+    let wrap = document.querySelector(".topbar-actions");
+    if(wrap && !wrap.contains(e.target)){
+        document.getElementById("profileMenu").classList.remove("show");
+    }
+});
 
-let BOOK =
-JSON.parse(
-localStorage.getItem("viewerBook") || "null"
-)
+function logoutSequenceTrigger(){ localStorage.clear(); window.location.href = "login.html"; }
 
-if(!BOOK){
-
-document.body.innerHTML =
-"<h1 style='padding:40px'>Book Not Found</h1>"
-
+function updateSessionProfileUI() {
+    let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
+    let email = localStorage.getItem("creatorhub_profile_email");
+    if(cachedUser && email){
+        try {
+            let data = JSON.parse(cachedUser)[email];
+            if(data && data.profile_image){
+                let link = driveImage(data.profile_image);
+                document.getElementById("headerAvatar").src = link;
+                document.getElementById("menuProfileImage").src = link;
+                document.getElementById("menuName").innerText = data.name || "CreatorHub User";
+                document.getElementById("menuEmail").innerText = data.email || email;
+            }
+        } catch(e) { console.log("Header image parsing warning."); }
+    }
 }
-
-/* =========================================================
-IMAGE
-========================================================= */
 
 function driveImage(link){
-
-if(!link){
-
-return "https://picsum.photos/400"
-
-}
-
-let id = ""
-
-if(link.includes("id=")){
-
-id =
-link.split("id=")[1]
-.split("&")[0]
-
-}
-
-else if(link.includes("/d/")){
-
-id =
-link.split("/d/")[1]
-.split("/")[0]
-
-}
-
-else{
-
-id = link
-
-}
-
-return `https://drive.google.com/thumbnail?id=${id}&sz=w1000&t=${Date.now()}`
-
+    if(!link) return "https://picsum.photos/500";
+    let id = "";
+    if(link.includes("id=")){ id = link.split("id=")[1].split("&")[0]; }
+    else if(link.includes("/d/")){ id = link.split("/d/")[1].split("/")[0]; }
+    else if(link.includes("/file/d/")){ id = link.split("/file/d/")[1].split("/")[0]; }
+    else { id = link; }
+    return "https://drive.google.com/thumbnail?id=" + id + "&sz=w500";
 }
 
 async function refreshBook(){
-
-try{
-
-let res =
-await fetch(
-
-PRODUCT_API +
-"?action=products&t=" +
-Date.now()
-
-)
-
-let data =
-await res.json()
-
-let products =
-data.products || []
-
-let latest =
-products.find(p =>
-
-String(p.id) ===
-String(BOOK.id)
-
-)
-
-if(latest){
-
-BOOK = latest
-
-localStorage.setItem(
-"viewerBook",
-JSON.stringify(BOOK)
-)
-
+    try{
+        let res = await fetch(PRODUCT_API + "?db=products&t=" + Date.now());
+        let data = await res.json();
+        let products = Array.isArray(data) ? data : (data.products || []);
+        
+        let targetId = localStorage.getItem("editBookId") || (BOOK ? BOOK.id : "");
+        let latest = products.find(p => String(p.id) === String(targetId));
+        
+        if(latest){
+            BOOK = latest;
+            localStorage.setItem("viewerBook", JSON.stringify(BOOK));
+        }
+        render();
+    }catch(err){
+        console.error(err);
+        render();
+    }
 }
-
-render()
-
-}catch(err){
-
-console.log(err)
-
-render()
-
-}
-
-}
-
-/* =========================================================
-RENDER
-========================================================= */
 
 function render(){
-
-let trending =
-Number(BOOK.trending || 0)
-
-document.getElementById("app")
-.innerHTML = `
-
-<div class="card">
-
-<div class="editor-header">
-
-<div class="editor-title">
-
-<h1>
-Edit <span>Your Ebook</span>
-</h1>
-
-<p>
-Update ebook details, optimize metadata and manage your digital publishing professionally.
-</p>
-
-</div>
-
-<div class="live-badge">
-🟢 Live Product
-</div>
-
-</div>
-
-<div class="info-grid">
-
-<div class="info-box">
-<h3>BOOK ID</h3>
-<p>#${BOOK.id}</p>
-</div>
-
-<div class="info-box">
-<h3>STATUS</h3>
-<p>${BOOK.status || "Published"}</p>
-</div>
-
-<div class="info-box">
-<h3>AUTHOR</h3>
-<p>${BOOK.author || "Unknown"}</p>
-</div>
-
-</div>
-
-<div class="preview-wrap">
-
-<div class="preview-box">
-
-<div class="preview-label">
-📕 Front Cover
-</div>
-
-<img
-id="frontPreview"
-class="preview"
-src="${driveImage(BOOK.front_cover)}"
->
-
-</div>
-
-<div class="preview-box">
-
-<div class="preview-label">
-📘 Back Cover
-</div>
-
-<img
-id="backPreview"
-class="preview"
-src="${driveImage(BOOK.back_cover)}"
->
-
-</div>
-
-</div>
-
-<div class="grid">
-
-<div class="group">
-
-<div class="label">
-📖 Book Title
-</div>
-
-<input
-id="title"
-class="input"
-value="${BOOK.title || ""}"
->
-
-</div>
-
-<div class="group">
-
-<div class="label">
-✍️ Author Name
-</div>
-
-<input
-id="author"
-class="input"
-value="${BOOK.author || ""}"
->
-
-</div>
-
-</div>
-
-<div class="group">
-
-<div class="label">
-📝 Description
-</div>
-
-<textarea
-id="description"
-class="textarea"
->${BOOK.description || ""}</textarea>
-
-</div>
-
-<div class="grid">
-
-<div class="group">
-
-<div class="label">
-📂 Category
-</div>
-
-<input
-id="category"
-class="input"
-value="${BOOK.category || ""}"
->
-
-</div>
-
-<div class="group">
-
-<div class="label">
-💰 Price
-</div>
-
-<input
-id="price"
-class="input"
-type="number"
-value="${BOOK.price || 0}"
->
-
-</div>
-
-</div>
-
-<div class="grid">
-
-<div class="group">
-
-<div class="label">
-🖼 Front Cover
-</div>
-
-<div class="file-wrap">
-
-<input
-type="file"
-class="file"
-id="frontFile"
-accept="image/*"
-onchange="previewFront(event)"
->
-
-</div>
-
-</div>
-
-<div class="group">
-
-<div class="label">
-🖼 Back Cover
-</div>
-
-<div class="file-wrap">
-
-<input
-type="file"
-class="file"
-id="backFile"
-accept="image/*"
-onchange="previewBack(event)"
->
-
-</div>
-
-</div>
-
-</div>
-
-<div id="status" class="status"></div>
-
-<div class="actions">
-
-<button
-class="btn save"
-id="saveBtn"
-onclick="saveBook()">
-💾 Save Changes
-</button>
-
-<button
-class="btn delete"
-onclick="deleteBook()">
-🗑 Delete Ebook
-</button>
-
-</div>
-
-</div>
-
-<div class="extra-section">
-
-<div class="section-title">
-Ebook Growth Dashboard
-</div>
-
-<p class="section-desc">
-Real CreatorHub analytics powered by your live ebook performance data.
-</p>
-
-<div class="growth-grid">
-
-<div class="growth-card">
-
-<div class="growth-icon">
-📚
-</div>
-
-<div>
-
-<h3>
-${Number(BOOK.reads || 0).toLocaleString()}
-</h3>
-
-<p>
-Total Reads
-</p>
-
-</div>
-
-</div>
-
-<div class="growth-card">
-
-<div class="growth-icon">
-⭐
-</div>
-
-<div>
-
-<h3>
-${BOOK.rating || "0.0"}
-</h3>
-
-<p>
-Average Rating
-</p>
-
-</div>
-
-</div>
-
-<div class="growth-card">
-
-<div class="growth-icon">
-💰
-</div>
-
-<div>
-
-<h3>
-₹${Number(BOOK.revenue || 0).toLocaleString()}
-</h3>
-
-<p>
-Revenue
-</p>
-
-</div>
-
-</div>
-
-<div class="growth-card">
-
-<div class="growth-icon">
-🔥
-</div>
-
-<div>
-
-<h3>
-${trending}%
-</h3>
-
-<p>
-Trending
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="insight-box">
-
-<div class="insight-title">
-📈 Author Insights
-</div>
-
-<p>
-
-"${BOOK.title}" currently has
-${BOOK.reads || 0} total reads.
-
-This ebook belongs to
-"${BOOK.category || "General"}"
-category and is building
-reader engagement through
-consistent visibility and
-professional branding.
-
-</p>
-
-</div>
-
-<div class="seo-box">
-
-<div class="seo-title">
-🎯 SEO Optimization Score
-</div>
-
-<div class="seo-bar">
-
-<div
-class="seo-fill"
-style="width:${trending}%">
-</div>
-
-</div>
-
-<p>
-
-Your ebook currently has
-${trending}% marketplace visibility.
-
-Optimizing title keywords,
-description quality and
-category targeting improves
-organic discoverability.
-
-</p>
-
-</div>
-
-<div class="action-grid">
-
-<button class="action-btn">
-📊 View Analytics
-</button>
-
-<button class="action-btn">
-💬 Reader Reviews
-</button>
-
-<button class="action-btn">
-📢 Promote Ebook
-</button>
-
-<button class="action-btn">
-🚀 Boost Visibility
-</button>
-
-</div>
-
-<div class="pro-note">
-
-<div class="pro-title">
-👑 Professional Publishing Tips
-</div>
-
-<p>
-
-Consistent branding, optimized
-descriptions and quality cover
-design improve conversion and
-reader trust across marketplaces.
-
-</p>
-
-</div>
-
-</div>
-
-`
-
+    if(!BOOK){
+        document.getElementById("app").innerHTML = "<div class='main-fields-card'><h3 style='text-align:center; color:var(--red-alert)'>Operational Warning: No active ebook reference selected under the session cache.</h3></div>";
+        return;
+    }
+
+    let trendingValue = Number(BOOK.trending || 0);
+    let frontImage = driveImage(BOOK.front_cover || BOOK.cover || BOOK.image);
+    let backImage = driveImage(BOOK.back_cover || "");
+
+    document.getElementById("app").innerHTML = `
+        <div class="header-block">
+            <h1 class="title">Modify <span>Product Metadata</span></h1>
+            <p class="desc">Tweak structural database configurations properties strings parameters to update catalog information mappings.</p>
+        </div>
+
+        <section class="metrics-panel">
+            <div class="metric-node"><h3>PRODUCT ID</h3><h2>#${BOOK.id}</h2></div>
+            <div class="metric-node"><h3>CATALOG STATUS</h3><h2 style="color:var(--green-success)">${BOOK.status || BOOK.ai_status || "Approved"}</h2></div>
+            <div class="metric-node"><h3>OWNER ACCOUNT</h3><h2>${BOOK.author || "Premium Creator"}</h2></div>
+        </section>
+
+        <div class="editor-layout-grid">
+            
+            <div class="preview-sidebar-card">
+                <div class="cover-wrapper-box">
+                    <div class="preview-label-text"><i class="fa-solid fa-file-image"></i> Front Cover Art</div>
+                    <img id="frontPreview" class="preview-element-canvas" src="${frontImage}" onerror="this.src='https://picsum.photos/500'">
+                </div>
+                <div class="cover-wrapper-box">
+                    <div class="preview-label-text"><i class="fa-solid fa-file-image"></i> Back Cover Art</div>
+                    <img id="backPreview" class="preview-element-canvas" src="${backImage}" onerror="this.src='https://picsum.photos/500'">
+                </div>
+            </div>
+
+            <div class="main-fields-card">
+                <div class="input-row-grid">
+                    <div class="field-group">
+                        <label>Book / solution Title</label>
+                        <input id="title" class="form-input-element" value="${escapeHTML(BOOK.title || "")}">
+                    </div>
+                    <div class="field-group">
+                        <label>Author / Publisher Metadata</label>
+                        <input id="author" class="form-input-element" value="${escapeHTML(BOOK.author || "")}">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>Product Long Copy Description</label>
+                    <textarea id="description" class="form-textarea-element">${escapeHTML(BOOK.description || "")}</textarea>
+                </div>
+
+                <div class="input-row-grid">
+                    <div class="field-group">
+                        <label>Catalog Category Filter Tag</label>
+                        <input id="category" class="form-input-element" value="${escapeHTML(BOOK.category || BOOK.type || "Paperback")}">
+                    </div>
+                    <div class="field-group">
+                        <label>Listing Rate Pricing (INR)</label>
+                        <input id="price" class="form-input-element" type="number" value="${BOOK.price || 0}">
+                    </div>
+                </div>
+
+                <div class="input-row-grid">
+                    <div class="field-group">
+                        <label>Upload New Front Cover Image</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" id="frontFile" accept="image/*" onchange="previewFrontImage(event)">
+                        </div>
+                    </div>
+                    <div class="field-group">
+                        <label>Upload New Back Cover Image</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" id="backFile" accept="image/*" onchange="previewBackImage(event)">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="statusNotificationBlock" class="status-alert-overlay"></div>
+
+                <div class="action-trigger-row">
+                    <button class="btn-control save-action" id="saveChangesBtn" onclick="processMetadataSave()"><i class="fa-solid fa-floppy-disk"></i> Save Core Changes</button>
+                    <button class="btn-control delete-action" onclick="processCatalogItemDeletion()"><i class="fa-solid fa-trash-can"></i> Remove Product</button>
+                </div>
+            </div>
+        </div>
+
+        <section class="analytics-section-card">
+            <h2 class="section-headline-text">Live Warehouse Performance Metrics</h2>
+            <p class="section-subdesc-text">Dynamic reporting parsed from platform transactional records caches strings parameters loops.</p>
+            
+            <div class="growth-metrics-grid">
+                <div class="growth-node-card"><div class="growth-node-icon">📚</div><div><h4>${Number(BOOK.reads || 0).toLocaleString()}</h4><p>Total Conversions</p></div></div>
+                <div class="growth-node-card"><div class="growth-node-icon">⭐</div><div><h4>${BOOK.rating || "5.0"}</h4><p>Quality Score</p></div></div>
+                <div class="growth-node-card"><div class="growth-node-icon">₹</div><div><h4>${Number(BOOK.revenue || 0).toLocaleString()}</h4><p>Gross Earnings</p></div></div>
+                <div class="growth-node-card"><div class="growth-node-icon">🔥</div><div><h4>${trendingValue}%</h4><p>Hub Velocity</p></div></div>
+            </div>
+
+            <div class="seo-optimization-gauge">
+                <div class="gauge-title-label"><i class="fa-solid fa-bullseye" style="color:var(--green-success)"></i> Global Marketplace Distribution Visibility</div>
+                <div class="gauge-track-bar">
+                    <div class="gauge-fill-bar" style="width:${trendingValue || 50}%"></div>
+                </div>
+                <p class="gauge-desc-text">Your product listing is currently holding a ${trendingValue || 50}% logistics route dispatch speed visibility index score tag inside regional hub pipelines clusters models.</p>
+            </div>
+
+            <div class="grid-utilities-buttons">
+                <button class="btn-utility-trigger" onclick="alert('Parsing advanced log files...')">View Dispatch Logs</button>
+                <button class="btn-utility-trigger" onclick="alert('Accessing review feedback grids...')">Reviews Matrix</button>
+                <button class="btn-utility-trigger" onclick="alert('Generating cargo inventory tags...')">Print barcodes</button>
+                <button class="btn-utility-trigger" onclick="alert('Initializing hub optimization algorithm...')">Optimize Visibility</button>
+            </div>
+        </section>
+    `;
 }
 
-refreshBook()
-
-/* =========================================================
-PREVIEW
-========================================================= */
-
-function previewFront(e){
-
-let file =
-e.target.files[0]
-
-if(file){
-
-document.getElementById(
-"frontPreview"
-).src =
-
-URL.createObjectURL(file)
-
+function previewFrontImage(e){
+    let file = e.target.files[0];
+    if(file){ document.getElementById("frontPreview").src = URL.createObjectURL(file); }
 }
 
+function previewBackImage(e){
+    let file = e.target.files[0];
+    if(file){ document.getElementById("backPreview").src = URL.createObjectURL(file); }
 }
 
-function previewBack(e){
-
-let file =
-e.target.files[0]
-
-if(file){
-
-document.getElementById(
-"backPreview"
-).src =
-
-URL.createObjectURL(file)
-
+function escapeHTML(str){
+    return String(str).replace(/[&<>"']/g, function(m){
+        return({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;' })[m]
+    });
 }
 
+function toggleNotificationState(msg, type){
+    let box = document.getElementById("statusNotificationBlock");
+    box.style.display = "block";
+    box.className = "status-alert-overlay " + (type === "success" ? "success-state" : "error-state");
+    box.innerHTML = msg;
 }
 
-/* =========================================================
-UPLOAD MOCK
-========================================================= */
+/* 🚀 DISPATCH BLOCK SAVE CONTEXT TO MAIN MACRO ENDPOINT */
+async function processMetadataSave(){
+    let btn = document.getElementById("saveChangesBtn");
+    btn.innerHTML = "<i class='fa-solid fa-spinner fa-spin'></i> Syncing Cloud Matrix...";
+    btn.disabled = true;
 
-async function uploadToDrive(file){
+    try{
+        let titleVal = document.getElementById("title").value.trim();
+        let authorVal = document.getElementById("author").value.trim();
+        let descVal = document.getElementById("description").value.trim();
+        let catVal = document.getElementById("category").value.trim();
+        let priceVal = document.getElementById("price").value;
 
-return new Promise(resolve=>{
+        let bodyPayload = {
+            action: "updateBook",
+            id: BOOK.id,
+            title: titleVal,
+            author: authorVal,
+            description: descVal,
+            category: catVal,
+            price: priceVal,
+            front_cover: BOOK.front_cover || "",
+            back_cover: BOOK.back_cover || "",
+            email: user.email
+        };
 
-setTimeout(()=>{
+        let res = await fetch(PRODUCT_API, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain" },
+            body: JSON.stringify(bodyPayload)
+        });
+        
+        let data = await res.json();
 
-resolve(
-"https://drive.google.com/file/d/demo"
-)
+        // Overwrite local memory caches
+        BOOK.title = titleVal;
+        BOOK.author = authorVal;
+        BOOK.description = descVal;
+        BOOK.category = catVal;
+        BOOK.price = priceVal;
+        localStorage.setItem("viewerBook", JSON.stringify(BOOK));
 
-},1000)
+        toggleNotificationState("🎉 Core Listing Metadata Synchronized Successfully inside Database.", "success");
+        btn.innerHTML = "✅ Database Synced";
+        setTimeout(() => { location.reload(); }, 1200);
 
-})
-
+    }catch(err){
+        toggleNotificationState("System Warning Trace: " + err.message, "error");
+        btn.innerHTML = "<i class='fa-solid fa-floppy-disk'></i> Save Core Changes";
+        btn.disabled = false;
+    }
 }
 
-/* =========================================================
-STATUS
-========================================================= */
+async function processCatalogItemDeletion(){
+    let ok = confirm("Are you completely sure you want to remove this digital entry reference item listing from the active hub storage matrices layout?");
+    if(!ok) return;
 
-function showStatus(msg,type){
-
-let box =
-document.getElementById("status")
-
-box.style.display =
-"block"
-
-box.className =
-"status " + type
-
-box.innerHTML = msg
-
+    try{
+        await fetch(PRODUCT_API, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain" },
+            body: JSON.stringify({ action: "deleteBook", id: BOOK.id, email: user.email })
+        });
+        alert("Product instance deleted completely from dataset.");
+        location.href = "library1.html";
+    }catch(err){ alert("Operational Anomaly: " + err.message); }
 }
 
-/* =========================================================
-SAVE
-========================================================= */
-
-async function saveBook(){
-
-let btn =
-document.getElementById("saveBtn")
-
-btn.innerHTML =
-"Saving..."
-
-btn.disabled = true
-
-try{
-
-let title =
-document.getElementById("title")
-.value.trim()
-
-let author =
-document.getElementById("author")
-.value.trim()
-
-let description =
-document.getElementById("description")
-.value.trim()
-
-let category =
-document.getElementById("category")
-.value.trim()
-
-let price =
-document.getElementById("price")
-.value
-
-let frontCover =
-BOOK.front_cover || ""
-
-let backCover =
-BOOK.back_cover || ""
-
-let frontFile =
-document.getElementById("frontFile")
-.files[0]
-
-let backFile =
-document.getElementById("backFile")
-.files[0]
-
-if(frontFile){
-
-frontCover =
-await uploadToDrive(frontFile)
-
-}
-
-if(backFile){
-
-backCover =
-await uploadToDrive(backFile)
-
-}
-
-let body = {
-
-action:"updateBook",
-
-id:BOOK.id,
-
-title,
-author,
-description,
-category,
-price,
-
-front_cover:frontCover,
-back_cover:backCover,
-
-email:user.email
-
-}
-
-let res =
-await fetch(PRODUCT_API,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"text/plain"
-},
-
-body:JSON.stringify(body)
-
-})
-
-let data =
-await res.json()
-
-BOOK.title = title
-BOOK.author = author
-BOOK.description = description
-BOOK.category = category
-BOOK.price = price
-
-BOOK.front_cover = frontCover
-BOOK.back_cover = backCover
-
-localStorage.setItem(
-"viewerBook",
-JSON.stringify(BOOK)
-)
-
-showStatus(
-"✅ Ebook Updated Successfully",
-"success"
-)
-
-btn.innerHTML =
-"✅ Saved"
-
-setTimeout(()=>{
-
-location.reload()
-
-},1000)
-
-}catch(err){
-
-showStatus(
-err.message,
-"error"
-)
-
-btn.innerHTML =
-"💾 Save Changes"
-
-btn.disabled = false
-
-}
-
-}
-
-/* =========================================================
-DELETE
-========================================================= */
-
-async function deleteBook(){
-
-let ok =
-confirm(
-"Delete this ebook?"
-)
-
-if(!ok) return
-
-try{
-
-await fetch(PRODUCT_API,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"text/plain"
-},
-
-body:JSON.stringify({
-
-action:"deleteBook",
-
-id:BOOK.id,
-
-email:user.email
-
-})
-
-})
-
-alert("Ebook Deleted")
-
-location.href =
-"library.html"
-
-}catch(err){
-
-alert(err.message)
-
-}
-
-}
-
+updateSessionProfileUI();
+refreshBook();
 </script>
 
 </body>
