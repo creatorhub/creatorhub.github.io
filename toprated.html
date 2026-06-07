@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Highest Rated Books • CreatorHub</title>
+<title>Highest Rated Books • CreatorHub Marketplace</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
@@ -21,9 +21,10 @@
     --accent-blue: #2f62e9;      
     --accent-blue-hover: #1d4ed8;
     --border-color: #e2e8f0;
-    --shadow-sm: 0 1px 2px rgba(15,23,42,0.05);
-    --shadow-md: 0 12px 30px -4px rgba(15,23,42,0.06), 0 4px 12px -2px rgba(15,23,42,0.03);
+    --shadow-sm: 0 1px 3px rgba(15,23,42,0.05);
+    --shadow-md: 0 20px 40px -4px rgba(15,23,42,0.08), 0 8px 16px -2px rgba(15,23,42,0.03);
     --amber-warning: #f59e0b;
+    --green-success: #10b981;
 }
 
 *{
@@ -57,7 +58,7 @@ body{
 }
 
 .back-arrow {
-    font-size: 20px;
+    font-size: 18px;
     color: var(--text-secondary);
     cursor: pointer;
     display: flex;
@@ -85,147 +86,189 @@ body{
    WORKSPACE CONTENT AND CONTAINER AREA
    ========================================================= */
 .container{
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 24px 120px;
+    padding: 48px 24px 120px;
 }
 
 .header-block {
-    margin-bottom: 36px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 24px;
 }
 .header-block h1 {
-    font-size: 34px;
+    font-size: 36px;
     font-weight: 900;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     color: var(--text-primary);
 }
 .header-block p {
     font-size: 15px;
     color: var(--text-secondary);
-    margin-top: 8px;
+    margin-top: 10px;
     line-height: 1.6;
+    max-width: 800px;
 }
 
 /* =========================================================
-   DYNAMIC LIST RENDER MATRIX PIPELINE
+   DYNAMIC LIST RESPONSIVE GRID PLATFORM (3 COLUMNS)
    ========================================================= */
-.list{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.grid-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 32px;
     animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* COMPONENT CARDS SPECIFICATION STYLES */
 .card{
-    display: flex;
-    gap: 24px;
     background: var(--bg-secondary);
-    padding: 24px;
-    border-radius: 16px;
+    border-radius: 20px;
     border: 1px solid var(--border-color);
     box-shadow: var(--shadow-sm);
     cursor: pointer;
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    align-items: center;
-}
-.card:hover{
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-    border-color: rgba(47, 98, 233, 0.15);
-}
-
-@media(max-width: 600px) {
-    .card { flex-direction: column; align-items: flex-start; gap: 16px; }
-}
-
-.card img{
-    width: 100px;
-    aspect-ratio: 2/3;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(15,23,42,0.06);
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-primary);
-}
-@media(max-width: 600px) { .card img { width: 90px; } }
-
-.info{
-    flex: 1;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    overflow: hidden;
+    position: relative;
+}
+.card:hover{
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(47, 98, 233, 0.2);
 }
 
-.name-wrapper {
+.image-box {
+    width: 100%;
+    aspect-ratio: 16/10;
+    background-color: var(--bg-primary);
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid var(--border-color);
     display: flex;
     align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+}
+.card img{
+    height: 100%;
+    width: auto;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 12px 24px rgba(15,23,42,0.12);
+    transition: transform 0.3s ease;
+}
+.card:hover img {
+    transform: scale(1.04);
 }
 
-.name{
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--text-primary);
-    line-height: 1.3;
+.info{
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.badge-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
 }
 
 .badge{
     font-size: 11px;
-    background: #fef3c7;
-    color: #b45309;
-    padding: 4px 10px;
+    background: #fff7ed;
+    color: #c2410c;
+    padding: 4px 12px;
     border-radius: 99px;
-    font-weight: 700;
-    border: 1px solid #fde68a;
-    letter-spacing: 0.02em;
+    font-weight: 800;
+    border: 1px solid #ffedd5;
     text-transform: uppercase;
+    letter-spacing: 0.03em;
 }
 
 .rating-row{
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 600;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 700;
     color: var(--text-secondary);
+    margin-bottom: 10px;
 }
-.stars-string { color: var(--amber-warning); font-size: 15px; letter-spacing: 2px; }
-.numeric-score { color: var(--text-primary); font-weight: 700; }
+.stars-string { color: var(--amber-warning); font-size: 14px; letter-spacing: 1px; }
+.numeric-score { color: var(--text-primary); font-weight: 900; font-size: 14px; }
+
+.name{
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.4;
+    min-height: 50px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+.author-name {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.bottom-row {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.price-tag {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--accent-blue);
+    letter-spacing: -0.02em;
+}
 
 .buy{
-    margin-top: 8px;
-    padding: 10px 20px;
+    padding: 10px 18px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    background: var(--accent-blue);
+    background: var(--text-primary);
     color: #ffffff;
     font-weight: 800;
     font-size: 13px;
-    transition: background 0.2s ease, transform 0.2s;
-    width: fit-content;
+    transition: all 0.2s ease;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
 .buy:hover{
-    background-color: var(--accent-blue-hover);
-    transform: scale(1.02);
+    background-color: var(--accent-blue);
+    box-shadow: 0 4px 12px rgba(47, 98, 233, 0.15);
 }
 
 .no-data {
+    grid-column: 1 / -1;
     text-align: center;
-    padding: 80px 20px;
+    padding: 100px 20px;
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    border-radius: 16px;
+    border-radius: 20px;
     color: var(--text-secondary);
 }
 
 @keyframes fadeUp{
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(24px); }
     to { opacity: 1; transform: translateY(0); }
 }
 </style>
@@ -235,25 +278,25 @@ body{
 
 <div class="topbar">
     <div class="back-arrow" onclick="history.back()"><i class="fa-solid fa-arrow-left"></i></div>
-    <div class="page-title">Marketplace <span>Catalog</span></div>
+    <div class="page-title">Creator<span>Hub</span> Marketplace</div>
 </div>
 
 <div class="container">
     <div class="header-block">
         <h1>Highest Rated Collections</h1>
-        <p>Explore elite premium resource listings sorted by global reader feedback and analytical verification matrices loops.</p>
+        <p>Browse through our real-time aggregated index of top-performing digital assets and verified creator ebooks, systematically ordered based on automated structural customer satisfaction indexes metrics.</p>
     </div>
 
-    <div id="books" class="list">
+    <div id="books" class="grid-container">
         <div class="no-data">
-            <i class="fa-solid fa-circle-notch fa-spin" style="font-size:32px; color:var(--accent-blue)"></i>
-            <p style="margin-top:12px; font-weight: 600;">Interfacing transactional review datasets...</p>
+            <i class="fa-solid fa-circle-notch fa-spin" style="font-size:36px; color:var(--accent-blue)"></i>
+            <p style="margin-top:16px; font-weight: 700; letter-spacing: -0.01em;">Calculating descending evaluation metrics indexes...</p>
         </div>
     </div>
 </div>
 
 <script>
-// Active spreadsheet micro API deployment route handle
+// Connected explicitly to the primary active cloud datastore endpoint link
 const API = "https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
 
 function driveImage(link){
@@ -263,22 +306,22 @@ function driveImage(link){
         if(link.includes("id=")) id = link.split("id=")[1].split("&")[0];
         else if(link.includes("/file/d/")) id = link.split("/file/d/")[1].split("/")[0];
         else if(link.includes("/d/")) id = link.split("/d/")[1].split("/")[0];
-        if(id) return "https://drive.google.com/thumbnail?id=" + id + "&sz=w500";
+        if(id) return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
     }catch(e){}
     return link;
 }
 
-function stars(ratingValue){
-    let roundedValue = Math.round(Number(ratingValue || 0));
-    let starString = "";
+function generateStarsString(score){
+    let count = Math.round(Number(score || 0));
+    let stars = "";
     for(let i = 1; i <= 5; i++){
-        starString += (i <= roundedValue) ? "★" : "☆";
+        stars += (i <= count) ? "★" : "☆";
     }
-    return starString;
+    return stars;
 }
 
-/* 🚀 HIGH-SPEED ANALYTICAL SORTING PIPELINE ROUTINES */
-async function load(){
+/* 🚀 HIGH-SPEED DECELERATION SCORING ENGINE PIPELINE ROUTINES */
+async function loadHighestRatedInventory(){
     let box = document.getElementById("books");
     try{
         let productsRes = await fetch(API + "?db=products&t=" + Date.now());
@@ -290,52 +333,61 @@ async function load(){
         if(!Array.isArray(products)) products = [];
         if(!Array.isArray(reviews)) reviews = [];
 
-        // Dynamic clean property filters scanning
-        products = products.filter(p => p && (p.ai_status === "approved" || p.status === "approved"));
+        // Strictly capture approved items tags fields
+        products = products.filter(p => p && (p.ai_status === "approved" || p.status === "approved" || p.book_status === "approved"));
 
-        /* CALCULATE ACCURATE SCORE AGGREGATIONS */
+        /* RUN COMPLEX MATRIX AGGREGATIONS VALUES COUNTS LOOP */
         products.forEach(p => {
-            let list = reviews.filter(r => r && String(r.productId || r.book_id) === String(p.id));
-            let total = 0;
-            list.forEach(r => { total += Number(r.rating || 0); });
+            let matches = reviews.filter(r => r && String(r.productId || r.book_id || r.product_id) === String(p.id));
+            let summation = 0;
+            matches.forEach(r => { summation += Number(r.rating || r.score || 0); });
             
-            p.rating = list.length ? (total / list.length) : 5.0; // Fallback configuration to standard 5-star metric
-            p.reviewCount = list.length;
+            // Enforce automatic stable rating benchmarks fallback to 5.0 flat lines
+            p.computedRating = matches.length ? (summation / matches.length) : 5.0;
+            p.totalReviewsRecorded = matches.length;
         });
 
-        // Downward velocity score ranking execution loop
-        products.sort((a, b) => b.rating - a.rating);
+        // 🚀 CRITICAL: Direct high-to-low mathematical subtraction sort layer
+        products.sort((a, b) => b.computedRating - a.computedRating);
 
         if(products.length === 0){
-            box.innerHTML = `<div class="no-data"><h3>No verified books found matching metadata logs parameters lines.</h3></div>`;
+            box.innerHTML = `<div class="no-data"><h3>No verified assets loaded inside active grid segments.</h3></div>`;
             return;
         }
 
         let html = "";
-        // Extract top 20 objects fields
-        products.slice(0, 20).forEach((p, i) => {
-            let itemTitle = p.title || p.book_title || p.name || "Premium Asset Listing";
-            let itemAuthor = p.author || p.book_author || "Premium Creator";
-            let itemPrice = p.price || p.book_price || 0;
-            let itemImage = p.image || p.cover || p.front_cover || "";
+        // Slice top 20 verified objects rows
+        products.slice(0, 20).forEach((p, index) => {
+            let ebookTitle = p.title || p.book_title || p.name || "Premium Digital Asset";
+            let ebookAuthor = p.author || p.book_author || p.writer || "Verified Creator";
+            let ebookPrice = p.price || p.book_price || p.rate || 0;
+            let ebookCover = p.image || p.cover || p.front_cover || p.cover_image || "";
 
             html += `
-            <div class="card" onclick="openBook('${p.id}')">
-                <img src="${driveImage(itemImage)}" alt="Book Cover Art" loading="lazy">
+            <div class="card" onclick="routeToViewer('${p.id}')">
+                <div class="image-box">
+                    <img src="${driveImage(ebookCover)}" alt="Ebook Cover Display" loading="lazy">
+                </div>
                 <div class="info">
-                    <div class="name-wrapper">
-                        <div class="name">${escapeHTML(itemTitle)}</div>
-                        ${i < 3 ? '<span class="badge"><i class="fa-solid fa-trophy"></i> Top Rated</span>' : ''}
+                    <div class="badge-wrapper">
+                        <span class="badge"><i class="fa-solid fa-award"></i> Rank #${index + 1}</span>
+                        ${index < 3 ? '<span class="badge" style="background:#ecfdf5; color:#047857; border-color:#a7f3d0;"><i class="fa-solid fa-crown"></i> Elite</span>' : ''}
                     </div>
+                    <div class="name">${escapeHTML(ebookTitle)}</div>
+                    <div class="author-name">by ${escapeHTML(ebookAuthor)}</div>
+                    
                     <div class="rating-row">
-                        <span class="stars-string">${stars(p.rating)}</span>
-                        <span class="numeric-score">(${p.rating.toFixed(1)})</span>
-                        <span style="color:var(--text-muted)">• ${p.reviewCount} user reviews</span>
+                        <span class="stars-string">${generateStarsString(p.computedRating)}</span>
+                        <span class="numeric-score">${p.computedRating.toFixed(1)}</span>
+                        <span style="color:var(--text-muted); font-weight:500;">(${p.totalReviewsRecorded} reviews)</span>
                     </div>
-                    <div style="font-size: 15px; font-weight: 800; color: var(--accent-blue); margin-top: 2px;">by ${escapeHTML(itemAuthor)}</div>
-                    <button class="buy" onclick="buyNow(event,'${p.id}')">
-                        <i class="fa-solid fa-bolt"></i> Buy Now • ₹${Number(itemPrice)}
-                    </button>
+
+                    <div class="bottom-row">
+                        <div class="price-tag">₹${Number(ebookPrice)}</div>
+                        <button class="buy" onclick="initiateDirectPurchase(event,'${p.id}')">
+                            <i class="fa-solid fa-basket-shopping"></i> Buy Now
+                        </button>
+                    </div>
                 </div>
             </div>
             `;
@@ -344,8 +396,8 @@ async function load(){
         box.innerHTML = html;
 
     } catch(err) {
-        console.error("Sorting pipeline runtime processing crash.", err);
-        box.innerHTML = `<div class="no-data"><p style="color:red; font-weight:700;">Operational Exception: Failed to initialize network aggregation frameworks layers threads.</p></div>`;
+        console.error("Aggregation platform routine failed.", err);
+        box.innerHTML = `<div class="no-data"><p style="color:red; font-weight:800;">Operational Warning: Pipeline error mapping matrix nodes data loops.</p></div>`;
     }
 }
 
@@ -355,15 +407,15 @@ function escapeHTML(str){
     });
 }
 
-function openBook(id){ location.href = "book.html?id=" + id; }
+function routeToViewer(id){ location.href = "book.html?id=" + id; }
 
-function buyNow(e, id){
+function initiateDirectPurchase(e, id){
     e.stopPropagation();
     localStorage.setItem("buyProduct", id);
     location.href = "payment.html";
 }
 
-document.addEventListener("DOMContentLoaded", load);
+document.addEventListener("DOMContentLoaded", loadHighestRatedInventory);
 </script>
 
 </body>
