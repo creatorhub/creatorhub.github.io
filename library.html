@@ -111,6 +111,12 @@ a{text-decoration:none;color:inherit}
 .subscription p{margin-top:4px;color:#94a3b8;font-size:14px;font-weight:600}
 .manage-btn{min-height:48px;padding:0 22px;border:none;border-radius:7px;background:#2f62e9;color:#fff;font-size:14px;font-weight:950;cursor:pointer}
 
+/* Locked Block Screen Wrapper Copy System */
+.locked-lockout-hero {
+    grid-column: 1 / -1; min-height: 44vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: #ffffff; border: 1px dashed #cbd5e1; border-radius: 12px; padding: 40px; box-shadow: var(--shadow-sm);
+}
+.lockout-icon-avatar { width: 64px; height: 64px; border-radius: 50%; background: #fff7df; color: #b7791f; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 16px; border: 1px solid #fde68a; }
+
 .bottom-nav{
   position:fixed;bottom:0;left:0;width:100%;height:78px;background:#fff;display:flex;justify-content:space-around;align-items:center;
   padding:0 20px;border-top:1px solid #dce4f0;z-index:999
@@ -256,7 +262,6 @@ function isApproved(product){
 function driveImage(link){
   if(!link) return "https://via.placeholder.com/500x700/eef3f9/63728a?text=CreatorHub";
   if(link.startsWith("data:image")) return link;
-
   try{
     if(link.includes("thumbnail?id=")) return link;
     let id = "";
@@ -264,14 +269,10 @@ function driveImage(link){
     else if(link.includes("/d/")) id = link.split("/d/")[1].split("/")[0];
     else return link;
     return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
-  }catch(e){
-    return link;
-  }
+  }catch(e){ return link; }
 }
 
-function toggleProfileMenu(){
-  document.getElementById("profileMenu").classList.toggle("show");
-}
+function toggleProfileMenu(){ document.getElementById("profileMenu").classList.toggle("show"); }
 
 window.addEventListener("click", function(e){
   let wrap = document.getElementById("profileWrap");
@@ -280,10 +281,7 @@ window.addEventListener("click", function(e){
   }
 });
 
-function logout(){
-  localStorage.clear();
-  window.location.href = "login.html";
-}
+function logout(){ localStorage.clear(); window.location.href = "login.html"; }
 
 function updateLoginUI(){
   const img = user.image || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.name) + "&background=2f62e9&color=fff";
@@ -298,14 +296,13 @@ function showLoader(){
     <div class="empty">
       <div>
         <div class="spinner"></div>
-        <p>Loading library...</p>
+        <p>Loading library matrix grids...</p>
       </div>
     </div>`;
 }
 
 async function checkSubscription(){
   HAS_SUBSCRIPTION = false;
-
   try{
     const res = await fetch(SUBSCRIPTION_API + "?db=subscriptions&t=" + Date.now());
     const response = await res.json();
@@ -315,9 +312,7 @@ async function checkSubscription(){
       String(s.email || s.user_email || "").toLowerCase() === String(user.email).toLowerCase() &&
       String(s.status || "").toLowerCase() === "active"
     );
-  }catch(err){
-    console.log("Subscription check failed", err);
-  }
+  }catch(err){ console.log("Subscription validation stream bypassed", err); }
 
   const localSub = localStorage.getItem("creatorhub_subscription_status") || localStorage.getItem("subscription_status");
   if(String(localSub).toLowerCase() === "active") HAS_SUBSCRIPTION = true;
@@ -326,7 +321,6 @@ async function checkSubscription(){
 function getPurchasedIds(){
   const keys = ["purchasedBooks","ownedBooks","unlockedBooks","my_books"];
   let ids = [];
-
   keys.forEach(key => {
     try{
       const value = JSON.parse(localStorage.getItem(key) || "[]");
@@ -338,11 +332,10 @@ function getPurchasedIds(){
       }
     }catch(e){}
   });
-
   return ids.filter(Boolean);
 }
 
-function isPurchased(product){
+function isPurchased(product) {
   const ids = getPurchasedIds();
   return ids.includes(String(product.id));
 }
@@ -354,7 +347,6 @@ function canAccess(product){
 async function loadData(){
   try{
     showLoader();
-
     const productPromise = fetch(PRODUCT_API + "?action=products&t=" + Date.now());
     const subPromise = checkSubscription();
 
@@ -387,10 +379,41 @@ async function loadData(){
   }
 }
 
+/* 🚀 INTERCEPT ROUTINES FILTER LOGIC ENGINE */
 function renderBooks(type){
   CURRENT_FILTER = type;
   let box = document.getElementById("library");
 
+  // 🚀 CORE BUSINESS RULE ENFORCEMENT STATE TRACER LOCKOUT BLOCK
+  if (!HAS_SUBSCRIPTION && !isAdmin) {
+      // Filter strictly to ONLY show books owned by the current logged user, completely hiding premium lists
+      let onlyUserOwnUploads = ALL_PRODUCTS.filter(isOwner);
+      
+      if (type === "uploads" || type === "all" || type === "unlocked") {
+          if (onlyUserOwnUploads.length === 0) {
+              box.innerHTML = `
+              <div class="locked-lockout-hero">
+                  <div class="lockout-icon-avatar"><i class="fa-solid fa-circle-exclamation"></i></div>
+                  <h3>Your Library Shelf is Empty</h3>
+                  <p style="color:var(--text-secondary); font-size:14px; margin-top:6px; max-width:450px;">You do not have active premium subscription privileges loops. Subscribe to instantly view premium ebooks or go to Upload section to submit yours.</p>
+                  <button class="buy-btn" style="width:auto; padding:0 24px; max-height:44px;" onclick="location.href='subscription.html'"><i class="fa-solid fa-crown"></i> Activate Premium Subscription</button>
+              </div>`;
+              return;
+          }
+          renderFilteredListArrayMatrix(onlyUserOwnUploads, box);
+          return;
+      } else {
+          box.innerHTML = `
+          <div class="locked-lockout-hero">
+              <div class="lockout-icon-avatar"><i class="fa-solid fa-lock"></i></div>
+              <h3>Section Content Locked Systemic Block</h3>
+              <p style="color:var(--text-secondary); font-size:14px; margin-top:6px;">Active multi-vendor marketplace digital catalog subscriptions parameters mismatch.</p>
+          </div>`;
+          return;
+      }
+  }
+
+  // Standard processing layout flow triggers normally if user has active subscription handle
   let filtered = ALL_PRODUCTS.filter(product => {
     const owner = isOwner(product);
     const access = canAccess(product);
@@ -407,7 +430,12 @@ function renderBooks(type){
     return;
   }
 
-  box.innerHTML = filtered.map(product => {
+  renderFilteredListArrayMatrix(filtered, box);
+}
+
+/* Helper pipeline to parse final layout arrays nodes patterns dynamically */
+function renderFilteredListArrayMatrix(targetBooksArray, DOMContainerBox) {
+    DOMContainerBox.innerHTML = targetBooksArray.map(product => {
     const owner = isOwner(product);
     const access = canAccess(product);
     const image = driveImage(product.front_cover || product.frontCover || product.cover || product.image || product.thumbnail);
@@ -427,7 +455,6 @@ function renderBooks(type){
       : `<button class="buy-btn" onclick="unlockBook('${escapeHTML(product.id)}')"><i class="fa-solid fa-lock"></i> Subscribe / Unlock</button>`;
 
     let manage = "";
-
     if(owner || isAdmin){
       manage = `
         <div class="actions">
@@ -450,23 +477,14 @@ function renderBooks(type){
 
 function openBook(id){
   const product = ALL_PRODUCTS.find(p => String(p.id) === String(id));
-  if(!product){
-    alert("Book not found.");
-    return;
-  }
-
+  if(!product){ alert("Book not found."); return; }
   if(!canAccess(product)){
     alert("Please subscribe or purchase this ebook to unlock it.");
     location.href = "subscription.html";
     return;
   }
-
   const pdf = product.pdf_url || product.file_url || product.pdf || product.pdfUrl || "";
-
-  if(!pdf){
-    alert("PDF link missing for this ebook.");
-    return;
-  }
+  if(!pdf){ alert("PDF link missing for this ebook."); return; }
 
   localStorage.setItem("viewerPDF", pdf);
   localStorage.setItem("viewerBook", JSON.stringify(product));
@@ -480,15 +498,8 @@ function unlockBook(id){
 
 function editBook(id){
   const product = ALL_PRODUCTS.find(p => String(p.id) === String(id));
-  if(!product){
-    alert("Book not found.");
-    return;
-  }
-
-  if(!isOwner(product) && !isAdmin){
-    alert("Only the ebook owner can edit this book.");
-    return;
-  }
+  if(!product){ alert("Book not found."); return; }
+  if(!isOwner(product) && !isAdmin){ alert("Only the ebook owner can edit this book."); return; }
 
   localStorage.setItem("editBookId", id);
   localStorage.setItem("viewerBook", JSON.stringify(product));
@@ -497,16 +508,8 @@ function editBook(id){
 
 async function deleteBook(id){
   const product = ALL_PRODUCTS.find(p => String(p.id) === String(id));
-
-  if(!product){
-    alert("Book not found.");
-    return;
-  }
-
-  if(!isOwner(product) && !isAdmin){
-    alert("Only the ebook owner can delete this book.");
-    return;
-  }
+  if(!product){ alert("Book not found."); return; }
+  if(!isOwner(product) && !isAdmin){ alert("Only the ebook owner can delete this book."); return; }
 
   const ok = confirm("Delete this ebook permanently?");
   if(!ok) return;
@@ -515,25 +518,14 @@ async function deleteBook(id){
     const res = await fetch(PRODUCT_API,{
       method:"POST",
       headers:{ "Content-Type":"text/plain;charset=utf-8" },
-      body:JSON.stringify({
-        action:"deleteBook",
-        id:id,
-        email:user.email
-      })
+      body:JSON.stringify({ action:"deleteBook", id:id, email:user.email })
     });
-
     const data = await res.json();
-
-    if(data.success === false){
-      throw new Error(data.message || "Delete failed.");
-    }
+    if(data.success === false){ throw new Error(data.message || "Delete failed."); }
 
     alert(data.message || "Ebook deleted successfully.");
     loadData();
-
-  }catch(err){
-    alert(err.message || "Delete failed.");
-  }
+  }catch(err){ alert(err.message || "Delete failed."); }
 }
 
 function filterBooks(type){
