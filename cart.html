@@ -6,472 +6,570 @@
 <title>Shopping Cart | CreatorHub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
-/* =========================================================
-   CREATORHUB STANDARD LIGHT UI INTERFACE VARIABLES
-   ========================================================= */
-:root {
-    --bg-primary: #f8fafc;       
-    --bg-secondary: #ffffff;     
-    --text-primary: #0f172a;     
-    --text-secondary: #475569;   
-    --text-muted: #94a3b8;
-    --accent-blue: #2563eb;     
-    --accent-blue-hover: #1d4ed8;
-    --accent-blue-light: #eff6ff;
-    --accent-red: #ef4444;       
-    --border-color: #e2e8f0;
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.02);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+:root{
+  --bg:#f5f7fb;
+  --card:#ffffff;
+  --text:#06142c;
+  --muted:#64748b;
+  --line:#dbe4f0;
+  --blue:#2f62e9;
+  --blue2:#1d4ed8;
+  --green:#10b981;
+  --red:#ef4444;
+  --soft:#eef4ff;
+  --shadow:0 22px 55px rgba(16,24,40,.08);
 }
 
-*{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Inter', sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:var(--bg);color:var(--text);min-height:100vh}
+a{text-decoration:none;color:inherit}
 
-body{
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    min-height: 100vh;
-}
-
-/* NAVBAR HEADER STYLES */
 .header{
-    height: 75px;
-    background-color: var(--bg-secondary);
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 40px;
-    position: sticky;
-    top: 0;
-    z-index: 999;
-    box-shadow: var(--shadow-sm);
+  height:82px;
+  background:#fff;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 42px;
+  position:sticky;
+  top:0;
+  z-index:20;
 }
 
-.back-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    color: var(--text-secondary);
-    font-weight: 600;
-    font-size: 14px;
-    transition: all 0.2s ease;
-    user-select: none;
-    border: 1px solid var(--border-color);
-    padding: 8px 16px;
-    border-radius: 10px;
-    background: var(--bg-secondary);
+.back-btn{
+  height:46px;
+  padding:0 18px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#334155;
+  font-weight:800;
+  cursor:pointer;
 }
 
-.back-btn:hover {
-    color: var(--accent-blue);
-    border-color: var(--accent-blue);
-    background-color: var(--accent-blue-light);
-    transform: translateX(-3px);
-}
+.back-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--soft)}
+.brand{font-size:26px;font-weight:900;letter-spacing:-.03em}
+.brand span{color:var(--blue)}
 
-.title{
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--text-primary);
-    letter-spacing: -0.02em;
-}
-
-/* MAIN STRUCTURE SPLIT GRID LAYOUT */
 .container{
-    padding: 40px;
-    max-width: 1300px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: 1.4fr 0.8fr;
-    gap: 30px;
-    align-items: start;
+  max-width:1360px;
+  margin:auto;
+  padding:46px 34px 90px;
+  display:grid;
+  grid-template-columns:1.35fr .75fr;
+  gap:34px;
+  align-items:start;
 }
 
-@media(max-width: 950px) {
-    .container { grid-template-columns: 1fr; padding: 25px 15px; }
+.page-title{
+  font-size:34px;
+  font-weight:900;
+  letter-spacing:-.04em;
+  margin-bottom:8px;
 }
 
-.left-panel-stack h2 {
-    font-size: 24px;
-    font-weight: 800;
-    margin-bottom: 20px;
-    letter-spacing: -0.02em;
+.page-subtitle{
+  color:var(--muted);
+  font-size:15px;
+  font-weight:600;
+  margin-bottom:24px;
 }
 
-/* ROW CARDS CONTAINER HOOKS */
-.cart-items-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+.cart-list{
+  display:grid;
+  gap:18px;
 }
 
-.card{
-    background-color: var(--bg-secondary);
-    display: flex;
-    gap: 20px;
-    padding: 20px;
-    border-radius: 16px;
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-sm);
-    align-items: center;
-    cursor: pointer; /* Clickable card indicate karne ke liye */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+.cart-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:18px;
+  display:grid;
+  grid-template-columns:96px 1fr auto;
+  gap:18px;
+  align-items:center;
+  box-shadow:0 10px 28px rgba(16,24,40,.04);
+  cursor:pointer;
+  transition:.2s ease;
 }
 
-.card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+.cart-card:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--shadow);
+  border-color:#c9d6ec;
 }
 
-.card img{
-    width: 80px;
-    aspect-ratio: 2/3;
-    object-fit: cover;
-    border-radius: 10px;
-    background: var(--bg-primary);
-    border: 1px solid var(--border-color);
+.cover{
+  width:96px;
+  aspect-ratio:2/3;
+  object-fit:cover;
+  border-radius:10px;
+  border:1px solid var(--line);
+  background:#e2e8f0;
 }
 
-.info{
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+.item-title{
+  font-size:18px;
+  font-weight:900;
+  line-height:1.35;
+  color:#07152f;
+  margin-bottom:8px;
 }
 
-.item-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--text-primary);
-    line-height: 1.4;
+.item-meta{
+  color:var(--muted);
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:12px;
 }
 
-.item-price {
-    font-size: 17px;
-    font-weight: 800;
-    color: var(--accent-blue);
-    margin-top: 2px;
+.remove-btn{
+  border:none;
+  background:#fff1f2;
+  color:var(--red);
+  height:38px;
+  padding:0 14px;
+  border-radius:9px;
+  font-size:13px;
+  font-weight:900;
+  cursor:pointer;
 }
 
-/* OPTIMIZED ACTION REMOVE TRIGGER */
-.btn-remove {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    align-self: flex-start;
-    margin-top: 8px;
-    transition: color 0.2s;
-    padding: 0;
+.remove-btn:hover{background:#fee2e2}
+
+.price-box{
+  min-width:110px;
+  text-align:right;
 }
 
-.btn-remove:hover {
-    color: var(--accent-red);
-    text-decoration: underline;
+.price{
+  font-size:24px;
+  font-weight:900;
+  color:var(--blue);
 }
 
-/* RIGHT PANEL DETAILS SUMMARY BREAKDOWN */
-.total-summary-card {
-    background-color: var(--bg-secondary);
-    padding: 30px;
-    border-radius: 20px;
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-sm);
+.instant{
+  margin-top:8px;
+  color:var(--green);
+  font-size:12px;
+  font-weight:900;
 }
 
-.summary-headline {
-    font-size: 18px;
-    font-weight: 800;
-    margin-bottom: 20px;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 12px;
+.summary{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:30px;
+  box-shadow:var(--shadow);
+  position:sticky;
+  top:110px;
+  display:none;
 }
 
-.summary-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 14px;
-    font-size: 14px;
-    color: var(--text-secondary);
-    font-weight: 500;
+.summary h3{
+  font-size:22px;
+  font-weight:900;
+  margin-bottom:18px;
+  letter-spacing:-.03em;
 }
 
-.grand-total-row {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid var(--border-color);
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--accent-blue);
+.summary-row{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  padding:12px 0;
+  color:#334155;
+  font-size:15px;
+  font-weight:700;
+  border-bottom:1px solid #edf2f7;
 }
 
-/* FLAT PLATFORM SECURE SUBMIT TRIGGER BUTTON */
-.buy-btn-trigger{
-    background: var(--accent-blue);
-    color: white;
-    width: 100%;
-    padding: 16px;
-    border: none;
-    border-radius: 12px;
-    margin-top: 25px;
-    font-weight: 700;
-    font-size: 15px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
+.total-row{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  margin-top:20px;
+  padding-top:20px;
+  border-top:2px solid #dbe4f0;
+  color:var(--blue);
+  font-size:25px;
+  font-weight:900;
 }
 
-.buy-btn-trigger:hover {
-    background-color: var(--accent-blue-hover);
-    transform: translateY(-1px);
+.checkout-btn{
+  margin-top:26px;
+  width:100%;
+  height:58px;
+  border:none;
+  border-radius:13px;
+  background:var(--blue);
+  color:#fff;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 16px 30px rgba(47,98,233,.22);
 }
 
-/* SECURE TRUST BADGES PLATFORM METRICS */
-.secure-trust-shield {
-    margin-top: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    color: var(--text-muted);
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+.checkout-btn:hover{background:var(--blue2)}
+
+.trust{
+  margin-top:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  color:#94a3b8;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.06em;
+  text-transform:uppercase;
 }
 
-/* SYSTEM INTERFACE LOGS STATUS BLOCKS */
-.empty-cart-state {
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 60px 20px;
-    text-align: center;
-    color: var(--text-secondary);
-    font-weight: 500;
-    font-size: 15px;
+.empty{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:16px;
+  min-height:260px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:40px;
+  color:var(--muted);
+  box-shadow:0 10px 28px rgba(16,24,40,.04);
 }
 
-.loader-element {
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 50px;
-    text-align: center;
-    color: var(--text-secondary);
-    font-weight: 500;
-    font-size: 15px;
+.empty i{
+  font-size:42px;
+  color:var(--blue);
+  margin-bottom:18px;
 }
 
-.spinner {
-    width: 26px;
-    height: 26px;
-    border: 3px solid #cbd5e1;
-    border-top: 3px solid var(--accent-blue);
-    border-radius: 50%;
-    animation: pipelineRotation 0.8s linear infinite;
-    margin: 0 auto 15px auto;
+.empty h3{
+  color:var(--text);
+  font-size:22px;
+  font-weight:900;
+  margin-bottom:8px;
 }
 
-@keyframes pipelineRotation {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.empty p{
+  font-size:15px;
+  line-height:1.6;
+  font-weight:600;
 }
 
-@media(max-width: 600px) {
-    .card { padding: 16px; gap: 16px; }
-    .card img { width: 65px; }
-    .item-title { font-size: 15px; }
-    .item-price { font-size: 16px; }
+.shop-btn{
+  margin-top:20px;
+  height:46px;
+  padding:0 22px;
+  border:none;
+  border-radius:10px;
+  background:var(--blue);
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.loader{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:16px;
+  min-height:220px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--muted);
+  font-weight:800;
+}
+
+.spin{
+  width:28px;
+  height:28px;
+  border:3px solid #dbe4f0;
+  border-top-color:var(--blue);
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+  margin-right:12px;
+}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(max-width:950px){
+  .container{grid-template-columns:1fr;padding:28px 18px 70px}
+  .summary{position:static}
+  .header{padding:0 18px}
+  .brand{font-size:22px}
+}
+
+@media(max-width:620px){
+  .cart-card{grid-template-columns:76px 1fr;align-items:start}
+  .cover{width:76px}
+  .price-box{grid-column:2;text-align:left}
+  .page-title{font-size:28px}
 }
 </style>
 </head>
+
 <body>
 
-<!-- TOPBAR NAVBAR -->
-<div class="header">
-    <div class="back-btn" onclick="history.back()">
-        <span>←</span> Back
+<header class="header">
+  <button class="back-btn" onclick="history.back()">
+    <i class="fa-solid fa-arrow-left"></i> Back
+  </button>
+  <a class="brand" href="index.html">Creator<span>Hub</span></a>
+</header>
+
+<main class="container">
+  <section>
+    <h1 class="page-title">Your Shopping Cart</h1>
+    <p class="page-subtitle">Review your selected CreatorHub digital products before checkout.</p>
+
+    <div id="cartList" class="cart-list">
+      <div class="loader"><div class="spin"></div> Loading cart items...</div>
     </div>
-    <div class="title">CreatorHub Marketplace</div>
-</div>
+  </section>
 
-<!-- CONTAINER LAYOUT CORE GRID -->
-<div class="container">
-    
-    <!-- LEFT PANEL STACK -->
-    <div class="left-panel-stack">
-        <h2>Your Shopping Cart</h2>
-        <div id="cartViewportMesh" class="cart-items-list">
-            <div class="loader-element">
-                <div class="spinner"></div>
-                Retrieving cart asset references...
-            </div>
-        </div>
-    </div>
+  <aside id="summaryBox" class="summary">
+    <h3>Order Overview</h3>
 
-    <!-- RIGHT PANEL SUMMARY FRAME CARD -->
-    <div id="totalSummaryBox" class="total-summary-card" style="display:none">
-        <div class="summary-headline">Order Overview</div>
-        <div class="summary-row">
-            <div>Items Subtotal</div>
-            <div id="subTotalContainer">₹0</div>
-        </div>
-        <div class="summary-row">
-            <div>Platform Processing Fee</div>
-            <div>₹29</div>
-        </div>
-        <div class="summary-row">
-            <div>Instant Delivery</div>
-            <div id="deliveryFeeContainer">₹70</div> <!-- Delivery charge ₹70 updated -->
-        </div>
-        <div class="grand-total-row">
-            <div>Total Amount</div>
-            <div id="totalPriceContainer">₹0</div>
-        </div>
-
-        <!-- Secure Checkout click now routes to checkout.html -->
-        <button class="buy-btn-trigger" onclick="redirectToCheckout()">
-            🔒 Secure Checkout
-        </button>
-        
-        <div class="secure-trust-shield">
-            <span>🛡️</span> 256-Bit SSL Secured Encryption
-        </div>
+    <div class="summary-row">
+      <span>Items Subtotal</span>
+      <strong id="subtotalText">₹0</strong>
     </div>
 
-</div>
+    <div class="summary-row">
+      <span>Platform Processing Fee</span>
+      <strong id="platformFeeText">₹29</strong>
+    </div>
+
+    <div class="summary-row">
+      <span>Instant Digital Delivery</span>
+      <strong id="deliveryFeeText">₹70</strong>
+    </div>
+
+    <div class="total-row">
+      <span>Total Amount</span>
+      <span id="totalText">₹0</span>
+    </div>
+
+    <button class="checkout-btn" onclick="redirectToCheckout()">
+      <i class="fa-solid fa-lock"></i> Secure Checkout
+    </button>
+
+    <div class="trust">
+      <i class="fa-solid fa-shield-halved"></i> Secure Digital Checkout
+    </div>
+  </aside>
+</main>
 
 <script>
-const RETRIEVE_PRODUCT_API = "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
+const PRODUCT_API = "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec";
 
-let SYSTEM_LOCAL_CART_POOL = JSON.parse(localStorage.getItem("cart") || "[]");
-SYSTEM_LOCAL_CART_POOL = [...new Set(SYSTEM_LOCAL_CART_POOL)];
-localStorage.setItem("cart", JSON.stringify(SYSTEM_LOCAL_CART_POOL));
+let cartIds = normalizeCart();
 
-function escapeHTMLString(contentString){
-    return String(contentString).replace(/[&<>"']/g, function(matchCharacter){
-        return({
-            '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;'
-        })[matchCharacter]
-    });
-}
+function normalizeCart(){
+  let raw = JSON.parse(localStorage.getItem("cart") || "[]");
 
-function resolveAssetCoverThumbnail(urlLink){
-    if(!urlLink) return "https://picsum.photos/400/600";
-    try {
-        let extractedId = "";
-        if(urlLink.includes("id=")){ extractedId = urlLink.split("id=")[1].split("&")[0]; }
-        else if(urlLink.includes("/file/d/")){ extractedId = urlLink.split("/file/d/")[1].split("/")[0]; }
-        if(extractedId){ return "https://drive.google.com/thumbnail?id=" + extractedId + "&sz=w500"; }
-    } catch(err) { console.error("Thumbnail conversion error:", err); }
-    return urlLink;
-}
+  if(!Array.isArray(raw)) raw = [];
 
-/* PARALLEL FETCH CORE SYSTEM INGEST ENGINE */
-async function loadTargetCartMetadata(){
-    const viewportMeshContainer = document.getElementById("cartViewportMesh");
-    const summaryCardBoxWrapper = document.getElementById("totalSummaryBox");
-    
-    try {
-        let streamResponse = await fetch(RETRIEVE_PRODUCT_API + "?action=products&t=" + Date.now());
-        let bulkPayloadData = await streamResponse.json();
-        let productsDatabaseArray = bulkPayloadData.products || bulkPayloadData || [];
-
-        if(!Array.isArray(productsDatabaseArray)) productsDatabaseArray = [];
-
-        let htmlCompilationStringStream = "";
-        let compiledSubtotalPriceCount = 0;
-
-        if(SYSTEM_LOCAL_CART_POOL.length === 0){
-            htmlCompilationStringStream = "<div class='empty-cart-state'>🛒 Your shopping cart is empty.</div>";
-            summaryCardBoxWrapper.style.display = "none";
-        } else {
-            SYSTEM_LOCAL_CART_POOL.forEach((cachedItemId, indexRankingOffset) => {
-                let verifiedProductNode = productsDatabaseArray.find(itemObj => String(itemObj.id) === String(cachedItemId));
-
-                if(!verifiedProductNode) return;
-
-                if(verifiedProductNode.status && verifiedProductNode.status !== "approved") return;
-                if(verifiedProductNode.ai_status && verifiedProductNode.ai_status !== "approved") return;
-
-                compiledSubtotalPriceCount += Number(verifiedProductNode.price || 0);
-                let targetAssetImage = verifiedProductNode.front_cover || verifiedProductNode.image || "";
-
-                // Card has onclick trigger sending user to book.html page
-                htmlCompilationStringStream += `
-                    <div class="card" onclick="transitToTargetBookProfile('${verifiedProductNode.id}')">
-                        <img src="${resolveAssetCoverThumbnail(targetAssetImage)}" onerror="this.src='https://picsum.photos/400/600'" alt="Cover Matrice">
-                        <div class="info">
-                            <div class="item-title">${escapeHTMLString(verifiedProductNode.title || "Untitled Creation")}</div>
-                            <div class="item-price">₹${verifiedProductNode.price || 0}</div>
-                            <button class="btn-remove" onclick="executeRemoveCartItem(event, ${indexRankingOffset})">Remove Item</button>
-                        </div>
-                    </div>`;
-            });
-
-            let configurationPlatformFee = 29;
-            let configurationDeliveryFee = 70; // Delivery fee ₹70 set strictly
-            let finalCalculatedGrandTotal = compiledSubtotalPriceCount + configurationPlatformFee + configurationDeliveryFee;
-
-            document.getElementById("subTotalContainer").innerText = "₹" + compiledSubtotalPriceCount;
-            document.getElementById("totalPriceContainer").innerText = "₹" + finalCalculatedGrandTotal;
-            summaryCardBoxWrapper.style.display = "block";
-        }
-
-        viewportMeshContainer.innerHTML = htmlCompilationStringStream || "<div class='empty-cart-state'>🛒 Your shopping cart is empty.</div>";
-
-    } catch(err) {
-        console.error("System fatal connection error:", err);
-        viewportMeshContainer.innerHTML = "<div class='empty-cart-state' style='color:#ef4444; border-color:#fca5a5; background:#fff5f5;'>Failed to synchronize cart layout buffers. Please reload.</div>";
+  raw = raw.map(item => {
+    if(typeof item === "object" && item !== null){
+      return item.id || item.product_id || item.productId || item.book_id || "";
     }
+    return item;
+  }).filter(Boolean);
+
+  raw = [...new Set(raw.map(String))];
+  localStorage.setItem("cart", JSON.stringify(raw));
+  return raw;
 }
 
-function executeRemoveCartItem(event, indexOffsetPosition){
-    event.stopPropagation(); // Prevents triggers redirecting user to book profile during card delete actions
-    SYSTEM_LOCAL_CART_POOL.splice(indexOffsetPosition, 1);
-    localStorage.setItem("cart", JSON.stringify(SYSTEM_LOCAL_CART_POOL));
-    loadTargetCartMetadata();
+function money(value){
+  return "₹" + Number(value || 0).toLocaleString("en-IN");
 }
 
-/* REDIRECTION SCHEMAS HOOKS */
-function transitToTargetBookProfile(targetBookIdToken){
-    location.href = "book.html?id=" + targetBookIdToken; // Open book.html on book asset clicks
+function escapeHTML(value){
+  return String(value || "").replace(/[&<>"']/g, m => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  })[m]);
 }
 
-function redirectToCheckout() {
-    if(SYSTEM_LOCAL_CART_POOL.length === 0){ alert("Cart Empty"); return; }
-    
-    let cachedUserPayload = JSON.parse(localStorage.getItem("user") || "{}");
-    let targetBuyerEmailString = cachedUserPayload.email || (cachedUserPayload.user && cachedUserPayload.user.email);
+function coverUrl(url){
+  if(!url) return "https://via.placeholder.com/400x600/e2e8f0/64748b?text=CreatorHub";
 
-    if(!targetBuyerEmailString){
-        alert("Login required to proceed further.");
-        location.href = "login.html";
-        return;
+  try{
+    if(url.includes("thumbnail?id=")) return url;
+    if(url.includes("uc?id=")){
+      const id = url.split("id=")[1].split("&")[0];
+      return "https://drive.google.com/thumbnail?id=" + id + "&sz=w600";
     }
-    
-    // Redirects explicitly to checkout.html passing first product profile ID parameters
-    location.href = "checkout.html?id=" + SYSTEM_LOCAL_CART_POOL[0];
+    if(url.includes("/file/d/")){
+      const id = url.split("/file/d/")[1].split("/")[0];
+      return "https://drive.google.com/thumbnail?id=" + id + "&sz=w600";
+    }
+    if(url.includes("/d/")){
+      const id = url.split("/d/")[1].split("/")[0];
+      return "https://drive.google.com/thumbnail?id=" + id + "&sz=w600";
+    }
+  }catch(e){}
+
+  return url;
 }
 
-window.addEventListener("DOMContentLoaded", loadTargetCartMetadata);
+function isApproved(product){
+  const status = String(product.status || "").toLowerCase();
+  const aiStatus = String(product.ai_status || product.aiStatus || "").toLowerCase();
+
+  if(status && status !== "approved") return false;
+  if(aiStatus && aiStatus !== "approved") return false;
+
+  return true;
+}
+
+async function loadCart(){
+  const cartList = document.getElementById("cartList");
+  const summaryBox = document.getElementById("summaryBox");
+
+  if(cartIds.length === 0){
+    showEmptyCart();
+    return;
+  }
+
+  try{
+    const response = await fetch(PRODUCT_API + "?action=products&t=" + Date.now());
+    const data = await response.json();
+
+    let products = data.products || data.data || data || [];
+    if(!Array.isArray(products)) products = [];
+
+    const validProducts = cartIds
+      .map(id => products.find(p => String(p.id || p.product_id || p.productId) === String(id)))
+      .filter(p => p && isApproved(p));
+
+    if(validProducts.length === 0){
+      cartIds = [];
+      localStorage.setItem("cart", JSON.stringify([]));
+      showEmptyCart();
+      return;
+    }
+
+    let subtotal = 0;
+
+    cartList.innerHTML = validProducts.map(product => {
+      const id = String(product.id || product.product_id || product.productId);
+      const title = product.title || product.name || "Untitled Product";
+      const author = product.author || product.creator || product.seller || "CreatorHub Seller";
+      const price = Number(product.price || product.sale_price || 0);
+      const image = product.front_cover || product.cover || product.image || product.thumbnail || "";
+
+      subtotal += price;
+
+      return `
+        <div class="cart-card" onclick="openBook('${escapeHTML(id)}')">
+          <img class="cover" src="${coverUrl(image)}" onerror="this.src='https://via.placeholder.com/400x600/e2e8f0/64748b?text=CreatorHub'" alt="Book Cover">
+
+          <div>
+            <div class="item-title">${escapeHTML(title)}</div>
+            <div class="item-meta">By ${escapeHTML(author)}</div>
+            <button class="remove-btn" onclick="removeItem(event,'${escapeHTML(id)}')">
+              <i class="fa-solid fa-trash"></i> Remove
+            </button>
+          </div>
+
+          <div class="price-box">
+            <div class="price">${money(price)}</div>
+            <div class="instant">Instant access</div>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    const platformFee = 29;
+    const deliveryFee = 70;
+    const total = subtotal + platformFee + deliveryFee;
+
+    document.getElementById("subtotalText").innerText = money(subtotal);
+    document.getElementById("platformFeeText").innerText = money(platformFee);
+    document.getElementById("deliveryFeeText").innerText = money(deliveryFee);
+    document.getElementById("totalText").innerText = money(total);
+
+    summaryBox.style.display = "block";
+
+  }catch(error){
+    cartList.innerHTML = `
+      <div class="empty">
+        <div>
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <h3>Cart loading failed</h3>
+          <p>Please reload the page or check your product API deployment.</p>
+        </div>
+      </div>
+    `;
+    summaryBox.style.display = "none";
+  }
+}
+
+function showEmptyCart(){
+  document.getElementById("summaryBox").style.display = "none";
+  document.getElementById("cartList").innerHTML = `
+    <div class="empty">
+      <div>
+        <i class="fa-solid fa-cart-shopping"></i>
+        <h3>Your cart is empty</h3>
+        <p>Add ebooks or digital products to your cart before checkout.</p>
+        <button class="shop-btn" onclick="location.href='index.html'">Continue Shopping</button>
+      </div>
+    </div>
+  `;
+}
+
+function removeItem(event,id){
+  event.stopPropagation();
+  cartIds = cartIds.filter(itemId => String(itemId) !== String(id));
+  localStorage.setItem("cart", JSON.stringify(cartIds));
+  loadCart();
+}
+
+function openBook(id){
+  location.href = "book.html?id=" + encodeURIComponent(id);
+}
+
+function redirectToCheckout(){
+  if(cartIds.length === 0){
+    alert("Your cart is empty.");
+    return;
+  }
+
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const email =
+    user.email ||
+    (user.user && user.user.email) ||
+    localStorage.getItem("user_email") ||
+    localStorage.getItem("creatorhub_profile_email");
+
+  if(!email){
+    alert("Please login first.");
+    location.href = "login.html";
+    return;
+  }
+
+  location.href = "checkout.html?id=" + encodeURIComponent(cartIds[0]);
+}
+
+window.addEventListener("DOMContentLoaded", loadCart);
 </script>
+
 </body>
 </html>
