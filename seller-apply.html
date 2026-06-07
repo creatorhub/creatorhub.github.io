@@ -5,451 +5,363 @@
 <title>Become a Seller - CreatorHub</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
-/* =====================================================
-   CREATORHUB ENTERPRISE CORE RESET & THEME STYLES
-   ===================================================== */
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
-}
-body{
-  background: #f6f8fc;
-  color: #101828;
-  overflow-x: hidden;
-  min-height: 100vh;
-  position: relative;
-}
-
-::-webkit-scrollbar{ width: 6px; }
-::-webkit-scrollbar-thumb{ background: #3157c9; border-radius: 20px; }
-
-/* =====================================================
-   TOPBAR / NAVIGATION LAYER (EXACT HOMEPAGE MATCH)
-   ===================================================== */
-.topbar{
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  min-height: 80px;
-  background: #fff;
-  border-bottom: 1px solid #dce4f0;
-  padding: 16px 34px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-.topbar-left{ display: flex; align-items: center; gap: 20px; }
-.brand-name{ font-size: 25px; font-weight: 900; color: #06142c; letter-spacing: -0.02em; text-decoration: none; }
-.brand-name span{ color: #2f62e9; }
-
-.nav{ display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-.nav a{ color: #5d6d85; font-size: 14px; font-weight: 800; text-decoration: none; }
-.nav a:hover{ color: #2f62e9; }
-
-/* PROFILE IMAGE DROPDOWN MODULE */
-.profile-wrap{ position: relative; display: none; align-items: center; }
-.profile-image{ width: 44px; height: 44px; border-radius: 50%; object-fit: cover; background: #d9e1ec; border: 2px solid #fff; box-shadow: 0 8px 20px rgba(16,24,40,.12); cursor: pointer; }
-.profile-menu{ position: absolute; top: 55px; left: 0; width: 290px; background: #0d1628; border: 1px solid #182a64; border-radius: 14px; padding: 20px; display: none; box-shadow: 0 20px 45px rgba(16,24,40,.25); z-index: 1000; }
-.profile-menu.show { display: block; }
-.profile-header{ display: flex; align-items: center; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,.08); margin-bottom: 14px; }
-.menu-profile-image{ width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
-#menuName{ color: #fff; font-size: 16px; font-weight: 900; }
-#menuEmail{ margin-top: 4px; font-size: 13px; color: #94a3b8; word-break: break-all; }
-.profile-menu a{ display: flex; align-items: center; height: 44px; padding: 0 14px; border-radius: 8px; color: #e7edf8; font-size: 14px; font-weight: 800; text-decoration: none; }
-.profile-menu a:hover{ background: #182a64; }
-.logout-btn{ margin-top: 14px; height: 46px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: #ef4444; color: #fff; font-weight: 900; font-size: 14px; cursor: pointer; }
-
-/* =====================================================
-   MAIN HERO WRAPPER CONTAINER & STEPPER INDICATORS
-   ===================================================== */
-.main{ max-width: 1400px; margin: auto; padding: 36px 34px 90px; }
-.hero{ background: #fff; border: 1px solid #dce4f0; border-radius: 9px; padding: 50px 50px; box-shadow: 0 18px 45px rgba(16,24,40,.06); margin-bottom: 40px; text-align: center; }
-.hero-title{ font-size: 44px; font-weight: 900; line-height: 1.2; color: #06142c; letter-spacing: -0.01em; }
-.hero-title span{ color: #2f62e9; }
-.hero-desc{ margin-top: 16px; line-height: 1.6; color: #63728a; font-size: 16px; max-width: 900px; margin-left: auto; margin-right: auto; }
-
-/* STEPPER INTERACTIVE NODES CONTAINER */
-.stepper-container { display: flex; justify-content: center; align-items: center; gap: 40px; margin: 36px auto 10px; max-width: 600px; }
-.step-node { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.step-circle { width: 38px; height: 38px; border-radius: 50%; background: #e2e8f0; border: 2px solid #cbd5e1; color: #475569; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; transition: all 0.3s ease; }
-.step-node.active .step-circle { background: #2f62e9; border-color: #2f62e9; color: #ffffff; box-shadow: 0 4px 12px rgba(47, 98, 233, 0.2); }
-.step-node.completed .step-circle { background: #10b981; border-color: #10b981; color: #ffffff; }
-.step-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #475569; }
-
-/* =====================================================
-   SPLIT GRID MANAGEMENT INTERFACES
-   ===================================================== */
-.grid{ display: grid; grid-template-columns: 1fr 1.2fr; gap: 36px; align-items: start; }
-@media(max-width: 1000px){ .grid{ grid-template-columns: 1fr; } }
-
-.card{ background: #fff; border: 1px solid #dce4f0; border-radius: 9px; padding: 40px; box-shadow: 0 18px 45px rgba(16,24,40,.04); display: none; }
-.card.active-step-block { display: block; animation: stepFadeIn 0.3s ease-out; }
-.card-title{ font-size: 22px; font-weight: 900; color: #06142c; margin-bottom: 24px; letter-spacing: -0.01em; border-bottom: 1px solid #f1f5f9; padding-bottom: 14px; }
-
-.form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-@media(max-width: 500px){ .form-grid-2 { grid-template-columns: 1fr; } }
-
-.input-field { display: grid; gap: 6px; margin-bottom: 20px; text-align: left; }
-.input-field label { font-size: 12px; font-weight: 800; color: #26364f; text-transform: uppercase; letter-spacing: 0.03em; }
-.input-field input, .input-field select, .input-field textarea { width: 100%; min-height: 52px; border: 1px solid #d9e3f0; border-radius: 9px; background: #fff; color: #101828; outline: none; padding: 12px 14px; font-size: 15px; font-weight: 600; transition: all 0.2s ease; }
-.input-field textarea { resize: vertical; min-height: 100px; font-weight: 500; line-height: 1.5; }
-.input-field input:focus, .input-field select:focus, .input-field textarea:focus { border-color: #2f62e9; box-shadow: 0 0 0 4px rgba(47, 98, 233, 0.1); }
-.input-helper { font-size: 11px; color: #63728a; margin-top: 4px; line-height: 1.4; }
-
-/* COMPLIANCE CHECKBOX STYLES */
-.compliance-row { display: flex; gap: 12px; align-items: flex-start; margin-top: 18px; text-align: left; }
-.compliance-row input { width: 18px; height: 18px; accent-color: #2f62e9; margin-top: 2px; cursor: pointer; flex-shrink: 0; }
-.compliance-row p { font-size: 13px; color: #475569; line-height: 1.5; font-weight: 500; }
-
-/* BUTTONS DIRECTIONAL TRAFFIC CONTROLS */
-.nav-buttons { display: flex; justify-content: space-between; gap: 16px; margin-top: 28px; border-top: 1px solid #f1f5f9; padding-top: 22px; }
-.btn-nav { min-height: 48px; padding: 0 22px; border-radius: 8px; border: 1px solid #d9e3f0; background: #ffffff; color: #475569; font-size: 14px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; }
-.btn-nav:hover { background: #f8fafc; border-color: #cbd5e1; }
-.btn-nav.next { background: #2f62e9; color: #ffffff; border: none; padding: 0 32px; width: auto; }
-.btn-nav.next:hover { background: #2455cf; }
-
-/* VERIFICATION STATUS BOX MESSAGES */
-.status { margin-top: 20px; padding: 16px; border-radius: 8px; text-align: center; font-weight: 800; font-size: 14px; line-height: 1.5; display: none; }
-.status.success { display: block; background: #e7f8ef; color: #0f9f57; border: 1px solid rgba(15, 159, 87, 0.15); }
-.status.pending { display: block; background: #fff7df; color: #b7791f; border: 1px solid rgba(183, 121, 31, 0.15); }
-.status.rejected { display: block; background: #fef2f2; color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.15); }
-
-.loader { display: none; margin: 20px auto 0; width: 28px; height: 28px; border: 3px solid #dce4f0; border-top-color: #2f62e9; border-radius: 50%; animation: spinLoader 0.8s linear infinite; }
-@keyframes spinLoader { to { transform: rotate(360deg); } }
-
-/* SIDEBAR INFO ITEMS DISPLAY PANELS */
-.info-list { display: grid; gap: 20px; }
-.info-item { display: flex; gap: 16px; align-items: flex-start; padding: 24px; background: #fff; border: 1px solid #dce4f0; border-radius: 9px; box-shadow: 0 8px 24px rgba(16,24,40,.01); text-align: left; }
-.info-icon { width: 46px; height: 46px; border-radius: 8px; background: #eef3f9; color: #2f62e9; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-.info-text h3 { font-size: 17px; font-weight: 900; color: #06142c; margin-bottom: 6px; }
-.info-text p { color: #63728a; font-size: 14px; line-height: 1.6; font-weight: 500; }
-
-.footer { margin-top: 90px; text-align: center; line-height: 1.6; color: #63728a; font-size: 14px; font-weight: 500; border-top: 1px solid #dce4f0; padding-top: 26px; }
-@keyframes stepFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#f6f8fc;color:#101828;overflow-x:hidden;min-height:100vh}
+a{text-decoration:none;color:inherit}
+.topbar{position:sticky;top:0;z-index:999;min-height:80px;background:#fff;border-bottom:1px solid #dce4f0;padding:16px 34px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.topbar-left{display:flex;align-items:center;gap:20px}
+.brand-name{font-size:25px;font-weight:900;color:#06142c}
+.brand-name span{color:#2f62e9}
+.nav{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.nav a{color:#5d6d85;font-size:14px;font-weight:800}
+.nav a:hover{color:#2f62e9}
+.profile-wrap{position:relative;display:none;align-items:center}
+.profile-image{width:44px;height:44px;border-radius:50%;object-fit:cover;background:#d9e1ec;border:2px solid #fff;box-shadow:0 8px 20px rgba(16,24,40,.12);cursor:pointer}
+.profile-menu{position:absolute;top:55px;left:0;width:290px;background:#0d1628;border:1px solid #182a64;border-radius:14px;padding:20px;display:none;box-shadow:0 20px 45px rgba(16,24,40,.25);z-index:1000}
+.profile-menu.show{display:block}
+.profile-header{display:flex;align-items:center;gap:12px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:14px}
+.menu-profile-image{width:50px;height:50px;border-radius:50%;object-fit:cover}
+#menuName{color:#fff;font-size:16px;font-weight:900}
+#menuEmail{margin-top:4px;font-size:13px;color:#94a3b8;word-break:break-all}
+.profile-menu a{display:flex;align-items:center;height:44px;padding:0 14px;border-radius:8px;color:#e7edf8;font-size:14px;font-weight:800}
+.profile-menu a:hover{background:#182a64}
+.logout-btn{margin-top:14px;height:46px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#ef4444;color:#fff;font-weight:900;font-size:14px;cursor:pointer}
+.main{max-width:1400px;margin:auto;padding:36px 34px 90px}
+.hero{background:#fff;border:1px solid #dce4f0;border-radius:9px;padding:50px;box-shadow:0 18px 45px rgba(16,24,40,.06);margin-bottom:40px;text-align:center}
+.hero-title{font-size:44px;font-weight:900;line-height:1.2;color:#06142c}
+.hero-title span{color:#2f62e9}
+.hero-desc{margin-top:16px;line-height:1.6;color:#63728a;font-size:16px;max-width:900px;margin-left:auto;margin-right:auto}
+.stepper-container{display:flex;justify-content:center;align-items:center;gap:40px;margin:36px auto 10px;max-width:600px}
+.step-node{display:flex;flex-direction:column;align-items:center;gap:6px}
+.step-circle{width:38px;height:38px;border-radius:50%;background:#e2e8f0;border:2px solid #cbd5e1;color:#475569;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800}
+.step-node.active .step-circle{background:#2f62e9;border-color:#2f62e9;color:#fff;box-shadow:0 4px 12px rgba(47,98,233,.2)}
+.step-node.completed .step-circle{background:#10b981;border-color:#10b981;color:#fff}
+.step-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#475569}
+.grid{display:grid;grid-template-columns:1fr 1.2fr;gap:36px;align-items:start}
+.card{background:#fff;border:1px solid #dce4f0;border-radius:9px;padding:40px;box-shadow:0 18px 45px rgba(16,24,40,.04);display:none}
+.card.active-step-block{display:block}
+.card-title{font-size:22px;font-weight:900;color:#06142c;margin-bottom:24px;border-bottom:1px solid #f1f5f9;padding-bottom:14px}
+.form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.input-field{display:grid;gap:6px;margin-bottom:20px;text-align:left}
+.input-field label{font-size:12px;font-weight:800;color:#26364f;text-transform:uppercase;letter-spacing:.03em}
+.input-field input,.input-field select,.input-field textarea{width:100%;min-height:52px;border:1px solid #d9e3f0;border-radius:9px;background:#fff;color:#101828;outline:none;padding:12px 14px;font-size:15px;font-weight:600}
+.input-field textarea{resize:vertical;min-height:110px;font-weight:500;line-height:1.5}
+.input-field input:focus,.input-field select:focus,.input-field textarea:focus{border-color:#2f62e9;box-shadow:0 0 0 4px rgba(47,98,233,.1)}
+.input-helper{font-size:11px;color:#63728a;margin-top:4px;line-height:1.4}
+.compliance-row{display:flex;gap:12px;align-items:flex-start;margin-top:18px;text-align:left}
+.compliance-row input{width:18px;height:18px;accent-color:#2f62e9;margin-top:2px;cursor:pointer;flex-shrink:0}
+.compliance-row p{font-size:13px;color:#475569;line-height:1.5;font-weight:500}
+.nav-buttons{display:flex;justify-content:space-between;gap:16px;margin-top:28px;border-top:1px solid #f1f5f9;padding-top:22px}
+.btn-nav{min-height:48px;padding:0 22px;border-radius:8px;border:1px solid #d9e3f0;background:#fff;color:#475569;font-size:14px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.btn-nav.next{background:#2f62e9;color:#fff;border:none;padding:0 32px}
+.status{margin-top:20px;padding:16px;border-radius:8px;text-align:center;font-weight:800;font-size:14px;line-height:1.5;display:none}
+.status.success{display:block;background:#e7f8ef;color:#0f9f57;border:1px solid rgba(15,159,87,.15)}
+.status.pending{display:block;background:#fff7df;color:#b7791f;border:1px solid rgba(183,121,31,.15)}
+.status.rejected{display:block;background:#fef2f2;color:#ef4444;border:1px solid rgba(239,68,68,.15)}
+.loader{display:none;margin:20px auto 0;width:28px;height:28px;border:3px solid #dce4f0;border-top-color:#2f62e9;border-radius:50%;animation:spinLoader .8s linear infinite}
+@keyframes spinLoader{to{transform:rotate(360deg)}}
+.info-list{display:grid;gap:20px}
+.info-item{display:flex;gap:16px;align-items:flex-start;padding:24px;background:#fff;border:1px solid #dce4f0;border-radius:9px;box-shadow:0 8px 24px rgba(16,24,40,.01);text-align:left}
+.info-icon{width:46px;height:46px;border-radius:8px;background:#eef3f9;color:#2f62e9;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.info-text h3{font-size:17px;font-weight:900;color:#06142c;margin-bottom:6px}
+.info-text p{color:#63728a;font-size:14px;line-height:1.6;font-weight:500}
+.footer{margin-top:90px;text-align:center;line-height:1.6;color:#63728a;font-size:14px;font-weight:500;border-top:1px solid #dce4f0;padding-top:26px}
+@media(max-width:1000px){.grid{grid-template-columns:1fr}}
+@media(max-width:640px){.topbar{align-items:flex-start;flex-direction:column;padding:18px 20px}.main{padding:24px 20px 70px}.hero{padding:34px 20px}.hero-title{font-size:34px}.form-grid-2{grid-template-columns:1fr}.stepper-container{gap:18px}.nav-buttons{flex-direction:column}.btn-nav{justify-content:center}}
 </style>
 </head>
 
 <body>
-
-  <div class="topbar">
-    <div class="topbar-left">
-      <div id="profileWrap" class="profile-wrap">
-        <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile">
-        <div id="profileMenu" class="profile-menu">
-          <div class="profile-header">
-            <img id="menuProfileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="menu-profile-image" alt="User">
-            <div>
-              <div id="menuName">User Profile</div>
-              <div id="menuEmail">user@email.com</div>
-            </div>
+<div class="topbar">
+  <div class="topbar-left">
+    <div id="profileWrap" class="profile-wrap">
+      <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile">
+      <div id="profileMenu" class="profile-menu">
+        <div class="profile-header">
+          <img id="menuProfileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="menu-profile-image" alt="User">
+          <div>
+            <div id="menuName">User Profile</div>
+            <div id="menuEmail">user@email.com</div>
           </div>
-          <a href="profile.html">My Profile</a>
-          <a class="active" href="seller-apply.html">Become Seller</a>
-          <a href="tranding.html">Trending Books</a>
-          <a href="library1.html">Library</a>
-          <a href="topselling.html">Top Selling</a>
-          <div class="logout-btn" onclick="logout()">Logout</div>
         </div>
+        <a href="profile.html">My Profile</a>
+        <a href="seller-apply.html">Become Seller</a>
+        <a href="tranding.html">Trending Books</a>
+        <a href="library1.html">Library</a>
+        <a href="topselling.html">Top Selling</a>
+        <div class="logout-btn" onclick="logout()">Logout</div>
       </div>
-    </div>
-
-    <a class="brand-name" href="index.html">Creator<span>Hub</span></a>
-
-    <div class="nav">
-      <a href="cart.html">Cart</a>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="subscription.html">Subscription</a>
-      <a href="wallet.html">Wallet</a>
-      <a href="my-orders.html">Order</a>
     </div>
   </div>
 
-  <div class="main">
-    <section class="hero">
-      <div class="hero-title">Become a Verified <span>Partner Seller</span></div>
-      <p class="desc">Deploy your products inside the CreatorHub multi-vendor catalog. Fill in genuine business details across the verification steps to authorize your account pipeline and connect with global courier networks natively.</p>
-      
-      <div class="stepper-container">
-          <div class="step-node active" id="stepIndicator1"><div class="step-circle">1</div><span class="step-label">Identity</span></div>
-          <div class="step-node" id="stepIndicator2"><div class="step-circle">2</div><span class="step-label">Financials</span></div>
-          <div class="step-node" id="stepIndicator3"><div class="step-circle">3</div><span class="step-label">Logistics</span></div>
-      </div>
-    </section>
+  <a class="brand-name" href="index.html">Creator<span>Hub</span></a>
 
-    <div class="grid">
-      <div class="info-list">
-        <div class="info-item">
-          <div class="info-icon"><i class="fa-solid fa-user-shield"></i></div>
-          <div class="info-text">
-            <h3>Fraud Prevention Systems</h3>
-            <p>Our real-time regex verification logic structural engines scan data sets pattern instances to block fake onboarding entries automatically.</p>
-          </div>
-        </div>
-        <div class="info-item">
-          <div class="info-icon"><i class="fa-solid fa-wallet"></i></div>
-          <div class="info-text">
-            <h3>Direct Settlement Channels</h3>
-            <p>Earnings route automatically into your unified balance wallet metrics. Manage direct payouts straight into your authorized routing addresses.</p>
-          </div>
-        </div>
-        <div class="info-item">
-          <div class="info-icon"><i class="fa-solid fa-truck-ramp-box"></i></div>
-          <div class="info-text">
-            <h3>Logistics Channel Integration</h3>
-            <p>Unlock access to print-on-demand fulfillment channels, nationwide automatic cargo packaging pipelines, and real-time order tracking.</p>
-          </div>
-        </div>
-      </div>
+  <div class="nav">
+    <a href="cart.html">Cart</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="subscription.html">Subscription</a>
+    <a href="wallet.html">Wallet</a>
+    <a href="my-orders.html">Order</a>
+  </div>
+</div>
 
-      <div class="form-container">
-          
-          <div class="card active-step-block" id="formCardStep1">
-              <div class="card-title">Step 1: Creator & Identity Validation</div>
-              <div class="form-grid-2">
-                  <div class="input-field"><label>Full Legal Name</label><input type="text" id="name" placeholder="Extracting secure user session profile data..."></div>
-                  <div class="input-field"><label>Phone Number (10 Digits)</label><input type="tel" id="phone" placeholder="Enter genuine mobile number"></div>
-              </div>
-              <div class="form-grid-2">
-                  <div class="input-field"><label>Business Framework Type</label>
-                      <select id="accBizType">
-                          <option value="individual">Individual Content Creator</option>
-                          <option value="publisher">Ebook Publisher / Corporate Author</option>
-                          <option value="agency">Registered Distribution Agency</option>
-                      </select>
-                  </div>
-                  <div class="input-field"><label>PAN Card Tax Number</label><input type="text" id="taxId" placeholder="ABCDE1234F"></div>
-              </div>
-              <div class="nav-buttons">
-                  <div></div>
-                  <button type="button" class="btn-nav next" onclick="verifyAndNavigateStep(1, 2)">Next Step <i class="fa-solid fa-arrow-right"></i></button>
-              </div>
-          </div>
+<div class="main">
+  <section class="hero">
+    <div class="hero-title">Become a Verified <span>Partner Seller</span></div>
+    <p class="hero-desc">Submit genuine business, settlement and logistics details. CreatorHub AI and validation systems will review your seller onboarding request.</p>
 
-          <div class="card" id="formCardStep2">
-              <div class="card-title">Step 2: Settlement Account Payout Details</div>
-              <div class="form-grid-2">
-                  <div class="input-field"><label>Account Holder Name</label><input type="text" id="bankHolder" placeholder="Legal name as registered in bank"></div>
-                  <div class="input-field"><label>Banking Institution Name</label><input type="text" id="bankName" placeholder="e.g. ICICI Bank"></div>
-              </div>
-              <div class="form-grid-2">
-                  <div class="input-field"><label>Account Number</label><input type="password" id="bankAccNo" placeholder="Enter bank account digits number"></div>
-                  <div class="input-field"><label>IFSC Routing Code (11 Characters)</label><input type="text" id="bankIfsc" placeholder="e.g. ICIC0000123"></div>
-              </div>
-              <div class="input-field">
-                  <label>Direct Wallet UPI Address</label>
-                  <input type="text" id="upi" placeholder="username@bank">
-                  <div class="input-helper">Compulsory settlement field. Automated wallet split processes use this endpoint handle.</div>
-              </div>
-              <div class="nav-buttons">
-                  <button type="button" class="btn-nav" onclick="switchFormStep(1)"><i class="fa-solid fa-arrow-left"></i> Previous</button>
-                  <button type="button" class="btn-nav next" onclick="verifyAndNavigateStep(2, 3)">Next Step <i class="fa-solid fa-arrow-right"></i></button>
-              </div>
-          </div>
+    <div class="stepper-container">
+      <div class="step-node active" id="stepIndicator1"><div class="step-circle">1</div><span class="step-label">Identity</span></div>
+      <div class="step-node" id="stepIndicator2"><div class="step-circle">2</div><span class="step-label">Financials</span></div>
+      <div class="step-node" id="stepIndicator3"><div class="step-circle">3</div><span class="step-label">Logistics</span></div>
+    </div>
+  </section>
 
-          <div class="card" id="formCardStep3">
-              <div class="card-title">Step 3: Fulfillment Networks & Logistics Hub</div>
-              <div class="input-field">
-                  <label>Marketplace Catalog Niche Specialization</label>
-                  <input type="text" id="storeNiche" placeholder="e.g. Spreadsheet Solutions, Growth Notebooks, Guides">
-              </div>
-              <div class="input-field">
-                  <label>Courier Warehouse Pickup / Return Facility Address</label>
-                  <textarea id="warehouseAddress" placeholder="Provide complete warehouse operational pickup address string with PIN code parameters..."></textarea>
-                  <div class="input-helper">Courier routing webhooks parse this address structure token to calculate live pickup configurations.</div>
-              </div>
-              
-              <div class="compliance-row">
-                  <input type="checkbox" id="complianceCheckbox">
-                  <p>I verify that all business details provided are genuine and correct. I authorize CreatorHub to initialize the system onboarding process and agree to comply with the standard 10% platform fee commission deduction structures on successful balance processing runs.</p>
-              </div>
-
-              <div class="loader" id="loader"></div>
-              <div id="status" class="status"></div>
-
-              <div class="nav-buttons">
-                  <button type="button" class="btn-nav" onclick="switchFormStep(2)"><i class="fa-solid fa-arrow-left"></i> Previous</button>
-                  <button type="button" class="btn-nav next" style="background: #10b981;" onclick="applySeller()">Submit Application <i class="fa-solid fa-shield-check"></i></button>
-              </div>
-          </div>
-
-      </div>
+  <div class="grid">
+    <div class="info-list">
+      <div class="info-item"><div class="info-icon"><i class="fa-solid fa-user-shield"></i></div><div class="info-text"><h3>AI Verification</h3><p>Your seller details are checked for realistic identity, banking, UPI and warehouse data.</p></div></div>
+      <div class="info-item"><div class="info-icon"><i class="fa-solid fa-wallet"></i></div><div class="info-text"><h3>Secure Settlement</h3><p>Bank and UPI details help route seller earnings after approval.</p></div></div>
+      <div class="info-item"><div class="info-icon"><i class="fa-solid fa-truck-ramp-box"></i></div><div class="info-text"><h3>Logistics Ready</h3><p>Warehouse address helps CreatorHub connect fulfillment and dispatch systems.</p></div></div>
     </div>
 
-    <div class="footer">
-      Secure Marketplace Onboarding Infrastructure • Automated Verification Pipeline
+    <div class="form-container">
+      <div class="card active-step-block" id="formCardStep1">
+        <div class="card-title">Step 1: Creator & Identity Validation</div>
+        <div class="form-grid-2">
+          <div class="input-field"><label>Full Legal Name</label><input type="text" id="name" placeholder="Enter full legal name"></div>
+          <div class="input-field"><label>Phone Number</label><input type="tel" id="phone" maxlength="10" placeholder="10 digit mobile number"></div>
+        </div>
+        <div class="form-grid-2">
+          <div class="input-field"><label>Business Type</label><select id="accBizType"><option value="individual">Individual Content Creator</option><option value="publisher">Ebook Publisher</option><option value="agency">Registered Agency</option></select></div>
+          <div class="input-field"><label>PAN Card Number</label><input type="text" id="taxId" maxlength="10" placeholder="ABCDE1234F"></div>
+        </div>
+        <div class="nav-buttons"><div></div><button type="button" class="btn-nav next" onclick="verifyAndNavigateStep(1,2)">Next Step <i class="fa-solid fa-arrow-right"></i></button></div>
+      </div>
+
+      <div class="card" id="formCardStep2">
+        <div class="card-title">Step 2: Settlement Account Details</div>
+        <div class="form-grid-2">
+          <div class="input-field"><label>Account Holder Name</label><input type="text" id="bankHolder" placeholder="Name as per bank"></div>
+          <div class="input-field"><label>Bank Name</label><input type="text" id="bankName" placeholder="e.g. SBI Bank"></div>
+        </div>
+        <div class="form-grid-2">
+          <div class="input-field"><label>Account Number</label><input type="password" id="bankAccNo" placeholder="Bank account number"></div>
+          <div class="input-field"><label>IFSC Code</label><input type="text" id="bankIfsc" maxlength="11" placeholder="SBIN0000123"></div>
+        </div>
+        <div class="input-field"><label>UPI Address</label><input type="text" id="upi" placeholder="username@bank"><div class="input-helper">Required for settlement verification.</div></div>
+        <div class="nav-buttons"><button type="button" class="btn-nav" onclick="switchFormStep(1)"><i class="fa-solid fa-arrow-left"></i> Previous</button><button type="button" class="btn-nav next" onclick="verifyAndNavigateStep(2,3)">Next Step <i class="fa-solid fa-arrow-right"></i></button></div>
+      </div>
+
+      <div class="card" id="formCardStep3">
+        <div class="card-title">Step 3: Logistics & Compliance</div>
+        <div class="input-field"><label>Catalog Niche</label><input type="text" id="storeNiche" placeholder="e.g. Business ebooks, study guides, templates"></div>
+        <div class="input-field"><label>Warehouse / Pickup Address</label><textarea id="warehouseAddress" placeholder="Complete pickup address with city, state and PIN code"></textarea><div class="input-helper">Use a real and complete dispatch address.</div></div>
+        <div class="compliance-row"><input type="checkbox" id="complianceCheckbox"><p>I confirm that all seller details are genuine and authorize CreatorHub to verify my seller onboarding request.</p></div>
+        <div class="loader" id="loader"></div>
+        <div id="status" class="status"></div>
+        <div class="nav-buttons"><button type="button" class="btn-nav" onclick="switchFormStep(2)"><i class="fa-solid fa-arrow-left"></i> Previous</button><button type="button" class="btn-nav next" style="background:#10b981" onclick="applySeller()">Submit Application <i class="fa-solid fa-shield-check"></i></button></div>
+      </div>
     </div>
   </div>
 
-  <script>
-    // URL REDIRECTED TO EXACT MATCH WORKING HOME URL EXPLICITLY
-    const REAL_APPS_SCRIPT_API_URL = "https://script.google.com/macros/s/AKfycbrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec";
+  <div class="footer">Secure Marketplace Onboarding Infrastructure</div>
+</div>
 
-    function toggleProfileMenu(){
-      document.getElementById("profileMenu").classList.toggle("show");
-    }
+<script>
+const REAL_APPS_SCRIPT_API_URL = "https://script.google.com/macros/s/AKfycby78v_g_Of7t49vF1Rccn52ObqaSAcm6DLcIB_-3ATqDLHfaLr-jk82BZi5hmw3Al92aw/exec";
 
-    window.addEventListener("click", function(e){
-      let wrap = document.getElementById("profileWrap");
-      if(wrap && !wrap.contains(e.target)){
-        document.getElementById("profileMenu").classList.remove("show");
-      }
+function toggleProfileMenu(){
+  document.getElementById("profileMenu").classList.toggle("show");
+}
+
+window.addEventListener("click",function(e){
+  let wrap=document.getElementById("profileWrap");
+  if(wrap && !wrap.contains(e.target)){
+    document.getElementById("profileMenu").classList.remove("show");
+  }
+});
+
+function logout(){
+  localStorage.clear();
+  window.location.href="login.html";
+}
+
+function getLoggedUser(){
+  let userText=localStorage.getItem("user")||localStorage.getItem("currentUser")||localStorage.getItem("creatorhub_user");
+  let user={};
+  if(userText){
+    try{user=JSON.parse(userText)||{};}catch(e){}
+  }
+  return {
+    email:user.email||localStorage.getItem("user_email")||localStorage.getItem("creatorhub_profile_email")||"",
+    name:user.name||localStorage.getItem("user_name")||"",
+    image:user.profile_image||localStorage.getItem("user_image")||localStorage.getItem("profile_image")||""
+  };
+}
+
+function driveImage(url){
+  if(!url)return "";
+  if(url.includes("ui-avatars.com")||url.startsWith("data:image"))return url;
+  if(url.includes("thumbnail?id="))return url;
+  if(url.includes("uc?id=")){
+    let id=url.split("id=")[1].split("&")[0];
+    return "https://drive.google.com/thumbnail?id="+id+"&sz=w500";
+  }
+  if(url.includes("/d/")){
+    let id=url.split("/d/")[1].split("/")[0];
+    return "https://drive.google.com/thumbnail?id="+id+"&sz=w500";
+  }
+  return url;
+}
+
+function updateLoginUI(){
+  let user=getLoggedUser();
+  let profileWrap=document.getElementById("profileWrap");
+  let isLoggedIn=user.email||localStorage.getItem("isLoggedIn")==="true"||localStorage.getItem("user_token");
+
+  if(isLoggedIn){
+    profileWrap.style.display="flex";
+    let name=user.name||"CreatorHub User";
+    let img=user.image||"https://ui-avatars.com/api/?name="+encodeURIComponent(name)+"&background=2f62e9&color=fff";
+    document.getElementById("profileImage").src=driveImage(img);
+    document.getElementById("menuProfileImage").src=driveImage(img);
+    document.getElementById("menuName").innerText=name;
+    document.getElementById("menuEmail").innerText=user.email||"";
+    if(name && name!=="CreatorHub User")document.getElementById("name").value=name;
+  }
+}
+
+function switchFormStep(stepNumber){
+  document.querySelectorAll(".card").forEach(c=>c.classList.remove("active-step-block"));
+  document.querySelectorAll(".step-node").forEach(sn=>{sn.classList.remove("active");sn.classList.remove("completed");});
+  document.getElementById("formCardStep"+stepNumber).classList.add("active-step-block");
+  for(let i=1;i<=3;i++){
+    let node=document.getElementById("stepIndicator"+i);
+    if(i<stepNumber)node.classList.add("completed");
+    if(i===stepNumber)node.classList.add("active");
+  }
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function verifyAndNavigateStep(currentStep,nextStep){
+  if(currentStep===1){
+    const name=document.getElementById("name").value.trim();
+    const phone=document.getElementById("phone").value.trim();
+    const taxId=document.getElementById("taxId").value.trim().toUpperCase();
+
+    if(name.length<3){alert("Please enter your full legal name.");return;}
+    if(!/^[0-9]{10}$/.test(phone)){alert("Please enter a valid 10 digit phone number.");return;}
+    if(taxId && !/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(taxId)){alert("Invalid PAN format. Example: ABCDE1234F");return;}
+  }
+
+  if(currentStep===2){
+    const holder=document.getElementById("bankHolder").value.trim();
+    const bank=document.getElementById("bankName").value.trim();
+    const acc=document.getElementById("bankAccNo").value.trim();
+    const ifsc=document.getElementById("bankIfsc").value.trim().toUpperCase();
+    const upi=document.getElementById("upi").value.trim();
+
+    if(holder.length<3){alert("Enter valid account holder name.");return;}
+    if(bank.length<3){alert("Enter valid bank name.");return;}
+    if(!/^\d{6,18}$/.test(acc)){alert("Enter valid bank account number.");return;}
+    if(!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(ifsc)){alert("Invalid IFSC code.");return;}
+    if(!/^[\w.\-_]+@[\w.\-_]+$/.test(upi)){alert("Invalid UPI ID.");return;}
+  }
+
+  switchFormStep(nextStep);
+}
+
+function setStatusMessage(type,message){
+  const statusDiv=document.getElementById("status");
+  statusDiv.innerHTML=message;
+  statusDiv.className="status "+type;
+  statusDiv.style.display="block";
+}
+
+async function applySeller(){
+  const name=document.getElementById("name").value.trim();
+  const phone=document.getElementById("phone").value.trim();
+  const upi=document.getElementById("upi").value.trim();
+  const bizType=document.getElementById("accBizType").value;
+  const taxId=document.getElementById("taxId").value.trim().toUpperCase();
+  const bankHolder=document.getElementById("bankHolder").value.trim();
+  const bankName=document.getElementById("bankName").value.trim();
+  const bankAcc=document.getElementById("bankAccNo").value.trim();
+  const bankIfsc=document.getElementById("bankIfsc").value.trim().toUpperCase();
+  const niche=document.getElementById("storeNiche").value.trim();
+  const address=document.getElementById("warehouseAddress").value.trim();
+  const checked=document.getElementById("complianceCheckbox").checked;
+  const logged=getLoggedUser();
+  const email=logged.email;
+
+  const loader=document.getElementById("loader");
+  const statusDiv=document.getElementById("status");
+
+  statusDiv.style.display="none";
+
+  if(!email){setStatusMessage("rejected","Please login first, then submit seller application.");return;}
+  if(!name||!phone||!upi||!bizType||!bankHolder||!bankName||!bankAcc||!bankIfsc||!niche||!address){
+    setStatusMessage("rejected","Please complete all required fields.");
+    return;
+  }
+  if(address.length<20){
+    setStatusMessage("rejected","Please enter complete warehouse / pickup address.");
+    return;
+  }
+  if(!checked){
+    setStatusMessage("rejected","Please accept the compliance confirmation.");
+    return;
+  }
+
+  loader.style.display="block";
+
+  try{
+    const response=await fetch(REAL_APPS_SCRIPT_API_URL,{
+      method:"POST",
+      body:JSON.stringify({
+        action:"apply_seller",
+        name:name,
+        email:email,
+        phone:phone,
+        upi:upi,
+        bizType:bizType,
+        taxId:taxId,
+        bankHolder:bankHolder,
+        bankName:bankName,
+        bankAcc:bankAcc,
+        bankIfsc:bankIfsc,
+        niche:niche,
+        address:address
+      })
     });
 
-    function logout(){ localStorage.clear(); window.location.href = "login.html"; }
-    function goHome(){ window.location.href = "index.html"; }
+    const result=await response.json();
+    loader.style.display="none";
 
-    function updateLoginUI(){
-      let token = localStorage.getItem("user_token");
-      let profileWrap = document.getElementById("profileWrap");
-      let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
-      let email = localStorage.getItem("creatorhub_profile_email");
-      
-      if(token || localStorage.getItem("user")){
-        profileWrap.style.display = "flex";
-        if(cachedUser && email){
-          try {
-            let data = JSON.parse(cachedUser)[email];
-            if(data && data.profile_image){
-              let id = data.profile_image.includes("id=") ? data.profile_image.split("id=")[1].split("&")[0] : data.profile_image;
-              let imgLink = id.length > 30 ? "https://drive.google.com/thumbnail?id=" + id + "&sz=w500" : data.profile_image;
-              document.getElementById("profileImage").src = imgLink;
-              document.getElementById("menuProfileImage").src = imgLink;
-              document.getElementById("menuName").innerText = data.name || "CreatorHub User";
-              document.getElementById("menuEmail").innerText = data.email || email;
-              if(data.name) document.getElementById("name").value = data.name;
-            }
-          } catch(e) { console.log("Header profile mapping failed."); }
-        }
-      }
+    if(!result.success){
+      setStatusMessage("rejected",result.message||"Seller application failed.");
+      return;
     }
 
-    function switchFormStep(stepNumber) {
-        document.querySelectorAll(".card").forEach(c => c.classList.remove("active-step-block"));
-        document.querySelectorAll(".step-node").forEach(sn => {
-            sn.classList.remove("active");
-            sn.classList.remove("completed");
-        });
-
-        document.getElementById("formCardStep" + stepNumber).classList.add("active-step-block");
-        for(let i = 1; i <= 3; i++) {
-            let node = document.getElementById("stepIndicator" + i);
-            if(i < stepNumber) node.classList.add("completed");
-            if(i === stepNumber) node.classList.add("active");
-        }
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    if(result.status==="approved"){
+      setStatusMessage("success","Application approved. Your seller account is ready.");
+    }else if(result.status==="rejected"){
+      setStatusMessage("rejected","Application rejected: "+(result.message||result.seller?.reason||"Verification failed."));
+    }else{
+      setStatusMessage("pending","Application submitted. Status: pending manual review.");
     }
 
-    function verifyAndNavigateStep(currentStep, nextStep) {
-        if (currentStep === 1) {
-            const phone = document.getElementById("phone").value.trim();
-            const taxId = document.getElementById("taxId").value.trim();
-            if (!/^[0-9]{10}$/.test(phone)) {
-                alert("Identity Mismatch: Please input a valid 10-digit phone number sequence.");
-                return;
-            }
-            if (taxId.length > 0 && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(taxId.toUpperCase())) {
-                alert("Taxation Matrix Error: The supplied PAN structure token format syntax is invalid.");
-                return;
-            }
-        } 
-        else if (currentStep === 2) {
-            const ifsc = document.getElementById("bankIfsc").value.trim();
-            const upi = document.getElementById("upi").value.trim();
-            if (!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(ifsc.toUpperCase())) {
-                alert("Financial Routing Error: Invalid IFSC code pattern framework.");
-                return;
-            }
-            if (!/^[\w\.\-_]+@[\w\.\-_]+$/.test(upi)) {
-                alert("Financial Routing Error: Invalid UPI handle string format configuration link.");
-                return;
-            }
-        }
-        switchFormStep(nextStep);
-    }
+  }catch(err){
+    loader.style.display="none";
+    setStatusMessage("rejected","Server connection failed. Please check API deployment.");
+  }
+}
 
-    async function applySeller(){
-      const name = document.getElementById("name").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const upi = document.getElementById("upi").value.trim();
-      const bizType = document.getElementById("accBizType").value;
-      const taxId = document.getElementById("taxId").value.trim();
-      const bHolder = document.getElementById("bankHolder").value.trim();
-      const bName = document.getElementById("bankName").value.trim();
-      const bAcc = document.getElementById("bankAccNo").value.trim();
-      const bIfsc = document.getElementById("bankIfsc").value.trim();
-      const storeNiche = document.getElementById("storeNiche").value.trim();
-      const address = document.getElementById("warehouseAddress").value.trim();
-      const isChecked = document.getElementById("complianceCheckbox").checked;
-
-      const userObj = JSON.parse(localStorage.getItem("user") || "{}");
-      const email = userObj.email || localStorage.getItem("creatorhub_profile_email");
-
-      const statusDiv = document.getElementById("status");
-      const loader = document.getElementById("loader");
-
-      statusDiv.style.display = "none";
-
-      if(!name || !phone || !upi || !storeNiche || !address || !bHolder || !bName || !bAcc || !bIfsc){
-        statusDiv.innerHTML = "⚠️ Validation Fault: Missing parameters. Please complete all steps fields entries.";
-        statusDiv.className = "status rejected";
-        statusDiv.style.display = "block";
-        return;
-      }
-      
-      if(!isChecked) {
-        statusDiv.innerHTML = "⚠️ Authorization Fault: Enforced platform compliance ToS deduction policy checkbox validation check failed.";
-        statusDiv.className = "status rejected";
-        statusDiv.style.display = "block";
-        return;
-      }
-
-      loader.style.display = "block";
-      statusDiv.innerHTML = "";
-
-      try{
-        // 🚀 METADATA BINDING FIXED: Dispatches all dynamic properties to endpoint securely via POST context payloads simulation
-        const response = await fetch(REAL_APPS_SCRIPT_API_URL, {
-            method: "POST",
-            mode: "no-cors", // Bypass cross-origin block safely
-            headers: { "Content-Type": "text/plain" },
-            body: JSON.stringify({
-                action: "apply_seller",
-                name: name,
-                email: email,
-                phone: phone,
-                upi: upi,
-                bizType: bizType,
-                taxId: taxId,
-                bankHolder: bHolder,
-                bankName: bName,
-                bankAcc: bAcc,
-                bankIfsc: bIfsc,
-                niche: storeNiche,
-                address: address
-            })
-        });
-
-        loader.style.display = "none";
-        statusDiv.innerHTML = "🎉 Application Transmitted Successfully! Your onboarding request parameters have been logged into the datastore tracks.";
-        statusDiv.className = "status success";
-        statusDiv.style.display = "block";
-
-      }catch(err){
-        loader.style.display = "none";
-        statusDiv.innerHTML = "⚠️ Operation Timeout: Server mapping traces connection anomaly.";
-        statusDiv.className = "status rejected";
-        statusDiv.style.display = "block";
-      }
-    }
-
-    updateLoginUI();
-  </script>
+updateLoginUI();
+</script>
 </body>
 </html>
