@@ -1,1369 +1,844 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Ebook | CreatorHub</title>
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>
-Edit Ebook • CreatorHub
-</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
-body{
-background: #f8fafc;
-color: #0f172a;
-min-height:100vh;
-overflow-x:hidden;
-}
-
 :root{
---green:#10b981;
---card:#ffffff;
---border:#e2e8f0;
+  --bg:#f5f7fb;
+  --card:#ffffff;
+  --text:#06142c;
+  --muted:#64748b;
+  --line:#dbe4f0;
+  --blue:#2f62e9;
+  --blue2:#1d4ed8;
+  --green:#10b981;
+  --red:#ef4444;
+  --soft:#eef4ff;
+  --shadow:0 22px 55px rgba(16,24,40,.08);
 }
 
-/* =========================================================
-TOPBAR
-========================================================= */
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:var(--bg);color:var(--text);min-height:100vh}
+a{text-decoration:none;color:inherit}
 
 .topbar{
-height:70px;
-display:flex;
-align-items:center;
-gap:18px;
-padding:0 24px;
-position:sticky;
-top:0;
-z-index:999;
-background: #ffffff;
-border-bottom:1px solid #e2e8f0;
+  height:82px;
+  background:#fff;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 42px;
+  position:sticky;
+  top:0;
+  z-index:99;
 }
 
 .back{
-font-size:22px;
-cursor:pointer;
-color: #64748b;
-display: flex;
-align-items: center;
-justify-content: center;
-width: 38px;
-height: 38px;
-border-radius: 50%;
-transition: all 0.2s;
-}
-.back:hover {
-background: #f1f5f9;
-color: #0f172a;
+  height:46px;
+  padding:0 18px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#334155;
+  font-weight:800;
+  cursor:pointer;
 }
 
-.title{
-font-size:24px;
-font-weight:800;
-color: #0f172a;
-letter-spacing: -0.02em;
-}
-
-.title span{
-color: #2f62e9;
-}
-/* =========================================================
-CONTAINER
-========================================================= */
+.back:hover{border-color:var(--blue);color:var(--blue);background:var(--soft)}
+.brand{font-size:26px;font-weight:900;letter-spacing:-.03em}
+.brand span{color:var(--blue)}
 
 .container{
-max-width:1100px;
-margin:auto;
-padding:25px 18px 120px;
+  max-width:1360px;
+  margin:auto;
+  padding:42px 34px 90px;
 }
 
-/* =========================================================
-CARD
-========================================================= */
-
-.card{
-background: #ffffff;
-border:1px solid var(--border);
-border-radius:24px;
-padding:36px;
-position:relative;
-overflow:hidden;
-box-shadow:0 4px 20px rgba(15,23,42,0.04);
-animation:fade .4s ease;
+.hero{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:34px;
+  box-shadow:var(--shadow);
+  margin-bottom:30px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:22px;
 }
 
-@keyframes fade{
-from{
-opacity:0;
-transform:translateY(20px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
+.hero h1{
+  font-size:38px;
+  font-weight:900;
+  letter-spacing:-.04em;
+  line-height:1.15;
 }
 
-/* =========================================================
-HEADER
-========================================================= */
-
-.editor-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:20px;
-flex-wrap:wrap;
-margin-bottom:30px;
-}
-
-.editor-title h1{
-font-size:38px;
-font-weight:800;
-}
-
-.editor-title span{
-color:#4ade80;
-}
-
-.editor-title p{
-margin-top:12px;
-opacity:.75;
-line-height:1.8;
-max-width:600px;
+.hero h1 span{color:var(--blue)}
+.hero p{
+  margin-top:10px;
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.7;
+  font-weight:600;
+  max-width:760px;
 }
 
 .live-badge{
-padding:12px 18px;
-border-radius:18px;
-background:rgba(34,197,94,.15);
-border:1px solid rgba(34,197,94,.25);
-color:#4ade80;
-font-weight:bold;
+  min-height:46px;
+  padding:0 18px;
+  border-radius:999px;
+  background:#e7f8ef;
+  color:#0f9f57;
+  border:1px solid rgba(16,185,129,.18);
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-weight:900;
+  white-space:nowrap;
 }
 
-/* =========================================================
-INFO GRID
-========================================================= */
-
-.info-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:18px;
-margin-bottom:30px;
+.layout{
+  display:grid;
+  grid-template-columns:.88fr 1.12fr;
+  gap:28px;
+  align-items:start;
 }
 
-.info-box{
-background:#f8fafc;
-padding:20px;
-border-radius:14px;
-border:1px solid var(--border);
-color: #0f172a;
+.panel{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:0 16px 42px rgba(16,24,40,.06);
+  overflow:hidden;
 }
 
-.info-box h3{
-font-size:13px;
-opacity:.65;
-margin-bottom:10px;
+.panel-pad{padding:28px}
+
+.preview-top{
+  height:180px;
+  background:linear-gradient(120deg,#2f62e9,#27a7a1);
 }
 
-.info-box p{
-font-size:20px;
-font-weight:bold;
+.cover-row{
+  margin-top:-86px;
+  padding:0 28px 28px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
 }
 
-/* =========================================================
-PREVIEW
-========================================================= */
-
-.preview-wrap{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:24px;
-margin-bottom:35px;
-}
-
-.preview-box{
-background:#f8fafc;
-padding:24px;
-border-radius:16px;
-border:1px solid var(--border);
+.preview-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px;
+  box-shadow:0 18px 36px rgba(16,24,40,.12);
 }
 
 .preview-label{
-margin-bottom:14px;
-opacity:.75;
-font-weight:bold;
+  font-size:12px;
+  font-weight:900;
+  color:#475569;
+  text-transform:uppercase;
+  margin-bottom:10px;
+  display:flex;
+  gap:8px;
+  align-items:center;
 }
 
 .preview{
-width:100%;
-max-width:240px;
-height:340px;
-object-fit:cover;
-border-radius:18px;
-box-shadow:0 20px 45px rgba(0,0,0,.45);
+  width:100%;
+  aspect-ratio:2/3;
+  object-fit:cover;
+  border-radius:10px;
+  background:#e2e8f0;
+  border:1px solid var(--line);
 }
 
-/* =========================================================
-GRID
-========================================================= */
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  padding:0 28px 28px;
+}
+
+.stat{
+  background:#f8fafc;
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:16px;
+}
+
+.stat span{
+  display:block;
+  color:#64748b;
+  font-size:11px;
+  text-transform:uppercase;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.stat strong{
+  display:block;
+  color:#06142c;
+  font-size:18px;
+  font-weight:900;
+  word-break:break-word;
+}
+
+.card-title{
+  font-size:23px;
+  font-weight:900;
+  letter-spacing:-.03em;
+  margin-bottom:8px;
+}
+
+.card-desc{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.7;
+  font-weight:600;
+  margin-bottom:22px;
+}
 
 .grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
 }
 
-/* =========================================================
-GROUP
-========================================================= */
-
-.group{
-margin-top:20px;
-}
-
+.group{margin-bottom:18px}
 .label{
-margin-bottom:10px;
-font-size:14px;
-font-weight:bold;
-opacity:.85;
+  font-size:12px;
+  font-weight:900;
+  color:#26364f;
+  text-transform:uppercase;
+  margin-bottom:8px;
 }
 
-/* =========================================================
-INPUT
-========================================================= */
-
-.input,
-.textarea,
-.select{
-width:100%;
-padding:14px 16px;
-background:#ffffff;
-border:1px solid #cbd5e1;
-border-radius:10px;
-color:#0f172a;
-font-size:15px;
-outline:none;
-transition:.2s;
-font-weight: 600;
+.input,.textarea{
+  width:100%;
+  border:1px solid #d9e3f0;
+  border-radius:10px;
+  background:#fff;
+  color:#101828;
+  outline:none;
+  padding:14px 15px;
+  font-size:15px;
+  font-weight:700;
 }
 
-.input:focus,
-.textarea:focus,
-.select:focus{
-border-color:#22c55e;
-box-shadow:0 0 0 4px rgba(34,197,94,.1);
+.input:focus,.textarea:focus{
+  border-color:var(--blue);
+  box-shadow:0 0 0 4px rgba(47,98,233,.1);
 }
 
 .textarea{
-min-height:170px;
-resize:none;
-line-height:1.8;
+  min-height:150px;
+  resize:vertical;
+  line-height:1.6;
+  font-weight:600;
 }
 
-/* =========================================================
-FILE
-========================================================= */
-
-.file-wrap{
-background:#ffffff;
-padding:16px;
-border-radius:10px;
-border:1px dashed #cbd5e1;
+.file-box{
+  border:1px dashed #cbd5e1;
+  border-radius:12px;
+  background:#f8fafc;
+  padding:16px;
 }
 
-
-.file{
-width:100%;
-}
-
-/* =========================================================
-BUTTONS
-========================================================= */
+.file-box input{width:100%;font-weight:700;color:#475569}
 
 .actions{
-display:flex;
-gap:18px;
-margin-top:35px;
+  display:flex;
+  gap:14px;
+  margin-top:20px;
+  padding-top:22px;
+  border-top:1px solid #edf2f7;
 }
 
 .btn{
-flex:1;
-padding:18px;
-border:none;
-border-radius:20px;
-font-size:16px;
-font-weight:800;
-cursor:pointer;
-transition:.3s;
+  flex:1;
+  min-height:54px;
+  border:none;
+  border-radius:12px;
+  color:#fff;
+  font-size:15px;
+  font-weight:900;
+  cursor:pointer;
 }
 
-.btn:hover{
-transform:translateY(-3px);
-}
-
-.save{
-background:
-linear-gradient(
-90deg,
-#16a34a,
-#4ade80
-);
-color:white;
-}
-
-.delete{
-background:
-linear-gradient(
-90deg,
-#dc2626,
-#ef4444
-);
-color:white;
-}
-
-/* =========================================================
-STATUS
-========================================================= */
+.save{background:var(--blue);box-shadow:0 14px 28px rgba(47,98,233,.18)}
+.save:hover{background:var(--blue2)}
+.delete{background:#fff1f2;color:var(--red);border:1px solid #fecdd3}
+.delete:hover{background:#fee2e2}
 
 .status{
-margin-top:20px;
-padding:16px;
-border-radius:18px;
-display:none;
-font-weight:bold;
+  display:none;
+  margin-top:16px;
+  padding:14px 16px;
+  border-radius:10px;
+  font-weight:900;
+  line-height:1.5;
 }
 
-.success{
-background:rgba(34,197,94,.15);
-color:#4ade80;
-}
+.success{display:block;background:#e7f8ef;color:#0f9f57;border:1px solid rgba(15,159,87,.15)}
+.error{display:block;background:#fef2f2;color:#ef4444;border:1px solid rgba(239,68,68,.15)}
 
-.error{
-background:rgba(239,68,68,.15);
-color:#f87171;
-}
-
-/* =========================================================
-EXTRA
-========================================================= */
-
-.extra-section{
-margin-top:32px;
-background: #ffffff;
-padding:36px;
-border-radius:24px;
-border:1px solid var(--border);
-box-shadow:0 4px 20px rgba(15,23,42,0.04);
-color: #0f172a;
-}
-
-.section-title{
-font-size:32px;
-font-weight:800;
-margin-bottom:14px;
-}
-
-.section-desc{
-opacity:.8;
-line-height:1.9;
-margin-bottom:30px;
+.growth{
+  margin-top:28px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:0 16px 42px rgba(16,24,40,.06);
+  padding:28px;
 }
 
 .growth-grid{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:18px;
-margin-bottom:35px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  margin-top:22px;
 }
 
 .growth-card{
-background:#f8fafc;
-padding:20px;
-border-radius:14px;
-display:flex;
-align-items:center;
-gap:16px;
-border:1px solid var(--border);
-color: #0f172a;
+  background:#f8fafc;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:20px;
 }
 
 .growth-icon{
-width:60px;
-height:60px;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:28px;
-background:rgba(34,197,94,.12);
+  width:42px;
+  height:42px;
+  border-radius:10px;
+  background:var(--soft);
+  color:var(--blue);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  margin-bottom:14px;
 }
 
 .growth-card h3{
-font-size:26px;
-font-weight:800;
+  font-size:25px;
+  font-weight:900;
+  margin-bottom:4px;
 }
 
 .growth-card p{
-opacity:.7;
-margin-top:4px;
+  color:#64748b;
+  font-size:13px;
+  font-weight:800;
 }
 
-.insight-box,
-.pro-note{
-background:#f8fafc;
-padding:24px;
-border-radius:14px;
-line-height:1.6;
-margin-bottom:24px;
-border: 1px solid var(--border);
-font-size: 14px;
-color: #334155;
+.insight-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin-top:18px;
 }
 
-.insight-title,
-.pro-title{
-font-size:24px;
-font-weight:800;
-margin-bottom:14px;
+.insight-box{
+  background:#f8fafc;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:22px;
+  line-height:1.8;
+  color:#475569;
+  font-weight:600;
 }
 
-.seo-box{
-background:
-linear-gradient(
-90deg,
-#052e16,
-#064e3b
-);
-padding:28px;
-border-radius:26px;
-margin-bottom:30px;
-}
-
-.seo-title{
-font-size:24px;
-font-weight:800;
-margin-bottom:18px;
+.insight-title{
+  color:#06142c;
+  font-size:18px;
+  font-weight:900;
+  margin-bottom:10px;
 }
 
 .seo-bar{
-width:100%;
-height:18px;
-background:rgba(255,255,255,.12);
-border-radius:50px;
-overflow:hidden;
-margin-bottom:18px;
+  height:14px;
+  background:#dbe4f0;
+  border-radius:999px;
+  overflow:hidden;
+  margin:14px 0;
 }
 
 .seo-fill{
-height:100%;
-background:
-linear-gradient(
-90deg,
-#22c55e,
-#4ade80
-);
-border-radius:50px;
+  height:100%;
+  background:linear-gradient(90deg,#2f62e9,#10b981);
+  border-radius:999px;
 }
 
 .action-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-margin-bottom:30px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-top:18px;
 }
 
 .action-btn{
-padding:18px;
-border:none;
-border-radius:20px;
-background:
-linear-gradient(
-90deg,
-#16a34a,
-#4ade80
-);
-color:white;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
+  min-height:48px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#fff;
+  color:#334155;
+  font-weight:900;
+  cursor:pointer;
 }
 
-/* =========================================================
-MOBILE
-========================================================= */
+.action-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--soft)}
 
-@media(max-width:850px){
-
-.preview-wrap,
-.grid,
-.info-grid,
-.growth-grid,
-.action-grid{
-grid-template-columns:1fr;
+.not-found{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:var(--shadow);
+  padding:46px;
+  text-align:center;
 }
 
-.actions{
-flex-direction:column;
+.not-found h2{font-size:28px;margin-bottom:10px}
+.not-found p{color:var(--muted);font-weight:700}
+
+@media(max-width:1050px){
+  .layout{grid-template-columns:1fr}
+  .growth-grid,.action-grid{grid-template-columns:repeat(2,1fr)}
 }
 
-.editor-title h1{
-font-size:28px;
+@media(max-width:680px){
+  .topbar{padding:0 18px}
+  .brand{font-size:22px}
+  .container{padding:24px 18px 70px}
+  .hero{display:block;padding:26px}
+  .hero h1{font-size:30px}
+  .live-badge{margin-top:18px;width:max-content}
+  .grid,.cover-row,.stats-grid,.insight-grid,.growth-grid,.action-grid{grid-template-columns:1fr}
+  .actions{flex-direction:column}
 }
-
-.card{
-padding:20px;
-}
-
-}
-
 </style>
-
 </head>
 
 <body>
 
-<header class="header">
-  <button class="back-btn" onclick="history.back()">
+<header class="topbar">
+  <button class="back" onclick="history.back()">
     <i class="fa-solid fa-arrow-left"></i> Back
   </button>
   <a class="brand" href="index.html">Creator<span>Hub</span></a>
 </header>
 
-<div class="container">
-
-<div id="app"></div>
-
-</div>
+<main class="container">
+  <div id="app"></div>
+</main>
 
 <script>
-
-/* =========================================================
-API
-========================================================= */
-
 const PRODUCT_API =
-"https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec"
+"https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
 
-/* =========================================================
-USER
-========================================================= */
-
-let user =
-JSON.parse(
-localStorage.getItem("user") || "null"
-)
+let user = JSON.parse(localStorage.getItem("user") || "null");
 
 if(!user){
-
-location.href =
-"login.html"
-
+  location.href = "login.html";
 }
 
-/* =========================================================
-BOOK
-========================================================= */
-
-let BOOK =
-JSON.parse(
-localStorage.getItem("viewerBook") || "null"
-)
+let BOOK = JSON.parse(localStorage.getItem("viewerBook") || "null");
 
 if(!BOOK){
-
-document.body.innerHTML =
-"<h1 style='padding:40px'>Book Not Found</h1>"
-
+  document.getElementById("app").innerHTML = `
+    <div class="not-found">
+      <h2>Book Not Found</h2>
+      <p>Please open this page from your ebook library.</p>
+    </div>
+  `;
 }
 
-/* =========================================================
-IMAGE
-========================================================= */
+function safeText(value){
+  return String(value || "").replace(/[&<>"']/g, m => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  })[m]);
+}
 
 function driveImage(link){
+  if(!link){
+    return "https://via.placeholder.com/500x750/e2e8f0/64748b?text=CreatorHub";
+  }
 
-if(!link){
+  if(link.startsWith("data:image")) return link;
 
-return "https://picsum.photos/400"
+  try{
+    let id = "";
 
-}
+    if(link.includes("thumbnail?id=")){
+      return link;
+    }
 
-let id = ""
+    if(link.includes("id=")){
+      id = link.split("id=")[1].split("&")[0];
+    }else if(link.includes("/d/")){
+      id = link.split("/d/")[1].split("/")[0];
+    }else{
+      return link;
+    }
 
-if(link.includes("id=")){
-
-id =
-link.split("id=")[1]
-.split("&")[0]
-
-}
-
-else if(link.includes("/d/")){
-
-id =
-link.split("/d/")[1]
-.split("/")[0]
-
-}
-
-else{
-
-id = link
-
-}
-
-return `https://drive.google.com/thumbnail?id=${id}&sz=w1000&t=${Date.now()}`
-
+    return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000&t=" + Date.now();
+  }catch(err){
+    return link;
+  }
 }
 
 async function refreshBook(){
+  if(!BOOK) return;
 
-try{
+  try{
+    let res = await fetch(PRODUCT_API + "?action=products&t=" + Date.now());
+    let data = await res.json();
+    let products = data.products || data.data || [];
 
-let res =
-await fetch(
+    if(!Array.isArray(products)) products = [];
 
-PRODUCT_API +
-"?action=products&t=" +
-Date.now()
+    let latest = products.find(p => String(p.id) === String(BOOK.id));
 
-)
+    if(latest){
+      BOOK = latest;
+      localStorage.setItem("viewerBook", JSON.stringify(BOOK));
+    }
 
-let data =
-await res.json()
-
-let products =
-data.products || []
-
-let latest =
-products.find(p =>
-
-String(p.id) ===
-String(BOOK.id)
-
-)
-
-if(latest){
-
-BOOK = latest
-
-localStorage.setItem(
-"viewerBook",
-JSON.stringify(BOOK)
-)
-
+    render();
+  }catch(err){
+    console.log(err);
+    render();
+  }
 }
-
-render()
-
-}catch(err){
-
-console.log(err)
-
-render()
-
-}
-
-}
-
-/* =========================================================
-RENDER
-========================================================= */
 
 function render(){
-
-let trending =
-Number(BOOK.trending || 0)
-
-document.getElementById("app")
-.innerHTML = `
-
-<div class="card">
-
-<div class="editor-header">
-
-<div class="editor-title">
-
-<h1>
-Edit <span>Your Ebook</span>
-</h1>
-
-<p>
-Update ebook details, optimize metadata and manage your digital publishing professionally.
-</p>
-
-</div>
-
-<div class="live-badge">
-🟢 Live Product
-</div>
-
-</div>
-
-<div class="info-grid">
-
-<div class="info-box">
-<h3>BOOK ID</h3>
-<p>#${BOOK.id}</p>
-</div>
-
-<div class="info-box">
-<h3>STATUS</h3>
-<p>${BOOK.status || "Published"}</p>
-</div>
-
-<div class="info-box">
-<h3>AUTHOR</h3>
-<p>${BOOK.author || "Unknown"}</p>
-</div>
-
-</div>
-
-<div class="preview-wrap">
-
-<div class="preview-box">
-
-<div class="preview-label">
-📕 Front Cover
-</div>
-
-<img
-id="frontPreview"
-class="preview"
-src="${driveImage(BOOK.front_cover)}"
->
-
-</div>
-
-<div class="preview-box">
-
-<div class="preview-label">
-📘 Back Cover
-</div>
-
-<img
-id="backPreview"
-class="preview"
-src="${driveImage(BOOK.back_cover)}"
->
-
-</div>
-
-</div>
-
-<div class="grid">
-
-<div class="group">
-
-<div class="label">
-📖 Book Title
-</div>
-
-<input
-id="title"
-class="input"
-value="${BOOK.title || ""}"
->
-
-</div>
-
-<div class="group">
-
-<div class="label">
-✍️ Author Name
-</div>
-
-<input
-id="author"
-class="input"
-value="${BOOK.author || ""}"
->
-
-</div>
-
-</div>
-
-<div class="group">
-
-<div class="label">
-📝 Description
-</div>
-
-<textarea
-id="description"
-class="textarea"
->${BOOK.description || ""}</textarea>
-
-</div>
-
-<div class="grid">
-
-<div class="group">
-
-<div class="label">
-📂 Category
-</div>
-
-<input
-id="category"
-class="input"
-value="${BOOK.category || ""}"
->
-
-</div>
-
-<div class="group">
-
-<div class="label">
-💰 Price
-</div>
-
-<input
-id="price"
-class="input"
-type="number"
-value="${BOOK.price || 0}"
->
-
-</div>
-
-</div>
-
-<div class="grid">
-
-<div class="group">
-
-<div class="label">
-🖼 Front Cover
-</div>
-
-<div class="file-wrap">
-
-<input
-type="file"
-class="file"
-id="frontFile"
-accept="image/*"
-onchange="previewFront(event)"
->
-
-</div>
-
-</div>
-
-<div class="group">
-
-<div class="label">
-🖼 Back Cover
-</div>
-
-<div class="file-wrap">
-
-<input
-type="file"
-class="file"
-id="backFile"
-accept="image/*"
-onchange="previewBack(event)"
->
-
-</div>
-
-</div>
-
-</div>
-
-<div id="status" class="status"></div>
-
-<div class="actions">
-
-<button
-class="btn save"
-id="saveBtn"
-onclick="saveBook()">
-💾 Save Changes
-</button>
-
-<button
-class="btn delete"
-onclick="deleteBook()">
-🗑 Delete Ebook
-</button>
-
-</div>
-
-</div>
-
-<div class="extra-section">
-
-<div class="section-title">
-Ebook Growth Dashboard
-</div>
-
-<p class="section-desc">
-Real CreatorHub analytics powered by your live ebook performance data.
-</p>
-
-<div class="growth-grid">
-
-<div class="growth-card">
-
-<div class="growth-icon">
-📚
-</div>
-
-<div>
-
-<h3>
-${Number(BOOK.reads || 0).toLocaleString()}
-</h3>
-
-<p>
-Total Reads
-</p>
-
-</div>
-
-</div>
-
-<div class="growth-card">
-
-<div class="growth-icon">
-⭐
-</div>
-
-<div>
-
-<h3>
-${BOOK.rating || "0.0"}
-</h3>
-
-<p>
-Average Rating
-</p>
-
-</div>
-
-</div>
-
-<div class="growth-card">
-
-<div class="growth-icon">
-💰
-</div>
-
-<div>
-
-<h3>
-₹${Number(BOOK.revenue || 0).toLocaleString()}
-</h3>
-
-<p>
-Revenue
-</p>
-
-</div>
-
-</div>
-
-<div class="growth-card">
-
-<div class="growth-icon">
-🔥
-</div>
-
-<div>
-
-<h3>
-${trending}%
-</h3>
-
-<p>
-Trending
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="insight-box">
-
-<div class="insight-title">
-📈 Author Insights
-</div>
-
-<p>
-
-"${BOOK.title}" currently has
-${BOOK.reads || 0} total reads.
-
-This ebook belongs to
-"${BOOK.category || "General"}"
-category and is building
-reader engagement through
-consistent visibility and
-professional branding.
-
-</p>
-
-</div>
-
-<div class="seo-box">
-
-<div class="seo-title">
-🎯 SEO Optimization Score
-</div>
-
-<div class="seo-bar">
-
-<div
-class="seo-fill"
-style="width:${trending}%">
-</div>
-
-</div>
-
-<p>
-
-Your ebook currently has
-${trending}% marketplace visibility.
-
-Optimizing title keywords,
-description quality and
-category targeting improves
-organic discoverability.
-
-</p>
-
-</div>
-
-<div class="action-grid">
-
-<button class="action-btn">
-📊 View Analytics
-</button>
-
-<button class="action-btn">
-💬 Reader Reviews
-</button>
-
-<button class="action-btn">
-📢 Promote Ebook
-</button>
-
-<button class="action-btn">
-🚀 Boost Visibility
-</button>
-
-</div>
-
-<div class="pro-note">
-
-<div class="pro-title">
-👑 Professional Publishing Tips
-</div>
-
-<p>
-
-Consistent branding, optimized
-descriptions and quality cover
-design improve conversion and
-reader trust across marketplaces.
-
-</p>
-
-</div>
-
-</div>
-
-`
-
+  if(!BOOK) return;
+
+  let trending = Math.min(100, Math.max(0, Number(BOOK.trending || 0)));
+
+  document.getElementById("app").innerHTML = `
+    <section class="hero">
+      <div>
+        <h1>Edit <span>Your Ebook</span></h1>
+        <p>Update ebook details, manage cover assets, improve metadata and keep your CreatorHub listing ready for buyers.</p>
+      </div>
+      <div class="live-badge">
+        <i class="fa-solid fa-circle-check"></i> ${safeText(BOOK.status || "Published")}
+      </div>
+    </section>
+
+    <section class="layout">
+      <aside class="panel">
+        <div class="preview-top"></div>
+
+        <div class="cover-row">
+          <div class="preview-card">
+            <div class="preview-label"><i class="fa-solid fa-book-open"></i> Front Cover</div>
+            <img id="frontPreview" class="preview" src="${driveImage(BOOK.front_cover)}" alt="Front Cover">
+          </div>
+
+          <div class="preview-card">
+            <div class="preview-label"><i class="fa-solid fa-book"></i> Back Cover</div>
+            <img id="backPreview" class="preview" src="${driveImage(BOOK.back_cover)}" alt="Back Cover">
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat">
+            <span>Book ID</span>
+            <strong>#${safeText(BOOK.id)}</strong>
+          </div>
+
+          <div class="stat">
+            <span>Author</span>
+            <strong>${safeText(BOOK.author || "Unknown")}</strong>
+          </div>
+
+          <div class="stat">
+            <span>Price</span>
+            <strong>₹${Number(BOOK.price || 0).toLocaleString("en-IN")}</strong>
+          </div>
+        </div>
+      </aside>
+
+      <section class="panel panel-pad">
+        <h2 class="card-title">Ebook Information</h2>
+        <p class="card-desc">These details are saved to your CreatorHub product database.</p>
+
+        <div class="grid">
+          <div class="group">
+            <div class="label">Book Title</div>
+            <input id="title" class="input" value="${safeText(BOOK.title || "")}">
+          </div>
+
+          <div class="group">
+            <div class="label">Author Name</div>
+            <input id="author" class="input" value="${safeText(BOOK.author || "")}">
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="label">Description</div>
+          <textarea id="description" class="textarea">${safeText(BOOK.description || "")}</textarea>
+        </div>
+
+        <div class="grid">
+          <div class="group">
+            <div class="label">Category</div>
+            <input id="category" class="input" value="${safeText(BOOK.category || "")}">
+          </div>
+
+          <div class="group">
+            <div class="label">Price</div>
+            <input id="price" class="input" type="number" min="0" value="${Number(BOOK.price || 0)}">
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="group">
+            <div class="label">Front Cover</div>
+            <div class="file-box">
+              <input type="file" id="frontFile" accept="image/*" onchange="previewFront(event)">
+            </div>
+          </div>
+
+          <div class="group">
+            <div class="label">Back Cover</div>
+            <div class="file-box">
+              <input type="file" id="backFile" accept="image/*" onchange="previewBack(event)">
+            </div>
+          </div>
+        </div>
+
+        <div id="status" class="status"></div>
+
+        <div class="actions">
+          <button class="btn save" id="saveBtn" onclick="saveBook()">
+            <i class="fa-solid fa-floppy-disk"></i> Save Changes
+          </button>
+
+          <button class="btn delete" onclick="deleteBook()">
+            <i class="fa-solid fa-trash"></i> Delete Ebook
+          </button>
+        </div>
+      </section>
+    </section>
+
+    <section class="growth">
+      <h2 class="card-title">Ebook Growth Dashboard</h2>
+      <p class="card-desc">Real CreatorHub analytics powered by your live ebook performance data.</p>
+
+      <div class="growth-grid">
+        <div class="growth-card">
+          <div class="growth-icon"><i class="fa-solid fa-book-open-reader"></i></div>
+          <h3>${Number(BOOK.reads || 0).toLocaleString("en-IN")}</h3>
+          <p>Total Reads</p>
+        </div>
+
+        <div class="growth-card">
+          <div class="growth-icon"><i class="fa-solid fa-star"></i></div>
+          <h3>${safeText(BOOK.rating || "0.0")}</h3>
+          <p>Average Rating</p>
+        </div>
+
+        <div class="growth-card">
+          <div class="growth-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+          <h3>₹${Number(BOOK.revenue || 0).toLocaleString("en-IN")}</h3>
+          <p>Revenue</p>
+        </div>
+
+        <div class="growth-card">
+          <div class="growth-icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
+          <h3>${trending}%</h3>
+          <p>Visibility</p>
+        </div>
+      </div>
+
+      <div class="insight-grid">
+        <div class="insight-box">
+          <div class="insight-title">Author Insights</div>
+          <p>
+            "${safeText(BOOK.title)}" currently has ${Number(BOOK.reads || 0).toLocaleString("en-IN")} total reads.
+            This ebook belongs to "${safeText(BOOK.category || "General")}" category and is building visibility through its listing quality.
+          </p>
+        </div>
+
+        <div class="insight-box">
+          <div class="insight-title">SEO Optimization Score</div>
+          <div class="seo-bar">
+            <div class="seo-fill" style="width:${trending}%"></div>
+          </div>
+          <p>
+            Your ebook currently has ${trending}% marketplace visibility. Better title keywords, category accuracy and description quality can improve discovery.
+          </p>
+        </div>
+      </div>
+
+      <div class="action-grid">
+        <button class="action-btn"><i class="fa-solid fa-chart-line"></i> Analytics</button>
+        <button class="action-btn"><i class="fa-solid fa-comments"></i> Reviews</button>
+        <button class="action-btn"><i class="fa-solid fa-bullhorn"></i> Promote</button>
+        <button class="action-btn"><i class="fa-solid fa-rocket"></i> Boost</button>
+      </div>
+    </section>
+  `;
 }
 
-refreshBook()
-
-/* =========================================================
-PREVIEW
-========================================================= */
+refreshBook();
 
 function previewFront(e){
-
-let file =
-e.target.files[0]
-
-if(file){
-
-document.getElementById(
-"frontPreview"
-).src =
-
-URL.createObjectURL(file)
-
-}
-
+  let file = e.target.files[0];
+  if(file){
+    document.getElementById("frontPreview").src = URL.createObjectURL(file);
+  }
 }
 
 function previewBack(e){
-
-let file =
-e.target.files[0]
-
-if(file){
-
-document.getElementById(
-"backPreview"
-).src =
-
-URL.createObjectURL(file)
-
+  let file = e.target.files[0];
+  if(file){
+    document.getElementById("backPreview").src = URL.createObjectURL(file);
+  }
 }
-
-}
-
-/* =========================================================
-UPLOAD MOCK
-========================================================= */
 
 async function uploadToDrive(file){
-
-return new Promise(resolve=>{
-
-setTimeout(()=>{
-
-resolve(
-"https://drive.google.com/file/d/demo"
-)
-
-},1000)
-
-})
-
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve("https://drive.google.com/file/d/demo");
+    }, 1000);
+  });
 }
-
-/* =========================================================
-STATUS
-========================================================= */
 
 function showStatus(msg,type){
-
-let box =
-document.getElementById("status")
-
-box.style.display =
-"block"
-
-box.className =
-"status " + type
-
-box.innerHTML = msg
-
+  let box = document.getElementById("status");
+  box.style.display = "block";
+  box.className = "status " + type;
+  box.innerHTML = msg;
 }
-
-/* =========================================================
-SAVE
-========================================================= */
 
 async function saveBook(){
+  let btn = document.getElementById("saveBtn");
 
-let btn =
-document.getElementById("saveBtn")
+  btn.innerHTML = "Saving...";
+  btn.disabled = true;
 
-btn.innerHTML =
-"Saving..."
+  try{
+    let title = document.getElementById("title").value.trim();
+    let author = document.getElementById("author").value.trim();
+    let description = document.getElementById("description").value.trim();
+    let category = document.getElementById("category").value.trim();
+    let price = document.getElementById("price").value;
 
-btn.disabled = true
+    if(!title || !author || !description || !category){
+      throw new Error("Please fill all required ebook details.");
+    }
 
-try{
+    let frontCover = BOOK.front_cover || "";
+    let backCover = BOOK.back_cover || "";
 
-let title =
-document.getElementById("title")
-.value.trim()
+    let frontFile = document.getElementById("frontFile").files[0];
+    let backFile = document.getElementById("backFile").files[0];
 
-let author =
-document.getElementById("author")
-.value.trim()
+    if(frontFile){
+      frontCover = await uploadToDrive(frontFile);
+    }
 
-let description =
-document.getElementById("description")
-.value.trim()
+    if(backFile){
+      backCover = await uploadToDrive(backFile);
+    }
 
-let category =
-document.getElementById("category")
-.value.trim()
+    let body = {
+      action:"updateBook",
+      id:BOOK.id,
+      title:title,
+      author:author,
+      description:description,
+      category:category,
+      price:price,
+      front_cover:frontCover,
+      back_cover:backCover,
+      email:user.email
+    };
 
-let price =
-document.getElementById("price")
-.value
+    let res = await fetch(PRODUCT_API,{
+      method:"POST",
+      headers:{
+        "Content-Type":"text/plain"
+      },
+      body:JSON.stringify(body)
+    });
 
-let frontCover =
-BOOK.front_cover || ""
+    let data = await res.json();
 
-let backCover =
-BOOK.back_cover || ""
+    if(data.success === false){
+      throw new Error(data.message || "Update failed.");
+    }
 
-let frontFile =
-document.getElementById("frontFile")
-.files[0]
+    BOOK.title = title;
+    BOOK.author = author;
+    BOOK.description = description;
+    BOOK.category = category;
+    BOOK.price = price;
+    BOOK.front_cover = frontCover;
+    BOOK.back_cover = backCover;
 
-let backFile =
-document.getElementById("backFile")
-.files[0]
+    localStorage.setItem("viewerBook", JSON.stringify(BOOK));
 
-if(frontFile){
+    showStatus("Ebook updated successfully.", "success");
 
-frontCover =
-await uploadToDrive(frontFile)
+    btn.innerHTML = "Saved";
 
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
+
+  }catch(err){
+    showStatus(err.message || "Save failed.", "error");
+    btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save Changes';
+    btn.disabled = false;
+  }
 }
-
-if(backFile){
-
-backCover =
-await uploadToDrive(backFile)
-
-}
-
-let body = {
-
-action:"updateBook",
-
-id:BOOK.id,
-
-title,
-author,
-description,
-category,
-price,
-
-front_cover:frontCover,
-back_cover:backCover,
-
-email:user.email
-
-}
-
-let res =
-await fetch(PRODUCT_API,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"text/plain"
-},
-
-body:JSON.stringify(body)
-
-})
-
-let data =
-await res.json()
-
-BOOK.title = title
-BOOK.author = author
-BOOK.description = description
-BOOK.category = category
-BOOK.price = price
-
-BOOK.front_cover = frontCover
-BOOK.back_cover = backCover
-
-localStorage.setItem(
-"viewerBook",
-JSON.stringify(BOOK)
-)
-
-showStatus(
-"✅ Ebook Updated Successfully",
-"success"
-)
-
-btn.innerHTML =
-"✅ Saved"
-
-setTimeout(()=>{
-
-location.reload()
-
-},1000)
-
-}catch(err){
-
-showStatus(
-err.message,
-"error"
-)
-
-btn.innerHTML =
-"💾 Save Changes"
-
-btn.disabled = false
-
-}
-
-}
-
-/* =========================================================
-DELETE
-========================================================= */
 
 async function deleteBook(){
+  let ok = confirm("Delete this ebook?");
+  if(!ok) return;
 
-let ok =
-confirm(
-"Delete this ebook?"
-)
+  try{
+    await fetch(PRODUCT_API,{
+      method:"POST",
+      headers:{
+        "Content-Type":"text/plain"
+      },
+      body:JSON.stringify({
+        action:"deleteBook",
+        id:BOOK.id,
+        email:user.email
+      })
+    });
 
-if(!ok) return
+    alert("Ebook Deleted");
+    location.href = "library.html";
 
-try{
-
-await fetch(PRODUCT_API,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"text/plain"
-},
-
-body:JSON.stringify({
-
-action:"deleteBook",
-
-id:BOOK.id,
-
-email:user.email
-
-})
-
-})
-
-alert("Ebook Deleted")
-
-location.href =
-"library.html"
-
-}catch(err){
-
-alert(err.message)
-
+  }catch(err){
+    alert(err.message || "Delete failed.");
+  }
 }
-
-}
-
 </script>
 
 </body>
