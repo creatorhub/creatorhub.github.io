@@ -56,6 +56,7 @@ a{text-decoration:none;color:inherit}
 }
 
 .back:hover{border-color:var(--blue);color:var(--blue);background:var(--soft)}
+
 .brand{font-size:26px;font-weight:900;letter-spacing:-.03em}
 .brand span{color:var(--blue)}
 
@@ -86,6 +87,7 @@ a{text-decoration:none;color:inherit}
 }
 
 .hero h1 span{color:var(--blue)}
+
 .hero p{
   margin-top:10px;
   color:var(--muted);
@@ -220,6 +222,7 @@ a{text-decoration:none;color:inherit}
 }
 
 .group{margin-bottom:18px}
+
 .label{
   font-size:12px;
   font-weight:900;
@@ -246,11 +249,13 @@ a{text-decoration:none;color:inherit}
 }
 
 .textarea{
-  min-height:150px;
+  min-height:140px;
   resize:vertical;
   line-height:1.6;
   font-weight:600;
 }
+
+.long-textarea{min-height:220px}
 
 .file-box{
   border:1px dashed #cbd5e1;
@@ -260,6 +265,26 @@ a{text-decoration:none;color:inherit}
 }
 
 .file-box input{width:100%;font-weight:700;color:#475569}
+
+.inline-actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+
+.small-btn{
+  min-height:42px;
+  border:1px solid var(--line);
+  background:#fff;
+  color:#334155;
+  border-radius:10px;
+  padding:0 16px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.small-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--soft)}
 
 .actions{
   display:flex;
@@ -282,6 +307,7 @@ a{text-decoration:none;color:inherit}
 
 .save{background:var(--blue);box-shadow:0 14px 28px rgba(47,98,233,.18)}
 .save:hover{background:var(--blue2)}
+
 .delete{background:#fff1f2;color:var(--red);border:1px solid #fecdd3}
 .delete:hover{background:#fee2e2}
 
@@ -296,6 +322,7 @@ a{text-decoration:none;color:inherit}
 
 .success{display:block;background:#e7f8ef;color:#0f9f57;border:1px solid rgba(15,159,87,.15)}
 .error{display:block;background:#fef2f2;color:#ef4444;border:1px solid rgba(239,68,68,.15)}
+.pending{display:block;background:#fff7df;color:#b7791f;border:1px solid rgba(183,121,31,.15)}
 
 .not-found{
   background:#fff;
@@ -340,11 +367,9 @@ a{text-decoration:none;color:inherit}
 </main>
 
 <script>
-const PRODUCT_API =
-"https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
+const PRODUCT_API = "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
 
 let user = JSON.parse(localStorage.getItem("user") || "null");
-
 if(!user){
   location.href = "login.html";
 }
@@ -378,11 +403,9 @@ function driveImage(link){
   if(link.startsWith("data:image")) return link;
 
   try{
-    let id = "";
+    if(link.includes("thumbnail?id=")) return link;
 
-    if(link.includes("thumbnail?id=")){
-      return link;
-    }
+    let id = "";
 
     if(link.includes("id=")){
       id = link.split("id=")[1].split("&")[0];
@@ -429,7 +452,7 @@ function render(){
     <section class="hero">
       <div>
         <h1>Edit <span>Your Ebook</span></h1>
-        <p>Update ebook details, upload real Drive cover images and keep your CreatorHub listing ready for buyers.</p>
+        <p>Update ebook details, upload real Drive cover images and generate a professional AI long description.</p>
       </div>
       <div class="live-badge">
         <i class="fa-solid fa-circle-check"></i> ${safeText(BOOK.status || "Published")}
@@ -472,7 +495,7 @@ function render(){
 
       <section class="panel panel-pad">
         <h2 class="card-title">Ebook Information</h2>
-        <p class="card-desc">Cover images upload to Google Drive, then URLs are saved in your product database.</p>
+        <p class="card-desc">Cover images upload to Google Drive, then URLs are saved in products.json.</p>
 
         <div class="grid">
           <div class="group">
@@ -487,8 +510,18 @@ function render(){
         </div>
 
         <div class="group">
-          <div class="label">Description</div>
+          <div class="label">Short Description</div>
           <textarea id="description" class="textarea">${safeText(BOOK.description || "")}</textarea>
+        </div>
+
+        <div class="group">
+          <div class="label">AI Long Description</div>
+          <div class="inline-actions">
+            <button type="button" class="small-btn" onclick="generateLongDescription()">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Generate AI Description
+            </button>
+          </div>
+          <textarea id="longDescription" class="textarea long-textarea">${safeText(BOOK.long_description || "")}</textarea>
         </div>
 
         <div class="grid">
@@ -641,6 +674,59 @@ function showStatus(msg,type){
   box.innerHTML = msg;
 }
 
+async function generateLongDescription(){
+  try{
+    showStatus("Generating AI long description...", "pending");
+
+    let title = document.getElementById("title").value.trim();
+    let author = document.getElementById("author").value.trim();
+    let description = document.getElementById("description").value.trim();
+    let category = document.getElementById("category").value.trim();
+    let price = document.getElementById("price").value;
+
+    let res = await fetch(PRODUCT_API,{
+      method:"POST",
+      headers:{
+        "Content-Type":"text/plain"
+      },
+      body:JSON.stringify({
+        action:"suggestEbookDetails",
+        title:title,
+        author:author,
+        description:description,
+        category:category,
+        price:price
+      })
+    });
+
+    let data = await res.json();
+
+    if(!data.success){
+      throw new Error(data.message || "AI generation failed");
+    }
+
+    let details = data.details || {};
+    document.getElementById("longDescription").value =
+      details.long_description ||
+      details.longDescription ||
+      details.short_description ||
+      description;
+
+    if(details.category && !category){
+      document.getElementById("category").value = details.category;
+    }
+
+    if(details.price && Number(price || 0) === 0){
+      document.getElementById("price").value = details.price;
+    }
+
+    showStatus("AI long description generated.", "success");
+
+  }catch(err){
+    showStatus(err.message || "AI description failed.", "error");
+  }
+}
+
 async function saveBook(){
   let btn = document.getElementById("saveBtn");
 
@@ -651,6 +737,7 @@ async function saveBook(){
     let title = document.getElementById("title").value.trim();
     let author = document.getElementById("author").value.trim();
     let description = document.getElementById("description").value.trim();
+    let longDescription = document.getElementById("longDescription").value.trim();
     let category = document.getElementById("category").value.trim();
     let price = document.getElementById("price").value;
 
@@ -665,16 +752,16 @@ async function saveBook(){
     let backFile = document.getElementById("backFile").files[0];
 
     if(frontFile){
-      showStatus("Uploading front cover to Drive...", "success");
+      showStatus("Uploading front cover to Drive...", "pending");
       frontCover = await uploadToDrive(frontFile,"front_cover");
     }
 
     if(backFile){
-      showStatus("Uploading back cover to Drive...", "success");
+      showStatus("Uploading back cover to Drive...", "pending");
       backCover = await uploadToDrive(backFile,"back_cover");
     }
 
-    showStatus("Saving ebook details...", "success");
+    showStatus("Saving ebook details...", "pending");
 
     let body = {
       action:"updateBook",
@@ -682,6 +769,7 @@ async function saveBook(){
       title:title,
       author:author,
       description:description,
+      long_description:longDescription,
       category:category,
       price:price,
       front_cover:frontCover,
@@ -706,6 +794,7 @@ async function saveBook(){
     BOOK.title = title;
     BOOK.author = author;
     BOOK.description = description;
+    BOOK.long_description = longDescription;
     BOOK.category = category;
     BOOK.price = price;
     BOOK.front_cover = frontCover;
@@ -733,7 +822,7 @@ async function deleteBook(){
   if(!ok) return;
 
   try{
-    await fetch(PRODUCT_API,{
+    let res = await fetch(PRODUCT_API,{
       method:"POST",
       headers:{
         "Content-Type":"text/plain"
@@ -744,6 +833,12 @@ async function deleteBook(){
         email:user.email
       })
     });
+
+    let data = await res.json();
+
+    if(data.success === false){
+      throw new Error(data.message || "Delete failed.");
+    }
 
     alert("Ebook Deleted");
     location.href = "library.html";
