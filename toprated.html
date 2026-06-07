@@ -1,389 +1,370 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>Highest Rated Books</title><style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Highest Rated Books • CreatorHub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-:root{
---bg:#020617;
---card:#111827;
---accent:#22c55e;
+<style>
+/* =========================================================
+   CREATORHUB HIGH-END PRODUCTION VARIABLE MATRIX
+   ========================================================= */
+:root {
+    --bg-primary: #f8fafc;       
+    --bg-secondary: #ffffff;     
+    --text-primary: #0f172a;     
+    --text-secondary: #475569;   
+    --text-muted: #94a3b8;
+    --accent-blue: #2f62e9;      
+    --accent-blue-hover: #1d4ed8;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 2px rgba(15,23,42,0.05);
+    --shadow-md: 0 12px 30px -4px rgba(15,23,42,0.06), 0 4px 12px -2px rgba(15,23,42,0.03);
+    --amber-warning: #f59e0b;
 }
 
 *{
-box-sizing:border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
 }
-
-/* PAGE */
 
 body{
-margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:var(--bg);
-color:white;
-animation:fadePage .6s ease;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
-/* HEADER */
-
-.header{
-display:flex;
-align-items:center;
-padding:16px;
-border-bottom:1px solid #1f2937;
-background:#020617;
-position:sticky;
-top:0;
-z-index:999;
+/* =========================================================
+   TOPBAR NAVIGATION LAYER SYSTEM
+   ========================================================= */
+.topbar{
+    height: 75px;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 0 40px;
+    position: sticky;
+    top: 0;
+    z-index: 999;
 }
 
-.back{
-font-size:22px;
-cursor:pointer;
-margin-right:10px;
-color:var(--accent);
-transition:.2s;
+.back-arrow {
+    font-size: 20px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+.back-arrow:hover {
+    background-color: #f1f5f9;
+    color: var(--text-primary);
+    transform: translateX(-3px);
 }
 
-.back:hover{
-transform:translateX(-5px);
+.page-title {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
 }
+.page-title span { color: var(--accent-blue); }
 
-.title{
-font-size:20px;
-font-weight:bold;
-color:var(--accent);
-}
-
-/* CONTAINER */
-
+/* =========================================================
+   WORKSPACE CONTENT AND CONTAINER AREA
+   ========================================================= */
 .container{
-padding:25px;
-max-width:900px;
-margin:auto;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 24px 120px;
 }
 
-/* LIST */
+.header-block {
+    margin-bottom: 36px;
+}
+.header-block h1 {
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+}
+.header-block p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin-top: 8px;
+    line-height: 1.6;
+}
 
+/* =========================================================
+   DYNAMIC LIST RENDER MATRIX PIPELINE
+   ========================================================= */
 .list{
-display:flex;
-flex-direction:column;
-gap:18px;
-animation:fadeUp .7s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* CARD */
-
+/* COMPONENT CARDS SPECIFICATION STYLES */
 .card{
-
-display:flex;
-
-gap:14px;
-
-background:linear-gradient(145deg,#111827,#020617);
-
-padding:14px;
-
-border-radius:14px;
-
-border:1px solid #1f2937;
-
-box-shadow:0 10px 25px rgba(0,0,0,0.6);
-
-cursor:pointer;
-
-transition:.25s;
-
+    display: flex;
+    gap: 24px;
+    background: var(--bg-secondary);
+    padding: 24px;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    align-items: center;
 }
-
 .card:hover{
-
-transform:translateY(-5px) scale(1.02);
-
-box-shadow:0 20px 40px rgba(0,0,0,.9);
-
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(47, 98, 233, 0.15);
 }
 
-/* IMAGE */
+@media(max-width: 600px) {
+    .card { flex-direction: column; align-items: flex-start; gap: 16px; }
+}
 
 .card img{
-
-width:90px;
-
-aspect-ratio:2/3;
-
-object-fit:cover;
-
-border-radius:10px;
-
+    width: 100px;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(15,23,42,0.06);
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
 }
-
-/* INFO */
+@media(max-width: 600px) { .card img { width: 90px; } }
 
 .info{
-flex:1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
-/* NAME */
+.name-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
 
 .name{
-font-size:17px;
-font-weight:bold;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.3;
 }
-
-/* RATING */
-
-.rating{
-color:#facc15;
-font-size:14px;
-margin-top:6px;
-}
-
-/* BUY BUTTON */
-
-.buy{
-
-margin-top:10px;
-
-padding:8px 12px;
-
-border:none;
-
-border-radius:8px;
-
-cursor:pointer;
-
-background:linear-gradient(90deg,#22c55e,#4ade80);
-
-color:black;
-
-font-weight:bold;
-
-transition:.2s;
-
-}
-
-.buy:hover{
-transform:scale(1.05);
-box-shadow:0 0 10px #22c55e;
-}
-
-/* BADGE */
 
 .badge{
-
-font-size:11px;
-
-background:#facc15;
-
-color:black;
-
-padding:2px 6px;
-
-border-radius:6px;
-
-margin-left:6px;
-
+    font-size: 11px;
+    background: #fef3c7;
+    color: #b45309;
+    padding: 4px 10px;
+    border-radius: 99px;
+    font-weight: 700;
+    border: 1px solid #fde68a;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
 }
 
-/* ANIMATIONS */
+.rating-row{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+.stars-string { color: var(--amber-warning); font-size: 15px; letter-spacing: 2px; }
+.numeric-score { color: var(--text-primary); font-weight: 700; }
 
-@keyframes fadePage{
-from{
-opacity:0;
-transform:translateY(20px);
+.buy{
+    margin-top: 8px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: var(--accent-blue);
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 13px;
+    transition: background 0.2s ease, transform 0.2s;
+    width: fit-content;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
-to{
-opacity:1;
-transform:translateY(0);
+.buy:hover{
+    background-color: var(--accent-blue-hover);
+    transform: scale(1.02);
 }
+
+.no-data {
+    text-align: center;
+    padding: 80px 20px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    color: var(--text-secondary);
 }
 
 @keyframes fadeUp{
-from{
-opacity:0;
-transform:translateY(40px);
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
+</style>
+</head>
 
-</style></head><body><div class="header">
-<div class="back" onclick="history.back()">⬅</div>
-<div class="title">Highest Rated Books</div>
-</div><div class="container"><div id="books" class="list">
-Loading...
-</div></div><script>
+<body>
 
-/* API */
+<div class="topbar">
+    <div class="back-arrow" onclick="history.back()"><i class="fa-solid fa-arrow-left"></i></div>
+    <div class="page-title">Marketplace <span>Catalog</span></div>
+</div>
 
-const API="https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec"
+<div class="container">
+    <div class="header-block">
+        <h1>Highest Rated Collections</h1>
+        <p>Explore elite premium resource listings sorted by global reader feedback and analytical verification matrices loops.</p>
+    </div>
 
-/* DRIVE IMAGE FIX */
+    <div id="books" class="list">
+        <div class="no-data">
+            <i class="fa-solid fa-circle-notch fa-spin" style="font-size:32px; color:var(--accent-blue)"></i>
+            <p style="margin-top:12px; font-weight: 600;">Interfacing transactional review datasets...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+// Active spreadsheet micro API deployment route handle
+const API = "https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
 
 function driveImage(link){
-
-if(!link) return "https://picsum.photos/400"
-
-try{
-
-let id=""
-
-if(link.includes("id=")){
-id=link.split("id=")[1].split("&")[0]
+    if(!link) return "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80";
+    try{
+        let id = "";
+        if(link.includes("id=")) id = link.split("id=")[1].split("&")[0];
+        else if(link.includes("/file/d/")) id = link.split("/file/d/")[1].split("/")[0];
+        else if(link.includes("/d/")) id = link.split("/d/")[1].split("/")[0];
+        if(id) return "https://drive.google.com/thumbnail?id=" + id + "&sz=w500";
+    }catch(e){}
+    return link;
 }
 
-if(link.includes("/file/d/")){
-id=link.split("/file/d/")[1].split("/")[0]
+function stars(ratingValue){
+    let roundedValue = Math.round(Number(ratingValue || 0));
+    let starString = "";
+    for(let i = 1; i <= 5; i++){
+        starString += (i <= roundedValue) ? "★" : "☆";
+    }
+    return starString;
 }
 
-if(id){
-return "https://drive.google.com/thumbnail?id="+id+"&sz=w1000"
-}
-
-}catch{}
-
-return link
-
-}
-
-/* STAR DISPLAY */
-
-function stars(r){
-
-r=Math.round(Number(r||0))
-
-let s=""
-
-for(let i=1;i<=5;i++){
-
-if(i<=r){
-s+="⭐"
-}else{
-s+="☆"
-}
-
-}
-
-return s
-
-}
-
-/* LOAD BOOKS */
-
+/* 🚀 HIGH-SPEED ANALYTICAL SORTING PIPELINE ROUTINES */
 async function load(){
+    let box = document.getElementById("books");
+    try{
+        let productsRes = await fetch(API + "?db=products&t=" + Date.now());
+        let products = await productsRes.json();
 
-try{
+        let reviewsRes = await fetch(API + "?db=reviews&t=" + Date.now());
+        let reviews = await reviewsRes.json();
 
-let productsRes=await fetch(API+"?db=products&t="+Date.now())
-let products=await productsRes.json()
+        if(!Array.isArray(products)) products = [];
+        if(!Array.isArray(reviews)) reviews = [];
 
-let reviewsRes=await fetch(API+"?db=reviews&t="+Date.now())
-let reviews=await reviewsRes.json()
+        // Dynamic clean property filters scanning
+        products = products.filter(p => p && (p.ai_status === "approved" || p.status === "approved"));
 
-if(!Array.isArray(products)) products=[]
-if(!Array.isArray(reviews)) reviews=[]
+        /* CALCULATE ACCURATE SCORE AGGREGATIONS */
+        products.forEach(p => {
+            let list = reviews.filter(r => r && String(r.productId || r.book_id) === String(p.id));
+            let total = 0;
+            list.forEach(r => { total += Number(r.rating || 0); });
+            
+            p.rating = list.length ? (total / list.length) : 5.0; // Fallback configuration to standard 5-star metric
+            p.reviewCount = list.length;
+        });
 
-/* ONLY APPROVED */
+        // Downward velocity score ranking execution loop
+        products.sort((a, b) => b.rating - a.rating);
 
-products=products.filter(p=>p.ai_status==="approved")
+        if(products.length === 0){
+            box.innerHTML = `<div class="no-data"><h3>No verified books found matching metadata logs parameters lines.</h3></div>`;
+            return;
+        }
 
-/* CALCULATE RATING */
+        let html = "";
+        // Extract top 20 objects fields
+        products.slice(0, 20).forEach((p, i) => {
+            let itemTitle = p.title || p.book_title || p.name || "Premium Asset Listing";
+            let itemAuthor = p.author || p.book_author || "Premium Creator";
+            let itemPrice = p.price || p.book_price || 0;
+            let itemImage = p.image || p.cover || p.front_cover || "";
 
-products.forEach(p=>{
+            html += `
+            <div class="card" onclick="openBook('${p.id}')">
+                <img src="${driveImage(itemImage)}" alt="Book Cover Art" loading="lazy">
+                <div class="info">
+                    <div class="name-wrapper">
+                        <div class="name">${escapeHTML(itemTitle)}</div>
+                        ${i < 3 ? '<span class="badge"><i class="fa-solid fa-trophy"></i> Top Rated</span>' : ''}
+                    </div>
+                    <div class="rating-row">
+                        <span class="stars-string">${stars(p.rating)}</span>
+                        <span class="numeric-score">(${p.rating.toFixed(1)})</span>
+                        <span style="color:var(--text-muted)">• ${p.reviewCount} user reviews</span>
+                    </div>
+                    <div style="font-size: 15px; font-weight: 800; color: var(--accent-blue); margin-top: 2px;">by ${escapeHTML(itemAuthor)}</div>
+                    <button class="buy" onclick="buyNow(event,'${p.id}')">
+                        <i class="fa-solid fa-bolt"></i> Buy Now • ₹${Number(itemPrice)}
+                    </button>
+                </div>
+            </div>
+            `;
+        });
 
-let list=reviews.filter(r=>String(r.productId)===String(p.id))
+        box.innerHTML = html;
 
-let total=0
-
-list.forEach(r=>{
-total+=Number(r.rating||0)
-})
-
-p.rating=list.length ? (total/list.length) : 0
-p.reviewCount=list.length
-
-})
-
-/* SORT BY RATING */
-
-products.sort((a,b)=>b.rating-a.rating)
-
-let box=document.getElementById("books")
-
-let html=""
-
-/* SHOW TOP 20 */
-
-products.slice(0,20).forEach((p,i)=>{
-
-html+=`
-
-<div class="card" onclick="openBook('${p.id}')">
-
-<img src="${driveImage(p.image)}">
-
-<div class="info">
-
-<div class="name">
-
-${p.title || "Untitled"}
-
-${i<3?'<span class="badge">Top Rated</span>':''}
-
-</div>
-
-<div class="rating">
-
-${stars(p.rating)} (${p.rating.toFixed(1)}) • ${p.reviewCount} reviews
-
-</div>
-
-<button class="buy"
-onclick="buyNow(event,'${p.id}')">
-
-Buy
-
-</button>
-
-</div>
-
-</div>
-
-`
-
-})
-
-box.innerHTML=html || "No Books Found"
-
-}catch{
-
-document.getElementById("books").innerHTML="Books Loading Failed"
-
+    } catch(err) {
+        console.error("Sorting pipeline runtime processing crash.", err);
+        box.innerHTML = `<div class="no-data"><p style="color:red; font-weight:700;">Operational Exception: Failed to initialize network aggregation frameworks layers threads.</p></div>`;
+    }
 }
 
+function escapeHTML(str){
+    return String(str).replace(/[&<>"']/g, function(m){
+        return({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;' })[m]
+    });
 }
 
-/* OPEN BOOK */
+function openBook(id){ location.href = "book.html?id=" + id; }
 
-function openBook(id){
-
-location.href="ebook.html?id="+id
-
+function buyNow(e, id){
+    e.stopPropagation();
+    localStorage.setItem("buyProduct", id);
+    location.href = "payment.html";
 }
 
-/* BUY */
+document.addEventListener("DOMContentLoaded", load);
+</script>
 
-function buyNow(e,id){
-
-e.stopPropagation()
-
-localStorage.setItem("buyProduct",id)
-
-location.href="payment.html"
-
-}
-
-load()
-
-</script></body>
+</body>
 </html>
