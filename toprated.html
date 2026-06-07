@@ -24,7 +24,6 @@
     --shadow-sm: 0 1px 3px rgba(15,23,42,0.05);
     --shadow-md: 0 20px 40px -4px rgba(15,23,42,0.08), 0 8px 16px -2px rgba(15,23,42,0.03);
     --amber-warning: #f59e0b;
-    --green-success: #10b981;
 }
 
 *{
@@ -164,6 +163,7 @@ body{
     transform: scale(1.04);
 }
 
+/* INFO CONTENT LAYOUT MATRIX */
 .info{
     padding: 24px;
     display: flex;
@@ -296,7 +296,7 @@ body{
 </div>
 
 <script>
-// Connected explicitly to the primary active cloud datastore endpoint link
+// Connected explicitly to your primary active cloud datastore endpoint link
 const API = "https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
 
 function driveImage(link){
@@ -320,7 +320,7 @@ function generateStarsString(score){
     return stars;
 }
 
-/* 🚀 HIGH-SPEED DECELERATION SCORING ENGINE PIPELINE ROUTINES */
+/* 🚀 ACCURATE REAL DATA SORTING ENGINE PIPELINE ROUTINES */
 async function loadHighestRatedInventory(){
     let box = document.getElementById("books");
     try{
@@ -330,38 +330,39 @@ async function loadHighestRatedInventory(){
         let reviewsRes = await fetch(API + "?db=reviews&t=" + Date.now());
         let reviews = await reviewsRes.json();
 
-        if(!Array.isArray(products)) products = [];
-        if(!Array.isArray(reviews)) reviews = [];
+        // Safe normalization parsing fallback handles
+        if(!Array.isArray(products)) products = products.products || products.data || [];
+        if(!Array.isArray(reviews)) reviews = reviews.reviews || reviews.data || [];
 
-        // Strictly capture approved items tags fields
+        // Filter out approved items matching sheet parameters natively
         products = products.filter(p => p && (p.ai_status === "approved" || p.status === "approved" || p.book_status === "approved"));
 
-        /* RUN COMPLEX MATRIX AGGREGATIONS VALUES COUNTS LOOP */
+        /* RUN METRIC AGGREGATIONS VALUES COUNTS LOOP */
         products.forEach(p => {
             let matches = reviews.filter(r => r && String(r.productId || r.book_id || r.product_id) === String(p.id));
             let summation = 0;
             matches.forEach(r => { summation += Number(r.rating || r.score || 0); });
             
-            // Enforce automatic stable rating benchmarks fallback to 5.0 flat lines
+            // Default baseline configuration if reviews pool array is empty
             p.computedRating = matches.length ? (summation / matches.length) : 5.0;
             p.totalReviewsRecorded = matches.length;
         });
 
-        // 🚀 CRITICAL: Direct high-to-low mathematical subtraction sort layer
+        // 🚀 REAL-TIME REVERSE SORT: High to Low descending score sequence layout
         products.sort((a, b) => b.computedRating - a.computedRating);
 
         if(products.length === 0){
-            box.innerHTML = `<div class="no-data"><h3>No verified assets loaded inside active grid segments.</h3></div>`;
+            box.innerHTML = `<div class="no-data"><h3>No verified books found matching database configurations.</h3></div>`;
             return;
         }
 
         let html = "";
-        // Slice top 20 verified objects rows
+        // Slice top 20 verified dataset objects rows cleanly
         products.slice(0, 20).forEach((p, index) => {
             let ebookTitle = p.title || p.book_title || p.name || "Premium Digital Asset";
             let ebookAuthor = p.author || p.book_author || p.writer || "Verified Creator";
             let ebookPrice = p.price || p.book_price || p.rate || 0;
-            let ebookCover = p.image || p.cover || p.front_cover || p.cover_image || "";
+            let ebookCover = p.front_cover || p.cover || p.image || p.cover_image || "";
 
             html += `
             <div class="card" onclick="routeToViewer('${p.id}')">
