@@ -422,15 +422,17 @@ function renderBooks(type){
     const owner = isOwner(product);
     const access = canAccess(product);
 
-    // 🔒 REVENUE PROTECT ACTION LOOP: Completely strips other creator records out if user is inactive
-    if (!HAS_SUBSCRIPTION && !isAdmin && !owner) {
-        return false; 
+    // 🔥 MAIN LOGIC FIX
+    if (!HAS_SUBSCRIPTION && !isAdmin) {
+      return owner; // sirf apni books dikhegi
     }
 
+    // subscription hai to sab dikhe
     if(type === "uploads") return owner;
     if(type === "subscription") return HAS_SUBSCRIPTION && !owner;
     if(type === "unlocked") return access;
     if(type === "locked") return !access;
+
     return true;
   });
 
@@ -439,19 +441,24 @@ function renderBooks(type){
        box.innerHTML = `
           <div class="locked-lockout-hero">
               <div class="lockout-icon-avatar"><i class="fa-solid fa-circle-exclamation"></i></div>
-              <h3>Your Library Shelf is Empty</h3>
-              <p style="color:var(--text-secondary); font-size:14px; margin-top:6px; max-width:450px;">Your subscription is currently inactive. Activate a plan to read all marketplace ebooks instantly, or navigate to the Upload section to manage your own creations.</p>
-              <button class="buy-btn" style="width:auto; padding:0 24px; margin-top:20px;" onclick="location.href='subscription.html'"><i class="fa-solid fa-crown"></i> Activate Premium Subscription</button>
+              <h3>No Books Found</h3>
+              <p style="font-size:14px;margin-top:6px;">
+              Tumne abhi koi book upload nahi ki hai.<br>
+              Ya subscription lo aur sab books access karo.
+              </p>
+              <button class="buy-btn" style="width:auto;padding:0 24px;margin-top:20px;" onclick="location.href='subscription.html'">
+              <i class="fa-solid fa-crown"></i> Get Subscription
+              </button>
           </div>`;
     } else {
-       box.innerHTML = '<div class="empty">No ebooks found in this section.</div>';
+       box.innerHTML = '<div class="empty">No ebooks found.</div>';
     }
     return;
   }
 
   executeDOMMarkupLoop(filtered, box);
 }
-
+  
 function executeDOMMarkupLoop(booksDatasetArray, targetOutputBox) {
     targetOutputBox.innerHTML = booksDatasetArray.map(product => {
     const owner = isOwner(product);
