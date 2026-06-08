@@ -309,6 +309,7 @@ function showLoader(){
     </div>`;
 }
 
+/* 🚀 ACCURATE SUBSCRIPTION ENGINE FIELD NORMALIZATION LOOKUP */
 async function checkSubscription(){
   HAS_SUBSCRIPTION = false;
 
@@ -317,16 +318,32 @@ async function checkSubscription(){
     const response = await res.json();
     const subs = Array.isArray(response) ? response : (response.subscriptions || response.data || []);
 
-    HAS_SUBSCRIPTION = subs.some(s =>
-      String(s.email || s.user_email || "").toLowerCase() === String(user.email).toLowerCase() &&
-      String(s.status || "").toLowerCase() === "active"
-    );
-  }catch(err){
-    console.log("Subscription check failed", err);
+    // Loose check constraints loops to dynamic lock verified emails natively
+    HAS_SUBSCRIPTION = subs.some(s => {
+      let subEmail = String(s.email || s.user_email || s.userEmail || "").toLowerCase().trim();
+      let currentEmail = String(user.email).toLowerCase().trim();
+      let subStatus = String(s.status || s.sub_status || "").toLowerCase().trim();
+      
+      return subEmail === currentEmail && subStatus === "active";
+    });
+  }catch(err) {
+    console.log("Subscription network fetch failed.", err);
   }
 
-  const localSub = localStorage.getItem("creatorhub_subscription_status") || localStorage.getItem("subscription_status");
-  if(String(localSub).toLowerCase() === "active") HAS_SUBSCRIPTION = true;
+  // Cross-Origin fallback cache buffers checkpoints
+  const keys = ["creatorhub_subscription_status", "subscription_status", "status"];
+  keys.forEach(key => {
+      let val = localStorage.getItem(key);
+      if(val && String(val).toLowerCase().trim() === "active") {
+          HAS_SUBSCRIPTION = true;
+      }
+  });
+
+  if(HAS_SUBSCRIPTION) {
+      localStorage.setItem("creatorhub_subscription_status", "active");
+  } else {
+      localStorage.removeItem("creatorhub_subscription_status");
+  }
 }
 
 function getPurchasedIds(){
@@ -370,14 +387,13 @@ async function loadData(){
     ALL_PRODUCTS = Array.isArray(response) ? response : (response.products || response.data || []);
     ALL_PRODUCTS = ALL_PRODUCTS.filter(isApproved);
 
-    // 🚀 DYNAMIC STATS RE-CALCULATION BASED ON STRICT PRIVILEGES
     const unlocked = ALL_PRODUCTS.filter(canAccess);
     const uploads = ALL_PRODUCTS.filter(isOwner);
 
-    // If subscription is inactive, total books visible is restricted strictly to user uploads or purchased items
-    let visibleCount = (HAS_SUBSCRIPTION || isAdmin) ? ALL_PRODUCTS.length : uploads.length;
+    // Dynamic stats display numbers re-calculation
+    let visibleBooksCount = (HAS_SUBSCRIPTION || isAdmin) ? ALL_PRODUCTS.length : uploads.length;
 
-    document.getElementById("totalBooks").innerText = visibleCount;
+    document.getElementById("totalBooks").innerText = visibleBooksCount;
     document.getElementById("unlockedBooks").innerText = unlocked.length;
     document.getElementById("myUploads").innerText = uploads.length;
     document.getElementById("subscriptionStatus").innerText = HAS_SUBSCRIPTION ? "Active" : "Inactive";
@@ -397,17 +413,16 @@ async function loadData(){
   }
 }
 
-/* 🚀 100% SECURE GATEKEEPER ROUTINE FOR VISIBILITY LAYER */
+/* 🚀 GATEKEEPER RENDERING LOGIC INTERCEPTOR PANEL */
 function renderBooks(type){
   CURRENT_FILTER = type;
   let box = document.getElementById("library");
 
-  // Filter based on database logic criteria
   let filtered = ALL_PRODUCTS.filter(product => {
     const owner = isOwner(product);
     const access = canAccess(product);
 
-    // 🚀 STAGE 1 LOGIC SECURITY GATE: If inactive, enforce a total lockout against other creators' listings
+    // 🔒 REVENUE PROTECT ACTION LOOP: Completely strips other creator records out if user is inactive
     if (!HAS_SUBSCRIPTION && !isAdmin && !owner) {
         return false; 
     }
@@ -419,13 +434,12 @@ function renderBooks(type){
     return true;
   });
 
-  // If no books are found or returned in this stack, display clean dynamic placeholders cards
   if(filtered.length === 0){
     if (!HAS_SUBSCRIPTION && !isAdmin) {
        box.innerHTML = `
           <div class="locked-lockout-hero">
               <div class="lockout-icon-avatar"><i class="fa-solid fa-circle-exclamation"></i></div>
-              <h3>No Ebooks Available On Your Shelf</h3>
+              <h3>Your Library Shelf is Empty</h3>
               <p style="color:var(--text-secondary); font-size:14px; margin-top:6px; max-width:450px;">Your subscription is currently inactive. Activate a plan to read all marketplace ebooks instantly, or navigate to the Upload section to manage your own creations.</p>
               <button class="buy-btn" style="width:auto; padding:0 24px; margin-top:20px;" onclick="location.href='subscription.html'"><i class="fa-solid fa-crown"></i> Activate Premium Subscription</button>
           </div>`;
@@ -435,11 +449,9 @@ function renderBooks(type){
     return;
   }
 
-  // Stage 2 Logic rendering execution
   executeDOMMarkupLoop(filtered, box);
 }
 
-/* Stable HTML execution matrix grid */
 function executeDOMMarkupLoop(booksDatasetArray, targetOutputBox) {
     targetOutputBox.innerHTML = booksDatasetArray.map(product => {
     const owner = isOwner(product);
@@ -456,7 +468,7 @@ function executeDOMMarkupLoop(booksDatasetArray, targetOutputBox) {
       badgeText = "Your Ebook";
     }
 
-    // Since the system ensures only accessible books render if inactive, button will always safely point to Read Ebook context
+    // Since validation layers already intercept unauthorized cards, user can click to read everything safely
     let primaryButton = `<button class="read-btn" onclick="openBook('${escapeHTML(product.id)}')"><i class="fa-solid fa-book-open"></i> Read Ebook</button>`;
 
     let manage = "";
@@ -482,10 +494,7 @@ function executeDOMMarkupLoop(booksDatasetArray, targetOutputBox) {
 
 function openBook(id){
   const product = ALL_PRODUCTS.find(p => String(p.id) === String(id));
-  if(!product){
-    alert("Book not found.");
-    return;
-  }
+  if(!product){ alert("Book not found."); return; }
 
   if(!canAccess(product)){
     alert("Please subscribe or purchase this ebook to unlock it.");
@@ -494,11 +503,7 @@ function openBook(id){
   }
 
   const pdf = product.pdf_url || product.file_url || product.pdf || product.pdfUrl || "";
-
-  if(!pdf){
-    alert("PDF link missing for this ebook.");
-    return;
-  }
+  if(!pdf){ alert("PDF link missing for this ebook."); return; }
 
   localStorage.setItem("viewerPDF", pdf);
   localStorage.setItem("viewerBook", JSON.stringify(product));
@@ -512,15 +517,8 @@ function unlockBook(id){
 
 function editBook(id){
   const product = ALL_PRODUCTS.find(p => String(p.id) === String(id));
-  if(!product){
-    alert("Book not found.");
-    return;
-  }
-
-  if(!isOwner(product) && !isAdmin){
-    alert("Only the ebook owner can edit this book.");
-    return;
-  }
+  if(!product){ alert("Book not found."); return; }
+  if(!isOwner(product) && !isAdmin){ alert("Only the ebook owner can edit this book."); return; }
 
   localStorage.setItem("editBookId", id);
   localStorage.setItem("viewerBook", JSON.stringify(product));
@@ -529,16 +527,8 @@ function editBook(id){
 
 async function deleteBook(id){
   const product = ALL_PRODUCTS.find(p => String(p.id) === String(id));
-
-  if(!product){
-    alert("Book not found.");
-    return;
-  }
-
-  if(!isOwner(product) && !isAdmin){
-    alert("Only the ebook owner can delete this book.");
-    return;
-  }
+  if(!product){ alert("Book not found."); return; }
+  if(!isOwner(product) && !isAdmin){ alert("Only the ebook owner can delete this book."); return; }
 
   const ok = confirm("Delete this ebook permanently?");
   if(!ok) return;
@@ -547,25 +537,15 @@ async function deleteBook(id){
     const res = await fetch(PRODUCT_API,{
       method:"POST",
       headers:{ "Content-Type":"text/plain;charset=utf-8" },
-      body:JSON.stringify({
-        action:"deleteBook",
-        id:id,
-        email:user.email
-      })
+      body:JSON.stringify({ action:"deleteBook", id:id, email:user.email })
     });
 
     const data = await res.json();
-
-    if(data.success === false){
-      throw new Error(data.message || "Delete failed.");
-    }
+    if(data.success === false){ throw new Error(data.message || "Delete failed."); }
 
     alert(data.message || "Ebook deleted successfully.");
     loadData();
-
-  }catch(err){
-    alert(err.message || "Delete failed.");
-  }
+  }catch(err){ alert(err.message || "Delete failed."); }
 }
 
 function filterBooks(type){
