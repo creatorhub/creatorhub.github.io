@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
-/* (Style same rakha hai - koi change nahi kiya) */
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
 body{background:#f6f8fc;color:#101828;min-height:100vh;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
@@ -60,8 +59,9 @@ a{text-decoration:none;color:inherit}
 .actions{display:flex;gap:8px;margin-top:10px}
 .edit,.delete{flex:1;min-height:38px;border:none;border-radius:7px;color:white;font-size:13px;font-weight:900;cursor:pointer}
 .edit{background:#2563eb}.delete{background:#ef4444}
-.locked-lockout-hero {grid-column:1/-1;min-height:40vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:#ffffff;border:1px dashed #cbd5e1;border-radius:12px;padding:40px;box-shadow:0 4px 12px rgba(0,0,0,0.02);}
-.lockout-icon-avatar {width:64px;height:64px;border-radius:50%;background:#fff7df;color:#b7791f;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;border:1px solid #fde68a;}
+/* Lockout Banner */
+.locked-lockout-hero{grid-column:1/-1;min-height:40vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:#fff;border:1px dashed #cbd5e1;border-radius:12px;padding:40px;box-shadow:0 4px 12px rgba(0,0,0,0.02)}
+.lockout-icon-avatar{width:64px;height:64px;border-radius:50%;background:#fff7df;color:#b7791f;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;border:1px solid #fde68a}
 .subscription{position:fixed;left:34px;right:34px;bottom:94px;z-index:998;background:#0d1628;border:1px solid #182a64;padding:22px 28px;border-radius:10px;display:none;align-items:center;justify-content:space-between;gap:20px;box-shadow:0 20px 50px rgba(16,24,40,.15)}
 .subscription h2{font-size:22px;font-weight:950;color:#fff}
 .subscription p{margin-top:4px;color:#94a3b8;font-size:14px;font-weight:600}
@@ -75,46 +75,144 @@ a{text-decoration:none;color:inherit}
 @keyframes spinLoader{to{transform:rotate(360deg)}}
 @media(max-width:1200px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:950px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:700px){.topbar{padding:18px 20px}.brand-title{font-size:25px}.container{padding:24px 18px 170px}.hero{display:block}.sub-pill{margin-top:16px;width:max-content}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.subscription{left:18px;right:18px;flex-direction:column;text-align:center}.manage-btn{width:100%}}
+@media(max-width:700px){
+  .topbar{padding:18px 20px}.brand-title{font-size:25px}.container{padding:24px 18px 170px}
+  .hero{display:block}.sub-pill{margin-top:16px;width:max-content}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  .subscription{left:18px;right:18px;flex-direction:column;text-align:center}.manage-btn{width:100%}
+}
 @media(max-width:500px){.stats{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<!-- HTML structure same (topbar, hero, stats, tabs, etc.) -->
-<div class="topbar"> ... </div>   <!-- pura topbar same rakha hai -->
 
-<div class="container">
-  <section class="hero"> ... </section>
-  <div class="stats"> ... </div>
-  <div class="tabs"> ... </div>
-  <div id="library" class="grid"></div>
-  <div class="subscription" id="subBanner"> ... </div>
+<div class="topbar">
+  <div class="topbar-left">
+    <div id="profileWrap" class="profile-wrap">
+      <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile">
+      <div id="profileMenu" class="profile-menu">
+        <div class="profile-header">
+          <img id="menuProfileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="menu-profile-image" alt="User">
+          <div>
+            <div id="menuName">CreatorHub User</div>
+            <div id="menuEmail">user@email.com</div>
+          </div>
+        </div>
+        <a href="profile.html">My Profile</a>
+        <a href="seller-apply.html">Become Seller</a>
+        <a href="tranding.html">Trending Books</a>
+        <a href="library.html">Library</a>
+        <a href="topselling.html">Top Selling</a>
+        <div class="logout-btn" onclick="logout()">Logout</div>
+      </div>
+    </div>
+    <div class="back-btn" onclick="location.href='index.html'"><i class="fa-solid fa-arrow-left"></i> Back</div>
+  </div>
+  <div class="brand-title">My <span>Library</span></div>
+  <a href="dashboard.html" class="dashboard">Dashboard</a>
 </div>
 
-<div class="bottom-nav"> ... </div>
+<div class="container">
+  <section class="hero">
+    <div>
+      <h1>Your CreatorHub Shelf</h1>
+      <p>Subscription unlocks every approved ebook. Your own uploaded ebooks always stay unlocked with edit and delete access.</p>
+    </div>
+    <div id="subPill" class="sub-pill"><i class="fa-solid fa-crown"></i> Subscription Inactive</div>
+  </section>
+
+  <div class="stats">
+    <div class="stat-box"><div class="icon"><i class="fa-solid fa-book"></i></div><div><h2 id="totalBooks">0</h2><p>Total Books</p></div></div>
+    <div class="stat-box"><div class="icon"><i class="fa-solid fa-unlock-keyhole"></i></div><div><h2 id="unlockedBooks">0</h2><p>Unlocked</p></div></div>
+    <div class="stat-box"><div class="icon"><i class="fa-solid fa-upload"></i></div><div><h2 id="myUploads">0</h2><p>My Uploads</p></div></div>
+    <div class="stat-box"><div class="icon"><i class="fa-solid fa-crown"></i></div><div><h2 id="subscriptionStatus">Inactive</h2><p>Subscription</p></div></div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="filterBooks('all')">All Books</div>
+    <div class="tab" onclick="filterBooks('unlocked')">Unlocked</div>
+    <div class="tab" onclick="filterBooks('subscription')">Subscription</div>
+    <div class="tab" onclick="filterBooks('uploads')">My Uploads</div>
+    <div class="tab" onclick="filterBooks('locked')">Locked</div>
+  </div>
+
+  <div id="library" class="grid"></div>
+
+  <div class="subscription" id="subBanner">
+    <div>
+      <h2>Active Subscription</h2>
+      <p>All approved ebooks are unlocked for your account.</p>
+    </div>
+    <button class="manage-btn" onclick="location.href='subscription.html'">Manage Subscription</button>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <div class="nav-item" onclick="location.href='index.html'"><div class="nav-icon"><i class="fa-solid fa-house"></i></div><div>Home</div></div>
+  <div class="nav-item" onclick="location.href='explore.html'"><div class="nav-icon"><i class="fa-solid fa-magnifying-glass"></i></div><div>Explore</div></div>
+  <div class="nav-item active"><div class="nav-icon"><i class="fa-solid fa-book"></i></div><div>Library</div></div>
+  <div class="nav-item" onclick="location.href='upload.html'"><div class="nav-icon"><i class="fa-solid fa-upload"></i></div><div>Upload</div></div>
+  <div class="nav-item" onclick="location.href='profile.html'"><div class="nav-icon"><i class="fa-solid fa-user"></i></div><div>Profile</div></div>
+</div>
 
 <script>
-// ==================== FIXED LOGIC ====================
 const ADMIN = "ayushprajpati6@gmail.com";
 const PRODUCT_API = "https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
 const SUBSCRIPTION_API = "https://script.google.com/macros/s/AKfycbyKnVmxYCTskDLpOk_s2Ch1nHnVvD__GVHbnztTCvl4bzYgk7sDx0F1WuJ0CXMORqs/exec";
 
 let user = getLoggedUser();
-if(!user.email){ location.href = "login.html"; }
+if(!user.email) location.href = "login.html";
 
 let isAdmin = String(user.email).toLowerCase() === String(ADMIN).toLowerCase();
 let ALL_PRODUCTS = [];
 let HAS_SUBSCRIPTION = false;
 let CURRENT_FILTER = "all";
 
-function getLoggedUser(){ ... } // same
-function escapeHTML(){ ... }   // same
-function ownerEmail(){ ... }   // same
-function isOwner(){ ... }      // same
-function isApproved(){ ... }   // same
-function driveImage(){ ... }   // same
+function getLoggedUser(){
+  try{
+    const u = JSON.parse(localStorage.getItem("user") || "{}");
+    return {
+      email: u.email || (u.user && u.user.email) || localStorage.getItem("user_email") || localStorage.getItem("creatorhub_profile_email") || "",
+      name: u.name || (u.user && u.user.name) || "CreatorHub User",
+      image: u.profile_image || u.image || ""
+    };
+  }catch(e){ return {email:"", name:"CreatorHub User", image:""}; }
+}
 
-// Profile & Logout functions same
+function escapeHTML(str){ return String(str||"").replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"})[m]); }
+function ownerEmail(p){ return String(p.email || p.seller_email || p.owner || p.user_email || "").toLowerCase(); }
+function isOwner(p){ return ownerEmail(p) === String(user.email).toLowerCase(); }
+function isApproved(p){ 
+  const status = String(p.status||"").toLowerCase();
+  const aiStatus = String(p.ai_status || p.aiStatus||"").toLowerCase();
+  return (!status || status==="approved") && (!aiStatus || aiStatus==="approved");
+}
+function driveImage(link){
+  if(!link) return "https://via.placeholder.com/500x700/eef3f9/63728a?text=CreatorHub";
+  if(link.startsWith("data:image")) return link;
+  try{
+    let id = link.includes("id=") ? link.split("id=")[1].split("&")[0] : 
+             link.includes("/d/") ? link.split("/d/")[1].split("/")[0] : null;
+    return id ? `https://drive.google.com/thumbnail?id=${id}&sz=w1000` : link;
+  }catch(e){ return link; }
+}
+
+function toggleProfileMenu(){ document.getElementById("profileMenu").classList.toggle("show"); }
+window.addEventListener("click", e => {
+  if(!document.getElementById("profileWrap").contains(e.target)) document.getElementById("profileMenu").classList.remove("show");
+});
+function logout(){ localStorage.clear(); location.href="login.html"; }
+
+function updateLoginUI(){
+  const img = user.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=2f62e9&color=fff`;
+  document.getElementById("profileImage").src = driveImage(img);
+  document.getElementById("menuProfileImage").src = driveImage(img);
+  document.getElementById("menuName").innerText = user.name;
+  document.getElementById("menuEmail").innerText = user.email;
+}
+
+function showLoader(){
+  document.getElementById("library").innerHTML = `<div class="empty"><div><div class="spinner"></div><p>Loading library...</p></div></div>`;
+}
 
 async function checkSubscription(){
   HAS_SUBSCRIPTION = false;
@@ -122,14 +220,12 @@ async function checkSubscription(){
     const res = await fetch(SUBSCRIPTION_API + "?db=subscriptions&t=" + Date.now());
     const data = await res.json();
     const subs = Array.isArray(data) ? data : (data.subscriptions || data.data || []);
-    HAS_SUBSCRIPTION = subs.some(s => {
-      const subEmail = String(s.email || s.user_email || "").toLowerCase().trim();
-      return subEmail === user.email.toLowerCase().trim() && 
-             String(s.status || s.sub_status || "").toLowerCase().trim() === "active";
-    });
-  }catch(e){ console.log("Sub fetch failed", e); }
+    HAS_SUBSCRIPTION = subs.some(s => 
+      String(s.email || s.user_email||"").toLowerCase().trim() === user.email.toLowerCase().trim() &&
+      String(s.status || s.sub_status||"").toLowerCase().trim() === "active"
+    );
+  }catch(e){ console.log("Subscription fetch failed"); }
 
-  // localStorage fallback
   if(localStorage.getItem("creatorhub_subscription_status") === "active") HAS_SUBSCRIPTION = true;
 }
 
@@ -137,35 +233,160 @@ function canAccess(product){
   return isAdmin || isOwner(product) || HAS_SUBSCRIPTION || isPurchased(product);
 }
 
-async function loadData(){
-  // ... loader + fetch products + checkSubscription
-  // Stats update logic improved
-  const myUploads = ALL_PRODUCTS.filter(isOwner);
-  const visibleCount = (HAS_SUBSCRIPTION || isAdmin) ? ALL_PRODUCTS.length : myUploads.length;
+function isPurchased(product){
+  const keys = ["purchasedBooks","ownedBooks","unlockedBooks","my_books"];
+  let ids = [];
+  keys.forEach(key => {
+    try{
+      const arr = JSON.parse(localStorage.getItem(key) || "[]");
+      ids = ids.concat(arr.map(item => String(item.id || item.productId || item || "")));
+    }catch(e){}
+  });
+  return ids.includes(String(product.id));
+}
 
-  // UI updates...
-  renderBooks(CURRENT_FILTER);
+async function loadData(){
+  showLoader();
+  try{
+    const [prodRes] = await Promise.all([
+      fetch(PRODUCT_API + "?action=products&t=" + Date.now()),
+      checkSubscription()
+    ]);
+    const response = await prodRes.json();
+    ALL_PRODUCTS = Array.isArray(response) ? response : (response.products || response.data || []);
+    ALL_PRODUCTS = ALL_PRODUCTS.filter(isApproved);
+
+    const myUploads = ALL_PRODUCTS.filter(isOwner);
+    const visibleCount = (HAS_SUBSCRIPTION || isAdmin) ? ALL_PRODUCTS.length : myUploads.length;
+
+    document.getElementById("totalBooks").innerText = visibleCount;
+    document.getElementById("unlockedBooks").innerText = ALL_PRODUCTS.filter(canAccess).length;
+    document.getElementById("myUploads").innerText = myUploads.length;
+    document.getElementById("subscriptionStatus").innerText = HAS_SUBSCRIPTION ? "Active" : "Inactive";
+
+    const subPill = document.getElementById("subPill");
+    subPill.className = HAS_SUBSCRIPTION ? "sub-pill active" : "sub-pill";
+    subPill.innerHTML = HAS_SUBSCRIPTION ? '<i class="fa-solid fa-crown"></i> Subscription Active' : '<i class="fa-solid fa-crown"></i> Subscription Inactive';
+
+    document.getElementById("subBanner").style.display = HAS_SUBSCRIPTION ? "flex" : "none";
+
+    renderBooks(CURRENT_FILTER);
+  }catch(err){
+    console.error(err);
+    document.getElementById("library").innerHTML = '<div class="empty">Failed to load library.</div>';
+  }
 }
 
 function renderBooks(type){
   CURRENT_FILTER = type;
   let filtered = [];
 
-  if (!HAS_SUBSCRIPTION && !isAdmin) {
-    filtered = ALL_PRODUCTS.filter(isOwner);           // Sirf apni books
+  if(!HAS_SUBSCRIPTION && !isAdmin){
+    filtered = ALL_PRODUCTS.filter(isOwner);
   } else {
     if(type === "uploads") filtered = ALL_PRODUCTS.filter(isOwner);
     else if(type === "subscription") filtered = ALL_PRODUCTS.filter(p => !isOwner(p));
     else if(type === "unlocked") filtered = ALL_PRODUCTS.filter(canAccess);
     else if(type === "locked") filtered = ALL_PRODUCTS.filter(p => !canAccess(p));
-    else filtered = ALL_PRODUCTS;                       // all
+    else filtered = ALL_PRODUCTS;
   }
 
-  // Empty state + card rendering (same as before but cleaner)
-  executeDOMMarkupLoop(filtered, document.getElementById("library"));
+  const box = document.getElementById("library");
+  if(filtered.length === 0){
+    if(!HAS_SUBSCRIPTION && !isAdmin){
+      box.innerHTML = `
+        <div class="locked-lockout-hero">
+          <div class="lockout-icon-avatar"><i class="fa-solid fa-circle-exclamation"></i></div>
+          <h3>No Books Found</h3>
+          <p style="font-size:14px;margin-top:8px;">Upload your first ebook or get subscription to unlock all books.</p>
+          <button class="buy-btn" style="width:auto;padding:12px 28px;margin-top:20px;" onclick="location.href='subscription.html'">Get Subscription</button>
+        </div>`;
+    } else {
+      box.innerHTML = '<div class="empty">No ebooks found.</div>';
+    }
+    return;
+  }
+
+  box.innerHTML = filtered.map(product => {
+    const owner = isOwner(product);
+    const access = canAccess(product);
+    const image = driveImage(product.front_cover || product.cover || product.image);
+    const title = escapeHTML(product.title || "Untitled");
+    const author = escapeHTML(product.author || "Unknown");
+
+    let badgeClass = access ? "" : "locked";
+    let badgeText = access ? "Unlocked" : "Locked";
+    if(owner){ badgeClass = "owner"; badgeText = "Your Ebook"; }
+
+    let manage = "";
+    if(owner || isAdmin){
+      manage = `<div class="actions">
+        <button class="edit" onclick="editBook('${escapeHTML(product.id)}')"><i class="fa-solid fa-pen"></i> Edit</button>
+        <button class="delete" onclick="deleteBook('${escapeHTML(product.id)}')"><i class="fa-solid fa-trash"></i> Delete</button>
+      </div>`;
+    }
+
+    return `
+      <div class="card">
+        <img class="cover" loading="lazy" src="${image}" onerror="this.src='https://via.placeholder.com/500x700/eef3f9/63728a?text=CreatorHub'" alt="Cover">
+        <div class="book-title">${title}</div>
+        <div class="author">by ${author}</div>
+        <div class="badge ${badgeClass}">${badgeText}</div>
+        <button class="read-btn" onclick="openBook('${escapeHTML(product.id)}')"><i class="fa-solid fa-book-open"></i> Read Ebook</button>
+        ${manage}
+      </div>`;
+  }).join("");
 }
 
-// openBook, editBook, deleteBook functions already sahi the — sirf safety checks strong kiye
+function openBook(id){
+  const product = ALL_PRODUCTS.find(p => String(p.id) === String(id));
+  if(!product) return alert("Book not found");
+  if(!canAccess(product)){
+    alert("Please subscribe to read this ebook.");
+    location.href = "subscription.html";
+    return;
+  }
+  const pdf = product.pdf_url || product.file_url || product.pdf || "";
+  if(!pdf) return alert("PDF link missing");
+  localStorage.setItem("viewerPDF", pdf);
+  localStorage.setItem("viewerBook", JSON.stringify(product));
+  location.href = "viewer.html?id=" + encodeURIComponent(id);
+}
+
+function editBook(id){
+  const product = ALL_PRODUCTS.find(p => String(p.id) === String(id));
+  if(!product || (!isOwner(product) && !isAdmin)) return alert("You can only edit your own books");
+  localStorage.setItem("editBookId", id);
+  localStorage.setItem("viewerBook", JSON.stringify(product));
+  location.href = "edit-ebook.html?id=" + encodeURIComponent(id);
+}
+
+async function deleteBook(id){
+  const product = ALL_PRODUCTS.find(p => String(p.id) === String(id));
+  if(!product || (!isOwner(product) && !isAdmin)) return alert("You can only delete your own books");
+  if(!confirm("Delete this ebook permanently?")) return;
+  try{
+    const res = await fetch(PRODUCT_API, {
+      method:"POST",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body: JSON.stringify({action:"deleteBook", id:id, email:user.email})
+    });
+    const data = await res.json();
+    if(data.success !== false){
+      alert("Ebook deleted successfully");
+      loadData();
+    } else {
+      alert(data.message || "Delete failed");
+    }
+  }catch(err){ alert("Delete failed"); }
+}
+
+function filterBooks(type){
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  const activeTab = Array.from(document.querySelectorAll(".tab")).find(t => t.getAttribute("onclick").includes(`'${type}'`));
+  if(activeTab) activeTab.classList.add("active");
+  renderBooks(type);
+}
 
 updateLoginUI();
 loadData();
