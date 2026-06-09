@@ -15,47 +15,176 @@ a{text-decoration:none;color:inherit}
 button,input,textarea{font:inherit}
 button{cursor:pointer;border:0}
 
-.app{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
-.sidebar{background:#081326;color:#fff;padding:28px 22px;position:sticky;top:0;height:100vh}
-.brand{display:flex;align-items:center;gap:14px;margin-bottom:34px}
-.logo{width:54px;height:54px;border-radius:14px;background:linear-gradient(135deg,#1db9ff,#315df4);display:grid;place-items:center;font-weight:900;font-size:24px}
-.brand b{font-size:26px;font-weight:900}
-.nav{display:grid;gap:12px}
-.nav a{height:54px;border-radius:12px;display:flex;align-items:center;gap:13px;padding:0 16px;color:#dbe7ff;font-weight:800}
-.nav a:hover,.nav a.active{background:#182d70;color:#fff;box-shadow:inset 0 0 0 1px #3567ff}
-
-.main{min-width:0}
-.topbar{height:118px;background:#fff;border-bottom:1px solid #dce6f3;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:24px 38px;position:sticky;top:0;z-index:20}
-.topbar h1{font-size:42px;line-height:1;font-weight:900;color:#06142c}
-.topbar p{margin-top:8px;color:#62718b;font-size:17px}
-.actions{display:flex;gap:12px;flex-wrap:wrap}
-.btn{height:54px;border-radius:12px;padding:0 22px;font-weight:900;font-size:15px;display:inline-flex;align-items:center;justify-content:center;gap:10px}
+.topbar{
+  min-height:112px;
+  background:#fff;
+  border-bottom:1px solid #dce6f3;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:24px 52px;
+  position:sticky;
+  top:0;
+  z-index:20
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  min-width:220px
+}
+.logo{
+  width:54px;
+  height:54px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#1db9ff,#315df4);
+  display:grid;
+  place-items:center;
+  color:#fff;
+  font-weight:900;
+  font-size:24px
+}
+.brand b{font-size:24px;font-weight:900;color:#06142c}
+.page-title{text-align:center;flex:1}
+.page-title h1{font-size:42px;line-height:1;font-weight:900;color:#06142c}
+.page-title p{margin-top:8px;color:#62718b;font-size:17px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end;min-width:360px}
+.btn{
+  height:54px;
+  border-radius:12px;
+  padding:0 22px;
+  font-weight:900;
+  font-size:15px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px
+}
 .btn-primary{background:#315df4;color:#fff;box-shadow:0 14px 28px rgba(49,93,244,.22)}
 .btn-light{background:#fff;color:#07142f;border:1px solid #d6e1ef}
 .btn:disabled{opacity:.65;cursor:wait}
 
-.content{padding:32px 38px 110px;display:grid;gap:26px}
-.notice{display:none;border-radius:12px;padding:15px 17px;font-weight:850;border:1px solid #f4c95d;background:#fff5d7;color:#8a5b00}
+.content{
+  width:min(1660px,100%);
+  margin:0 auto;
+  padding:32px 52px 116px;
+  display:grid;
+  gap:26px
+}
+.notice{
+  display:none;
+  border-radius:12px;
+  padding:15px 17px;
+  font-weight:850;
+  border:1px solid #f4c95d;
+  background:#fff5d7;
+  color:#8a5b00
+}
 .notice.ok{background:#dcfce7;color:#166534;border-color:#baf2cf}
 
-.profile-card{background:#fff;border:1px solid #dce6f3;border-radius:18px;box-shadow:0 18px 45px rgba(16,24,40,.08);overflow:hidden}
-.cover{min-height:310px;background:linear-gradient(120deg,#2f6bf2,#20a6a7);background-size:cover;background-position:center;position:relative}
-.cover:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.24))}
-.cover-tools{position:absolute;right:24px;bottom:24px;z-index:2;display:flex;gap:12px}
-.file-btn{height:50px;border-radius:12px;background:#0b1830;color:#fff;border:1px solid rgba(255,255,255,.22);padding:0 18px;display:inline-flex;align-items:center;gap:9px;font-weight:900}
+.profile-card{
+  background:#fff;
+  border:1px solid #dce6f3;
+  border-radius:18px;
+  box-shadow:0 18px 45px rgba(16,24,40,.08);
+  overflow:hidden
+}
+.cover{
+  min-height:330px;
+  background:linear-gradient(120deg,#2f6bf2,#20a6a7);
+  background-size:cover;
+  background-position:center;
+  position:relative
+}
+.cover:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.24))
+}
+.cover-tools{
+  position:absolute;
+  right:28px;
+  bottom:28px;
+  z-index:2;
+  display:flex;
+  gap:12px
+}
+.file-btn{
+  height:52px;
+  border-radius:12px;
+  background:#0b1830;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.22);
+  padding:0 18px;
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  font-weight:900
+}
 .file-btn input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
 
-.identity{padding:0 34px 34px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:26px;align-items:end}
-.avatar{width:156px;height:156px;border-radius:50%;object-fit:cover;background:#315df4;border:7px solid #fff;margin-top:-78px;position:relative;z-index:5;box-shadow:0 20px 44px rgba(16,24,40,.2)}
-.identity h2{font-size:42px;line-height:1.05;font-weight:900;color:#06142c;overflow-wrap:anywhere}
-.identity p{margin-top:10px;color:#62718b;font-size:18px;overflow-wrap:anywhere}
+.identity{
+  padding:0 34px 34px;
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr) auto;
+  gap:26px;
+  align-items:end
+}
+.avatar{
+  width:156px;
+  height:156px;
+  border-radius:50%;
+  object-fit:cover;
+  background:#315df4;
+  border:7px solid #fff;
+  margin-top:-78px;
+  position:relative;
+  z-index:5;
+  box-shadow:0 20px 44px rgba(16,24,40,.2)
+}
+.identity h2{
+  font-size:42px;
+  line-height:1.05;
+  font-weight:900;
+  color:#06142c;
+  overflow-wrap:anywhere
+}
+.identity p{
+  margin-top:10px;
+  color:#62718b;
+  font-size:18px;
+  overflow-wrap:anywhere
+}
 .chips{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
-.chip{height:36px;border-radius:999px;padding:0 14px;background:#edf3fb;color:#165be0;display:inline-flex;align-items:center;font-weight:900;font-size:13px}
+.chip{
+  height:36px;
+  border-radius:999px;
+  padding:0 14px;
+  background:#edf3fb;
+  color:#165be0;
+  display:inline-flex;
+  align-items:center;
+  font-weight:900;
+  font-size:13px
+}
 .chip.green{background:#e4f8ef;color:#0b9f55}
 .chip.dark{background:#07142f;color:#fff}
 
-.grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(340px,.9fr);gap:26px;align-items:start}
-.card{background:#fff;border:1px solid #dce6f3;border-radius:18px;box-shadow:0 18px 45px rgba(16,24,40,.08);padding:28px}
+.grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.1fr) minmax(340px,.9fr);
+  gap:26px;
+  align-items:start
+}
+.card{
+  background:#fff;
+  border:1px solid #dce6f3;
+  border-radius:18px;
+  box-shadow:0 18px 45px rgba(16,24,40,.08);
+  padding:28px
+}
 .card h3{font-size:24px;font-weight:900;color:#06142c;margin-bottom:7px}
 .card>p{color:#62718b;line-height:1.55;font-size:15px;margin-bottom:24px}
 
@@ -63,90 +192,131 @@ button{cursor:pointer;border:0}
 .field{display:grid;gap:8px}
 .field.full{grid-column:1/-1}
 label{font-size:14px;font-weight:900;color:#26364f}
-input,textarea{width:100%;border:1px solid #d6e1ef;background:#fff;color:#07142f;border-radius:12px;padding:13px 15px;outline:none;min-height:56px}
+input,textarea{
+  width:100%;
+  border:1px solid #d6e1ef;
+  background:#fff;
+  color:#07142f;
+  border-radius:12px;
+  padding:13px 15px;
+  outline:none;
+  min-height:56px
+}
 textarea{min-height:132px;resize:vertical;line-height:1.55}
 input:focus,textarea:focus{border-color:#315df4;box-shadow:0 0 0 4px rgba(49,93,244,.12)}
 input[readonly]{background:#eef3f9;color:#64748b}
 
 .stat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.stat{min-height:126px;border-radius:16px;background:#eef3f9;border:1px solid #d6e1ef;padding:18px;display:grid;align-content:space-between}
-.stat i{width:42px;height:42px;border-radius:12px;background:#fff;color:#315df4;display:grid;place-items:center;font-size:18px}
+.stat{
+  min-height:126px;
+  border-radius:16px;
+  background:#eef3f9;
+  border:1px solid #d6e1ef;
+  padding:18px;
+  display:grid;
+  align-content:space-between
+}
+.stat i{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  background:#fff;
+  color:#315df4;
+  display:grid;
+  place-items:center;
+  font-size:18px
+}
 .stat span{font-size:13px;text-transform:uppercase;font-weight:900;color:#5d6d85}
 .stat strong{font-size:30px;font-weight:900;color:#06142c}
 
 .quick{display:grid;gap:12px}
-.quick-item{min-height:58px;border-radius:14px;border:1px solid #d6e1ef;background:#f6f9fd;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.quick-item{
+  min-height:58px;
+  border-radius:14px;
+  border:1px solid #d6e1ef;
+  background:#f6f9fd;
+  padding:0 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px
+}
 .quick-item b{color:#06142c}
 .quick-item span{color:#62718b;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-.bottom-nav{position:fixed;left:300px;right:0;bottom:0;height:78px;background:#fff;border-top:1px solid #dce6f3;display:grid;grid-template-columns:repeat(5,1fr);z-index:30}
-.bottom-nav a{display:grid;place-items:center;color:#5d6d85;font-weight:900;font-size:13px}
+.bottom-nav{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  height:78px;
+  background:#fff;
+  border-top:1px solid #dce6f3;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  z-index:30
+}
+.bottom-nav a{
+  display:grid;
+  place-items:center;
+  color:#5d6d85;
+  font-weight:900;
+  font-size:13px
+}
 .bottom-nav a i{font-size:20px;margin-bottom:5px}
 .bottom-nav a.active{color:#315df4;background:#f0f5ff}
 
 .footer-slot{display:none}
 
 @media(max-width:1100px){
-.app{grid-template-columns:1fr}
-.sidebar{position:static;height:auto}
-.nav{grid-template-columns:repeat(3,minmax(0,1fr))}
-.bottom-nav{left:0}
-.grid{grid-template-columns:1fr}
+  .topbar{align-items:flex-start;flex-direction:column;padding:22px}
+  .brand,.actions{min-width:0}
+  .page-title{text-align:left}
+  .content{padding:24px 22px 110px}
+  .grid{grid-template-columns:1fr}
 }
 @media(max-width:760px){
-.topbar{height:auto;align-items:flex-start;flex-direction:column;padding:22px}
-.topbar h1{font-size:34px}
-.content{padding:22px 16px 100px}
-.sidebar{padding:22px}
-.nav{grid-template-columns:repeat(2,minmax(0,1fr))}
-.identity{grid-template-columns:1fr;padding:0 22px 26px}
-.avatar{width:132px;height:132px;margin-top:-66px}
-.identity h2{font-size:34px}
-.chips{justify-content:flex-start}
-.form-grid,.stat-grid{grid-template-columns:1fr}
-.cover{min-height:230px}
-.cover-tools{left:16px;right:16px}
-.file-btn{flex:1;justify-content:center}
+  .topbar h1,.page-title h1{font-size:34px}
+  .brand b{font-size:22px}
+  .actions{width:100%;display:grid;grid-template-columns:1fr 1fr}
+  .btn{padding:0 12px}
+  .content{padding:22px 16px 100px}
+  .identity{grid-template-columns:1fr;padding:0 22px 26px}
+  .avatar{width:132px;height:132px;margin-top:-66px}
+  .identity h2{font-size:34px}
+  .chips{justify-content:flex-start}
+  .form-grid,.stat-grid{grid-template-columns:1fr}
+  .cover{min-height:230px}
+  .cover-tools{left:16px;right:16px}
+  .file-btn{flex:1;justify-content:center}
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
-
-<aside class="sidebar">
+<header class="topbar">
   <a class="brand" href="index.html">
     <span class="logo">CH</span>
     <b>CreatorHub</b>
   </a>
 
-  <nav class="nav">
-    <a href="index.html"><i class="fa-solid fa-house"></i>Home</a>
-    <a href="dashboard.html"><i class="fa-solid fa-chart-line"></i>Dashboard</a>
-    <a href="products.html"><i class="fa-solid fa-box"></i>Products</a>
-    <a href="orders.html"><i class="fa-solid fa-bag-shopping"></i>Orders</a>
-    <a href="wallet.html"><i class="fa-solid fa-wallet"></i>Wallet</a>
-    <a href="reviews.html"><i class="fa-solid fa-star"></i>Reviews</a>
-    <a class="active" href="profile.html"><i class="fa-solid fa-user"></i>Profile</a>
-  </nav>
-</aside>
-
-<main class="main">
-
-<header class="topbar">
-  <div>
+  <div class="page-title">
     <h1>Creator Profile</h1>
     <p id="pageStatus">Load, edit, and save your CreatorHub profile.</p>
   </div>
 
   <div class="actions">
-    <button class="btn btn-light" id="loadBtn" type="button"><i class="fa-solid fa-rotate"></i>Load Profile</button>
-    <button class="btn btn-primary" id="saveBtn" type="button"><i class="fa-solid fa-floppy-disk"></i>Save Changes</button>
+    <button class="btn btn-light" id="loadBtn" type="button">
+      <i class="fa-solid fa-rotate"></i>Load Profile
+    </button>
+    <button class="btn btn-primary" id="saveBtn" type="button">
+      <i class="fa-solid fa-floppy-disk"></i>Save Changes
+    </button>
   </div>
 </header>
 
-<div class="content">
+<main class="content">
 
 <div class="notice" id="notice"></div>
 
@@ -178,55 +348,16 @@ input[readonly]{background:#eef3f9;color:#64748b}
     <p>These details are saved to your CreatorHub profile database.</p>
 
     <div class="form-grid">
-      <div class="field">
-        <label>Email</label>
-        <input id="email" type="email" required placeholder="creator@email.com">
-      </div>
-
-      <div class="field">
-        <label>Name</label>
-        <input id="name" type="text" placeholder="Creator name">
-      </div>
-
-      <div class="field full">
-        <label>Bio</label>
-        <textarea id="bio" maxlength="500" placeholder="Tell your audience what you create."></textarea>
-      </div>
-
-      <div class="field">
-        <label>Phone</label>
-        <input id="phone" type="tel" placeholder="+91">
-      </div>
-
-      <div class="field">
-        <label>Website</label>
-        <input id="website" type="url" placeholder="https://">
-      </div>
-
-      <div class="field">
-        <label>Country</label>
-        <input id="country" type="text" value="India">
-      </div>
-
-      <div class="field">
-        <label>State</label>
-        <input id="state" type="text" placeholder="State">
-      </div>
-
-      <div class="field">
-        <label>City</label>
-        <input id="city" type="text" placeholder="City">
-      </div>
-
-      <div class="field">
-        <label>Creator Level</label>
-        <input id="creatorLevelText" type="text" value="Beginner" readonly>
-      </div>
-
-      <div class="field">
-        <label>Verification</label>
-        <input id="verifiedText" type="text" value="Not verified" readonly>
-      </div>
+      <div class="field"><label>Email</label><input id="email" type="email" required placeholder="creator@email.com"></div>
+      <div class="field"><label>Name</label><input id="name" type="text" placeholder="Creator name"></div>
+      <div class="field full"><label>Bio</label><textarea id="bio" maxlength="500" placeholder="Tell your audience what you create."></textarea></div>
+      <div class="field"><label>Phone</label><input id="phone" type="tel" placeholder="+91"></div>
+      <div class="field"><label>Website</label><input id="website" type="url" placeholder="https://"></div>
+      <div class="field"><label>Country</label><input id="country" type="text" value="India"></div>
+      <div class="field"><label>State</label><input id="state" type="text" placeholder="State"></div>
+      <div class="field"><label>City</label><input id="city" type="text" placeholder="City"></div>
+      <div class="field"><label>Creator Level</label><input id="creatorLevelText" type="text" value="Beginner" readonly></div>
+      <div class="field"><label>Verification</label><input id="verifiedText" type="text" value="Not verified" readonly></div>
 
       <input id="creatorLevel" type="hidden" value="Beginner">
       <input id="verified" type="hidden" value="false">
@@ -278,9 +409,9 @@ input[readonly]{background:#eef3f9;color:#64748b}
   </aside>
 </section>
 
-</div>
-
 <div class="footer-slot" id="footerContainer"></div>
+
+</main>
 
 <nav class="bottom-nav">
   <a href="index.html"><i class="fa-solid fa-house"></i>Home</a>
@@ -289,9 +420,6 @@ input[readonly]{background:#eef3f9;color:#64748b}
   <a href="upload1.html"><i class="fa-solid fa-upload"></i>Upload</a>
   <a class="active" href="profile.html"><i class="fa-solid fa-user"></i>Profile</a>
 </nav>
-
-</main>
-</div>
 
 <script>
 const PROFILE_API = "https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
@@ -303,69 +431,42 @@ const CACHE_KEY = "creatorhub_profile_cache_v6";
 const DEFAULT_AVATAR = "https://ui-avatars.com/api/?name=CreatorHub+User&background=315df4&color=fff";
 const DEFAULT_COVER = "linear-gradient(120deg,#2f6bf2,#20a6a7)";
 
-const state = {
-  profileImageUrl: "",
-  coverImageUrl: "",
-  savedProfileUrl: "",
-  savedCoverUrl: ""
-};
-
-const fields = [
-  "email","name","bio","phone","website","instagram","youtube",
-  "telegram","twitter","country","state","city"
-];
-
+const state = {profileImageUrl:"",coverImageUrl:"",savedProfileUrl:"",savedCoverUrl:""};
+const fields = ["email","name","bio","phone","website","instagram","youtube","telegram","twitter","country","state","city"];
 const $ = id => document.getElementById(id);
 
-function setStatus(text){ $("pageStatus").innerText = text || ""; }
-
+function setStatus(text){$("pageStatus").innerText=text||""}
 function showNotice(text,type){
-  $("notice").innerText = text || "";
-  $("notice").className = type === "ok" ? "notice ok" : "notice";
-  $("notice").style.display = text ? "block" : "none";
+  $("notice").innerText=text||"";
+  $("notice").className=type==="ok"?"notice ok":"notice";
+  $("notice").style.display=text?"block":"none";
 }
-
-function setBusy(flag){
-  $("loadBtn").disabled = flag;
-  $("saveBtn").disabled = flag;
-}
-
-function value(id){ return ($(id).value || "").trim(); }
-
-function formatMoney(v){ return "Rs " + Number(v || 0).toLocaleString("en-IN"); }
-function formatNumber(v){ return Number(v || 0).toLocaleString("en-IN"); }
+function setBusy(flag){$("loadBtn").disabled=flag;$("saveBtn").disabled=flag}
+function value(id){return ($(id).value||"").trim()}
+function formatMoney(v){return "Rs "+Number(v||0).toLocaleString("en-IN")}
+function formatNumber(v){return Number(v||0).toLocaleString("en-IN")}
 
 function getLoggedUser(){
-  let userText =
-    localStorage.getItem("user") ||
-    localStorage.getItem("currentUser") ||
-    localStorage.getItem("creatorhub_user");
-
-  let user = {};
-  if(userText){
-    try{ user = JSON.parse(userText) || {}; }catch(e){ user = {}; }
+  let userText=localStorage.getItem("user")||localStorage.getItem("currentUser")||localStorage.getItem("creatorhub_user");
+  let user={};
+  if(userText){try{user=JSON.parse(userText)||{}}catch(e){user={}}}
+  return{
+    email:user.email||user.user?.email||localStorage.getItem("user_email")||localStorage.getItem(EMAIL_KEY)||"",
+    name:user.name||user.user?.name||localStorage.getItem("user_name")||"",
+    profile_image:user.profile_image||user.profileImage||user.picture||user.user?.profile_image||user.user?.picture||localStorage.getItem("user_image")||localStorage.getItem("profile_image")||"",
+    token:user.token||localStorage.getItem("user_token")||localStorage.getItem("token")||""
   }
-
-  return {
-    email: user.email || user.user?.email || localStorage.getItem("user_email") || localStorage.getItem(EMAIL_KEY) || "",
-    name: user.name || user.user?.name || localStorage.getItem("user_name") || "",
-    profile_image: user.profile_image || user.profileImage || user.picture || user.user?.profile_image || user.user?.picture || localStorage.getItem("user_image") || localStorage.getItem("profile_image") || "",
-    token: user.token || localStorage.getItem("user_token") || localStorage.getItem("token") || ""
-  };
 }
 
 function syncLoginStorage(user){
-  if(!user || !user.email) return;
-
-  const old = getLoggedUser();
-
-  const userData = {
-    email: user.email,
-    name: user.name || old.name || "CreatorHub User",
-    token: old.token || "",
-    profile_image: user.profile_image || old.profile_image || ""
+  if(!user||!user.email)return;
+  const old=getLoggedUser();
+  const userData={
+    email:user.email,
+    name:user.name||old.name||"CreatorHub User",
+    token:old.token||"",
+    profile_image:user.profile_image||old.profile_image||""
   };
-
   localStorage.setItem("isLoggedIn","true");
   localStorage.setItem("login","true");
   localStorage.setItem("loggedIn","true");
@@ -381,173 +482,122 @@ function syncLoginStorage(user){
 }
 
 function getDriveId(url){
-  if(!url) return "";
-  const text = String(url);
-  const match = text.match(/[?&]id=([^&]+)/);
-  if(match && match[1]) return match[1];
-  if(text.includes("/d/")) return text.split("/d/")[1].split("/")[0];
-  return "";
+  if(!url)return"";
+  const text=String(url);
+  const match=text.match(/[?&]id=([^&]+)/);
+  if(match&&match[1])return match[1];
+  if(text.includes("/d/"))return text.split("/d/")[1].split("/")[0];
+  return"";
 }
-
 function driveImage(url){
-  if(!url) return "";
-  if(url.includes("ui-avatars.com") || url.startsWith("data:image")) return url;
-
-  const id = getDriveId(url);
-  if(id) return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1200";
-
+  if(!url)return"";
+  if(url.includes("ui-avatars.com")||url.startsWith("data:image"))return url;
+  const id=getDriveId(url);
+  if(id)return "https://drive.google.com/thumbnail?id="+id+"&sz=w1200";
   return url;
 }
-
-function setAvatar(url){ $("avatarPreview").src = driveImage(url) || DEFAULT_AVATAR; }
-
-function setCover(url){
-  $("coverPreview").style.backgroundImage = url ? `url("${driveImage(url)}")` : DEFAULT_COVER;
-}
+function setAvatar(url){$("avatarPreview").src=driveImage(url)||DEFAULT_AVATAR}
+function setCover(url){$("coverPreview").style.backgroundImage=url?`url("${driveImage(url)}")`:DEFAULT_COVER}
 
 function readFileAsBase64(file){
   return new Promise((resolve,reject)=>{
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
+    const reader=new FileReader();
+    reader.onload=()=>resolve(reader.result);
+    reader.onerror=reject;
     reader.readAsDataURL(file);
   });
 }
-
 function readCache(email){
-  try{
-    const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
-    return cache[email] || null;
-  }catch(e){ return null; }
+  try{return JSON.parse(localStorage.getItem(CACHE_KEY)||"{}")[email]||null}catch(e){return null}
 }
-
 function saveCache(email,user){
   try{
-    const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
-    cache[email] = user;
+    const cache=JSON.parse(localStorage.getItem(CACHE_KEY)||"{}");
+    cache[email]=user;
     localStorage.setItem(CACHE_KEY,JSON.stringify(cache));
   }catch(e){}
 }
-
 async function postJSON(url,payload){
-  const res = await fetch(url,{
-    method:"POST",
-    body:JSON.stringify(payload)
-  });
-
-  const text = await res.text();
-
-  try{ return JSON.parse(text); }
-  catch(e){ return {success:false,message:"API returned non JSON"}; }
+  const res=await fetch(url,{method:"POST",body:JSON.stringify(payload)});
+  const text=await res.text();
+  try{return JSON.parse(text)}catch(e){return{success:false,message:"API returned non JSON"}}
 }
-
 async function getJSON(url){
-  const res = await fetch(url);
-  const text = await res.text();
-
-  try{ return JSON.parse(text); }
-  catch(e){ return {success:false,message:"API returned non JSON"}; }
+  const res=await fetch(url);
+  const text=await res.text();
+  try{return JSON.parse(text)}catch(e){return{success:false,message:"API returned non JSON"}}
 }
 
 function updatePreview(){
-  $("previewName").innerText = value("name") || "Your Creator Name";
-  $("previewEmail").innerText = value("email") || "Enter email";
-
-  $("levelChip").innerText = $("creatorLevel").value || "Beginner";
-  $("creatorLevelText").value = $("creatorLevel").value || "Beginner";
-
-  $("statusChip").innerText = "active";
-
-  const isVerified = $("verified").value === "true";
-  $("verifiedChip").innerText = isVerified ? "Verified" : "Not verified";
-  $("verifiedText").value = isVerified ? "Verified" : "Not verified";
-
-  $("walletView").innerText = formatMoney($("walletBalance").value);
-  $("profitView").innerText = formatMoney($("totalProfit").value);
-  $("booksView").innerText = formatNumber($("totalBooks").value);
-  $("ordersView").innerText = formatNumber($("totalOrders").value);
-
-  $("websiteView").innerText = value("website") || "Not added";
-  $("instagramView").innerText = value("instagram") || "Not added";
-  $("youtubeView").innerText = value("youtube") || "Not added";
-  $("telegramView").innerText = value("telegram") || "Not added";
-  $("twitterView").innerText = value("twitter") || "Not added";
+  $("previewName").innerText=value("name")||"Your Creator Name";
+  $("previewEmail").innerText=value("email")||"Enter email";
+  $("levelChip").innerText=$("creatorLevel").value||"Beginner";
+  $("creatorLevelText").value=$("creatorLevel").value||"Beginner";
+  $("statusChip").innerText="active";
+  const isVerified=$("verified").value==="true";
+  $("verifiedChip").innerText=isVerified?"Verified":"Not verified";
+  $("verifiedText").value=isVerified?"Verified":"Not verified";
+  $("walletView").innerText=formatMoney($("walletBalance").value);
+  $("profitView").innerText=formatMoney($("totalProfit").value);
+  $("booksView").innerText=formatNumber($("totalBooks").value);
+  $("ordersView").innerText=formatNumber($("totalOrders").value);
+  $("websiteView").innerText=value("website")||"Not added";
+  $("instagramView").innerText=value("instagram")||"Not added";
+  $("youtubeView").innerText=value("youtube")||"Not added";
+  $("telegramView").innerText=value("telegram")||"Not added";
+  $("twitterView").innerText=value("twitter")||"Not added";
 }
 
 function fillProfile(user){
-  if(!user) return;
-
-  fields.forEach(key=>{
-    if($(key)) $(key).value = user[key] ?? "";
-  });
-
-  $("creatorLevel").value = user.creator_level || "Beginner";
-  $("verified").value = String(user.verified === true || user.verified === "true");
-
-  $("walletBalance").value = user.wallet_balance || 0;
-  $("totalProfit").value = user.total_profit || 0;
-  $("totalBooks").value = user.total_books || 0;
-  $("totalOrders").value = user.total_orders || 0;
-
-  state.savedProfileUrl = user.profile_image || "";
-  state.savedCoverUrl = user.cover_image || "";
-
-  if(!state.profileImageUrl) setAvatar(state.savedProfileUrl);
-  if(!state.coverImageUrl) setCover(state.savedCoverUrl);
-
+  if(!user)return;
+  fields.forEach(key=>{if($(key))$(key).value=user[key]??""});
+  $("creatorLevel").value=user.creator_level||"Beginner";
+  $("verified").value=String(user.verified===true||user.verified==="true");
+  $("walletBalance").value=user.wallet_balance||0;
+  $("totalProfit").value=user.total_profit||0;
+  $("totalBooks").value=user.total_books||0;
+  $("totalOrders").value=user.total_orders||0;
+  state.savedProfileUrl=user.profile_image||"";
+  state.savedCoverUrl=user.cover_image||"";
+  if(!state.profileImageUrl)setAvatar(state.savedProfileUrl);
+  if(!state.coverImageUrl)setCover(state.savedCoverUrl);
   updatePreview();
 }
 
 function collectPayload(){
-  const payload = { action:"update_profile" };
-
-  fields.forEach(key=>{
-    if($(key)) payload[key] = value(key);
-  });
-
-  payload.status = "active";
-  payload.account_role = "CreatorHub Member";
-  payload.creator_level = $("creatorLevel").value || "Beginner";
-  payload.verified = $("verified").value === "true";
-  payload.wallet_balance = $("walletBalance").value || 0;
-  payload.total_profit = $("totalProfit").value || 0;
-  payload.total_books = $("totalBooks").value || 0;
-  payload.total_orders = $("totalOrders").value || 0;
-  payload.profile_image = state.profileImageUrl || state.savedProfileUrl || "";
-  payload.cover_image = state.coverImageUrl || state.savedCoverUrl || "";
-
+  const payload={action:"update_profile"};
+  fields.forEach(key=>{if($(key))payload[key]=value(key)});
+  payload.status="active";
+  payload.account_role="CreatorHub Member";
+  payload.creator_level=$("creatorLevel").value||"Beginner";
+  payload.verified=$("verified").value==="true";
+  payload.wallet_balance=$("walletBalance").value||0;
+  payload.total_profit=$("totalProfit").value||0;
+  payload.total_books=$("totalBooks").value||0;
+  payload.total_orders=$("totalOrders").value||0;
+  payload.profile_image=state.profileImageUrl||state.savedProfileUrl||"";
+  payload.cover_image=state.coverImageUrl||state.savedCoverUrl||"";
   return payload;
 }
 
 async function loadProfile(){
-  const email = value("email").toLowerCase();
-
-  if(!email){
-    showNotice("Enter email first.");
-    return;
-  }
-
+  const email=value("email").toLowerCase();
+  if(!email){showNotice("Enter email first.");return}
   showNotice("");
   setBusy(true);
   setStatus("Loading profile...");
-
-  const cached = readCache(email);
-  if(cached) fillProfile(cached);
+  const cached=readCache(email);
+  if(cached)fillProfile(cached);
 
   try{
-    const data = await getJSON(PROFILE_API + "?action=profile&email=" + encodeURIComponent(email));
-
-    if(!data.success) throw new Error(data.message || "Profile not found");
-
+    const data=await getJSON(PROFILE_API+"?action=profile&email="+encodeURIComponent(email));
+    if(!data.success)throw new Error(data.message||"Profile not found");
     localStorage.setItem(EMAIL_KEY,email);
     saveCache(email,data.user);
-
-    state.profileImageUrl = "";
-    state.coverImageUrl = "";
-
+    state.profileImageUrl="";
+    state.coverImageUrl="";
     fillProfile(data.user);
     syncLoginStorage(data.user);
-
     showNotice("Profile loaded successfully.","ok");
     setStatus("Profile loaded.");
   }catch(err){
@@ -558,36 +608,24 @@ async function loadProfile(){
       showNotice("Profile not found. Fill details and save a new profile.");
       setStatus("Ready to create profile.");
     }
-  }finally{
-    setBusy(false);
-  }
+  }finally{setBusy(false)}
 }
 
 async function saveProfile(){
-  const payload = collectPayload();
-  payload.email = String(payload.email || "").trim().toLowerCase();
-
-  if(!payload.email){
-    showNotice("Email required.");
-    return;
-  }
-
+  const payload=collectPayload();
+  payload.email=String(payload.email||"").trim().toLowerCase();
+  if(!payload.email){showNotice("Email required.");return}
   showNotice("");
   setBusy(true);
   setStatus("Saving profile...");
 
   try{
-    const data = await postJSON(PROFILE_API,payload);
-
-    if(!data.success) throw new Error(data.message || "Save failed");
-
-    const user = data.user || payload;
-
+    const data=await postJSON(PROFILE_API,payload);
+    if(!data.success)throw new Error(data.message||"Save failed");
+    const user=data.user||payload;
     localStorage.setItem(EMAIL_KEY,payload.email);
-
-    state.profileImageUrl = "";
-    state.coverImageUrl = "";
-
+    state.profileImageUrl="";
+    state.coverImageUrl="";
     saveCache(payload.email,user);
     fillProfile(user);
     syncLoginStorage(user);
@@ -604,48 +642,34 @@ async function saveProfile(){
     showNotice("Profile saved successfully.","ok");
   }catch(err){
     console.error(err);
-
     saveCache(payload.email,payload);
     syncLoginStorage(payload);
-
     showNotice("Cloud save failed. Profile saved locally for preview.");
     setStatus("Local profile saved.");
-  }finally{
-    setBusy(false);
-  }
+  }finally{setBusy(false)}
 }
 
 async function handleImage(input,type){
-  const file = input.files && input.files[0];
-  if(!file) return;
+  const file=input.files&&input.files[0];
+  if(!file)return;
+  if(!file.type.startsWith("image/")){showNotice("Select valid image.");return}
+  if(file.size>2.5*1024*1024){showNotice("Max image size 2.5MB.");return}
 
-  if(!file.type.startsWith("image/")){
-    showNotice("Select valid image.");
-    return;
-  }
+  const base64=await readFileAsBase64(file);
 
-  if(file.size > 2.5 * 1024 * 1024){
-    showNotice("Max image size 2.5MB.");
-    return;
-  }
-
-  const base64 = await readFileAsBase64(file);
-
-  if(type === "profile"){
-    state.profileImageUrl = base64;
+  if(type==="profile"){
+    state.profileImageUrl=base64;
     setAvatar(base64);
   }else{
-    state.coverImageUrl = base64;
+    state.coverImageUrl=base64;
     setCover(base64);
   }
 
-  const email = value("email").toLowerCase();
+  const email=value("email").toLowerCase();
   if(email){
-    const cached = readCache(email) || {email};
-
-    if(type === "profile") cached.profile_image = base64;
-    else cached.cover_image = base64;
-
+    const cached=readCache(email)||{email};
+    if(type==="profile")cached.profile_image=base64;
+    else cached.cover_image=base64;
     saveCache(email,cached);
   }
 
@@ -654,8 +678,8 @@ async function handleImage(input,type){
 
 async function injectFooter(){
   try{
-    const res = await fetch("footer.html");
-    if(res.ok) $("footerContainer").innerHTML = await res.text();
+    const res=await fetch("footer.html");
+    if(res.ok)$("footerContainer").innerHTML=await res.text();
   }catch(e){}
 }
 
@@ -663,23 +687,22 @@ function init(){
   setAvatar(DEFAULT_AVATAR);
   setCover("");
 
-  const loggedUser = getLoggedUser();
-  const savedEmail = loggedUser.email || localStorage.getItem(EMAIL_KEY) || "";
+  const loggedUser=getLoggedUser();
+  const savedEmail=loggedUser.email||localStorage.getItem(EMAIL_KEY)||"";
 
-  if(savedEmail) $("email").value = savedEmail.toLowerCase();
-  if(loggedUser.name) $("name").value = loggedUser.name;
+  if(savedEmail)$("email").value=savedEmail.toLowerCase();
+  if(loggedUser.name)$("name").value=loggedUser.name;
 
   if(loggedUser.profile_image){
-    state.savedProfileUrl = loggedUser.profile_image;
+    state.savedProfileUrl=loggedUser.profile_image;
     setAvatar(loggedUser.profile_image);
   }
 
-  const cached = savedEmail ? readCache(savedEmail.toLowerCase()) : null;
-  if(cached) fillProfile(cached);
+  const cached=savedEmail?readCache(savedEmail.toLowerCase()):null;
+  if(cached)fillProfile(cached);
 
   updatePreview();
-
-  if(savedEmail) loadProfile();
+  if(savedEmail)loadProfile();
 
   $("loadBtn").addEventListener("click",loadProfile);
   $("saveBtn").addEventListener("click",saveProfile);
@@ -689,13 +712,8 @@ function init(){
     saveProfile();
   });
 
-  $("profileImage").addEventListener("change",function(e){
-    handleImage(e.target,"profile");
-  });
-
-  $("coverImage").addEventListener("change",function(e){
-    handleImage(e.target,"cover");
-  });
+  $("profileImage").addEventListener("change",function(e){handleImage(e.target,"profile")});
+  $("coverImage").addEventListener("change",function(e){handleImage(e.target,"cover")});
 
   document.querySelectorAll("input,textarea").forEach(control=>{
     control.addEventListener("input",updatePreview);
