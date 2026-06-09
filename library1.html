@@ -348,7 +348,6 @@ body{
                 <a href="tranding.html">Trending Books</a>
                 <a class="active" href="library1.html">Library</a>
                 <a href="topselling.html">Top Selling</a>
-                <div class="logout-btn" onclick="logout()">Logout</div>
             </div>
         </div>
     </header>
@@ -437,16 +436,17 @@ function canRead(product){
 
 function driveImage(link){
     if(!link) return "https://picsum.photos/500";
-    if(link.startsWith("data:image")) return link;
+    const textLink = String(link);
+    if(textLink.includes("ui-avatars.com") || textLink.startsWith("data:image")) return textLink;
     try {
-        if(link.includes("thumbnail?id=")) return link;
+        if(textLink.includes("thumbnail?id=")) return textLink;
         let id = "";
-        if(link.includes("id=")){ id = link.split("id=")[1].split("&")[0]; }
-        else if(link.includes("/d/")){ id = link.split("/d/")[1].split("/")[0]; }
-        else { return link; }
+        if(textLink.includes("id=")){ id = textLink.split("id=")[1].split("&")[0]; }
+        else if(textLink.includes("/d/")){ id = textLink.split("/d/")[1].split("/")[0]; }
+        else { return textLink; }
         return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
     } catch(e) { 
-        return link; 
+        return textLink; 
     }
 }
 
@@ -465,27 +465,41 @@ function logout(){ localStorage.clear(); window.location.href = "login.html"; }
 function goBack(){ window.location.href = "index.html"; }
 
 function updateLoginUI(){
+    // Local storage login model extraction
+    let email = localStorage.getItem("creatorhub_profile_email") || (user && user.email) || "";
     let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
-    let email = localStorage.getItem("creatorhub_profile_email");
+    
+    let targetName = "CreatorHub User";
+    let targetEmail = email;
+    let targetImage = "";
+
+    // Step A: Check standard profile cache index
     if(cachedUser && email){
         try {
-            let data = JSON.parse(cachedUser)[email];
-            if(data && data.profile_image){
-                document.getElementById("profileImage").src = driveImage(data.profile_image);
-                document.getElementById("menuProfileImage").src = driveImage(data.profile_image);
-                document.getElementById("menuName").innerText = data.name || "CreatorHub User";
-                document.getElementById("menuEmail").innerText = data.email || email;
+            let cacheData = JSON.parse(cachedUser)[email.toLowerCase().trim()];
+            if(cacheData){
+                targetName = cacheData.name || targetName;
+                targetImage = cacheData.profile_image || cacheData.image || "";
             }
-        } catch(e) { console.log("Cache reading failed."); }
-    } else if(user) {
-        const fallbackImg = user.image || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.name || "User") + "&background=2f62e9&color=fff";
-        document.getElementById("profileImage").src = driveImage(fallbackImg);
-        document.getElementById("menuProfileImage").src = driveImage(fallbackImg);
-        document.getElementById("menuName").innerText = user.name || "CreatorHub User";
-        document.getElementById("menuEmail").innerText = user.email || "";
+        } catch(e) { console.log("Cache reading trace bypassed."); }
     }
-}
 
+    // Step B: Fallback directly into active session object keys
+    if(!targetImage && user){
+        targetName = user.name || targetName;
+        targetImage = user.profile_image || user.image || user.picture || "";
+    }
+
+    // Step C: Build final verified image token structure
+    const finalImg = targetImage || "https://ui-avatars.com/api/?name=" + encodeURIComponent(targetName) + "&background=2f62e9&color=fff";
+    
+    // Inject components safely into layout context elements
+    if(document.getElementById("profileImage")) document.getElementById("profileImage").src = driveImage(finalImg);
+    if(document.getElementById("menuProfileImage")) document.getElementById("menuProfileImage").src = driveImage(finalImg);
+    if(document.getElementById("menuName")) document.getElementById("menuName").innerText = targetName;
+    if(document.getElementById("menuEmail")) document.getElementById("menuEmail").innerText = targetEmail;
+}
+   
 function showLoader(){
     document.getElementById("library").innerHTML = `
         <div class="empty-state">
