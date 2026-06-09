@@ -18,8 +18,9 @@ body{background:#f1f5f9;color:#1e293b;min-height:100vh;overflow-x:hidden}
 }
 .profile-menu {
   position: absolute;
-  top: 55px;
-  right: 0;
+  top: 65px;
+  left: 0;
+  right: auto;
   width: 280px;
   background: #0f172a;
   border-radius: 14px;
@@ -129,21 +130,18 @@ footer{margin-top:60px;padding:40px 20px;background:#fff;border-top:1px solid #e
 
 <body>
 <div class="navbar">
-  <div style="display:flex;align-items:center;gap:15px;">
-    <div onclick="openMenu()" style="font-size:22px;cursor:pointer;color:#475569;"><i class="fa-solid fa-bars"></i> Menu</div>
-    <div class="logo">Creator<span>Hub</span></div>
-  </div>
-  
-  <div id="profileWrap" class="profile-wrap">
+  <div id="profileWrap" class="profile-wrap" style="display:flex; align-items:center; gap:15px;">
     <img 
       id="topProfileImage" 
       class="profile-image" 
       src="https://ui-avatars.com/api/?name=User&background=2563eb&color=fff" 
       onclick="toggleProfileMenu()" 
-      style="width:42px; height:42px; border-radius:50%; object-fit:cover; cursor:pointer; border:2px solid #e2e8f0;"
-      alt="Profile">
+      style="width:44px; height:44px; border-radius:50%; object-fit:cover; cursor:pointer; border:2px solid #2563eb; padding:2px; background:#fff;"
+      alt="Menu Profile">
       
-    <div id="profileMenu" class="profile-menu">
+    <div class="logo">Creator<span>Hub</span></div>
+    
+    <div id="profileMenu" class="profile-menu" style="left: 0; right: auto; top: 65px;">
       <div class="profile-header">
         <img id="menuProfileImage" class="menu-profile-image" src="https://ui-avatars.com/api/?name=User&background=2563eb&color=fff" alt="User">
         <div>
@@ -159,8 +157,13 @@ footer{margin-top:60px;padding:40px 20px;background:#fff;border-top:1px solid #e
       <div class="logout-btn" onclick="logout()">Logout</div>
     </div>
   </div>
-</div>
 
+  <div class="profile" style="display:flex; align-items:center; gap:12px; background:#f8fafc; padding:8px 16px; border-radius:100px; border:1px solid #e2e8f0;">
+    <div class="profile-dot" style="width:10px; height:10px; border-radius:50%; background:#2563eb;"></div>
+    <div id="username">Loading User...</div>
+  </div>
+</div>
+  
 <div id="menu" class="side-menu">
   <div class="menu-top">
     <div class="menu-profile">
@@ -337,15 +340,20 @@ const statusBox = document.getElementById("statusBox");
 window.addEventListener("DOMContentLoaded", () => {
   const logged = getLoggedUser();
   
+  // Username setup for the right container text
+  document.getElementById("username").innerText = logged.name;
+  document.getElementById("menuName").innerText = logged.name;
+  
   const userImg = logged.image || "https://ui-avatars.com/api/?name=" + encodeURIComponent(logged.name) + "&background=2563eb&color=fff";
   
+  // Syncing images everywhere locally
   document.getElementById("topProfileImage").src = userImg;
   document.getElementById("menuProfileImage").src = userImg;
   document.getElementById("menuProfile").src = userImg;
   
+  // Headers context injection
   document.getElementById("menuNameHeader").innerText = logged.name;
   document.getElementById("menuEmailHeader").innerText = logged.email || "No Email Registered";
-  document.getElementById("menuName").innerText = logged.name;
   
   loadUser();
 });
