@@ -4,93 +4,107 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CreatorHub Profile</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
-body{min-height:100vh;background:#f6f8fc;color:#101828;display:flex;overflow:hidden}
+body{min-height:100vh;background:#f4f7fb;color:#07142f}
 a{text-decoration:none;color:inherit}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
+button,input,textarea{font:inherit}
+button{cursor:pointer;border:0}
 
-.sidebar{width:320px;min-height:100vh;background:#0d1628;color:#fff;padding:28px 22px;position:fixed;left:0;top:0;bottom:0;overflow-y:auto}
-.brand{display:flex;align-items:center;gap:14px;margin-bottom:28px}
-.brand-mark{width:50px;height:50px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#21b7e8,#1d72f3);font-size:23px;font-weight:900}
-.brand-name{font-size:25px;font-weight:900}
-.menu{display:grid;gap:12px;margin-top:20px}
-.menu a{min-height:50px;border-radius:9px;display:flex;align-items:center;padding:0 16px;color:#e7edf8;font-size:16px;font-weight:800;border:1px solid transparent}
-.menu a:hover,.menu a.active{background:#182a64;border-color:#3157c9}
+.app{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
+.sidebar{background:#081326;color:#fff;padding:28px 22px;position:sticky;top:0;height:100vh}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:34px}
+.logo{width:54px;height:54px;border-radius:14px;background:linear-gradient(135deg,#1db9ff,#315df4);display:grid;place-items:center;font-weight:900;font-size:24px}
+.brand b{font-size:26px;font-weight:900}
+.nav{display:grid;gap:12px}
+.nav a{height:54px;border-radius:12px;display:flex;align-items:center;gap:13px;padding:0 16px;color:#dbe7ff;font-weight:800}
+.nav a:hover,.nav a.active{background:#182d70;color:#fff;box-shadow:inset 0 0 0 1px #3567ff}
 
-.main{margin-left:320px;width:calc(100% - 320px);height:100vh;overflow-y:auto;background:#f6f8fc}
-.topbar{min-height:104px;background:#fff;border-bottom:1px solid #dce4f0;padding:24px 34px;display:flex;align-items:center;justify-content:space-between;gap:20px;position:sticky;top:0;z-index:10}
-.title h1{font-size:40px;line-height:1;font-weight:900;color:#06142c}
-.title p{margin-top:8px;color:#63728a;font-size:16px}
-.actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
-.btn{min-height:50px;border:0;border-radius:9px;padding:0 18px;display:inline-flex;align-items:center;justify-content:center;font-size:15px;font-weight:900}
-.btn:disabled{opacity:.7;cursor:wait}
-.btn-primary{background:#2f62e9;color:#fff}
-.btn-light{background:#fff;color:#101828;border:1px solid #d9e3f0}
+.main{min-width:0}
+.topbar{height:118px;background:#fff;border-bottom:1px solid #dce6f3;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:24px 38px;position:sticky;top:0;z-index:20}
+.topbar h1{font-size:42px;line-height:1;font-weight:900;color:#06142c}
+.topbar p{margin-top:8px;color:#62718b;font-size:17px}
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{height:54px;border-radius:12px;padding:0 22px;font-weight:900;font-size:15px;display:inline-flex;align-items:center;justify-content:center;gap:10px}
+.btn-primary{background:#315df4;color:#fff;box-shadow:0 14px 28px rgba(49,93,244,.22)}
+.btn-light{background:#fff;color:#07142f;border:1px solid #d6e1ef}
+.btn:disabled{opacity:.65;cursor:wait}
 
-.content{padding:34px;display:grid;gap:28px}
-.notice{display:none;background:#fff7df;color:#8a5b00;border:1px solid #f2d37b;border-radius:9px;padding:14px 16px;font-weight:800}
-.notice.ok{background:#dcfce7;color:#166534;border-color:#bbf7d0}
+.content{padding:32px 38px 110px;display:grid;gap:26px}
+.notice{display:none;border-radius:12px;padding:15px 17px;font-weight:850;border:1px solid #f4c95d;background:#fff5d7;color:#8a5b00}
+.notice.ok{background:#dcfce7;color:#166534;border-color:#baf2cf}
 
-.hero{background:#fff;border:1px solid #dce4f0;border-radius:9px;box-shadow:0 18px 45px rgba(16,24,40,.08);overflow:hidden}
-.cover{min-height:280px;background:linear-gradient(110deg,rgba(37,99,235,.92),rgba(20,148,152,.9));background-size:cover;background-position:center;position:relative}
-.cover-tools{position:absolute;right:22px;bottom:22px;display:flex;gap:11px;flex-wrap:wrap;justify-content:flex-end}
-.file-btn{min-height:48px;border-radius:9px;background:#101c2f;color:#fff;border:1px solid rgba(255,255,255,.16);padding:0 16px;display:inline-flex;align-items:center;font-weight:900}
-.file-btn input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.profile-card{background:#fff;border:1px solid #dce6f3;border-radius:18px;box-shadow:0 18px 45px rgba(16,24,40,.08);overflow:hidden}
+.cover{min-height:310px;background:linear-gradient(120deg,#2f6bf2,#20a6a7);background-size:cover;background-position:center;position:relative}
+.cover:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.24))}
+.cover-tools{position:absolute;right:24px;bottom:24px;z-index:2;display:flex;gap:12px}
+.file-btn{height:50px;border-radius:12px;background:#0b1830;color:#fff;border:1px solid rgba(255,255,255,.22);padding:0 18px;display:inline-flex;align-items:center;gap:9px;font-weight:900}
+.file-btn input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
 
-.identity{padding:0 30px 30px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:24px;align-items:end}
-.avatar{width:145px;height:145px;border-radius:50%;object-fit:cover;background:#d9e1ec;border:6px solid #fff;margin-top:-72px;box-shadow:0 18px 38px rgba(16,24,40,.18);position:relative;z-index:2}
-.identity h2{font-size:38px;line-height:1;font-weight:900;color:#06142c;overflow-wrap:anywhere}
-.identity p{margin-top:12px;color:#63728a;font-size:18px;overflow-wrap:anywhere}
+.identity{padding:0 34px 34px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:26px;align-items:end}
+.avatar{width:156px;height:156px;border-radius:50%;object-fit:cover;background:#315df4;border:7px solid #fff;margin-top:-78px;position:relative;z-index:5;box-shadow:0 20px 44px rgba(16,24,40,.2)}
+.identity h2{font-size:42px;line-height:1.05;font-weight:900;color:#06142c;overflow-wrap:anywhere}
+.identity p{margin-top:10px;color:#62718b;font-size:18px;overflow-wrap:anywhere}
 .chips{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
-.chip{min-height:34px;border-radius:999px;padding:0 13px;display:inline-flex;align-items:center;background:#eef3f9;color:#1955d6;font-size:13px;font-weight:900}
-.chip.green{background:#e7f8ef;color:#0f9f57}
+.chip{height:36px;border-radius:999px;padding:0 14px;background:#edf3fb;color:#165be0;display:inline-flex;align-items:center;font-weight:900;font-size:13px}
+.chip.green{background:#e4f8ef;color:#0b9f55}
+.chip.dark{background:#07142f;color:#fff}
 
-.grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(340px,.88fr);gap:28px;align-items:start}
-.card{background:#fff;border:1px solid #dce4f0;border-radius:9px;box-shadow:0 18px 45px rgba(16,24,40,.08);padding:25px}
-.card h3{color:#06142c;font-size:22px;font-weight:900;margin-bottom:6px}
-.card p{color:#63728a;font-size:15px;margin-bottom:22px;line-height:1.6}
+.grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(340px,.9fr);gap:26px;align-items:start}
+.card{background:#fff;border:1px solid #dce6f3;border-radius:18px;box-shadow:0 18px 45px rgba(16,24,40,.08);padding:28px}
+.card h3{font-size:24px;font-weight:900;color:#06142c;margin-bottom:7px}
+.card>p{color:#62718b;line-height:1.55;font-size:15px;margin-bottom:24px}
 
-.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 .field{display:grid;gap:8px}
 .field.full{grid-column:1/-1}
-label{color:#26364f;font-size:14px;font-weight:900}
-input,textarea,select{width:100%;min-height:54px;border:1px solid #d9e3f0;border-radius:9px;background:#fff;color:#101828;outline:none;padding:12px 14px}
-textarea{min-height:122px;resize:vertical;line-height:1.5}
-input:focus,textarea:focus,select:focus{border-color:#3157c9;box-shadow:0 0 0 4px rgba(49,87,201,.12)}
-input[readonly]{background:#eef3f9;color:#475569}
+label{font-size:14px;font-weight:900;color:#26364f}
+input,textarea{width:100%;border:1px solid #d6e1ef;background:#fff;color:#07142f;border-radius:12px;padding:13px 15px;outline:none;min-height:56px}
+textarea{min-height:132px;resize:vertical;line-height:1.55}
+input:focus,textarea:focus{border-color:#315df4;box-shadow:0 0 0 4px rgba(49,93,244,.12)}
+input[readonly]{background:#eef3f9;color:#64748b}
 
 .stat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.stat{min-height:124px;background:#eef3f9;border:1px solid #dce4f0;border-radius:9px;padding:18px;display:grid;align-content:space-between}
-.stat span{color:#5d6d85;font-size:13px;font-weight:900;text-transform:uppercase}
-.stat strong{color:#06142c;font-size:30px;font-weight:900}
-.mini-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:18px}
+.stat{min-height:126px;border-radius:16px;background:#eef3f9;border:1px solid #d6e1ef;padding:18px;display:grid;align-content:space-between}
+.stat i{width:42px;height:42px;border-radius:12px;background:#fff;color:#315df4;display:grid;place-items:center;font-size:18px}
+.stat span{font-size:13px;text-transform:uppercase;font-weight:900;color:#5d6d85}
+.stat strong{font-size:30px;font-weight:900;color:#06142c}
 
-.link-preview{display:grid;gap:12px}
-.link-item{min-height:56px;border:1px solid #dce4f0;background:#eef3f9;border-radius:9px;padding:0 15px;display:flex;align-items:center;justify-content:space-between;gap:15px}
-.link-item strong{color:#06142c}
-.link-item span{color:#63728a;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}
+.quick{display:grid;gap:12px}
+.quick-item{min-height:58px;border-radius:14px;border:1px solid #d6e1ef;background:#f6f9fd;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.quick-item b{color:#06142c}
+.quick-item span{color:#62718b;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-.footer-slot{padding:0 34px 34px}
+.bottom-nav{position:fixed;left:300px;right:0;bottom:0;height:78px;background:#fff;border-top:1px solid #dce6f3;display:grid;grid-template-columns:repeat(5,1fr);z-index:30}
+.bottom-nav a{display:grid;place-items:center;color:#5d6d85;font-weight:900;font-size:13px}
+.bottom-nav a i{font-size:20px;margin-bottom:5px}
+.bottom-nav a.active{color:#315df4;background:#f0f5ff}
 
-@media(max-width:1220px){.grid{grid-template-columns:1fr}}
-@media(max-width:900px){
-body{display:block;overflow:auto}
-.sidebar{position:static;width:100%;min-height:auto}
-.menu{grid-template-columns:repeat(2,minmax(0,1fr))}
-.main{margin-left:0;width:100%;height:auto}
-.topbar{align-items:flex-start;flex-direction:column}
-.identity{grid-template-columns:1fr}
-.chips{justify-content:flex-start}
+.footer-slot{display:none}
+
+@media(max-width:1100px){
+.app{grid-template-columns:1fr}
+.sidebar{position:static;height:auto}
+.nav{grid-template-columns:repeat(3,minmax(0,1fr))}
+.bottom-nav{left:0}
+.grid{grid-template-columns:1fr}
 }
-@media(max-width:640px){
-.sidebar,.topbar,.content{padding:22px}
-.menu,.form-grid,.stat-grid,.mini-form{grid-template-columns:1fr}
-.title h1{font-size:34px}
-.cover{min-height:220px}
+@media(max-width:760px){
+.topbar{height:auto;align-items:flex-start;flex-direction:column;padding:22px}
+.topbar h1{font-size:34px}
+.content{padding:22px 16px 100px}
+.sidebar{padding:22px}
+.nav{grid-template-columns:repeat(2,minmax(0,1fr))}
+.identity{grid-template-columns:1fr;padding:0 22px 26px}
+.avatar{width:132px;height:132px;margin-top:-66px}
+.identity h2{font-size:34px}
+.chips{justify-content:flex-start}
+.form-grid,.stat-grid{grid-template-columns:1fr}
+.cover{min-height:230px}
 .cover-tools{left:16px;right:16px}
 .file-btn{flex:1;justify-content:center}
 }
@@ -99,34 +113,36 @@ body{display:block;overflow:auto}
 
 <body>
 
+<div class="app">
+
 <aside class="sidebar">
   <a class="brand" href="index.html">
-    <span class="brand-mark">CH</span>
-    <span class="brand-name">CreatorHub</span>
+    <span class="logo">CH</span>
+    <b>CreatorHub</b>
   </a>
 
-  <nav class="menu">
-    <a href="index.html">Home</a>
-    <a href="dashboard.html">Dashboard</a>
-    <a href="products.html">Products</a>
-    <a href="orders.html">Orders</a>
-    <a href="wallet.html">Wallet</a>
-    <a href="reviews.html">Reviews</a>
-    <a class="active" href="profile.html">Profile</a>
+  <nav class="nav">
+    <a href="index.html"><i class="fa-solid fa-house"></i>Home</a>
+    <a href="dashboard.html"><i class="fa-solid fa-chart-line"></i>Dashboard</a>
+    <a href="products.html"><i class="fa-solid fa-box"></i>Products</a>
+    <a href="orders.html"><i class="fa-solid fa-bag-shopping"></i>Orders</a>
+    <a href="wallet.html"><i class="fa-solid fa-wallet"></i>Wallet</a>
+    <a href="reviews.html"><i class="fa-solid fa-star"></i>Reviews</a>
+    <a class="active" href="profile.html"><i class="fa-solid fa-user"></i>Profile</a>
   </nav>
 </aside>
 
 <main class="main">
 
 <header class="topbar">
-  <div class="title">
+  <div>
     <h1>Creator Profile</h1>
     <p id="pageStatus">Load, edit, and save your CreatorHub profile.</p>
   </div>
 
   <div class="actions">
-    <button class="btn btn-light" id="loadBtn" type="button">Load Profile</button>
-    <button class="btn btn-primary" id="saveBtn" type="button">Save Changes</button>
+    <button class="btn btn-light" id="loadBtn" type="button"><i class="fa-solid fa-rotate"></i>Load Profile</button>
+    <button class="btn btn-primary" id="saveBtn" type="button"><i class="fa-solid fa-floppy-disk"></i>Save Changes</button>
   </div>
 </header>
 
@@ -134,11 +150,11 @@ body{display:block;overflow:auto}
 
 <div class="notice" id="notice"></div>
 
-<section class="hero">
+<section class="profile-card">
   <div class="cover" id="coverPreview">
     <div class="cover-tools">
-      <label class="file-btn">Cover<input id="coverImage" type="file" accept="image/*"></label>
-      <label class="file-btn">Avatar<input id="profileImage" type="file" accept="image/*"></label>
+      <label class="file-btn"><i class="fa-solid fa-image"></i>Cover<input id="coverImage" type="file" accept="image/*"></label>
+      <label class="file-btn"><i class="fa-solid fa-camera"></i>Avatar<input id="profileImage" type="file" accept="image/*"></label>
     </div>
   </div>
 
@@ -149,7 +165,7 @@ body{display:block;overflow:auto}
       <p id="previewEmail">Enter email and load profile</p>
     </div>
     <div class="chips">
-      <span class="chip" id="levelChip">Beginner</span>
+      <span class="chip dark" id="levelChip">Beginner</span>
       <span class="chip green" id="statusChip">active</span>
       <span class="chip" id="verifiedChip">Not verified</span>
     </div>
@@ -204,26 +220,16 @@ body{display:block;overflow:auto}
 
       <div class="field">
         <label>Creator Level</label>
-        <select id="creatorLevel">
-          <option>Beginner</option>
-          <option>Rising Creator</option>
-          <option>Pro Creator</option>
-          <option>Elite Creator</option>
-        </select>
+        <input id="creatorLevelText" type="text" value="Beginner" readonly>
       </div>
 
       <div class="field">
-        <label>Verified</label>
-        <select id="verified">
-          <option value="false">false</option>
-          <option value="true">true</option>
-        </select>
+        <label>Verification</label>
+        <input id="verifiedText" type="text" value="Not verified" readonly>
       </div>
 
-      <div class="field">
-        <label>Account Role</label>
-        <input id="accountRole" type="text" value="CreatorHub Member" readonly>
-      </div>
+      <input id="creatorLevel" type="hidden" value="Beginner">
+      <input id="verified" type="hidden" value="false">
     </div>
   </form>
 
@@ -232,25 +238,23 @@ body{display:block;overflow:auto}
     <p>Your creator activity summary and marketplace performance preview.</p>
 
     <div class="stat-grid">
-      <div class="stat"><span>Wallet Balance</span><strong id="walletView">Rs 0</strong></div>
-      <div class="stat"><span>Total Profit</span><strong id="profitView">Rs 0</strong></div>
-      <div class="stat"><span>Total Books</span><strong id="booksView">0</strong></div>
-      <div class="stat"><span>Total Orders</span><strong id="ordersView">0</strong></div>
+      <div class="stat"><i class="fa-solid fa-wallet"></i><span>Wallet Balance</span><strong id="walletView">Rs 0</strong></div>
+      <div class="stat"><i class="fa-solid fa-chart-simple"></i><span>Total Profit</span><strong id="profitView">Rs 0</strong></div>
+      <div class="stat"><i class="fa-solid fa-book"></i><span>Total Books</span><strong id="booksView">0</strong></div>
+      <div class="stat"><i class="fa-solid fa-bag-shopping"></i><span>Total Orders</span><strong id="ordersView">0</strong></div>
     </div>
 
-    <div class="mini-form">
-      <div class="field"><label>Wallet</label><input id="walletBalance" type="number" min="0" step="0.01"></div>
-      <div class="field"><label>Profit</label><input id="totalProfit" type="number" min="0" step="0.01"></div>
-      <div class="field"><label>Books</label><input id="totalBooks" type="number" min="0" step="1"></div>
-      <div class="field"><label>Orders</label><input id="totalOrders" type="number" min="0" step="1"></div>
-    </div>
+    <input id="walletBalance" type="hidden" value="0">
+    <input id="totalProfit" type="hidden" value="0">
+    <input id="totalBooks" type="hidden" value="0">
+    <input id="totalOrders" type="hidden" value="0">
   </aside>
 </section>
 
 <section class="grid">
   <section class="card">
     <h3>Social Links</h3>
-    <p>Public social handles for the creator profile.</p>
+    <p>Public social handles for your CreatorHub profile.</p>
 
     <div class="form-grid">
       <div class="field"><label>Instagram</label><input id="instagram" type="text" placeholder="@username"></div>
@@ -262,14 +266,14 @@ body{display:block;overflow:auto}
 
   <aside class="card">
     <h3>Public Preview</h3>
-    <p>Quick links shown on the profile page.</p>
+    <p>Quick links shown on your public creator profile.</p>
 
-    <div class="link-preview">
-      <div class="link-item"><strong>Website</strong><span id="websiteView">Not added</span></div>
-      <div class="link-item"><strong>Instagram</strong><span id="instagramView">Not added</span></div>
-      <div class="link-item"><strong>YouTube</strong><span id="youtubeView">Not added</span></div>
-      <div class="link-item"><strong>Telegram</strong><span id="telegramView">Not added</span></div>
-      <div class="link-item"><strong>Twitter / X</strong><span id="twitterView">Not added</span></div>
+    <div class="quick">
+      <div class="quick-item"><b>Website</b><span id="websiteView">Not added</span></div>
+      <div class="quick-item"><b>Instagram</b><span id="instagramView">Not added</span></div>
+      <div class="quick-item"><b>YouTube</b><span id="youtubeView">Not added</span></div>
+      <div class="quick-item"><b>Telegram</b><span id="telegramView">Not added</span></div>
+      <div class="quick-item"><b>Twitter / X</b><span id="twitterView">Not added</span></div>
     </div>
   </aside>
 </section>
@@ -278,7 +282,16 @@ body{display:block;overflow:auto}
 
 <div class="footer-slot" id="footerContainer"></div>
 
+<nav class="bottom-nav">
+  <a href="index.html"><i class="fa-solid fa-house"></i>Home</a>
+  <a href="explore.html"><i class="fa-solid fa-magnifying-glass"></i>Explore</a>
+  <a href="library.html"><i class="fa-solid fa-book"></i>Library</a>
+  <a href="upload1.html"><i class="fa-solid fa-upload"></i>Upload</a>
+  <a class="active" href="profile.html"><i class="fa-solid fa-user"></i>Profile</a>
+</nav>
+
 </main>
+</div>
 
 <script>
 const PROFILE_API = "https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
@@ -287,8 +300,8 @@ const AUTH_API = "https://script.google.com/macros/s/AKfycbwg4Xxd1he7OWkjMgeaXhE
 const EMAIL_KEY = "creatorhub_profile_email";
 const CACHE_KEY = "creatorhub_profile_cache_v6";
 
-const DEFAULT_AVATAR = "https://ui-avatars.com/api/?name=CreatorHub+User&background=2f62e9&color=fff";
-const DEFAULT_COVER = "linear-gradient(110deg, rgba(37,99,235,.92), rgba(20,148,152,.9))";
+const DEFAULT_AVATAR = "https://ui-avatars.com/api/?name=CreatorHub+User&background=315df4&color=fff";
+const DEFAULT_COVER = "linear-gradient(120deg,#2f6bf2,#20a6a7)";
 
 const state = {
   profileImageUrl: "",
@@ -298,25 +311,13 @@ const state = {
 };
 
 const fields = [
-  "email",
-  "name",
-  "bio",
-  "phone",
-  "website",
-  "instagram",
-  "youtube",
-  "telegram",
-  "twitter",
-  "country",
-  "state",
-  "city"
+  "email","name","bio","phone","website","instagram","youtube",
+  "telegram","twitter","country","state","city"
 ];
 
 const $ = id => document.getElementById(id);
 
-function setStatus(text){
-  $("pageStatus").innerText = text || "";
-}
+function setStatus(text){ $("pageStatus").innerText = text || ""; }
 
 function showNotice(text,type){
   $("notice").innerText = text || "";
@@ -329,17 +330,10 @@ function setBusy(flag){
   $("saveBtn").disabled = flag;
 }
 
-function value(id){
-  return ($(id).value || "").trim();
-}
+function value(id){ return ($(id).value || "").trim(); }
 
-function formatMoney(v){
-  return "Rs " + Number(v || 0).toLocaleString("en-IN");
-}
-
-function formatNumber(v){
-  return Number(v || 0).toLocaleString("en-IN");
-}
+function formatMoney(v){ return "Rs " + Number(v || 0).toLocaleString("en-IN"); }
+function formatNumber(v){ return Number(v || 0).toLocaleString("en-IN"); }
 
 function getLoggedUser(){
   let userText =
@@ -348,19 +342,14 @@ function getLoggedUser(){
     localStorage.getItem("creatorhub_user");
 
   let user = {};
-
   if(userText){
-    try{
-      user = JSON.parse(userText) || {};
-    }catch(e){
-      user = {};
-    }
+    try{ user = JSON.parse(userText) || {}; }catch(e){ user = {}; }
   }
 
   return {
-    email: user.email || localStorage.getItem("user_email") || localStorage.getItem(EMAIL_KEY) || "",
-    name: user.name || localStorage.getItem("user_name") || "",
-    profile_image: user.profile_image || localStorage.getItem("user_image") || localStorage.getItem("profile_image") || "",
+    email: user.email || user.user?.email || localStorage.getItem("user_email") || localStorage.getItem(EMAIL_KEY) || "",
+    name: user.name || user.user?.name || localStorage.getItem("user_name") || "",
+    profile_image: user.profile_image || user.profileImage || user.picture || user.user?.profile_image || user.user?.picture || localStorage.getItem("user_image") || localStorage.getItem("profile_image") || "",
     token: user.token || localStorage.getItem("user_token") || localStorage.getItem("token") || ""
   };
 }
@@ -380,15 +369,12 @@ function syncLoginStorage(user){
   localStorage.setItem("isLoggedIn","true");
   localStorage.setItem("login","true");
   localStorage.setItem("loggedIn","true");
-
   localStorage.setItem("user_email",userData.email);
   localStorage.setItem("user_name",userData.name);
   localStorage.setItem("user_token",userData.token);
   localStorage.setItem("token",userData.token);
-
   localStorage.setItem("user_image",userData.profile_image);
   localStorage.setItem("profile_image",userData.profile_image);
-
   localStorage.setItem("user",JSON.stringify(userData));
   localStorage.setItem("currentUser",JSON.stringify(userData));
   localStorage.setItem("creatorhub_user",JSON.stringify(userData));
@@ -408,16 +394,12 @@ function driveImage(url){
   if(url.includes("ui-avatars.com") || url.startsWith("data:image")) return url;
 
   const id = getDriveId(url);
-  if(id){
-    return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1200";
-  }
+  if(id) return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1200";
 
   return url;
 }
 
-function setAvatar(url){
-  $("avatarPreview").src = driveImage(url) || DEFAULT_AVATAR;
-}
+function setAvatar(url){ $("avatarPreview").src = driveImage(url) || DEFAULT_AVATAR; }
 
 function setCover(url){
   $("coverPreview").style.backgroundImage = url ? `url("${driveImage(url)}")` : DEFAULT_COVER;
@@ -436,9 +418,7 @@ function readCache(email){
   try{
     const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
     return cache[email] || null;
-  }catch(e){
-    return null;
-  }
+  }catch(e){ return null; }
 }
 
 function saveCache(email,user){
@@ -457,28 +437,16 @@ async function postJSON(url,payload){
 
   const text = await res.text();
 
-  try{
-    return JSON.parse(text);
-  }catch(e){
-    return {
-      success:false,
-      message:"API returned non JSON"
-    };
-  }
+  try{ return JSON.parse(text); }
+  catch(e){ return {success:false,message:"API returned non JSON"}; }
 }
 
 async function getJSON(url){
   const res = await fetch(url);
   const text = await res.text();
 
-  try{
-    return JSON.parse(text);
-  }catch(e){
-    return {
-      success:false,
-      message:"API returned non JSON"
-    };
-  }
+  try{ return JSON.parse(text); }
+  catch(e){ return {success:false,message:"API returned non JSON"}; }
 }
 
 function updatePreview(){
@@ -486,8 +454,13 @@ function updatePreview(){
   $("previewEmail").innerText = value("email") || "Enter email";
 
   $("levelChip").innerText = $("creatorLevel").value || "Beginner";
+  $("creatorLevelText").value = $("creatorLevel").value || "Beginner";
+
   $("statusChip").innerText = "active";
-  $("verifiedChip").innerText = $("verified").value === "true" ? "Verified" : "Not verified";
+
+  const isVerified = $("verified").value === "true";
+  $("verifiedChip").innerText = isVerified ? "Verified" : "Not verified";
+  $("verifiedText").value = isVerified ? "Verified" : "Not verified";
 
   $("walletView").innerText = formatMoney($("walletBalance").value);
   $("profitView").innerText = formatMoney($("totalProfit").value);
@@ -505,9 +478,7 @@ function fillProfile(user){
   if(!user) return;
 
   fields.forEach(key=>{
-    if($(key)){
-      $(key).value = user[key] ?? "";
-    }
+    if($(key)) $(key).value = user[key] ?? "";
   });
 
   $("creatorLevel").value = user.creator_level || "Beginner";
@@ -521,38 +492,27 @@ function fillProfile(user){
   state.savedProfileUrl = user.profile_image || "";
   state.savedCoverUrl = user.cover_image || "";
 
-  if(!state.profileImageUrl){
-    setAvatar(state.savedProfileUrl);
-  }
-
-  if(!state.coverImageUrl){
-    setCover(state.savedCoverUrl);
-  }
+  if(!state.profileImageUrl) setAvatar(state.savedProfileUrl);
+  if(!state.coverImageUrl) setCover(state.savedCoverUrl);
 
   updatePreview();
 }
 
 function collectPayload(){
-  const payload = {
-    action:"update_profile"
-  };
+  const payload = { action:"update_profile" };
 
   fields.forEach(key=>{
-    if($(key)){
-      payload[key] = value(key);
-    }
+    if($(key)) payload[key] = value(key);
   });
 
   payload.status = "active";
   payload.account_role = "CreatorHub Member";
-  payload.creator_level = $("creatorLevel").value;
+  payload.creator_level = $("creatorLevel").value || "Beginner";
   payload.verified = $("verified").value === "true";
-
   payload.wallet_balance = $("walletBalance").value || 0;
   payload.total_profit = $("totalProfit").value || 0;
   payload.total_books = $("totalBooks").value || 0;
   payload.total_orders = $("totalOrders").value || 0;
-
   payload.profile_image = state.profileImageUrl || state.savedProfileUrl || "";
   payload.cover_image = state.coverImageUrl || state.savedCoverUrl || "";
 
@@ -572,17 +532,12 @@ async function loadProfile(){
   setStatus("Loading profile...");
 
   const cached = readCache(email);
-
-  if(cached){
-    fillProfile(cached);
-  }
+  if(cached) fillProfile(cached);
 
   try{
     const data = await getJSON(PROFILE_API + "?action=profile&email=" + encodeURIComponent(email));
 
-    if(!data.success){
-      throw new Error(data.message || "Profile not found");
-    }
+    if(!data.success) throw new Error(data.message || "Profile not found");
 
     localStorage.setItem(EMAIL_KEY,email);
     saveCache(email,data.user);
@@ -624,9 +579,7 @@ async function saveProfile(){
   try{
     const data = await postJSON(PROFILE_API,payload);
 
-    if(!data.success){
-      throw new Error(data.message || "Save failed");
-    }
+    if(!data.success) throw new Error(data.message || "Save failed");
 
     const user = data.user || payload;
 
@@ -664,7 +617,6 @@ async function saveProfile(){
 
 async function handleImage(input,type){
   const file = input.files && input.files[0];
-
   if(!file) return;
 
   if(!file.type.startsWith("image/")){
@@ -688,15 +640,11 @@ async function handleImage(input,type){
   }
 
   const email = value("email").toLowerCase();
-
   if(email){
     const cached = readCache(email) || {email};
 
-    if(type === "profile"){
-      cached.profile_image = base64;
-    }else{
-      cached.cover_image = base64;
-    }
+    if(type === "profile") cached.profile_image = base64;
+    else cached.cover_image = base64;
 
     saveCache(email,cached);
   }
@@ -707,9 +655,7 @@ async function handleImage(input,type){
 async function injectFooter(){
   try{
     const res = await fetch("footer.html");
-    if(res.ok){
-      $("footerContainer").innerHTML = await res.text();
-    }
+    if(res.ok) $("footerContainer").innerHTML = await res.text();
   }catch(e){}
 }
 
@@ -720,13 +666,8 @@ function init(){
   const loggedUser = getLoggedUser();
   const savedEmail = loggedUser.email || localStorage.getItem(EMAIL_KEY) || "";
 
-  if(savedEmail){
-    $("email").value = savedEmail.toLowerCase();
-  }
-
-  if(loggedUser.name){
-    $("name").value = loggedUser.name;
-  }
+  if(savedEmail) $("email").value = savedEmail.toLowerCase();
+  if(loggedUser.name) $("name").value = loggedUser.name;
 
   if(loggedUser.profile_image){
     state.savedProfileUrl = loggedUser.profile_image;
@@ -734,16 +675,11 @@ function init(){
   }
 
   const cached = savedEmail ? readCache(savedEmail.toLowerCase()) : null;
-
-  if(cached){
-    fillProfile(cached);
-  }
+  if(cached) fillProfile(cached);
 
   updatePreview();
 
-  if(savedEmail){
-    loadProfile();
-  }
+  if(savedEmail) loadProfile();
 
   $("loadBtn").addEventListener("click",loadProfile);
   $("saveBtn").addEventListener("click",saveProfile);
@@ -761,7 +697,7 @@ function init(){
     handleImage(e.target,"cover");
   });
 
-  document.querySelectorAll("input,textarea,select").forEach(control=>{
+  document.querySelectorAll("input,textarea").forEach(control=>{
     control.addEventListener("input",updatePreview);
     control.addEventListener("change",updatePreview);
   });
