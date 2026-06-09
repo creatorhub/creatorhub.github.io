@@ -456,6 +456,78 @@ input[readonly]{
   background:#f3f6ff;
 }
 
+.profile-wrap{
+  position:relative;
+}
+
+.profile-image{
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  object-fit:cover;
+  cursor:pointer;
+  border:3px solid #fff;
+}
+
+.profile-menu{
+  position:absolute;
+  top:70px;
+  left:0;
+  width:280px;
+  background:#07142f;
+  border-radius:14px;
+  padding:20px;
+  display:none;
+  z-index:9999;
+}
+
+.profile-menu.show{
+  display:block;
+}
+
+.profile-header{
+  display:flex;
+  gap:12px;
+  margin-bottom:15px;
+}
+
+.menu-profile-image{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+#menuName{
+  color:#fff;
+  font-weight:900;
+}
+
+#menuEmail{
+  color:#94a3b8;
+  font-size:13px;
+}
+
+.profile-menu a{
+  display:flex;
+  align-items:center;
+  height:44px;
+  color:#fff;
+  padding:0 10px;
+}
+
+.logout-btn{
+  margin-top:10px;
+  background:#ef4444;
+  color:#fff;
+  height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:8px;
+  cursor:pointer;
+}
+
 .footer-slot{
   display:none;
 }
@@ -550,12 +622,37 @@ input[readonly]{
 <body>
 
 <header class="topbar">
-  <a class="brand" href="index.html">
-    <span class="logo">CH</span>
-    <b>CreatorHub</b>
-  </a>
+  <div id="profileWrap" class="profile-wrap">
 
-  <div class="page-title">
+  <img
+    id="topProfileImage"
+    class="profile-image"
+    src="https://ui-avatars.com/api/?name=User&background=315df4&color=fff"
+    onclick="toggleProfileMenu()">
+
+  <div id="profileMenu" class="profile-menu">
+
+    <div class="profile-header">
+      <img id="menuProfileImage" class="menu-profile-image">
+
+      <div>
+        <div id="menuName">CreatorHub User</div>
+        <div id="menuEmail">user@email.com</div>
+      </div>
+    </div>
+
+    <a href="profile.html">My Profile</a>
+    <a href="library.html">Library</a>
+    <a href="upload1.html">Upload Ebook</a>
+    <a href="explore.html">Explore</a>
+
+    <div class="logout-btn" onclick="logout()">
+      Logout
+    </div>
+
+  </div>
+</div>
+
     <h1>Creator Profile</h1>
     <p id="pageStatus">Load, edit, and save your CreatorHub profile.</p>
   </div>
@@ -1202,6 +1299,29 @@ async function injectFooter(){
       $("footerContainer").innerHTML = await res.text();
     }
   }catch(e){}
+}
+
+function toggleProfileMenu(){
+  document
+    .getElementById("profileMenu")
+    .classList.toggle("show");
+}
+
+window.addEventListener("click",function(e){
+
+  const wrap =
+    document.getElementById("profileWrap");
+
+  if(wrap && !wrap.contains(e.target)){
+    document
+      .getElementById("profileMenu")
+      .classList.remove("show");
+  }
+});
+
+function logout(){
+  localStorage.clear();
+  location.href="login.html";
 }
 
 function init(){
