@@ -324,30 +324,87 @@
     function logout(){ localStorage.clear(); window.location.href = "login.html"; }
     function goBack(){ window.location.href = "library.html"; }
 
-    function updateLoginUI(){
-      let token = localStorage.getItem("user_token");
-      let profileWrap = document.getElementById("profileWrap");
+   function getLoggedUser(){
+  let user = {};
 
-      let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
-      let email = localStorage.getItem("creatorhub_profile_email");
-      
-      if(token || localStorage.getItem("user")){
-        profileWrap.style.display = "flex";
+  try{
+    user = JSON.parse(localStorage.getItem("user") || "{}");
+  }catch(e){
+    user = {};
+  }
 
-        if(cachedUser && email){
-          try {
-            let data = JSON.parse(cachedUser)[email];
-            if(data && data.profile_image){
-              document.getElementById("profileImage").src = driveImage(data.profile_image);
-              document.getElementById("menuProfileImage").src = driveImage(data.profile_image);
-              document.getElementById("menuName").innerText = data.name || "CreatorHub User";
-              document.getElementById("menuEmail").innerText = data.email || email;
-            }
-          } catch(e) { console.log("Cache reading failed"); }
-        }
+  let email =
+    user.email ||
+    (user.user && user.user.email) ||
+    localStorage.getItem("user_email") ||
+    localStorage.getItem("creatorhub_profile_email") ||
+    localStorage.getItem("email") ||
+    "";
+
+  let name =
+    user.name ||
+    (user.user && user.user.name) ||
+    localStorage.getItem("user_name") ||
+    localStorage.getItem("creatorhub_profile_name") ||
+    localStorage.getItem("name") ||
+    "CreatorHub User";
+
+  let image =
+    user.profile_image ||
+    user.profileImage ||
+    user.image ||
+    user.picture ||
+    (user.user && (user.user.profile_image || user.user.image || user.user.picture)) ||
+    localStorage.getItem("profile_image") ||
+    localStorage.getItem("user_image") ||
+    localStorage.getItem("creatorhub_profile_image") ||
+    "";
+
+  let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
+
+  if(cachedUser && email){
+    try{
+      let cache = JSON.parse(cachedUser);
+      let profile = cache[email];
+
+      if(profile){
+        name = profile.name || name;
+        image = profile.profile_image || profile.image || image;
+        email = profile.email || email;
       }
-    }
+    }catch(e){}
+  }
 
+  if(!image){
+    image = "https://ui-avatars.com/api/?name=" + encodeURIComponent(name) + "&background=2f62e9&color=fff";
+  }
+
+  return {
+    email: email,
+    name: name,
+    image: image
+  };
+}
+
+function updateLoginUI(){
+  let profileWrap = document.getElementById("profileWrap");
+  let profileImage = document.getElementById("profileImage");
+  let menuProfileImage = document.getElementById("menuProfileImage");
+  let menuName = document.getElementById("menuName");
+  let menuEmail = document.getElementById("menuEmail");
+
+  let user = getLoggedUser();
+
+  if(user.email || localStorage.getItem("user") || localStorage.getItem("user_token")){
+    profileWrap.style.display = "flex";
+
+    profileImage.src = driveImage(user.image);
+    menuProfileImage.src = driveImage(user.image);
+    menuName.innerText = user.name || "CreatorHub User";
+    menuEmail.innerText = user.email || "";
+  }
+}
+    
     /* =====================================================
     ⚡ RESTORED ORIGINAL VIEWER EXTRACTION LOGIC
     ===================================================== */
