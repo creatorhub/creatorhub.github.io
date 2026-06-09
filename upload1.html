@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upload Ebook | CreatorHub</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://accounts.google.com/gsi/client"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#f6f8fc;color:#101828;min-height:100vh;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+
+.topbar{position:sticky;top:0;z-index:999;min-height:92px;background:#fff;border-bottom:1px solid #dce4f0;padding:22px 34px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.topbar-left{display:flex;align-items:center;gap:18px}
+.brand-title{font-size:30px;font-weight:950;letter-spacing:-.04em;color:#06142c}
+.brand-title span{color:#2f62e9}
+.back-btn{cursor:pointer;font-size:15px;font-weight:900;color:#5d6d85;display:inline-flex;align-items:center;gap:8px}
+.back-btn:hover{color:#2f62e9}
+.profile-wrap{position:relative;display:flex;align-items:center}
+.profile-image{width:52px;height:52px;border-radius:50%;object-fit:cover;background:#d9e1ec;border:3px solid #fff;box-shadow:0 8px 20px rgba(16,24,40,.12);cursor:pointer}
+.profile-menu{position:absolute;top:68px;left:0;width:280px;background:#0d1628;border:1px solid #182a64;border-radius:14px;padding:20px;display:none;box-shadow:0 20px 45px rgba(16,24,40,.25);z-index:1000}
+.profile-menu.show{display:block}
+.profile-header{display:flex;align-items:center;gap:12px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:14px}
+.menu-profile-image{width:48px;height:48px;border-radius:50%;object-fit:cover}
+#menuName{color:#fff;font-size:16px;font-weight:900}
+#menuEmail{margin-top:3px;font-size:13px;color:#94a3b8;word-break:break-all}
+.profile-menu a{display:flex;align-items:center;height:44px;padding:0 14px;border-radius:8px;color:#e7edf8;font-size:14px;font-weight:800}
+.profile-menu a:hover{background:#182a64}
+.logout-btn{margin-top:14px;height:46px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#ef4444;color:#fff;font-weight:900;cursor:pointer}
+
+.container{max-width:1400px;margin:auto;padding:34px 34px 130px;display:grid;grid-template-columns:2.35fr 1fr;gap:26px;align-items:start}
+.hero{grid-column:1/-1;background:#fff;border:1px solid #dce4f0;border-radius:14px;padding:28px;box-shadow:0 18px 45px rgba(16,24,40,.05);display:flex;align-items:center;justify-content:space-between;gap:20px}
+.hero h1{font-size:34px;font-weight:950;letter-spacing:-.04em;color:#06142c}
+.hero p{margin-top:8px;color:#63728a;font-weight:600;line-height:1.6}
+.hero-pill{min-height:44px;border-radius:999px;padding:0 18px;background:#eef4ff;color:#2f62e9;border:1px solid #bfdbfe;display:flex;align-items:center;gap:8px;font-weight:950;white-space:nowrap}
+
+.card,.side-card{background:#fff;border-radius:14px;border:1px solid #dce4f0;box-shadow:0 10px 30px rgba(16,24,40,.03)}
+.card{padding:28px}
+.side-card{padding:24px;margin-bottom:20px}
+.heading{display:flex;align-items:center;gap:18px;margin-bottom:26px}
+.icon-box{width:56px;height:56px;border-radius:12px;background:#eef3f9;color:#2f62e9;border:1px solid #dce4f0;display:flex;align-items:center;justify-content:center;font-size:22px}
+.heading h2{font-size:25px;font-weight:950;color:#06142c}
+.heading p{color:#63728a;font-size:14px;margin-top:3px;font-weight:600}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+label{display:block;margin-top:20px;margin-bottom:8px;font-size:12px;font-weight:950;color:#475569;text-transform:uppercase;letter-spacing:.03em}
+input,textarea,select{width:100%;padding:14px 16px;border-radius:10px;border:1px solid #cbd5e1;background:#fff;color:#0f172a;font-size:14px;font-weight:700}
+input:focus,textarea:focus,select:focus{outline:none;border-color:#2563eb;box-shadow:0 0 0 4px rgba(37,99,235,.1)}
+textarea{height:132px;resize:vertical;line-height:1.6}
+.counter{text-align:right;font-size:12px;color:#94a3b8;margin-top:6px}
+
+.ai-btn{width:100%;min-height:48px;margin-top:15px;border-radius:10px;border:1px solid #bfdbfe;background:#eff6ff;color:#2563eb;font-weight:950;font-size:14px;cursor:pointer}
+.ai-btn:hover{background:#dbeafe}
+.ai-text{text-align:center;font-size:12px;color:#64748b;margin-top:8px;font-weight:600}
+
+.upload-box,.pdf-box{height:150px;border:2px dashed #cbd5e1;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#f8fafc;cursor:pointer;margin-top:10px;text-align:center;overflow:hidden;position:relative;color:#64748b;font-size:14px;font-weight:900;gap:8px}
+.upload-box:hover,.pdf-box:hover{border-color:#2563eb;background:#eff6ff;color:#2563eb}
+.preview{width:100%;height:100%;object-fit:contain;background:#f8fafc;border-radius:12px;display:none;position:absolute;top:0;left:0}
+.remove-btn{display:none;margin-top:8px;background:#ef4444;color:#fff;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;width:100%;font-weight:900;font-size:12px}
+
+.status-box{display:none;margin-top:16px;padding:14px 16px;border-radius:10px;font-size:14px;font-weight:900;line-height:1.5}
+.status-box.pending{display:block;background:#fff7df;color:#b7791f;border:1px solid #fde68a}
+.status-box.success{display:block;background:#e7f8ef;color:#0f9f57;border:1px solid #bbf7d0}
+.status-box.error{display:block;background:#fef2f2;color:#ef4444;border:1px solid #fecaca}
+
+.upload-btn{width:100%;min-height:54px;margin-top:24px;border:none;border-radius:10px;background:#2563eb;color:#fff;font-size:16px;font-weight:950;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:10px;box-shadow:0 4px 12px rgba(37,99,235,.15)}
+.upload-btn:hover:not(:disabled){background:#1d4ed8}
+.upload-btn:disabled{opacity:.65;cursor:not-allowed;background:#94a3b8}
+.approval{text-align:center;font-size:13px;margin-top:14px;color:#64748b;font-weight:700}
+
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px}
+.feature-box{display:flex;align-items:center;gap:12px;padding:16px;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0}
+.feature-icon{width:42px;height:42px;border-radius:10px;background:#eef3f9;border:1px solid #dce4f0;display:flex;align-items:center;justify-content:center;font-size:17px;color:#2f62e9;flex-shrink:0}
+.feature-box h4{font-size:14px;font-weight:950;color:#334155}
+.feature-box p{font-size:12px;color:#64748b;margin-top:2px;font-weight:600}
+.side-card h3{font-size:17px;font-weight:950;margin-bottom:16px;color:#06142c}
+.side-list{display:flex;flex-direction:column;gap:12px;font-size:14px;line-height:1.5;color:#475569;font-weight:600}
+.side-list div{display:flex;gap:10px}
+.side-list div:before{content:"•";color:#2563eb;font-weight:950}
+.highlight{margin-top:16px;padding:12px;border-radius:10px;background:#f0fdf4;border:1px solid #bbf7d0;text-align:center;color:#16a34a;font-size:13px;font-weight:900}
+
+.bottom-nav{position:fixed;bottom:0;left:0;width:100%;height:78px;background:#fff;display:flex;justify-content:space-around;align-items:center;border-top:1px solid #dce4f0;z-index:999;box-shadow:0 -10px 40px rgba(16,24,40,.03);padding:0 20px}
+.nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:900;color:#5d6d85;width:65px;height:58px;border-radius:8px;cursor:pointer}
+.nav-item.active{color:#2f62e9;background:#eef3f9}
+.nav-icon{font-size:19px}
+
+@media(max-width:1000px){.container{grid-template-columns:1fr}.grid2,.grid3,.feature-grid{grid-template-columns:1fr}}
+@media(max-width:700px){.topbar{padding:18px 20px}.brand-title{font-size:24px}.container{padding:24px 18px 120px}.hero{display:block}.hero-pill{margin-top:16px;width:max-content}}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+
+<body>
+<div class="topbar">
+  <div class="topbar-left">
+    <div id="profileWrap" class="profile-wrap">
+      <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile">
+      <div id="profileMenu" class="profile-menu">
+        <div class="profile-header">
+          <img id="menuProfileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="menu-profile-image" alt="User">
+          <div>
+            <div id="menuName">Creator</div>
+            <div id="menuEmail">user@email.com</div>
+          </div>
+        </div>
+        <a href="profile.html">My Profile</a>
+        <a href="seller-apply.html">Become Seller</a>
+        <a href="library.html">Library</a>
+        <a href="topselling.html">Top Selling</a>
+        <a href="rated.html">Highest Rated</a>
+        <div class="logout-btn" onclick="logout()">Logout</div>
+      </div>
+    </div>
+    <div class="back-btn" onclick="location.href='index.html'"><i class="fa-solid fa-arrow-left"></i> Back</div>
+  </div>
+
+  <div class="brand-title">Upload <span>Ebook</span></div>
+  <a class="dashboard" href="dashboard.html">Dashboard</a>
+</div>
+
+<div class="container">
+  <section class="hero">
+    <div>
+      <h1>Publish Your Ebook</h1>
+      <p>Upload your PDF and cover images with fast Google Drive sync. AI can help fill title, description, category, tags, language and price.</p>
+    </div>
+    <div class="hero-pill"><i class="fa-solid fa-bolt"></i> Fast Upload Flow</div>
+  </section>
+
+  <div class="card">
+    <div class="heading">
+      <div class="icon-box"><i class="fa-solid fa-book-open"></i></div>
+      <div>
+        <h2>Ebook Details</h2>
+        <p>These details will be saved in your CreatorHub product database.</p>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <input id="title" placeholder="Book Title">
+      <input id="author" placeholder="Author Name">
+    </div>
+
+    <label>Book Description</label>
+    <textarea id="description" maxlength="1000" placeholder="Provide a clear summary of your content..."></textarea>
+    <div class="counter" id="counter">0/1000</div>
+
+    <button class="ai-btn" id="aiBtn" onclick="autoFillAI()"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Help Auto Fill All Fields</button>
+    <div class="ai-text">Upload PDF first, then AI will read it and suggest metadata.</div>
+
+    <div class="grid3" style="margin-top:18px;">
+      <input id="category" placeholder="Category">
+      <input id="language" placeholder="Language">
+      <select id="bookSize">
+        <option value="">Select Book Size</option>
+        <option>A4</option>
+        <option>A5</option>
+        <option>6x9</option>
+      </select>
+    </div>
+
+    <div class="grid2" style="margin-top:16px;">
+      <input id="tags" placeholder="Tags, comma separated">
+      <input id="isbn" placeholder="ISBN">
+    </div>
+
+    <div class="grid3" style="margin-top:16px;">
+      <input id="price" type="number" min="0" placeholder="Price">
+      <input id="pages" placeholder="Pages" readonly style="background:#f1f5f9;color:#64748b;">
+      <label style="display:flex;align-items:center;gap:10px;margin:0;cursor:pointer;text-transform:none;letter-spacing:0;">
+        <input type="checkbox" id="printVersion" style="width:auto;margin:0;accent-color:#2563eb;"> Print Version Available
+      </label>
+    </div>
+
+    <div class="grid2" style="margin-top:15px;">
+      <div>
+        <label>Front Cover</label>
+        <div class="upload-box" onclick="front.click()">
+          <div id="frontText"><i class="fa-solid fa-image"></i> Upload Front Cover</div>
+          <img id="frontPreview" class="preview">
+        </div>
+        <input hidden type="file" id="front" accept="image/*">
+        <button id="removeFront" class="remove-btn">Remove</button>
+      </div>
+
+      <div>
+        <label>Back Cover</label>
+        <div class="upload-box" onclick="back.click()">
+          <div id="backText"><i class="fa-solid fa-image"></i> Upload Back Cover</div>
+          <img id="backPreview" class="preview">
+        </div>
+        <input hidden type="file" id="back" accept="image/*">
+        <button id="removeBack" class="remove-btn">Remove</button>
+      </div>
+    </div>
+
+    <label style="margin-top:20px;">PDF File</label>
+    <div class="pdf-box" onclick="pdf.click()" id="pdfBox">
+      <div id="pdfText"><i class="fa-solid fa-file-pdf"></i> Click to Upload PDF</div>
+    </div>
+    <input hidden type="file" id="pdf" accept="application/pdf">
+
+    <div id="statusBox" class="status-box"></div>
+
+    <button class="upload-btn" id="uploadBtn" onclick="uploadBook()">
+      <span id="uploadText">Upload Ebook</span>
+      <span id="uploadLoader" style="display:none;width:22px;height:22px;border:3px solid rgba(255,255,255,.3);border-top:3px solid white;border-radius:50%;animation:spin 1s linear infinite;"></span>
+    </button>
+
+    <div class="approval">Your ebook will be reviewed after AI approval.</div>
+
+    <div class="feature-grid">
+      <div class="feature-box"><div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div><div><h4>Secure Upload</h4><p>Your files are protected</p></div></div>
+      <div class="feature-box"><div class="feature-icon"><i class="fa-solid fa-gauge-high"></i></div><div><h4>Fast Upload</h4><p>PDF and covers upload in parallel</p></div></div>
+      <div class="feature-box"><div class="feature-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div><div><h4>Smart Fill</h4><p>AI fills fields from PDF</p></div></div>
+      <div class="feature-box"><div class="feature-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div><div><h4>Earn More</h4><p>Publish and grow income</p></div></div>
+    </div>
+  </div>
+
+  <div>
+    <div class="side-card">
+      <h3>Upload Guidelines</h3>
+      <div class="side-list">
+        <div>High-quality PDF ebooks only</div>
+        <div>Professional front and back covers</div>
+        <div>No piracy or harmful content</div>
+        <div>AI checks all uploads automatically</div>
+        <div>Fast review and approval process</div>
+      </div>
+      <div class="highlight">Better quality ebooks get more visibility</div>
+    </div>
+
+    <div class="side-card">
+      <h3>AI Smart Assistant</h3>
+      <div class="side-list">
+        <div>AI reads your PDF automatically</div>
+        <div>Generates title and description</div>
+        <div>Suggests category and tags</div>
+        <div>Suggests language, price and size</div>
+        <div>Smart moderation support</div>
+      </div>
+      <div class="highlight">AI helps creators publish faster</div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <div class="nav-item" onclick="location.href='index.html'"><div class="nav-icon"><i class="fa-solid fa-house"></i></div><div>Home</div></div>
+  <div class="nav-item" onclick="location.href='explore.html'"><div class="nav-icon"><i class="fa-solid fa-magnifying-glass"></i></div><div>Explore</div></div>
+  <div class="nav-item" onclick="location.href='library.html'"><div class="nav-icon"><i class="fa-solid fa-book"></i></div><div>Library</div></div>
+  <div class="nav-item active"><div class="nav-icon"><i class="fa-solid fa-upload"></i></div><div>Upload</div></div>
+  <div class="nav-item" onclick="location.href='profile.html'"><div class="nav-icon"><i class="fa-solid fa-user"></i></div><div>Profile</div></div>
+</div>
+
+<div id="footer"></div>
+
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+const UPLOAD_API = "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
+const CLIENT_ID = "895144937824-ojsv6ca2nn67h2mmne6td4r0hr89kmok.apps.googleusercontent.com";
+const DRIVE_FOLDER_ID = "1WBqoulfH4FNt9o3krB4d4HxSWPA5o-lV";
+
+let accessToken = "";
+
+const pdf = document.getElementById("pdf");
+const username = document.getElementById("menuName");
+const menuProfile = document.getElementById("menuProfileImage");
+const title = document.getElementById("title");
+const author = document.getElementById("author");
+const description = document.getElementById("description");
+const category = document.getElementById("category");
+const language = document.getElementById("language");
+const tags = document.getElementById("tags");
+const isbn = document.getElementById("isbn");
+const price = document.getElementById("price");
+const pages = document.getElementById("pages");
+const front = document.getElementById("front");
+const back = document.getElementById("back");
+const frontPreview = document.getElementById("frontPreview");
+const backPreview = document.getElementById("backPreview");
+const removeFront = document.getElementById("removeFront");
+const removeBack = document.getElementById("removeBack");
+const counter = document.getElementById("counter");
+const bookSize = document.getElementById("bookSize");
+const printVersion = document.getElementById("printVersion");
+const statusBox = document.getElementById("statusBox");
+
+window.addEventListener("DOMContentLoaded", () => {
+  updateLoginUI();
+  loadUser();
+});
+
+function toggleProfileMenu(){
+  document.getElementById("profileMenu").classList.toggle("show");
+}
+
+window.addEventListener("click", function(e){
+  let wrap = document.getElementById("profileWrap");
+  if(wrap && !wrap.contains(e.target)){
+    document.getElementById("profileMenu").classList.remove("show");
+  }
+});
+
+function logout(){
+  localStorage.clear();
+  window.location.href = "login.html";
+}
+
+function driveImage(url){
+  if(!url) return "";
+  if(url.includes("thumbnail?id=")) return url;
+  if(url.includes("uc?id=")){
+    let id = url.split("id=")[1].split("&")[0];
+    return "https://drive.google.com/thumbnail?id=" + id + "&sz=w500";
+  }
+  if(url.includes("/d/")){
+    let id = url.split("/d/")[1].split("/")[0];
+    return "https://drive.google.com/thumbnail?id=" + id + "&sz=w500";
+  }
+  return url;
+}
+
+function getLoggedUser(){
+  try{
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    return {
+      email:user.email || (user.user && user.user.email) || localStorage.getItem("user_email") || "",
+      name:user.name || (user.user && user.user.name) || "Creator",
+      image:user.profile_image || user.image || user.picture || localStorage.getItem("profile_image") || ""
+    };
+  }catch(e){
+    return {email:"",name:"Creator",image:""};
+  }
+}
+
+function updateLoginUI(){
+  const logged = getLoggedUser();
+  if(!logged.email && !localStorage.getItem("user")) return;
+
+  const avatar = logged.image || "https://ui-avatars.com/api/?name=" + encodeURIComponent(logged.name) + "&background=2f62e9&color=fff";
+  document.getElementById("profileImage").src = driveImage(avatar);
+  document.getElementById("menuProfileImage").src = driveImage(avatar);
+  document.getElementById("menuName").innerText = logged.name;
+  document.getElementById("menuEmail").innerText = logged.email;
+}
+
+function showStatus(message,type){
+  statusBox.innerText = message;
+  statusBox.className = "status-box " + type;
+}
+
+async function loadUser(){
+  try{
+    const logged = getLoggedUser();
+    if(!logged.email){location.href="login.html";return}
+
+    const res = await fetch(UPLOAD_API,{
+      method:"POST",
+      headers:{"Content-Type":"text/plain"},
+      body:JSON.stringify({action:"checkSeller",email:logged.email})
+    });
+
+    const data = await res.json();
+
+    if(!data.success || data.status !== "approved"){
+      showStatus("Seller account must be approved before uploading ebooks.", "error");
+      setTimeout(() => location.href = "seller-apply.html", 1200);
+    }
+  }catch(err){
+    console.log("Seller check failed", err);
+  }
+}
+
+description.addEventListener("input", () => {
+  counter.innerText = description.value.length + "/1000";
+});
+
+function previewImage(input,img,textId,removeBtn){
+  const file = input.files[0];
+  if(!file)return;
+
+  if(file.size > 8 * 1024 * 1024){
+    alert("Image must be less than 8MB.");
+    input.value = "";
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    img.src = e.target.result;
+    img.style.display = "block";
+    document.getElementById(textId).style.display = "none";
+    removeBtn.style.display = "block";
+  };
+  reader.readAsDataURL(file);
+}
+
+front.onchange = () => previewImage(front,frontPreview,"frontText",removeFront);
+back.onchange = () => previewImage(back,backPreview,"backText",removeBack);
+
+removeFront.onclick = () => {
+  front.value = "";
+  frontPreview.src = "";
+  frontPreview.style.display = "none";
+  document.getElementById("frontText").style.display = "block";
+  removeFront.style.display = "none";
+};
+
+removeBack.onclick = () => {
+  back.value = "";
+  backPreview.src = "";
+  backPreview.style.display = "none";
+  document.getElementById("backText").style.display = "block";
+  removeBack.style.display = "none";
+};
+
+pdf.onchange = async function(){
+  const file = this.files[0];
+  if(!file)return;
+
+  if(file.type !== "application/pdf"){
+    alert("Only PDF files are allowed.");
+    pdf.value = "";
+    return;
+  }
+
+  document.getElementById("pdfText").innerText = "PDF Selected: " + file.name;
+
+  try{
+    const arrayBuffer = await file.arrayBuffer();
+    const pdfDoc = await pdfjsLib.getDocument({data:arrayBuffer}).promise;
+    pages.value = pdfDoc.numPages;
+  }catch(err){
+    console.log("PDF page count failed", err);
+  }
+};
+
+async function extractPDFText(file){
+  const arrayBuffer = await file.arrayBuffer();
+  const pdfDoc = await pdfjsLib.getDocument({data:arrayBuffer}).promise;
+  let finalText = "";
+  const totalPages = Math.min(pdfDoc.numPages, 5);
+
+  for(let i=1;i<=totalPages;i++){
+    const page = await pdfDoc.getPage(i);
+    const textContent = await page.getTextContent();
+    finalText += textContent.items.map(item => item.str).join(" ") + "\n";
+  }
+
+  return finalText.slice(0,10000);
+}
+
+async function autoFillAI(){
+  const aiBtn = document.getElementById("aiBtn");
+
+  try{
+    const file = pdf.files[0];
+    if(!file){alert("Please upload PDF first.");return}
+
+    aiBtn.disabled = true;
+    aiBtn.innerText = "AI Filling Fields...";
+    showStatus("AI is reading your PDF and filling all fields.", "pending");
+
+    const pdfText = await extractPDFText(file);
+
+    const [analysisRes, suggestRes] = await Promise.all([
+      fetch(UPLOAD_API,{
+        method:"POST",
+        headers:{"Content-Type":"text/plain"},
+        body:JSON.stringify({action:"analyzePDF",text:pdfText,title:title.value,author:author.value,description:description.value,category:category.value})
+      }),
+      fetch(UPLOAD_API,{
+        method:"POST",
+        headers:{"Content-Type":"text/plain"},
+        body:JSON.stringify({action:"suggestEbookDetails",topic:pdfText.slice(0,3000),title:title.value,author:author.value,description:description.value,category:category.value})
+      })
+    ]);
+
+    const analysisData = await analysisRes.json();
+    const suggestData = await suggestRes.json();
+
+    const ai = analysisData.analysis || analysisData.ai || {};
+    const details = suggestData.details || {};
+
+    if(details.title || ai.title) title.value = details.title || ai.title;
+    if(ai.author && !author.value.trim()) author.value = ai.author;
+    if(details.short_description || ai.summary || ai.description) description.value = details.short_description || ai.summary || ai.description;
+    if(details.category || ai.category) category.value = details.category || ai.category;
+    language.value = ai.language || language.value || "English";
+    price.value = details.price || price.value || 199;
+
+    const tagValue = details.tags || ai.tags || "";
+    if(tagValue) tags.value = Array.isArray(tagValue) ? tagValue.join(", ") : tagValue;
+    if(!tags.value.trim()) tags.value = "ebook, digital book, learning, creatorhub";
+    if(!bookSize.value) bookSize.value = "A4";
+
+    counter.innerText = description.value.length + "/1000";
+    showStatus("AI filled the ebook details successfully.", "success");
+
+  }catch(err){
+    showStatus(err.message || "AI auto fill failed.", "error");
+  }finally{
+    aiBtn.disabled = false;
+    aiBtn.innerText = "AI Help Auto Fill All Fields";
+  }
+}
+
+async function initGoogle(){
+  return new Promise((resolve,reject) => {
+    const tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id:CLIENT_ID,
+      scope:"https://www.googleapis.com/auth/drive.file",
+      callback:res => {
+        if(res.error){reject(new Error(res.error));return}
+        accessToken = res.access_token;
+        resolve();
+      }
+    });
+
+    tokenClient.requestAccessToken({prompt:accessToken ? "" : "consent"});
+  });
+}
+
+async function createDriveFolder(folderName){
+  const res = await fetch("https://www.googleapis.com/drive/v3/files",{
+    method:"POST",
+    headers:{Authorization:"Bearer " + accessToken,"Content-Type":"application/json"},
+    body:JSON.stringify({name:folderName || ("CreatorHub Ebook " + Date.now()),mimeType:"application/vnd.google-apps.folder",parents:[DRIVE_FOLDER_ID]})
+  });
+
+  const data = await res.json();
+  if(!res.ok) throw new Error(data.error ? data.error.message : "Drive folder creation failed");
+  return data.id;
+}
+
+async function uploadToDrive(file,folderId){
+  const form = new FormData();
+
+  form.append("metadata", new Blob([JSON.stringify({name:file.name,parents:[folderId],mimeType:file.type})], {type:"application/json"}));
+  form.append("file", file);
+
+  const res = await fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",{
+    method:"POST",
+    headers:{Authorization:"Bearer " + accessToken},
+    body:form
+  });
+
+  const data = await res.json();
+  if(!res.ok) throw new Error(data.error ? data.error.message : "Drive upload failed");
+  return data.id;
+}
+
+async function makeDriveFilePublic(fileId){
+  try{
+    await fetch("https://www.googleapis.com/drive/v3/files/" + fileId + "/permissions",{
+      method:"POST",
+      headers:{Authorization:"Bearer " + accessToken,"Content-Type":"application/json"},
+      body:JSON.stringify({role:"reader",type:"anyone"})
+    });
+  }catch(err){
+    console.log("Drive sharing failed", err);
+  }
+}
+
+function setUploading(isUploading,text){
+  const uploadBtn = document.getElementById("uploadBtn");
+  const uploadText = document.getElementById("uploadText");
+  const uploadLoader = document.getElementById("uploadLoader");
+
+  uploadBtn.disabled = isUploading;
+  uploadText.style.display = isUploading ? "none" : "block";
+  uploadLoader.style.display = isUploading ? "block" : "none";
+
+  if(text){
+    uploadText.innerText = text;
+    if(isUploading) showStatus(text, "pending");
+  }
+}
+
+async function uploadBook(){
+  const logged = getLoggedUser();
+
+  if(!logged.email){alert("Login Required");return}
+  if(!title.value.trim()){alert("Book title required.");return}
+  if(!author.value.trim()){alert("Author name required.");return}
+  if(!description.value.trim()){alert("Description required.");return}
+  if(!category.value.trim()){alert("Category required.");return}
+  if(!price.value || Number(price.value) < 0){alert("Valid price required.");return}
+  if(!pdf.files[0] || !front.files[0] || !back.files[0]){
+    alert("Please select PDF, front cover and back cover.");
+    return;
+  }
+
+  try{
+    setUploading(true,"Connecting Google Drive...");
+    await initGoogle();
+
+    setUploading(true,"Preparing ebook files...");
+    const pdfTextPromise = extractPDFText(pdf.files[0]);
+    const folderPromise = createDriveFolder(title.value.trim());
+    const [pdfText, folderId] = await Promise.all([pdfTextPromise, folderPromise]);
+
+    setUploading(true,"Uploading files...");
+    const [pdfId, frontId, backId] = await Promise.all([
+      uploadToDrive(pdf.files[0], folderId),
+      uploadToDrive(front.files[0], folderId),
+      uploadToDrive(back.files[0], folderId)
+    ]);
+
+    Promise.all([makeDriveFilePublic(pdfId),makeDriveFilePublic(frontId),makeDriveFilePublic(backId)]);
+
+    const payload = {
+      action:"uploadEbook",
+      email:logged.email,
+      title:title.value.trim(),
+      author:author.value.trim(),
+      description:description.value.trim(),
+      category:category.value.trim(),
+      language:language.value.trim() || "English",
+      tags:tags.value.split(",").map(t => t.trim()).filter(Boolean),
+      isbn:isbn.value.trim(),
+      price:Number(price.value || 0),
+      pages:pages.value,
+      size:bookSize.value,
+      print_version:printVersion.checked,
+      pdf_url:"https://drive.google.com/file/d/" + pdfId + "/view",
+      file_url:"https://drive.google.com/uc?id=" + pdfId,
+      pdf_id:pdfId,
+      front_cover:"https://drive.google.com/thumbnail?id=" + frontId + "&sz=w1200",
+      back_cover:"https://drive.google.com/thumbnail?id=" + backId + "&sz=w1200",
+      pdfText:pdfText
+    };
+
+    setUploading(true,"Saving ebook...");
+
+    const response = await fetch(UPLOAD_API,{
+      method:"POST",
+      headers:{"Content-Type":"text/plain"},
+      body:JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+    if(!data.success) throw new Error(data.message || "Backend save failed");
+
+    showStatus("Ebook uploaded successfully.", "success");
+    setUploading(false,"Uploaded Successfully");
+
+    setTimeout(() => {
+      location.href = "library.html";
+    }, 1000);
+
+  }catch(err){
+    console.error("Upload error:", err);
+    showStatus("Upload Error: " + err.message, "error");
+    setUploading(false,"Upload Ebook");
+  }
+}
+</script>
+</body>
+</html>
