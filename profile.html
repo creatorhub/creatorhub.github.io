@@ -1120,6 +1120,18 @@ function fillProfile(user){
   if(!state.profileImageUrl) setAvatar(state.savedProfileUrl);
   if(!state.coverImageUrl) setCover(state.savedCoverUrl);
 
+  document.getElementById("topProfileImage").src =
+  driveImage(user.profile_image || DEFAULT_AVATAR);
+
+document.getElementById("menuProfileImage").src =
+  driveImage(user.profile_image || DEFAULT_AVATAR);
+
+document.getElementById("menuName").innerText =
+  user.name || "CreatorHub User";
+
+document.getElementById("menuEmail").innerText =
+  user.email || "";
+
   updatePreview();
 }
 
