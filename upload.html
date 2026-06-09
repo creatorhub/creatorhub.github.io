@@ -13,7 +13,70 @@
 body{background:#f1f5f9;color:#1e293b;min-height:100vh;overflow-x:hidden}
 .navbar{height:75px;background:#fff;display:flex;justify-content:space-between;align-items:center;padding:0 30px;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:999}
 .logo{font-size:26px;font-weight:800;color:#0f172a}.logo span{color:#2563eb}
-.profile{display:flex;align-items:center;gap:12px;background:#f8fafc;padding:8px 16px;border-radius:100px;border:1px solid #e2e8f0}
+.profile-wrap {
+  position: relative;
+}
+.profile-menu {
+  position: absolute;
+  top: 55px;
+  right: 0;
+  width: 280px;
+  background: #0f172a;
+  border-radius: 14px;
+  padding: 20px;
+  display: none;
+  z-index: 10000;
+  border: 1px solid #334155;
+  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+}
+.profile-menu.show {
+  display: block;
+}
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 12px;
+}
+.menu-profile-image {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.profile-menu a {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  color: #f1f5f9;
+  padding: 0 10px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: 8px;
+  background: transparent !important;
+  margin-top: 0 !important;
+  border: none !important;
+}
+.profile-menu a:hover {
+  background: #1e293b !important;
+  color: #38bdf8 !important;
+}
+.logout-btn {
+  margin-top: 12px;
+  background: #ef4444;
+  color: #fff;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 14px;
+}
 .profile-dot{width:10px;height:10px;border-radius:50%;background:#2563eb}
 #username{font-size:14px;font-weight:700;color:#334155}
 .side-menu{position:fixed;top:0;left:-300px;width:280px;height:100%;background:#fff;z-index:9999;padding:30px 24px;transition:.3s;border-right:1px solid #e2e8f0;overflow:auto}
@@ -67,10 +130,35 @@ footer{margin-top:60px;padding:40px 20px;background:#fff;border-top:1px solid #e
 <body>
 <div class="navbar">
   <div style="display:flex;align-items:center;gap:15px;">
-    <div onclick="openMenu()" style="font-size:22px;cursor:pointer;color:#475569;">Menu</div>
+    <div onclick="openMenu()" style="font-size:22px;cursor:pointer;color:#475569;"><i class="fa-solid fa-bars"></i> Menu</div>
     <div class="logo">Creator<span>Hub</span></div>
   </div>
-  <div class="profile"><div class="profile-dot"></div><div id="username">Loading User...</div></div>
+  
+  <div id="profileWrap" class="profile-wrap">
+    <img 
+      id="topProfileImage" 
+      class="profile-image" 
+      src="https://ui-avatars.com/api/?name=User&background=2563eb&color=fff" 
+      onclick="toggleProfileMenu()" 
+      style="width:42px; height:42px; border-radius:50%; object-fit:cover; cursor:pointer; border:2px solid #e2e8f0;"
+      alt="Profile">
+      
+    <div id="profileMenu" class="profile-menu">
+      <div class="profile-header">
+        <img id="menuProfileImage" class="menu-profile-image" src="https://ui-avatars.com/api/?name=User&background=2563eb&color=fff" alt="User">
+        <div>
+          <div id="menuNameHeader" style="color:#fff; font-weight:900; font-size:15px;">CreatorHub User</div>
+          <div id="menuEmailHeader" style="color:#94a3b8; font-size:12px; word-break:break-all;">user@email.com</div>
+        </div>
+      </div>
+      <a href="profile.html">My Profile</a>
+      <a href="seller-apply.html">Become Seller</a>
+      <a href="tranding.html">Trending Books</a>
+      <a href="library.html">Library</a>
+      <a href="topselling.html">Top Selling</a>
+      <div class="logout-btn" onclick="logout()">Logout</div>
+    </div>
+  </div>
 </div>
 
 <div id="menu" class="side-menu">
@@ -248,9 +336,17 @@ const statusBox = document.getElementById("statusBox");
 
 window.addEventListener("DOMContentLoaded", () => {
   const logged = getLoggedUser();
-  username.innerText = logged.name;
-  menuName.innerText = logged.name;
-  if(logged.image) menuProfile.src = logged.image;
+  
+  const userImg = logged.image || "https://ui-avatars.com/api/?name=" + encodeURIComponent(logged.name) + "&background=2563eb&color=fff";
+  
+  document.getElementById("topProfileImage").src = userImg;
+  document.getElementById("menuProfileImage").src = userImg;
+  document.getElementById("menuProfile").src = userImg;
+  
+  document.getElementById("menuNameHeader").innerText = logged.name;
+  document.getElementById("menuEmailHeader").innerText = logged.email || "No Email Registered";
+  document.getElementById("menuName").innerText = logged.name;
+  
   loadUser();
 });
 
@@ -629,6 +725,22 @@ fetch("footer.html")
   .then(res => res.text())
   .then(data => {document.getElementById("footer").innerHTML = data})
   .catch(err => console.log("Footer load failed", err));
+
+  function toggleProfileMenu(){
+  document.getElementById("profileMenu").classList.toggle("show");
+}
+
+window.addEventListener("click", function(e){
+  const wrap = document.getElementById("profileWrap");
+  if(wrap && !wrap.contains(e.target)){
+    document.getElementById("profileMenu").classList.remove("show");
+  }
+});
+
+function logout(){
+  localStorage.clear();
+  location.href = "login.html";
+}
 </script>
 </body>
 </html>
