@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CreatorHub • Wallet Center Pro</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@330;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
@@ -270,7 +270,7 @@
 
     /* =====================================================
     🚀 NEW MULTI-CHANNEL TAB SELECTOR DESIGN
-    ==================================================== */
+    ===================================================== */
     .channel-tabs {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -440,6 +440,7 @@
 
 <body>
 
+  <!-- LEFT GLOBAL SIDEBAR ATTACHMENT PANEL FRAME -->
   <aside class="sidebar">
     <div class="sidebar-brand">Creator<span>Hub</span></div>
     <div class="sidebar-menu">
@@ -452,6 +453,7 @@
     </div>
   </aside>
 
+  <!-- RIGHT CONTAINER CONTENT WORKSPACE LAYERS -->
   <div class="main-wrapper">
     
     <header class="topbar">
@@ -485,6 +487,7 @@
         <p class="desc">Track digital marketplace bookstore earnings, monitor processing clearing statuses, and manage your settlement disbursements seamlessly.</p>
       </div>
 
+      <!-- ENTERPRISE LEVEL METRICS CARD MODULE -->
       <section class="balance-card-premium">
         <div class="balance-left-col">
           <div class="balance-label">Available Liquid Balance</div>
@@ -508,8 +511,10 @@
         </div>
       </section>
 
+      <!-- PANELS MATRIX LAYOUT GRID SPLIT -->
       <div class="layout-split-matrix">
         
+        <!-- LEFT BOUND DETAILS ACTIVITY HISTORY TABLE -->
         <div class="content-panel-card">
           <h2 class="panel-title-bold">Transaction Ledgers History</h2>
           <p class="panel-desc-text">Comprehensive data binding matrix showing recent store orders distribution logs and payment settlements streams maps.</p>
@@ -523,16 +528,19 @@
           </div>
         </div>
 
+        <!-- RIGHT BOUND EXPRESS DISBURSEMENT MULTI-CHANNEL CONTROLS -->
         <div id="withdrawTarget" class="content-panel-card" style="height: max-content;">
           <h2 class="panel-title-bold">Withdraw Earnings</h2>
           <p class="panel-desc-text">Select your preferred transaction route execution channel parameters safely.</p>
           
+          <!-- 🚀 NEW: MULTI-CHANNEL CHANNEL SELECTOR TAB SWITCHES -->
           <div class="channel-tabs">
             <button class="channel-btn active" onclick="switchChannel(event, 'bank-view')"><i class="fa-solid fa-building-columns"></i> Bank</button>
             <button class="channel-btn" onclick="switchChannel(event, 'upi-view')"><i class="fa-solid fa-qrcode"></i> UPI ID</button>
             <button class="channel-btn" onclick="switchChannel(event, 'card-view')"><i class="fa-solid fa-credit-card"></i> Card Node</button>
           </div>
 
+          <!-- SUB-FORM 1: BANK GATEWAY TRACK -->
           <div id="bank-view" class="channel-view active">
             <div class="form-group-block"><label>Account Holder Name</label><input id="bankName" class="form-input-element" placeholder="Enter beneficiary bank account name"></div>
             <div class="form-group-block"><label>Account Number Node</label><input id="bankAcc" class="form-input-element" type="password" placeholder="000000000000"></div>
@@ -541,6 +549,7 @@
             <button class="action-trigger-btn" onclick="executeChannelWithdraw('bank')"><i class="fa-solid fa-building-columns"></i> Request Bank Payout</button>
           </div>
 
+          <!-- SUB-FORM 2: UPI ID GATEWAY TRACK -->
           <div id="upi-view" class="channel-view">
             <div class="form-group-block"><label>Beneficiary Name</label><input id="upiName" class="form-input-element" placeholder="Enter full name"></div>
             <div class="form-group-block"><label>Contact Phone Number</label><input id="upiPhone" class="form-input-element" placeholder="Enter contact number"></div>
@@ -549,6 +558,7 @@
             <button class="action-trigger-btn" onclick="executeChannelWithdraw('upi')"><i class="fa-solid fa-qrcode"></i> Request UPI Withdrawal</button>
           </div>
 
+          <!-- SUB-FORM 3: CARD MAPPING TRACK -->
           <div id="card-view" class="channel-view">
             <div class="form-group-block"><label>Cardholder Name</label><input id="cardName" class="form-input-element" placeholder="Name as printed on card"></div>
             <div class="form-group-block"><label>16-Digit Card Number Node</label><input id="cardNum" class="form-input-element" placeholder="0000 0000 0000 0000"></div>
@@ -562,6 +572,7 @@
 
           <div id="withdrawStatus" class="status-banner"></div>
 
+          <!-- REGULATORY NOTICES -->
           <div style="border-top:1px solid var(--border-color); padding-top:20px; margin-top:24px;">
             <div class="regulatory-info-list">
               <div class="regulatory-node"><i class="fa-solid fa-circle-info"></i> <span>Minimum withdrawal execution block threshold is limited at ₹100 across channels.</span></div>
@@ -619,6 +630,7 @@
       window.location.href = "index.html";
     }
 
+    /* 🚀 NEW FUNCTION: Tab channel structural switcher algorithm */
     function switchChannel(e, viewId) {
       document.querySelectorAll(".channel-btn").forEach(btn => btn.classList.remove("active"));
       document.querySelectorAll(".channel-view").forEach(view => view.classList.remove("active"));
@@ -640,7 +652,7 @@
         profileWrap.style.display = "flex";
         if(cachedUser && email){
           try {
-            let data = JSON.parse(cachedUser)[email.toLowerCase().trim()];
+            let data = JSON.parse(cachedUser)[email];
             if(data && data.profile_image){
               document.getElementById("profileImage").src = driveImage(data.profile_image);
               document.getElementById("menuProfileImage").src = driveImage(data.profile_image);
@@ -652,22 +664,22 @@
       }
     }
 
-    // 🚀 NEW: Caches load from local storage instantly before network streaming completes
-    function loadCachedWallet() {
-      let cachedData = localStorage.getItem("creatorhub_wallet_cache_" + USER_EMAIL);
-      if(cachedData) {
-        try {
-          let wallet = JSON.parse(cachedData);
-          renderWalletDOM(wallet);
-        } catch(e) {}
-      }
-    }
+    async function loadWallet(){
+      try{
+        let res = await fetch(API_URL,{
+          method:"POST",
+          headers:{ "Content-Type":"text/plain;charset=utf-8" },
+          body:JSON.stringify({ action:"getWallet", email:USER_EMAIL })
+        });
+        let data = await res.json();
+        if(!data.success) return;
 
-    function renderWalletDOM(wallet) {
-      document.getElementById("availableBalance").innerHTML = "₹" + Number(wallet.available||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
-      document.getElementById("pendingBalance").innerHTML = "₹" + Number(wallet.pending||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
-      document.getElementById("withdrawnBalance").innerHTML = "₹" + Number(wallet.withdrawn||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
-      document.getElementById("totalEarnings").innerHTML = "₹" + Number(wallet.total_earnings||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        let wallet = data.wallet;
+        document.getElementById("availableBalance").innerHTML = "₹" + Number(wallet.available||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        document.getElementById("pendingBalance").innerHTML = "₹" + Number(wallet.pending||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        document.getElementById("withdrawnBalance").innerHTML = "₹" + Number(wallet.withdrawn||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        document.getElementById("totalEarnings").innerHTML = "₹" + Number(wallet.total_earnings||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      }catch(err){ console.log(err); }
     }
 
     function safeParseDate(dateStr) {
@@ -677,61 +689,38 @@
       return isNaN(d.getTime()) ? new Date() : d;
     }
 
-    // 🚀 MASTER STREAM OPTIMIZATION: Parallel dynamic structural network fetch routing model
-    async function initEcosystemLoad(){
+    async function loadTransactions(){
       if(!USER_EMAIL){
         document.getElementById("transactions").innerHTML = '<div class="empty">Please login first.</div>';
         return;
       }
 
-      // Load fast cache model instant rendering asset tokens
-      loadCachedWallet();
-
-      try {
-        const [walletResponse, txResponse] = await Promise.all([
-          fetch(API_URL, {
-            method: "POST",
-            headers: { "Content-Type": "text/plain;charset=utf-8" },
-            body: JSON.stringify({ action: "getWallet", email: USER_EMAIL })
-          }),
-          fetch(API_URL, {
-            method: "POST",
-            headers: { "Content-Type": "text/plain;charset=utf-8" },
-            body: JSON.stringify({ action: "getTransactions", email: USER_EMAIL })
-          })
-        ]);
-
-        let walletData = await walletResponse.json();
-        let txData = await txResponse.json();
-
-        // 1. Process Wallet Sync Engine Matrix
-        if(walletData.success && walletData.wallet) {
-          localStorage.setItem("creatorhub_wallet_cache_" + USER_EMAIL, JSON.stringify(walletData.wallet));
-          renderWalletDOM(walletData.wallet);
-        }
-
-        // 2. Process Optimized Transaction Interface Tables Logs
+      try{
+        let res = await fetch(API_URL,{
+          method:"POST",
+          headers:{ "Content-Type":"text/plain;charset=utf-8" },
+          body:JSON.stringify({ action:"getTransactions", email:USER_EMAIL })
+        });
+        let data = await res.json();
         let box = document.getElementById("transactions");
-        if(!txData.success || !txData.transactions || txData.transactions.length === 0){
+
+        if(!data.success || !data.transactions || data.transactions.length===0){
           box.innerHTML = '<div class="empty">No transactions found yet.</div>';
           document.getElementById("seeAllContainer").style.display = "none";
           return;
         }
 
-        box.innerHTML = "";
-        // Optimize loops structure without using expensive layout reverse engine calls
-        let totalCount = txData.transactions.length;
-        
-        for(let i = totalCount - 1; i >= 0; i--) {
-          let txn = txData.transactions[i];
+        box.innerHTML="";
+        let txns = data.transactions.reverse();
+
+        txns.forEach((txn, index)=>{
           let type = txn.type || "credit";
-          let icon = type === "withdraw" ? "↗" : "₹";
-          let amountClass = type === "withdraw" ? "debit" : "credit";
+          let icon = type==="withdraw" ? "↗" : "₹";
+          let amountClass = type==="withdraw" ? "debit" : "credit";
           
           let dateObj = safeParseDate(txn.created_at || txn.date);
           let displayDate = dateObj.toLocaleString("en-IN", { hour12: true });
-          let indexFromTop = totalCount - 1 - i;
-          let hideClass = indexFromTop >= 4 ? "hidden-item" : "";
+          let hideClass = index >= 4 ? "hidden-item" : "";
 
           box.innerHTML += `
             <div class="txn-row-node ${hideClass}">
@@ -743,18 +732,19 @@
                 </div>
               </div>
               <div class="txn-value-text ${amountClass}">
-                ${type === "withdraw" ? "-" : "+"}₹${Number(txn.amount||0).toFixed(2)}
+                ${type==="withdraw"?"-":"+"}₹${Number(txn.amount||0).toFixed(2)}
               </div>
             </div>
           `;
+        });
+
+        if(txns.length > 4) {
+          document.getElementById("seeAllContainer").style.display = "block";
+        } else {
+          document.getElementById("seeAllContainer").style.display = "none";
         }
-
-        document.getElementById("seeAllContainer").style.display = totalCount > 4 ? "block" : "none";
         isListExpanded = false;
-
-      } catch(err) {
-        console.error("Ecosystem optimization initialization trace error:", err);
-      }
+      }catch(err){ console.log(err); }
     }
 
     function toggleTransactionsLayout() {
@@ -776,6 +766,7 @@
       }
     }
 
+    /* 🚀 UPGRADED FUNCTION: Advanced multi-channel dynamic validator routing */
     async function executeChannelWithdraw(channelType) {
       let amount, upi, name, phone, account, ifsc;
       let statusElement = document.getElementById("withdrawStatus");
@@ -788,7 +779,7 @@
         account = document.getElementById("bankAcc").value.trim();
         ifsc = document.getElementById("bankIfsc").value.trim();
         amount = document.getElementById("bankAmount").value.trim();
-        upi = "BANK_ROUTE_NODE_" + ifsc;
+        upi = "BANK_ROUTE_NODE_" + ifsc; // Formats payload structure
         if(!name || !account || !ifsc || !amount) { alert("Please fill all bank credentials fields"); statusElement.style.display="none"; return; }
       } 
       else if(channelType === 'upi') {
@@ -800,7 +791,7 @@
       } 
       else if(channelType === 'card') {
         name = document.getElementById("cardName").value.trim();
-        account = document.getElementById("cardNum").value.trim(); 
+        account = document.getElementById("cardNum").value.trim(); // Map card digits to balance node fields safely
         amount = document.getElementById("cardAmount").value.trim();
         upi = "CARD_SETTLEMENT_NODE";
         if(!name || !account || !amount) { alert("Please fill card parameter structures"); statusElement.style.display="none"; return; }
@@ -816,10 +807,12 @@
         statusElement.innerHTML = `<i class="fa-solid fa-circle-info"></i> ${data.message}`;
 
         if(data.success){
+          // Wipe active inputs inside specific view elements blocks
           if(channelType === 'bank') { document.getElementById("bankAmount").value = ""; document.getElementById("bankAcc").value = ""; }
           else if(channelType === 'upi') { document.getElementById("upiAmount").value = ""; document.getElementById("upiId").value = ""; }
           else if(channelType === 'card') { document.getElementById("cardAmount").value = ""; document.getElementById("cardNum").value = ""; }
-          initEcosystemLoad();
+          loadWallet();
+          loadTransactions();
         }
       } catch(err) {
         console.error(err);
@@ -827,9 +820,9 @@
       }
     }
 
-    // Single pipeline sequence boot
     updateLoginUI();
-    initEcosystemLoad();
+    loadWallet();
+    loadTransactions();
   </script>
 </body>
 </html>
