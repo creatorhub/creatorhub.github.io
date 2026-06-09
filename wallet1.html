@@ -664,63 +664,79 @@
       }
     }
 
-    async function loadWallet(){
-      try{
-        let res = await fetch(API_URL,{
-          method:"POST",
-          headers:{ "Content-Type":"text/plain;charset=utf-8" },
-          body:JSON.stringify({ action:"getWallet", email:USER_EMAIL })
-        });
-        let data = await res.json();
-        if(!data.success) return;
-
-        let wallet = data.wallet;
-        document.getElementById("availableBalance").innerHTML = "₹" + Number(wallet.available||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        document.getElementById("pendingBalance").innerHTML = "₹" + Number(wallet.pending||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        document.getElementById("withdrawnBalance").innerHTML = "₹" + Number(wallet.withdrawn||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        document.getElementById("totalEarnings").innerHTML = "₹" + Number(wallet.total_earnings||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
-      }catch(err){ console.log(err); }
+    // 🚀 NEW: Caches load from local storage instantly before network streaming completes
+    function loadCachedWallet() {
+      let cachedData = localStorage.getItem("creatorhub_wallet_cache_" + USER_EMAIL);
+      if(cachedData) {
+        try {
+          let wallet = JSON.parse(cachedData);
+          renderWalletDOM(wallet);
+        } catch(e) {}
+      }
     }
 
-    function safeParseDate(dateStr) {
-      if(!dateStr) return new Date();
-      let cleaned = String(dateStr).replace(/,/g, "").replace(/-/g, "/").trim();
-      let d = new Date(cleaned);
-      return isNaN(d.getTime()) ? new Date() : d;
+    function renderWalletDOM(wallet) {
+      document.getElementById("availableBalance").innerHTML = "₹" + Number(wallet.available||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      document.getElementById("pendingBalance").innerHTML = "₹" + Number(wallet.pending||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      document.getElementById("withdrawnBalance").innerHTML = "₹" + Number(wallet.withdrawn||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      document.getElementById("totalEarnings").innerHTML = "₹" + Number(wallet.total_earnings||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
     }
 
-    async function loadTransactions(){
+   // 🚀 MASTER STREAM OPTIMIZATION: Parallel dynamic structural network fetch routing model
+    async function initEcosystemLoad(){
       if(!USER_EMAIL){
         document.getElementById("transactions").innerHTML = '<div class="empty">Please login first.</div>';
         return;
       }
 
-      try{
-        let res = await fetch(API_URL,{
-          method:"POST",
-          headers:{ "Content-Type":"text/plain;charset=utf-8" },
-          body:JSON.stringify({ action:"getTransactions", email:USER_EMAIL })
-        });
-        let data = await res.json();
-        let box = document.getElementById("transactions");
+      // Load fast cache model instant rendering asset tokens
+      loadCachedWallet();
 
-        if(!data.success || !data.transactions || data.transactions.length===0){
+      try {
+        const [walletResponse, txResponse] = await Promise.all([
+          fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({ action: "getWallet", email: USER_EMAIL })
+          }),
+          fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({ action: "getTransactions", email: USER_EMAIL })
+          })
+        ]);
+
+        let walletData = await walletResponse.json();
+        let txData = await txResponse.json();
+
+        // 1. Process Wallet Sync Engine Matrix
+        if(walletData.success && walletData.wallet) {
+          localStorage.setItem("creatorhub_wallet_cache_" + USER_EMAIL, JSON.stringify(walletData.wallet));
+          renderWalletDOM(walletData.wallet);
+        }
+
+        // 2. Process Optimized Transaction Interface Tables Logs
+        let box = document.getElementById("transactions");
+        if(!txData.success || !txData.transactions || txData.transactions.length === 0){
           box.innerHTML = '<div class="empty">No transactions found yet.</div>';
           document.getElementById("seeAllContainer").style.display = "none";
           return;
         }
 
-        box.innerHTML="";
-        let txns = data.transactions.reverse();
-
-        txns.forEach((txn, index)=>{
+        box.innerHTML = "";
+        let totalCount = txData.transactions.length;
+        
+        // Fast optimization loop avoiding heavy array method calls
+        for(let i = totalCount - 1; i >= 0; i--) {
+          let txn = txData.transactions[i];
           let type = txn.type || "credit";
-          let icon = type==="withdraw" ? "↗" : "₹";
-          let amountClass = type==="withdraw" ? "debit" : "credit";
+          let icon = type === "withdraw" ? "↗" : "₹";
+          let amountClass = type === "withdraw" ? "debit" : "credit";
           
           let dateObj = safeParseDate(txn.created_at || txn.date);
           let displayDate = dateObj.toLocaleString("en-IN", { hour12: true });
-          let hideClass = index >= 4 ? "hidden-item" : "";
+          let indexFromTop = totalCount - 1 - i;
+          let hideClass = indexFromTop >= 4 ? "hidden-item" : "";
 
           box.innerHTML += `
             <div class="txn-row-node ${hideClass}">
@@ -732,21 +748,20 @@
                 </div>
               </div>
               <div class="txn-value-text ${amountClass}">
-                ${type==="withdraw"?"-":"+"}₹${Number(txn.amount||0).toFixed(2)}
+                ${type === "withdraw" ? "-" : "+"}₹${Number(txn.amount||0).toFixed(2)}
               </div>
             </div>
           `;
-        });
-
-        if(txns.length > 4) {
-          document.getElementById("seeAllContainer").style.display = "block";
-        } else {
-          document.getElementById("seeAllContainer").style.display = "none";
         }
-        isListExpanded = false;
-      }catch(err){ console.log(err); }
-    }
 
+        document.getElementById("seeAllContainer").style.display = totalCount > 4 ? "block" : "none";
+        isListExpanded = false;
+
+      } catch(err) {
+        console.error("Ecosystem optimization initialization trace error:", err);
+      }
+    }
+    
     function toggleTransactionsLayout() {
       let hiddenItems = document.querySelectorAll(".transactions-stack-box .txn-row-node");
       let btn = document.getElementById("seeAllBtn");
@@ -821,8 +836,7 @@
     }
 
     updateLoginUI();
-    loadWallet();
-    loadTransactions();
+  initEcosystemLoad();
   </script>
 </body>
 </html>
