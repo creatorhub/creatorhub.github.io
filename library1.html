@@ -332,7 +332,7 @@ body{
 <div class="main-wrapper">
     <header class="topbar">
         <div class="page-title"><i class="fa-solid fa-book-open" style="color: var(--accent-blue);"></i> Asset Library Workspace</div>
-        
+         
         <div id="profileWrap" class="profile-wrap">
             <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile View">
             <div id="profileMenu" class="profile-menu">
@@ -403,7 +403,7 @@ body{
 </div>
 
 <script>
-const ADMIN = "ayushprajpati6@email.com";
+const ADMIN = "ayushprajpati6@gmail.com";
 const PRODUCT_API = "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
 const SUBSCRIPTION_API = "https://script.google.com/macros/s/AKfycbyKnVmxYCTskDLpOk_s2Ch1nHnVvD__GVHbnztTCvl4bzYgk7sDx0F1WuJ0CXMORqs/exec";
 
@@ -413,14 +413,41 @@ if(!user){ location.href = "login.html"; }
 let isAdmin = String(user.email).toLowerCase() === String(ADMIN).toLowerCase();
 let ALL_PRODUCTS = [];
 let HAS_SUBSCRIPTION = false;
+let CURRENT_FILTER = "all";
+
+function getOwnerEmail(product){
+    return String(product.email || product.seller_email || product.owner || product.user_email || product.creator_email || "").toLowerCase();
+}
+
+function isOwner(product){
+    return getOwnerEmail(product) === String(user.email).toLowerCase();
+}
+
+function isApproved(product){
+    const status = String(product.status || "").toLowerCase();
+    const aiStatus = String(product.ai_status || product.aiStatus || "").toLowerCase();
+    if(status && status !== "approved") return false;
+    if(aiStatus && aiStatus !== "approved") return false;
+    return true;
+}
+
+function canRead(product){
+    return isAdmin || HAS_SUBSCRIPTION || isOwner(product);
+}
 
 function driveImage(link){
     if(!link) return "https://picsum.photos/500";
-    let id = "";
-    if(link.includes("id=")){ id = link.split("id=")[1].split("&")[0]; }
-    else if(link.includes("/d/")){ id = link.split("/d/")[1].split("/")[0]; }
-    else { id = link; }
-    return "https://drive.google.com/thumbnail?id=" + id + "&sz=w500";
+    if(link.startsWith("data:image")) return link;
+    try {
+        if(link.includes("thumbnail?id=")) return link;
+        let id = "";
+        if(link.includes("id=")){ id = link.split("id=")[1].split("&")[0]; }
+        else if(link.includes("/d/")){ id = link.split("/d/")[1].split("/")[0]; }
+        else { return link; }
+        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+    } catch(e) { 
+        return link; 
+    }
 }
 
 function toggleProfileMenu(){
@@ -450,6 +477,12 @@ function updateLoginUI(){
                 document.getElementById("menuEmail").innerText = data.email || email;
             }
         } catch(e) { console.log("Cache reading failed."); }
+    } else if(user) {
+        const fallbackImg = user.image || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.name || "User") + "&background=2f62e9&color=fff";
+        document.getElementById("profileImage").src = driveImage(fallbackImg);
+        document.getElementById("menuProfileImage").src = driveImage(fallbackImg);
+        document.getElementById("menuName").innerText = user.name || "CreatorHub User";
+        document.getElementById("menuEmail").innerText = user.email || "";
     }
 }
 
@@ -465,11 +498,11 @@ async function checkSubscription(){
     try{
         let res = await fetch(SUBSCRIPTION_API + "?db=subscriptions&t=" + Date.now());
         let response = await res.json();
-        let subs = Array.isArray(response) ? response : (response.subscriptions || []);
+        let subs = Array.isArray(response) ? response : (response.subscriptions || response.data || []);
 
         HAS_SUBSCRIPTION = subs.some(s => 
-            String(s.email).toLowerCase() === String(user.email).toLowerCase() && 
-            String(s.status).toLowerCase() === "active"
+            String(s.email || s.user_email || "").toLowerCase() === String(user.email).toLowerCase() && 
+            String(s.status || "").toLowerCase() === "active"
         );
     }catch(err){
         console.error("Subscription check failed.", err);
@@ -490,25 +523,22 @@ async function loadData(){
         let response = {};
         try { response = JSON.parse(raw); } catch(err) { response = {}; }
 
-        ALL_PRODUCTS = Array.isArray(response) ? response : (response.products || []);
+        ALL_PRODUCTS = Array.isArray(response) ? response : (response.products || response.data || []);
+        ALL_PRODUCTS = ALL_PRODUCTS.filter(isApproved);
 
-        let accessibleBooks = ALL_PRODUCTS.filter(product => {
-            let owner = String(product.owner).toLowerCase() === String(user.email).toLowerCase();
-            
-            // 🚀 ALL ACCESS GRANTED IF SUBSCRIPTION IS ACTIVE: Saari books unlock ho jayengi free read ke liye
-            if (isAdmin || owner || HAS_SUBSCRIPTION) return true;
-            return false;
-        });
+        let visibleBooks = ALL_PRODUCTS.filter(p => isAdmin || HAS_SUBSCRIPTION || isOwner(p));
+        let unlockedBooksCount = visibleBooks.filter(canRead).length;
+        let myUploadsCount = ALL_PRODUCTS.filter(isOwner).length;
 
         /* SET METRICS COUNTERS */
-        document.getElementById("totalBooks").innerText = ALL_PRODUCTS.length;
-        document.getElementById("unlockedBooks").innerText = accessibleBooks.length;
-        document.getElementById("premiumBooks").innerText = ALL_PRODUCTS.length;
+        document.getElementById("totalBooks").innerText = visibleBooks.length;
+        document.getElementById("unlockedBooks").innerText = unlockedBooksCount;
+        document.getElementById("premiumBooks").innerText = myUploadsCount;
         document.getElementById("subscriptionStatus").innerText = HAS_SUBSCRIPTION ? "Active" : "Inactive";
         
         document.getElementById("subBanner").style.display = HAS_SUBSCRIPTION ? "flex" : "none";
 
-        renderBooks("all");
+        renderBooks(CURRENT_FILTER);
     }catch(err){
         console.error(err);
         document.getElementById("library").innerHTML = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation" style="color:var(--red-alert); font-size:36px;"></i><h3>Sync Failure</h3><p>Could not map the global store layout content streams safely.</p></div>';
@@ -516,22 +546,21 @@ async function loadData(){
 }
 
 function renderBooks(type){
+    CURRENT_FILTER = type;
     let box = document.getElementById("library");
     box.innerHTML = "";
 
-    let filtered = ALL_PRODUCTS.filter(product => {
-        if(product.status && product.status !== "approved") return false;
-        let owner = String(product.owner).toLowerCase() === String(user.email).toLowerCase();
-        
-        // 🚀 ALL EBOOKS ALLOWED UNRESTRICTED FOR ACTIVE SUBSCRIPTION
-        let allow = isAdmin || owner || HAS_SUBSCRIPTION;
+    let filtered = [];
 
-        if(type === "uploads") return owner;
-        if(type === "subscription") return HAS_SUBSCRIPTION && allow && !owner;
-        if(type === "purchased") return owner;
-        if(type === "all") return allow;
-        return false;
-    });
+    if(type === "uploads"){
+        filtered = ALL_PRODUCTS.filter(isOwner);
+    } else if(type === "subscription"){
+        filtered = (HAS_SUBSCRIPTION || isAdmin) ? ALL_PRODUCTS.filter(p => !isOwner(p)) : [];
+    } else if(type === "purchased"){
+        filtered = ALL_PRODUCTS.filter(isOwner);
+    } else {
+        filtered = ALL_PRODUCTS.filter(p => isAdmin || HAS_SUBSCRIPTION || isOwner(p));
+    }
 
     if(filtered.length === 0){
         box.innerHTML = '<div class="empty-state"><i class="fa-solid fa-book-bookmark"></i><h3>Shelf Section Empty</h3><p>No active ebook assets registered under this configuration tab.</p></div>';
@@ -539,8 +568,8 @@ function renderBooks(type){
     }
 
     filtered.forEach(product => {
-        let image = driveImage(product.front_cover || product.frontCover || product.image);
-        let owner = String(product.owner).toLowerCase() === String(user.email).toLowerCase();
+        let image = driveImage(product.front_cover || product.frontCover || product.cover || product.image || product.thumbnail);
+        let owner = isOwner(product);
         let allow = isAdmin || owner || HAS_SUBSCRIPTION;
         let isPremiumTag = !allow;
 
@@ -558,9 +587,9 @@ function renderBooks(type){
         box.innerHTML += `
             <div class="asset-card">
                 <img class="cover-wrapper" src="${image}" onerror="this.src='https://picsum.photos/500'" alt="Book Cover" loading="lazy">
-                <h3 class="asset-title">${product.title || "Untitled Digital Asset"}</h3>
-                <div class="asset-author">by ${product.author || "Premium Creator"}</div>
-                <span class="status-badge ${isPremiumTag ? 'premium-tag' : ''}">${isPremiumTag ? "Premium Vault" : "Unlocked"}</span>
+                <h3 class="asset-title">${product.title || product.name || "Untitled Digital Asset"}</h3>
+                <div class="asset-author">by ${product.author || product.author_name || "Premium Creator"}</div>
+                <span class="status-badge ${isPremiumTag ? 'premium-tag' : ''}">${owner ? "Your Ebook" : (isAdmin && !owner ? "Admin Control" : "Unlocked")}</span>
                 ${button}
                 ${manage}
             </div>`;
@@ -571,28 +600,27 @@ function openBook(id){
     let product = ALL_PRODUCTS.find(p => String(p.id) === String(id));
     if(!product){ alert("Book parameters not registered."); return; }
 
-    let owner = String(product.owner).toLowerCase() === String(user.email).toLowerCase();
-    
-    // 🚀 UNRESTRICTED SUBSCRIPTION VALIDATION CHECK
-    let allow = isAdmin || owner || HAS_SUBSCRIPTION;
-
-    if(!allow){
+    if(!canRead(product)){
         alert("Subscription / Purchase validation parameter criteria missing for this premium book.");
         location.href = "subscription.html";
         return;
     }
 
-    let pdf = product.pdf_url || product.pdf || "";
+    let pdf = product.pdf_url || product.file_url || product.pdf || product.pdfUrl || "";
     if(!pdf){ alert("PDF streaming source element link missing."); return; }
 
     localStorage.setItem("viewerPDF", pdf);
     localStorage.setItem("viewerBook", JSON.stringify(product));
-    location.href = "viewer.html?id=" + id;
+    location.href = "viewer.html?id=" + encodeURIComponent(id);
 }
 
 function editBook(id){
+    let product = ALL_PRODUCTS.find(p => String(p.id) === String(id));
+    if(!product){ alert("Book not found."); return; }
+    
     localStorage.setItem("editBookId", id);
-    location.href = "edit-ebook.html";
+    localStorage.setItem("viewerBook", JSON.stringify(product));
+    location.href = "edit-ebook.html?id=" + encodeURIComponent(id);
 }
 
 async function deleteBook(id){
@@ -605,6 +633,7 @@ async function deleteBook(id){
             body: JSON.stringify({ action: "deleteBook", id: id, email: user.email })
         });
         let data = await res.json();
+        if(data.success === false){ throw new Error(data.message || "Delete failed."); }
         alert(data.message || "Entry Removed.");
         loadData();
     }catch(err){ alert("Operational warning trace: " + err.message); }
