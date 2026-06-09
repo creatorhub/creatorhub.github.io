@@ -21,9 +21,7 @@ a{text-decoration:none;color:inherit}
 .topbar-left{display:flex;align-items:center;gap:18px}
 .brand-title{font-size:32px;font-weight:950;letter-spacing:-.04em;color:#06142c}
 .brand-title span{color:#2f62e9}
-.back-btn{
-  cursor:pointer;font-size:15px;font-weight:900;color:#5d6d85;display:inline-flex;align-items:center;gap:8px
-}
+.back-btn{cursor:pointer;font-size:15px;font-weight:900;color:#5d6d85;display:inline-flex;align-items:center;gap:8px}
 .back-btn:hover{color:#2f62e9}
 .dashboard{
   min-height:50px;border-radius:9px;padding:0 22px;background:#2f62e9;color:#fff;font-size:15px;font-weight:900;
@@ -91,25 +89,32 @@ a{text-decoration:none;color:inherit}
   align-self:flex-start;padding:5px 10px;border-radius:999px;margin-top:12px;font-size:11px;font-weight:950;
   background:#e7f8ef;color:#0f9f57;border:1px solid rgba(15,159,87,.1);text-transform:uppercase
 }
-.badge.locked{background:#fff7df;color:#b7791f;border-color:#fde68a}
 .badge.owner{background:#eef4ff;color:#2f62e9;border-color:#bfdbfe}
-.read-btn,.buy-btn{
-  width:100%;min-height:44px;border:none;border-radius:7px;color:#fff;font-size:14px;font-weight:950;margin-top:16px;cursor:pointer
+.badge.admin{background:#f3e8ff;color:#7c3aed;border-color:#ddd6fe}
+
+.read-btn{
+  width:100%;min-height:44px;border:none;border-radius:7px;color:#fff;font-size:14px;font-weight:950;margin-top:16px;cursor:pointer;
+  background:#101c2f
 }
-.read-btn{background:#101c2f}.read-btn:hover{background:#182a64}
-.buy-btn{background:#f97316}.buy-btn:hover{background:#ea580c}
+.read-btn:hover{background:#182a64}
 .actions{display:flex;gap:8px;margin-top:10px}
 .edit,.delete{flex:1;min-height:38px;border:none;border-radius:7px;color:white;font-size:13px;font-weight:900;cursor:pointer}
 .edit{background:#2563eb}.delete{background:#ef4444}
 
-.subscription{
-  position:fixed;left:34px;right:34px;bottom:94px;z-index:998;background:#0d1628;border:1px solid #182a64;
-  padding:22px 28px;border-radius:10px;display:none;align-items:center;justify-content:space-between;gap:20px;
-  box-shadow:0 20px 50px rgba(16,24,40,.15)
+.lockout{
+  grid-column:1/-1;min-height:40vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  background:#fff;border:1px dashed #cbd5e1;border-radius:12px;padding:40px;box-shadow:0 4px 12px rgba(0,0,0,.02)
 }
-.subscription h2{font-size:22px;font-weight:950;color:#fff}
-.subscription p{margin-top:4px;color:#94a3b8;font-size:14px;font-weight:600}
-.manage-btn{min-height:48px;padding:0 22px;border:none;border-radius:7px;background:#2f62e9;color:#fff;font-size:14px;font-weight:950;cursor:pointer}
+.lockout-icon{
+  width:66px;height:66px;border-radius:50%;background:#fff7df;color:#b7791f;display:flex;align-items:center;justify-content:center;
+  font-size:26px;margin-bottom:16px;border:1px solid #fde68a
+}
+.lockout h3{font-size:24px;font-weight:950;color:#06142c}
+.lockout p{color:#63728a;font-size:14px;line-height:1.7;margin-top:8px;max-width:520px}
+.subscribe-btn{
+  min-height:46px;padding:0 22px;border:none;border-radius:8px;background:#2f62e9;color:#fff;font-size:14px;font-weight:950;
+  margin-top:20px;cursor:pointer
+}
 
 .bottom-nav{
   position:fixed;bottom:0;left:0;width:100%;height:78px;background:#fff;display:flex;justify-content:space-around;align-items:center;
@@ -125,9 +130,8 @@ a{text-decoration:none;color:inherit}
 @media(max-width:1200px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:950px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){
-  .topbar{padding:18px 20px}.brand-title{font-size:25px}.container{padding:24px 18px 170px}
+  .topbar{padding:18px 20px}.brand-title{font-size:25px}.dashboard{display:none}.container{padding:24px 18px 170px}
   .hero{display:block}.sub-pill{margin-top:16px;width:max-content}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-  .subscription{left:18px;right:18px;flex-direction:column;text-align:center}.manage-btn{width:100%}
 }
 @media(max-width:500px){.stats{grid-template-columns:1fr}}
 </style>
@@ -166,35 +170,25 @@ a{text-decoration:none;color:inherit}
   <section class="hero">
     <div>
       <h1>Your CreatorHub Shelf</h1>
-      <p>Subscription unlocks every approved ebook. Your own uploaded ebooks always stay unlocked with edit and delete access.</p>
+      <p>Subscribers can read all approved ebooks. Non-subscribers can only see and manage their own uploaded ebooks.</p>
     </div>
     <div id="subPill" class="sub-pill"><i class="fa-solid fa-crown"></i> Subscription Inactive</div>
   </section>
 
   <div class="stats">
-    <div class="stat-box"><div class="icon"><i class="fa-solid fa-book"></i></div><div><h2 id="totalBooks">0</h2><p>Total Books</p></div></div>
-    <div class="stat-box"><div class="icon"><i class="fa-solid fa-unlock-keyhole"></i></div><div><h2 id="unlockedBooks">0</h2><p>Unlocked</p></div></div>
+    <div class="stat-box"><div class="icon"><i class="fa-solid fa-book"></i></div><div><h2 id="visibleBooks">0</h2><p>Visible Books</p></div></div>
+    <div class="stat-box"><div class="icon"><i class="fa-solid fa-unlock-keyhole"></i></div><div><h2 id="readableBooks">0</h2><p>Readable</p></div></div>
     <div class="stat-box"><div class="icon"><i class="fa-solid fa-upload"></i></div><div><h2 id="myUploads">0</h2><p>My Uploads</p></div></div>
     <div class="stat-box"><div class="icon"><i class="fa-solid fa-crown"></i></div><div><h2 id="subscriptionStatus">Inactive</h2><p>Subscription</p></div></div>
   </div>
 
   <div class="tabs">
-    <div class="tab active" onclick="filterBooks('all')">All Books</div>
-    <div class="tab" onclick="filterBooks('unlocked')">Unlocked</div>
-    <div class="tab" onclick="filterBooks('subscription')">Subscription</div>
+    <div class="tab active" onclick="filterBooks('all')">Visible Books</div>
     <div class="tab" onclick="filterBooks('uploads')">My Uploads</div>
-    <div class="tab" onclick="filterBooks('locked')">Locked</div>
+    <div class="tab" onclick="filterBooks('subscription')">Subscription Books</div>
   </div>
 
   <div id="library" class="grid"></div>
-
-  <div class="subscription" id="subBanner">
-    <div>
-      <h2>Active Subscription</h2>
-      <p>All approved ebooks are unlocked for your account.</p>
-    </div>
-    <button class="manage-btn" onclick="location.href='subscription.html'">Manage Subscription</button>
-  </div>
 </div>
 
 <div class="bottom-nav">
@@ -207,7 +201,7 @@ a{text-decoration:none;color:inherit}
 
 <script>
 const ADMIN = "ayushprajpati6@gmail.com";
-const PRODUCT_API = "https://script.google.com/macros/s/AKfycbxIe0DzgOp0CNE8t8V92Llce6gBgCozDQmqlGdr8p2tmSuADOSYpK6z6dX3kuHaC-lM/exec";
+const PRODUCT_API = "https://script.google.com/macros/s/AKfycbzJOpw4PxupFHBXq4UfQq3m16CLV5SJE5o1m07_vuo8S56UYNFx1_rzqTcpFvqgAReZ/exec";
 const SUBSCRIPTION_API = "https://script.google.com/macros/s/AKfycbyKnVmxYCTskDLpOk_s2Ch1nHnVvD__GVHbnztTCvl4bzYgk7sDx0F1WuJ0CXMORqs/exec";
 
 let user = getLoggedUser();
@@ -215,6 +209,7 @@ if(!user.email){ location.href = "login.html"; }
 
 let isAdmin = String(user.email).toLowerCase() === String(ADMIN).toLowerCase();
 let ALL_PRODUCTS = [];
+let VISIBLE_PRODUCTS = [];
 let HAS_SUBSCRIPTION = false;
 let CURRENT_FILTER = "all";
 
@@ -251,6 +246,20 @@ function isApproved(product){
   if(status && status !== "approved") return false;
   if(aiStatus && aiStatus !== "approved") return false;
   return true;
+}
+
+function canRead(product){
+  return isAdmin || HAS_SUBSCRIPTION || isOwner(product);
+}
+
+function canManage(product){
+  return isAdmin || isOwner(product);
+}
+
+function canSee(product){
+  if(isAdmin) return true;
+  if(HAS_SUBSCRIPTION) return true;
+  return isOwner(product);
 }
 
 function driveImage(link){
@@ -318,37 +327,6 @@ async function checkSubscription(){
   }catch(err){
     console.log("Subscription check failed", err);
   }
-
-  const localSub = localStorage.getItem("creatorhub_subscription_status") || localStorage.getItem("subscription_status");
-  if(String(localSub).toLowerCase() === "active") HAS_SUBSCRIPTION = true;
-}
-
-function getPurchasedIds(){
-  const keys = ["purchasedBooks","ownedBooks","unlockedBooks","my_books"];
-  let ids = [];
-
-  keys.forEach(key => {
-    try{
-      const value = JSON.parse(localStorage.getItem(key) || "[]");
-      if(Array.isArray(value)){
-        value.forEach(item => {
-          if(typeof item === "object" && item) ids.push(String(item.id || item.productId || item.product_id || item.book_id || ""));
-          else ids.push(String(item || ""));
-        });
-      }
-    }catch(e){}
-  });
-
-  return ids.filter(Boolean);
-}
-
-function isPurchased(product){
-  const ids = getPurchasedIds();
-  return ids.includes(String(product.id));
-}
-
-function canAccess(product){
-  return isAdmin || isOwner(product) || HAS_SUBSCRIPTION || isPurchased(product);
 }
 
 async function loadData(){
@@ -363,12 +341,13 @@ async function loadData(){
 
     ALL_PRODUCTS = Array.isArray(response) ? response : (response.products || response.data || []);
     ALL_PRODUCTS = ALL_PRODUCTS.filter(isApproved);
+    VISIBLE_PRODUCTS = ALL_PRODUCTS.filter(canSee);
 
-    const unlocked = ALL_PRODUCTS.filter(canAccess);
     const uploads = ALL_PRODUCTS.filter(isOwner);
+    const readable = VISIBLE_PRODUCTS.filter(canRead);
 
-    document.getElementById("totalBooks").innerText = ALL_PRODUCTS.length;
-    document.getElementById("unlockedBooks").innerText = unlocked.length;
+    document.getElementById("visibleBooks").innerText = VISIBLE_PRODUCTS.length;
+    document.getElementById("readableBooks").innerText = readable.length;
     document.getElementById("myUploads").innerText = uploads.length;
     document.getElementById("subscriptionStatus").innerText = HAS_SUBSCRIPTION ? "Active" : "Inactive";
 
@@ -377,8 +356,6 @@ async function loadData(){
     subPill.innerHTML = HAS_SUBSCRIPTION
       ? '<i class="fa-solid fa-crown"></i> Subscription Active'
       : '<i class="fa-solid fa-crown"></i> Subscription Inactive';
-
-    document.getElementById("subBanner").style.display = HAS_SUBSCRIPTION ? "flex" : "none";
 
     renderBooks(CURRENT_FILTER);
   }catch(err){
@@ -391,50 +368,57 @@ function renderBooks(type){
   CURRENT_FILTER = type;
   let box = document.getElementById("library");
 
-  let filtered = ALL_PRODUCTS.filter(product => {
-    const owner = isOwner(product);
-    const access = canAccess(product);
+  let filtered = [];
 
-    if(type === "uploads") return owner;
-    if(type === "subscription") return HAS_SUBSCRIPTION && !owner;
-    if(type === "unlocked") return access;
-    if(type === "locked") return !access;
-    return true;
-  });
+  if(type === "uploads"){
+    filtered = ALL_PRODUCTS.filter(isOwner);
+  }else if(type === "subscription"){
+    filtered = HAS_SUBSCRIPTION || isAdmin ? ALL_PRODUCTS.filter(p => !isOwner(p)) : [];
+  }else{
+    filtered = VISIBLE_PRODUCTS;
+  }
 
   if(filtered.length === 0){
+    if(!HAS_SUBSCRIPTION && !isAdmin && ALL_PRODUCTS.filter(isOwner).length === 0){
+      box.innerHTML = `
+        <div class="lockout">
+          <div class="lockout-icon"><i class="fa-solid fa-lock"></i></div>
+          <h3>No Active Subscription</h3>
+          <p>Your subscription is inactive, so marketplace ebooks are hidden. Activate a subscription to read all approved ebooks, or upload your own ebook to manage it here.</p>
+          <button class="subscribe-btn" onclick="location.href='subscription.html'">Activate Subscription</button>
+        </div>`;
+      return;
+    }
+
     box.innerHTML = '<div class="empty">No ebooks found in this section.</div>';
     return;
   }
 
   box.innerHTML = filtered.map(product => {
     const owner = isOwner(product);
-    const access = canAccess(product);
+    const adminControl = isAdmin && !owner;
     const image = driveImage(product.front_cover || product.frontCover || product.cover || product.image || product.thumbnail);
     const title = escapeHTML(product.title || product.name || "Untitled Ebook");
     const author = escapeHTML(product.author || product.author_name || "Unknown Author");
 
-    let badgeClass = access ? "" : "locked";
-    let badgeText = access ? "Unlocked" : "Locked";
+    let badgeClass = "";
+    let badgeText = "Unlocked";
 
     if(owner){
       badgeClass = "owner";
       badgeText = "Your Ebook";
     }
 
-    let primaryButton = access
-      ? `<button class="read-btn" onclick="openBook('${escapeHTML(product.id)}')"><i class="fa-solid fa-book-open"></i> Read Ebook</button>`
-      : `<button class="buy-btn" onclick="unlockBook('${escapeHTML(product.id)}')"><i class="fa-solid fa-lock"></i> Subscribe / Unlock</button>`;
-
-    let manage = "";
-
-    if(owner || isAdmin){
-      manage = `
-        <div class="actions">
-          <button class="edit" onclick="editBook('${escapeHTML(product.id)}')"><i class="fa-solid fa-pen"></i> Edit</button>
-          <button class="delete" onclick="deleteBook('${escapeHTML(product.id)}')"><i class="fa-solid fa-trash"></i> Delete</button>
-        </div>`;
+    if(adminControl){
+      badgeClass = "admin";
+      badgeText = "Admin Control";
     }
+
+    const manage = canManage(product) ? `
+      <div class="actions">
+        <button class="edit" onclick="editBook('${escapeHTML(product.id)}')"><i class="fa-solid fa-pen"></i> Edit</button>
+        <button class="delete" onclick="deleteBook('${escapeHTML(product.id)}')"><i class="fa-solid fa-trash"></i> Delete</button>
+      </div>` : "";
 
     return `
       <div class="card">
@@ -442,7 +426,7 @@ function renderBooks(type){
         <div class="book-title">${title}</div>
         <div class="author">by ${author}</div>
         <div class="badge ${badgeClass}">${badgeText}</div>
-        ${primaryButton}
+        <button class="read-btn" onclick="openBook('${escapeHTML(product.id)}')"><i class="fa-solid fa-book-open"></i> Read Ebook</button>
         ${manage}
       </div>`;
   }).join("");
@@ -455,8 +439,8 @@ function openBook(id){
     return;
   }
 
-  if(!canAccess(product)){
-    alert("Please subscribe or purchase this ebook to unlock it.");
+  if(!canRead(product)){
+    alert("Subscription is required to read this ebook.");
     location.href = "subscription.html";
     return;
   }
@@ -473,20 +457,16 @@ function openBook(id){
   location.href = "viewer.html?id=" + encodeURIComponent(id);
 }
 
-function unlockBook(id){
-  localStorage.setItem("unlockBookId", id);
-  location.href = "subscription.html";
-}
-
 function editBook(id){
   const product = ALL_PRODUCTS.find(p => String(p.id) === String(id));
+
   if(!product){
     alert("Book not found.");
     return;
   }
 
-  if(!isOwner(product) && !isAdmin){
-    alert("Only the ebook owner can edit this book.");
+  if(!canManage(product)){
+    alert("Only the ebook owner or admin can edit this book.");
     return;
   }
 
@@ -503,8 +483,8 @@ async function deleteBook(id){
     return;
   }
 
-  if(!isOwner(product) && !isAdmin){
-    alert("Only the ebook owner can delete this book.");
+  if(!canManage(product)){
+    alert("Only the ebook owner or admin can delete this book.");
     return;
   }
 
