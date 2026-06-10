@@ -502,6 +502,166 @@
       border-top: 1px solid #dce4f0;
       padding-top: 24px;
     }
+        /* ==========================================================================
+       UPDATED RESPONSIVE DESIGN FOR WALLET CENTER CORE
+       ========================================================================== */
+
+    /* 📑 टैबलेट स्क्रीन्स के लिए (1100px से कम) */
+    @media (max-width: 1100px) {
+      .main {
+        padding: 24px 20px 80px;
+      }
+      .title {
+        font-size: 34px;
+      }
+      .desc {
+        font-size: 15px;
+      }
+      .grid {
+        grid-template-columns: 1fr; /* टू-कॉलम को सिंगल कॉलम में स्टैक किया */
+        gap: 24px;
+      }
+      .balance-amount {
+        font-size: 52px; /* टैबलेट पर मुख्य अमाउंट का साइज छोटा किया */
+      }
+    }
+
+    /* 📱 मोबाइल स्क्रीन्स के लिए (768px से कम) */
+    @media (max-width: 768px) {
+      .topbar {
+        padding: 16px 20px;
+        min-height: auto;
+        flex-direction: column-reverse; /* मोबाइल पर लोगो ऊपर और बैक बटन नीचे रहेगा */
+        align-items: center;
+        gap: 14px;
+        text-align: center;
+      }
+      .topbar-left {
+        width: 100%;
+        justify-content: center;
+      }
+      .badge {
+        display: none; /* मोबाइल हेडर में एक्स्ट्रा बैज छुपाया */
+      }
+      
+      .main {
+        padding: 20px 14px 60px;
+      }
+      .header {
+        margin-bottom: 24px;
+        text-align: center;
+      }
+      .title {
+        font-size: 28px;
+      }
+      .desc {
+        font-size: 14px;
+        margin-top: 8px;
+      }
+
+      .card {
+        padding: 20px 16px; /* मोबाइल स्क्रीन की चौड़ाई बढ़ाने के लिए कार्ड पैडिंग कम की */
+        border-radius: 8px;
+      }
+
+      .balance-title {
+        font-size: 14px;
+        text-align: center;
+      }
+      .balance-amount {
+        font-size: 40px; /* मोबाइल के लिए अमाउंट साइज सेट किया */
+        text-align: center;
+        margin-top: 8px;
+      }
+      .balance-sub {
+        font-size: 13px;
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      /* आंकड़े (Pending, Withdrawn, Earnings) मोबाइल पर भी 3 कॉलम में फिट रहेंगे */
+      .stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-top: 20px;
+      }
+      .stat {
+        padding: 12px 6px;
+        min-height: auto;
+        text-align: center;
+      }
+      .stat h3 {
+        font-size: 10px;
+        letter-spacing: 0;
+      }
+      .stat h2 {
+        font-size: 16px;
+        margin-top: 6px;
+      }
+
+      .actions {
+        flex-direction: column; /* बटन्स को एक के नीचे एक फुल विड्थ किया */
+        gap: 10px;
+        margin-top: 20px;
+      }
+      .btn {
+        width: 100%;
+        min-height: 48px;
+        font-size: 15px;
+      }
+
+      .section-title, .withdraw-title {
+        font-size: 18px;
+        margin-bottom: 16px;
+        text-align: center;
+      }
+
+      .input {
+        min-height: 48px;
+        font-size: 14px;
+        padding: 10px 12px;
+      }
+
+      /* ट्रांजैक्शन रोज़ (Transaction Rows) मोबाइल पर क्लीन दिखेंगी */
+      .txn {
+        padding: 14px 12px;
+        gap: 12px;
+      }
+      .txn-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+      }
+      .txn h3 {
+        font-size: 13px;
+      }
+      .txn p {
+        font-size: 11px;
+      }
+      .txn-amount {
+        font-size: 15px;
+      }
+
+      .regulatory-info {
+        margin-top: 20px;
+      }
+      .info-list {
+        gap: 10px;
+        font-size: 13px;
+      }
+    }
+
+    /* 📱 बहुत छोटे मोबाइल फोन के लिए (480px से कम) */
+    @media (max-width: 480px) {
+      .stats {
+        grid-template-columns: 1fr; /* अत्यधिक छोटे फोन पर स्टेट्स एक के नीचे एक हो जाएंगे */
+        gap: 10px;
+      }
+      .balance-amount {
+        font-size: 34px;
+      }
+    }
+    
   </style>
 </head>
 
