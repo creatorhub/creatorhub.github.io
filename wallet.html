@@ -528,31 +528,40 @@
 
     /* 📱 मोबाइल स्क्रीन्स के लिए (768px से कम) */
     @media (max-width: 768px) {
-      .topbar {
+        /* =====================================================
+     FIXED NAV MATRIX: BOTH LOGO AND AVATAR CHIP ON THE LEFT
+     ===================================================== */
+  .topbar {
     padding: 16px 20px;
     min-height: auto;
     display: flex !important;
-    flex-direction: row !important; /* Forces normal left-to-right reading order */
-    justify-content: space-between !important; /* Pushes logo to left edge, profile to right edge */
+    flex-direction: row !important; /* Keeps horizontal orientation flow */
+    justify-content: flex-start !important; /* Forces all elements to line up tightly on the left */
     align-items: center !important;
-    gap: 10px;
+    gap: 14px; /* Creates the exact spacing gap between the logo text and avatar icon */
     text-align: left;
-      }
-        .topbar-left {
+  }
+
+  /* Arranges the avatar positioning element sequence inside our layout row */
+  .topbar-left {
     display: flex !important;
     align-items: center !important;
     width: auto !important;
     margin: 0 !important;
     padding: 0 !important;
-    order: 2; /* Moves the entire profile image element block to the right side */
-        }
-       .brand-logo {
-    order: 1; /* Locks the CreatorHub text brand token on the absolute left side */
+    order: 2; /* Positions the profile avatar right after the logo text string */
+  }
+
+  .brand-logo {
+    display: flex !important;
+    align-items: center !important;
+    order: 1; /* Locks the main brand text wrapper as the first item on the absolute left */
   }
   
   .brand-name {
-    font-size: 22px !important; /* Scales text down slightly for extra tiny viewports */
+    font-size: 24px !important; /* Keeps branding text neat and clear */
   }
+      
       .badge {
         display: none; /* मोबाइल हेडर में एक्स्ट्रा बैज छुपाया */
       }
