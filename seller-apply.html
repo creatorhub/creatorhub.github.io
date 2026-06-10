@@ -71,9 +71,10 @@ a{text-decoration:none;color:inherit}
 .info-text p{color:#63728a;font-size:14px;line-height:1.6;font-weight:500}
 .footer{margin-top:90px;text-align:center;line-height:1.6;color:#63728a;font-size:14px;font-weight:500;border-top:1px solid #dce4f0;padding-top:26px}
 /* ==========================================================================
-   UPDATED ADAPTIVE MEDIA DEFINITIONS BLOCK
+   UPDATED ENTERPRISE MOBILE & TABLET LAYOUT ENGINE BLOCK
    ========================================================================== */
 
+/* Tablet Optimization Layer */
 @media (max-width: 1050px) {
   .main {
     padding: 24px 20px 80px;
@@ -90,29 +91,48 @@ a{text-decoration:none;color:inherit}
   }
 }
 
+/* Mobile Adaptive Framework Engine */
 @media (max-width: 768px) {
+  /* 🚀 FIXED: Forces horizontal alignment row with avatar first, then text logo next to it */
   .topbar {
-    padding: 16px 20px;
+    padding: 12px 16px;
     min-height: auto;
-    flex-direction: column !important; /* Stacks brand, navigation links, and profile vertically */
+    display: flex !important;
+    flex-direction: row !important; /* Locks linear horizontal orientation row */
+    justify-content: flex-start !important; /* Slams all elements tightly together on the left */
     align-items: center !important;
-    gap: 12px !important;
-    text-align: center;
+    gap: 12px !important; /* Controlled layout gap between avatar icon and text brand mark */
+    text-align: left;
+    flex-wrap: wrap;
   }
   
-  /* FIXED: Adjusted profile wrapper alignment mechanics to center properly under nav rows */
+  /* Forces the profile wrap container to be the first element on the absolute left */
   .profile-wrap {
-    display: inline-flex !important; /* Forces the browser session state trigger to show image */
-    justify-content: center !important;
-    width: 100% !important;
-    margin-top: 6px !important;
+    display: inline-flex !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    order: 1 !important; /* Step 1: Avatar displays first */
   }
 
+  /* Places the CreatorHub branding text right after your avatar */
+  .brand-name {
+    display: inline-flex !important;
+    align-items: center !important;
+    font-size: 22px !important;
+    margin: 0 !important;
+    order: 2 !important; /* Step 2: Text logo clips directly next to it */
+  }
+
+  /* Pushes the navigation links tracking line cleanly beneath the header row */
   .nav {
-    width: 100%;
-    justify-content: center !important;
-    gap: 10px 14px;
-    padding-top: 2px;
+    width: 100% !important;
+    justify-content: flex-start !important; /* Aligns page links to the left side */
+    gap: 10px 16px;
+    padding-top: 8px;
+    border-top: 1px solid #f1f5f9;
+    margin-top: 4px;
+    order: 3 !important;
   }
 
   .nav a {
