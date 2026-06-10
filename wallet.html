@@ -528,27 +528,18 @@
 
     /* 📱 मोबाइल स्क्रीन्स के लिए (768px से कम) */
     @media (max-width: 768px) {
-        /* =====================================================
-     FIXED NAV MATRIX: FORCES AVATAR DIRECTLY NEXT TO LOGO
+          /* =====================================================
+     FIXED NAV MATRIX: AVATAR FIRST, THEN LOGO ON THE LEFT
      ===================================================== */
   .topbar {
     padding: 16px 20px;
     min-height: auto;
     display: flex !important;
-    flex-direction: row !important; /* Keeps standard reading order */
-    justify-content: flex-start !important; /* Slams everything tightly to the left side */
+    flex-direction: row !important; /* Standard linear horizontal reading flow */
+    justify-content: flex-start !important; /* Slams everything directly to the left edge */
     align-items: center !important;
-    gap: 12px !important; /* The exact gap space separating your logo and image */
+    gap: 12px !important; /* Perfect uniform space separating the image and text */
     text-align: left;
-  }
-
-  /* Target your brand logo link container */
-  .brand-logo {
-    display: inline-flex !important;
-    align-items: center !important;
-    width: auto !important;
-    margin: 0 !important;
-    order: 1 !important; /* Forces logo text to appear first */
   }
 
   /* Target your profile avatar wrap element container */
@@ -558,15 +549,24 @@
     width: auto !important;
     margin: 0 !important;
     padding: 0 !important;
-    order: 2 !important; /* Forces profile avatar to clip immediately next to the logo */
+    order: 1 !important; /* FIXED: Forces the avatar image to be the first item on the absolute left */
   }
 
+  /* Target your brand logo link container */
+  .brand-logo {
+    display: inline-flex !important;
+    align-items: center !important;
+    width: auto !important;
+    margin: 0 !important;
+    order: 2 !important; /* FIXED: Places the CreatorHub text logo right after the avatar image */
+  }
+  
   .brand-name {
     font-size: 24px !important;
     white-space: nowrap !important;
   }
 
-  /* Completely eliminates the hidden badge container from taking structural space */
+  /* Ensures the hidden desktop badge container doesn't block structural calculations */
   .topbar .badge {
     display: none !important;
     position: absolute !important;
@@ -576,6 +576,7 @@
     margin: 0 !important;
     padding: 0 !important;
   }
+      
       
       
       .badge {
