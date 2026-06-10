@@ -312,6 +312,190 @@ input:checked + .slider:before { transform: translateX(24px); }
 
 @media(max-width:768px){ .form-grid { grid-template-columns: 1fr; } }
 @keyframes subFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+   /* ==========================================================================
+   UPDATED RESPONSIVE DESIGN FOR SETTINGS CENTER
+   ========================================================================== */
+
+/* Tablet viewports (max-width: 1050px) */
+@media (max-width: 1050px) {
+  .sidebar {
+    width: 70px;
+    padding: 0 !important;
+  }
+  /* Hide sidebar text links on tablets, show only icons */
+  .sidebar-brand span, 
+  .menu-item span {
+    display: none;
+  }
+  .sidebar-brand {
+    padding: 24px 0;
+    text-align: center;
+    font-size: 16px;
+  }
+  .menu-item {
+    padding: 14px;
+    justify-content: center;
+  }
+  /* Adjust workspace left margin for collapsed sidebar */
+  .main-wrapper {
+    margin-left: 70px;
+    width: calc(100% - 70px);
+  }
+  
+  /* Restructure settings layout to a clean single column stacked layout */
+  .settings-container {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 24px;
+  }
+  
+  /* Convert tabs side menu into a horizontal swipeable slider bar */
+  .settings-tabs {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+  
+  .settings-tabs::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for native premium app feel */
+  }
+
+  .tab-btn {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+}
+
+/* Mobile device layout engine (max-width: 768px) */
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+  
+  /* Transform sidebar into a native bottom navigation bar for mobile apps appearance */
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+    height: 65px;
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    flex-direction: row;
+    background-color: var(--sidebar-dark);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+    border-right: 0;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    overflow: hidden;
+    z-index: 999;
+  }
+
+  .sidebar-brand {
+    display: none;
+  }
+
+  .sidebar-menu {
+    flex-direction: row;
+    padding: 0;
+    gap: 0;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .menu-item {
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px;
+    border-radius: 0;
+    flex: 1;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  .menu-item.active {
+    background-color: transparent;
+    color: var(--accent-blue);
+    box-shadow: none;
+  }
+
+  /* Expand workspace to full screen and add bottom padding to avoid navigation overlap */
+  .main-wrapper {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding-bottom: 75px;
+  }
+
+  .topbar {
+    padding: 0 20px;
+    height: 65px;
+  }
+  
+  .page-title {
+    font-size: 16px;
+  }
+
+  .settings-container {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  /* Compact padding adjustment for form configurations card */
+  .settings-card {
+    padding: 20px 16px;
+    border-radius: 10px;
+  }
+
+  .card-title {
+    font-size: 16px;
+  }
+
+  .card-desc {
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+
+  /* Force fields inside form grids to scale cleanly into 1 vertical column */
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-input {
+    min-height: 46px;
+    font-size: 14px;
+  }
+
+  .form-textarea {
+    min-height: 100px;
+    font-size: 14px;
+  }
+
+  .btn-primary, .btn-danger {
+    width: 100%; /* Make execution buttons full width for thumb tap accessibility */
+    min-height: 48px;
+    padding: 12px 20px;
+  }
+}
+
+/* Extreme compact screen optimizations (max-width: 480px) */
+@media (max-width: 480px) {
+  .settings-container {
+    padding: 12px 8px;
+  }
+  .settings-card {
+    padding: 16px 12px;
+  }
+}
+   
 </style>
 </head>
 
