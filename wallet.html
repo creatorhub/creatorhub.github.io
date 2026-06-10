@@ -531,16 +531,28 @@
       .topbar {
     padding: 16px 20px;
     min-height: auto;
-    flex-direction: row-reverse; /* Reverses the flow order so brand logo sits on the left side */
-    justify-content: flex-end;   /* Aligns all items cleanly to the left start point */
-    align-items: center;
-    gap: 16px;                   /* Perfect uniform gap distance between avatar and logo */
+    display: flex !important;
+    flex-direction: row !important; /* Forces normal left-to-right reading order */
+    justify-content: space-between !important; /* Pushes logo to left edge, profile to right edge */
+    align-items: center !important;
+    gap: 10px;
     text-align: left;
       }
-       .topbar-left {
+        .topbar-left {
+    display: flex !important;
+    align-items: center !important;
     width: auto !important;
-    justify-content: flex-start !important;
-       }
+    margin: 0 !important;
+    padding: 0 !important;
+    order: 2; /* Moves the entire profile image element block to the right side */
+        }
+       .brand-logo {
+    order: 1; /* Locks the CreatorHub text brand token on the absolute left side */
+  }
+  
+  .brand-name {
+    font-size: 22px !important; /* Scales text down slightly for extra tiny viewports */
+  }
       .badge {
         display: none; /* मोबाइल हेडर में एक्स्ट्रा बैज छुपाया */
       }
