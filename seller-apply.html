@@ -71,16 +71,15 @@ a{text-decoration:none;color:inherit}
 .info-text p{color:#63728a;font-size:14px;line-height:1.6;font-weight:500}
 .footer{margin-top:90px;text-align:center;line-height:1.6;color:#63728a;font-size:14px;font-weight:500;border-top:1px solid #dce4f0;padding-top:26px}
 /* ==========================================================================
-   UPDATED ENTERPRISE MOBILE & TABLET LAYOUT ENGINE BLOCK
+   UPDATED ADAPTIVE MEDIA DEFINITIONS BLOCK
    ========================================================================== */
 
-/* Tablet Optimization Layer */
 @media (max-width: 1050px) {
   .main {
     padding: 24px 20px 80px;
   }
   .grid {
-    grid-template-columns: 1fr; /* Stacks information cards above the onboarding form */
+    grid-template-columns: 1fr;
     gap: 32px;
   }
   .hero {
@@ -91,24 +90,27 @@ a{text-decoration:none;color:inherit}
   }
 }
 
-/* Mobile Adaptive Framework Engine */
 @media (max-width: 768px) {
   .topbar {
-    padding: 14px 20px;
+    padding: 16px 20px;
     min-height: auto;
-    flex-direction: column; /* Organizes text brand logo and links list linearly */
-    align-items: center;
-    gap: 12px;
+    flex-direction: column !important; /* Stacks brand, navigation links, and profile vertically */
+    align-items: center !important;
+    gap: 12px !important;
     text-align: center;
   }
   
-  .topbar-left {
-    display: none !important; /* Hides empty profile wrapper blocks to maximize screen estate */
+  /* FIXED: Adjusted profile wrapper alignment mechanics to center properly under nav rows */
+  .profile-wrap {
+    display: inline-flex !important; /* Forces the browser session state trigger to show image */
+    justify-content: center !important;
+    width: 100% !important;
+    margin-top: 6px !important;
   }
 
   .nav {
     width: 100%;
-    justify-content: center; /* Centers navigation elements inside touch screens viewports */
+    justify-content: center !important;
     gap: 10px 14px;
     padding-top: 2px;
   }
@@ -138,7 +140,6 @@ a{text-decoration:none;color:inherit}
     margin-top: 10px;
   }
 
-  /* Compact responsive spacing track wrapper for wizard nodes */
   .stepper-container {
     gap: 12px;
     margin-top: 24px;
@@ -157,7 +158,6 @@ a{text-decoration:none;color:inherit}
     letter-spacing: 0.02em;
   }
 
-  /* Compresses padding limits inside the primary content boxes */
   .card {
     padding: 24px 16px;
     border-radius: 8px;
@@ -169,7 +169,6 @@ a{text-decoration:none;color:inherit}
     padding-bottom: 10px;
   }
 
-  /* Forces nested inline data fields into 1 vertical column */
   .form-grid-2 {
     grid-template-columns: 1fr;
     gap: 0;
@@ -177,10 +176,6 @@ a{text-decoration:none;color:inherit}
 
   .input-field {
     margin-bottom: 16px;
-  }
-
-  .input-field label {
-    font-size: 11px;
   }
 
   .input-field input, 
@@ -192,41 +187,24 @@ a{text-decoration:none;color:inherit}
     border-radius: 6px;
   }
 
-  /* Layout alignment fixes for checkboxes row fields */
   .compliance-row {
     margin-top: 14px;
     gap: 10px;
   }
 
-  .compliance-row input {
-    width: 16px;
-    height: 16px;
-    margin-top: 1px;
-  }
-
-  .compliance-row p {
-    font-size: 12px;
-  }
-
-  /* Stack layout navigation triggers controls button lists */
   .nav-buttons {
-    flex-direction: column-reverse; /* Places Back action below Primary action on touch viewports */
+    flex-direction: column-reverse;
     gap: 10px;
     margin-top: 20px;
     padding-top: 16px;
   }
 
   .btn-nav {
-    width: 100%; /* Makes buttons span full screen width for ergonomic accessibility */
+    width: 100%;
     min-height: 46px;
     justify-content: center;
   }
 
-  .btn-nav.next {
-    padding: 0 20px;
-  }
-
-  /* Informational item nodes styling cards compression */
   .info-item {
     padding: 16px;
     border-radius: 8px;
@@ -248,20 +226,19 @@ a{text-decoration:none;color:inherit}
   }
 }
 
-/* Extreme Low Space Viewport Fixes */
 @media (max-width: 380px) {
   .hero-title {
     font-size: 22px;
   }
   .step-label {
-    display: none; /* Hides labels if absolute structural width space restrictions emerge */
+    display: none;
   }
   .stepper-container {
     justify-content: center;
     gap: 16px;
   }
 }
-  
+   
 </style>
 </head>
 
@@ -283,7 +260,7 @@ a{text-decoration:none;color:inherit}
         <a href="tranding.html">Trending Books</a>
         <a href="library1.html">Library</a>
         <a href="topselling.html">Top Selling</a>
-        <div class="logout-btn" onclick="logout()">Logout</div>
+        
       </div>
     </div>
   </div>
