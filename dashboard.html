@@ -139,24 +139,180 @@ td{color:#101828;font-size:14px}
 .review-text{color:#63728a;font-size:14px;line-height:1.6}
 .empty{color:#63728a;padding:18px 0}
 
-/* FLUID CORE SIDEBAR COLLAPSIBLE VIEW QUERIES */
-@media(max-width:1050px){
-    .sidebar { width: 70px; padding: 0 !important; }
-    .sidebar-brand span, .menu-item span { display: none; }
-    .sidebar-brand { padding: 24px 0; text-align: center; font-size: 18px; }
-    .menu-item { padding: 14px; justify-content: center; }
-    .main { margin-left: 70px !important; width: calc(100% - 70px) !important; }
+/* ==========================================================================
+   डैशबोर्ड के लिए नया और अपडेटेड रिस्पॉन्सिव डिज़ाइन
+   ========================================================================== */
+
+/* 📑 टैबलेट स्क्रीन्स के लिए (1050px से कम) */
+@media (max-width: 1050px) {
+  .sidebar {
+    width: 70px;
+    padding: 0 !important;
+  }
+  /* टैबलेट में साइडबार के टेक्स्ट छुप जाएंगे और सिर्फ आइकॉन्स दिखेंगे */
+  .sidebar-brand span, 
+  .menu-item span {
+    display: none;
+  }
+  .sidebar-brand {
+    padding: 24px 0;
+    text-align: center;
+    font-size: 16px;
+  }
+  .menu-item {
+    padding: 14px;
+    justify-content: center;
+  }
+  /* मुख्य कंटेंट एरिया का मार्जिन एडजस्ट करने के लिए */
+  .main {
+    margin-left: 70px !important;
+    width: calc(100% - 70px) !important;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr); /* 4 कॉलम से बदलकर 2 कॉलम */
+    gap: 16px;
+  }
 }
-@media(max-width:1220px){
-.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-.content-grid{grid-template-columns:1fr}
+
+/* 💻 छोटे लैपटॉप और मीडियम टैबलेट के लिए (1220px से कम) */
+@media (max-width: 1220px) {
+  .content-grid {
+    grid-template-columns: 1fr; /* ग्राफ और वॉलेट अब ऊपर-नीचे दिखेंगे */
+  }
 }
-@media(max-width:640px){
-.sidebar,.topbar,.content{padding:22px}
-.stats-grid,.review-grid{grid-template-columns:1fr}
-.title h1{font-size:34px}
-.profile-box{width:100%}
+
+/* 📱 मोबाइल स्क्रीन्स के लिए (768px से कम) */
+@media (max-width: 768px) {
+  body {
+    flex-direction: column; /* मोबाइल में साइडबार ऊपर या नीचे फिक्स होगा */
+    overflow: auto;
+  }
+  
+  /* 🚀 मोबाइल पर साइडबार नीचे (Bottom Navigation Bar) की तरह काम करेगा, जिससे प्रीमियम लुक आएगा */
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+    height: 65px;
+    position: fixed;
+    top: auto;
+    bottom: 0; /* स्क्रीन के सबसे नीचे सेट करने के लिए */
+    left: 0;
+    flex-direction: row;
+    background-color: #0f172a;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+    border-right: 0;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    overflow: hidden;
+  }
+
+  .sidebar-brand {
+    display: none; /* मोबाइल में नीचे ब्रांड नेम की जरूरत नहीं है */
+  }
+
+  .sidebar-menu {
+    flex-direction: row; /* सारे मेनू अब एक लाइन में दिखेंगे */
+    padding: 0;
+    gap: 0;
+    width: 100%;
+    justify-content: space-around; /* बराबर दूरी पर सेट करने के लिए */
+    align-items: center;
+  }
+
+  .menu-item {
+    flex-direction: column; /* आइकॉन ऊपर और नाम नीचे (अगर दिखाना चाहें, पर यहाँ सिर्फ आइकॉन दिखेगा) */
+    gap: 4px;
+    padding: 8px;
+    border-radius: 0;
+    flex: 1;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  .menu-item.active {
+    background-color: transparent; /* नीचे वाले बार में बैकग्राउंड कलर हटाकर सिर्फ आइकॉन चमकेगा */
+    color: #2f62e9;
+    box-shadow: none;
+  }
+
+  /* मोबाइल में मुख्य एरिया पूरी स्क्रीन कवर करेगा और नीचे 65px की जगह छोड़ेगा ताकि मेनू न छुपे */
+  .main {
+    margin-left: 0 !important;
+    width: 100% !important;
+    height: auto;
+    padding-bottom: 75px; /* बॉटम बार के लिए पैडिंग */
+  }
+
+  .topbar {
+    min-height: auto;
+    padding: 16px;
+    flex-direction: column; /* हेडर टाइटल और प्रोफाइल बॉक्स ऊपर-नीचे होंगे */
+    align-items: flex-start;
+    gap: 16px;
+    background: #fff;
+  }
+
+  .title h1 {
+    font-size: 28px;
+  }
+
+  .title p {
+    font-size: 14px;
+    margin-top: 4px;
+  }
+
+  .profile-box {
+    width: 100%; /* मोबाइल में प्रोफाइल बॉक्स पूरा बड़ा दिखेगा */
+    min-width: 100%;
+    justify-content: flex-start;
+  }
+
+  .content {
+    padding: 16px;
+    gap: 20px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr; /* मोबाइल पर आंकड़े एक के नीचे एक 1 कॉलम में आएंगे */
+    gap: 14px;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  .card h2 {
+    font-size: 32px;
+  }
+
+  .chart-card {
+    min-height: 320px;
+  }
+
+  /* रिसेंट ऑर्डर्स की पूरी रो मोबाइल पर एक कार्ड की तरह दिखेगी */
+  #ordersTable tr {
+    display: grid;
+    gap: 6px;
+    padding: 14px 0;
+    border-bottom: 1px solid #dce4f0;
+  }
+  
+  #ordersTable td {
+    padding: 2px 0;
+    border: none;
+  }
+
+  /* रीव्यूस को एक कॉलम में सेट करने के लिए */
+  .review-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .review-item {
+    border-radius: 14px; /* मोबाइल पर गोल घेरा हटाकर स्मूथ बॉर्डर रेडियस */
+    padding: 14px;
+  }
 }
+   
 </style>
 </head>
 
