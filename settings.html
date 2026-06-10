@@ -304,7 +304,20 @@ input:checked + .slider:before { transform: translateX(24px); }
 }
 .btn-danger:hover { background: var(--red-alert); color: white; }
 
-/* MEDIA INTERACTION COLLAPSIBLE SCALES */
+/* =====================================================
+   FIXED DYNAMIC DATA ALERT & RESPONSE CONTAINER
+   ===================================================== */
+.msg-box {
+    display: none; /* Fixed: Hides the empty red box from showing by default */
+    padding: 14px 18px; 
+    border-radius: 8px; 
+    font-size: 14px; 
+    font-weight: 700; 
+    margin-bottom: 24px; 
+}
+.msg-box.success { display: block; color: #166534; background: #dcfce7; border: 1px solid #bbf7d0; }
+.msg-box.error { display: block; color: #991b1b; background: #fee2e2; border: 1px solid #fecaca; }
+
 /* ==========================================================================
    UPDATED TABLET & MOBILE VIEWPORT MATRIX WITH FIXED MARGINS
    ========================================================================== */
@@ -320,10 +333,8 @@ input:checked + .slider:before { transform: translateX(24px); }
   .sidebar-brand {
     padding: 24px 0;
     text-align: center;
-    font-size: 16px;
   }
   .menu-item {
-    padding: 14px;
     justify-content: center;
   }
   .main-wrapper {
@@ -331,36 +342,37 @@ input:checked + .slider:before { transform: translateX(24px); }
     width: calc(100% - 70px);
   }
   
-  /* Single vertical column container configuration spacing */
+  /* Single vertical column container configuration */
   .settings-container {
     grid-template-columns: 1fr;
-    gap: 20px; /* Creates clean viewport margins */
-    padding: 20px 16px;
+    gap: 24px;
+    padding: 20px;
   }
   
   /* Horizontal swipe track layout container */
   .settings-tabs {
-    display: flex;
     flex-direction: row;
     overflow-x: auto;
-    padding: 4px 4px 14px 4px; /* Added bottom padding inside track */
-    gap: 12px; /* Keeps perfect uniform distance between tabs */
+    padding: 4px 4px 8px 4px; 
+    gap: 12px; 
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
     width: 100%;
-    margin-bottom: 12px; /* Fixed: Creates spacing between sliders track and form cards */
+    margin-bottom: 24px; /* Fixed: Creates perfect spacing below the buttons slider */
   }
   
   .settings-tabs::-webkit-scrollbar {
-    display: none; /* Blinds scrollbar frame structure overlay */
+    display: none; 
   }
 
-  /* Ensures absolute size continuity across mobile platforms */
-  .tab-btn.active {
+  /* Keeps button size fixed and perfectly aligned on mobile */
+  .tab-btn, .tab-btn.active {
     padding: 10px 16px !important;
     font-size: 13px !important;
+    height: 40px !important;
   }
 }
+   
    
 @media(max-width:768px){ .form-grid { grid-template-columns: 1fr; } }
 @keyframes subFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
