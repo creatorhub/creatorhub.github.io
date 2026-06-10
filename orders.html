@@ -9,183 +9,146 @@
 <title>My Orders</title>
 
 <style>
-
-body{
-margin:0;
-font-family:Arial;
-background:#020617;
-color:white;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #020617;
+  color: white;
 }
 
-/* HEADER */
-
-.topbar{
-display:flex;
-align-items:center;
-padding:15px;
-background:#020617;
-box-shadow:0 5px 20px black;
-position:sticky;
-top:0;
-z-index:99;
+/* =====================================================
+   HEADER & TOPBAR STYLES
+   ===================================================== */
+.topbar {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background: #020617;
+  box-shadow: 0 5px 20px black;
+  position: sticky;
+  top: 0;
+  z-index: 99;
 }
 
-.back{
-font-size:22px;
-cursor:pointer;
-width:40px;
+.back {
+  font-size: 22px;
+  cursor: pointer;
+  width: 40px;
 }
 
-.title{
-flex:1;
-text-align:center;
-color:#22c55e;
-font-weight:bold;
+.title {
+  flex: 1;
+  text-align: center;
+  color: #22c55e;
+  font-weight: bold;
 }
 
-/* CONTAINER */
-
-.container{
-max-width:900px;
-margin:auto;
-padding:20px;
-animation:fadeUp .6s ease;
+/* =====================================================
+   CONTAINER & CORE STRUCTURE
+   ===================================================== */
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  animation: fadeUp .6s ease;
 }
 
-/* CARD */
-
-.card{
-background:#111827;
-padding:20px;
-border-radius:14px;
-margin-bottom:15px;
-display:flex;
-gap:15px;
-align-items:center;
-box-shadow:0 10px 25px rgba(0,0,0,.5);
-transition:.3s;
+/* =====================================================
+   ORDER CARDS LOGS SYSTEM
+   ===================================================== */
+.card {
+  background: #111827;
+  padding: 20px;
+  border-radius: 14px;
+  margin-bottom: 15px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,.5);
+  transition: .3s;
 }
 
-.card:hover{
-transform:translateY(-5px);
-box-shadow:0 15px 35px rgba(0,0,0,.8);
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0,0,0,.8);
 }
 
-.cover{
-width:80px;
-height:110px;
-object-fit:cover;
-border-radius:8px;
+.cover {
+  width: 80px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
-.info{
-flex:1;
+.info {
+  flex: 1;
 }
 
-/* STATUS */
-
-.status{
-padding:6px 12px;
-border-radius:8px;
-font-size:13px;
-display:inline-block;
-margin-top:6px;
-font-weight:bold;
+.info b:first-child {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
 }
 
-.placed{background:#f59e0b}
-.printing{background:#3b82f6}
-.shipped{background:#6366f1}
-.delivery{background:#10b981}
-.delivered{background:#22c55e}
-
-/* EMPTY */
-
-.empty{
-text-align:center;
-padding:60px;
-opacity:.7;
+/* =====================================================
+   STATUS CHIPS BACKGROUND MATRIX
+   ===================================================== */
+.status {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  display: inline-block;
+  margin-top: 6px;
+  font-weight: bold;
 }
 
-/* LOADER */
+.placed { background: #f59e0b; }
+.printing { background: #3b82f6; }
+.shipped { background: #6366f1; }
+.delivery { background: #10b981; }
+.delivered { background: #22c55e; }
 
-.loader{
-text-align:center;
-padding:40px;
-font-size:18px;
-animation:pulse 1.5s infinite;
+.empty {
+  text-align: center;
+  padding: 60px;
+  opacity: .7;
 }
 
-@keyframes pulse{
-0%{opacity:.4}
-50%{opacity:1}
-100%{opacity:.4}
+.loader {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  animation: pulse 1.5s infinite;
 }
 
-/* PAGE ANIMATION */
-
-@keyframes fadeUp{
-
-0%{
-opacity:0;
-transform:translateY(40px);
+/* =====================================================
+   ANIMATIONS TRACK KEYFRAMES
+   ===================================================== */
+@keyframes pulse {
+  0% { opacity: .4; }
+  50% { opacity: 1; }
+  100% { opacity: .4; }
 }
 
-100%{
-opacity:1;
-transform:translateY(0);
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(40px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
-}
+/* =====================================================
+   RESPONSIVE LAYOUT ENGINE (FIXED BRACKET CLOSINGS)
+   ===================================================== */
 
-/* TABLET */
-@media (max-width: 768px){
-
-.container{
-padding:12px;
-}
-
-.card{
-display:flex;
-flex-direction:row;
-align-items:flex-start;
-padding:14px;
-gap:12px;
-border-radius:12px;
-}
-
-.cover{
-width:70px;
-height:95px;
-min-width:70px;
-object-fit:cover;
-}
-
-.info{
-flex:1;
-font-size:13px;
-line-height:1.5;
-word-break:break-word;
-}
-
-.info b:first-child{
-font-size:15px;
-display:block;
-margin-bottom:4px;
-}
-
-.status{
-font-size:11px;
-padding:5px 10px;
-}
-
+/* Tablet Viewport Configuration */
+@media (max-width: 768px) {
   .topbar {
     padding: 12px 16px;
     display: flex !important;
     align-items: center !important;
     justify-content: flex-start !important;
   }
-
   .back {
     font-size: 20px;
     width: auto;
@@ -193,75 +156,93 @@ padding:5px 10px;
     order: 1;
     padding-right: 8px;
   }
-
   .title {
     font-size: 18px;
-    text-align: left !important; /* मोबाइल पर हेडर ऐप जैसा लुक देगा */
+    text-align: left !important;
     order: 2;
   }
-  
-
-/* MOBILE */
-@media (max-width:480px){
-
-.container{
-padding:10px;
+  .container {
+    padding: 12px;
+  }
+  .card {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 14px;
+    gap: 12px;
+    border-radius: 12px;
+  }
+  .cover {
+    width: 70px;
+    height: 95px;
+    min-width: 70px;
+    object-fit: cover;
+  }
+  .info {
+    flex: 1;
+    font-size: 13px;
+    line-height: 1.5;
+    word-break: break-word;
+  }
+  .info b:first-child {
+    font-size: 15px;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .status {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
 }
 
-.card{
-padding:12px;
-gap:10px;
+/* Mobile Viewport Configuration */
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+  .card {
+    padding: 12px;
+    gap: 10px;
+  }
+  .cover {
+    width: 60px;
+    height: 85px;
+    min-width: 60px;
+  }
+  .info {
+    font-size: 12px;
+  }
+  .info b:first-child {
+    font-size: 14px;
+  }
+  .status {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+  .title {
+    font-size: 17px;
+  }
 }
 
-.cover{
-width:60px;
-height:85px;
-min-width:60px;
+/* Extra Small Screens Framework */
+@media (max-width: 360px) {
+  .cover {
+    width: 55px;
+    height: 80px;
+    min-width: 55px;
+  }
+  .info {
+    font-size: 11px;
+  }
+  .info b:first-child {
+    font-size: 13px;
+  }
+  .status {
+    font-size: 9px;
+  }
 }
-
-.info{
-font-size:12px;
-}
-
-.info b:first-child{
-font-size:14px;
-}
-
-.status{
-font-size:10px;
-padding:4px 8px;
-}
-
-.title{
-font-size:17px;
-}
-
-}
-
-/* EXTRA SMALL DEVICES */
-@media (max-width:360px){
-
-.cover{
-width:55px;
-height:80px;
-min-width:55px;
-}
-
-.info{
-font-size:11px;
-}
-
-.info b:first-child{
-font-size:13px;
-}
-
-.status{
-font-size:9px;
-}
-
-}
-
 </style>
+  
 
 </head>
 
