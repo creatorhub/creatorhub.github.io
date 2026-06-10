@@ -335,88 +335,107 @@ return Array.isArray(data)?data:[]
 
 }
 
-/* LOAD ORDERS WITHOUT FLICKERING */
-let PREVIOUS_DATA_HASH = ""; // Tracks modifications to stop refresh flashes
+/* LOAD ORDERS */
 
-async function loadOrders() {
-  let box = document.getElementById("orders");
+async function loadOrders(){
 
-  try {
-    let orders = await getDB(ORDER_API, "orders");
-    let products = await getDB(PRODUCT_API, "products");
+let box=document.getElementById("orders")
 
-    /* ONLY PAID ORDERS */
-    let myOrders = orders.filter(o =>
-      o.buyer === user.email &&
-      (o.payment === "paid" || o.status === "paid")
-    );
+try{
 
-    myOrders.reverse();
+let orders=await getDB(ORDER_API,"orders")
+let products=await getDB(PRODUCT_API,"products")
 
-    // Create a unique footprint layout representation to compare changes
-    let currentHash = JSON.stringify(myOrders.map(o => ({ id: o.id, status: o.status })));
-    
-    // If nothing changed, block innerHTML execution to eliminate flickering loops
-    if (currentHash === PREVIOUS_DATA_HASH && box.querySelectorAll('.card').length > 0) {
-      return; 
-    }
-    PREVIOUS_DATA_HASH = currentHash;
+/* ONLY PAID ORDERS */
 
-    if (myOrders.length === 0) {
-      box.innerHTML = "<div class='empty'>No orders yet 📦</div>";
-      return;
-    }
+let myOrders = orders.filter(o=>
+o.buyer===user.email &&
+(o.payment==="paid" || o.status==="paid")
+)
 
-    let htmlContent = "";
+myOrders.reverse()
 
-    myOrders.forEach(o => {
-      let product = products.find(p => String(p.id) === String(o.productId));
+if(myOrders.length===0){
 
-      /* APPROVED CHECK */
-      if (product && product.ai_status && product.ai_status !== "approved") return;
+box.innerHTML="<div class='empty'>No orders yet 📦</div>"
+return
 
-      let title = product ? product.title : "Unknown Product";
-      let image = product ? product.image : "";
-      let status = o.status || "Order Placed";
-      let statusClass = "placed";
+}
 
-      if (status === "Printing") statusClass = "printing";
-      if (status === "Shipped") statusClass = "shipped";
-      if (status === "Out for Delivery") statusClass = "delivery";
-      if (status === "Delivered") statusClass = "delivered";
+box.innerHTML=""
 
-      let date = o.date ? new Date(o.date).toLocaleDateString() : "";
+myOrders.forEach(o=>{
 
-      htmlContent += `
-        <div class="card">
-          <img class="cover" src="${driveImage(image)}" onerror="this.src='https://picsum.photos/200'">
-          <div class="info">
-            <b>${escapeHTML(title)}</b>
-            <br><br>
-            <b>Order ID:</b> ${escapeHTML(o.id)}
-            <br>
-            <b>Amount:</b> ₹ ${Number(o.amount || 0).toLocaleString("en-IN")}
-            <br>
-            <b>Date:</b> ${date}
-            <br><br>
-            <span class="status ${statusClass}">
-              ${escapeHTML(status)}
-            </span>
-          </div>
-        </div>
-      `;
-    });
+let product=products.find(
+p=>String(p.id)===String(o.productId)
+)
 
-    box.innerHTML = htmlContent;
+/* APPROVED CHECK */
 
-  } catch (e) {
-    // Keep showing existing cards if network request breaks temporarily
-    if(box.querySelectorAll('.card').length === 0) {
-      box.innerHTML = "Failed to load orders ❌";
-    }
-  }
-  }
-  
+if(product && product.ai_status && product.ai_status!=="approved")
+return
+
+let title=product?product.title:"Unknown Product"
+let image=product?product.image:""
+
+let status=o.status || "Order Placed"
+
+let statusClass="placed"
+
+if(status==="Printing") statusClass="printing"
+if(status==="Shipped") statusClass="shipped"
+if(status==="Out for Delivery") statusClass="delivery"
+if(status==="Delivered") statusClass="delivered"
+
+/* DATE FIX */
+
+let date = o.date ? new Date(o.date).toLocaleDateString() : ""
+
+box.innerHTML+=`
+
+<div class="card">
+
+<img class="cover"
+src="${driveImage(image)}">
+
+<div class="info">
+
+<b>${escapeHTML(title)}</b>
+
+<br><br>
+
+<b>Order ID:</b> ${escapeHTML(o.id)}
+
+<br>
+
+<b>Amount:</b> ₹ ${Number(o.amount||0)}
+
+<br>
+
+<b>Date:</b> ${date}
+
+<br><br>
+
+<span class="status ${statusClass}">
+${escapeHTML(status)}
+</span>
+
+</div>
+
+</div>
+
+`
+
+})
+
+}catch(e){
+
+box.innerHTML="Failed to load orders ❌"
+
+}
+
+}
+
 /* INIT */
 
 loadOrders()
