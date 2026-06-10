@@ -179,21 +179,27 @@ font-size:11px;
 padding:5px 10px;
 }
 
-.topbar{
-padding:12px 14px;
-}
+  .topbar {
+    padding: 12px 16px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+  }
 
-.title{
-text-align:center;
-font-size:18px;
-}
+  .back {
+    font-size: 20px;
+    width: auto;
+    cursor: pointer;
+    order: 1;
+    padding-right: 8px;
+  }
 
-.back{
-width:30px;
-font-size:18px;
-}
-
-}
+  .title {
+    font-size: 18px;
+    text-align: left !important; /* मोबाइल पर हेडर ऐप जैसा लुक देगा */
+    order: 2;
+  }
+  
 
 /* MOBILE */
 @media (max-width:480px){
@@ -348,107 +354,88 @@ return Array.isArray(data)?data:[]
 
 }
 
-/* LOAD ORDERS */
+/* LOAD ORDERS WITHOUT FLICKERING */
+let PREVIOUS_DATA_HASH = ""; // Tracks modifications to stop refresh flashes
 
-async function loadOrders(){
+async function loadOrders() {
+  let box = document.getElementById("orders");
 
-let box=document.getElementById("orders")
+  try {
+    let orders = await getDB(ORDER_API, "orders");
+    let products = await getDB(PRODUCT_API, "products");
 
-try{
+    /* ONLY PAID ORDERS */
+    let myOrders = orders.filter(o =>
+      o.buyer === user.email &&
+      (o.payment === "paid" || o.status === "paid")
+    );
 
-let orders=await getDB(ORDER_API,"orders")
-let products=await getDB(PRODUCT_API,"products")
+    myOrders.reverse();
 
-/* ONLY PAID ORDERS */
+    // Create a unique footprint layout representation to compare changes
+    let currentHash = JSON.stringify(myOrders.map(o => ({ id: o.id, status: o.status })));
+    
+    // If nothing changed, block innerHTML execution to eliminate flickering loops
+    if (currentHash === PREVIOUS_DATA_HASH && box.querySelectorAll('.card').length > 0) {
+      return; 
+    }
+    PREVIOUS_DATA_HASH = currentHash;
 
-let myOrders = orders.filter(o=>
-o.buyer===user.email &&
-(o.payment==="paid" || o.status==="paid")
-)
+    if (myOrders.length === 0) {
+      box.innerHTML = "<div class='empty'>No orders yet 📦</div>";
+      return;
+    }
 
-myOrders.reverse()
+    let htmlContent = "";
 
-if(myOrders.length===0){
+    myOrders.forEach(o => {
+      let product = products.find(p => String(p.id) === String(o.productId));
 
-box.innerHTML="<div class='empty'>No orders yet 📦</div>"
-return
+      /* APPROVED CHECK */
+      if (product && product.ai_status && product.ai_status !== "approved") return;
 
-}
+      let title = product ? product.title : "Unknown Product";
+      let image = product ? product.image : "";
+      let status = o.status || "Order Placed";
+      let statusClass = "placed";
 
-box.innerHTML=""
+      if (status === "Printing") statusClass = "printing";
+      if (status === "Shipped") statusClass = "shipped";
+      if (status === "Out for Delivery") statusClass = "delivery";
+      if (status === "Delivered") statusClass = "delivered";
 
-myOrders.forEach(o=>{
+      let date = o.date ? new Date(o.date).toLocaleDateString() : "";
 
-let product=products.find(
-p=>String(p.id)===String(o.productId)
-)
+      htmlContent += `
+        <div class="card">
+          <img class="cover" src="${driveImage(image)}" onerror="this.src='https://picsum.photos/200'">
+          <div class="info">
+            <b>${escapeHTML(title)}</b>
+            <br><br>
+            <b>Order ID:</b> ${escapeHTML(o.id)}
+            <br>
+            <b>Amount:</b> ₹ ${Number(o.amount || 0).toLocaleString("en-IN")}
+            <br>
+            <b>Date:</b> ${date}
+            <br><br>
+            <span class="status ${statusClass}">
+              ${escapeHTML(status)}
+            </span>
+          </div>
+        </div>
+      `;
+    });
 
-/* APPROVED CHECK */
+    box.innerHTML = htmlContent;
 
-if(product && product.ai_status && product.ai_status!=="approved")
-return
-
-let title=product?product.title:"Unknown Product"
-let image=product?product.image:""
-
-let status=o.status || "Order Placed"
-
-let statusClass="placed"
-
-if(status==="Printing") statusClass="printing"
-if(status==="Shipped") statusClass="shipped"
-if(status==="Out for Delivery") statusClass="delivery"
-if(status==="Delivered") statusClass="delivered"
-
-/* DATE FIX */
-
-let date = o.date ? new Date(o.date).toLocaleDateString() : ""
-
-box.innerHTML+=`
-
-<div class="card">
-
-<img class="cover"
-src="${driveImage(image)}">
-
-<div class="info">
-
-<b>${escapeHTML(title)}</b>
-
-<br><br>
-
-<b>Order ID:</b> ${escapeHTML(o.id)}
-
-<br>
-
-<b>Amount:</b> ₹ ${Number(o.amount||0)}
-
-<br>
-
-<b>Date:</b> ${date}
-
-<br><br>
-
-<span class="status ${statusClass}">
-${escapeHTML(status)}
-</span>
-
-</div>
-
-</div>
-
-`
-
-})
-
-}catch(e){
-
-box.innerHTML="Failed to load orders ❌"
-
-}
-
-}
-
+  } catch (e) {
+    // Keep showing existing cards if network request breaks temporarily
+    if(box.querySelectorAll('.card').length === 0) {
+      box.innerHTML = "Failed to load orders ❌";
+    }
+  }
+  }
+  
 /* INIT */
 
 loadOrders()
