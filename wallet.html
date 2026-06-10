@@ -529,17 +529,18 @@
     /* 📱 मोबाइल स्क्रीन्स के लिए (768px से कम) */
     @media (max-width: 768px) {
       .topbar {
-        padding: 16px 20px;
-        min-height: auto;
-        flex-direction: column-reverse; /* मोबाइल पर लोगो ऊपर और बैक बटन नीचे रहेगा */
-        align-items: center;
-        gap: 14px;
-        text-align: center;
+    padding: 16px 20px;
+    min-height: auto;
+    flex-direction: row-reverse; /* Reverses the flow order so brand logo sits on the left side */
+    justify-content: flex-end;   /* Aligns all items cleanly to the left start point */
+    align-items: center;
+    gap: 16px;                   /* Perfect uniform gap distance between avatar and logo */
+    text-align: left;
       }
-      .topbar-left {
-        width: 100%;
-        justify-content: center;
-      }
+       .topbar-left {
+    width: auto !important;
+    justify-content: flex-start !important;
+       }
       .badge {
         display: none; /* मोबाइल हेडर में एक्स्ट्रा बैज छुपाया */
       }
