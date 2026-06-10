@@ -242,20 +242,121 @@ input:focus{
 }
 .loader.show{display:block}
 
-@media(max-width:1050px){
-  .page{grid-template-columns:1fr}
-  .hero{border-right:0;border-bottom:1px solid var(--line);padding:46px 30px}
-  h1{font-size:44px}
+/* ==========================================================================
+   लॉगिन पेज के लिए नया और अपडेटेड रिस्पॉन्सिव डिज़ाइन
+   ========================================================================== */
+
+/* 💻 छोटे लैपटॉप और बड़ी टैबलेट स्क्रीन्स के लिए (1050px से कम) */
+@media (max-width: 1050px) {
+  .page {
+    grid-template-columns: 1fr; /* बायां और दायां हिस्सा एक के नीचे एक आ जाएगा */
+  }
+  .hero {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 46px 40px;
+  }
+  h1 {
+    font-size: 44px;
+  }
+  /* नया जोड़ा गया 4-बॉक्स वाला सेक्शन अब 2 कॉलम में ही रहेगा */
+  .hero > div[style*="display: grid"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+  }
 }
-@media(max-width:680px){
-  .topbar{align-items:flex-start;flex-direction:column;padding:18px 20px}
-  .nav{gap:14px}
-  .hero{padding:34px 20px}
-  .stats{grid-template-columns:1fr}
-  .auth{padding:34px 20px}
-  h2{font-size:30px}
-  .row{grid-template-columns:1fr}
+
+/* 📱 मोबाइल और छोटी टैबलेट स्क्रीन्स के लिए (768px से कम) */
+@media (max-width: 768px) {
+  .topbar {
+    padding: 14px 20px;
+    min-height: auto;
+    flex-direction: column; /* हेडर के लिंक्स को ऊपर-नीचे करने के लिए */
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .nav {
+    width: 100%;
+    justify-content: center; /* लिंक्स मोबाइल में बीच में दिखेंगे */
+    gap: 10px 16px;
+  }
+
+  .nav a {
+    font-size: 13px;
+  }
+
+  .home {
+    min-height: 36px;
+    padding: 0 12px;
+    font-size: 12px;
+  }
+
+  .hero {
+    padding: 34px 20px;
+  }
+
+  h1 {
+    font-size: 32px;
+  }
+
+  .hero p {
+    font-size: 15px;
+  }
+
+  /* 💡 मोबाइल पर चारों फीचर्स बॉक्स अब एक के नीचे एक सुंदर तरीके से आएंगे */
+  .hero > div[style*="display: grid"] {
+    grid-template-columns: 1fr !important; /* 2 कॉलम से बदलकर 1 कॉलम */
+    gap: 20px !important;
+    padding: 20px 0 !important;
+  }
+
+  .stats {
+    grid-template-columns: 1fr; /* आंकड़े भी एक के नीचे एक दिखेंगे */
+    gap: 12px;
+  }
+
+  .auth {
+    padding: 40px 20px;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  .box {
+    max-width: 100%;
+  }
+
+  /* भूल गए पासवर्ड और रिकवर बटन मोबाइल में एक के नीचे एक आएंगे */
+  .row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
 }
+
+/* 📱 बहुत छोटे मोबाइल फोन के लिए (480px से कम) */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 26px;
+  }
+  .tabs {
+    gap: 4px;
+    padding: 4px;
+  }
+  .tab {
+    font-size: 13px;
+  }
+  input {
+    min-height: 48px;
+    font-size: 14px;
+  }
+  .primary {
+    min-height: 50px;
+    font-size: 14px;
+  }
+}
+  
 </style>
 </head>
 
