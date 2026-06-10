@@ -82,6 +82,13 @@ border-radius:8px;
 flex:1;
 }
 
+.info b:first-child{
+display:block;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+max-width:100%;
+}
 /* STATUS */
 
 .status{
@@ -138,95 +145,122 @@ transform:translateY(0);
 
 }
 
+/* TABLET */
+@media (max-width: 768px){
+
+.container{
+padding:12px;
+}
+
+.card{
+display:flex;
+flex-direction:row;
+align-items:flex-start;
+padding:14px;
+gap:12px;
+border-radius:12px;
+}
+
+.cover{
+width:70px;
+height:95px;
+min-width:70px;
+object-fit:cover;
+}
+
+.info{
+flex:1;
+font-size:13px;
+line-height:1.5;
+word-break:break-word;
+}
+
+.info b:first-child{
+font-size:15px;
+display:block;
+margin-bottom:4px;
+}
+
+.status{
+font-size:11px;
+padding:5px 10px;
+}
+
+.topbar{
+padding:12px 14px;
+}
+
+.title{
+text-align:center;
+font-size:18px;
+}
+
+.back{
+width:30px;
+font-size:18px;
+}
+
+}
+
 /* MOBILE */
+@media (max-width:480px){
 
-/* ==========================================================================
-   UPDATED HIGH-END ENTERPRISE RESPONSIVE LAYOUT MATRIX
-   ========================================================================== */
-
-/* Tablet & Mobile Unified Engine Configuration Track */
-@media (max-width: 768px) {
-  /* Retains the crisp premium horizontal row structure instead of stacking vertically */
-  .card {
-    flex-direction: row !important;
-    align-items: flex-start !important;
-    padding: 14px 12px !important;
-    gap: 12px !important;
-    border-radius: 10px;
-  }
-
-  /* FIXED: Locks book covers into a perfect, distortion-free relative size scale */
-  .cover {
-    width: 75px !important;
-    height: 100px !important;
-    min-width: 75px !important;
-    object-fit: cover !important;
-    border-radius: 6px;
-    background: #1f2937;
-  }
-
-  .container {
-    padding: 12px 14px;
-  }
-
-  /* Compact responsive spacing properties for clean text scanning */
-  .info {
-    font-size: 13px;
-    line-height: 1.4;
-  }
-
-  .info b {
-    font-size: 14px;
-    display: inline-block;
-  }
-
-  /* Cleans up raw line break margin heights inside the card matrices */
-  .info br {
-    display: block;
-    content: "";
-    margin-top: 2px;
-  }
-
-  /* Premium compact status badges layout tracking */
-  .status {
-    padding: 4px 10px !important;
-    font-size: 11px !important;
-    border-radius: 6px;
-    margin-top: 8px !important;
-  }
-
-  /* Top bar adjustments for mobile viewing boundaries */
-  .topbar {
-    padding: 12px 16px;
-  }
-
-  .back {
-    font-size: 18px;
-    width: 30px;
-  }
-
-  .title {
-    font-size: 18px;
-    text-align: left; /* Aligns text left next to the back arrow for native feel */
-    padding-left: 6px;
-  }
+.container{
+padding:10px;
 }
 
-/* Micro Device Layout Adjustments */
-@media (max-width: 380px) {
-  .info b {
-    font-size: 13px;
-  }
-  .card {
-    gap: 10px !important;
-  }
-  .cover {
-    width: 65px !important;
-    height: 90px !important;
-    min-width: 65px !important;
-  }
+.card{
+padding:12px;
+gap:10px;
 }
-  
+
+.cover{
+width:60px;
+height:85px;
+min-width:60px;
+}
+
+.info{
+font-size:12px;
+}
+
+.info b:first-child{
+font-size:14px;
+}
+
+.status{
+font-size:10px;
+padding:4px 8px;
+}
+
+.title{
+font-size:17px;
+}
+
+}
+
+/* EXTRA SMALL DEVICES */
+@media (max-width:360px){
+
+.cover{
+width:55px;
+height:80px;
+min-width:55px;
+}
+
+.info{
+font-size:11px;
+}
+
+.info b:first-child{
+font-size:13px;
+}
+
+.status{
+font-size:9px;
+}
+
+}
 
 </style>
 
