@@ -321,6 +321,9 @@ input:checked + .slider:before { transform: translateX(24px); }
 /* ==========================================================================
    UPDATED TABLET & MOBILE VIEWPORT MATRIX WITH FIXED MARGINS
    ========================================================================== */
+/* ==========================================================================
+   UPDATED MOBILE VIEWPORT MATRIX - SPACE GAP FIX
+   ========================================================================== */
 @media (max-width: 1050px) {
   .sidebar {
     width: 70px;
@@ -342,30 +345,39 @@ input:checked + .slider:before { transform: translateX(24px); }
     width: calc(100% - 70px);
   }
   
-  /* Single vertical column container configuration */
+  /* 🚀 FIXED: Changed from 'grid' to 'flex' to completely remove invisible height rows */
   .settings-container {
-    grid-template-columns: 1fr;
-    gap: 24px;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 0px; 
+    padding: 16px;
+    max-width: 100%;
+  }
+
+  /* Ensures content area expands perfectly to fill the full mobile width screen */
+  .settings-content {
+    width: 100%;
+    margin-top: 0px;
   }
   
-  /* Horizontal swipe track layout container */
+  /* Horizontal tabs tracking slider row */
   .settings-tabs {
+    display: flex;
     flex-direction: row;
     overflow-x: auto;
-    padding: 4px 4px 8px 4px; 
-    gap: 12px; 
+    padding: 4px 4px 12px 4px; 
+    gap: 10px; 
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
     width: 100%;
-    margin-bottom: 24px; /* Fixed: Creates perfect spacing below the buttons slider */
+    margin-bottom: 20px; /* Precise controlled distance separating top bar and form cards */
   }
   
   .settings-tabs::-webkit-scrollbar {
     display: none; 
   }
 
-  /* Keeps button size fixed and perfectly aligned on mobile */
+  /* Keeps tab buttons crisp, static, and fixed tracking same scale layouts */
   .tab-btn, .tab-btn.active {
     padding: 10px 16px !important;
     font-size: 13px !important;
