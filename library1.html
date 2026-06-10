@@ -312,6 +312,246 @@ body{
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes subFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+/* ==========================================================================
+   UPDATED RESPONSIVE DESIGN FOR LIBRARY WORKSPACE
+   ========================================================================== */
+
+/* Tablet viewports (max-width: 1050px) */
+@media (max-width: 1050px) {
+  .sidebar {
+    width: 70px;
+    padding: 0 !important;
+  }
+  .sidebar-brand span, 
+  .menu-item span {
+    display: none;
+  }
+  .sidebar-brand {
+    padding: 24px 0;
+    text-align: center;
+    font-size: 16px;
+  }
+  .menu-item {
+    padding: 14px;
+    justify-content: center;
+  }
+  .main-wrapper {
+    margin-left: 70px;
+    width: calc(100% - 70px);
+  }
+  .metrics-panel {
+    padding: 24px;
+    gap: 30px;
+  }
+  .metrics-val {
+    font-size: 46px;
+  }
+}
+
+/* Medium tablets and hybrid devices (max-width: 950px) */
+@media (max-width: 950px) {
+  .metrics-panel {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+  }
+  .metrics-left {
+    text-align: center;
+  }
+}
+
+/* Mobile device layout engine (max-width: 768px) */
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+  
+  /* Transforms left sidebar into a clean bottom application navigation menu */
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+    height: 65px;
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    flex-direction: row;
+    background-color: var(--sidebar-dark);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+    border-right: 0;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    overflow: hidden;
+    z-index: 999;
+  }
+
+  .sidebar-brand {
+    display: none;
+  }
+
+  .sidebar-menu {
+    flex-direction: row;
+    padding: 0;
+    gap: 0;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .menu-item {
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px;
+    border-radius: 0;
+    flex: 1;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  .menu-item.active {
+    background-color: transparent;
+    color: var(--accent-blue);
+    box-shadow: none;
+  }
+
+  .main-wrapper {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding-bottom: 75px;
+  }
+
+  .topbar {
+    padding: 0 20px;
+  }
+
+  .page-title {
+    font-size: 16px;
+  }
+
+  .content-area {
+    padding: 20px 16px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .desc {
+    font-size: 14px;
+  }
+
+  .metrics-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .metric-node {
+    padding: 12px 6px;
+    text-align: center;
+  }
+
+  .metric-node h2 {
+    font-size: 18px;
+    margin-top: 4px;
+  }
+
+  /* Horizontal touch scrolling track for filters section */
+  .filter-group {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .filter-group::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter-chip {
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+
+  /* Balanced 2 columns grid matrix setup for small mobile screens */
+  .library-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .asset-card {
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .cover-wrapper {
+    margin-bottom: 12px;
+  }
+
+  .asset-title {
+    font-size: 13px;
+    min-height: 36px;
+  }
+
+  .status-badge {
+    margin-top: 8px;
+    font-size: 10px;
+    padding: 2px 8px;
+  }
+
+  .action-trigger-btn {
+    min-height: 36px;
+    font-size: 12px;
+    margin-top: 12px;
+  }
+
+  .management-row {
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .btn-manage {
+    width: 100%;
+    min-height: 34px;
+  }
+
+  .subscription-panel {
+    flex-direction: column;
+    padding: 20px;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .subscription-panel h2 {
+    font-size: 18px;
+  }
+
+  .subscription-panel p {
+    font-size: 13px;
+  }
+
+  .manage-btn {
+    width: 100%;
+    min-height: 44px;
+  }
+}
+
+/* Extreme compact screen optimizations (max-width: 480px) */
+@media (max-width: 480px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .library-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .asset-title {
+    font-size: 12px;
+  }
+     }
+     
 </style>
 </head>
 
