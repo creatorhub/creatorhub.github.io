@@ -1,3 +1,449 @@
-DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
 
-<html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1"> <title>My Orders</title> <style> body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #020617; color: white; } .topbar { display: flex; align-items: center; padding: 15px; background: #020617; box-shadow: 0 5px 20px black; position: sticky; top: 0; z-index: 99; border-bottom: 1px solid #1e293b; } .back { font-size: 22px; cursor: pointer; width: 40px; color: #22c55e; } .title { flex: 1; text-align: center; color: white; font-weight: bold; font-size: 18px; } .container { max-width: 900px; margin: auto; padding: 20px; animation: fadeUp .6s ease; } .card { background: #111827; padding: 20px; border-radius: 14px; margin-bottom: 15px; display: flex; gap: 15px; align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,.5); transition: .3s; } .card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,.8); } .cover { width: 80px; height: 110px; object-fit: cover; border-radius: 8px; background: #1e293b; } .info { flex: 1; overflow: hidden; } .info b:first-child { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; font-size: 16px; color: white; margin-bottom: 8px; } .detail-row { color: #94a3b8; font-size: 13px; margin-bottom: 4px; } .amount { color: white !important; font-weight: bold; } .status { padding: 6px 12px; border-radius: 8px; font-size: 13px; display: inline-block; margin-top: 6px; font-weight: bold; } .placed { background: #f59e0b; color: black; } .printing { background: #3b82f6; color: white; } .shipped { background: #6366f1; color: white; } .delivery { background: #10b981; color: white; } .delivered { background: #22c55e; color: black; } .empty, .loader, .error { text-align: center; padding: 60px; color: #64748b; } .error { color: #ef4444; } @keyframes fadeUp { 0% { opacity: 0; transform: translateY(40px); } 100% { opacity: 1; transform: translateY(0); } } @media (max-width: 768px) { .topbar { padding: 12px 16px; } .title { font-size: 18px; } .container { padding: 12px; } .card { display: flex; flex-direction: row; padding: 14px; gap: 12px; } .cover { width: 70px; height: 95px; min-width: 70px; } .info { font-size: 13px; } } @media (max-width: 480px) { .container { padding: 10px; } .card { padding: 12px; gap: 10px; } .cover { width: 60px; height: 85px; min-width: 60px; } .info { font-size: 12px; } .info b:first-child { font-size: 14px; } } </style> </head> <body> <div class="topbar"> <div class="back" onclick="history.back()">←</div> <div class="title">My Orders</div> </div> <div class="container"> <div id="orders" class="loader">Loading orders...</div> </div> <script> const ORDER_API = "https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"; const PRODUCT_API = "https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec"; let user = JSON.parse(localStorage.getItem("user") || "{}"); if (!user || !user.email) { alert("Login required!"); window.location.href = "login.html"; } function escapeHTML(str) { if (!str) return ""; return String(str).replace(/[&<>"']/g, function(m) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]; }); } function driveImage(link) { if (!link) return "https://placehold.co/80x110/1e293b/64748b?text=No+Img"; try { let id = ""; if (link.includes("id=")) id = link.split("id=")[1].split("&")[0]; else if (link.includes("/file/d/")) id = link.split("/file/d/")[1].split("/")[0]; if (id) return "https://drive.google.com/thumbnail?id=" + id + "&sz=w500"; } catch {} return link; } async function getDB(api, db) { try { let res = await fetch(api + "?db=" + db + "&t=" + Date.now()); if (!res.ok) throw new Error("Network error"); let data = await res.json(); return Array.isArray(data) ? data : []; } catch (e) { console.error("API Error:", e); return []; } } async function loadOrders() { let box = document.getElementById("orders"); try { let [orders, products] = await Promise.all([ getDB(ORDER_API, "orders"), getDB(PRODUCT_API, "products") ]); let myOrders = orders.filter(o => o.buyer === user.email && (o.payment === "paid" || o.status === "paid") ); myOrders.reverse(); if (myOrders.length === 0) { box.innerHTML = "<div class='empty'>No orders yet 📦</div>"; return; } box.innerHTML = ""; myOrders.forEach(o => { let product = products.find(p => String(p.id) === String(o.productId)); if (product && product.ai_status && product.ai_status !== "approved") return; let title = product ? product.title : "Unknown Product"; let image = product ? product.image : ""; let status = o.status || "Order Placed"; let statusClass = "placed"; let s = String(status).toLowerCase(); if (s.includes("print")) statusClass = "printing"; else if (s.includes("ship")) statusClass = "shipped"; else if (s.includes("delivery")) statusClass = "delivery"; else if (s.includes("delivered")) statusClass = "delivered"; let date = o.date ? new Date(o.date).toLocaleDateString("en-IN") : ""; let amount = Number(o.amount || 0); box.innerHTML += ` <div class="card"> <img class="cover" src="${driveImage(image)}" onerror="this.src='https://placehold.co/80x110/1e293b/64748b?text=No+Img'"> <div class="info"> <b>${escapeHTML(title)}</b> <div class="detail-row">Order ID: ${escapeHTML(o.id)}</div> <div class="detail-row amount">Amount: ₹${amount}</div> <div class="detail-row">Date: ${date}</div> <span class="status ${statusClass}">${escapeHTML(status)}</span> </div> </div> `; }); } catch (e) { console.error(e); box.innerHTML = "<div class='error'>Failed to load orders. Pull down to refresh.</div>"; } } loadOrders(); setInterval(loadOrders, 10000); </script> </body> </html>
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>My Orders</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #020617;
+  color: white;
+}
+
+/* =====================================================
+   HEADER & TOPBAR STYLES
+   ===================================================== */
+.topbar {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background: #020617;
+  box-shadow: 0 5px 20px black;
+  position: sticky;
+  top: 0;
+  z-index: 99;
+}
+
+.back {
+  font-size: 22px;
+  cursor: pointer;
+  width: 40px;
+}
+
+.title {
+  flex: 1;
+  text-align: center;
+  color: #22c55e;
+  font-weight: bold;
+}
+
+/* =====================================================
+   CONTAINER & CORE STRUCTURE
+   ===================================================== */
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  animation: fadeUp .6s ease;
+}
+
+/* =====================================================
+   ORDER CARDS LOGS SYSTEM
+   ===================================================== */
+.card {
+  background: #111827;
+  padding: 20px;
+  border-radius: 14px;
+  margin-bottom: 15px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,.5);
+  transition: .3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0,0,0,.8);
+}
+
+.cover {
+  width: 80px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.info {
+  flex: 1;
+}
+
+.info b:first-child {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+/* =====================================================
+   STATUS CHIPS BACKGROUND MATRIX
+   ===================================================== */
+.status {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  display: inline-block;
+  margin-top: 6px;
+  font-weight: bold;
+}
+
+.placed { background: #f59e0b; }
+.printing { background: #3b82f6; }
+.shipped { background: #6366f1; }
+.delivery { background: #10b981; }
+.delivered { background: #22c55e; }
+
+.empty {
+  text-align: center;
+  padding: 60px;
+  opacity: .7;
+}
+
+.loader {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  animation: pulse 1.5s infinite;
+}
+
+/* =====================================================
+   ANIMATIONS TRACK KEYFRAMES
+   ===================================================== */
+@keyframes pulse {
+  0% { opacity: .4; }
+  50% { opacity: 1; }
+  100% { opacity: .4; }
+}
+
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(40px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* =====================================================
+   RESPONSIVE LAYOUT ENGINE (FIXED BRACKET CLOSINGS)
+   ===================================================== */
+
+/* Tablet Viewport Configuration */
+@media (max-width: 768px) {
+  .topbar {
+    padding: 12px 16px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+  }
+  .back {
+    font-size: 20px;
+    width: auto;
+    cursor: pointer;
+    order: 1;
+    padding-right: 8px;
+  }
+  .title {
+    font-size: 18px;
+    text-align: left !important;
+    order: 2;
+  }
+  .container {
+    padding: 12px;
+  }
+  .card {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 14px;
+    gap: 12px;
+    border-radius: 12px;
+  }
+  .cover {
+    width: 70px;
+    height: 95px;
+    min-width: 70px;
+    object-fit: cover;
+  }
+  .info {
+    flex: 1;
+    font-size: 13px;
+    line-height: 1.5;
+    word-break: break-word;
+  }
+  .info b:first-child {
+    font-size: 15px;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .status {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+}
+
+/* Mobile Viewport Configuration */
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+  .card {
+    padding: 12px;
+    gap: 10px;
+  }
+  .cover {
+    width: 60px;
+    height: 85px;
+    min-width: 60px;
+  }
+  .info {
+    font-size: 12px;
+  }
+  .info b:first-child {
+    font-size: 14px;
+  }
+  .status {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+  .title {
+    font-size: 17px;
+  }
+}
+
+/* Extra Small Screens Framework */
+@media (max-width: 360px) {
+  .cover {
+    width: 55px;
+    height: 80px;
+    min-width: 55px;
+  }
+  .info {
+    font-size: 11px;
+  }
+  .info b:first-child {
+    font-size: 13px;
+  }
+  .status {
+    font-size: 9px;
+  }
+}
+</style>
+  
+
+</head>
+
+<body>
+
+<div class="topbar">
+
+<div class="back" onclick="history.back()">⬅</div>
+
+<div class="title">My Orders</div>
+
+</div>
+
+<div class="container">
+
+<div id="orders" class="loader">
+Loading orders...
+</div>
+
+</div>
+
+<script>
+
+/* APIs */
+
+const ORDER_API="https://script.google.com/macros/s/AKfycbw-FgvS0s-j-PmswWt9Ln_ulW3QKIhVWGV_XhlEvF4yhpdktJ1DKQvV9lhUCjmz88_r/exec"
+
+const PRODUCT_API="https://script.google.com/macros/s/AKfycbyCsmLkWYQKj9zy8ji64BIq_neqrVfhNaUsvwU-sNAStAEfuLAqpmo6t7mnmtRghHU9/exec"
+/* USER */
+
+let user=JSON.parse(localStorage.getItem("user")||"{}")
+
+if(!user.email){
+
+alert("Login first")
+location.href="login.html"
+
+}
+
+/* SAFE TEXT */
+
+function escapeHTML(str){
+return String(str).replace(/[&<>"']/g,function(m){
+return({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+})[m]
+})
+}
+
+/* DRIVE IMAGE */
+
+function driveImage(link){
+
+if(!link) return "https://picsum.photos/200"
+
+try{
+
+let id=""
+
+if(link.includes("id=")){
+id=link.split("id=")[1].split("&")[0]
+}
+
+if(link.includes("/file/d/")){
+id=link.split("/file/d/")[1].split("/")[0]
+}
+
+if(id){
+return "https://drive.google.com/thumbnail?id="+id+"&sz=w500"
+}
+
+}catch{}
+
+return link
+
+}
+
+/* GET DB */
+
+async function getDB(api,db){
+
+let res=await fetch(api+"?db="+db+"&t="+Date.now())
+let data=await res.json()
+
+return Array.isArray(data)?data:[]
+
+}
+
+/* LOAD ORDERS */
+
+async function loadOrders(){
+
+let box=document.getElementById("orders")
+
+try{
+
+let orders=await getDB(ORDER_API,"orders")
+let products=await getDB(PRODUCT_API,"products")
+
+/* ONLY PAID ORDERS */
+
+let myOrders = orders.filter(o=>
+o.buyer===user.email &&
+(o.payment==="paid" || o.status==="paid")
+)
+
+myOrders.reverse()
+
+if(myOrders.length===0){
+
+box.innerHTML="<div class='empty'>No orders yet 📦</div>"
+return
+
+}
+
+box.innerHTML=""
+
+myOrders.forEach(o=>{
+
+let product=products.find(
+p=>String(p.id)===String(o.productId)
+)
+
+/* APPROVED CHECK */
+
+if(product && product.ai_status && product.ai_status!=="approved")
+return
+
+let title=product?product.title:"Unknown Product"
+let image=product?product.image:""
+
+let status=o.status || "Order Placed"
+
+let statusClass="placed"
+
+if(status==="Printing") statusClass="printing"
+if(status==="Shipped") statusClass="shipped"
+if(status==="Out for Delivery") statusClass="delivery"
+if(status==="Delivered") statusClass="delivered"
+
+/* DATE FIX */
+
+let date = o.date ? new Date(o.date).toLocaleDateString() : ""
+
+box.innerHTML+=`
+
+<div class="card">
+
+<img class="cover"
+src="${driveImage(image)}">
+
+<div class="info">
+
+<b>${escapeHTML(title)}</b>
+
+<br><br>
+
+<b>Order ID:</b> ${escapeHTML(o.id)}
+
+<br>
+
+<b>Amount:</b> ₹ ${Number(o.amount||0)}
+
+<br>
+
+<b>Date:</b> ${date}
+
+<br><br>
+
+<span class="status ${statusClass}">
+${escapeHTML(status)}
+</span>
+
+</div>
+
+</div>
+
+`
+
+})
+
+}catch(e){
+
+box.innerHTML="Failed to load orders ❌"
+
+}
+
+}
+
+/* INIT */
+
+loadOrders()
+  
+setInterval(loadOrders,5000)
+
+</script>
+
+</body>
+
+</html>
