@@ -151,9 +151,10 @@
       padding: 20px 34px;
     }
     .card{
-      width: 380px;
-      background: #fff;
-      border: 1px solid #dce4f0;
+  width: 380px;
+  max-width: 100%; /* Ye line zaroor jodiyega */
+  background: #fff;
+       border: 1px solid #dce4f0;
       border-radius: 9px;
       padding: 36px;
       position: relative;
@@ -488,24 +489,47 @@
       min-height: 20px;
     }
 
-    /* =====================================================
-    RESPONSIVE DESIGN LAYERS
+        /* =====================================================
+    RESPONSIVE DESIGN LAYERS (MOBILE & TABLET MANUAL FIX)
     ===================================================== */
     @media(max-width: 1200px){
+      .pricing { gap: 20px; }
       .features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
+
+    /* TABLET UPDATE: Screens under 900px (iPad/Tablets) */
     @media(max-width: 900px){
-      .topbar{ min-height: auto; padding: 20px 24px; }
+      .topbar { min-height: auto; padding: 20px 24px; }
       .hero { padding: 40px 24px 20px; }
       .hero h1 { font-size: 36px; }
+      
+      /* Pricing cards tablet me 2 columns me ache se set honge */
+      .pricing { padding: 20px 24px; }
+      .card { 
+        width: calc(50% - 10px); 
+        min-width: 290px; 
+        padding: 28px 20px; 
+      }
       .trust-section { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
+
+    /* MOBILE UPDATE: Screens under 640px (All Android & iPhones) */
     @media(max-width: 640px){
-      .topbar { flex-direction: row; justify-content: space-between; }
+      .topbar { flex-direction: row; justify-content: space-between; padding: 16px 20px; }
       .topbar .secure { display: none; }
-      .features, .trust-section { grid-template-columns: minmax(0, 1fr); padding: 10px 24px; }
-      .card { width: 100%; }
+      .logo { font-size: 20px; }
+      
+      .hero { padding: 30px 20px 15px; }
+      .hero h1 { font-size: 28px; }
+      .hero p { font-size: 15px; }
+
+      /* Mobile me cards full width single column ho jayenge */
+      .pricing { padding: 10px 20px; gap: 24px; }
+      .card { width: 100%; min-width: 100%; padding: 30px 24px; }
+      
+      .features, .trust-section { grid-template-columns: minmax(0, 1fr); padding: 10px 20px; }
     }
+    
   </style>
 </head>
 <body>
