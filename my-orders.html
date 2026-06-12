@@ -1,729 +1,964 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>My Orders - CreatorHub</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>My Orders - CreatorHub</title>
 
-  <style>
-    /* =====================================================
-    CORE RESET & CREATORHUB PREMIUM THEME INTERFACES
-    ===================================================== */
-    *{
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
-    body{
-      background: #f6f8fc;
-      color: #101828;
-      overflow-x: hidden;
-      min-height: 100vh;
-      position: relative;
-    }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    ::-webkit-scrollbar{
-      width: 6px;
-    }
-    ::-webkit-scrollbar-thumb{
-      background: #3157c9;
-      border-radius: 20px;
-    }
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{min-height:100vh;background:#f4f7fb;color:#07142f;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+button{font:inherit;border:0;cursor:pointer}
+::-webkit-scrollbar{width:7px}
+::-webkit-scrollbar-thumb{background:#94a3b8;border-radius:20px}
 
-    /* =====================================================
-    TOPBAR / NAVIGATION LAYER
-    ===================================================== */
-    .topbar{
-      position: sticky;
-      top: 0;
-      z-index: 999;
-      min-height: 114px;
-      background: #fff;
-      border-bottom: 1px solid #dce4f0;
-      padding: 26px 34px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-    .topbar-left{
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    .brand-logo{
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-    }
-    .brand-name{
-      font-size: 25px;
-      font-weight: 950;
-      color: #06142c;
-      letter-spacing: -0.02em;
-    }
-    .brand-name span{
-      color: #2f62e9;
-    }
-    .back-btn{
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: 800;
-      color: #5d6d85;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: color 0.2s ease;
-    }
-    .back-btn:hover{
-      color: #2f62e9;
-    }
-    .badge{
-      padding: 6px 14px;
-      border-radius: 999px;
-      background: #eef3f9;
-      color: #2f62e9;
-      font-weight: 950;
-      font-size: 13px;
-      letter-spacing: 0.05em;
-      border: 1px solid rgba(49, 87, 201, 0.1);
-    }
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:50;
+  min-height:118px;
+  background:#fff;
+  border-bottom:1px solid #dce6f3;
+  padding:24px 42px;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:20px;
+}
 
-    /* =====================================================
-    PROFILE BLOCK Dropdown Menu
-    ===================================================== */
-    .profile-wrap{
-      position: relative;
-      display: none;
-      align-items: center;
-    }
-    .profile-image{
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: #d9e1ec;
-      border: 3px solid #fff;
-      box-shadow: 0 8px 20px rgba(16, 24, 40, 0.12);
-      transition: transform 0.2s ease, border-color 0.2s ease;
-      cursor: pointer;
-    }
-    .profile-image:hover{
-      transform: scale(1.04);
-      border-color: #2f62e9;
-    }
-    .profile-menu{
-      position: absolute;
-      top: 68px;
-      left: 0;
-      width: 280px;
-      background: #0d1628;
-      border: 1px solid #182a64;
-      border-radius: 14px;
-      padding: 20px;
-      display: none;
-      box-shadow: 0 20px 45px rgba(16, 24, 40, 0.25);
-      z-index: 1000;
-    }
-    .profile-menu.show{
-      display: block;
-      animation: menuFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    @keyframes menuFadeIn{
-      from { opacity: 0; transform: translateY(8px) scale(0.97); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    .profile-header{
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      margin-bottom: 14px;
-    }
-    .menu-profile-image{
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-    #menuName{
-      color: #fff;
-      font-size: 16px;
-      font-weight: 800;
-    }
-    #menuEmail{
-      margin-top: 3px;
-      font-size: 13px;
-      color: #63728a;
-      word-break: break-all;
-    }
-    .profile-menu a{
-      display: flex;
-      align-items: center;
-      height: 46px;
-      padding: 0 14px;
-      border-radius: 8px;
-      color: #e7edf8;
-      font-size: 15px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.2s;
-    }
-    .profile-menu a:hover{
-      background: #182a64;
-      transform: translateX(4px);
-    }
-    .logout-btn{
-      margin-top: 14px;
-      height: 48px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #ef4444;
-      color: #fff;
-      font-weight: 800;
-      font-size: 15px;
-      cursor: pointer;
-      transition: opacity 0.2s;
-    }
-    .logout-btn:hover{
-      opacity: 0.9;
-    }
+.top-left{display:flex;align-items:center;gap:22px}
+.profile-wrap{position:relative;display:flex;align-items:center}
+.profile-image{
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  object-fit:cover;
+  background:#eef3f9;
+  border:4px solid #fff;
+  box-shadow:0 12px 28px rgba(16,24,40,.14);
+  cursor:pointer;
+}
+.back-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  color:#5f6f89;
+  font-size:17px;
+  font-weight:900;
+  cursor:pointer;
+}
+.back-btn:hover{color:#315df4}
 
-    /* =====================================================
-    MAIN CONTAINERS & LAYOUT HEADERS
-    ===================================================== */
-    .main{
-      max-width: 1200px;
-      margin: auto;
-      padding: 36px 24px 90px;
-    }
-    .header{
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    .icon{
-      width: 80px;
-      height: 80px;
-      margin: auto;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 32px;
-      background: #eef3f9;
-      color: #2f62e9;
-      border: 1px solid #dce4f0;
-      box-shadow: 0 10px 35px rgba(16, 24, 40, 0.05);
-    }
-    h1{
-      margin-top: 20px;
-      font-size: 43px;
-      font-weight: 950;
-      color: #06142c;
-      letter-spacing: -0.02em;
-    }
-    .desc{
-      margin-top: 10px;
-      font-size: 16px;
-      line-height: 1.6;
-      color: #63728a;
-      max-width: 750px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+.page-title{text-align:center}
+.page-title h1{font-size:40px;line-height:1;font-weight:900;color:#06142c}
+.page-title h1 span{color:#315df4}
+.page-title p{margin-top:8px;color:#63728a;font-size:16px;font-weight:600}
 
-    /* =====================================================
-    STATS GRID LAYOUT
-    ===================================================== */
-    .stats{
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-top: 32px;
-    }
-    @media(max-width: 800px){
-      .stats{ grid-template-columns: 1fr; }
-    }
-    .stat{
-      background: #fff;
-      padding: 24px;
-      border-radius: 9px;
-      border: 1px solid #dce4f0;
-      box-shadow: 0 10px 30px rgba(16, 24, 40, 0.02);
-    }
-    .stat h3{
-      font-size: 13px;
-      color: #5d6d85;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.02em;
-    }
-    .stat h2{
-      margin-top: 10px;
-      font-size: 36px;
-      font-weight: 950;
-      color: #06142c;
-      letter-spacing: -0.02em;
-    }
-    .green{
-      color: #0f9f57 !important;
-    }
+.top-right{display:flex;justify-content:flex-end}
+.dash-link{
+  min-height:54px;
+  border-radius:12px;
+  padding:0 20px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  background:#315df4;
+  color:#fff;
+  font-size:16px;
+  font-weight:900;
+  box-shadow:0 14px 28px rgba(49,93,244,.2);
+}
 
-    /* =====================================================
-    ORDER CARD COMPONENT ARCHITECTURE
-    ===================================================== */
-    .order-card{
-      background: #fff;
-      border-radius: 9px;
-      padding: 28px;
-      margin-top: 24px;
-      border: 1px solid #dce4f0;
-      box-shadow: 0 14px 40px rgba(16, 24, 40, 0.04);
-      transition: border-color 0.2s;
-    }
-    .order-card:hover {
-      border-color: #3157c9;
-    }
-    .order-top{
-      display: flex;
-      gap: 24px;
-      align-items: flex-start;
-    }
-    @media(max-width: 640px) {
-      .order-top { flex-direction: column; align-items: center; text-align: center; }
-      .status-row { justify-content: center !important; }
-    }
-    .book-image{
-      width: 100px;
-      height: 140px;
-      object-fit: cover;
-      border-radius: 6px;
-      background: #eef3f9;
-      border: 1px solid #dce4f0;
-      flex-shrink: 0;
-      box-shadow: 0 8px 20px rgba(16, 24, 40, 0.06);
-    }
-    .order-info{
-      flex: 1;
-      width: 100%;
-    }
-    .order-info h2{
-      font-size: 22px;
-      font-weight: 950;
-      color: #06142c;
-      letter-spacing: -0.01em;
-      line-height: 1.3;
-    }
-    .order-id{
-      margin-top: 6px;
-      font-size: 13px;
-      color: #63728a;
-      font-weight: 600;
-    }
-    .status-row{
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 14px;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .status{
-      padding: 6px 14px;
-      border-radius: 999px;
-      background: #e7f8ef;
-      color: #0f9f57;
-      font-size: 13px;
-      font-weight: 950;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      border: 1px solid rgba(15, 159, 87, 0.1);
-    }
-    .status.expired{
-      background: #fef2f2;
-      color: #ef4444;
-      border-color: rgba(239, 68, 68, 0.1);
-    }
-    .price{
-      font-size: 26px;
-      font-weight: 950;
-      color: #2f62e9;
-      letter-spacing: -0.02em;
-    }
-    .meta-grid{
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-      margin-top: 20px;
-    }
-    @media(max-width: 700px){
-      .meta-grid{ grid-template-columns: 1fr; }
-    }
-    .meta-box{
-      background: #f6f8fc;
-      padding: 16px;
-      border-radius: 8px;
-      border: 1px solid #dce4f0;
-      text-align: left;
-    }
-    .meta-label{
-      font-size: 12px;
-      color: #5d6d85;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.02em;
-    }
-    .meta-value{
-      margin-top: 6px;
-      font-size: 16px;
-      font-weight: 800;
-      color: #06142c;
-      word-break: break-word;
-    }
+.profile-menu{
+  position:absolute;
+  top:72px;
+  left:0;
+  width:290px;
+  background:#0b1830;
+  border:1px solid #1c2e58;
+  border-radius:16px;
+  padding:18px;
+  display:none;
+  box-shadow:0 24px 50px rgba(16,24,40,.28);
+  z-index:80;
+}
+.profile-menu.show{display:block}
+.profile-header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding-bottom:14px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+  margin-bottom:12px;
+}
+.menu-profile-image{width:48px;height:48px;border-radius:50%;object-fit:cover}
+#menuName{color:#fff;font-size:16px;font-weight:900}
+#menuEmail{margin-top:3px;color:#9fb0cc;font-size:13px;word-break:break-all}
+.profile-menu a{
+  height:44px;
+  border-radius:10px;
+  padding:0 12px;
+  color:#e7edf8;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:14px;
+  font-weight:800;
+}
+.profile-menu a:hover{background:#182a64}
+.logout-btn{
+  margin-top:12px;
+  height:46px;
+  border-radius:10px;
+  background:#ef4444;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  font-weight:900;
+}
 
-    .track-btn{
-      width: 100%;
-      min-height: 54px;
-      border: none;
-      border-radius: 9px;
-      margin-top: 24px;
-      font-size: 16px;
-      font-weight: 900;
-      cursor: pointer;
-      color: white;
-      background: #101c2f;
-      transition: background 0.2s ease;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .track-btn:hover{
-      background: #182a64;
-    }
+.main{
+  width:min(1660px,100%);
+  margin:0 auto;
+  padding:36px 52px 116px;
+}
 
-    /* =====================================================
-    EMPTY / ERROR SYSTEM LAYOUT STATES
-    ===================================================== */
-    .empty{
-      background: #fff;
-      padding: 60px 34px;
-      border-radius: 9px;
-      text-align: center;
-      margin-top: 32px;
-      border: 1px solid #dce4f0;
-      box-shadow: 0 10px 30px rgba(16, 24, 40, 0.02);
-    }
-    .empty-icon{
-      font-size: 48px;
-      color: #63728a;
-    }
-    .empty-icon i {
-      display: block;
-    }
-    .empty h2{
-      margin-top: 16px;
-      font-size: 28px;
-      font-weight: 950;
-      color: #06142c;
-      letter-spacing: -0.01em;
-    }
-    .empty p{
-      margin-top: 8px;
-      color: #63728a;
-      font-size: 16px;
-    }
+.hero{
+  background:#fff;
+  border:1px solid #dce6f3;
+  border-radius:18px;
+  box-shadow:0 18px 45px rgba(16,24,40,.07);
+  padding:38px 36px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:22px;
+  margin-bottom:30px;
+}
+.hero h2{font-size:38px;line-height:1;font-weight:900;color:#06142c}
+.hero p{margin-top:12px;color:#63728a;font-size:17px;line-height:1.55;font-weight:650}
+.hero-badge{
+  min-height:54px;
+  border-radius:999px;
+  padding:0 22px;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  background:#eef4ff;
+  color:#315df4;
+  border:1px solid #c8dbff;
+  font-size:16px;
+  font-weight:900;
+  white-space:nowrap;
+}
 
-    /* =====================================================
-    FOOTER TERMINAL SPECIFICATION
-    ===================================================== */
-    .footer{
-      margin-top: 80px;
-      text-align: center;
-      line-height: 1.6;
-      color: #63728a;
-      font-size: 14px;
-      font-weight: 500;
-      border-top: 1px solid #dce4f0;
-      padding-top: 24px;
-    }
-  </style>
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-bottom:30px;
+}
+.stat{
+  background:#fff;
+  border:1px solid #dce6f3;
+  border-radius:18px;
+  box-shadow:0 14px 34px rgba(16,24,40,.05);
+  padding:24px;
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+.stat-icon{
+  width:58px;
+  height:58px;
+  border-radius:16px;
+  background:#eef4ff;
+  color:#315df4;
+  display:grid;
+  place-items:center;
+  font-size:23px;
+}
+.stat h3{
+  color:#5f6f89;
+  font-size:13px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+.stat h2{
+  margin-top:5px;
+  font-size:32px;
+  font-weight:900;
+  color:#06142c;
+}
+.green{color:#0f9f57!important}
+
+.orders-grid{display:grid;gap:22px}
+.order-card{
+  background:#fff;
+  border:1px solid #dce6f3;
+  border-radius:18px;
+  box-shadow:0 18px 45px rgba(16,24,40,.07);
+  padding:24px;
+}
+.order-top{display:flex;gap:22px;align-items:flex-start}
+.book-image{
+  width:112px;
+  height:150px;
+  object-fit:cover;
+  border-radius:12px;
+  background:#eef3f9;
+  border:1px solid #dce6f3;
+  flex-shrink:0;
+}
+.order-info{flex:1;min-width:0}
+.order-info h2{
+  font-size:24px;
+  line-height:1.25;
+  font-weight:900;
+  color:#06142c;
+  overflow-wrap:anywhere;
+}
+.order-id{
+  margin-top:7px;
+  color:#63728a;
+  font-size:13px;
+  font-weight:700;
+  overflow-wrap:anywhere;
+}
+.status-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+.status{
+  min-height:34px;
+  border-radius:999px;
+  padding:0 14px;
+  background:#e4f8ef;
+  color:#0f9f57;
+  border:1px solid #baf2cf;
+  display:inline-flex;
+  align-items:center;
+  font-size:13px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+.status.pending{background:#fff5d7;color:#9a6700;border-color:#f4d47c}
+.status.expired,.status.cancelled,.status.failed{background:#fee2e2;color:#ef4444;border-color:#fecaca}
+.price{font-size:28px;font-weight:900;color:#315df4}
+
+.meta-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  margin-top:20px;
+}
+.meta-box{
+  background:#f6f9fd;
+  border:1px solid #dce6f3;
+  border-radius:14px;
+  padding:15px;
+}
+.meta-label{
+  font-size:12px;
+  font-weight:900;
+  color:#5f6f89;
+  text-transform:uppercase;
+}
+.meta-value{
+  margin-top:6px;
+  color:#06142c;
+  font-size:15px;
+  font-weight:850;
+  overflow-wrap:anywhere;
+}
+.track-btn{
+  margin-top:22px;
+  min-height:54px;
+  width:100%;
+  border-radius:14px;
+  background:#07142f;
+  color:#fff;
+  font-size:16px;
+  font-weight:900;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+.track-btn:hover{background:#182a64}
+
+.empty{
+  background:#fff;
+  border:1px solid #dce6f3;
+  border-radius:18px;
+  box-shadow:0 18px 45px rgba(16,24,40,.06);
+  padding:58px 28px;
+  text-align:center;
+}
+.empty-icon{font-size:46px;color:#315df4}
+.empty h2{margin-top:16px;color:#06142c;font-size:28px;font-weight:900}
+.empty p{margin-top:8px;color:#63728a;font-size:16px;line-height:1.5}
+.empty .empty-action{
+  margin-top:22px;
+  min-height:50px;
+  border-radius:12px;
+  padding:0 20px;
+  background:#315df4;
+  color:#fff;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-weight:900;
+}
+
+.footer{
+  margin-top:52px;
+  text-align:center;
+  line-height:1.6;
+  color:#63728a;
+  font-size:14px;
+  font-weight:600;
+  border-top:1px solid #dce6f3;
+  padding-top:24px;
+}
+
+.bottom-nav{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  height:78px;
+  background:#fff;
+  border-top:1px solid #dce6f3;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  z-index:999;
+  box-shadow:0 -8px 24px rgba(16,24,40,.04);
+}
+.bottom-nav a{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  color:#5f6f89;
+  font-weight:900;
+  font-size:13px;
+  background:transparent;
+}
+.bottom-nav a i{
+  width:54px;
+  height:34px;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  font-size:22px;
+  color:#5f6f89;
+  background:transparent;
+}
+.bottom-nav a span{line-height:1}
+.bottom-nav a.active{color:#315df4;background:transparent}
+.bottom-nav a.active i{color:#315df4;background:#eef4ff}
+.bottom-nav a:hover{color:#315df4;background:transparent}
+.bottom-nav a:hover i{color:#315df4;background:#f3f6ff}
+
+@media(max-width:900px){
+  .topbar{grid-template-columns:1fr;justify-items:start;padding:20px}
+  .page-title{text-align:left}
+  .top-right{justify-content:flex-start}
+  .main{padding:24px 16px 104px}
+  .hero{align-items:flex-start;flex-direction:column}
+  .stats{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .top-left{width:100%;justify-content:space-between}
+  .page-title h1{font-size:34px}
+  .hero h2{font-size:32px}
+  .order-top{flex-direction:column}
+  .book-image{width:100%;height:220px}
+  .meta-grid{grid-template-columns:1fr}
+}
+</style>
 </head>
 
 <body>
 
-  <div class="topbar">
-    <div class="topbar-left">
-      <div id="profileWrap" class="profile-wrap">
-        <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile View">
-        
-        <div id="profileMenu" class="profile-menu">
-          <div class="profile-header">
-            <img id="menuProfileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="menu-profile-image" alt="User">
-            <div>
-              <div id="menuName">CreatorHub User</div>
-              <div id="menuEmail">user@email.com</div>
-            </div>
+<header class="topbar">
+  <div class="top-left">
+    <div id="profileWrap" class="profile-wrap">
+      <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=315df4&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile">
+
+      <div id="profileMenu" class="profile-menu">
+        <div class="profile-header">
+          <img id="menuProfileImage" src="https://ui-avatars.com/api/?name=User&background=315df4&color=fff" class="menu-profile-image" alt="User">
+          <div>
+            <div id="menuName">CreatorHub User</div>
+            <div id="menuEmail">user@email.com</div>
           </div>
-          <a href="profile.html">My Profile</a>
-          <a href="seller-apply.html">Become Seller</a>
-          <a href="tranding.html">Trending Books</a>
-          <a href="library.html">Library</a>
-          <a href="topselling.html">Top Selling</a>
-          <div class="logout-btn" onclick="logout()">Logout</div>
+        </div>
+
+        <a href="profile.html"><i class="fa-solid fa-user"></i>My Profile</a>
+        <a href="seller-apply.html"><i class="fa-solid fa-store"></i>Become Seller</a>
+        <a href="library.html"><i class="fa-solid fa-book"></i>Library</a>
+        <a href="upload.html"><i class="fa-solid fa-upload"></i>Upload Ebook</a>
+        <a href="explore.html"><i class="fa-solid fa-magnifying-glass"></i>Explore</a>
+
+        <div class="logout-btn" onclick="logout()">
+          <i class="fa-solid fa-right-from-bracket"></i>Logout
         </div>
       </div>
-
-      <div class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i> Back to Home</div>
     </div>
 
-    <a class="brand-logo" href="./dashboard.html">
-      <span class="brand-name">Creator<span>Hub</span></span>
+    <div class="back-btn" onclick="goBack()">
+      <i class="fa-solid fa-arrow-left"></i>
+      Back
+    </div>
+  </div>
+
+  <div class="page-title">
+    <h1>My <span>Orders</span></h1>
+    <p id="pageStatus">Loading your CreatorHub orders</p>
+  </div>
+
+  <div class="top-right">
+    <a href="dashboard.html" class="dash-link">
+      <i class="fa-solid fa-chart-line"></i>
+      Dashboard
     </a>
+  </div>
+</header>
 
-    <div class="badge">My Orders</div>
+<main class="main">
+
+<section class="hero">
+  <div>
+    <h2>Your Ebook Orders</h2>
+    <p>Manage your CreatorHub purchases, payment status, book access, and order tracking from one clean dashboard.</p>
+  </div>
+  <div class="hero-badge">
+    <i class="fa-solid fa-shield-halved"></i>
+    Live Backend Sync
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stat">
+    <div class="stat-icon"><i class="fa-solid fa-box"></i></div>
+    <div>
+      <h3>Total Orders</h3>
+      <h2 id="totalOrders">0</h2>
+    </div>
   </div>
 
-  <div class="main">
-    
-    <div class="header">
-      <div class="icon"><i class="fa-solid fa-box-open"></i></div>
-      <h1>My Orders</h1>
-      <p class="desc">Manage your CreatorHub ebook purchases, monitor payment status, view live fulfillment progress, and access order tracking in real-time.</p>
+  <div class="stat">
+    <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+    <div>
+      <h3>Active Orders</h3>
+      <h2 id="activeOrders" class="green">0</h2>
     </div>
-
-    <div class="stats">
-      <div class="stat">
-        <h3>Total Orders</h3>
-        <h2 id="totalOrders">0</h2>
-      </div>
-      <div class="stat">
-        <h3>Active Orders</h3>
-        <h2 id="activeOrders" class="green">0</h2>
-      </div>
-      <div class="stat">
-        <h3>Total Spent</h3>
-        <h2 id="totalSpent">₹0.00</h2>
-      </div>
-    </div>
-
-    <div id="ordersContainer">
-      <div class="empty">
-        <div class="empty-icon"><i class="fa-solid fa-circle-notch fa-spin" style="color: #2f62e9;"></i></div>
-        <h2>Loading Orders...</h2>
-        <p>Please wait while we load your orders.</p>
-      </div>
-    </div>
-
-    <div class="footer">
-      CreatorHub secure ecommerce infrastructure powered by automated order synchronization and real-time tracking systems.<br>
-      All orders are loaded directly from your live backend database.
-    </div>
-
   </div>
 
-  <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbz9g1ZxS8_var6e35p06AVDEiYRGu-cKE5boAtr762x4JA_6qMaKfso32cOfVkeTeUq/exec";
-    const PRODUCT_API = "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec";
+  <div class="stat">
+    <div class="stat-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+    <div>
+      <h3>Total Spent</h3>
+      <h2 id="totalSpent">₹0</h2>
+    </div>
+  </div>
+</section>
 
-    function driveImage(url){
-      if(!url) return "";
-      if(url.includes("uc?id=")){
-        let id = url.split("id=")[1].split("&")[0];
-        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
-      }
-      if(url.includes("/d/")){
-        let id = url.split("/d/")[1].split("/")[0];
-        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
-      }
-      return url;
+<section id="ordersContainer" class="orders-grid">
+  <div class="empty">
+    <div class="empty-icon"><i class="fa-solid fa-circle-notch fa-spin"></i></div>
+    <h2>Loading Orders</h2>
+    <p>Please wait while we load your live order history.</p>
+  </div>
+</section>
+
+<div class="footer">
+  CreatorHub secure ecommerce infrastructure powered by live order synchronization.
+</div>
+
+</main>
+
+<nav class="bottom-nav">
+  <a href="index.html">
+    <i class="fa-solid fa-house"></i>
+    <span>Home</span>
+  </a>
+
+  <a href="explore.html">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span>Explore</span>
+  </a>
+
+  <a href="library.html">
+    <i class="fa-solid fa-book"></i>
+    <span>Library</span>
+  </a>
+
+  <a href="upload.html">
+    <i class="fa-solid fa-upload"></i>
+    <span>Upload</span>
+  </a>
+
+  <a class="active" href="orders.html">
+    <i class="fa-solid fa-box"></i>
+    <span>Orders</span>
+  </a>
+</nav>
+
+<script>
+const ORDER_API = "https://script.google.com/macros/s/AKfycbz9g1ZxS8_var6e35p06AVDEiYRGu-cKE5boAtr762x4JA_6qMaKfso32cOfVkeTeUq/exec";
+const PRODUCT_API = "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec";
+
+const DEFAULT_AVATAR = "https://ui-avatars.com/api/?name=User&background=315df4&color=fff";
+const DEFAULT_COVER = "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=500";
+
+function $(id){
+  return document.getElementById(id);
+}
+
+function safeText(value){
+  return String(value ?? "").replace(/[&<>"']/g,function(ch){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[ch];
+  });
+}
+
+function money(value){
+  const num = Number(value || 0);
+  return "₹" + num.toLocaleString("en-IN",{
+    minimumFractionDigits:num % 1 ? 2 : 0,
+    maximumFractionDigits:2
+  });
+}
+
+function driveImage(url){
+  if(!url) return "";
+  const text = String(url);
+
+  if(text.startsWith("data:image")) return text;
+  if(text.includes("ui-avatars.com")) return text;
+
+  let id = "";
+
+  if(text.includes("uc?id=")){
+    id = text.split("id=")[1].split("&")[0];
+  }else if(text.includes("open?id=")){
+    id = text.split("id=")[1].split("&")[0];
+  }else if(text.includes("/d/")){
+    id = text.split("/d/")[1].split("/")[0];
+  }else{
+    const match = text.match(/[?&]id=([^&]+)/);
+    if(match && match[1]) id = match[1];
+  }
+
+  if(id) return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+
+  return text;
+}
+
+function readJSON(key){
+  try{
+    return JSON.parse(localStorage.getItem(key) || "{}") || {};
+  }catch(e){
+    return {};
+  }
+}
+
+function getProfileCache(email){
+  try{
+    const cache = JSON.parse(localStorage.getItem("creatorhub_profile_cache_v6") || "{}");
+    return cache[email] || cache[String(email).toLowerCase()] || null;
+  }catch(e){
+    return null;
+  }
+}
+
+function getLoggedUser(){
+  const user =
+    readJSON("user") ||
+    readJSON("currentUser") ||
+    readJSON("creatorhub_user") ||
+    {};
+
+  let email =
+    user.email ||
+    user.user?.email ||
+    localStorage.getItem("user_email") ||
+    localStorage.getItem("email") ||
+    localStorage.getItem("creatorhub_profile_email") ||
+    "";
+
+  email = String(email || "").trim().toLowerCase();
+
+  const cached = email ? getProfileCache(email) : null;
+
+  let name =
+    user.name ||
+    user.user?.name ||
+    localStorage.getItem("user_name") ||
+    cached?.name ||
+    "CreatorHub User";
+
+  let image =
+    user.profile_image ||
+    user.profileImage ||
+    user.picture ||
+    user.user?.profile_image ||
+    user.user?.picture ||
+    localStorage.getItem("user_image") ||
+    localStorage.getItem("profile_image") ||
+    cached?.profile_image ||
+    "";
+
+  return {
+    email,
+    name,
+    image,
+    token: user.token || localStorage.getItem("user_token") || localStorage.getItem("token") || ""
+  };
+}
+
+function updateProfileUI(){
+  const user = getLoggedUser();
+  const avatar = driveImage(user.image) || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.name || "User") + "&background=315df4&color=fff";
+
+  $("profileImage").src = avatar;
+  $("menuProfileImage").src = avatar;
+  $("menuName").innerText = user.name || "CreatorHub User";
+  $("menuEmail").innerText = user.email || "Not logged in";
+}
+
+function toggleProfileMenu(){
+  $("profileMenu").classList.toggle("show");
+}
+
+window.addEventListener("click",function(e){
+  const wrap = $("profileWrap");
+  if(wrap && !wrap.contains(e.target)){
+    $("profileMenu").classList.remove("show");
+  }
+});
+
+function logout(){
+  localStorage.clear();
+  window.location.href = "login.html";
+}
+
+function goBack(){
+  window.location.href = "index.html";
+}
+
+async function fetchJSON(url){
+  const response = await fetch(url + (url.includes("?") ? "&" : "?") + "_=" + Date.now(),{
+    method:"GET",
+    cache:"no-store"
+  });
+
+  const text = await response.text();
+
+  try{
+    return JSON.parse(text);
+  }catch(e){
+    throw new Error("Backend returned invalid JSON");
+  }
+}
+
+function extractArray(data,keys){
+  if(Array.isArray(data)) return data;
+
+  for(const key of keys){
+    if(Array.isArray(data?.[key])) return data[key];
+  }
+
+  if(Array.isArray(data?.data)) return data.data;
+  if(Array.isArray(data?.result)) return data.result;
+
+  return [];
+}
+
+function getProductId(product){
+  return String(
+    product.id ||
+    product.product_id ||
+    product.book_id ||
+    product.ebook_id ||
+    product.item_id ||
+    ""
+  );
+}
+
+function getOrderProductId(order){
+  return String(
+    order.book_id ||
+    order.product_id ||
+    order.ebook_id ||
+    order.item_id ||
+    order.productId ||
+    order.bookId ||
+    ""
+  );
+}
+
+function getOrderEmail(order){
+  return String(
+    order.email ||
+    order.user_email ||
+    order.buyer_email ||
+    order.customer_email ||
+    order.customerEmail ||
+    order.userEmail ||
+    ""
+  ).trim().toLowerCase();
+}
+
+function findProduct(order,products){
+  const orderProductId = getOrderProductId(order);
+
+  if(orderProductId){
+    const byId = products.find(p => getProductId(p) === orderProductId);
+    if(byId) return byId;
+  }
+
+  const orderTitle = String(order.book_title || order.title || order.product_title || "").trim().toLowerCase();
+
+  if(orderTitle){
+    const byTitle = products.find(p => String(p.title || p.book_title || "").trim().toLowerCase() === orderTitle);
+    if(byTitle) return byTitle;
+  }
+
+  return {};
+}
+
+function getOrderAmount(order){
+  return Number(
+    order.total_amount ||
+    order.amount ||
+    order.price ||
+    order.total ||
+    order.payable_amount ||
+    0
+  );
+}
+
+function getStatusClass(order){
+  const text = String(order.order_status || order.status || order.payment_status || "").toLowerCase();
+
+  if(text.includes("cancel")) return "cancelled";
+  if(text.includes("fail")) return "failed";
+  if(text.includes("expire")) return "expired";
+  if(text.includes("pending") || text.includes("process")) return "pending";
+
+  return "";
+}
+
+function formatDate(value){
+  if(!value) return "N/A";
+
+  const date = new Date(value);
+
+  if(isNaN(date)) return String(value);
+
+  return date.toLocaleDateString("en-IN",{
+    day:"2-digit",
+    month:"short",
+    year:"numeric"
+  });
+}
+
+function renderEmpty(icon,title,text,button){
+  $("ordersContainer").innerHTML = `
+    <div class="empty">
+      <div class="empty-icon">${icon}</div>
+      <h2>${safeText(title)}</h2>
+      <p>${safeText(text)}</p>
+      ${button || ""}
+    </div>
+  `;
+}
+
+function updateStats(orders){
+  $("totalOrders").innerText = orders.length;
+
+  const active = orders.filter(order=>{
+    const status = String(order.order_status || order.status || "").toLowerCase();
+    return !status.includes("cancel") && !status.includes("expire") && !status.includes("fail");
+  }).length;
+
+  $("activeOrders").innerText = active;
+
+  const total = orders.reduce((sum,order)=>sum + getOrderAmount(order),0);
+  $("totalSpent").innerText = money(total);
+}
+
+async function loadOrders(){
+  const user = getLoggedUser();
+
+  updateProfileUI();
+
+  if(!user.email){
+    $("pageStatus").innerText = "Login required";
+    renderEmpty(
+      '<i class="fa-solid fa-lock" style="color:#ef4444"></i>',
+      "Login Required",
+      "Please login first to view your orders.",
+      '<a class="empty-action" href="login.html"><i class="fa-solid fa-right-to-bracket"></i>Login Now</a>'
+    );
+    return;
+  }
+
+  $("pageStatus").innerText = "Loading orders...";
+
+  try{
+    const [ordersData,productsData] = await Promise.all([
+      fetchJSON(ORDER_API + "?action=getOrders&email=" + encodeURIComponent(user.email)),
+      fetchJSON(PRODUCT_API + "?action=products")
+    ]);
+
+    let orders = extractArray(ordersData,["orders","order","items","records"]);
+    const products = extractArray(productsData,["products","items","books","ebooks","records"]);
+
+    const hasEmailField = orders.some(order => getOrderEmail(order));
+    if(hasEmailField){
+      orders = orders.filter(order => getOrderEmail(order) === user.email);
     }
 
-    function toggleProfileMenu(){
-      document.getElementById("profileMenu").classList.toggle("show");
+    orders = orders.slice().reverse();
+
+    updateStats(orders);
+
+    if(!orders.length){
+      $("pageStatus").innerText = "No orders found";
+      renderEmpty(
+        '<i class="fa-solid fa-box-open"></i>',
+        "No Orders Found",
+        "You have not purchased any ebooks yet.",
+        '<a class="empty-action" href="explore.html"><i class="fa-solid fa-magnifying-glass"></i>Explore Ebooks</a>'
+      );
+      return;
     }
 
-    window.addEventListener("click", function(e){
-      let wrap = document.getElementById("profileWrap");
-      if(wrap && !wrap.contains(e.target)){
-        document.getElementById("profileMenu").classList.remove("show");
-      }
-    });
+    const html = orders.map(order=>{
+      const product = findProduct(order,products);
 
-    function logout(){
-      localStorage.clear();
-      window.location.href = "login.html";
-    }
+      const title =
+        order.book_title ||
+        order.product_title ||
+        order.title ||
+        product.title ||
+        product.book_title ||
+        "Premium Ebook";
 
-    function goBack(){
-      window.location.href = "index.html";
-    }
+      const image =
+        driveImage(order.front_cover || order.cover || order.image || product.front_cover || product.cover_image || product.image || product.cover) ||
+        DEFAULT_COVER;
 
-    function updateLoginUI(){
-      let token = localStorage.getItem("user_token");
-      let profileWrap = document.getElementById("profileWrap");
-      let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
-      let email = localStorage.getItem("creatorhub_profile_email");
-      
-      if(token || localStorage.getItem("user")){
-        profileWrap.style.display = "flex";
-        if(cachedUser && email){
-          try {
-            let data = JSON.parse(cachedUser)[email];
-            if(data && data.profile_image){
-              document.getElementById("profileImage").src = driveImage(data.profile_image);
-              document.getElementById("menuProfileImage").src = driveImage(data.profile_image);
-              document.getElementById("menuName").innerText = data.name || "CreatorHub User";
-              document.getElementById("menuEmail").innerText = data.email || email;
-            }
-          } catch(e) { console.log("Cache processing skipped"); }
-        }
-      }
-    }
+      const statusText =
+        order.order_status ||
+        order.status ||
+        order.payment_status ||
+        "Processing";
 
-    /* =====================================================
-    OPTIMIZED ULTRA-FAST PARALLEL FETCH STREAM COMPILER
-    ===================================================== */
-    async function loadOrders(){
-      try{
-        let USER = JSON.parse(localStorage.getItem("user") || "{}");
-        const userEmail = USER.email || "";
+      const payment =
+        order.payment_status ||
+        order.payment ||
+        "pending";
 
-        if(!userEmail){
-          document.getElementById("ordersContainer").innerHTML = `
-            <div class="empty">
-              <div class="empty-icon"><i class="fa-solid fa-lock" style="color:#ef4444;"></i></div>
-              <h2>Login Required</h2>
-              <p>Please login first to view your orders.</p>
-            </div>
-          `;
-          return;
-        }
+      const orderId =
+        order.id ||
+        order.order_id ||
+        order.orderId ||
+        order.razorpay_order_id ||
+        "N/A";
 
-        // Parallel Fetching: Dono APIs ek sath parallel me hit hongi (Super Fast Loading)
-        const [ordersRes, productsRes] = await Promise.all([
-          fetch(API_URL + "?action=getOrders&email=" + encodeURIComponent(userEmail)),
-          fetch(PRODUCT_API + "?action=products")
-        ]);
+      const tracking =
+        order.tracking_id ||
+        order.trackingId ||
+        order.shipment_id ||
+        "Preparing";
 
-        const data = await ordersRes.json();
-        const productsData = await productsRes.json();
+      return `
+        <article class="order-card">
+          <div class="order-top">
+            <img class="book-image" src="${safeText(image)}" alt="${safeText(title)}">
 
-        if(!data.success || !data.orders || !data.orders.length){
-          document.getElementById("ordersContainer").innerHTML = `
-            <div class="empty">
-              <div class="empty-icon"><i class="fa-solid fa-box" style="color:#63728a;"></i></div>
-              <h2>No Orders Found</h2>
-              <p>You have not purchased any ebooks yet.</p>
-            </div>
-          `;
-          return;
-        }
+            <div class="order-info">
+              <h2>${safeText(title)}</h2>
+              <div class="order-id">Order ID: ${safeText(orderId)}</div>
 
-        let orders = data.orders.reverse();
-        let ALL_PRODUCTS = productsData.products || [];
+              <div class="status-row">
+                <span class="status ${getStatusClass(order)}">${safeText(statusText)}</span>
+                <div class="price">${money(getOrderAmount(order))}</div>
+              </div>
 
-        // METRICS DATA UPDATE
-        document.getElementById("totalOrders").innerHTML = orders.length;
-        let active = orders.filter(o => String(o.order_status || "").toLowerCase() !== "expired").length;
-        document.getElementById("activeOrders").innerHTML = active;
+              <div class="meta-grid">
+                <div class="meta-box">
+                  <div class="meta-label">Payment Status</div>
+                  <div class="meta-value ${String(payment).toLowerCase() === "paid" ? "green" : ""}">${safeText(payment)}</div>
+                </div>
 
-        let total = 0;
-        orders.forEach(o => { total += Number(o.total_amount || 0); });
-        document.getElementById("totalSpent").innerHTML = "₹" + total.toFixed(2);
+                <div class="meta-box">
+                  <div class="meta-label">Tracking ID</div>
+                  <div class="meta-value">${safeText(tracking)}</div>
+                </div>
 
-        let html = "";
-        orders.forEach(order=>{
-          let product = ALL_PRODUCTS.find(p => String(p.id) === String(order.book_id));
-          let image = driveImage(product?.front_cover || "");
-          let expired = false;
+                <div class="meta-box">
+                  <div class="meta-label">Delivery Region</div>
+                  <div class="meta-value">${safeText(order.country || order.region || "India")}</div>
+                </div>
 
-          if(order.release_date){
-            expired = new Date(order.release_date) < new Date();
-          }
-
-          let paymentStatusClass = String(order.payment_status).toLowerCase() === "paid" ? "green" : "";
-          
-          // Safe Date Formatting Fallback
-          let orderDate = "N/A";
-          if(order.created_at) {
-            const parsedDate = new Date(order.created_at);
-            if(!isNaN(parsedDate)) {
-              orderDate = parsedDate.toLocaleDateString();
-            }
-          }
-
-          html += `
-            <div class="order-card">
-              <div class="order-top">
-                <img src="${image || 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400'}" class="book-image" alt="Book Cover">
-                <div class="order-info">
-                  <h2>${order.book_title || "Premium Ebook"}</h2>
-                  <p class="order-id">Order ID: ${order.id}</p>
-                  
-                  <div class="status-row">
-                    <span class="status ${expired ? 'expired' : ''}">
-                      ${expired ? 'Expired' : (order.order_status || 'Processing')}
-                    </span>
-                    <div class="price">₹${order.total_amount || 0}</div>
-                  </div>
-
-                  <div class="meta-grid">
-                    <div class="meta-box">
-                      <div class="meta-label">Payment Status</div>
-                      <div class="meta-value ${paymentStatusClass}">${order.payment_status || "pending"}</div>
-                    </div>
-                    <div class="meta-box">
-                      <div class="meta-label">Tracking ID</div>
-                      <div class="meta-value">${order.tracking_id || "Preparing"}</div>
-                    </div>
-                    <div class="meta-box">
-                      <div class="meta-label">Delivery Region</div>
-                      <div class="meta-value">India</div>
-                    </div>
-                    <div class="meta-box">
-                      <div class="meta-label">Order Date</div>
-                      <div class="meta-value">${orderDate}</div>
-                    </div>
-                  </div>
-
-                  <button class="track-btn" onclick="trackOrder('${order.id}')">
-                    Track Order
-                  </button>
+                <div class="meta-box">
+                  <div class="meta-label">Order Date</div>
+                  <div class="meta-value">${safeText(formatDate(order.created_at || order.date || order.order_date))}</div>
                 </div>
               </div>
+
+              <button class="track-btn" onclick="trackOrder('${safeText(orderId)}')">
+                <i class="fa-solid fa-location-dot"></i>
+                Track Order
+              </button>
             </div>
-          `;
-        });
-
-        document.getElementById("ordersContainer").innerHTML = html;
-      }catch(err){
-        console.log(err);
-        document.getElementById("ordersContainer").innerHTML = `
-          <div class="empty">
-            <div class="empty-icon"><i class="fa-solid fa-triangle-exclamation" style="color:#ef4444;"></i></div>
-            <h2>Unable To Load Orders</h2>
-            <p>Backend connection failed. Please refresh the page.</p>
           </div>
-        `;
-      }
-    }
+        </article>
+      `;
+    }).join("");
 
-    function trackOrder(id){
-      localStorage.setItem("order_id", id);
-      window.location.href = "track.html";
-    }
+    $("ordersContainer").innerHTML = html;
+    $("pageStatus").innerText = "Orders loaded";
+  }catch(error){
+    console.error(error);
+    $("pageStatus").innerText = "Unable to load orders";
+    renderEmpty(
+      '<i class="fa-solid fa-triangle-exclamation" style="color:#ef4444"></i>',
+      "Unable To Load Orders",
+      "Backend connection failed. Please refresh the page or check your Apps Script deployment."
+    );
+  }
+}
 
-    // Initialize UI on Load
-    updateLoginUI();
-    loadOrders();
-  </script>
+function trackOrder(id){
+  localStorage.setItem("order_id",id);
+  window.location.href = "track.html";
+}
+
+document.addEventListener("DOMContentLoaded",function(){
+  updateProfileUI();
+  loadOrders();
+});
+</script>
+
 </body>
 </html>
