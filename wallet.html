@@ -768,6 +768,10 @@
               <h2 id="totalEarnings">₹0.00</h2>
             </div>
             <div class="stat">
+  <h3>Delivery Earnings</h3>
+  <h2 id="deliveryEarnings">₹0.00</h2>
+</div>
+            <div class="stat">
   <h3>Print Earnings</h3>
   <h2 id="printEarnings">₹0.00</h2>
 </div>
@@ -925,6 +929,11 @@
         document.getElementById("totalEarnings").innerHTML = "₹" + Number(wallet.total_earnings||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
         document.getElementById("printEarnings").innerHTML =
 "₹" + Number(wallet.print_earnings || 0).toLocaleString("en-IN", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+});
+        document.getElementById("deliveryEarnings").innerHTML =
+"₹" + Number(wallet.delivery_balance || 0).toLocaleString("en-IN", {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2
 });
