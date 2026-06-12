@@ -708,34 +708,43 @@
 
   <!-- TOPBAR NAVIGATION LAYER -->
   <div class="topbar">
-    <div class="topbar-left">
-      <div id="profileWrap" class="profile-wrap">
-        <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile View">
-        
-        <div id="profileMenu" class="profile-menu">
-          <div class="profile-header">
-            <img id="menuProfileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="menu-profile-image" alt="User">
-            <div>
-              <div id="menuName">CreatorHub User</div>
-            </div>
+  <div class="topbar-left">
+    <div id="profileWrap" class="profile-wrap">
+      <img id="profileImage"
+        src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff"
+        class="profile-image"
+        onclick="toggleProfileMenu()">
+
+      <div id="profileMenu" class="profile-menu">
+        <div class="profile-header">
+          <img id="menuProfileImage"
+            src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff"
+            class="menu-profile-image">
+
+          <div>
+            <div id="menuName">CreatorHub User</div>
+            <div id="menuEmail"></div> <!-- ✅ IMPORTANT -->
           </div>
-          <a href="profile.html">My Profile</a>
-          <a href="seller-apply.html">Become Seller</a>
-          <a href="tranding.html">Trending Books</a>
-          <a href="library.html">Library</a>
-          <a href="topselling.html">Top Selling</a>
-          <div class="logout-btn" onclick="logout()">Logout</div>
         </div>
+
+        <a href="profile.html">My Profile</a>
+        <a href="seller-apply.html">Become Seller</a>
+        <a href="tranding.html">Trending Books</a>
+        <a href="library.html">Library</a>
+        <a href="topselling.html">Top Selling</a>
+
+        <div class="logout-btn" onclick="logout()">Logout</div>
       </div>
-
-   </div>
-
-    <a class="brand-logo" href="./wallet.html">
-      <span class="brand-name">Creator<span>Hub</span></span>
-    </a>
-
-    <div class="badge">Wallet Center</div>
+    </div>
   </div>
+
+  <!-- ✅ ये अब अंदर है (पहले बाहर था) -->
+  <a class="brand-logo" href="./wallet.html">
+    <span class="brand-name">Creator<span>Hub</span></span>
+  </a>
+
+  <div class="badge">Wallet Center</div>
+</div>
 
   <!-- CONTAINER FRAME -->
   <div class="main">
