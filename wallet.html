@@ -903,28 +903,22 @@
     }
 
     function updateLoginUI(){
-      let token = localStorage.getItem("user_token");
-      let profileWrap = document.getElementById("profileWrap");
+  let profileWrap = document.getElementById("profileWrap");
 
-      let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
-      let email = localStorage.getItem("creatorhub_profile_email");
-      
-      if(token || USER_EMAIL){
-        profileWrap.style.display = "flex";
+  let user = JSON.parse(localStorage.getItem("user") || "{}");
 
-        if(cachedUser && email){
-          try {
-            let data = JSON.parse(cachedUser)[email];
-            if(data && data.profile_image){
-              document.getElementById("profileImage").src = driveImage(data.profile_image);
-              document.getElementById("menuProfileImage").src = driveImage(data.profile_image);
-              document.getElementById("menuName").innerText = data.name || "CreatorHub User";
-              document.getElementById("menuEmail").innerText = data.email || email;
-            }
-          } catch(e) { console.log("Cache compilation skipped"); }
-        }
-      }
+  if(user.email){
+    profileWrap.style.display = "flex";
+
+    document.getElementById("menuName").innerText = user.name || "CreatorHub User";
+    document.getElementById("menuEmail").innerText = user.email || "";
+
+    if(user.profile_image){
+      document.getElementById("profileImage").src = user.profile_image;
+      document.getElementById("menuProfileImage").src = user.profile_image;
     }
+  }
+}
 
     async function loadWallet(){
       try{
