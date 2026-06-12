@@ -902,12 +902,22 @@
       window.location.href = "index.html";
     }
 
-   function updateLoginUI(){
-  const img = user.image || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.name) + "&background=2f62e9&color=fff";
-  document.getElementById("profileImage").src = driveImage(img);
-  document.getElementById("menuProfileImage").src = driveImage(img);
-  document.getElementById("menuName").innerText = user.name;
-  document.getElementById("menuEmail").innerText = user.email;
+function updateLoginUI(){
+  let profileWrap = document.getElementById("profileWrap");
+
+  let user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  if(user.email){
+    profileWrap.style.display = "flex";
+
+    document.getElementById("menuName").innerText = user.name || "CreatorHub User";
+    document.getElementById("menuEmail").innerText = user.email || "";
+
+    if(user.profile_image){
+      document.getElementById("profileImage").src = user.profile_image;
+      document.getElementById("menuProfileImage").src = user.profile_image;
+    }
+  }
 }
 
     async function loadWallet(){
