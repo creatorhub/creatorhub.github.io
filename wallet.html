@@ -767,6 +767,10 @@
               <h3>Total Earnings</h3>
               <h2 id="totalEarnings">₹0.00</h2>
             </div>
+            <div class="stat">
+  <h3>Print Earnings</h3>
+  <h2 id="printEarnings">₹0.00</h2>
+</div>
           </div>
 
           <div class="actions">
@@ -919,6 +923,11 @@
         document.getElementById("pendingBalance").innerHTML = "₹" + Number(wallet.pending||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
         document.getElementById("withdrawnBalance").innerHTML = "₹" + Number(wallet.withdrawn||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
         document.getElementById("totalEarnings").innerHTML = "₹" + Number(wallet.total_earnings||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        document.getElementById("printEarnings").innerHTML =
+"₹" + Number(wallet.print_earnings || 0).toLocaleString("en-IN", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+});
       }catch(err){ console.log(err); }
     }
 
@@ -1030,10 +1039,15 @@
       let name = document.getElementById("name").value;
       let phone = document.getElementById("phone").value;
 
-      if(!amount || !upi){
-        alert("Please fill all fields");
-        return;
-      }
+      if(!amount || !upi || !name || !phone){
+  alert("Please fill all fields");
+  return;
+}
+
+if(Number(amount) < 100){
+  alert("Minimum withdrawal is ₹100");
+  return;
+}
 
       document.getElementById("withdrawStatus").innerHTML = "Processing withdrawal request...";
 
