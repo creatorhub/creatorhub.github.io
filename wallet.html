@@ -767,13 +767,18 @@
               <h3>Total Earnings</h3>
               <h2 id="totalEarnings">₹0.00</h2>
             </div>
-            <div class="stat">
-  <h3>Delivery Earnings</h3>
-  <h2 id="deliveryEarnings">₹0.00</h2>
-</div>
-            <div class="stat">
-  <h3>Print Earnings</h3>
-  <h2 id="printEarnings">₹0.00</h2>
+           <div id="adminOnly">
+
+  <div class="stat">
+    <h3>Delivery Earnings</h3>
+    <h2 id="deliveryEarnings">₹0.00</h2>
+  </div>
+
+  <div class="stat">
+    <h3>Print Earnings</h3>
+    <h2 id="printEarnings">₹0.00</h2>
+  </div>
+
 </div>
           </div>
 
@@ -928,7 +933,7 @@
         document.getElementById("withdrawnBalance").innerHTML = "₹" + Number(wallet.withdrawn||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
         document.getElementById("totalEarnings").innerHTML = "₹" + Number(wallet.total_earnings||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
         document.getElementById("printEarnings").innerHTML =
-"₹" + Number(wallet.print_earnings || 0).toLocaleString("en-IN", {
+"₹" + Number(wallet.print_balance || 0).toLocaleString("en-IN", {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2
 });
@@ -1098,6 +1103,10 @@ if(Number(amount) < 100){
     updateLoginUI();
     loadWallet();
     loadTransactions();
+    if(USER_EMAIL !== "ayushprajpati6@gmail.com"){
+  let adminBox = document.getElementById("adminOnly");
+  if(adminBox) adminBox.style.display = "none";
+}
   </script>
 </body>
 </html>
