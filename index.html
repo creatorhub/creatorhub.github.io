@@ -176,7 +176,7 @@ a{text-decoration:none;color:inherit}
   }
 
   .books-grid {
-    grid-template-columns: repeat(2, 1fr); 
+    grid-template-columns: repeat(2, 1fr);
     gap: 12px;
   }
 
@@ -186,7 +186,7 @@ a{text-decoration:none;color:inherit}
 
   .book-title {
     font-size: 13px;
-    min-height: 36px; 
+    min-height: 36px;
   }
 
   .book-author {
@@ -200,7 +200,7 @@ a{text-decoration:none;color:inherit}
   }
 
   .features {
-    grid-template-columns: 1fr; 
+    grid-template-columns: 1fr;
     gap: 16px;
   }
   
@@ -211,16 +211,40 @@ a{text-decoration:none;color:inherit}
 
 /* 📱 Very Small Mobile Screens (max-width: 480px) */
 @media (max-width: 480px) {
-  .books-grid {
-    grid-template-columns: 1fr; 
-    gap: 16px;
+  .topbar {
+    padding: 14px 12px;
   }
-  
+
+  .nav {
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .nav a {
+    min-width: 80px;
+    padding: 10px 8px;
+    font-size: 12px;
+  }
+
+  .hero {
+    padding: 28px 16px;
+  }
+
   .hero-title {
     font-size: 26px;
   }
-    }
-  
+
+  .hero-desc {
+    font-size: 14px;
+  }
+
+  .filter-btn {
+    min-height: 34px;
+    font-size: 12px;
+    padding: 0 12px;
+  }
+}
+
 </style>
 </head>
 
@@ -331,21 +355,22 @@ const API_URL = "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyD
 window.MASTER_CATALOG_POOL = [];
 window.CURRENT_ACTIVE_FILTER_TYPE = "all";
 
-function driveImage(url){
+function driveImage(url, size = 400){
   if(!url) return "";
 
   if(url.includes("ui-avatars.com")){
     return url;
   }
 
+  // Use smaller thumbnails by default to speed up grid rendering
   if(url.includes("uc?id=")){
     let id = url.split("id=")[1].split("&")[0];
-    return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+    return "https://drive.google.com/thumbnail?id=" + id + "&sz=w" + size;
   }
 
   if(url.includes("/d/")){
     let id = url.split("/d/")[1].split("/")[0];
-    return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+    return "https://drive.google.com/thumbnail?id=" + id + "&sz=w" + size;
   }
 
   return url;
@@ -447,7 +472,7 @@ async function loadBooks(){
   let grid = document.getElementById("booksGrid");
 
   try{
-    let res = await fetch(API_URL + "?action=products");
+    let res = await fetch(API_URL + "?action=products", { cache: 'force-cache' });
     let data = await res.json();
 
     if(!data.success || !data.products || !data.products.length){
@@ -471,18 +496,48 @@ function renderBooks(books){
     return;
   }
 
-  books.forEach(book=>{
-    grid.innerHTML += `
-      <div class="book" onclick="window.location.href='book.html?id=${book.id || ""}'">
-        <img class="book-cover" src="${driveImage(book.front_cover || book.cover || "")}" loading="lazy" alt="Book Cover">
-        <div class="book-content">
-          <div class="book-title">${book.title || "Untitled"}</div>
-          <div class="book-author">by ${book.author || "Unknown"}</div>
-          <div class="book-price">₹${Number(book.price || 0)}</div>
-        </div>
-      </div>
-    `;
-  });
+  // Render in small batches to avoid blocking the main thread for large catalogs
+  const batchSize = 20;
+  let index = 0;
+
+  function renderBatch(){
+    const fragment = document.createDocumentFragment();
+    for(let i=0;i<batchSize && index<books.length;i++,index++){
+      const book = books[index];
+
+      const card = document.createElement('div');
+      card.className = 'book';
+      card.onclick = function(){ window.location.href = 'book.html?id=' + (book.id || ''); };
+
+      const img = document.createElement('img');
+      img.className = 'book-cover';
+      img.src = driveImage(book.front_cover || book.cover || "", 400);
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.alt = 'Book Cover';
+
+      const content = document.createElement('div');
+      content.className = 'book-content';
+      content.innerHTML = `
+        <div class="book-title">${book.title || "Untitled"}</div>
+        <div class="book-author">by ${book.author || "Unknown"}</div>
+        <div class="book-price">₹${Number(book.price || 0)}</div>
+      `;
+
+      card.appendChild(img);
+      card.appendChild(content);
+      fragment.appendChild(card);
+    }
+
+    grid.appendChild(fragment);
+
+    if(index < books.length){
+      // Yield to the main thread and render next batch shortly after
+      setTimeout(renderBatch, 50);
+    }
+  }
+
+  renderBatch();
 }
 
 function handleSearchFilter(){
@@ -541,7 +596,12 @@ async function injectFooter(){
 
 updateLoginUI();
 loadBooks();
-injectFooter();
+// Inject footer during idle time to avoid blocking initial rendering
+if('requestIdleCallback' in window){
+  requestIdleCallback(injectFooter, {timeout:2000});
+}else{
+  setTimeout(injectFooter, 1000);
+}
 </script>
 
 </body>
