@@ -477,7 +477,7 @@ img{
 /* RELATED ITEMS SLIDER MATRIX */
 .related-grid{
     display:grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill,minmax(180px,1fr));
     gap:20px;
 }
 
@@ -498,10 +498,25 @@ img{
 
 .related-book img{
     width:100%;
-    height:260px;
-    object-fit:cover;
-    background: var(--bg-primary);
-    border-bottom: 1px solid var(--border-color);
+    height:300px;
+    object-fit:contain;
+    background:#f8fafc;
+    padding:12px;
+    border-bottom:1px solid var(--border-color);
+}
+
+@media(max-width:700px){
+
+    .related-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:14px;
+    }
+
+    .related-book img{
+        height:220px;
+        padding:8px;
+    }
+
 }
 
 .related-content{
