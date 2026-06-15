@@ -661,6 +661,14 @@
       <div id="withdrawTarget">
         <div class="card">
           <div class="withdraw-title">Withdraw Earnings</div>
+          <div class="input-field" id="adminFundSelector" style="display: none;">
+  <label for="fundType">Select Fund Type to Withdraw</label>
+  <select id="fundType" class="input" style="font-weight: 700; color: #2f62e9;">
+    <option value="profit">My all Book Profit / Platform Fees</option>
+    <option value="print">Print Earnings (Qikink Courier Pot)</option>
+    <option value="delivery">Delivery Earnings (Shipping Pot)</option>
+  </select>
+</div>
           
           <div class="input-field">
             <label for="name">Full Name</label>
@@ -746,21 +754,28 @@
       window.location.href = "index.html";
     }
 
-    function updateLoginUI(){
-      let profileWrap = document.getElementById("profileWrap");
-      let user = JSON.parse(localStorage.getItem("user") || "{}");
+   // A. लॉगिन यूआई में एडमिन चेक करके ड्रॉपडाउन दिखाना
+function updateLoginUI(){
+  let profileWrap = document.getElementById("profileWrap");
+  let user = JSON.parse(localStorage.getItem("user") || "{}");
 
-      if(user.email){
-        profileWrap.style.display = "flex";
-        document.getElementById("menuName").innerText = user.name || "CreatorHub User";
-        document.getElementById("menuEmail").innerText = user.email || "";
+  if(user.email){
+    profileWrap.style.display = "flex";
+    document.getElementById("menuName").innerText = user.name || "CreatorHub User";
+    document.getElementById("menuEmail").innerText = user.email || "";
 
-        if(user.profile_image){
-          document.getElementById("profileImage").src = user.profile_image;
-          document.getElementById("menuProfileImage").src = user.profile_image;
-        }
-      }
+    if(user.profile_image){
+      document.getElementById("profileImage").src = user.profile_image;
+      document.getElementById("menuProfileImage").src = user.profile_image;
     }
+
+    // 🌟 अगर एडमिन लॉगिन है तो फंड सिलेक्ट करने वाला डिब्बा ऑन करें
+    if(user.email.toLowerCase() === "ayushprajpati6@gmail.com") {
+      let fundBox = document.getElementById("adminFundSelector");
+      if(fundBox) fundBox.style.display = "grid";
+    }
+  }
+}
 
     /* =========================================================
     🌟 UPDATED RELIABLE BALANCE RENDERER FOR ADMIN SELF-TESTS
@@ -891,45 +906,58 @@
       }
     }
 
-    async function withdrawMoney(){
-      let amount = document.getElementById("withdrawAmount").value.trim();
-      let upi = document.getElementById("upi").value.trim();
-      let name = document.getElementById("name").value;
-      let phone = document.getElementById("phone").value;
+   // B. विड्रॉल रिक्वेस्ट में सिलेक्टेड फंड टाइप बैकएंड को भेजना
+async function withdrawMoney(){
+  let amount = document.getElementById("withdrawAmount").value.trim();
+  let upi = document.getElementById("upi").value.trim();
+  let name = document.getElementById("name").value;
+  let phone = document.getElementById("phone").value;
+  
+  // 🌟 ड्रॉपडाउन से वैल्यू उठाएं (अगर नॉर्मल यूजर है तो डिफ़ॉल्ट 'profit' जाएगा)
+  let fundSelector = document.getElementById("fundType");
+  let selectedFund = fundSelector ? fundSelector.value : "profit";
 
-      if(!amount || !upi || !name || !phone){
-        alert("Please fill all fields");
-        return;
-      }
+  if(!amount || !upi || !name || !phone){
+    alert("Please fill all fields");
+    return;
+  }
 
-      if(Number(amount) < 100){
-        alert("Minimum withdrawal is ₹100");
-        return;
-      }
+  if(Number(amount) < 100){
+    alert("Minimum withdrawal is ₹100");
+    return;
+  }
 
-      document.getElementById("withdrawStatus").innerHTML = "Processing withdrawal request...";
+  document.getElementById("withdrawStatus").innerHTML = "Processing withdrawal request...";
 
-      try{
-        let res = await fetch(API_URL,{
-          method:"POST",
-          headers:{ "Content-Type":"text/plain;charset=utf-8" },
-          body:JSON.stringify({ action:"withdraw", email:USER_EMAIL, name:name, phone:phone, amount:amount, upi:upi })
-        });
-        let data = await res.json();
-        document.getElementById("withdrawStatus").innerHTML = data.message;
+  try{
+    let res = await fetch(API_URL,{
+      method:"POST",
+      headers:{ "Content-Type":"text/plain;charset=utf-8" },
+      body:JSON.stringify({ 
+        action:"withdraw", 
+        email:USER_EMAIL, 
+        name:name, 
+        phone:phone, 
+        amount:amount, 
+        upi:upi,
+        fund_type: selectedFund // 🌟 बैकएंड को फंड टाइप भेजा जा रहा है
+      })
+    });
+    let data = await res.json();
+    document.getElementById("withdrawStatus").innerHTML = data.message;
 
-        if(data.success){
-          document.getElementById("withdrawAmount").value = "";
-          document.getElementById("upi").value = "";
-          loadWallet();
-          loadTransactions();
-        }
-      }catch(err){
-        console.log(err);
-        document.getElementById("withdrawStatus").innerHTML = "Server error";
-      }
+    if(data.success){
+      document.getElementById("withdrawAmount").value = "";
+      document.getElementById("upi").value = "";
+      loadWallet();
+      loadTransactions();
     }
-
+  }catch(err){
+    console.log(err);
+    document.getElementById("withdrawStatus").innerHTML = "Server error";
+  }
+}
+    
     function scrollWithdraw(){
       const target = document.getElementById("withdrawTarget");
       const offset = 140;
