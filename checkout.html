@@ -930,61 +930,78 @@ function dropMapPin(lat, lng) {
   }
 }
 
+// =========================================================
+// ULTRA-SMART ALL-INDIA REVERSE GEOCLICK ENGINE
+// =========================================================
 async function reverseGeocodeAddress(lat, lng) {
   try {
+    // 1. मुख्य मैप सर्विस से एरिया डिटेल्स निकालें
     let response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&accept-language=en`);
     let data = await response.json();
     
     if (!data || !data.address) return;
     let addr = data.address;
     
-    // 1. शहर (City) ऑटो-फिल
-    let detectedCity = addr.city || addr.town || addr.village || addr.suburb || "";
-    if (document.getElementById("city")) {
+    // शहर (City/District) का पता लगाएं
+    let detectedCity = addr.city || addr.town || addr.village || addr.suburb || addr.district || "";
+    if (document.getElementById("city") && detectedCity) {
       document.getElementById("city").value = detectedCity;
     }
     
-    // 2. राज्य (State) ऑटो-फिल
-    if (document.getElementById("state")) {
-      document.getElementById("state").value = addr.state || "";
+    // राज्य (State) का पता लगाएं
+    if (document.getElementById("state") && addr.state) {
+      document.getElementById("state").value = addr.state;
     }
     
-    // =======================================================
-    // 3. 🌟 PINCODE SMART AUTO-CORRECTION & VALIDATION
-    // =======================================================
+    // मुख्य एड्रेस लाइन सेट करें
+    if (document.getElementById("address")) {
+      let apartment = addr.house_number || addr.building || addr.residential || "";
+      let roadName = addr.road || addr.neighbourhood || "";
+      let localArea = addr.suburb || addr.county || "";
+      let fullLine = `${apartment} ${roadName} ${localArea}`.replace(/\s+/g, ' ').trim();
+      document.getElementById("address").value = fullLine || detectedCity;
+    }
+
+    // 🌟 2. जादुई पिनकोड सुरक्षा कवच (ALL-INDIA POSTAL DIRECTORY SEARCH)
     let pincodeField = document.getElementById("pincode");
     if (pincodeField) {
       let detectedPostcode = addr.postcode || "";
       let cleanPincode = detectedPostcode.replace(/\s+/g, '').trim();
       
-      // 📍 गुजरात/कलोल तालुका विशिष्ट सुधार (Map 382700 को 382721 में सुधारेगा)
-      if (cleanPincode === "382700" && detectedCity.toLowerCase().includes("kalol")) {
-        cleanPincode = "382721"; 
-      }
-      
-      // सामान्य सुरक्षा गार्ड: अगर पिनकोड सही 6-डिजिट नंबर है और आखिर में "00" का कचरा नहीं है
-      if (cleanPincode && cleanPincode.length === 6 && !isNaN(cleanPincode) && !cleanPincode.endsWith("00")) {
-        pincodeField.value = cleanPincode;
-        pincodeField.style.border = "1px solid var(--border-color)"; // नॉर्मल बॉर्डर
+      // चेक करें: क्या पिनकोड खाली है, अधूरा है, या कलोल वाले केस की तरह आखिर में "00" पर खत्म हो रहा है?
+      if (!cleanPincode || cleanPincode.length !== 6 || isNaN(cleanPincode) || cleanPincode.endsWith("00")) {
+        
+        // सर्च के लिए बेस्ट पॉसिबल एरिया का नाम चुनें
+        let searchLocation = addr.suburb || addr.neighbourhood || detectedCity;
+        
+        if (searchLocation) {
+          pincodeField.placeholder = "Fetching accurate postal code...";
+          
+          // भारत सरकार के लाइव पोस्टल डायरेक्टरी API से असली पिनकोड खोजें
+          let postRes = await fetch(`https://api.postalpincode.in/postoffice/${encodeURIComponent(searchLocation)}`);
+          let postData = await postRes.json();
+          
+          if (postData && postData[0] && postData[0].Status === "Success" && postData[0].PostOffice) {
+            // उस एरिया का बिल्कुल असली वर्किंग पिनकोड निकालें
+            let realPincode = postData[0].PostOffice[0].Pincode;
+            
+            pincodeField.value = realPincode;
+            pincodeField.style.border = "1px solid var(--border-color)"; // सही कोड मिलने पर नॉर्मल बॉर्डर
+          } else {
+            // अगर बहुत ही इंटीरियर इलाका है और API को भी नहीं मिला, तो बॉक्स खाली करके लाल अलर्ट दें
+            pincodeField.value = "";
+            pincodeField.placeholder = "Map code inaccurate! Enter 6-digit Pincode manually";
+            pincodeField.style.border = "2px solid #ef4444";
+          }
+        }
       } else {
-        // ⚠️ अगर मैप अभी भी कोई '00' वाला या गलत पिनकोड देता है, तो बॉक्स खाली करके लाल अलर्ट करें
-        pincodeField.value = ""; 
-        pincodeField.placeholder = "Invalid map code! Enter correct 6-digit Pincode";
-        pincodeField.style.border = "2px solid #ef4444"; // लाल बॉर्डर ताकि यूजर खुद सही डाले
+        // अगर मैप से पहले ही मिला पिनकोड एकदम जेन्युइन और 6-डिजिट का परफेक्ट कोड है
+        pincodeField.value = cleanPincode;
+        pincodeField.style.border = "1px solid var(--border-color)";
       }
-    }
-    
-    // 4. मुख्य एड्रेस बिल्डिंग/रोड लाइन ऑटो-फिल
-    if (document.getElementById("address")) {
-      let apartment = addr.house_number || addr.building || addr.residential || "";
-      let roadName = addr.road || addr.neighbourhood || "";
-      let localArea = addr.suburb || addr.county || "";
-      
-      let fullLine = `${apartment} ${roadName} ${localArea}`.replace(/\s+/g, ' ').trim();
-      document.getElementById("address").value = fullLine;
     }
   } catch (err) {
-    console.log("Map Reverse Code Error: ", err);
+    console.log("Global Smart Map Filter Error: ", err);
   }
 }
 </script>
