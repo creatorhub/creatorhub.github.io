@@ -931,11 +931,11 @@ function dropMapPin(lat, lng) {
 }
 
 // =========================================================
-// ULTRA-SMART ALL-INDIA REVERSE GEOCLICK ENGINE
+// HYBRID ALL-INDIA REVERSE GEOCLICK ENGINE WITH FULL NAME
 // =========================================================
 async function reverseGeocodeAddress(lat, lng) {
   try {
-    // 1. मुख्य मैप सर्विस से एरिया डिटेल्स निकालें
+    // 1. मुख्य मैप सर्विस से एरिया डिटेल्स निकालें (विस्तृत एड्रेस के साथ)
     let response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&accept-language=en`);
     let data = await response.json();
     
@@ -953,49 +953,56 @@ async function reverseGeocodeAddress(lat, lng) {
       document.getElementById("state").value = addr.state;
     }
     
-    // मुख्य एड्रेस लाइन सेट करें
+    // 🌟 STREET ADDRESS SMART FIX: विस्तृत और साफ एड्रेस लाइन बनाना
     if (document.getElementById("address")) {
       let apartment = addr.house_number || addr.building || addr.residential || "";
       let roadName = addr.road || addr.neighbourhood || "";
-      let localArea = addr.suburb || addr.county || "";
-      let fullLine = `${apartment} ${roadName} ${localArea}`.replace(/\s+/g, ' ').trim();
-      document.getElementById("address").value = fullLine || detectedCity;
+      let localArea = addr.suburb || addr.neighbourhood || addr.county || "";
+      
+      let baseLine = `${apartment} ${roadName} ${localArea}`.replace(/\s+/g, ' ').trim();
+      
+      // अगर ऊपर का बेसलाइन बहुत छोटा या सिर्फ तालुका जैसा नाम दे रहा है, तो फुल डिस्प्ले नेम का सहारा लें
+      if (baseLine.length < 15 && data.display_name) {
+        // डिस्प्ले नेम में से सिटी और देश का नाम हटाकर केवल काम का स्ट्रीट एड्रेस निकालें
+        let cleanParts = data.display_name.split(',');
+        // शुरुआती 2 या 3 हिस्सों को आपस में जोड़ें जो स्थानीय गली/मोहल्ला दिखाते हैं
+        baseLine = cleanParts.slice(0, Math.min(3, cleanParts.length - 3)).join(', ').trim();
+      }
+
+      // ⚠️ सुरक्षा कवच: अगर अभी भी मकान नंबर या सोसाइटी गायब है, तो यूजर को हिंट दें
+      if (!apartment) {
+        document.getElementById("address").value = `[Enter House No./Society] ${baseLine}`;
+        document.getElementById("address").style.border = "2px solid #2563eb"; // ध्यान खींचने के लिए हाइलाइट
+      } else {
+        document.getElementById("address").value = baseLine;
+        document.getElementById("address").style.border = "1px solid var(--border-color)";
+      }
     }
 
-    // 🌟 2. जादुई पिनकोड सुरक्षा कवच (ALL-INDIA POSTAL DIRECTORY SEARCH)
+    // 2. जादुई पिनकोड सुरक्षा कवच (ALL-INDIA POSTAL DIRECTORY SEARCH)
     let pincodeField = document.getElementById("pincode");
     if (pincodeField) {
       let detectedPostcode = addr.postcode || "";
       let cleanPincode = detectedPostcode.replace(/\s+/g, '').trim();
       
-      // चेक करें: क्या पिनकोड खाली है, अधूरा है, या कलोल वाले केस की तरह आखिर में "00" पर खत्म हो रहा है?
       if (!cleanPincode || cleanPincode.length !== 6 || isNaN(cleanPincode) || cleanPincode.endsWith("00")) {
-        
-        // सर्च के लिए बेस्ट पॉसिबल एरिया का नाम चुनें
         let searchLocation = addr.suburb || addr.neighbourhood || detectedCity;
         
         if (searchLocation) {
           pincodeField.placeholder = "Fetching accurate postal code...";
-          
-          // भारत सरकार के लाइव पोस्टल डायरेक्टरी API से असली पिनकोड खोजें
           let postRes = await fetch(`https://api.postalpincode.in/postoffice/${encodeURIComponent(searchLocation)}`);
           let postData = await postRes.json();
           
           if (postData && postData[0] && postData[0].Status === "Success" && postData[0].PostOffice) {
-            // उस एरिया का बिल्कुल असली वर्किंग पिनकोड निकालें
-            let realPincode = postData[0].PostOffice[0].Pincode;
-            
-            pincodeField.value = realPincode;
-            pincodeField.style.border = "1px solid var(--border-color)"; // सही कोड मिलने पर नॉर्मल बॉर्डर
+            pincodeField.value = postData[0].PostOffice[0].Pincode;
+            pincodeField.style.border = "1px solid var(--border-color)";
           } else {
-            // अगर बहुत ही इंटीरियर इलाका है और API को भी नहीं मिला, तो बॉक्स खाली करके लाल अलर्ट दें
             pincodeField.value = "";
-            pincodeField.placeholder = "Map code inaccurate! Enter 6-digit Pincode manually";
+            pincodeField.placeholder = "Enter 6-digit Pincode manually";
             pincodeField.style.border = "2px solid #ef4444";
           }
         }
       } else {
-        // अगर मैप से पहले ही मिला पिनकोड एकदम जेन्युइन और 6-डिजिट का परफेक्ट कोड है
         pincodeField.value = cleanPincode;
         pincodeField.style.border = "1px solid var(--border-color)";
       }
@@ -1004,6 +1011,7 @@ async function reverseGeocodeAddress(lat, lng) {
     console.log("Global Smart Map Filter Error: ", err);
   }
 }
+   
 </script>
 </body>
 </html>
