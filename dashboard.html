@@ -383,20 +383,32 @@ function saveCache(data) {
 
 function driveImage(url) {
   if (!url) return "";
-  const text = String(url);
+  const text = String(url).trim();
+
   if (text.startsWith("data:image")) return text;
 
+  // अगर ड्राइव का डायरेक्ट लिंक या थंबनेल आईडी मैच होती है
   const idMatch = text.match(/[?&]id=([^&]+)/);
   if (idMatch && idMatch[1]) {
     return "https://drive.google.com/thumbnail?id=" + idMatch[1] + "&sz=w1000";
   }
+
   if (text.includes("/d/")) {
-    const id = text.split("/d/")[1].split("/")[0];
+    const parts = text.split("/d/")[1];
+    if (parts) {
+      const id = parts.split("/")[0];
+      return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+    }
+  }
+  
+  if (text.includes("uc?id=")) {
+    const id = text.split("uc?id=")[1].split("&")[0];
     return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
   }
+
   return text;
 }
-
+   
 function applyProfile(profile) {
   const name = profile.name || "Creator";
   const email = profile.email || currentUserEmail;
@@ -448,13 +460,11 @@ function renderOrders(data) {
     const status = String(order.payment_status || "pending");
     const statusClass = status.toLowerCase() === "paid" ? "paid" : "pending";
     
-    // 🌟 हर संभावित नाम को चेक करें ताकि कोई भी इमेज मिस न हो
+    // 🌟 डेटाबेस में 'front_cover' सेव हो रहा है, तो सबसे पहले उसी को टारगेट करें
     let bookCoverUrl = order.front_cover || 
                        order.cover || 
                        order.image || 
                        order.book_image || 
-                       order.image_url || 
-                       order.front_url || 
                        "";
                        
     const image = driveImage(bookCoverUrl) || "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400";
