@@ -949,23 +949,28 @@ async function reverseGeocodeAddress(lat, lng) {
       document.getElementById("state").value = addr.state || "";
     }
     
-    // 3. 🌟 पिनकोड (Pincode) स्मार्ट वैलिडेशन चेक
+    // =======================================================
+    // 3. 🌟 PINCODE SMART AUTO-CORRECTION & VALIDATION
+    // =======================================================
     let pincodeField = document.getElementById("pincode");
     if (pincodeField) {
       let detectedPostcode = addr.postcode || "";
-      
-      // भारत का पिनकोड हमेशा 6 अक्षरों का शुद्ध नंबर होता है
       let cleanPincode = detectedPostcode.replace(/\s+/g, '').trim();
       
-      if (cleanPincode && cleanPincode.length === 6 && !isNaN(cleanPincode)) {
-        // अगर मैप से मिला पिनकोड एकदम सही 6-डिजिट का है
+      // 📍 गुजरात/कलोल तालुका विशिष्ट सुधार (Map 382700 को 382721 में सुधारेगा)
+      if (cleanPincode === "382700" && detectedCity.toLowerCase().includes("kalol")) {
+        cleanPincode = "382721"; 
+      }
+      
+      // सामान्य सुरक्षा गार्ड: अगर पिनकोड सही 6-डिजिट नंबर है और आखिर में "00" का कचरा नहीं है
+      if (cleanPincode && cleanPincode.length === 6 && !isNaN(cleanPincode) && !cleanPincode.endsWith("00")) {
         pincodeField.value = cleanPincode;
         pincodeField.style.border = "1px solid var(--border-color)"; // नॉर्मल बॉर्डर
       } else {
-        // ⚠️ अगर मैप का पिनकोड गलत या अधूरा है, तो उसे खाली छोड़ें ताकि यूजर खुद सही टाइप करे
+        // ⚠️ अगर मैप अभी भी कोई '00' वाला या गलत पिनकोड देता है, तो बॉक्स खाली करके लाल अलर्ट करें
         pincodeField.value = ""; 
-        pincodeField.placeholder = "Map code missing! Enter 6-digit Pincode manually";
-        pincodeField.style.border = "2px solid #ef4444"; // यूजर का ध्यान खींचने के लिए लाल बॉर्डर
+        pincodeField.placeholder = "Invalid map code! Enter correct 6-digit Pincode";
+        pincodeField.style.border = "2px solid #ef4444"; // लाल बॉर्डर ताकि यूजर खुद सही डाले
       }
     }
     
