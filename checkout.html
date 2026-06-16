@@ -6,6 +6,7 @@
 <title>CreatorHub Secure Checkout</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
 /* =========================================================
@@ -495,51 +496,45 @@ body{
     font-size: 13px;
     font-weight: 500;
 }
+
+/* PREMIUM MAP BUTTON AND RENDERING SYSTEM */
+.map-trigger-btn {
+    width: 100%;
+    min-height: 50px;
+    background: #eef3f9;
+    color: #2563eb;
+    border: 1px dashed #2563eb;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    transition: all 0.2s ease;
+}
+.map-trigger-btn:hover {
+    background: #2563eb;
+    color: #fff;
+    border-style: solid;
+}
+.map-render-box {
+    width: 100%;
+    height: 320px;
+    margin-bottom: 20px;
+    border-radius: 14px;
+    border: 1px solid var(--border-color);
+    box-shadow: inset 0 2px 8px rgba(0,0,0,.02);
+    display: none;
+    z-index: 1;
+}
 </style>
 
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
-<!-- =====================================================
-  LEAFLET MAP LIBRARIES (ADDED JUST BEFORE CLOSING HEAD TAG)
-  ===================================================== -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-  <style>
-    /* प्रीमियम मैप बटन स्टाइल */
-    .map-trigger-btn {
-      width: 100%;
-      min-height: 50px;
-      background: #eef3f9;
-      color: #2f62e9;
-      border: 1px dashed #2f62e9;
-      border-radius: 9px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
-      transition: all 0.2s ease;
-    }
-    .map-trigger-btn:hover {
-      background: #2f62e9;
-      color: #fff;
-      border-style: solid;
-    }
-    /* मैप डिब्बे का प्रीमियम लुक */
-    .map-render-box {
-      width: 100%;
-      height: 320px;
-      margin-bottom: 20px;
-      border-radius: 9px;
-      border: 1px solid #dce4f0;
-      box-shadow: inset 0 2px 8px rgba(16,24,40,.04);
-      display: none; /* शुरुआत में छुपा रहेगा */
-      z-index: 1;
-    }
-       </style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 
 <body>
@@ -612,13 +607,11 @@ body{
                 </div>
             </div>
 
-           <!-- 🌟 MAP AUTO-SELECT TRIGGER BUTTON -->
-<button type="button" class="map-trigger-btn" onclick="initializeSmartMap()">
-  <i class="fa-solid fa-map-location-dot"></i> Locate Me & Auto-Fill Address
-</button>
+            <button type="button" class="map-trigger-btn" onclick="initializeSmartMap()">
+              <i class="fa-solid fa-map-location-dot"></i> Locate Me & Auto-Fill Address
+            </button>
 
-<!-- 🌟 CONTAINER WHERE MAP WILL RENDER -->
-<div id="mapContainerBlock" class="map-render-box"></div>
+            <div id="mapContainerBlock" class="map-render-box"></div>
 
             <div class="group">
                 <div class="label">Email Address</div>
@@ -740,7 +733,7 @@ body{
     </div>
 
     <div class="footer">
-        © 2025 CreatorHub • Secure Checkout System
+        © 2026 CreatorHub • Secure Checkout System
     </div>
 
 </div>
@@ -749,6 +742,8 @@ body{
 const API_URL = "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec";
 
 let BOOK = null;
+let liveMapInstance = null;
+let liveMarkerInstance = null;
 
 /* ASYNC CATALOG ITEM RUNTIME STREAM LOADER */
 async function loadBook(){
@@ -878,17 +873,13 @@ async function verifyAddress(){
         document.getElementById("verifyMessage").innerHTML = "Verification failed";
     }
 }
-</script>
+
 // =========================================================
 // PREMIUM LEAFLET MAP & REVERSE GEOCLICK ENGINE
 // =========================================================
-let liveMapInstance = null;
-let liveMarkerInstance = null;
-
 function initializeSmartMap() {
   const mapBox = document.getElementById("mapContainerBlock");
   
-  // अगर दोबारा क्लिक करें तो मैप बंद/चालू हो (Toggle)
   if (mapBox.style.display === "block") {
     mapBox.style.display = "none";
     return;
@@ -900,33 +891,28 @@ function initializeSmartMap() {
     // डिफ़ॉल्ट फोकस अहमदाबाद/गुजरात पर सेट करें [23.0225, 72.5714]
     liveMapInstance = L.map('mapContainerBlock').setView([23.0225, 72.5714], 12);
 
-    // साफ और प्रीमियम ओपन-स्ट्रीट टाइल्स लोड करें
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '© CreatorHub Maps'
     }).addTo(liveMapInstance);
 
-    // 🗺️ GPS ऑटो-डिटेक्ट: यूजर से लाइव लोकेशन की परमिशन मांगें
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(pos) {
         let lat = pos.coords.latitude;
         let lng = pos.coords.longitude;
-        liveMapInstance.setView([lat, lng], 16); // सटीक घर पर ज़ूम करें
+        liveMapInstance.setView([lat, lng], 16);
         dropMapPin(lat, lng);
         reverseGeocodeAddress(lat, lng);
       }, function() {
-        // अगर यूजर GPS ब्लॉक कर दे, तो डिफ़ॉल्ट पिन शो करें
         dropMapPin(23.0225, 72.5714);
       });
     }
 
-    // मैप पर कहीं भी क्लिक करने पर पिन सरकाएं
     liveMapInstance.on('click', function(e) {
       dropMapPin(e.latlng.lat, e.latlng.lng);
       reverseGeocodeAddress(e.latlng.lat, e.latlng.lng);
     });
   } else {
-    // मैप रेंडरिंग ग्लिच फिक्स (Displacement Fix)
     setTimeout(() => { liveMapInstance.invalidateSize(); }, 250);
   }
 }
@@ -937,7 +923,6 @@ function dropMapPin(lat, lng) {
   } else {
     liveMarkerInstance = L.marker([lat, lng], { draggable: true }).addTo(liveMapInstance);
     
-    // पिन को घसीटने (Drag) के बाद भी एड्रेस बदल जाए
     liveMarkerInstance.on('dragend', function() {
       let position = liveMarkerInstance.getLatLng();
       reverseGeocodeAddress(position.lat, position.lng);
@@ -945,7 +930,6 @@ function dropMapPin(lat, lng) {
   }
 }
 
-// 🌟 Nominatim API के ज़रिए अक्षांश से असली इंडियन एड्रेस निकालना
 async function reverseGeocodeAddress(lat, lng) {
   try {
     let response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&accept-language=en`);
@@ -954,23 +938,19 @@ async function reverseGeocodeAddress(lat, lng) {
     if (!data || !data.address) return;
     let addr = data.address;
     
-    // 1. शहर (City) ऑटो-फिल
     let detectedCity = addr.city || addr.town || addr.village || addr.suburb || "";
     if (document.getElementById("city")) {
       document.getElementById("city").value = detectedCity;
     }
     
-    // 2. राज्य (State) ऑटो-फिल
     if (document.getElementById("state")) {
       document.getElementById("state").value = addr.state || "";
     }
     
-    // 3. पिनकोड (Pincode) ऑटो-फिल
     if (document.getElementById("pincode")) {
       document.getElementById("pincode").value = addr.postcode || "";
     }
     
-    // 4. मुख्य एड्रेस बिल्डिंग/रोड लाइन ऑटो-फिल
     if (document.getElementById("address")) {
       let apartment = addr.house_number || addr.building || addr.residential || "";
       let roadName = addr.road || addr.neighbourhood || "";
@@ -983,5 +963,6 @@ async function reverseGeocodeAddress(lat, lng) {
     console.log("Map Reverse Code Error: ", err);
   }
 }
+</script>
 </body>
 </html>
