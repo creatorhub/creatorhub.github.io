@@ -938,19 +938,38 @@ async function reverseGeocodeAddress(lat, lng) {
     if (!data || !data.address) return;
     let addr = data.address;
     
+    // 1. शहर (City) ऑटो-फिल
     let detectedCity = addr.city || addr.town || addr.village || addr.suburb || "";
     if (document.getElementById("city")) {
       document.getElementById("city").value = detectedCity;
     }
     
+    // 2. राज्य (State) ऑटो-फिल
     if (document.getElementById("state")) {
       document.getElementById("state").value = addr.state || "";
     }
     
-    if (document.getElementById("pincode")) {
-      document.getElementById("pincode").value = addr.postcode || "";
+    // 3. 🌟 पिनकोड (Pincode) स्मार्ट वैलिडेशन चेक
+    let pincodeField = document.getElementById("pincode");
+    if (pincodeField) {
+      let detectedPostcode = addr.postcode || "";
+      
+      // भारत का पिनकोड हमेशा 6 अक्षरों का शुद्ध नंबर होता है
+      let cleanPincode = detectedPostcode.replace(/\s+/g, '').trim();
+      
+      if (cleanPincode && cleanPincode.length === 6 && !isNaN(cleanPincode)) {
+        // अगर मैप से मिला पिनकोड एकदम सही 6-डिजिट का है
+        pincodeField.value = cleanPincode;
+        pincodeField.style.border = "1px solid var(--border-color)"; // नॉर्मल बॉर्डर
+      } else {
+        // ⚠️ अगर मैप का पिनकोड गलत या अधूरा है, तो उसे खाली छोड़ें ताकि यूजर खुद सही टाइप करे
+        pincodeField.value = ""; 
+        pincodeField.placeholder = "Map code missing! Enter 6-digit Pincode manually";
+        pincodeField.style.border = "2px solid #ef4444"; // यूजर का ध्यान खींचने के लिए लाल बॉर्डर
+      }
     }
     
+    // 4. मुख्य एड्रेस बिल्डिंग/रोड लाइन ऑटो-फिल
     if (document.getElementById("address")) {
       let apartment = addr.house_number || addr.building || addr.residential || "";
       let roadName = addr.road || addr.neighbourhood || "";
