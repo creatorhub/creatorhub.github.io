@@ -448,8 +448,15 @@ function renderOrders(data) {
     const status = String(order.payment_status || "pending");
     const statusClass = status.toLowerCase() === "paid" ? "paid" : "pending";
     
-    // 🌟 FIXED: डेटाबेस मैपिंग के हिसाब से front_cover या cover फ़ील्ड से इमेज उठाएगा
-    let bookCoverUrl = order.front_cover || order.cover || order.image || "";
+    // 🌟 हर संभावित नाम को चेक करें ताकि कोई भी इमेज मिस न हो
+    let bookCoverUrl = order.front_cover || 
+                       order.cover || 
+                       order.image || 
+                       order.book_image || 
+                       order.image_url || 
+                       order.front_url || 
+                       "";
+                       
     const image = driveImage(bookCoverUrl) || "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400";
 
     return `
@@ -471,7 +478,7 @@ function renderOrders(data) {
     `;
   }).join("");
 }
-
+   
 function renderReviews(data) {
   const fallback = [
     { user_name:"Aarav", review:"Amazing quality and fast delivery." },
