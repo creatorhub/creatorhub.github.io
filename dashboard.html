@@ -6,11 +6,8 @@
 <title>User Dashboard | CreatorHub</title>
 
 <meta name="description" content="Manage your account, orders, products, library, subscriptions and creator activities from your CreatorHub dashboard.">
-
 <meta name="keywords" content="CreatorHub dashboard, user dashboard, account management, orders, products, library, creator tools">
-
 <meta name="robots" content="index,follow">
-
 <link rel="canonical" href="https://creatorhub.github.io/dashboard.html">
 
 <meta property="og:site_name" content="CreatorHub">
@@ -19,7 +16,6 @@
 <meta property="og:description" content="Access your account, orders, products, subscriptions and creator tools from the CreatorHub dashboard.">
 <meta property="og:url" content="https://creatorhub.github.io/dashboard.html">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<!-- 🚀 ADDED: FontAwesome CDN icons framework support to match store structure -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -30,11 +26,11 @@ a{text-decoration:none;color:inherit}
 button{font:inherit}
 
 /* =========================================================
-   🚀 FIXED SIDEBAR THEME GRAPHICS (EXACT MATCH TO STORE CANVAS)
+   🚀 FIXED SIDEBAR THEME GRAPHICS
    ========================================================= */
 .sidebar {
     width: 260px;
-    background-color: #0f172a; /* Smooth deep dark navy matching store matrix precisely */
+    background-color: #0f172a; 
     min-height: 100vh;
     position: fixed;
     top: 0;
@@ -57,7 +53,7 @@ button{font:inherit}
 }
 
 .sidebar-brand span {
-    color: #2f62e9; /* Active Royal Blue */
+    color: #2f62e9; 
 }
 
 .sidebar-menu {
@@ -99,10 +95,10 @@ button{font:inherit}
 }
 
 /* =========================================================
-   🚀 FIXED CONTENT WORKSPACE AREA CONTAINER WIDTH
+   🚀 FIXED CONTENT WORKSPACE AREA
    ========================================================= */
 .main {
-    margin-left: 260px !important; /* Locks push boundary values dynamically */
+    margin-left: 260px !important; 
     width: calc(100% - 260px) !important;
     height: 100vh;
     overflow-y: auto;
@@ -128,7 +124,7 @@ button{font:inherit}
 .growth{margin-top:12px;color:#0f9f57;font-size:16px;font-weight:900}
 
 .content-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(340px,1fr);gap:24px}
-.chart-card{min-height:430px}
+.chart-card{min-height:430px; position: relative;}
 .section-title{color:#06142c;margin-bottom:20px;text-transform:none;font-size:22px}
 .chart-fallback{height:330px;display:flex;align-items:end;gap:10px;padding-top:20px}
 .chart-bar{flex:1;background:linear-gradient(180deg,#2563eb,#21b7e8);border-radius:8px 8px 0 0;min-height:8px}
@@ -154,187 +150,50 @@ td{color:#101828;font-size:14px}
 .empty{color:#63728a;padding:18px 0}
 
 /* ==========================================================================
-   डैशबोर्ड के लिए नया और अपडेटेड रिस्पॉन्सिव डिज़ाइन
+   Responsive UI Rules
    ========================================================================== */
-
-/* 📑 टैबलेट स्क्रीन्स के लिए (1050px से कम) */
 @media (max-width: 1050px) {
-  .sidebar {
-    width: 70px;
-    padding: 0 !important;
-  }
-  /* टैबलेट में साइडबार के टेक्स्ट छुप जाएंगे और सिर्फ आइकॉन्स दिखेंगे */
-  .sidebar-brand span, 
-  .menu-item span {
-    display: none;
-  }
-  .sidebar-brand {
-    padding: 24px 0;
-    text-align: center;
-    font-size: 16px;
-  }
-  .menu-item {
-    padding: 14px;
-    justify-content: center;
-  }
-  /* मुख्य कंटेंट एरिया का मार्जिन एडजस्ट करने के लिए */
-  .main {
-    margin-left: 70px !important;
-    width: calc(100% - 70px) !important;
-  }
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr); /* 4 कॉलम से बदलकर 2 कॉलम */
-    gap: 16px;
-  }
+  .sidebar { width: 70px; padding: 0 !important; }
+  .sidebar-brand span, .menu-item span { display: none; }
+  .sidebar-brand { padding: 24px 0; text-align: center; font-size: 16px; }
+  .menu-item { padding: 14px; justify-content: center; }
+  .main { margin-left: 70px !important; width: calc(100% - 70px) !important; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
 }
 
-/* 💻 छोटे लैपटॉप और मीडियम टैबलेट के लिए (1220px से कम) */
 @media (max-width: 1220px) {
-  .content-grid {
-    grid-template-columns: 1fr; /* ग्राफ और वॉलेट अब ऊपर-नीचे दिखेंगे */
-  }
+  .content-grid { grid-template-columns: 1fr; }
 }
 
-/* 📱 मोबाइल स्क्रीन्स के लिए (768px से कम) */
 @media (max-width: 768px) {
-  body {
-    flex-direction: column; /* मोबाइल में साइडबार ऊपर या नीचे फिक्स होगा */
-    overflow: auto;
-  }
-  
-  /* 🚀 मोबाइल पर साइडबार नीचे (Bottom Navigation Bar) की तरह काम करेगा, जिससे प्रीमियम लुक आएगा */
-  .sidebar {
-    width: 100%;
-    min-height: auto;
-    height: 65px;
-    position: fixed;
-    top: auto;
-    bottom: 0; /* स्क्रीन के सबसे नीचे सेट करने के लिए */
-    left: 0;
-    flex-direction: row;
-    background-color: #0f172a;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
-    border-right: 0;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    overflow: hidden;
-  }
-
-  .sidebar-brand {
-    display: none; /* मोबाइल में नीचे ब्रांड नेम की जरूरत नहीं है */
-  }
-
-  .sidebar-menu {
-    flex-direction: row; /* सारे मेनू अब एक लाइन में दिखेंगे */
-    padding: 0;
-    gap: 0;
-    width: 100%;
-    justify-content: space-around; /* बराबर दूरी पर सेट करने के लिए */
-    align-items: center;
-  }
-
-  .menu-item {
-    flex-direction: column; /* आइकॉन ऊपर और नाम नीचे (अगर दिखाना चाहें, पर यहाँ सिर्फ आइकॉन दिखेगा) */
-    gap: 4px;
-    padding: 8px;
-    border-radius: 0;
-    flex: 1;
-    justify-content: center;
-    height: 100%;
-  }
-  
-  .menu-item.active {
-    background-color: transparent; /* नीचे वाले बार में बैकग्राउंड कलर हटाकर सिर्फ आइकॉन चमकेगा */
-    color: #2f62e9;
-    box-shadow: none;
-  }
-
-  /* मोबाइल में मुख्य एरिया पूरी स्क्रीन कवर करेगा और नीचे 65px की जगह छोड़ेगा ताकि मेनू न छुपे */
-  .main {
-    margin-left: 0 !important;
-    width: 100% !important;
-    height: auto;
-    padding-bottom: 75px; /* बॉटम बार के लिए पैडिंग */
-  }
-
-  .topbar {
-    min-height: auto;
-    padding: 16px;
-    flex-direction: column; /* हेडर टाइटल और प्रोफाइल बॉक्स ऊपर-नीचे होंगे */
-    align-items: flex-start;
-    gap: 16px;
-    background: #fff;
-  }
-
-  .title h1 {
-    font-size: 28px;
-  }
-
-  .title p {
-    font-size: 14px;
-    margin-top: 4px;
-  }
-
-  .profile-box {
-    width: 100%; /* मोबाइल में प्रोफाइल बॉक्स पूरा बड़ा दिखेगा */
-    min-width: 100%;
-    justify-content: flex-start;
-  }
-
-  .content {
-    padding: 16px;
-    gap: 20px;
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr; /* मोबाइल पर आंकड़े एक के नीचे एक 1 कॉलम में आएंगे */
-    gap: 14px;
-  }
-
-  .card {
-    padding: 18px;
-  }
-
-  .card h2 {
-    font-size: 32px;
-  }
-
-  .chart-card {
-    min-height: 320px;
-  }
-
-  /* रिसेंट ऑर्डर्स की पूरी रो मोबाइल पर एक कार्ड की तरह दिखेगी */
-  #ordersTable tr {
-    display: grid;
-    gap: 6px;
-    padding: 14px 0;
-    border-bottom: 1px solid #dce4f0;
-  }
-  
-  #ordersTable td {
-    padding: 2px 0;
-    border: none;
-  }
-
-  /* रीव्यूस को एक कॉलम में सेट करने के लिए */
-  .review-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .review-item {
-    border-radius: 14px; /* मोबाइल पर गोल घेरा हटाकर स्मूथ बॉर्डर रेडियस */
-    padding: 14px;
-  }
+  body { flex-direction: column; overflow: auto; }
+  .sidebar { width: 100%; min-height: auto; height: 65px; position: fixed; top: auto; bottom: 0; left: 0; flex-direction: row; background-color: #0f172a; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15); border-right: 0; border-top: 1px solid rgba(255,255,255,0.05); overflow: hidden; }
+  .sidebar-brand { display: none; }
+  .sidebar-menu { flex-direction: row; padding: 0; gap: 0; width: 100%; justify-content: space-around; align-items: center; }
+  .menu-item { flex-direction: column; gap: 4px; padding: 8px; border-radius: 0; flex: 1; justify-content: center; height: 100%; }
+  .menu-item.active { background-color: transparent; color: #2f62e9; box-shadow: none; }
+  .main { margin-left: 0 !important; width: 100% !important; height: auto; padding-bottom: 75px; }
+  .topbar { min-height: auto; padding: 16px; flex-direction: column; align-items: flex-start; gap: 16px; background: #fff; }
+  .title h1 { font-size: 28px; }
+  .title p { font-size: 14px; margin-top: 4px; }
+  .profile-box { width: 100%; min-width: 100%; justify-content: flex-start; }
+  .content { padding: 16px; gap: 20px; }
+  .stats-grid { grid-template-columns: 1fr; gap: 14px; }
+  .card { padding: 18px; }
+  .card h2 { font-size: 32px; }
+  .chart-card { min-height: 320px; }
+  #ordersTable tr { display: grid; gap: 6px; padding: 14px 0; border-bottom: 1px solid #dce4f0; }
+  #ordersTable td { padding: 2px 0; border: none; }
+  .review-grid { grid-template-columns: 1fr; gap: 12px; }
+  .review-item { border-radius: 14px; padding: 14px; }
 }
-   
 </style>
+
+<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 </head>
 
 <body>
 
-<!-- =========================================================
-     🚀 NEW INTEGRATED SIDEBAR DESIGN INTERFACE MATRIX (100% FIXED)
-     ========================================================= -->
 <aside class="sidebar">
     <div class="sidebar-brand">Creator<span>Hub</span></div>
     <div class="sidebar-menu">
@@ -360,7 +219,6 @@ td{color:#101828;font-size:14px}
 </aside>
 
 <main class="main">
-
 <header class="topbar">
   <div class="title">
     <h1>Dashboard</h1>
@@ -377,7 +235,6 @@ td{color:#101828;font-size:14px}
 </header>
 
 <div class="content">
-
 <div class="notice" id="notice"></div>
 
 <section class="stats-grid">
@@ -406,7 +263,9 @@ td{color:#101828;font-size:14px}
 <section class="content-grid">
   <div class="card chart-card">
     <h3 class="section-title">Monthly Sales</h3>
-    <canvas id="salesChart"></canvas>
+    <div style="height: 330px; position: relative; width: 100%;">
+        <canvas id="salesChart"></canvas>
+    </div>
     <div id="chartFallback" class="chart-fallback" style="display:none"></div>
   </div>
 
@@ -446,16 +305,11 @@ td{color:#101828;font-size:14px}
 </main>
 
 <script>
-const DASHBOARD_API_URL =
-"https://script.google.com/macros/s/AKfycbxj1Ch941zvniDEzIs__cYVmGBaECx6GPmmEw5PPyehtU2_KxQ_o3TS6jhuoZS0AKUv8w/exec";
-
-const PROFILE_API_URL =
-"https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
-
+const DASHBOARD_API_URL = "https://script.google.com/macros/s/AKfycbxj1Ch941zvniDEzIs__cYVmGBaECx6GPmmEw5PPyehtU2_KxQ_o3TS6jhuoZS0AKUv8w/exec";
+const PROFILE_API_URL = "https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
 const CACHE_KEY = "creatorhub_dashboard_cache_v3";
 
-const DEFAULT_AVATAR =
-"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='80' fill='%23d9e1ec'/%3E%3Ccircle cx='80' cy='58' r='28' fill='%2394a3b8'/%3E%3Cpath d='M30 145c8-36 30-54 50-54s43 18 50 54' fill='%2394a3b8'/%3E%3C/svg%3E";
+const DEFAULT_AVATAR = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='80' fill='%23d9e1ec'/%3E%3Ccircle cx='80' cy='58' r='28' fill='%2394a3b8'/%3E%3Cpath d='M30 145c8-36 30-54 50-54s43 18 50 54' fill='%2394a3b8'/%3E%3C/svg%3E";
 
 document.getElementById("profileImage").src = DEFAULT_AVATAR;
 
@@ -467,12 +321,7 @@ try {
 }
 
 const params = new URLSearchParams(window.location.search);
-
-const currentUserEmail =
-params.get("email") ||
-USER.email ||
-localStorage.getItem("creatorhub_profile_email") ||
-"test@gmail.com";
+const currentUserEmail = params.get("email") || USER.email || localStorage.getItem("creatorhub_profile_email") || "test@gmail.com";
 
 function setStatus(text) {
   document.getElementById("pageStatus").innerText = text;
@@ -504,13 +353,8 @@ function formatNumber(value) {
 async function fetchJSON(url, timeoutMs) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs || 9000);
-
   try {
-    const response = await fetch(url, {
-      signal: controller.signal,
-      cache: "no-store"
-    });
-
+    const response = await fetch(url, { signal: controller.signal, cache: "no-store" });
     return await response.json();
   } finally {
     clearTimeout(timer);
@@ -540,19 +384,16 @@ function saveCache(data) {
 function driveImage(url) {
   if (!url) return "";
   const text = String(url);
-
   if (text.startsWith("data:image")) return text;
 
   const idMatch = text.match(/[?&]id=([^&]+)/);
   if (idMatch && idMatch[1]) {
     return "https://drive.google.com/thumbnail?id=" + idMatch[1] + "&sz=w1000";
   }
-
   if (text.includes("/d/")) {
     const id = text.split("/d/")[1].split("/")[0];
     return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
   }
-
   return text;
 }
 
@@ -564,25 +405,16 @@ function applyProfile(profile) {
   document.getElementById("userName").innerText = name;
   document.getElementById("userEmail").innerText = email;
   document.getElementById("profileImage").src = image;
-
   localStorage.setItem("creatorhub_profile_email", email);
 }
 
 function pickDashboardProfile(data) {
   const user = data.user || {};
   const profile = data.profile || {};
-
   return {
     name: user.name || profile.name || USER.name || "Creator",
     email: user.email || profile.email || currentUserEmail,
-    image:
-      user.profile_image ||
-      user.image ||
-      user.avatar ||
-      profile.profile_image ||
-      profile.image ||
-      profile.avatar ||
-      ""
+    image: user.profile_image || user.image || user.avatar || profile.profile_image || profile.image || profile.avatar || ""
   };
 }
 
@@ -602,6 +434,7 @@ function renderWallet(data) {
   document.getElementById("walletLifetime").innerText = formatMoney(wallet.lifetime || 0);
 }
 
+/* 🌟 FIXED: EBOOK COVERS LOAD SYSTEM */
 function renderOrders(data) {
   const orders = data.recent_orders || [];
   const table = document.getElementById("ordersTable");
@@ -614,13 +447,16 @@ function renderOrders(data) {
   table.innerHTML = orders.map(order => {
     const status = String(order.payment_status || "pending");
     const statusClass = status.toLowerCase() === "paid" ? "paid" : "pending";
-    const image = driveImage(order.image) || "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400";
+    
+    // 🌟 FIXED: डेटाबेस मैपिंग के हिसाब से front_cover या cover फ़ील्ड से इमेज उठाएगा
+    let bookCoverUrl = order.front_cover || order.cover || order.image || "";
+    const image = driveImage(bookCoverUrl) || "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400";
 
     return `
       <tr>
         <td>
           <div style="display:flex;align-items:center;gap:14px">
-            <img src="${escapeHTML(image)}" alt="" style="width:55px;height:70px;border-radius:10px;object-fit:cover;background:#d9e1ec">
+            <img src="${escapeHTML(image)}" alt="" style="width:55px;height:70px;border-radius:10px;object-fit:cover;background:#d9e1ec;border:1px solid #dce4f0;">
             <div>
               <div style="font-weight:900;margin-bottom:4px">${escapeHTML(order.book_title || "Untitled")}</div>
               <div style="font-size:12px;color:#667085">${escapeHTML(order.id || "")}</div>
@@ -630,7 +466,7 @@ function renderOrders(data) {
         <td>${formatMoney(order.amount || order.total_amount || 0)}</td>
         <td>${formatMoney(order.seller_profit || 0)}</td>
         <td><span class="badge ${statusClass}">${escapeHTML(status)}</span></td>
-        <td>${order.created_at ? new Date(order.created_at).toLocaleDateString() : "-"}</td>
+        <td>${order.created_at ? new Date(order.created_at).toLocaleDateString("en-IN") : "-"}</td>
       </tr>
     `;
   }).join("");
@@ -642,9 +478,7 @@ function renderReviews(data) {
     { user_name:"Rahul", review:"Dashboard and ebook system working perfectly." },
     { user_name:"Priya", review:"Best creator marketplace experience." }
   ];
-
   const reviews = data.reviews && data.reviews.length ? data.reviews : fallback;
-
   document.getElementById("reviewsContainer").innerHTML =
     reviews.map(review => `
       <div class="review-item">
@@ -668,10 +502,26 @@ function renderFallbackChart(amounts) {
   }).join("");
 }
 
+/* 🌟 FIXED: CHART DATA BINDING REAL-TIME ENGINE */
 function renderChart(data) {
   const sales = data.monthly_sales || [];
-  const labels = sales.length ? sales.map(item => "Day " + (item.day || "")) : ["Day 1","Day 2","Day 3","Day 4"];
-  const amounts = sales.length ? sales.map(item => Number(item.amount || 0)) : [0,0,0,0];
+  
+  // 🌟 तारीख और दिनों की ऑटो-फ़िल्टरिंग सेटिंग्स
+  let labels = [];
+  let amounts = [];
+  
+  if (sales.length > 0) {
+    sales.forEach(item => {
+      // अगर बैकएंड डेट ऑब्जेक्ट भेजता है तो लोकल डेट स्ट्रिंग बनायें, नहीं तो डे नंबर दें
+      let labelText = item.date ? new Date(item.date).toLocaleDateString("en-IN", {day: 'numeric', month: 'short'}) : "Day " + (item.day || "");
+      labels.push(labelText);
+      amounts.push(Number(item.amount || 0));
+    });
+  } else {
+    // सेलर का फ्रेश अकाउंट होने पर डमी खाली ग्रिड की जगह क्लीन 6 डे स्टेट्स रेंडर करेगा
+    labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+    amounts = [0, 0, 0, 0, 0, 0];
+  }
 
   if (typeof Chart === "undefined") {
     renderFallbackChart(amounts);
@@ -690,13 +540,14 @@ function renderChart(data) {
     data: {
       labels: labels,
       datasets: [{
-        label: "Sales",
+        label: "Revenue Growth",
         data: amounts,
         borderColor: "#2563eb",
-        backgroundColor: "rgba(37,99,235,0.14)",
+        backgroundColor: "rgba(37,99,235,0.12)",
         fill: true,
-        tension: 0.4,
-        pointRadius: 4
+        tension: 0.3,
+        pointRadius: 5,
+        pointBackgroundColor: "#2563eb"
       }]
     },
     options: {
@@ -704,17 +555,17 @@ function renderChart(data) {
       maintainAspectRatio: false,
       plugins: {
         legend: {
-          labels: { color: "#101828" }
+          labels: { font: { family: 'Inter', weight: '600' }, color: "#101828" }
         }
       },
       scales: {
         x: {
-          ticks: { color: "#667085" },
-          grid: { color: "rgba(102,112,133,0.16)" }
+          ticks: { color: "#667085", font: { family: 'Inter' } },
+          grid: { color: "rgba(102,112,133,0.08)" }
         },
         y: {
-          ticks: { color: "#667085" },
-          grid: { color: "rgba(102,112,133,0.16)" }
+          ticks: { color: "#667085", font: { family: 'Inter' } },
+          grid: { color: "rgba(102,112,133,0.08)" }
         }
       }
     }
@@ -735,11 +586,7 @@ function renderDashboard(data) {
 
 async function loadProfileFallback(existingProfile) {
   try {
-    const data = await fetchJSON(
-      PROFILE_API_URL + "?action=profile&email=" + encodeURIComponent(currentUserEmail),
-      7000
-    );
-
+    const data = await fetchJSON(PROFILE_API_URL + "?action=profile&email=" + encodeURIComponent(currentUserEmail), 7000);
     if (data.success && data.user) {
       applyProfile({
         name: data.user.name || existingProfile.name,
@@ -751,7 +598,6 @@ async function loadProfileFallback(existingProfile) {
   } catch (err) {
     console.log("Profile fallback failed:", err);
   }
-
   applyProfile(existingProfile);
 }
 
@@ -767,7 +613,6 @@ async function loadDashboard() {
     });
 
     const cachedData = readCache();
-
     if (cachedData) {
       renderDashboard(cachedData);
       setStatus("Showing saved data. Updating...");
@@ -775,11 +620,7 @@ async function loadDashboard() {
       renderDashboard({});
     }
 
-    const data = await fetchJSON(
-      DASHBOARD_API_URL + "?action=dashboard&email=" + encodeURIComponent(currentUserEmail),
-      9000
-    );
-
+    const data = await fetchJSON(DASHBOARD_API_URL + "?action=dashboard&email=" + encodeURIComponent(currentUserEmail), 9000);
     if (!data.success) {
       throw new Error(data.message || "API Error");
     }
@@ -787,11 +628,9 @@ async function loadDashboard() {
     saveCache(data);
     renderDashboard(data);
     setStatus("Welcome back to CreatorHub");
-
     loadProfileFallback(pickDashboardProfile(data));
   } catch (err) {
     console.log("Dashboard load failed:", err);
-
     setStatus("Welcome back to CreatorHub");
 
     if (!readCache()) {
