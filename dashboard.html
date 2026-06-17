@@ -445,6 +445,7 @@ function renderWallet(data) {
   document.getElementById("walletLifetime").innerText = formatMoney(wallet.lifetime || wallet.total_earnings || 0);
 }
 
+/* ================= ORDER IMAGE MAPPING FIXED ENGINE ================= */
 function renderOrders(data) {
   const orders = data.orders || data.recent_orders || [];
   const table = document.getElementById("ordersTable");
@@ -458,13 +459,17 @@ function renderOrders(data) {
     const status = String(order.payment_status || "pending");
     const statusClass = status.toLowerCase() === "paid" ? "paid" : "pending";
     
+    // 🚀 FIXED EVALUATION: Checks every possible naming variable sequence from backend sheets rows
     let bookCoverUrl = order.front_cover || 
                        order.cover || 
                        order.image || 
                        order.book_image || 
+                       order.thumbnail ||
+                       product_image ||
                        "";
                        
-    const image = driveImage(bookCoverUrl) || "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400";
+    // 🚀 SYSTEMIC FALLBACK CHANGE: Replaced random Unsplash photo with CreatorHub clean placeholder asset
+    const image = driveImage(bookCoverUrl) || "https://via.placeholder.com/55x700/eef3f9/63728a?text=CreatorHub";
 
     return `
       <tr>
@@ -472,13 +477,13 @@ function renderOrders(data) {
           <div style="display:flex;align-items:center;gap:14px">
             <img src="${escapeHTML(image)}" alt="" style="width:55px;height:70px;border-radius:10px;object-fit:cover;background:#d9e1ec;border:1px solid #dce4f0;">
             <div>
-              <div style="font-weight:900;margin-bottom:4px">${escapeHTML(order.book_title || "Untitled")}</div>
-              <div style="font-size:12px;color:#667085">${escapeHTML(order.id || "")}</div>
+              <div style="font-weight:900;margin-bottom:4px">${escapeHTML(order.book_title || order.title || "Untitled Product")}</div>
+              <div style="font-size:12px;color:#667085">${escapeHTML(order.id || order.order_id || "")}</div>
             </div>
           </div>
         </td>
         <td>${formatMoney(order.amount || order.total_amount || 0)}</td>
-        <td>${formatMoney(order.seller_profit || 0)}</td>
+        <td>${formatMoney(order.seller_profit || order.profit || 0)}</td>
         <td><span class="badge ${statusClass}">${escapeHTML(status)}</span></td>
         <td>${order.created_at ? new Date(order.created_at).toLocaleDateString("en-IN") : "-"}</td>
       </tr>
