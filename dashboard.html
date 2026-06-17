@@ -476,7 +476,6 @@ function renderOrders(data) {
     if (rawImgUrl) {
         let cleanText = String(rawImgUrl).trim();
         
-        // Agar normal drive thumbnail link nahi hai, toh raw string convert karein
         if (cleanText.includes("id=")) {
             let extractedId = cleanText.split("id=")[1].split("&")[0];
             finalImageUrl = "https://drive.google.com/thumbnail?id=" + extractedId + "&sz=w500";
@@ -491,7 +490,6 @@ function renderOrders(data) {
         }
     }
 
-    // Fallback UI to standard placeholder box if URL generation returns absolute blank
     if (!finalImageUrl || finalImageUrl === "") {
         finalImageUrl = "https://via.placeholder.com/55x700/eef3f9/63728a?text=Book";
     }
