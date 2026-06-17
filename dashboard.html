@@ -461,17 +461,17 @@ function renderOrders(data) {
     const status = String(order.payment_status || "pending");
     const statusClass = status.toLowerCase() === "paid" ? "paid" : "pending";
     
-    // 🚀 MULTI-KEY EXTRACTION FALLBACK LAYER: Scans every single structural key variations
+    // 🚀 MULTI-KEY EXTRACTION
     let rawImgUrl = order.front_cover || 
-                     order.cover || 
-                     order.image || 
-                     order.book_image || 
-                     order.thumbnail || 
-                     order.product_image ||
-                     order.frontCover ||
-                     "";
+                    order.cover || 
+                    order.image || 
+                    order.book_image || 
+                    order.thumbnail || 
+                    order.product_image ||
+                    order.frontCover ||
+                    "";
 
-    // 🚀 GOOGLE DRIVE EMBED URL RE-CONSTRUCTOR SYSTEM
+    // 🚀 GOOGLE DRIVE EMBED URL RE-CONSTRUCTOR
     let finalImageUrl = "";
     if (rawImgUrl) {
         let cleanText = String(rawImgUrl).trim();
@@ -490,15 +490,16 @@ function renderOrders(data) {
         }
     }
 
+    // Fixed Placeholder URL from 55x700 to 55x70
     if (!finalImageUrl || finalImageUrl === "") {
-        finalImageUrl = "https://via.placeholder.com/55x700/eef3f9/63728a?text=Book";
+        finalImageUrl = "https://via.placeholder.com/55x70/eef3f9/63728a?text=Book";
     }
 
     return `
       <tr>
         <td>
           <div style="display:flex;align-items:center;gap:14px">
-            <img src="${escapeHTML(finalImageUrl)}" alt="Book Cover" style="width:55px;height:70px;border-radius:10px;object-fit:cover;background:#d9e1ec;border:1px solid #dce4f0;" onerror="this.src='https://via.placeholder.com/55x700/eef3f9/63728a?text=Ebook'">
+            <img src="${escapeHTML(finalImageUrl)}" alt="Book Cover" style="width:55px;height:70px;border-radius:10px;object-fit:cover;background:#d9e1ec;border:1px solid #dce4f0;" onerror="this.onerror=null;this.src='https://via.placeholder.com/55x70/eef3f9/63728a?text=Ebook'">
             <div>
               <div style="font-weight:900;margin-bottom:4px">${escapeHTML(order.book_title || order.title || "Untitled Product")}</div>
               <div style="font-size:12px;color:#667085">${escapeHTML(order.id || order.order_id || "")}</div>
