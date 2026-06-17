@@ -357,7 +357,8 @@ async function fetchJSON(url, timeoutMs) {
     const response = await fetch(url, { signal: controller.signal, cache: "no-store" });
     return await response.json();
   } finally {
-    clearTimeout(timer);
+    const timerTimeout = timer;
+    clearTimeout(timerTimeout);
   }
 }
 
@@ -430,7 +431,6 @@ function pickDashboardProfile(data) {
 }
 
 function renderStats(data) {
-  // 🌟 बैकएंड सीधे मेन ऑब्जेक्ट में या फिर 'stats' में डेटा भेज सकता है, दोनों को हैंडल करें
   document.getElementById("totalSales").innerText = formatMoney(data.total_sales || (data.stats && data.stats.total_sales) || 0);
   document.getElementById("totalProfit").innerText = formatMoney(data.total_profit || (data.stats && data.stats.total_profit) || 0);
   document.getElementById("totalOrders").innerText = formatNumber(data.total_orders || (data.stats && data.stats.total_orders) || 0);
@@ -459,16 +459,15 @@ function renderOrders(data) {
     const status = String(order.payment_status || "pending");
     const statusClass = status.toLowerCase() === "paid" ? "paid" : "pending";
     
-    // 🚀 FIXED EVALUATION: Checks every possible naming variable sequence from backend sheets rows
+    // 🚀 FIXED: Fixed strict dynamic sequence to completely wipe undefined variable traces
     let bookCoverUrl = order.front_cover || 
                        order.cover || 
                        order.image || 
                        order.book_image || 
                        order.thumbnail ||
-                       product_image ||
+                       order.product_image ||
                        "";
                        
-    // 🚀 SYSTEMIC FALLBACK CHANGE: Replaced random Unsplash photo with CreatorHub clean placeholder asset
     const image = driveImage(bookCoverUrl) || "https://via.placeholder.com/55x700/eef3f9/63728a?text=CreatorHub";
 
     return `
@@ -672,7 +671,6 @@ async function loadDashboard() {
   }
 }
 
-// 🌟 FIXED: पेज लोड होते ही डैशबोर्ड का इंजन ऑटोमैटिकली ट्रिगर करने के लिए:
 window.addEventListener("DOMContentLoaded", loadDashboard);
 </script>
 </body>
