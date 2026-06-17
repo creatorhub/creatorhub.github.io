@@ -445,7 +445,9 @@ function renderWallet(data) {
   document.getElementById("walletLifetime").innerText = formatMoney(wallet.lifetime || wallet.total_earnings || 0);
 }
 
-/* ================= ORDER IMAGE MAPPING FIXED ENGINE ================= */
+/* =========================================================
+   🚀 FIXED ENGINE: RECENT ORDERS IMAGE PARSING FILTER
+   ========================================================= */
 function renderOrders(data) {
   const orders = data.orders || data.recent_orders || [];
   const table = document.getElementById("ordersTable");
@@ -459,22 +461,46 @@ function renderOrders(data) {
     const status = String(order.payment_status || "pending");
     const statusClass = status.toLowerCase() === "paid" ? "paid" : "pending";
     
-    // 🚀 FIXED: Fixed strict dynamic sequence to completely wipe undefined variable traces
-    let bookCoverUrl = order.front_cover || 
-                       order.cover || 
-                       order.image || 
-                       order.book_image || 
-                       order.thumbnail ||
-                       order.product_image ||
-                       "";
-                       
-    const image = driveImage(bookCoverUrl) || "https://via.placeholder.com/55x700/eef3f9/63728a?text=CreatorHub";
+    // 🚀 MULTI-KEY EXTRACTION FALLBACK LAYER: Scans every single structural key variations
+    let rawImgUrl = order.front_cover || 
+                     order.cover || 
+                     order.image || 
+                     order.book_image || 
+                     order.thumbnail || 
+                     order.product_image ||
+                     order.frontCover ||
+                     "";
+
+    // 🚀 GOOGLE DRIVE EMBED URL RE-CONSTRUCTOR SYSTEM
+    let finalImageUrl = "";
+    if (rawImgUrl) {
+        let cleanText = String(rawImgUrl).trim();
+        
+        // Agar normal drive thumbnail link nahi hai, toh raw string convert karein
+        if (cleanText.includes("id=")) {
+            let extractedId = cleanText.split("id=")[1].split("&")[0];
+            finalImageUrl = "https://drive.google.com/thumbnail?id=" + extractedId + "&sz=w500";
+        } else if (cleanText.includes("/d/")) {
+            let extractedId = cleanText.split("/d/")[1].split("/")[0];
+            finalImageUrl = "https://drive.google.com/thumbnail?id=" + extractedId + "&sz=w500";
+        } else if (cleanText.includes("/file/d/")) {
+            let extractedId = cleanText.split("/file/d/")[1].split("/")[0];
+            finalImageUrl = "https://drive.google.com/thumbnail?id=" + extractedId + "&sz=w500";
+        } else {
+            finalImageUrl = driveImage(cleanText);
+        }
+    }
+
+    // Fallback UI to standard placeholder box if URL generation returns absolute blank
+    if (!finalImageUrl || finalImageUrl === "") {
+        finalImageUrl = "https://via.placeholder.com/55x700/eef3f9/63728a?text=Book";
+    }
 
     return `
       <tr>
         <td>
           <div style="display:flex;align-items:center;gap:14px">
-            <img src="${escapeHTML(image)}" alt="" style="width:55px;height:70px;border-radius:10px;object-fit:cover;background:#d9e1ec;border:1px solid #dce4f0;">
+            <img src="${escapeHTML(finalImageUrl)}" alt="Book Cover" style="width:55px;height:70px;border-radius:10px;object-fit:cover;background:#d9e1ec;border:1px solid #dce4f0;" onerror="this.src='https://via.placeholder.com/55x700/eef3f9/63728a?text=Ebook'">
             <div>
               <div style="font-weight:900;margin-bottom:4px">${escapeHTML(order.book_title || order.title || "Untitled Product")}</div>
               <div style="font-size:12px;color:#667085">${escapeHTML(order.id || order.order_id || "")}</div>
