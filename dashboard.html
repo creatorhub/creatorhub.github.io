@@ -21,7 +21,7 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
-body{min-height:100vh;background:#f6f8fc;color:#101828;display:flex;overflow:hidden}
+body{min-height:100vh;background:#f6f8fc;color:#101828;display:flex;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
 button{font:inherit}
 
@@ -98,8 +98,8 @@ button{font:inherit}
     🚀 FIXED CONTENT WORKSPACE AREA
    ========================================================= */
 .main {
-    margin-left: 260px !important; 
-    width: calc(100% - 260px) !important;
+    margin-left: 260px; 
+    width: calc(100% - 260px);
     height: 100vh;
     overflow-y: auto;
     background: #f6f8fc;
@@ -150,28 +150,30 @@ td{color:#101828;font-size:14px}
 .empty{color:#63728a;padding:18px 0}
 
 /* ==========================================================================
-   📱 Premium Mobile Responsive Layout (Bina Desktop Chhede)
+   📱 Premium Mobile Responsive Layout (Perfect Scroll Integration)
    ========================================================================== */
-@media (max-width: 1050px) and (min-width: 769px) {
+@media (max-width: 1050px) {
   .sidebar { width: 70px; padding: 0 !important; }
   .sidebar-brand span, .menu-item span { display: none; }
   .sidebar-brand { padding: 24px 0; text-align: center; font-size: 16px; }
   .menu-item { padding: 14px; justify-content: center; }
-  .main { margin-left: 70px !important; width: calc(100% - 70px) !important; }
+  .main { margin-left: 70px; width: calc(100% - 70px); }
   .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
 }
 
-@media (max-width: 1220px) and (min-width: 769px) {
+@media (max-width: 1220px) {
   .content-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 768px) {
   body { 
     flex-direction: column; 
-    overflow-y: auto !important; 
-    -webkit-overflow-scrolling: touch; 
+    overflow-y: auto; 
+    overflow-x: hidden;
+    height: auto;
   }
   
+  /* Bottom Navigation Fix */
   .sidebar { 
     width: 100%; 
     min-height: auto; 
@@ -195,13 +197,13 @@ td{color:#101828;font-size:14px}
   .menu-item i { font-size: 18px; }
   .menu-item.active { background-color: transparent; color: #2f62e9; box-shadow: none; }
   
+  /* 🌟 Fluid Mobile Scrolling Fix */
   .main { 
-    margin-left: 0 !important; 
-    width: 100% !important; 
-    height: auto !important; 
-    overflow-y: visible !important; 
+    margin-left: 0; 
+    width: 100%; 
+    height: auto; 
+    overflow-y: visible; 
     padding-bottom: 95px; 
-    overflow-x: hidden;
   }
   
   .topbar { min-height: auto; padding: 20px 16px; flex-direction: column; align-items: flex-start; gap: 18px; background: #fff; position: relative; }
@@ -211,6 +213,7 @@ td{color:#101828;font-size:14px}
   
   .content { padding: 16px; gap: 20px; }
   
+  /* 2x2 Clean Layout */
   .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .stat-card { min-height: 120px; padding: 16px; }
   .card h3 { font-size: 12px; }
@@ -219,6 +222,7 @@ td{color:#101828;font-size:14px}
   .content-grid { grid-template-columns: 1fr; gap: 20px; }
   .chart-card { min-height: 340px; }
   
+  /* Mobile Orders Card Layout */
   .table-card { padding: 16px 12px; overflow-x: visible; }
   .table-card table, .table-card thead, .table-card tbody, .table-card th, .table-card td, .table-card tr { display: block; }
   .table-card thead { display: none; } 
@@ -252,77 +256,11 @@ td{color:#101828;font-size:14px}
     width: auto; 
   }
   
-  .review-grid { grid-template-columns: 1fr; gap: 12px; }
-  .review-item { border-radius: 16px; padding: 16px; }
-}
-    
-  .sidebar-brand { display: none; }
-  .sidebar-menu { flex-direction: row; padding: 0; gap: 0; width: 100%; justify-content: space-around; align-items: center; }
-  .menu-item { flex-direction: column; gap: 5px; padding: 10px 5px; border-radius: 0; flex: 1; justify-content: center; height: 100%; text-align: center; }
-  .menu-item span { font-size: 11px; font-weight: 600; display: block; }
-  .menu-item i { font-size: 18px; }
-  .menu-item.active { background-color: transparent; color: #2f62e9; box-shadow: none; }
-  
-  /* Main Content Area adjustments */
-  .main { margin-left: 0 !important; width: 100% !important; height: auto; padding-bottom: 85px; overflow-x: hidden; }
-  
-  /* Responsive Header Profile Box setup */
-  .topbar { min-height: auto; padding: 20px 16px; flex-direction: column; align-items: flex-start; gap: 18px; background: #fff; position: relative; }
-  .title h1 { font-size: 32px; }
-  .title p { font-size: 14px; margin-top: 4px; }
-  .profile-box { width: 100%; min-width: 100%; justify-content: flex-start; box-shadow: 0 4px 16px rgba(16,24,40,0.04); }
-  
-  .content { padding: 16px; gap: 20px; }
-  
-  /* Stats Column stacking */
-  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .stat-card { min-height: 120px; padding: 16px; }
-  .card h3 { font-size: 12px; }
-  .card h2 { font-size: 26px; margin-top: 8px; }
-  
-  .content-grid { grid-template-columns: 1fr; gap: 20px; }
-  .chart-card { min-height: 340px; }
-  
-  /* 🚀 CLEAN LUXURY RECENT ORDERS CARD LAYOUT FOR MOBILE */
-  .table-card { padding: 16px 12px; overflow-x: visible; }
-  .table-card table, .table-card thead, .table-card tbody, .table-card th, .table-card td, .table-card tr { display: block; }
-  .table-card thead { display: none; } 
-  
-  #ordersTable tr { 
-    padding: 16px 0; 
-    border-bottom: 1px solid #edf2f7; 
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  #ordersTable tr:last-child { border-bottom: none; }
-  #ordersTable td { padding: 0; border: none; width: 100%; text-align: left; }
-  
-  #ordersTable td:nth-of-type(2)::before { content: "Amount: "; font-weight: 700; color: #667085; font-size: 13px; }
-  #ordersTable td:nth-of-type(3)::before { content: "Profit: "; font-weight: 700; color: #0f9f57; font-size: 13px; }
-  #ordersTable td:nth-of-type(5)::before { content: "Date: "; font-weight: 700; color: #667085; font-size: 13px; }
-  
-  #ordersTable td:nth-of-type(2), #ordersTable td:nth-of-type(3), #ordersTable td:nth-of-type(5) {
-    font-size: 14px;
-    display: flex;
-    justify-content: space-between;
-    padding: 4px 0;
-    border-bottom: 1px dashed #f0f4f8;
-  }
-  #ordersTable td:nth-of-type(4) { 
-    position: absolute; 
-    top: 16px; 
-    right: 0; 
-    width: auto; 
-  }
-  
-  /* Review Cards */
   .review-grid { grid-template-columns: 1fr; gap: 12px; }
   .review-item { border-radius: 16px; padding: 16px; }
 }
 </style>
-
+    
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 </head>
 
