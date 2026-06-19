@@ -26,7 +26,7 @@ a{text-decoration:none;color:inherit}
 button{font:inherit}
 
 /* =========================================================
-    🚀 FIXED SIDEBAR THEME GRAPHICS (DESKTOP)
+   🚀 FIXED SIDEBAR THEME GRAPHICS
    ========================================================= */
 .sidebar {
     width: 260px;
@@ -95,7 +95,7 @@ button{font:inherit}
 }
 
 /* =========================================================
-    🚀 FIXED CONTENT WORKSPACE AREA (DESKTOP)
+   🚀 FIXED CONTENT WORKSPACE AREA
    ========================================================= */
 .main {
     margin-left: 260px !important; 
@@ -149,15 +149,10 @@ td{color:#101828;font-size:14px}
 .review-text{color:#63728a;font-size:14px;line-height:1.6}
 .empty{color:#63728a;padding:18px 0}
 
-/* New components hidden on desktop */
-.mobile-header-actions, .mobile-search-bar, .mobile-toolkit, .mobile-content-section {
-    display: none;
-}
-
 /* ==========================================================================
-    🚀 IMAGE-MATCHED MOBILE & RESPONSIVE ENGINE
+   Responsive UI Rules
    ========================================================================== */
-@media (max-width: 1050px) and (min-width: 769px) {
+@media (max-width: 1050px) {
   .sidebar { width: 70px; padding: 0 !important; }
   .sidebar-brand span, .menu-item span { display: none; }
   .sidebar-brand { padding: 24px 0; text-align: center; font-size: 16px; }
@@ -172,164 +167,25 @@ td{color:#101828;font-size:14px}
 
 @media (max-width: 768px) {
   body { flex-direction: column; overflow: auto; }
-  
-  /* Fixed Bottom Tab Bar from Image Layout */
-  .sidebar { 
-    width: 100%; 
-    min-height: auto; 
-    height: 72px; 
-    position: fixed; 
-    top: auto; 
-    bottom: 0; 
-    left: 0; 
-    flex-direction: row; 
-    background-color: #ffffff; 
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08); 
-    border-right: 0; 
-    border-top: 1px solid #e2e8f0; 
-    overflow: hidden; 
-    z-index: 999;
-  }
+  .sidebar { width: 100%; min-height: auto; height: 65px; position: fixed; top: auto; bottom: 0; left: 0; flex-direction: row; background-color: #0f172a; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15); border-right: 0; border-top: 1px solid rgba(255,255,255,0.05); overflow: hidden; }
   .sidebar-brand { display: none; }
   .sidebar-menu { flex-direction: row; padding: 0; gap: 0; width: 100%; justify-content: space-around; align-items: center; }
-  .menu-item { flex-direction: column; gap: 4px; padding: 10px 0; border-radius: 0; flex: 1; justify-content: center; height: 100%; color: #64748b; }
-  .menu-item span { font-size: 11px; font-weight: 700; display: block !important; }
-  .menu-item i { font-size: 20px; width: auto; }
-  .menu-item:hover { background-color: transparent; }
+  .menu-item { flex-direction: column; gap: 4px; padding: 8px; border-radius: 0; flex: 1; justify-content: center; height: 100%; }
   .menu-item.active { background-color: transparent; color: #2f62e9; box-shadow: none; }
-  
-  .main { margin-left: 0 !important; width: 100% !important; height: auto; padding-bottom: 85px; background: #f8fafc; }
-  
-  /* Match Topbar to Image Layout (Hamburger + Brand + Notification + User Avatar) */
-  .topbar { min-height: auto; padding: 16px; flex-direction: row; align-items: center; justify-content: space-between; background: #fff; border-bottom: 1px solid #e2e8f0; position: relative; }
-  .title { display: none; } /* Hide heavy headings */
-  .profile-box { display: none; } /* Hide default block box */
-  
-  .mobile-header-actions {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-  }
-  .m-left { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 800; }
-  .m-left i { font-size: 20px; color: #334155; }
-  .m-left span { color: #2f62e9; }
-  .m-right { display: flex; align-items: center; gap: 16px; }
-  .notification-icon { position: relative; font-size: 22px; color: #334155; }
-  .notification-icon .badge-count { position: absolute; top: -4px; right: -6px; background: #ef4444; color: #fff; font-size: 10px; padding: 2px 5px; border-radius: 50%; font-weight: 700; }
-  .m-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid #2f62e9; }
-
-  /* Fluid Content Spaces */
-  .content { padding: 14px; gap: 16px; }
-  
-  /* Mobile Custom Search Bar Component */
-  .mobile-search-bar {
-      display: flex;
-      align-items: center;
-      background: #f1f5f9;
-      padding: 12px 16px;
-      border-radius: 12px;
-      gap: 10px;
-      width: 100%;
-  }
-  .mobile-search-bar i { color: #94a3b8; font-size: 16px; }
-  .mobile-search-bar input { border: none; background: transparent; outline: none; width: 100%; font-size: 14px; color: #334155; }
-
-  /* Custom Inline Hero Box layout matching your reference */
-  .notice { 
-      display: flex !important; 
-      align-items: center; 
-      gap: 14px; 
-      background: #f0fdf4; 
-      color: #166534; 
-      border: 1px solid #bbf7d0; 
-      border-radius: 14px; 
-      padding: 16px; 
-  }
-  
-  /* Grid Cards System Adjustment */
-  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .card { padding: 14px; border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); }
-  .stat-card { min-height: 100px; background: #ffffff; }
-  .card h3 { font-size: 11px; color: #64748b; font-weight: 700; }
-  .card h2 { font-size: 22px; margin-top: 6px; font-weight: 800; color: #0f172a; }
-  .growth { font-size: 11px; margin-top: 4px; font-weight: 700; }
-  
-  /* Analytics Graph Area Adjustments */
-  .content-grid { grid-template-columns: 1fr; gap: 16px; }
-  .chart-card { min-height: 280px; }
-  .section-title { font-size: 15px; font-weight: 800; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; }
-  .section-title::after { content: "View all"; font-size: 12px; color: #2f62e9; font-weight: 600; }
-
-  /* Mobile Quick Actions Toolkit (Post Banaye, Video Upload Kare, wagera) */
-  .mobile-toolkit {
-      display: block;
-  }
-  .toolkit-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      margin-top: 10px;
-  }
-  .toolkit-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: #f1f5f9;
-      border-radius: 10px;
-      padding: 12px 6px;
-      gap: 6px;
-      text-align: center;
-      font-size: 11px;
-      font-weight: 700;
-      color: #334155;
-      border: 1px solid #e2e8f0;
-  }
-  .toolkit-btn i { font-size: 16px; color: #475569; }
-
-  /* Recent Top Video/Ebook Posts Thumbnails Section */
-  .mobile-content-section {
-      display: block;
-  }
-  .posts-scroll-container {
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      padding-bottom: 6px;
-      scroll-snap-type: x mandatory;
-  }
-  .posts-scroll-container::-webkit-scrollbar { display: none; }
-  .post-mini-card {
-      min-width: 140px;
-      width: 140px;
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      overflow: hidden;
-  }
-  .post-mini-card img { width: 100%; height: 90px; object-fit: cover; background: #e2e8f0; }
-  .post-mini-info { padding: 8px; }
-  .post-mini-title { font-size: 12px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #1e293b; }
-  .post-mini-meta { display: flex; justify-content: space-between; font-size: 10px; color: #64748b; margin-top: 4px; font-weight: 600; }
-
-  /* Responsive Table View conversion to List Layout */
-  .table-card { overflow-x: visible; }
-  table, create, tbody, th, td, tr { display: block; width: 100%; }
-  table thead { display: none; }
-  #ordersTable tr { display: flex; flex-direction: column; gap: 8px; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
-  #ordersTable tr:last-child { border-bottom: 0; }
-  #ordersTable td { padding: 0; border: none; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
-  #ordersTable td:first-child { display: block; padding-bottom: 4px; }
-  #ordersTable td:first-child > div { width: 100%; }
-  
-  #ordersTable td:nth-child(2)::before { content: "Amount:"; font-weight: 700; color: #64748b; }
-  #ordersTable td:nth-child(3)::before { content: "Profit:"; font-weight: 700; color: #64748b; }
-  #ordersTable td:nth-child(4)::before { content: "Status:"; font-weight: 700; color: #64748b; }
-  #ordersTable td:nth-child(5)::before { content: "Date:"; font-weight: 700; color: #64748b; }
-
-  .review-grid { grid-template-columns: 1fr; gap: 10px; }
-  .review-item { border-radius: 14px; padding: 12px; }
+  .main { margin-left: 0 !important; width: 100% !important; height: auto; padding-bottom: 75px; }
+  .topbar { min-height: auto; padding: 16px; flex-direction: column; align-items: flex-start; gap: 16px; background: #fff; }
+  .title h1 { font-size: 28px; }
+  .title p { font-size: 14px; margin-top: 4px; }
+  .profile-box { width: 100%; min-width: 100%; justify-content: flex-start; }
+  .content { padding: 16px; gap: 20px; }
+  .stats-grid { grid-template-columns: 1fr; gap: 14px; }
+  .card { padding: 18px; }
+  .card h2 { font-size: 32px; }
+  .chart-card { min-height: 320px; }
+  #ordersTable tr { display: grid; gap: 6px; padding: 14px 0; border-bottom: 1px solid #dce4f0; }
+  #ordersTable td { padding: 2px 0; border: none; }
+  .review-grid { grid-template-columns: 1fr; gap: 12px; }
+  .review-item { border-radius: 14px; padding: 14px; }
 }
 </style>
 
@@ -363,7 +219,6 @@ td{color:#101828;font-size:14px}
 </aside>
 
 <main class="main">
-<!-- Updated Topbar configuration directly mimicking your UI Reference mockup -->
 <header class="topbar">
   <div class="title">
     <h1>Dashboard</h1>
@@ -377,107 +232,41 @@ td{color:#101828;font-size:14px}
       <small id="userEmail">Loading...</small>
     </div>
   </div>
-
-  <!-- Mobile Screen UI View Components -->
-  <div class="mobile-header-actions">
-      <div class="m-left">
-          <i class="fa-solid fa-bars"></i>
-          <div>क्रिएटरहब <span>डैशबोर्ड</span></div>
-      </div>
-      <div class="m-right">
-          <div class="notification-icon">
-              <i class="fa-regular fa-bell"></i>
-              <div class="badge-count">3</div>
-          </div>
-          <img class="m-avatar" id="mobileAvatar" src="https://via.placeholder.com/150" alt="Avatar">
-      </div>
-  </div>
 </header>
 
 <div class="content">
-<!-- Matchable layout search component for mobile screen navigation -->
-<div class="mobile-search-bar">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <input type="text" placeholder="सरकी स्तास, पोस्टड, कमेंट...">
-</div>
-
-<!-- Notice message modified as welcome banner -->
-<div class="notice" id="notice">
-    <div style="font-size: 15px; font-weight: 800; line-height: 1.4;">
-        क्रिएटर समुदाय में आपका स्वागत है <br>
-        <span style="font-size: 12px; font-weight: 500; color: #4b5563;">Welcome to your creator community ecosystem.</span>
-    </div>
-</div>
+<div class="notice" id="notice"></div>
 
 <section class="stats-grid">
   <div class="card stat-card">
     <h3>Total Sales</h3>
     <h2 id="totalSales">₹0</h2>
-    <div class="growth"><i class="fa-solid fa-arrow-up"></i> Live data</div>
+    <div class="growth">Live data</div>
   </div>
   <div class="card stat-card">
     <h3>Total Profit</h3>
     <h2 id="totalProfit">₹0</h2>
-    <div class="growth"><i class="fa-solid fa-arrow-up"></i> Real earnings</div>
+    <div class="growth">Real earnings</div>
   </div>
   <div class="card stat-card">
     <h3>Total Orders</h3>
     <h2 id="totalOrders">0</h2>
-    <div class="growth"><i class="fa-solid fa-arrow-up"></i> Orders count</div>
+    <div class="growth">Orders count</div>
   </div>
   <div class="card stat-card">
     <h3>Total Products</h3>
     <h2 id="totalBooks">0</h2>
-    <div class="growth"><i class="fa-solid fa-arrow-up"></i> Uploaded</div>
+    <div class="growth">Products uploaded</div>
   </div>
 </section>
 
 <section class="content-grid">
   <div class="card chart-card">
-    <h3 class="section-title">Analytics Overview</h3>
-    <div style="height: 220px; position: relative; width: 100%;">
+    <h3 class="section-title">Monthly Sales</h3>
+    <div style="height: 330px; position: relative; width: 100%;">
         <canvas id="salesChart"></canvas>
     </div>
     <div id="chartFallback" class="chart-fallback" style="display:none"></div>
-  </div>
-
-  <!-- Mobile Quick Action Toolkit System matching Image Layout -->
-  <div class="card mobile-toolkit">
-      <h3 style="font-size: 14px; font-weight: 800; color: #0f172a;">क्रिएटर टूलकिट</h3>
-      <div class="toolkit-grid">
-          <div class="toolkit-btn"><i class="fa-regular fa-pen-to-square"></i><div>पोस्ट बनाएं</div></div>
-          <div class="toolkit-btn"><i class="fa-solid fa-arrow-up-from-bracket"></i><div>वीडियो अपलोड</div></div>
-          <div class="toolkit-btn"><i class="fa-solid fa-tower-broadcast"></i><div>लाइव जाएं</div></div>
-          <div class="toolkit-btn"><i class="fa-solid fa-chart-simple"></i><div>इनसाइट देखें</div></div>
-      </div>
-  </div>
-
-  <!-- Recent Scrollable Content Section matching Image Layout bottom thumbs -->
-  <div class="card mobile-content-section">
-      <h3 style="font-size: 14px; font-weight: 800; color: #0f172a; margin-bottom: 12px;">शीर्ष सामग्री (Top Contents)</h3>
-      <div class="posts-scroll-container">
-          <div class="post-mini-card">
-              <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=400" alt="Thumb">
-              <div class="post-mini-info">
-                  <div class="post-mini-title">My Desk Setup Layout</div>
-                  <div class="post-mini-meta"><span><i class="fa-regular fa-eye"></i> 12K</span> <span><i class="fa-regular fa-heart"></i> 4K</span></div>
-              </div>
-          </div>
-          <div class="post-mini-card">
-              <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=400" alt="Thumb">
-              <div class="post-mini-info">
-                  <div class="post-mini-title">AI Content Strategies</div>
-                  <div class="post-mini-meta"><span><i class="fa-regular fa-eye"></i> 8.5K</span> <span><i class="fa-regular fa-heart"></i> 2K</span></div>
-              </div>
-          </div>
-          <div class="post-mini-card">
-              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400" alt="Thumb">
-              <div class="post-mini-info">
-                  <div class="post-mini-title">Fiverr Upwork Optimization</div>
-                  <div class="post-mini-meta"><span><i class="fa-regular fa-eye"></i> 24K</span> <span><i class="fa-regular fa-heart"></i> 9K</span></div>
-              </div>
-          </div>
-      </div>
   </div>
 
   <div class="card">
@@ -526,27 +315,26 @@ document.getElementById("profileImage").src = DEFAULT_AVATAR;
 
 let USER = {};
 try {
-    USER = JSON.parse(localStorage.getItem("user") || "{}");
+  USER = JSON.parse(localStorage.getItem("user") || "{}");
 } catch (err) {
-    USER = {};
+  USER = {};
 }
 
 const params = new URLSearchParams(window.location.search);
 const currentUserEmail = params.get("email") || USER.email || localStorage.getItem("creatorhub_profile_email") || "test@gmail.com";
 
 function setStatus(text) {
-    document.getElementById("pageStatus").innerText = text;
+  document.getElementById("pageStatus").innerText = text;
 }
 
 function showNotice(text) {
-    // Hidden execution control logic to prevent resetting static image text
-    if(!text) return;
-    const notice = document.getElementById("notice");
-    notice.innerText = text;
+  const notice = document.getElementById("notice");
+  notice.innerText = text;
+  notice.style.display = text ? "block" : "none";
 }
 
 function escapeHTML(value) {
-    return String(value || "")
+  return String(value || "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
@@ -555,349 +343,357 @@ function escapeHTML(value) {
 }
 
 function formatMoney(value) {
-    return "₹" + Number(value || 0).toLocaleString("en-IN");
+  return "₹" + Number(value || 0).toLocaleString("en-IN");
 }
 
 function formatNumber(value) {
-    return Number(value || 0).toLocaleString("en-IN");
+  return Number(value || 0).toLocaleString("en-IN");
 }
 
 async function fetchJSON(url, timeoutMs) {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), timeoutMs || 9000);
-    try {
-        const response = await fetch(url, { signal: controller.signal, cache: "no-store" });
-        return await response.json();
-    } finally {
-        const timerTimeout = timer;
-        clearTimeout(timerTimeout);
-    }
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs || 9000);
+  try {
+    const response = await fetch(url, { signal: controller.signal, cache: "no-store" });
+    return await response.json();
+  } finally {
+    const timerTimeout = timer;
+    clearTimeout(timerTimeout);
+  }
 }
 
 function readCache() {
-    try {
-        const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || "null");
-        if (cached && cached.email === currentUserEmail && cached.data) {
-            return cached.data;
-        }
-    } catch (err) {}
-    return null;
+  try {
+    const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || "null");
+    if (cached && cached.email === currentUserEmail && cached.data) {
+      return cached.data;
+    }
+  } catch (err) {}
+  return null;
 }
 
 function saveCache(data) {
-    try {
-        localStorage.setItem(CACHE_KEY, JSON.stringify({
-            email: currentUserEmail,
-            saved_at: Date.now(),
-            data: data
-        }));
-    } catch (err) {}
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({
+      email: currentUserEmail,
+      saved_at: Date.now(),
+      data: data
+    }));
+  } catch (err) {}
 }
 
 function driveImage(url) {
-    if (!url) return "";
-    const text = String(url).trim();
+  if (!url) return "";
+  const text = String(url).trim();
 
-    if (text.startsWith("data:image")) return text;
+  if (text.startsWith("data:image")) return text;
 
-    const idMatch = text.match(/[?&]id=([^&]+)/);
-    if (idMatch && idMatch[1]) {
-        return "https://drive.google.com/thumbnail?id=" + idMatch[1] + "&sz=w1000";
+  const idMatch = text.match(/[?&]id=([^&]+)/);
+  if (idMatch && idMatch[1]) {
+    return "https://drive.google.com/thumbnail?id=" + idMatch[1] + "&sz=w1000";
+  }
+
+  if (text.includes("/d/")) {
+    const parts = text.split("/d/")[1];
+    if (parts) {
+      const id = parts.split("/")[0];
+      return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
     }
+  }
+  
+  if (text.includes("uc?id=")) {
+    const id = text.split("uc?id=")[1].split("&")[0];
+    return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+  }
 
-    if (text.includes("/d/")) {
-        const parts = text.split("/d/")[1];
-        if (parts) {
-            const id = parts.split("/")[0];
-            return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
-        }
-    }
-    
-    if (text.includes("uc?id=")) {
-        const id = text.split("uc?id=")[1].split("&")[0];
-        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
-    }
-
-    return text;
+  return text;
 }
-    
+   
 function applyProfile(profile) {
-    const name = profile.name || "Creator";
-    const email = profile.email || currentUserEmail;
-    const image = driveImage(profile.image) || DEFAULT_AVATAR;
+  const name = profile.name || "Creator";
+  const email = profile.email || currentUserEmail;
+  const image = driveImage(profile.image) || DEFAULT_AVATAR;
 
-    document.getElementById("userName").innerText = name;
-    document.getElementById("userEmail").innerText = email;
-    document.getElementById("profileImage").src = image;
-    
-    // Sync dynamic avatar into image mobile dashboard frame
-    const mobAv = document.getElementById("mobileAvatar");
-    if(mobAv) mobAv.src = image;
-
-    localStorage.setItem("creatorhub_profile_email", email);
+  document.getElementById("userName").innerText = name;
+  document.getElementById("userEmail").innerText = email;
+  document.getElementById("profileImage").src = image;
+  localStorage.setItem("creatorhub_profile_email", email);
 }
 
 function pickDashboardProfile(data) {
-    const user = data.user || {};
-    const profile = data.profile || {};
-    return {
-        name: user.name || profile.name || USER.name || "Creator",
-        email: user.email || profile.email || currentUserEmail,
-        image: user.profile_image || user.image || user.avatar || profile.profile_image || profile.image || profile.avatar || ""
-    };
+  const user = data.user || {};
+  const profile = data.profile || {};
+  return {
+    name: user.name || profile.name || USER.name || "Creator",
+    email: user.email || profile.email || currentUserEmail,
+    image: user.profile_image || user.image || user.avatar || profile.profile_image || profile.image || profile.avatar || ""
+  };
 }
 
 function renderStats(data) {
-    document.getElementById("totalSales").innerText = formatMoney(data.total_sales || (data.stats && data.stats.total_sales) || 0);
-    document.getElementById("totalProfit").innerText = formatMoney(data.total_profit || (data.stats && data.stats.total_profit) || 0);
-    document.getElementById("totalOrders").innerText = formatNumber(data.total_orders || (data.stats && data.stats.total_orders) || 0);
-    document.getElementById("totalBooks").innerText = formatNumber(data.total_products || data.total_books || (data.stats && data.stats.total_books) || 0);
+  document.getElementById("totalSales").innerText = formatMoney(data.total_sales || (data.stats && data.stats.total_sales) || 0);
+  document.getElementById("totalProfit").innerText = formatMoney(data.total_profit || (data.stats && data.stats.total_profit) || 0);
+  document.getElementById("totalOrders").innerText = formatNumber(data.total_orders || (data.stats && data.stats.total_orders) || 0);
+  document.getElementById("totalBooks").innerText = formatNumber(data.total_products || data.total_books || (data.stats && data.stats.total_books) || 0);
 }
 
 function renderWallet(data) {
-    const wallet = data.wallet || {};
-    document.getElementById("walletAvailable").innerText = formatMoney(wallet.available || 0);
-    document.getElementById("walletPending").innerText = formatMoney(wallet.pending || 0);
-    document.getElementById("walletWithdrawn").innerText = formatMoney(wallet.withdrawn || 0);
-    document.getElementById("walletLifetime").innerText = formatMoney(wallet.lifetime || wallet.total_earnings || 0);
+  const wallet = data.wallet || {};
+  document.getElementById("walletAvailable").innerText = formatMoney(wallet.available || 0);
+  document.getElementById("walletPending").innerText = formatMoney(wallet.pending || 0);
+  document.getElementById("walletWithdrawn").innerText = formatMoney(wallet.withdrawn || 0);
+  document.getElementById("walletLifetime").innerText = formatMoney(wallet.lifetime || wallet.total_earnings || 0);
 }
 
+/* =========================================================
+   🚀 FIXED ENGINE: RECENT ORDERS IMAGE PARSING FILTER
+   ========================================================= */
 function renderOrders(data) {
-    const orders = data.orders || data.recent_orders || [];
-    const table = document.getElementById("ordersTable");
+  const orders = data.orders || data.recent_orders || [];
+  const table = document.getElementById("ordersTable");
 
-    if (!orders.length) {
-        table.innerHTML = `<tr><td colspan="5" class="empty" style="text-align:center;padding:30px;">No recent orders found.</td></tr>`;
-        return;
+  if (!orders.length) {
+    table.innerHTML = `<tr><td colspan="5" class="empty" style="text-align:center;padding:30px;">No recent orders found.</td></tr>`;
+    return;
+  }
+
+  table.innerHTML = orders.map(order => {
+    const status = String(order.payment_status || "pending");
+    const statusClass = status.toLowerCase() === "paid" ? "paid" : "pending";
+    
+    // 🚀 MULTI-KEY EXTRACTION
+    let rawImgUrl = order.front_cover || 
+                    order.cover || 
+                    order.image || 
+                    order.book_image || 
+                    order.thumbnail || 
+                    order.product_image ||
+                    order.frontCover ||
+                    "";
+
+    // 🚀 GOOGLE DRIVE EMBED URL RE-CONSTRUCTOR
+    let finalImageUrl = "";
+    if (rawImgUrl) {
+        let cleanText = String(rawImgUrl).trim();
+        
+        if (cleanText.includes("id=")) {
+            let extractedId = cleanText.split("id=")[1].split("&")[0];
+            finalImageUrl = "https://drive.google.com/thumbnail?id=" + extractedId + "&sz=w500";
+        } else if (cleanText.includes("/d/")) {
+            let extractedId = cleanText.split("/d/")[1].split("/")[0];
+            finalImageUrl = "https://drive.google.com/thumbnail?id=" + extractedId + "&sz=w500";
+        } else if (cleanText.includes("/file/d/")) {
+            let extractedId = cleanText.split("/file/d/")[1].split("/")[0];
+            finalImageUrl = "https://drive.google.com/thumbnail?id=" + extractedId + "&sz=w500";
+        } else {
+            finalImageUrl = driveImage(cleanText);
+        }
     }
 
-    table.innerHTML = orders.map(order => {
-        const status = String(order.payment_status || "pending");
-        const statusClass = status.toLowerCase() === "paid" ? "paid" : "pending";
-        
-        let rawImgUrl = order.front_cover || 
-                        order.cover || 
-                        order.image || 
-                        order.book_image || 
-                        order.thumbnail || 
-                        order.product_image ||
-                        order.frontCover ||
-                        "";
+    // Fixed Placeholder URL from 55x700 to 55x70
+    if (!finalImageUrl || finalImageUrl === "") {
+        finalImageUrl = "https://via.placeholder.com/55x70/eef3f9/63728a?text=Book";
+    }
 
-        let finalImageUrl = "";
-        if (rawImgUrl) {
-            let cleanText = String(rawImgUrl).trim();
-            
-            if (cleanText.includes("id=")) {
-                let extractedId = cleanText.split("id=")[1].split("&")[0];
-                finalImageUrl = "https://drive.google.com/thumbnail?id=" + extractedId + "&sz=w500";
-            } else if (cleanText.includes("/d/")) {
-                let extractedId = cleanText.split("/d/")[1].split("/")[0];
-                finalImageUrl = "https://drive.google.com/thumbnail?id=" + extractedId + "&sz=w500";
-            } else if (cleanText.includes("/file/d/")) {
-                let extractedId = cleanText.split("/file/d/")[1].split("/")[0];
-                finalImageUrl = "https://drive.google.com/thumbnail?id=" + extractedId + "&sz=w500";
-            } else {
-                finalImageUrl = driveImage(cleanText);
-            }
-        }
-
-        if (!finalImageUrl || finalImageUrl === "") {
-            finalImageUrl = "https://via.placeholder.com/55x70/eef3f9/63728a?text=Book";
-        }
-
-        return `
-          <tr>
-            <td>
-              <div style="display:flex;align-items:center;gap:14px">
-                <img src="${escapeHTML(finalImageUrl)}" alt="Book Cover" style="width:55px;height:70px;border-radius:10px;object-fit:cover;background:#d9e1ec;border:1px solid #dce4f0;" onerror="this.onerror=null;this.src='https://via.placeholder.com/55x70/eef3f9/63728a?text=Ebook'">
-                <div>
-                  <div style="font-weight:900;margin-bottom:4px">${escapeHTML(order.book_title || order.title || "Untitled Product")}</div>
-                  <div style="font-size:12px;color:#667085">${escapeHTML(order.id || order.order_id || "")}</div>
-                </div>
-              </div>
-            </td>
-            <td>${formatMoney(order.amount || order.total_amount || 0)}</td>
-            <td>${formatMoney(order.seller_profit || order.profit || 0)}</td>
-            <td><span class="badge ${statusClass}">${escapeHTML(status)}</span></td>
-            <td>${order.created_at ? new Date(order.created_at).toLocaleDateString("en-IN") : "-"}</td>
-          </tr>
-        `;
-    }).join("");
+    return `
+      <tr>
+        <td>
+          <div style="display:flex;align-items:center;gap:14px">
+            <img src="${escapeHTML(finalImageUrl)}" alt="Book Cover" style="width:55px;height:70px;border-radius:10px;object-fit:cover;background:#d9e1ec;border:1px solid #dce4f0;" onerror="this.onerror=null;this.src='https://via.placeholder.com/55x70/eef3f9/63728a?text=Ebook'">
+            <div>
+              <div style="font-weight:900;margin-bottom:4px">${escapeHTML(order.book_title || order.title || "Untitled Product")}</div>
+              <div style="font-size:12px;color:#667085">${escapeHTML(order.id || order.order_id || "")}</div>
+            </div>
+          </div>
+        </td>
+        <td>${formatMoney(order.amount || order.total_amount || 0)}</td>
+        <td>${formatMoney(order.seller_profit || order.profit || 0)}</td>
+        <td><span class="badge ${statusClass}">${escapeHTML(status)}</span></td>
+        <td>${order.created_at ? new Date(order.created_at).toLocaleDateString("en-IN") : "-"}</td>
+      </tr>
+    `;
+  }).join("");
 }
    
 function renderReviews(data) {
-    const fallback = [
-        { user_name:"Aarav", review:"Amazing quality and fast delivery." },
-        { user_name:"Rahul", review:"Dashboard and ebook system working perfectly." },
-        { user_name:"Priya", review:"Best creator marketplace experience." }
-    ];
-    const reviews = data.reviews && data.reviews.length ? data.reviews : fallback;
-    document.getElementById("reviewsContainer").innerHTML =
-        reviews.map(review => `
-          <div class="review-item">
-            <div class="review-user">${escapeHTML(review.user_name || "Customer")}</div>
-            <div class="review-text">${escapeHTML(review.review || "Amazing product")}</div>
-          </div>
-        `).join("");
+  const fallback = [
+    { user_name:"Aarav", review:"Amazing quality and fast delivery." },
+    { user_name:"Rahul", review:"Dashboard and ebook system working perfectly." },
+    { user_name:"Priya", review:"Best creator marketplace experience." }
+  ];
+  const reviews = data.reviews && data.reviews.length ? data.reviews : fallback;
+  document.getElementById("reviewsContainer").innerHTML =
+    reviews.map(review => `
+      <div class="review-item">
+        <div class="review-user">${escapeHTML(review.user_name || "Customer")}</div>
+        <div class="review-text">${escapeHTML(review.review || "Amazing product")}</div>
+      </div>
+    `).join("");
 }
 
 function renderFallbackChart(amounts) {
-    const box = document.getElementById("chartFallback");
-    const canvas = document.getElementById("salesChart");
-    const values = amounts && amounts.length ? amounts : [0,0,0,0,0,0];
-    const max = Math.max(...values, 1);
+  const box = document.getElementById("chartFallback");
+  const canvas = document.getElementById("salesChart");
+  const values = amounts && amounts.length ? amounts : [0,0,0,0,0,0];
+  const max = Math.max(...values, 1);
 
-    canvas.style.display = "none";
-    box.style.display = "flex";
-    box.innerHTML = values.map(value => {
-        const height = Math.max(8, Math.round((Number(value || 0) / max) * 300));
-        return `<div class="chart-bar" style="height:${height}px"></div>`;
-    }).join("");
+  canvas.style.display = "none";
+  box.style.display = "flex";
+  box.innerHTML = values.map(value => {
+    const height = Math.max(8, Math.round((Number(value || 0) / max) * 300));
+    return `<div class="chart-bar" style="height:${height}px"></div>`;
+  }).join("");
 }
 
 function renderChart(data) {
-    const sales = data.monthly_sales || [];
-    
-    let labels = [];
-    let amounts = [];
-    
-    if (sales.length > 0) {
-        sales.forEach(item => {
-            let labelText = item.date ? new Date(item.date).toLocaleDateString("en-IN", {day: 'numeric', month: 'short'}) : "Day " + (item.day || "");
-            labels.push(labelText);
-            amounts.push(Number(item.amount || 0));
-        });
-    } else {
-        labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
-        amounts = [0, 0, 0, 0, 0, 0];
-    }
-
-    if (typeof Chart === "undefined") {
-        renderFallbackChart(amounts);
-        return;
-    }
-
-    document.getElementById("salesChart").style.display = "block";
-    document.getElementById("chartFallback").style.display = "none";
-
-    if (window.salesChart && typeof window.salesChart.destroy === "function") {
-        window.salesChart.destroy();
-    }
-
-    window.salesChart = new Chart(document.getElementById("salesChart"), {
-        type: "line",
-        data: {
-            labels: labels,
-            datasets: [{
-                label: "Revenue Growth",
-                data: amounts,
-                borderColor: "#2563eb",
-                backgroundColor: "rgba(37,99,235,0.15)",
-                fill: true,
-                tension: 0.4,
-                pointRadius: 4,
-                pointBackgroundColor: "#2563eb"
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: window.innerWidth > 768
-                }
-            },
-            scales: {
-                x: {
-                    ticks: { color: "#667085", font: { family: 'Inter', size: 11 } },
-                    grid: { display: false }
-                },
-                y: {
-                    ticks: { color: "#667085", font: { family: 'Inter', size: 11 } },
-                    grid: { color: "rgba(102,112,133,0.06)" }
-                }
-            }
-        }
+  const sales = data.monthly_sales || [];
+  
+  let labels = [];
+  let amounts = [];
+  
+  if (sales.length > 0) {
+    sales.forEach(item => {
+      let labelText = item.date ? new Date(item.date).toLocaleDateString("en-IN", {day: 'numeric', month: 'short'}) : "Day " + (item.day || "");
+      labels.push(labelText);
+      amounts.push(Number(item.amount || 0));
     });
+  } else {
+    labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+    amounts = [0, 0, 0, 0, 0, 0];
+  }
+
+  if (typeof Chart === "undefined") {
+    renderFallbackChart(amounts);
+    return;
+  }
+
+  document.getElementById("salesChart").style.display = "block";
+  document.getElementById("chartFallback").style.display = "none";
+
+  if (window.salesChart && typeof window.salesChart.destroy === "function") {
+    window.salesChart.destroy();
+  }
+
+  window.salesChart = new Chart(document.getElementById("salesChart"), {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [{
+        label: "Revenue Growth",
+        data: amounts,
+        borderColor: "#2563eb",
+        backgroundColor: "rgba(37,99,235,0.12)",
+        fill: true,
+        tension: 0.3,
+        pointRadius: 5,
+        pointBackgroundColor: "#2563eb"
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: { font: { family: 'Inter', weight: '600' }, color: "#101828" }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: "#667085", font: { family: 'Inter' } },
+          grid: { color: "rgba(102,112,133,0.08)" }
+        },
+        y: {
+          ticks: { color: "#667085", font: { family: 'Inter' } },
+          grid: { color: "rgba(102,112,133,0.08)" }
+        }
+      }
+    }
+  });
 }
 
 function renderDashboard(data) {
-    renderStats(data);
-    renderWallet(data);
-    renderOrders(data);
-    renderReviews(data);
-    applyProfile(pickDashboardProfile(data));
+  renderStats(data);
+  renderWallet(data);
+  renderOrders(data);
+  renderReviews(data);
+  applyProfile(pickDashboardProfile(data));
 
-    requestAnimationFrame(() => {
-        renderChart(data);
-    });
+  requestAnimationFrame(() => {
+    renderChart(data);
+  });
 }
 
 async function loadProfileFallback(existingProfile) {
-    try {
-        const data = await fetchJSON(PROFILE_API_URL + "?action=profile&email=" + encodeURIComponent(currentUserEmail), 7000);
-        if (data.success && data.user) {
-            applyProfile({
-                name: data.user.name || existingProfile.name,
-                email: data.user.email || existingProfile.email,
-                image: data.user.profile_image || existingProfile.image
-            });
-            return;
-        }
-    } catch (err) {
-        console.log("Profile fallback failed:", err);
+  try {
+    const data = await fetchJSON(PROFILE_API_URL + "?action=profile&email=" + encodeURIComponent(currentUserEmail), 7000);
+    if (data.success && data.user) {
+      applyProfile({
+        name: data.user.name || existingProfile.name,
+        email: data.user.email || existingProfile.email,
+        image: data.user.profile_image || existingProfile.image
+      });
+      return;
     }
-    applyProfile(existingProfile);
+  } catch (err) {
+    console.log("Profile fallback failed:", err);
+  }
+  applyProfile(existingProfile);
 }
 
+/* 🌟 MAIN ENGINE RUNNER */
 async function loadDashboard() {
-    try {
-        setStatus("Loading CreatorHub data...");
+  try {
+    showNotice("");
+    setStatus("Loading CreatorHub data...");
 
-        applyProfile({
-            name: USER.name || "Creator",
-            email: currentUserEmail,
-            image: USER.profile_image || USER.image || ""
-        });
+    applyProfile({
+      name: USER.name || "Creator",
+      email: currentUserEmail,
+      image: USER.profile_image || USER.image || ""
+    });
 
-        const cachedData = readCache();
-        if (cachedData) {
-            renderDashboard(cachedData);
-            setStatus("Showing saved data. Updating...");
-        } else {
-            renderDashboard({});
-        }
-
-        const response = await fetch(DASHBOARD_API_URL, {
-            method: "POST",
-            mode: "cors",
-            headers: { "Content-Type": "text/plain;charset=utf-8" },
-            body: JSON.stringify({
-                action: "sellerDashboard",
-                email: currentUserEmail
-            })
-        });
-
-        const data = await response.json();
-
-        if (!data.success) {
-            throw new Error(data.message || "API Error");
-        }
-
-        saveCache(data);
-        renderDashboard(data);
-        setStatus("Welcome back to CreatorHub");
-        loadProfileFallback(pickDashboardProfile(data));
-    } catch (err) {
-        console.log("Dashboard load failed:", err);
-        setStatus("Welcome back to CreatorHub");
-        loadProfileFallback({
-            name: USER.name || "Creator",
-            email: currentUserEmail,
-            image: USER.profile_image || USER.image || ""
-        });
+    const cachedData = readCache();
+    if (cachedData) {
+      renderDashboard(cachedData);
+      setStatus("Showing saved data. Updating...");
+    } else {
+      renderDashboard({});
     }
+
+    const response = await fetch(DASHBOARD_API_URL, {
+      method: "POST",
+      mode: "cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({
+        action: "sellerDashboard",
+        email: currentUserEmail
+      })
+    });
+
+    const data = await response.json();
+
+    if (!data.success) {
+      throw new Error(data.message || "API Error");
+    }
+
+    saveCache(data);
+    renderDashboard(data);
+    setStatus("Welcome back to CreatorHub");
+    loadProfileFallback(pickDashboardProfile(data));
+  } catch (err) {
+    console.log("Dashboard load failed:", err);
+    setStatus("Welcome back to CreatorHub");
+
+    if (!readCache()) {
+      showNotice("Live data could not be loaded. Please check the email or make sure the Apps Script deployment access is set to Anyone.");
+    }
+
+    loadProfileFallback({
+      name: USER.name || "Creator",
+      email: currentUserEmail,
+      image: USER.profile_image || USER.image || ""
+    });
+  }
 }
 
 window.addEventListener("DOMContentLoaded", loadDashboard);
