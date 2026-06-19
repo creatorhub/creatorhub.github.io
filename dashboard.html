@@ -21,12 +21,13 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
-body{min-height:100vh;background:#f6f8fc;color:#101828;display:flex;overflow-x:hidden}
+/* 🌟 FIX 1: Body se overflow hidden hataya taki browser default mobile scroll le sake */
+body{min-height:100vh;background:#f6f8fc;color:#101828;display:flex;}
 a{text-decoration:none;color:inherit}
 button{font:inherit}
 
 /* =========================================================
-    🚀 FIXED SIDEBAR THEME GRAPHICS (DESKTOP)
+    🚀 SIDEBAR THEME GRAPHICS (DESKTOP)
    ========================================================= */
 .sidebar {
     width: 260px;
@@ -95,13 +96,12 @@ button{font:inherit}
 }
 
 /* =========================================================
-    🚀 FIXED CONTENT WORKSPACE AREA
+    🚀 CONTENT WORKSPACE AREA (DESKTOP)
    ========================================================= */
+/* 🌟 FIX 2: Main container se height aur overflow rules hataye jo scroll lock kar rahe the */
 .main {
-    margin-left: 260px; 
-    width: calc(100% - 260px);
-    height: 100vh;
-    overflow-y: auto;
+    margin-left: 260px !important; 
+    width: calc(100% - 260px) !important;
     background: #f6f8fc;
 }
 
@@ -150,30 +150,31 @@ td{color:#101828;font-size:14px}
 .empty{color:#63728a;padding:18px 0}
 
 /* ==========================================================================
-   📱 Premium Mobile Responsive Layout (Perfect Scroll Integration)
+   📱 PREMIUM MOBILE RESPONSIVE LAYOUT (SMOOTH SCROLL ENABLED)
    ========================================================================== */
-@media (max-width: 1050px) {
+@media (max-width: 1050px) and (min-width: 769px) {
   .sidebar { width: 70px; padding: 0 !important; }
   .sidebar-brand span, .menu-item span { display: none; }
   .sidebar-brand { padding: 24px 0; text-align: center; font-size: 16px; }
   .menu-item { padding: 14px; justify-content: center; }
-  .main { margin-left: 70px; width: calc(100% - 70px); }
+  .main { margin-left: 70px !important; width: calc(100% - 70px) !important; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
 }
 
-@media (max-width: 1220px) {
+@media (max-width: 1220px) and (min-width: 769px) {
   .content-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 768px) {
+  /* 🌟 FIX 3: Mobile body scroll optimization */
   body { 
     flex-direction: column; 
-    overflow-y: auto; 
-    overflow-x: hidden;
-    height: auto;
+    overflow-y: auto !important; 
+    overflow-x: hidden !important;
+    height: auto !important;
   }
   
-  /* Bottom Navigation Fix */
+  /* Bottom Fixed Mobile Navigation */
   .sidebar { 
     width: 100%; 
     min-height: auto; 
@@ -197,15 +198,17 @@ td{color:#101828;font-size:14px}
   .menu-item i { font-size: 18px; }
   .menu-item.active { background-color: transparent; color: #2f62e9; box-shadow: none; }
   
-  /* 🌟 Fluid Mobile Scrolling Fix */
+  /* 🌟 FIX 4: Fluid content flow overrides */
   .main { 
-    margin-left: 0; 
-    width: 100%; 
-    height: auto; 
-    overflow-y: visible; 
-    padding-bottom: 95px; 
+    margin-left: 0 !important; 
+    width: 100% !important; 
+    height: auto !important; 
+    overflow-y: visible !important; 
+    padding-bottom: 95px !important; 
+    overflow-x: hidden !important;
   }
   
+  /* Responsive Header Profile Box setup */
   .topbar { min-height: auto; padding: 20px 16px; flex-direction: column; align-items: flex-start; gap: 18px; background: #fff; position: relative; }
   .title h1 { font-size: 32px; }
   .title p { font-size: 14px; margin-top: 4px; }
@@ -213,7 +216,7 @@ td{color:#101828;font-size:14px}
   
   .content { padding: 16px; gap: 20px; }
   
-  /* 2x2 Clean Layout */
+  /* Stats Column stacking */
   .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .stat-card { min-height: 120px; padding: 16px; }
   .card h3 { font-size: 12px; }
@@ -222,7 +225,7 @@ td{color:#101828;font-size:14px}
   .content-grid { grid-template-columns: 1fr; gap: 20px; }
   .chart-card { min-height: 340px; }
   
-  /* Mobile Orders Card Layout */
+  /* CLEAN LUXURY RECENT ORDERS CARD LAYOUT FOR MOBILE */
   .table-card { padding: 16px 12px; overflow-x: visible; }
   .table-card table, .table-card thead, .table-card tbody, .table-card th, .table-card td, .table-card tr { display: block; }
   .table-card thead { display: none; } 
@@ -256,11 +259,12 @@ td{color:#101828;font-size:14px}
     width: auto; 
   }
   
+  /* Review Cards */
   .review-grid { grid-template-columns: 1fr; gap: 12px; }
   .review-item { border-radius: 16px; padding: 16px; }
 }
 </style>
-    
+
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 </head>
 
