@@ -149,8 +149,13 @@ td{color:#101828;font-size:14px}
 .review-text{color:#63728a;font-size:14px;line-height:1.6}
 .empty{color:#63728a;padding:18px 0}
 
+/* New components hidden on desktop */
+.mobile-header-actions, .mobile-search-bar, .mobile-toolkit, .mobile-content-section {
+    display: none;
+}
+
 /* ==========================================================================
-    🚀 OPTIMIZED MOBILE & TABLET RESPONSIVE ENGINE
+    🚀 IMAGE-MATCHED MOBILE & RESPONSIVE ENGINE
    ========================================================================== */
 @media (max-width: 1050px) and (min-width: 769px) {
   .sidebar { width: 70px; padding: 0 !important; }
@@ -168,85 +173,163 @@ td{color:#101828;font-size:14px}
 @media (max-width: 768px) {
   body { flex-direction: column; overflow: auto; }
   
-  /* Modern Bottom Tab Bar Navigation */
+  /* Fixed Bottom Tab Bar from Image Layout */
   .sidebar { 
     width: 100%; 
     min-height: auto; 
-    height: 68px; 
+    height: 72px; 
     position: fixed; 
     top: auto; 
     bottom: 0; 
     left: 0; 
     flex-direction: row; 
-    background-color: #0f172a; 
-    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.25); 
+    background-color: #ffffff; 
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08); 
     border-right: 0; 
-    border-top: 1px solid rgba(255,255,255,0.08); 
+    border-top: 1px solid #e2e8f0; 
     overflow: hidden; 
     z-index: 999;
   }
   .sidebar-brand { display: none; }
-  .sidebar-menu { flex-direction: row; padding: 0 4px; gap: 0; width: 100%; justify-content: space-around; align-items: center; }
-  .menu-item { flex-direction: column; gap: 5px; padding: 8px 0; border-radius: 0; flex: 1; justify-content: center; height: 100%; color: #64748b; text-align: center; }
-  .menu-item span { font-size: 11px; font-weight: 600; display: block !important; }
-  .menu-item i { font-size: 18px; }
+  .sidebar-menu { flex-direction: row; padding: 0; gap: 0; width: 100%; justify-content: space-around; align-items: center; }
+  .menu-item { flex-direction: column; gap: 4px; padding: 10px 0; border-radius: 0; flex: 1; justify-content: center; height: 100%; color: #64748b; }
+  .menu-item span { font-size: 11px; font-weight: 700; display: block !important; }
+  .menu-item i { font-size: 20px; width: auto; }
   .menu-item:hover { background-color: transparent; }
-  .menu-item.active { background-color: transparent; color: #3b82f6; box-shadow: none; }
+  .menu-item.active { background-color: transparent; color: #2f62e9; box-shadow: none; }
   
-  /* Workspace Adaptation */
-  .main { margin-left: 0 !important; width: 100% !important; height: auto; padding-bottom: 85px; }
+  .main { margin-left: 0 !important; width: 100% !important; height: auto; padding-bottom: 85px; background: #f8fafc; }
   
-  /* Topbar Fluid Adjustments */
-  .topbar { min-height: auto; padding: 20px 16px; flex-direction: column; align-items: flex-start; gap: 16px; background: #fff; }
-  .title h1 { font-size: 32px; font-weight: 900; }
-  .title p { font-size: 14px; margin-top: 4px; }
-  .profile-box { width: 100%; min-width: 100%; justify-content: flex-start; box-shadow: none; border: 1px solid #e2e8f0; }
+  /* Match Topbar to Image Layout (Hamburger + Brand + Notification + User Avatar) */
+  .topbar { min-height: auto; padding: 16px; flex-direction: row; align-items: center; justify-content: space-between; background: #fff; border-bottom: 1px solid #e2e8f0; position: relative; }
+  .title { display: none; } /* Hide heavy headings */
+  .profile-box { display: none; } /* Hide default block box */
   
-  /* Content Layouts spacing */
-  .content { padding: 16px; gap: 20px; }
-  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .card { padding: 16px; border-radius: 12px; }
-  .stat-card { min-height: 120px; padding: 14px; }
-  .card h3 { font-size: 13px; }
-  .card h2 { font-size: 26px; margin-top: 10px; }
-  .growth { font-size: 13px; margin-top: 6px; }
-  .chart-card { min-height: 300px; }
-  .section-title { font-size: 18px; margin-bottom: 16px; }
+  .mobile-header-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+  }
+  .m-left { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 800; }
+  .m-left i { font-size: 20px; color: #334155; }
+  .m-left span { color: #2f62e9; }
+  .m-right { display: flex; align-items: center; gap: 16px; }
+  .notification-icon { position: relative; font-size: 22px; color: #334155; }
+  .notification-icon .badge-count { position: absolute; top: -4px; right: -6px; background: #ef4444; color: #fff; font-size: 10px; padding: 2px 5px; border-radius: 50%; font-weight: 700; }
+  .m-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid #2f62e9; }
+
+  /* Fluid Content Spaces */
+  .content { padding: 14px; gap: 16px; }
   
-  /* Table to Dynamic Card Conversion (Prevents Horizontal Broken Layouts) */
+  /* Mobile Custom Search Bar Component */
+  .mobile-search-bar {
+      display: flex;
+      align-items: center;
+      background: #f1f5f9;
+      padding: 12px 16px;
+      border-radius: 12px;
+      gap: 10px;
+      width: 100%;
+  }
+  .mobile-search-bar i { color: #94a3b8; font-size: 16px; }
+  .mobile-search-bar input { border: none; background: transparent; outline: none; width: 100%; font-size: 14px; color: #334155; }
+
+  /* Custom Inline Hero Box layout matching your reference */
+  .notice { 
+      display: flex !important; 
+      align-items: center; 
+      gap: 14px; 
+      background: #f0fdf4; 
+      color: #166534; 
+      border: 1px solid #bbf7d0; 
+      border-radius: 14px; 
+      padding: 16px; 
+  }
+  
+  /* Grid Cards System Adjustment */
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .card { padding: 14px; border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); }
+  .stat-card { min-height: 100px; background: #ffffff; }
+  .card h3 { font-size: 11px; color: #64748b; font-weight: 700; }
+  .card h2 { font-size: 22px; margin-top: 6px; font-weight: 800; color: #0f172a; }
+  .growth { font-size: 11px; margin-top: 4px; font-weight: 700; }
+  
+  /* Analytics Graph Area Adjustments */
+  .content-grid { grid-template-columns: 1fr; gap: 16px; }
+  .chart-card { min-height: 280px; }
+  .section-title { font-size: 15px; font-weight: 800; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; }
+  .section-title::after { content: "View all"; font-size: 12px; color: #2f62e9; font-weight: 600; }
+
+  /* Mobile Quick Actions Toolkit (Post Banaye, Video Upload Kare, wagera) */
+  .mobile-toolkit {
+      display: block;
+  }
+  .toolkit-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+  }
+  .toolkit-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #f1f5f9;
+      border-radius: 10px;
+      padding: 12px 6px;
+      gap: 6px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #334155;
+      border: 1px solid #e2e8f0;
+  }
+  .toolkit-btn i { font-size: 16px; color: #475569; }
+
+  /* Recent Top Video/Ebook Posts Thumbnails Section */
+  .mobile-content-section {
+      display: block;
+  }
+  .posts-scroll-container {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scroll-snap-type: x mandatory;
+  }
+  .posts-scroll-container::-webkit-scrollbar { display: none; }
+  .post-mini-card {
+      min-width: 140px;
+      width: 140px;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      overflow: hidden;
+  }
+  .post-mini-card img { width: 100%; height: 90px; object-fit: cover; background: #e2e8f0; }
+  .post-mini-info { padding: 8px; }
+  .post-mini-title { font-size: 12px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #1e293b; }
+  .post-mini-meta { display: flex; justify-content: space-between; font-size: 10px; color: #64748b; margin-top: 4px; font-weight: 600; }
+
+  /* Responsive Table View conversion to List Layout */
   .table-card { overflow-x: visible; }
   table, create, tbody, th, td, tr { display: block; width: 100%; }
-  table thead { display: none; } /* Hide raw default headers on mobile */
-  #ordersTable tr { 
-    display: flex; 
-    flex-direction: column; 
-    gap: 10px; 
-    padding: 16px 0; 
-    border-bottom: 1px solid #edf2f7; 
-  }
+  table thead { display: none; }
+  #ordersTable tr { display: flex; flex-direction: column; gap: 8px; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
   #ordersTable tr:last-child { border-bottom: 0; }
-  #ordersTable td { 
-    padding: 0; 
-    border: none; 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center;
-    font-size: 14px;
-  }
-  
-  /* First Cell containing Cover Image Custom Rules */
+  #ordersTable td { padding: 0; border: none; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
   #ordersTable td:first-child { display: block; padding-bottom: 4px; }
   #ordersTable td:first-child > div { width: 100%; }
   
-  /* Creating virtual layout labels via modern responsive selectors */
   #ordersTable td:nth-child(2)::before { content: "Amount:"; font-weight: 700; color: #64748b; }
   #ordersTable td:nth-child(3)::before { content: "Profit:"; font-weight: 700; color: #64748b; }
   #ordersTable td:nth-child(4)::before { content: "Status:"; font-weight: 700; color: #64748b; }
   #ordersTable td:nth-child(5)::before { content: "Date:"; font-weight: 700; color: #64748b; }
-  
-  /* Customer Feedback Adaptation */
-  .review-grid { grid-template-columns: 1fr; gap: 12px; }
-  .review-item { border-radius: 16px; padding: 14px 16px; }
+
+  .review-grid { grid-template-columns: 1fr; gap: 10px; }
+  .review-item { border-radius: 14px; padding: 12px; }
 }
 </style>
 
@@ -265,7 +348,7 @@ td{color:#101828;font-size:14px}
             <i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span>
         </div>
         <div class="menu-item" onclick="location.href='products.html'">
-            <i class="fa-solid fa-bag-shopping"></i> <span>Store</span>
+            <i class="fa-solid fa-bag-shopping"></i> <span>Product Store</span>
         </div>
         <div class="menu-item" onclick="location.href='library1.html'">
             <i class="fa-solid fa-book-open"></i> <span>Library</span>
@@ -280,6 +363,7 @@ td{color:#101828;font-size:14px}
 </aside>
 
 <main class="main">
+<!-- Updated Topbar configuration directly mimicking your UI Reference mockup -->
 <header class="topbar">
   <div class="title">
     <h1>Dashboard</h1>
@@ -293,41 +377,107 @@ td{color:#101828;font-size:14px}
       <small id="userEmail">Loading...</small>
     </div>
   </div>
+
+  <!-- Mobile Screen UI View Components -->
+  <div class="mobile-header-actions">
+      <div class="m-left">
+          <i class="fa-solid fa-bars"></i>
+          <div>क्रिएटरहब <span>डैशबोर्ड</span></div>
+      </div>
+      <div class="m-right">
+          <div class="notification-icon">
+              <i class="fa-regular fa-bell"></i>
+              <div class="badge-count">3</div>
+          </div>
+          <img class="m-avatar" id="mobileAvatar" src="https://via.placeholder.com/150" alt="Avatar">
+      </div>
+  </div>
 </header>
 
 <div class="content">
-<div class="notice" id="notice"></div>
+<!-- Matchable layout search component for mobile screen navigation -->
+<div class="mobile-search-bar">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" placeholder="सरकी स्तास, पोस्टड, कमेंट...">
+</div>
+
+<!-- Notice message modified as welcome banner -->
+<div class="notice" id="notice">
+    <div style="font-size: 15px; font-weight: 800; line-height: 1.4;">
+        क्रिएटर समुदाय में आपका स्वागत है <br>
+        <span style="font-size: 12px; font-weight: 500; color: #4b5563;">Welcome to your creator community ecosystem.</span>
+    </div>
+</div>
 
 <section class="stats-grid">
   <div class="card stat-card">
     <h3>Total Sales</h3>
     <h2 id="totalSales">₹0</h2>
-    <div class="growth">Live data</div>
+    <div class="growth"><i class="fa-solid fa-arrow-up"></i> Live data</div>
   </div>
   <div class="card stat-card">
     <h3>Total Profit</h3>
     <h2 id="totalProfit">₹0</h2>
-    <div class="growth">Real earnings</div>
+    <div class="growth"><i class="fa-solid fa-arrow-up"></i> Real earnings</div>
   </div>
   <div class="card stat-card">
     <h3>Total Orders</h3>
     <h2 id="totalOrders">0</h2>
-    <div class="growth">Orders count</div>
+    <div class="growth"><i class="fa-solid fa-arrow-up"></i> Orders count</div>
   </div>
   <div class="card stat-card">
     <h3>Total Products</h3>
     <h2 id="totalBooks">0</h2>
-    <div class="growth">Uploaded</div>
+    <div class="growth"><i class="fa-solid fa-arrow-up"></i> Uploaded</div>
   </div>
 </section>
 
 <section class="content-grid">
   <div class="card chart-card">
-    <h3 class="section-title">Monthly Sales</h3>
-    <div style="height: 330px; position: relative; width: 100%;">
+    <h3 class="section-title">Analytics Overview</h3>
+    <div style="height: 220px; position: relative; width: 100%;">
         <canvas id="salesChart"></canvas>
     </div>
     <div id="chartFallback" class="chart-fallback" style="display:none"></div>
+  </div>
+
+  <!-- Mobile Quick Action Toolkit System matching Image Layout -->
+  <div class="card mobile-toolkit">
+      <h3 style="font-size: 14px; font-weight: 800; color: #0f172a;">क्रिएटर टूलकिट</h3>
+      <div class="toolkit-grid">
+          <div class="toolkit-btn"><i class="fa-regular fa-pen-to-square"></i><div>पोस्ट बनाएं</div></div>
+          <div class="toolkit-btn"><i class="fa-solid fa-arrow-up-from-bracket"></i><div>वीडियो अपलोड</div></div>
+          <div class="toolkit-btn"><i class="fa-solid fa-tower-broadcast"></i><div>लाइव जाएं</div></div>
+          <div class="toolkit-btn"><i class="fa-solid fa-chart-simple"></i><div>इनसाइट देखें</div></div>
+      </div>
+  </div>
+
+  <!-- Recent Scrollable Content Section matching Image Layout bottom thumbs -->
+  <div class="card mobile-content-section">
+      <h3 style="font-size: 14px; font-weight: 800; color: #0f172a; margin-bottom: 12px;">शीर्ष सामग्री (Top Contents)</h3>
+      <div class="posts-scroll-container">
+          <div class="post-mini-card">
+              <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=400" alt="Thumb">
+              <div class="post-mini-info">
+                  <div class="post-mini-title">My Desk Setup Layout</div>
+                  <div class="post-mini-meta"><span><i class="fa-regular fa-eye"></i> 12K</span> <span><i class="fa-regular fa-heart"></i> 4K</span></div>
+              </div>
+          </div>
+          <div class="post-mini-card">
+              <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=400" alt="Thumb">
+              <div class="post-mini-info">
+                  <div class="post-mini-title">AI Content Strategies</div>
+                  <div class="post-mini-meta"><span><i class="fa-regular fa-eye"></i> 8.5K</span> <span><i class="fa-regular fa-heart"></i> 2K</span></div>
+              </div>
+          </div>
+          <div class="post-mini-card">
+              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400" alt="Thumb">
+              <div class="post-mini-info">
+                  <div class="post-mini-title">Fiverr Upwork Optimization</div>
+                  <div class="post-mini-meta"><span><i class="fa-regular fa-eye"></i> 24K</span> <span><i class="fa-regular fa-heart"></i> 9K</span></div>
+              </div>
+          </div>
+      </div>
   </div>
 
   <div class="card">
@@ -389,9 +539,10 @@ function setStatus(text) {
 }
 
 function showNotice(text) {
+    // Hidden execution control logic to prevent resetting static image text
+    if(!text) return;
     const notice = document.getElementById("notice");
     notice.innerText = text;
-    notice.style.display = text ? "block" : "none";
 }
 
 function escapeHTML(value) {
@@ -478,6 +629,11 @@ function applyProfile(profile) {
     document.getElementById("userName").innerText = name;
     document.getElementById("userEmail").innerText = email;
     document.getElementById("profileImage").src = image;
+    
+    // Sync dynamic avatar into image mobile dashboard frame
+    const mobAv = document.getElementById("mobileAvatar");
+    if(mobAv) mobAv.src = image;
+
     localStorage.setItem("creatorhub_profile_email", email);
 }
 
@@ -637,10 +793,10 @@ function renderChart(data) {
                 label: "Revenue Growth",
                 data: amounts,
                 borderColor: "#2563eb",
-                backgroundColor: "rgba(37,99,235,0.12)",
+                backgroundColor: "rgba(37,99,235,0.15)",
                 fill: true,
-                tension: 0.3,
-                pointRadius: 5,
+                tension: 0.4,
+                pointRadius: 4,
                 pointBackgroundColor: "#2563eb"
             }]
         },
@@ -649,17 +805,17 @@ function renderChart(data) {
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    labels: { font: { family: 'Inter', weight: '600' }, color: "#101828" }
+                    display: window.innerWidth > 768
                 }
             },
             scales: {
                 x: {
-                    ticks: { color: "#667085", font: { family: 'Inter' } },
-                    grid: { color: "rgba(102,112,133,0.08)" }
+                    ticks: { color: "#667085", font: { family: 'Inter', size: 11 } },
+                    grid: { display: false }
                 },
                 y: {
-                    ticks: { color: "#667085", font: { family: 'Inter' } },
-                    grid: { color: "rgba(102,112,133,0.08)" }
+                    ticks: { color: "#667085", font: { family: 'Inter', size: 11 } },
+                    grid: { color: "rgba(102,112,133,0.06)" }
                 }
             }
         }
@@ -697,7 +853,6 @@ async function loadProfileFallback(existingProfile) {
 
 async function loadDashboard() {
     try {
-        showNotice("");
         setStatus("Loading CreatorHub data...");
 
         applyProfile({
@@ -737,11 +892,6 @@ async function loadDashboard() {
     } catch (err) {
         console.log("Dashboard load failed:", err);
         setStatus("Welcome back to CreatorHub");
-
-        if (!readCache()) {
-            showNotice("Live data could not be loaded. Please check the email or make sure the Apps Script deployment access is set to Anyone.");
-        }
-
         loadProfileFallback({
             name: USER.name || "Creator",
             email: currentUserEmail,
