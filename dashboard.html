@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>User Dashboard | CreatorHub</title>
 
 <meta name="description" content="Manage your account, orders, products, library, subscriptions and creator activities from your CreatorHub dashboard.">
@@ -21,7 +21,6 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
-/* 🌟 FIX 1: Body se overflow hidden hataya taki browser default mobile scroll le sake */
 body{min-height:100vh;background:#f6f8fc;color:#101828;display:flex;}
 a{text-decoration:none;color:inherit}
 button{font:inherit}
@@ -98,7 +97,6 @@ button{font:inherit}
 /* =========================================================
     🚀 CONTENT WORKSPACE AREA (DESKTOP)
    ========================================================= */
-/* 🌟 FIX 2: Main container se height aur overflow rules hataye jo scroll lock kar rahe the */
 .main {
     margin-left: 260px !important; 
     width: calc(100% - 260px) !important;
@@ -150,7 +148,7 @@ td{color:#101828;font-size:14px}
 .empty{color:#63728a;padding:18px 0}
 
 /* ==========================================================================
-   📱 PREMIUM MOBILE RESPONSIVE LAYOUT (SMOOTH SCROLL ENABLED)
+   📱 PREMIUM MOBILE RESPONSIVE LAYOUT (NO ZOOM / AUTO-FIT FIX)
    ========================================================================== */
 @media (max-width: 1050px) and (min-width: 769px) {
   .sidebar { width: 70px; padding: 0 !important; }
@@ -166,7 +164,6 @@ td{color:#101828;font-size:14px}
 }
 
 @media (max-width: 768px) {
-  /* 🌟 FIX 3: Mobile body scroll optimization */
   body { 
     flex-direction: column; 
     overflow-y: auto !important; 
@@ -174,7 +171,7 @@ td{color:#101828;font-size:14px}
     height: auto !important;
   }
   
-  /* Bottom Fixed Mobile Navigation */
+  /* Bottom Navigation Panel */
   .sidebar { 
     width: 100%; 
     min-height: auto; 
@@ -198,7 +195,7 @@ td{color:#101828;font-size:14px}
   .menu-item i { font-size: 18px; }
   .menu-item.active { background-color: transparent; color: #2f62e9; box-shadow: none; }
   
-  /* 🌟 FIX 4: Fluid content flow overrides */
+  /* Main Container Viewport Boundary Fix */
   .main { 
     margin-left: 0 !important; 
     width: 100% !important; 
@@ -208,24 +205,38 @@ td{color:#101828;font-size:14px}
     overflow-x: hidden !important;
   }
   
-  /* Responsive Header Profile Box setup */
   .topbar { min-height: auto; padding: 20px 16px; flex-direction: column; align-items: flex-start; gap: 18px; background: #fff; position: relative; }
   .title h1 { font-size: 32px; }
   .title p { font-size: 14px; margin-top: 4px; }
   .profile-box { width: 100%; min-width: 100%; justify-content: flex-start; box-shadow: 0 4px 16px rgba(16,24,40,0.04); }
   
-  .content { padding: 16px; gap: 20px; }
+  /* 🌟 CHART AUTO-COMPRESSION RULES (Stretching Fixed) */
+  .content { 
+    padding: 16px; 
+    gap: 20px; 
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
   
-  /* Stats Column stacking */
+  .chart-card { 
+    min-height: 340px; 
+    width: 100% !important;
+    max-width: calc(100vw - 32px) !important; 
+    overflow: hidden !important;
+  }
+  .chart-card div { width: 100% !important; max-width: 100% !important; }
+  #salesChart { width: 100% !important; height: 100% !important; }
+  
+  /* Grid Layout Fix */
   .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .stat-card { min-height: 120px; padding: 16px; }
   .card h3 { font-size: 12px; }
   .card h2 { font-size: 26px; margin-top: 8px; }
   
   .content-grid { grid-template-columns: 1fr; gap: 20px; }
-  .chart-card { min-height: 340px; }
   
-  /* CLEAN LUXURY RECENT ORDERS CARD LAYOUT FOR MOBILE */
+  /* Clean Mobile Orders Layout */
   .table-card { padding: 16px 12px; overflow-x: visible; }
   .table-card table, .table-card thead, .table-card tbody, .table-card th, .table-card td, .table-card tr { display: block; }
   .table-card thead { display: none; } 
@@ -259,7 +270,6 @@ td{color:#101828;font-size:14px}
     width: auto; 
   }
   
-  /* Review Cards */
   .review-grid { grid-template-columns: 1fr; gap: 12px; }
   .review-item { border-radius: 16px; padding: 16px; }
 }
