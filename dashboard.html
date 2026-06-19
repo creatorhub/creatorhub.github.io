@@ -215,7 +215,7 @@ td{color:#101828;font-size:14px}
   /* 🚀 CLEAN LUXURY RECENT ORDERS CARD LAYOUT FOR MOBILE */
   .table-card { padding: 16px 12px; overflow-x: visible; }
   .table-card table, .table-card thead, .table-card tbody, .table-card th, .table-card td, .table-card tr { display: block; }
-  .table-card thead { display: none; } /* Hide headers on mobile views */
+  .table-card thead { display: none; } 
   
   #ordersTable tr { 
     padding: 16px 0; 
@@ -226,9 +226,8 @@ td{color:#101828;font-size:14px}
     gap: 8px;
   }
   #ordersTable tr:last-child { border-bottom: none; }
-  #ordersTable td { padding: 0; border: none; width: 100%; }
+  #ordersTable td { padding: 0; border: none; width: 100%; text-align: left; }
   
-  /* Custom labels insertion for amounts & dates on mobile */
   #ordersTable td:nth-of-type(2)::before { content: "Amount: "; font-weight: 700; color: #667085; font-size: 13px; }
   #ordersTable td:nth-of-type(3)::before { content: "Profit: "; font-weight: 700; color: #0f9f57; font-size: 13px; }
   #ordersTable td:nth-of-type(5)::before { content: "Date: "; font-weight: 700; color: #667085; font-size: 13px; }
@@ -369,7 +368,6 @@ td{color:#101828;font-size:14px}
 </main>
 
 <script>
-// (Aapka javascript engine code bilkul pehle jaisa hi bina badlao ke surakshit hai)
 const DASHBOARD_API_URL = "https://script.google.com/macros/s/AKfycbxj1Ch941zvniDEzIs__cYVmGBaECx6GPmmEw5PPyehtU2_KxQ_o3TS6jhuoZS0AKUv8w/exec";
 const PROFILE_API_URL = "https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
 const CACHE_KEY = "creatorhub_dashboard_cache_v3";
@@ -557,10 +555,10 @@ function renderOrders(data) {
             </div>
           </div>
         </td>
-        <td><span>${formatMoney(order.amount || order.total_amount || 0)}</span></td>
-        <td><span>${formatMoney(order.seller_profit || order.profit || 0)}</span></td>
+        <td>${formatMoney(order.amount || order.total_amount || 0)}</td>
+        <td>${formatMoney(order.seller_profit || order.profit || 0)}</td>
         <td><span class="badge ${statusClass}">${escapeHTML(status)}</span></td>
-        <td><span>${order.created_at ? new Date(order.created_at).toLocaleDateString("en-IN") : "-"}</span></td>
+        <td>${order.created_at ? new Date(order.created_at).toLocaleDateString("en-IN") : "-"}</td>
       </tr>
     `;
   }).join("");
@@ -652,8 +650,8 @@ function renderChart(data) {
         x: {
           ticks: { color: "#667085", font: { family: 'Inter' } },
           grid: { color: "rgba(102,112,133,0.08)" }
-        }
-          y: {
+        },
+        y: {
           ticks: { color: "#667085", font: { family: 'Inter' } },
           grid: { color: "rgba(102,112,133,0.08)" }
         }
