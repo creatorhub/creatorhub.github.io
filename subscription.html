@@ -165,10 +165,10 @@
       padding: 20px 34px;
     }
     .card{
-  width: 380px;
-  max-width: 100%; /* Ye line zaroor jodiyega */
-  background: #fff;
-       border: 1px solid #dce4f0;
+      width: 380px;
+      max-width: 100%;
+      background: #fff;
+      border: 1px solid #dce4f0;
       border-radius: 9px;
       padding: 36px;
       position: relative;
@@ -503,52 +503,71 @@
       min-height: 20px;
     }
 
-        /* =====================================================
-    RESPONSIVE DESIGN LAYERS (MOBILE & TABLET MANUAL FIX)
+    /* =====================================================
+    UPDATED RESPONSIVE LAYERS (MOBILE & TABLET OPTIMIZED)
     ===================================================== */
     @media(max-width: 1200px){
       .pricing { gap: 20px; }
       .features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
-    /* TABLET UPDATE: Screens under 900px (iPad/Tablets) */
+    /* TABLET UPDATE: Under 900px */
     @media(max-width: 900px){
       .topbar { min-height: auto; padding: 20px 24px; }
       .hero { padding: 40px 24px 20px; }
       .hero h1 { font-size: 36px; }
       
-      /* Pricing cards tablet me 2 columns me ache se set honge */
-      .pricing { padding: 20px 24px; }
+      .pricing { padding: 20px 24px; gap: 24px; }
       .card { 
-        width: calc(50% - 10px); 
-        min-width: 290px; 
-        padding: 28px 20px; 
+        width: 100%; 
+        max-width: 500px; /* Tablet pe cards bhot stretch na ho center dikhein */
+        margin: 0 auto;
+        padding: 32px 24px; 
       }
       .trust-section { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
-    /* MOBILE UPDATE: Screens under 640px (All Android & iPhones) */
+    /* MOBILE UPDATE: Under 640px (Perfect alignment) */
     @media(max-width: 640px){
-      .topbar { flex-direction: row; justify-content: space-between; padding: 16px 20px; }
-      .topbar .secure { display: none; }
-      .logo { font-size: 20px; }
+      .topbar { 
+        padding: 16px 20px; 
+        min-height: 70px;
+      }
+      .topbar .secure { display: none; } /* Mobile me space bachane ke liye safe hide */
+      .back-btn { font-size: 14px; }
+      .logo { font-size: 18px; justify-content: flex-end; text-align: right; }
+      .logo span { font-weight: 800; }
       
-      .hero { padding: 30px 20px 15px; }
-      .hero h1 { font-size: 28px; }
-      .hero p { font-size: 15px; }
+      .hero { padding: 35px 20px 15px; }
+      .hero h1 { font-size: 26px; line-height: 1.2; }
+      .hero p { font-size: 14px; margin-top: 10px; }
 
-      /* Mobile me cards full width single column ho jayenge */
-      .pricing { padding: 10px 20px; gap: 24px; }
-      .card { width: 100%; min-width: 100%; padding: 30px 24px; }
+      /* Pure single-column mobile stacking */
+      .pricing { padding: 15px 16px; gap: 32px; display: flex; flex-direction: column; align-items: center; }
+      .card { width: 100%; min-width: 100%; padding: 32px 20px; }
       
-      .features, .trust-section { grid-template-columns: minmax(0, 1fr); padding: 10px 20px; }
+      /* Popular badge overlap handle */
+      .popular-tag { font-size: 11px; top: -14px; padding: 5px 14px; }
+      .price { font-size: 48px; }
+
+      .features, .trust-section { 
+        grid-template-columns: 1fr; 
+        padding: 10px 16px; 
+        gap: 16px;
+      }
+      .box { padding: 20px; gap: 14px; }
+      .box h3 { font-size: 15px; }
+      .box p { font-size: 13px; }
+      
+      /* Mobile modal settings */
+      .popup-card { padding: 30px 20px; }
+      .popup-card h2 { font-size: 22px; }
     }
     
   </style>
 </head>
 <body>
 
-  <!-- NAVIGATION SECTION -->
   <div class="topbar">
     <div class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i> Back to Home</div>
 
@@ -562,16 +581,13 @@
     </div>
   </div>
 
-  <!-- HEADER HEADER -->
   <div class="hero">
     <h1>Unlock <span>Unlimited</span> Ebook Reading</h1>
     <p>Choose the perfect plan and enjoy unlimited access to thousands of premium ebooks.</p>
   </div>
 
-  <!-- SYSTEM CARDS CONTAINER -->
   <div class="pricing">
 
-    <!-- 15 Days Plan -->
     <div class="card">
       <div class="plan-icon"><i class="fa-regular fa-calendar"></i></div>
       <h2>15 Days Plan</h2>
@@ -580,13 +596,12 @@
       <div class="line"></div>
       <ul>
         <li>Unlimited Ebook Reading</li>
-<li>Premium Books Access</li>
-<li>No Ads Reading</li>
+        <li>Premium Books Access</li>
+        <li>No Ads Reading</li>
       </ul>
       <button class="subscribe-btn" onclick="subscribe('15days',399,this)">Subscribe Now <i class="fa-solid fa-arrow-right"></i></button>
     </div>
 
-    <!-- Monthly Plan (Most Popular Theme Accent) -->
     <div class="card popular">
       <div class="popular-tag">MOST POPULAR</div>
       <div class="plan-icon"><i class="fa-solid fa-crown"></i></div>
@@ -596,13 +611,12 @@
       <div class="line"></div>
       <ul>
         <li>Unlimited Ebook Reading</li>
-<li>All Premium Books Free</li>
-<li>Early Access New Books</li>
+        <li>All Premium Books Free</li>
+        <li>Early Access New Books</li>
       </ul>
       <button class="subscribe-btn" onclick="subscribe('month',799,this)">Subscribe Now <i class="fa-solid fa-arrow-right"></i></button>
     </div>
 
-    <!-- Yearly Plan -->
     <div class="card">
       <div class="plan-icon"><i class="fa-solid fa-shield"></i></div>
       <h2>Yearly Plan</h2>
@@ -611,23 +625,20 @@
       <div class="line"></div>
       <ul>
         <li>Unlimited Ebook Reading</li>
-<li>All Premium Books Free</li>
-<li>Early Access + No Ads</li>
+        <li>All Premium Books Free</li>
+        <li>Early Access + No Ads</li>
       </ul>
       <button class="subscribe-btn" onclick="subscribe('year',3599,this)">Subscribe Now <i class="fa-solid fa-arrow-right"></i></button>
     </div>
 
   </div>
 
-  <!-- LOADER STATUS BLOCK -->
   <div id="loader" class="loader">Checking subscription status...</div>
 
-  <!-- STYLED CANCEL ENGINE COMPONENT -->
   <div id="cancelBox" class="cancel-area">
     <button class="cancel-action-btn" onclick="cancelPremium()"><i class="fa-solid fa-ban" style="margin-right:8px;"></i> Cancel Premium Subscription</button>
   </div>
 
-  <!-- VALUE STATEMENTS BLOCK -->
   <div class="features">
     <div class="box">
       <div class="icon"><i class="fas fa-infinity"></i></div>
@@ -659,7 +670,6 @@
     </div>
   </div>
 
-  <!-- METRICS AND COMPLIANCE BLOCK -->
   <div class="features trust-section">
     <div class="box">
       <div class="icon"><i class="fas fa-lock"></i></div>
@@ -684,23 +694,20 @@
     </div>
   </div>
 
-  <!-- TARGET ASYNC FOOTER CONTAINER -->
   <div id="footer-container"></div>
 
-  <!-- PREMIUM STYLED TELEPHONY VERIFICATION DIALOG MODAL -->
   <div id="phonePopup" class="popup-blur">
     <div class="popup-card">
       <div class="popup-icon"><i class="fa-solid fa-phone"></i></div>
       <h2>Mobile Verification</h2>
       <p>Verify your mobile number before continuing payment. Your number will be securely linked with your CreatorHub Premium account.</p>
-      
+       
       <input id="verifyPhone" class="phone-input" type="tel" placeholder="Enter 10-digit mobile number">
       <button class="popup-submit-btn" onclick="savePhoneAndContinue()">Verify &amp; Continue</button>
       <div id="phoneStatus" class="phone-status-lbl"></div>
     </div>
   </div>
 
-  <!-- CORE SCRIPTS COMPILATION ENGINE -->
   <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
   <script>
     const PAYMENT_API="https://script.google.com/macros/s/AKfycbyKnVmxYCTskDLpOk_s2Ch1nHnVvD__GVHbnztTCvl4bzYgk7sDx0F1WuJ0CXMORqs/exec";
