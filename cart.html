@@ -322,10 +322,11 @@ a{text-decoration:none;color:inherit}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* DESKTOP VIEW SETTINGS */
+/* इसे बदलकर यह पेस्ट कर दें: */
 @media(min-width: 951px) {
   .container {
     flex-direction: row;
-    align-items: start;
+    align-items: stretch; /* यह दोनों साइड्स की हाइट बिल्कुल बराबर कर देगा */
   }
   .container > section {
     flex: 1.35;
@@ -333,6 +334,7 @@ a{text-decoration:none;color:inherit}
   .summary {
     flex: 0.75;
     min-width: 360px;
+    height: 100%; /* यह समरी बॉक्स को पैरेंट की पूरी हाइट लेने में मदद करेगा */
   }
 }
 
