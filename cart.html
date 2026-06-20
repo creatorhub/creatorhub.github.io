@@ -6,9 +6,7 @@
 <title>Shopping Cart | CreatorHub</title>
 
 <meta name="description" content="Review and manage products in your shopping cart on CreatorHub before completing your purchase.">
-
 <meta name="keywords" content="shopping cart, creatorhub cart, checkout, products, books, digital products, physical products">
-
 <meta name="robots" content="noindex,nofollow">
 
 <link rel="canonical" href="https://creatorhub.github.io/cart.html">
@@ -76,14 +74,14 @@ a{text-decoration:none;color:inherit}
 .brand{font-size:26px;font-weight:900;letter-spacing:-.03em}
 .brand span{color:var(--blue)}
 
+/* CONTAINER CHANGED: इसे Flexbox बनाया और margin: 0 auto दिया ताकि सेंटर में रहे */
 .container{
-  max-width:1360px;
-  margin:auto;
+  max-width: 1200px;
+  margin: 0 auto;
   padding:46px 34px 90px;
-  display:grid;
-  grid-template-columns:1.35fr .75fr;
-  gap:34px;
-  align-items:start;
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
 }
 
 .page-title{
@@ -263,6 +261,7 @@ a{text-decoration:none;color:inherit}
   padding:40px;
   color:var(--muted);
   box-shadow:0 10px 28px rgba(16,24,40,.04);
+  width: 100%;
 }
 
 .empty i{
@@ -320,11 +319,26 @@ a{text-decoration:none;color:inherit}
 
 @keyframes spin{to{transform:rotate(360deg)}}
 
+/* NEW CSS BLOCK: डेस्कटॉप स्क्रीन (951px से ऊपर) पर 2-कॉलम लेआउट को सेट करने के लिए */
+@media(min-width: 951px) {
+  .container {
+    flex-direction: row;
+    align-items: start;
+  }
+  .container > section {
+    flex: 1.35;
+  }
+  .summary {
+    flex: 0.75;
+    min-width: 340px;
+  }
+}
+
 @media(max-width:950px){
-  .container{grid-template-columns:1fr;padding:28px 18px 70px}
   .summary{position:static}
   .header{padding:0 18px}
   .brand{font-size:22px}
+  .container{padding:28px 18px 70px}
 }
 
 @media(max-width:620px){
@@ -346,7 +360,7 @@ a{text-decoration:none;color:inherit}
 </header>
 
 <main class="container">
-  <section>
+  <section id="cartSection">
     <h1 class="page-title">Your Shopping Cart</h1>
     <p class="page-subtitle">Review your selected CreatorHub digital products before checkout.</p>
 
@@ -459,6 +473,7 @@ function isApproved(product){
 async function loadCart(){
   const cartList = document.getElementById("cartList");
   const summaryBox = document.getElementById("summaryBox");
+  const cartSection = document.getElementById("cartSection");
 
   if(cartIds.length === 0){
     showEmptyCart();
@@ -466,6 +481,7 @@ async function loadCart(){
   }
 
   try{
+    if(cartSection) cartSection.style.width = ""; // Reset width if items exist
     const response = await fetch(PRODUCT_API + "?action=products&t=" + Date.now());
     const data = await response.json();
 
@@ -539,8 +555,13 @@ async function loadCart(){
   }
 }
 
+/* MODIFIED FUNCTION: खाली कार्ट होने पर ये पूरे सेक्शन को 100% चौड़ाई देकर सेंटर करेगा */
 function showEmptyCart(){
   document.getElementById("summaryBox").style.display = "none";
+  
+  const cartSection = document.getElementById("cartSection");
+  if(cartSection) cartSection.style.width = "100%";
+
   document.getElementById("cartList").innerHTML = `
     <div class="empty">
       <div>
