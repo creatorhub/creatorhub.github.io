@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>My Wallet | CreatorHub</title>
 
 <meta name="description" content="Manage your CreatorHub wallet, track balances, transactions, earnings, payments and account funds securely in one place.">
@@ -172,7 +172,7 @@
     .profile-menu {
       position: absolute;
       top: 55px;
-      left: 0;
+      right: 0;
       width: 280px;
       background: #0d1628;
       border: 1px solid #182a64;
@@ -246,7 +246,6 @@
       align-items: center;
       gap: 40px;
     }
-    @media(max-width: 900px) { .balance-card-premium { flex-direction: column; align-items: stretch; gap: 24px; } }
     
     .balance-left-col { flex: 1; }
     .balance-label { font-size: 13px; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
@@ -258,8 +257,6 @@
       grid-template-columns: repeat(3, 180px);
       gap: 16px;
     }
-    @media(max-width: 900px) { .stats-row-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media(max-width: 600px) { .stats-row-grid { grid-template-columns: 1fr; } }
     
     .stat-node-box {
       padding: 18px;
@@ -276,7 +273,6 @@
       grid-template-columns: 1.15fr 0.85fr;
       gap: 32px;
     }
-    @media(max-width: 1150px) { .layout-split-matrix { grid-template-columns: 1fr; } }
 
     .content-panel-card {
       background: var(--bg-secondary);
@@ -453,17 +449,15 @@
     }
 
     @keyframes subFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-        /* ==========================================================================
-       UPDATED RESPONSIVE DESIGN FOR WALLET CENTER PRO
-       ========================================================================== */
 
-    /* Tablet viewports (max-width: 1050px) */
+    /* ==========================================================================
+       📱 PREMIUM MOBILE APP DOCK PLATFORM UPGRADE (DESKTOP UNCHANGED)
+       ========================================================================== */
     @media (max-width: 1050px) {
       .sidebar {
         width: 70px;
         padding: 0 !important;
       }
-      /* Hide sidebar text links on tablets, show only icons */
       .sidebar-brand span, 
       .menu-item span {
         display: none;
@@ -477,33 +471,29 @@
         padding: 14px;
         justify-content: center;
       }
-      /* Adjust workspace left margin for collapsed sidebar */
       .main-wrapper {
         margin-left: 70px;
         width: calc(100% - 70px);
       }
     }
 
-    /* Medium tablets and screen split handling (max-width: 1150px) */
     @media (max-width: 1150px) {
       .layout-split-matrix {
-        grid-template-columns: 1fr; /* Stack Ledger History and Withdraw Form vertically */
+        grid-template-columns: 1fr;
         gap: 24px;
       }
     }
 
-    /* Mobile device layout engine (max-width: 768px) */
     @media (max-width: 768px) {
       body {
         flex-direction: column;
         overflow-x: hidden;
       }
       
-      /* Transform sidebar into a native bottom navigation bar for mobile apps appearance */
       .sidebar {
         width: 100%;
         min-height: auto;
-        height: 65px;
+        height: 68px;
         position: fixed;
         top: auto;
         bottom: 0;
@@ -517,10 +507,7 @@
         z-index: 999;
       }
 
-      .sidebar-brand {
-        display: none; /* Hide brand name in bottom navigation */
-      }
-
+      .sidebar-brand { display: none; }
       .sidebar-menu {
         flex-direction: row;
         padding: 0;
@@ -531,26 +518,28 @@
       }
 
       .menu-item {
-        flex-direction: column;
+        flex-direction: column !important;
         gap: 4px;
-        padding: 8px;
+        padding: 6px 2px !important;
         border-radius: 0;
         flex: 1;
         justify-content: center;
         height: 100%;
+        text-align: center;
       }
       
+      .menu-item span { font-size: 11px !important; font-weight: 600 !important; display: block !important; }
+      .menu-item i { font-size: 18px !important; }
       .menu-item.active {
         background-color: transparent;
         color: var(--accent-blue);
         box-shadow: none;
       }
 
-      /* Expand workspace to full screen and add bottom padding to avoid navigation overlap */
       .main-wrapper {
         margin-left: 0 !important;
         width: 100% !important;
-        padding-bottom: 75px;
+        padding-bottom: 85px;
       }
 
       .topbar {
@@ -558,19 +547,10 @@
         height: 65px;
       }
 
-      .content-area {
-        padding: 20px 16px;
-      }
+      .content-area { padding: 20px 16px; }
+      .title { font-size: 26px; }
+      .desc { font-size: 14px; }
 
-      .title {
-        font-size: 26px;
-      }
-
-      .desc {
-        font-size: 14px;
-      }
-
-      /* Premium Balance Block Layout Optimization */
       .balance-card-premium {
         padding: 20px;
         flex-direction: column;
@@ -579,92 +559,46 @@
         margin-bottom: 24px;
       }
 
-      .balance-left-col {
-        text-align: center;
-      }
+      .balance-left-col { text-align: left; }
+      .balance-val { font-size: 38px; margin-top: 6px; }
 
-      .balance-val {
-        font-size: 38px;
-        margin-top: 6px;
-      }
-
-      /* Metrics grid under layout rules */
+      /* Stats 2x2 Premium Row Grid Matrix for mobile screen */
       .stats-row-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+        width: 100%;
       }
 
       .stat-node-box {
-        padding: 12px 6px;
-        text-align: center;
-      }
-
-      .stat-node-box h2 {
-        font-size: 16px;
-        margin-top: 4px;
-      }
-
-      /* Content panel cards structural changes */
-      .content-panel-card {
-        padding: 20px 16px;
-      }
-
-      .panel-title-bold {
-        font-size: 18px;
-      }
-
-      .panel-desc-text {
-        margin-bottom: 16px;
-      }
-
-      /* Channel Selector Switcher adjustments */
-      .channel-tabs {
-        gap: 6px;
-        padding: 4px;
-      }
-
-      .channel-btn {
-        padding: 10px 6px;
-        font-size: 12px;
-        gap: 4px;
-      }
-
-      /* Transaction history stack ledger layouts row modifications */
-      .txn-row-node {
         padding: 14px 12px;
-        gap: 12px;
+        text-align: left;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
       }
 
-      .txn-icon-badge {
-        width: 36px;
-        height: 36px;
-        font-size: 14px;
-      }
+      .stat-node-box h3 { font-size: 12px; }
+      .stat-node-box h2 { font-size: 18px; margin-top: 4px; }
 
-      .txn-meta h3 {
-        font-size: 13px;
-      }
+      .content-panel-card { padding: 20px 16px; }
+      .panel-title-bold { font-size: 18px; }
+      .panel-desc-text { margin-bottom: 16px; }
 
-      .txn-meta p {
-        font-size: 11px;
-      }
+      .channel-tabs { gap: 6px; padding: 4px; }
+      .channel-btn { padding: 10px 6px; font-size: 12px; gap: 4px; }
 
-      .txn-value-text {
-        font-size: 15px;
-      }
+      .txn-row-node { padding: 14px 12px; gap: 12px; }
+      .txn-icon-badge { width: 36px; height: 36px; font-size: 14px; }
+      .txn-meta h3 { font-size: 13px; }
+      .txn-meta p { font-size: 11px; }
+      .txn-value-text { font-size: 15px; }
     }
 
-    /* Ultra Compact screen optimizations (max-width: 480px) */
     @media (max-width: 480px) {
-      .stats-row-grid {
-        grid-template-columns: 1fr; /* Stack pending balances on extremely tiny layouts */
-        gap: 10px;
-      }
-      .channel-tabs {
-        grid-template-columns: 1fr; /* Stack layout tabs selectors if space constraints exist */
-      }
+      .stats-row-grid { grid-template-columns: 1fr !important; gap: 10px; }
+      .channel-tabs { grid-template-columns: 1fr !important; }
     }
-    
   </style>
 </head>
 
@@ -860,7 +794,6 @@
       window.location.href = "index.html";
     }
 
-    /* 🚀 NEW FUNCTION: Tab channel structural switcher algorithm */
     function switchChannel(e, viewId) {
       document.querySelectorAll(".channel-btn").forEach(btn => btn.classList.remove("active"));
       document.querySelectorAll(".channel-view").forEach(view => view.classList.remove("active"));
@@ -894,7 +827,6 @@
       }
     }
 
-    // 🚀 NEW: Caches load from local storage instantly before network streaming completes
     function loadCachedWallet() {
       let cachedData = localStorage.getItem("creatorhub_wallet_cache_" + USER_EMAIL);
       if(cachedData) {
@@ -912,14 +844,18 @@
       document.getElementById("totalEarnings").innerHTML = "₹" + Number(wallet.total_earnings||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
     }
 
-   // 🚀 MASTER STREAM OPTIMIZATION: Parallel dynamic structural network fetch routing model
+    function safeParseDate(dateStr) {
+      if (!dateStr) return new Date();
+      let d = new Date(dateStr);
+      return isNaN(d.getTime()) ? new Date() : d;
+    }
+
     async function initEcosystemLoad(){
       if(!USER_EMAIL){
         document.getElementById("transactions").innerHTML = '<div class="empty">Please login first.</div>';
         return;
       }
 
-      // Load fast cache model instant rendering asset tokens
       loadCachedWallet();
 
       try {
@@ -939,13 +875,11 @@
         let walletData = await walletResponse.json();
         let txData = await txResponse.json();
 
-        // 1. Process Wallet Sync Engine Matrix
         if(walletData.success && walletData.wallet) {
           localStorage.setItem("creatorhub_wallet_cache_" + USER_EMAIL, JSON.stringify(walletData.wallet));
           renderWalletDOM(walletData.wallet);
         }
 
-        // 2. Process Optimized Transaction Interface Tables Logs
         let box = document.getElementById("transactions");
         if(!txData.success || !txData.transactions || txData.transactions.length === 0){
           box.innerHTML = '<div class="empty">No transactions found yet.</div>';
@@ -956,7 +890,6 @@
         box.innerHTML = "";
         let totalCount = txData.transactions.length;
         
-        // Fast optimization loop avoiding heavy array method calls
         for(let i = totalCount - 1; i >= 0; i--) {
           let txn = txData.transactions[i];
           let type = txn.type || "credit";
@@ -1011,7 +944,6 @@
       }
     }
 
-    /* 🚀 UPGRADED FUNCTION: Advanced multi-channel dynamic validator routing */
     async function executeChannelWithdraw(channelType) {
       let amount, upi, name, phone, account, ifsc;
       let statusElement = document.getElementById("withdrawStatus");
@@ -1024,7 +956,7 @@
         account = document.getElementById("bankAcc").value.trim();
         ifsc = document.getElementById("bankIfsc").value.trim();
         amount = document.getElementById("bankAmount").value.trim();
-        upi = "BANK_ROUTE_NODE_" + ifsc; // Formats payload structure
+        upi = "BANK_ROUTE_NODE_" + ifsc; 
         if(!name || !account || !ifsc || !amount) { alert("Please fill all bank credentials fields"); statusElement.style.display="none"; return; }
       } 
       else if(channelType === 'upi') {
@@ -1036,7 +968,7 @@
       } 
       else if(channelType === 'card') {
         name = document.getElementById("cardName").value.trim();
-        account = document.getElementById("cardNum").value.trim(); // Map card digits to balance node fields safely
+        account = document.getElementById("cardNum").value.trim(); 
         amount = document.getElementById("cardAmount").value.trim();
         upi = "CARD_SETTLEMENT_NODE";
         if(!name || !account || !amount) { alert("Please fill card parameter structures"); statusElement.style.display="none"; return; }
@@ -1052,12 +984,10 @@
         statusElement.innerHTML = `<i class="fa-solid fa-circle-info"></i> ${data.message}`;
 
         if(data.success){
-          // Wipe active inputs inside specific view elements blocks
           if(channelType === 'bank') { document.getElementById("bankAmount").value = ""; document.getElementById("bankAcc").value = ""; }
           else if(channelType === 'upi') { document.getElementById("upiAmount").value = ""; document.getElementById("upiId").value = ""; }
           else if(channelType === 'card') { document.getElementById("cardAmount").value = ""; document.getElementById("cardNum").value = ""; }
-          loadWallet();
-          loadTransactions();
+          initEcosystemLoad();
         }
       } catch(err) {
         console.error(err);
@@ -1066,7 +996,7 @@
     }
 
     updateLoginUI();
-  initEcosystemLoad();
+    initEcosystemLoad();
   </script>
 </body>
 </html>
