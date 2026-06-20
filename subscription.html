@@ -506,12 +506,14 @@
     /* =====================================================
     UPDATED RESPONSIVE LAYERS (MOBILE & TABLET OPTIMIZED)
     ===================================================== */
+  /* =====================================================
+    RESPONSIVE DESIGN LAYERS (TABLET OPTIMIZATION)
+    ===================================================== */
     @media(max-width: 1200px){
       .pricing { gap: 20px; }
       .features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
-    /* TABLET UPDATE: Under 900px */
     @media(max-width: 900px){
       .topbar { min-height: auto; padding: 20px 24px; }
       .hero { padding: 40px 24px 20px; }
@@ -520,70 +522,86 @@
       .pricing { padding: 20px 24px; gap: 24px; }
       .card { 
         width: 100%; 
-        max-width: 500px; /* Tablet pe cards bhot stretch na ho center dikhein */
+        max-width: 500px;
         margin: 0 auto;
         padding: 32px 24px; 
       }
       .trust-section { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
-    /* MOBILE UPDATE: Under 640px (Perfect alignment) */
-   /* MOBILE UPDATE: Under 640px (Perfect alignment & Header Fix) */
+    /* =====================================================
+    CRITICAL MOBILE UPDATE (Under 640px) - NO OVERLAP GRID
+    ===================================================== */
     @media(max-width: 640px){
       .topbar { 
-        padding: 12px 16px; 
+        padding: 16px 14px; 
         min-height: auto;
-        flex-direction: column; /* Isse elements aapas me takrayenge nahi */
-        gap: 10px;
-        text-align: center;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        row-gap: 14px;
+        column-gap: 10px;
+        align-items: center;
       }
-      .topbar .secure { display: none; }
       
+      /* Back button top left position */
       .back-btn { 
         font-size: 14px; 
-        align-self: flex-start; /* Back button left me hi rahega */
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: start;
       }
       
+      /* Secure checkout icon top right position */
+      .topbar .secure { 
+        display: inline-flex !important; 
+        font-size: 13px;
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: end;
+      }
+      
+      /* Main logo shifts to full width row 2 (Perfectly Centered) */
       .logo { 
-        font-size: 18px; 
-        justify-content: center; 
+        font-size: 19px; 
+        grid-column: 1 / span 2;
+        grid-row: 2;
+        justify-content: center;
+        text-align: center;
         width: 100%;
-        margin-top: -5px; /* Thoda gap balance karne ke liye */
-        flex-wrap: wrap; /* Agar screen bhot hi chhoti ho to safely wrap ho */
+        margin-top: 2px;
       }
-      .logo span { font-weight: 800; }
       
+      /* FIX: Badge logic control for mobile (Removes permanent show) */
       .active-badge {
-        margin-left: 8px;
-        padding: 4px 10px;
+        margin-left: 6px;
+        padding: 3px 10px;
         font-size: 11px;
-        display: inline-block; /* Active hone par thik se aligned rahe */
+        letter-spacing: 0.02em;
+        /* Hame yahan display property override nahi karni hai taaki JS control kar sake */
       }
       
-      .hero { padding: 35px 20px 15px; }
-      .hero h1 { font-size: 26px; line-height: 1.2; }
-      .hero p { font-size: 14px; margin-top: 10px; }
+      .hero { padding: 30px 16px 15px; }
+      .hero h1 { font-size: 25px; line-height: 1.2; }
+      .hero p { font-size: 14px; margin-top: 8px; }
 
-      /* Pure single-column mobile stacking */
-      .pricing { padding: 15px 16px; gap: 32px; display: flex; flex-direction: column; align-items: center; }
-      .card { width: 100%; min-width: 100%; padding: 32px 20px; }
+      /* Mobile stacked layouts */
+      .pricing { padding: 10px 14px; gap: 28px; display: flex; flex-direction: column; align-items: center; }
+      .card { width: 100%; min-width: 100%; padding: 30px 20px; }
       
-      /* Popular badge overlap handle */
       .popular-tag { font-size: 11px; top: -14px; padding: 5px 14px; }
-      .price { font-size: 48px; }
+      .price { font-size: 46px; }
 
       .features, .trust-section { 
         grid-template-columns: 1fr; 
-        padding: 10px 16px; 
-        gap: 16px;
+        padding: 8px 14px; 
+        gap: 14px;
       }
-      .box { padding: 20px; gap: 14px; }
+      .box { padding: 18px; gap: 12px; }
       .box h3 { font-size: 15px; }
       .box p { font-size: 13px; }
       
-      /* Mobile modal settings */
-      .popup-card { padding: 30px 20px; }
-      .popup-card h2 { font-size: 22px; }
+      .popup-card { padding: 25px 20px; }
+      .popup-card h2 { font-size: 21px; }
     }
     
   </style>
