@@ -162,6 +162,23 @@ body{
     padding: 8px;
     transition: color 0.2s;
 }
+/* Cart Badge Layout Rules */
+.cart-badge {
+    position: absolute;
+    top: -5px;          /* Icon ke upar set karne ke liye */
+    right: -5px;        /* Icon ke right me set karne ke liye */
+    background: var(--red-alert, #ef4444); /* Red color tab dikhega jab item hoga */
+    color: white;
+    font-size: 11px;
+    font-weight: 900;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%; /* Pure gol (circle) banane ke liye */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
+}
 .cart-header-node:hover { color: var(--accent-blue); }
 .cart-badge {
     position: absolute; top: 0; right: 0; background: var(--red-alert); color: white; font-size: 10px; font-weight: 900; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(239,68,68,0.4);
@@ -415,10 +432,10 @@ footer{
     <header class="topbar">
         <div class="page-title"><i class="fa-solid fa-truck-ramp-box" style="color:var(--accent-blue)"></i> Delivery & Order Processing Hub</div>
         <div class="topbar-actions">
-            <div class="cart-header-node" onclick="location.href='cart.html'">
-                <i class="fa-solid fa-basket-shopping"></i>
-                <span id="cartCountBadge" class="cart-badge">0</span>
-            </div>
+         <div class="cart-header-node" onclick="location.href='cart.html'">
+    <i class="fa-solid fa-basket-shopping"></i>
+    <span id="cartCountBadge" class="cart-badge">0</span>
+</div>
             <img id="profile" class="profile-avatar" alt="User Avatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" onclick="toggleProfileMenuMenu()">
             
             <div id="profileMenu" class="profile-menu">
