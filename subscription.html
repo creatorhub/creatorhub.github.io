@@ -528,15 +528,37 @@
     }
 
     /* MOBILE UPDATE: Under 640px (Perfect alignment) */
+   /* MOBILE UPDATE: Under 640px (Perfect alignment & Header Fix) */
     @media(max-width: 640px){
       .topbar { 
-        padding: 16px 20px; 
-        min-height: 70px;
+        padding: 12px 16px; 
+        min-height: auto;
+        flex-direction: column; /* Isse elements aapas me takrayenge nahi */
+        gap: 10px;
+        text-align: center;
       }
-      .topbar .secure { display: none; } /* Mobile me space bachane ke liye safe hide */
-      .back-btn { font-size: 14px; }
-      .logo { font-size: 18px; justify-content: flex-end; text-align: right; }
+      .topbar .secure { display: none; }
+      
+      .back-btn { 
+        font-size: 14px; 
+        align-self: flex-start; /* Back button left me hi rahega */
+      }
+      
+      .logo { 
+        font-size: 18px; 
+        justify-content: center; 
+        width: 100%;
+        margin-top: -5px; /* Thoda gap balance karne ke liye */
+        flex-wrap: wrap; /* Agar screen bhot hi chhoti ho to safely wrap ho */
+      }
       .logo span { font-weight: 800; }
+      
+      .active-badge {
+        margin-left: 8px;
+        padding: 4px 10px;
+        font-size: 11px;
+        display: inline-block; /* Active hone par thik se aligned rahe */
+      }
       
       .hero { padding: 35px 20px 15px; }
       .hero h1 { font-size: 26px; line-height: 1.2; }
