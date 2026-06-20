@@ -219,20 +219,24 @@ td{color:#101828;font-size:14px}
   }
   
   /* Chart Fitting Parameters */
-  .chart-card { 
-    min-height: 340px; 
+ .chart-card { 
+    min-height: 340px !important; 
     width: 100% !important;
     max-width: calc(100vw - 32px) !important; 
     overflow: hidden !important;
-  }
+    margin-bottom: 4px !important; /* Chart ke thik neeche balance space ke liye */
+}
   .chart-card div { width: 100% !important; max-width: 100% !important; }
   #salesChart { width: 100% !important; height: 100% !important; }
   
   /* 🌟 PREMIUM WALLET OVERVIEW MOBILE GRID (2x2 Structure) */
-  .wallet-list {
-      grid-template-columns: repeat(2, 1fr) !important;
-      gap: 12px !important;
-  }
+ .wallet-list {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    width: 100% !important;
+    padding: 0 !important;
+}
   .wallet-list li {
       flex-direction: column !important;
       align-items: flex-start !important;
@@ -262,7 +266,12 @@ td{color:#101828;font-size:14px}
   .card h3 { font-size: 12px; }
   .card h2 { font-size: 26px; margin-top: 8px; }
   
-  .content-grid { grid-template-columns: 1fr; gap: 20px; }
+ .content-grid { 
+    grid-template-columns: 1fr !important; 
+    gap: 20px !important; 
+    display: flex !important;
+    flex-direction: column !important; /* Pehle chart dikhega, phir wallet */
+}
   
   /* Mobile Orders Sheet Layout */
   .table-card { padding: 16px 12px; overflow-x: visible; }
