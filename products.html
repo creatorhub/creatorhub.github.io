@@ -212,6 +212,7 @@ body{
 /* =========================================================
    MARKETPLACE SUMMARY METRICS INFRASTRUCTURE
    ========================================================= */
+/* Metrics Panel main container structure */
 .metrics-panel {
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
@@ -225,11 +226,35 @@ body{
     gap: 40px;
 }
 
-.metrics-left h1 { font-size: 32px; font-weight: 900; letter-spacing: -0.02em; }
-.metrics-left p { font-size: 14px; color: var(--text-secondary); margin-top: 6px; }
-
+/* Right side cards grid system */
 .metrics-grid {
-    display: grid; grid-template-columns: repeat(3, 160px); gap: 16px;
+    display: grid; 
+    grid-template-columns: repeat(3, 160px); /* Teeno boxes ki square width set ki */
+    gap: 16px;
+}
+
+/* Individual Box Cards Design */
+.metric-node { 
+    padding: 20px 16px; 
+    border-radius: 12px; 
+    background: var(--bg-primary); /* Halka light background box ke liye */
+    border: 1px solid var(--border-color); /* Clean borders */
+    text-align: center; /* Content ko beech me align karne ke liye */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+}
+
+.metric-node h3 { 
+    font-size: 11px; 
+    color: var(--text-secondary); 
+    font-weight: 800; 
+    text-transform: uppercase; 
+    letter-spacing: 0.02em; 
+}
+
+.metric-node h2 { 
+    font-size: 26px; 
+    font-weight: 900; 
+    margin-top: 8px; 
 }
 
 /* =========================================================
