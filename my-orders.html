@@ -111,12 +111,12 @@ button{font:inherit;border:0;cursor:pointer}
   top:72px;
   left:0;
   width:290px;
-  background:#ffffff; /* Dark se White kiya */
-  border:1px solid #dce6f3; /* Light border diya */
+  background:#ffffff;
+  border:1px solid #dce6f3;
   border-radius:16px;
   padding:18px;
   display:none;
-  box-shadow:0 24px 50px rgba(16,24,40,0.12); /* Shadow ko thoda light kiya */
+  box-shadow:0 24px 50px rgba(16,24,40,0.12);
   z-index:80;
 }
 .profile-header{
@@ -124,16 +124,16 @@ button{font:inherit;border:0;cursor:pointer}
   align-items:center;
   gap:12px;
   padding-bottom:14px;
-  border-bottom:1px solid #eef3f9; /* Border line light blue-gray ki */
+  border-bottom:1px solid #eef3f9;
   margin-bottom:12px;
 }
-#menuName{color:#06142c;font-size:16px;font-weight:900} /* Text color dark kiya */
-#menuEmail{margin-top:3px;color:#63728a;font-size:13px;word-break:break-all} /* Email color change kiya */
+#menuName{color:#06142c;font-size:16px;font-weight:900}
+#menuEmail{margin-top:3px;color:#63728a;font-size:13px;word-break:break-all}
 .profile-menu a{
   height:44px;
   border-radius:10px;
   padding:0 12px;
-  color:#5f6f89; /* Menu Links ka color gray kiya */
+  color:#5f6f89;
   display:flex;
   align-items:center;
   gap:10px;
@@ -141,11 +141,24 @@ button{font:inherit;border:0;cursor:pointer}
   font-weight:800;
 }
 .profile-menu a i {
-  color: #315df4; /* Icons ko blue color diya taaki white par acche dikhein */
+  color: #315df4;
 }
 .profile-menu a:hover{
-  background:#f4f7fb; /* Hover karne par light background color */
+  background:#f4f7fb;
   color: #315df4;
+}
+.logout-btn{
+  margin-top:12px;
+  height:46px;
+  border-radius:10px;
+  background:#ef4444;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  font-weight:900;
+  cursor:pointer;
 }
 
 .main{
@@ -368,7 +381,7 @@ button{font:inherit;border:0;cursor:pointer}
   .top-left { gap: 12px; }
   .profile-image { width: 44px; height: 44px; border-width: 2px; }
   .back-btn { font-size: 14px; }
-  .back-btn span { display: none; } /* Mobile me 'Back' text hide hoga sirf arrow bachega space ke liye */
+  .back-btn span { display: none; }
   
   .page-title h1 { font-size: 24px; }
   .page-title p { font-size: 13px; margin-top: 4px; }
@@ -408,10 +421,8 @@ button{font:inherit;border:0;cursor:pointer}
 <header class="topbar">
   <div class="top-left">
     <div id="profileWrap" class="profile-wrap">
-      <!-- Onclick function ko yahan wapas jod diya hai -->
       <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=315df4&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile">
 
-      <!-- Profile Menu Container sahi jagah par band ho raha hai -->
       <div id="profileMenu" class="profile-menu">
         <div class="profile-header">
           <img id="menuProfileImage" src="https://ui-avatars.com/api/?name=User&background=315df4&color=fff" class="menu-profile-image" alt="User">
@@ -426,6 +437,10 @@ button{font:inherit;border:0;cursor:pointer}
         <a href="library.html"><i class="fa-solid fa-book"></i>Library</a>
         <a href="upload.html"><i class="fa-solid fa-upload"></i>Upload Ebook</a>
         <a href="explore.html"><i class="fa-solid fa-magnifying-glass"></i>Explore</a>
+
+        <div class="logout-btn" onclick="logout()">
+          <i class="fa-solid fa-right-from-bracket"></i>Logout
+        </div>
       </div>
     </div>
   </div>
@@ -575,7 +590,7 @@ function getLoggedUser(){
     localStorage.getItem("user_email") ||
     localStorage.getItem("email") ||
     localStorage.getItem("creatorhub_profile_email") ||
-    "";
+     "";
 
   email = String(email || "").trim().toLowerCase();
 
@@ -597,7 +612,7 @@ function getLoggedUser(){
     localStorage.getItem("user_image") ||
     localStorage.getItem("profile_image") ||
     cached?.profile_image ||
-    "";
+     "";
 
   return {
     email,
