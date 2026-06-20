@@ -112,7 +112,7 @@
     }
 
     /* =====================================================
-    PROFILE BLOCK Dropdown
+    PROFILE BLOCK Dropdown (CHANGED TO PREMIUM WHITE THEME)
     ===================================================== */
     .profile-wrap{
       position: relative;
@@ -139,12 +139,12 @@
       top: 68px;
       left: 0;
       width: 280px;
-      background: #0d1628;
-      border: 1px solid #182a64;
+      background: #ffffff; /* White background */
+      border: 1px solid #dce4f0; /* Soft border */
       border-radius: 14px;
       padding: 20px;
       display: none;
-      box-shadow: 0 20px 45px rgba(16, 24, 40, 0.25);
+      box-shadow: 0 20px 45px rgba(16, 24, 40, 0.15);
       z-index: 1000;
     }
     .profile-menu.show{
@@ -160,7 +160,7 @@
       align-items: center;
       gap: 12px;
       padding-bottom: 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid #e4ecf5;
       margin-bottom: 14px;
     }
     .menu-profile-image{
@@ -170,14 +170,14 @@
       object-fit: cover;
     }
     #menuName{
-      color: #fff;
+      color: #101828; /* Dark name text */
       font-size: 16px;
       font-weight: 800;
     }
     #menuEmail{
       margin-top: 3px;
       font-size: 13px;
-      color: #63728a;
+      color: #63728a; /* Clean muted text */
       word-break: break-all;
     }
     .profile-menu a{
@@ -186,20 +186,25 @@
       height: 46px;
       padding: 0 14px;
       border-radius: 8px;
-      color: #e7edf8;
+      color: #344054; /* Dark gray for text */
       font-size: 15px;
       font-weight: 700;
-      transition: background 0.2s, transform 0.2s;
+      transition: background 0.2s, transform 0.2s, color 0.2s;
       text-decoration: none;
     }
     .profile-menu a i{
       width: 20px;
       margin-right: 10px;
       text-align: center;
+      color: #475467; /* Icon color */
     }
     .profile-menu a:hover{
-      background: #182a64;
+      background: #f2f4f7; /* Soft hover effect */
+      color: #2f62e9; /* Professional blue transition */
       transform: translateX(4px);
+    }
+    .profile-menu a:hover i{
+      color: #2f62e9;
     }
     .logout-btn{
       margin-top: 14px;
@@ -530,7 +535,7 @@
     }
 
     /* ==========================================================================
-    🌟 CLEAN & MOBILE OPTIMIZED LAYOUT RULES (DESKTOP REMAINS UNTOUCHED)
+    CLEAN & MOBILE OPTIMIZED LAYOUT RULES (DESKTOP REMAINS UNTOUCHED)
     ========================================================================== */
     @media (max-width: 768px) {
       .topbar {
@@ -552,6 +557,13 @@
         display: none; 
       }
       
+      /* Mobile adjustment for White Profile Menu positioning */
+      .profile-menu {
+        top: 60px;
+        left: 0;
+        box-shadow: 0 12px 30px rgba(16, 24, 40, 0.12);
+      }
+      
       .main { 
         padding: 24px 16px 60px; 
       }
@@ -567,7 +579,6 @@
         margin-top: 8px;
       }
       
-      /* Main layouts stack in one clean vertical view */
       .grid { 
         grid-template-columns: 1fr; 
         gap: 24px; 
@@ -582,7 +593,6 @@
         margin-top: 8px;
       }
       
-      /* Balance dashboard stat structures formatted into clean grid rows */
       .stats { 
         grid-template-columns: 1fr; 
         gap: 12px; 
@@ -604,7 +614,6 @@
         gap: 12px;
       }
       
-      /* Direct full-width functional CTA actions for easy single thumb presses */
       .actions { 
         flex-direction: column; 
         gap: 12px; 
@@ -614,7 +623,6 @@
         width: 100%;
       }
       
-      /* Improved text positioning inside structural element layouts */
       .txn {
         padding: 16px;
         gap: 12px;
