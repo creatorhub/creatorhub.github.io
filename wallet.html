@@ -76,6 +76,7 @@
     .brand-logo{
       display: flex;
       align-items: center;
+      text-decoration: none;
     }
     .brand-name{
       font-size: 25px;
@@ -189,6 +190,7 @@
       font-size: 15px;
       font-weight: 700;
       transition: background 0.2s, transform 0.2s;
+      text-decoration: none;
     }
     .profile-menu a i{
       width: 20px;
@@ -252,9 +254,6 @@
       gap: 28px;
       align-items: start;
     }
-    @media(max-width: 1100px){
-      .grid{ grid-template-columns: 1fr; }
-    }
 
     .card{
       background: #fff;
@@ -300,9 +299,6 @@
       gap: 16px;
       margin-top: 28px;
     }
-    @media(max-width: 700px){
-      .stats{ grid-template-columns: 1fr; }
-    }
     .stat{
       padding: 20px;
       border-radius: 8px;
@@ -328,16 +324,13 @@
       letter-spacing: -0.01em;
     }
 
-    /* 🌟 FIXED ADMIN METRICS LAYOUT */
+    /* FIXED ADMIN METRICS LAYOUT */
     .admin-stats-container {
       grid-column: 1 / -1;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 16px;
       margin-top: 4px;
-    }
-    @media(max-width: 700px){
-      .admin-stats-container { grid-template-columns: 1fr; }
     }
 
     /* BUTTON ARRAYS */
@@ -537,55 +530,101 @@
     }
 
     /* ==========================================================================
-    RESPONSIVE DESIGN FOR WALLET CENTER CORE
+    🌟 CLEAN & MOBILE OPTIMIZED LAYOUT RULES (DESKTOP REMAINS UNTOUCHED)
     ========================================================================== */
-    @media (max-width: 1100px) {
-      .main { padding: 24px 20px 80px; }
-      .title { font-size: 34px; }
-      .desc { font-size: 15px; }
-      .grid { grid-template-columns: 1fr; gap: 24px; }
-      .balance-amount { font-size: 52px; }
-    }
-
     @media (max-width: 768px) {
       .topbar {
         padding: 16px 20px;
-        min-height: auto;
-        display: flex !important;
-        flex-direction: row !important;
-        justify-content: flex-start !important;
-        align-items: center !important;
-        gap: 12px !important;
+        min-height: 80px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
       }
       .topbar-left {
-        display: inline-flex !important;
-        align-items: center !important;
-        order: 1 !important;
+        display: flex;
+        align-items: center;
       }
-      .brand-logo {
-        display: inline-flex !important;
-        align-items: center !important;
-        order: 2 !important;
+      .brand-name { 
+        font-size: 22px; 
       }
-      .brand-name { font-size: 24px !important; white-space: nowrap !important; }
-      .topbar .badge { display: none !important; }
-      .main { padding: 20px 14px 60px; }
-      .header { margin-bottom: 24px; text-align: center; }
-      .title { font-size: 28px; }
-      .desc { font-size: 14px; }
-      .card { padding: 20px 16px; border-radius: 8px; }
-      .balance-amount { font-size: 40px; }
-      .stats { grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 20px; }
-      .stat { padding: 12px 6px; min-height: auto; text-align: center; }
-      .stat h2 { font-size: 16px; margin-top: 6px; }
-      .admin-stats-container { grid-template-columns: repeat(2, 1fr); }
-      .actions { flex-direction: column; gap: 10px; }
-    }
-
-    @media (max-width: 480px) {
-      .stats { grid-template-columns: 1fr; gap: 10px; }
-      .admin-stats-container { grid-template-columns: 1fr; }
-      .balance-amount { font-size: 34px; }
+      .topbar .badge { 
+        display: none; 
+      }
+      
+      .main { 
+        padding: 24px 16px 60px; 
+      }
+      .header { 
+        margin-bottom: 24px; 
+        text-align: left; 
+      }
+      .title { 
+        font-size: 32px; 
+      }
+      .desc { 
+        font-size: 15px; 
+        margin-top: 8px;
+      }
+      
+      /* Main layouts stack in one clean vertical view */
+      .grid { 
+        grid-template-columns: 1fr; 
+        gap: 24px; 
+      }
+      .card { 
+        padding: 24px 20px; 
+        border-radius: 12px; 
+      }
+      
+      .balance-amount { 
+        font-size: 46px; 
+        margin-top: 8px;
+      }
+      
+      /* Balance dashboard stat structures formatted into clean grid rows */
+      .stats { 
+        grid-template-columns: 1fr; 
+        gap: 12px; 
+        margin-top: 24px; 
+      }
+      .stat { 
+        padding: 16px; 
+        min-height: auto; 
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .stat h2 { 
+        font-size: 22px; 
+        margin-top: 0; 
+      }
+      .admin-stats-container { 
+        grid-template-columns: 1fr; 
+        gap: 12px;
+      }
+      
+      /* Direct full-width functional CTA actions for easy single thumb presses */
+      .actions { 
+        flex-direction: column; 
+        gap: 12px; 
+        margin-top: 24px;
+      }
+      .btn {
+        width: 100%;
+      }
+      
+      /* Improved text positioning inside structural element layouts */
+      .txn {
+        padding: 16px;
+        gap: 12px;
+      }
+      .txn h3 {
+        font-size: 15px;
+      }
+      .txn-amount {
+        font-size: 18px;
+      }
     }
   </style>
 </head>
@@ -680,13 +719,13 @@
         <div class="card">
           <div class="withdraw-title">Withdraw Earnings</div>
           <div class="input-field" id="adminFundSelector" style="display: none;">
-  <label for="fundType">Select Fund Type to Withdraw</label>
-  <select id="fundType" class="input" style="font-weight: 700; color: #2f62e9;">
-    <option value="profit">My all Book Profit / Platform Fees</option>
-    <option value="print">Print Earnings (Qikink Courier Pot)</option>
-    <option value="delivery">Delivery Earnings (Shipping Pot)</option>
-  </select>
-</div>
+            <label for="fundType">Select Fund Type to Withdraw</label>
+            <select id="fundType" class="input" style="font-weight: 700; color: #2f62e9;">
+              <option value="profit">My all Book Profit / Platform Fees</option>
+              <option value="print">Print Earnings (Qikink Courier Pot)</option>
+              <option value="delivery">Delivery Earnings (Shipping Pot)</option>
+            </select>
+          </div>
           
           <div class="input-field">
             <label for="name">Full Name</label>
@@ -772,32 +811,27 @@
       window.location.href = "index.html";
     }
 
-   // A. लॉगिन यूआई में एडमिन चेक करके ड्रॉपडाउन दिखाना
-function updateLoginUI(){
-  let profileWrap = document.getElementById("profileWrap");
-  let user = JSON.parse(localStorage.getItem("user") || "{}");
+    function updateLoginUI(){
+      let profileWrap = document.getElementById("profileWrap");
+      let user = JSON.parse(localStorage.getItem("user") || "{}");
 
-  if(user.email){
-    profileWrap.style.display = "flex";
-    document.getElementById("menuName").innerText = user.name || "CreatorHub User";
-    document.getElementById("menuEmail").innerText = user.email || "";
+      if(user.email){
+        profileWrap.style.display = "flex";
+        document.getElementById("menuName").innerText = user.name || "CreatorHub User";
+        document.getElementById("menuEmail").innerText = user.email || "";
 
-    if(user.profile_image){
-      document.getElementById("profileImage").src = user.profile_image;
-      document.getElementById("menuProfileImage").src = user.profile_image;
+        if(user.profile_image){
+          document.getElementById("profileImage").src = user.profile_image;
+          document.getElementById("menuProfileImage").src = user.profile_image;
+        }
+
+        if(user.email.toLowerCase() === "ayushprajpati6@gmail.com") {
+          let fundBox = document.getElementById("adminFundSelector");
+          if(fundBox) fundBox.style.display = "grid";
+        }
+      }
     }
 
-    // 🌟 अगर एडमिन लॉगिन है तो फंड सिलेक्ट करने वाला डिब्बा ऑन करें
-    if(user.email.toLowerCase() === "ayushprajpati6@gmail.com") {
-      let fundBox = document.getElementById("adminFundSelector");
-      if(fundBox) fundBox.style.display = "grid";
-    }
-  }
-}
-
-    /* =========================================================
-    🌟 UPDATED RELIABLE BALANCE RENDERER FOR ADMIN SELF-TESTS
-    ========================================================= */
     async function loadWallet(){
       try{
         let res = await fetch(API_URL,{
@@ -809,19 +843,7 @@ function updateLoginUI(){
         if(!data.success) return;
 
         let wallet = data.wallet;
-
-        // 🌟 एडमिन के लिए रीयल-टाइम कैलकुलेशन सुधार:
-        // अगर लॉग इन ईमेल एडमिन की है, तो अवेलेबल बैलेंस में कोर शेयर और सेलर प्रॉफिट दोनों जोड़ें।
         let totalDisplayAvailable = Number(wallet.available || 0);
-        
-        if(USER_EMAIL.toLowerCase() === "ayushprajpati6@gmail.com") {
-          // अगर डेटाबेस में प्रॉफिट कहीं हिडन या पेंडिंग एट्रिब्यूट में आ गया है, तो उसे यहाँ सुरक्षा के लिए चेक करें
-          // इस आर्डर टेस्ट पर, यह आपके अवेलेबल वॉलेट बैलेंस (₹284 + ₹164 = ₹448) को स्क्रीन पर प्रदर्शित कर देगा
-          if(wallet.pending > 0 && wallet.role === "admin") {
-             // सामान्य सेलर न होने की स्थिति में एडमिन के कुल पैसों का जोड़ स्क्रीन पर फ़ोर्स करें
-             // लेकिन अभी डेटाबेस रिफ्रेश के अनुसार हमने पूरा सम ले लिया है।
-          }
-        }
 
         document.getElementById("availableBalance").innerHTML = "₹" + totalDisplayAvailable.toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
         document.getElementById("pendingBalance").innerHTML = "₹" + Number(wallet.pending||0).toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
@@ -868,7 +890,7 @@ function updateLoginUI(){
         }
 
         box.innerHTML="";
-        let txns = data.transactions; // सॉर्ट आर्डर फिक्स
+        let txns = data.transactions;
 
         txns.forEach((txn, index)=>{
           let type = txn.type || "credit";
@@ -924,57 +946,55 @@ function updateLoginUI(){
       }
     }
 
-   // B. विड्रॉल रिक्वेस्ट में सिलेक्टेड फंड टाइप बैकएंड को भेजना
-async function withdrawMoney(){
-  let amount = document.getElementById("withdrawAmount").value.trim();
-  let upi = document.getElementById("upi").value.trim();
-  let name = document.getElementById("name").value;
-  let phone = document.getElementById("phone").value;
-  
-  // 🌟 ड्रॉपडाउन से वैल्यू उठाएं (अगर नॉर्मल यूजर है तो डिफ़ॉल्ट 'profit' जाएगा)
-  let fundSelector = document.getElementById("fundType");
-  let selectedFund = fundSelector ? fundSelector.value : "profit";
+    async function withdrawMoney(){
+      let amount = document.getElementById("withdrawAmount").value.trim();
+      let upi = document.getElementById("upi").value.trim();
+      let name = document.getElementById("name").value;
+      let phone = document.getElementById("phone").value;
+      
+      let fundSelector = document.getElementById("fundType");
+      let selectedFund = fundSelector ? fundSelector.value : "profit";
 
-  if(!amount || !upi || !name || !phone){
-    alert("Please fill all fields");
-    return;
-  }
+      if(!amount || !upi || !name || !phone){
+        alert("Please fill all fields");
+        return;
+      }
 
-  if(Number(amount) < 100){
-    alert("Minimum withdrawal is ₹100");
-    return;
-  }
+      if(Number(amount) < 100){
+        alert("Minimum withdrawal is ₹100");
+        return;
+      }
 
-  document.getElementById("withdrawStatus").innerHTML = "Processing withdrawal request...";
+      document.getElementById("withdrawStatus").innerHTML = "Processing withdrawal request...";
 
-  try{
-    let res = await fetch(API_URL,{
-      method:"POST",
-      headers:{ "Content-Type":"text/plain;charset=utf-8" },
-      body:JSON.stringify({ 
-        action:"withdraw", 
-        email:USER_EMAIL, 
-        name:name, 
-        phone:phone, 
-        amount:amount, 
-        upi:upi,
-        fund_type: selectedFund // 🌟 बैकएंड को फंड टाइप भेजा जा रहा है
-      })
-    });
-    let data = await res.json();
-    document.getElementById("withdrawStatus").innerHTML = data.message;
+      try{
+        let res = await fetch(API_URL,{
+          method:"POST",
+          headers:{ "Content-Type":"text/plain;charset=utf-8" },
+          body:JSON.stringify({ 
+            action:"withdraw", 
+            email:USER_EMAIL, 
+            name:name, 
+            phone:phone, 
+            amount:amount, 
+            upi:upi,
+            fund_type: selectedFund
+          })
+        });
+        let data = await res.json();
+        document.getElementById("withdrawStatus").innerHTML = data.message;
 
-    if(data.success){
-      document.getElementById("withdrawAmount").value = "";
-      document.getElementById("upi").value = "";
-      loadWallet();
-      loadTransactions();
+        if(data.success){
+          document.getElementById("withdrawAmount").value = "";
+          document.getElementById("upi").value = "";
+          loadWallet();
+          loadTransactions();
+        }
+      }catch(err){
+        console.log(err);
+        document.getElementById("withdrawStatus").innerHTML = "Server error";
+      }
     }
-  }catch(err){
-    console.log(err);
-    document.getElementById("withdrawStatus").innerHTML = "Server error";
-  }
-}
     
     function scrollWithdraw(){
       const target = document.getElementById("withdrawTarget");
