@@ -136,9 +136,9 @@ a{
     border-color: var(--accent-blue);
 }
 
-/* Mobile Toggle Hamburger Icon (Hidden on Desktop) */
+/* Mobile Toggle Hamburger Icon (STRICTLY HIDDEN ON DESKTOP) */
 .mobile-menu-btn {
-    display: none;
+    display: none !important;
     font-size: 22px;
     color: var(--text-secondary);
     cursor: pointer;
@@ -150,7 +150,6 @@ a{
     width: 95%;
     max-width: 1400px;
     margin: auto;
-    padding-bottom: 80px;
 }
 
 .back-home {
@@ -595,9 +594,15 @@ a{
     color: var(--text-secondary);
 }
 
-/* DYNAMIC HOOK SHEETS EXTERNAL CONTAINER */
+/* FULL-WIDTH FOOTER SYSTEM CONFIGURATION */
 #footer-container {
-    margin-top: 40px;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    margin-top: 60px;
 }
 
 /* =========================================================
@@ -635,7 +640,6 @@ a{
         z-index: 999;
     }
 
-    /* Active state to show mobile menu items */
     .nav-links.active {
         display: flex;
     }
@@ -644,8 +648,10 @@ a{
     .nav-right i.fa-search { 
         display: none !important; 
     }
+    
+    /* Menu triggers only under mobile breakout */
     .mobile-menu-btn {
-        display: block; 
+        display: block !important; 
     }
     .nav-right {
         gap: 16px;
@@ -683,7 +689,7 @@ a{
         font-size: 13px;
     }
 
-    /* Quick Channel Cards Matrix - Clean 2-Column Responsive Layout */
+    /* Quick Channel Cards Layout */
     .section-title {
         font-size: 18px;
         margin-bottom: 16px;
@@ -758,7 +764,6 @@ a{
         width: 100%; 
         margin-top: 20px; 
         text-align: center;
-        justify-content: center;
     }
 
     /* Footer Metric Grid Split */
@@ -791,7 +796,7 @@ a{
         <input class="search-box" placeholder="Search ebooks..." onkeypress="if(event.key==='Enter') window.location.href='./products.html?search='+encodeURIComponent(this.value)">
         <i class="fa fa-search" onclick="window.location.href='./products.html'"></i>
         <i class="fa fa-cart-shopping" onclick="window.location.href='./cart.html'"></i>
-        <i class="fa fa-bell" onclick="window.location.href='./dashboard.html?tab=notifications'"></i>
+        <i class="fa fa-bell" onclick="window.location.href./dashboard.html?tab=notifications'"></i>
         <i class="fa fa-bars mobile-menu-btn" onclick="toggleMobileMenu()"></i>
     </div>
 </div>
@@ -921,9 +926,9 @@ a{
         <div class="feature">🤝 Active Creator Alliance Circle</div>
     </div>
 
-    <div id="footer-container"></div>
-
 </div>
+
+<div id="footer-container"></div>
 
 <script>
 // Mobile Menu Open/Close Toggle Mechanism Logic
@@ -933,7 +938,6 @@ function toggleMobileMenu() {
 
     navLinks.classList.toggle('active');
 
-    // Smooth icon transitions (Hamburger to Cross)
     if (navLinks.classList.contains('active')) {
         menuBtn.classList.remove('fa-bars');
         menuBtn.classList.add('fa-xmark');
@@ -966,7 +970,7 @@ fetch("footer.html")
 const SUPPORT_API = "https://script.google.com/macros/s/AKfycbzAb-KxyouUn2oSQqqjKfkgJhjOXF7_4Kw83Xw-9CeUotl8ydzV8WykhkzhDOQzJJI11Q/exec";
 const CONTACT_API_URL = "https://script.google.com/macros/s/AKfycbxFVrezXIRyw83bjYWmVTWqaP1Zyp2O0wZSUd5nrwAty0-3M1w-RJJ65ulWR6RhH3dZ3Q/exec";
 
-/* NEW CONNECTED SUPPORT CHANNEL SUBMIT HANDLER */
+/* CONNECTED SUPPORT CHANNEL SUBMIT HANDLER */
 async function submitSupportTicket(event) {
     event.preventDefault();
     
