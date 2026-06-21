@@ -77,14 +77,16 @@
 <body>
 
 <div class="app-container">
+    <!-- Left Navigation Sidebar -->
     <div class="sidebar-panel">
         <div class="sidebar-header">
             <h3 id="profileName">CreatorHub Chat</h3>
-            <div class="session-badge" id="sessionIdentity">Verifying active session...</div>
+            <div class="session-badge" id="sessionIdentity">Checking system token...</div>
         </div>
-        <div class="users-list-box" id="userDirectoryView">Loading Users...</div>
+        <div class="users-list-box" id="userDirectoryView">Loading Workspace...</div>
     </div>
 
+    <!-- Right Window Chat Panel -->
     <div class="chat-view-panel">
         <div class="splash-blank-state" id="blankStatePrompt">
             <p style="font-size: 2.5rem;">💬</p>
@@ -94,6 +96,7 @@
         <div id="activeChatStateLayout" style="display: none; flex-direction: column; flex: 1; height: 100%;">
             <div class="chat-view-header">
                 <span id="activeChatterHeaderTitle">Active Stream</span>
+                <!-- 3-Dots Action Button -->
                 <div class="three-dots-btn" onclick="toggleDropdown(event)">⋮</div>
                 <div class="dropdown-menu" id="headerDropdown">
                     <div class="dropdown-item" onclick="alert('Secure Workspace Session Verified.')">View Profile</div>
@@ -117,18 +120,54 @@
     // ⚠️ अपने नए Apps Script Deployment का URL यहाँ बिल्कुल सही पेस्ट करें
     const CLOUD_GATEWAY_URL = "https://script.google.com/macros/s/AKfycbw9T3_1uvxU7O2ER5GRF5VLZ-8BNmxO5B5ZS_rPTkJk4ol5giC0-l9vM2AIULLbhRildg/exec";
     
-    // URL Parameters और LocalStorage डिटेक्शन इंजन
+    // ======================================================
+    // 1. फुल ऑटोमैटिक यूज़र डिटेक्शन इंजन
+    // ======================================================
     const urlParams = new URLSearchParams(window.location.search);
-    const localStorageUser = JSON.parse(localStorage.getItem("user_login_data"));
+    const paramEmail = urlParams.get('email');
+    const paramName = urlParams.get('name');
     
-    const currentUser = {
-        name: urlParams.get('name') || (localStorageUser ? localStorageUser.name : "Ayush Prajapati"),
-        email: (urlParams.get('email') || (localStorageUser ? localStorageUser.email : "ayushprajpati6@gmail.com")).toLowerCase().trim()
+    let currentUser = {
+        name: paramName,
+        email: paramEmail ? paramEmail.toLowerCase().trim() : null
     };
-    
-    // UI पर एक्टिव यूज़र का नाम सेट करना
+
+    // अगर URL में डेटा नहीं है, तो लोकलस्टोरेज चेक करो
+    if (!currentUser.email) {
+        const localStorageUser = JSON.parse(localStorage.getItem("user_login_data"));
+        if (localStorageUser && localStorageUser.email) {
+            currentUser.name = localStorageUser.name;
+            currentUser.email = localStorageUser.email.toLowerCase().trim();
+        }
+    }
+
+    // जादूई प्रॉम्प्ट: अगर कैशे पुराना है या डेटा मिसिंग है, तो यह यूज़र से खुद उसकी सही आईडी मांग लेगा
+    if (!currentUser.email) {
+        const userEmailInput = prompt("सुरक्षा जांच: अपनी रजिस्टर्ड ईमेल आईडी डालें (जैसे: umesh323354@gmail.com):");
+        
+        if (userEmailInput && userEmailInput.trim() !== "") {
+            const cleanInput = userEmailInput.trim().toLowerCase();
+            currentUser.email = cleanInput;
+            
+            if (cleanInput.includes("umesh")) currentUser.name = "Umesh Kumar's";
+            else if (cleanInput.includes("ay808")) currentUser.name = "Abhishek YADAV";
+            else if (cleanInput.includes("support")) currentUser.name = "Creatorhub";
+            else if (cleanInput.includes("carforsale")) currentUser.name = "Ayush (Car Simulator)";
+            else if (cleanInput.includes("ayushprajpati6")) currentUser.name = "Ayush Prajapati";
+            else currentUser.name = "CreatorHub User";
+            
+            // लोकलस्टोरेज में सेव करें ताकि बार-बार प्रॉम्प्ट न आए
+            localStorage.setItem("user_login_data", JSON.stringify(currentUser));
+        } else {
+            // अगर यूज़र कुछ नहीं डालता तो ब्लॉक कर दो
+            alert("बिना ईमेल आईडी के आप चैट एक्सेस नहीं कर सकते।");
+            window.location.href = "login.html"; 
+        }
+    }
+
+    // UI पर लॉगिन डिटेल्स सेट करना
     document.getElementById("profileName").innerText = currentUser.name;
-    document.getElementById("sessionIdentity").innerText = `Session: ${currentUser.email}`;
+    document.getElementById("sessionIdentity").innerText = `Active: ${currentUser.email}`;
 
     // आपकी फिक्स 6 यूज़र वाली डेटाबेस लिस्ट
     const staticUsersList = [
@@ -143,13 +182,13 @@
     let targetedReceiverEmail = null;
     let chatMessagesCache = [];
 
-    // 1. लेफ्ट साइडबार रेंडरर
+    // 2. लेफ्ट साइडबार रेंडरर
     function renderUsers() {
         const view = document.getElementById("userDirectoryView"); 
         view.innerHTML = "";
         
         staticUsersList.forEach(user => {
-            if (user.email.toLowerCase().trim() === currentUser.email) return; // खुद की आईडी को लिस्ट से छुपाएं
+            if (user.email.toLowerCase().trim() === currentUser.email) return; 
             
             const img = user.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random&color=fff`;
             const card = document.createElement("div");
@@ -167,7 +206,7 @@
         });
     }
 
-    // 2. वन-क्लिक चैट थ्रेड चेंजर
+    // 3. वन-क्लिक चैट थ्रेड चेंजर
     function startChat(email, name) {
         targetedReceiverEmail = email;
         document.getElementById("blankStatePrompt").style.display = "none";
@@ -177,7 +216,7 @@
         loadChats();
     }
 
-    // 3. सुपर-फास्ट चैट्स सिंक (सुरक्षित तरीके से ईमेल भेजकर डेटा लाना)
+    // 4. सुरक्षित तरीके से क्लाउड से चैट्स सिंक करना
     async function loadChats() {
         if (!currentUser.email) return;
         try {
@@ -188,10 +227,10 @@
                 chatMessagesCache = data.messages;
                 renderBubbles();
             }
-        } catch (e) { console.error("Syncing delay: ", e); }
+        } catch (e) { console.error("Sync Failure: ", e); }
     }
 
-    // 4. मैसेज बबल्स रेंडरर (व्हाट्सएप स्टाइल)
+    // 5. मैसेज बबल्स रेंडरर
     function renderBubbles() {
         const scroller = document.getElementById("chatContentScroller"); 
         scroller.innerHTML = "";
@@ -214,15 +253,15 @@
             bubble.className = "chat-bubble";
             
             if (msg.type === "image") {
-                // इमेज दिखने के लिए डायरेक्ट थंबनेल रेंडरर इमेज टैग
-                bubble.innerHTML = `<a href="${msg.content}" target="_blank"><img src="${msg.content}" class="render-media-file" alt="Media File"></a>`;
+                // इमेज रेंडर करने के लिए डायरेक्ट वर्किंग इमेज टैग
+                bubble.innerHTML = `<a href="${msg.content}" target="_blank"><img src="${msg.content}" class="render-media-file" alt="Shared Media Asset"></a>`;
             } else {
                 bubble.innerText = msg.content;
             }
             
             container.appendChild(bubble);
 
-            // एडिट और डिलीट बटन (सिर्फ खुद के मैसेज पर और जो पूरी तरह अपलोड हो चुके हैं)
+            // एडिट/डिलीट बटन्स सिर्फ खुद के और पूरी तरह सेव्ड मैसेजेस पर दिखेंगे
             if (isSelf && msg.id && !msg.id.startsWith("temp_")) {
                 const actions = document.createElement("div");
                 actions.className = "msg-actions";
@@ -240,7 +279,7 @@
         scroller.scrollTop = scroller.scrollHeight;
     }
 
-    // 5. सुपर-फास्ट टेक्स्ट सेंडिंग (Optimistic UI - तुरंत स्क्रीन पर दिखेगा)
+    // 6. सुपर-फास्ट टेक्स्ट पुश (Optimistic UI Strategy)
     async function executeTextPush() {
         const input = document.getElementById("messageTextField");
         const val = input.value.trim();
@@ -248,7 +287,7 @@
         input.value = "";
 
         const tempId = "temp_" + new Date().getTime();
-        // बिना सर्वर का वेट किए मैसेज तुरंत स्क्रीन पर पुश करना
+        // बिना सर्वर का वेट किए मैसेज स्क्रीन पर दिखाना (फास्ट एक्सपीरियंस)
         chatMessagesCache.push({ id: tempId, sender: currentUser.email, receiver: targetedReceiverEmail, content: val, type: "text" });
         renderBubbles();
 
@@ -256,10 +295,10 @@
             method: "POST",
             body: JSON.stringify({ action: "send", sender: currentUser.email, receiver: targetedReceiverEmail, content: val, type: "text" })
         });
-        loadChats(); // बैकएंड से रीयल आईडी सिंक करना
+        loadChats(); 
     }
 
-    // 6. सुपर-फास्ट इमेज सेंडिंग (डायरेक्ट ड्राइव सब-फ़ोल्डर अपलोड)
+    // 7. सुपर-फास्ट इमेज अपलोड और सब-फ़ोल्डर सेंडिंग
     function executeImagePush(el) {
         const file = el.files[0];
         if (!file || !targetedReceiverEmail) return;
@@ -267,8 +306,7 @@
         const reader = new FileReader();
         reader.onload = async function(e) {
             const tempId = "temp_" + new Date().getTime();
-            // स्क्रीन पर तुरंत लोकल थंबनेल या अपलोडिंग दिखाना
-            chatMessagesCache.push({ id: tempId, sender: currentUser.email, receiver: targetedReceiverEmail, content: "📷 Uploading new asset image...", type: "text" });
+            chatMessagesCache.push({ id: tempId, sender: currentUser.email, receiver: targetedReceiverEmail, content: "📷 Uploading image to sub-folder...", type: "text" });
             renderBubbles();
 
             await fetch(CLOUD_GATEWAY_URL, {
@@ -284,12 +322,11 @@
         reader.readAsDataURL(file);
     }
 
-    // 7. मैसेज एडिट ट्रांसजैक्शन
+    // 8. एडिट फ़ंक्शन
     async function editMessageTransaction(msgId, oldContent) {
-        const newText = prompt("Update your secure message content:", oldContent);
+        const newText = prompt("Edit your message content:", oldContent);
         if (!newText || newText.trim() === oldContent) return;
 
-        // स्क्रीन पर तुरंत एडिट दिखाना
         const index = chatMessagesCache.findIndex(m => m.id === msgId);
         if(index !== -1) chatMessagesCache[index].content = newText.trim();
         renderBubbles();
@@ -301,11 +338,10 @@
         loadChats();
     }
 
-    // 8. मैसेज डिलीट ट्रांसजैक्शन
+    // 9. डिलीट फ़ंक्शन
     async function deleteMessageTransaction(msgId) {
-        if (!confirm("Are you sure you want to delete this message for everyone?")) return;
+        if (!confirm("Are you sure you want to delete this message?")) return;
 
-        // स्क्रीन से तुरंत गायब करना
         chatMessagesCache = chatMessagesCache.filter(m => m.id !== msgId);
         renderBubbles();
 
@@ -322,14 +358,14 @@
         document.getElementById("headerDropdown").classList.toggle("show");
     }
 
-    // 9. 3-Dot मेनू से पूरी चैट क्लियर करना (Clear Chat)
+    // 10. 3-Dot मेनू से पूरी चैट क्लियर करना (Clear Chat)
     async function clearCurrentChatThread() {
         if (!targetedReceiverEmail) return;
         if (!confirm("Clear full conversation history with this contact? This cannot be undone.")) return;
         
         chatMessagesCache = chatMessagesCache.filter(m => !(
             (m.sender === currentUser.email && m.receiver === targetedReceiverEmail) ||
-            (m.sender === targetedReceiverEmail && msg.receiver === currentUser.email)
+            (m.sender === targetedReceiverEmail && m.receiver === currentUser.email)
         ));
         renderBubbles();
 
@@ -340,7 +376,6 @@
         loadChats();
     }
 
-    // स्क्रीन पर कहीं भी क्लिक करने से ड्रॉपडाउन बंद करना
     window.onclick = function() {
         document.getElementById("headerDropdown").classList.remove("show");
     }
@@ -349,7 +384,7 @@
     renderUsers();
     loadChats();
     
-    // प्रत्येक 3.5 सेकंड में ऑटोमैटिकली नए मैसेजेस फैच करना
+    // प्रत्येक 3.5 सेकंड में ऑटोमैटिक रियल-टाइम सिंक
     setInterval(loadChats, 3500);
 </script>
 </body>
