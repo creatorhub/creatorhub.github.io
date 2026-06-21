@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CreatorHub Chat</title>
+    <title>CreatorHub Chat Pro</title>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; background-color: #0f172a; height: 100vh; display: flex; overflow: hidden; }
@@ -11,23 +11,26 @@
         
         /* Left Sidebar */
         .sidebar-panel { width: 30%; min-width: 340px; background: #f8fafc; border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; }
-        .sidebar-header { padding: 24px 20px; background: #1e1b4b; color: #ffffff; }
+        .sidebar-header { padding: 24px 20px; background: #1e1b4b; color: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .sidebar-header h3 { font-size: 1.25rem; font-weight: 700; }
+        .session-badge { font-size: 0.8rem; opacity: 0.8; margin-top: 6px; color: #cbd5e1; }
         .users-list-box { flex: 1; overflow-y: auto; padding: 10px 0; }
         
         /* WhatsApp-like User Cards */
         .user-item-card { display: flex; align-items: center; gap: 12px; padding: 14px 20px; margin: 4px 12px; border-radius: 12px; cursor: pointer; border: 1px solid #e2e8f0; background: #fff; transition: all 0.2s; }
-        .user-item-card:hover { background: #f1f5f9; }
+        .user-item-card:hover { background: #f1f5f9; transform: translateY(-1px); }
         .user-item-card.active-chat { background: #e0e7ff; border-color: #4f46e5; }
+        .user-details { display: flex; flex-direction: column; gap: 2px; }
         .u-name { font-weight: 600; color: #0f172a; font-size: 0.95rem; }
         .u-email { font-size: 0.8rem; color: #64748b; }
 
         /* Right Chat Panel */
         .chat-view-panel { width: 70%; background: #f1f5f9; display: flex; flex-direction: column; }
-        .chat-view-header { background: #ffffff; padding: 20px 28px; border-bottom: 1px solid #e2e8f0; font-weight: 700; color: #0f172a; }
+        .chat-view-header { background: #ffffff; padding: 20px 28px; border-bottom: 1px solid #e2e8f0; font-weight: 700; color: #0f172a; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
         .chat-scroller-window { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #f8fafc; }
         
         /* Chat Bubbles */
-        .chat-line { display: flex; width: 100%; }
+        .chat-line { display: flex; width: 100%; animation: fadeIn 0.2s ease; }
         .chat-line.outward { justify-content: flex-end; }
         .chat-line.inward { justify-content: flex-start; }
         .chat-bubble { max-width: 60%; padding: 10px 16px; border-radius: 16px; font-size: 0.95rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
@@ -37,29 +40,40 @@
 
         /* Input Dashboard */
         .chat-input-dashboard { background: #ffffff; padding: 15px 25px; display: flex; align-items: center; gap: 12px; border-top: 1px solid #e2e8f0; }
-        .input-bar-element { flex: 1; padding: 12px 20px; border: 1px solid #cbd5e1; border-radius: 9999px; outline: none; }
-        .btn-media-trigger { background: #f1f5f9; border: none; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; }
-        .btn-dispatch { background: #4f46e5; color: white; border: none; padding: 12px 24px; border-radius: 9999px; font-weight: 600; cursor: pointer; }
-        .splash-blank-state { display: flex; flex-direction: column; justify-content: center; align-items: center; flex: 1; color: #64748b; background: #f8fafc; gap: 10px; }
+        .input-bar-element { flex: 1; padding: 12px 20px; border: 1px solid #cbd5e1; border-radius: 9999px; outline: none; background: #f8fafc; }
+        .input-bar-element:focus { border-color: #4f46e5; background: #fff; }
+        .btn-media-trigger { background: #f1f5f9; border: none; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; color: #475569; }
+        .btn-media-trigger:hover { background: #e2e8f0; }
+        .btn-dispatch { background: #4f46e5; color: white; border: none; padding: 12px 24px; border-radius: 9999px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25); }
+        .btn-dispatch:hover { background: #4338ca; }
+        
+        .splash-blank-state { display: flex; flex-direction: column; justify-content: center; align-items: center; flex: 1; color: #64748b; background: #f8fafc; gap: 10px; font-weight: 500; }
+        .splash-blank-state span { font-size: 2.5rem; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <div class="app-container">
+    <!-- Left Sidebar Panel -->
     <div class="sidebar-panel">
         <div class="sidebar-header">
             <h3 id="profileName">CreatorHub Chat</h3>
+            <div class="session-badge" id="sessionIdentity">Checking active session...</div>
         </div>
         <div class="users-list-box" id="userDirectoryView">Loading Users...</div>
     </div>
 
+    <!-- Right Chat Panel -->
     <div class="chat-view-panel">
         <div class="splash-blank-state" id="blankStatePrompt">
-            <p>💬 Select a contact to chat</p>
+            <span>💬</span>
+            <p>Select a contact from the list to start a chat</p>
         </div>
         
         <div id="activeChatStateLayout" style="display: none; flex-direction: column; flex: 1; height: 100%;">
-            <div class="chat-view-header" id="activeChatterHeaderTitle">Chat</div>
+            <div class="chat-view-header" id="activeChatterHeaderTitle">Chat Window</div>
             <div class="chat-scroller-window" id="chatContentScroller"></div>
             
             <div class="chat-input-dashboard">
@@ -73,17 +87,25 @@
 </div>
 
 <script>
+    // आपका Google Apps Script Web App URL
     const CLOUD_GATEWAY_URL = "https://script.google.com/macros/s/AKfycbw9T3_1uvxU7O2ER5GRF5VLZ-8BNmxO5B5ZS_rPTkJk4ol5giC0-l9vM2AIULLbhRildg/exec";
     
-    // आपका लॉगिन सेशन (डिफ़ॉल्ट आयुष सेट है)
+    // 1. डायनेमिक यूज़र डिटेक्शन (URL parameters या localStorage से)
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramEmail = urlParams.get('email');
+    const paramName = urlParams.get('name');
+    const localStorageUser = JSON.parse(localStorage.getItem("user_login_data"));
+
     const currentUser = {
-        name: "Ayush Prajapati",
-        email: "ayushprajpati6@gmail.com"
+        name: paramName || (localStorageUser ? localStorageUser.name : "Ayush Prajapati"),
+        email: paramEmail || (localStorageUser ? localStorageUser.email : "ayushprajpati6@gmail.com")
     };
     
+    // यूज़र इंटरफ़ेस सेट करना
     document.getElementById("profileName").innerText = currentUser.name;
+    document.getElementById("sessionIdentity").innerText = `Logged in as: ${currentUser.email}`;
 
-    // आपका पूरा users.json डेटा डायरेक्ट एरे फॉर्मैट में यहाँ पेस्ट है
+    // आपका पूरा users.json डेटाबेस एरे फॉर्मेट में
     const staticUsersList = [
       {"name": "Ayush Prajapati", "email": "ayushprajpati6@gmail.com", "profile_image": "https://drive.google.com/thumbnail?id=1lhVDcQn_g1hpyjrGtM92asMDsC2Z_JWK&sz=w1200"},
       {"name": "Ayush Prajapati", "email": "carforsalesimulator6@gmail.com", "profile_image": ""},
@@ -96,21 +118,22 @@
     let targetedReceiverEmail = null;
     let chatMessagesCache = [];
 
-    // 1. लेफ्ट साइडबार में सभी यूज़र्स को तुरंत रेंडर करना
+    // 2. लेफ्ट साइडबार में सभी यूज़र्स को दिखाना (करेंट लॉगिन यूज़र को छोड़कर)
     function renderUsers() {
         const view = document.getElementById("userDirectoryView");
         view.innerHTML = "";
         
         staticUsersList.forEach(user => {
-            if (user.email === currentUser.email) return; // खुद को हाइड करें
+            // जो यूज़र लॉगिन है, वह खुद को लिस्ट में नहीं देखेगा
+            if (user.email.toLowerCase().trim() === currentUser.email.toLowerCase().trim()) return; 
             
-            const img = user.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random`;
+            const img = user.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random&color=fff`;
             const card = document.createElement("div");
             card.className = `user-item-card ${targetedReceiverEmail === user.email ? 'active-chat' : ''}`;
             card.onclick = () => startChat(user.email, user.name);
             
             card.innerHTML = `
-                <img src="${img}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
+                <img src="${img}" style="width:42px; height:42px; border-radius:50%; object-fit:cover; border: 1px solid #e2e8f0;">
                 <div class="user-details">
                     <span class="u-name">${user.name}</span>
                     <span class="u-email">${user.email}</span>
@@ -120,7 +143,7 @@
         });
     }
 
-    // 2. वन-क्लिक चैट थ्रेड ओपन लॉजिक
+    // 3. नाम पर क्लिक करते ही चैट स्क्रीन ओपन करना (One-Click)
     function startChat(email, name) {
         targetedReceiverEmail = email;
         document.getElementById("blankStatePrompt").style.display = "none";
@@ -130,23 +153,24 @@
         loadChats();
     }
 
-    // 3. क्लाउड से चैट मैसेज लोड करना
+    // 4. क्लाउड डेटाबेस से चैट मैसेजेस लोड करना
     async function loadChats() {
         try {
             const res = await fetch(CLOUD_GATEWAY_URL);
             const data = await res.json();
             chatMessagesCache = data.messages || [];
             renderBubbles();
-        } catch (e) { console.error("Error loading chat", e); }
+        } catch (e) { console.error("Error loading chat from DB", e); }
     }
 
-    // 4. मैसेज बबल्स स्क्रीन पर रेंडर करना
+    // 5. मैसेज बबल्स को स्क्रीन पर रेंडर करना (व्हाट्सएप लेआउट)
     function renderBubbles() {
         const scroller = document.getElementById("chatContentScroller");
         scroller.innerHTML = "";
         
         if (!targetedReceiverEmail) return;
 
+        // सिर्फ करेंट लॉगिन यूज़र और सिलेक्टेड यूज़र के बीच की पर्सनल चैट फ़िल्टर करना
         const activeLogs = chatMessagesCache.filter(msg => 
             (msg.sender === currentUser.email && msg.receiver === targetedReceiverEmail) ||
             (msg.sender === targetedReceiverEmail && msg.receiver === currentUser.email)
@@ -169,17 +193,17 @@
             line.appendChild(bubble);
             scroller.appendChild(line);
         });
-        scroller.scrollTop = scroller.scrollHeight;
+        scroller.scrollTop = scroller.scrollHeight; // स्क्रॉल बार हमेशा नीचे ले जाएं
     }
 
-    // 5. वन-क्लिक टेक्स्ट सेंड
+    // 6. वन-क्लिक टेक्स्ट मैसेज भेजना
     async function executeTextPush() {
         const input = document.getElementById("messageTextField");
         const val = input.value.trim();
         if (!val || !targetedReceiverEmail) return;
         input.value = "";
 
-        // तुरंत लोकल स्क्रीन पर दिखाना (WhatsApp की तरह फ़ास्ट)
+        // तुरंत स्क्रीन पर दिखाना ताकि व्हाट्सएप जैसी स्पीड मिले (Optimistic UI)
         chatMessagesCache.push({ sender: currentUser.email, receiver: targetedReceiverEmail, content: val, type: "text" });
         renderBubbles();
 
@@ -187,18 +211,18 @@
             method: "POST",
             body: JSON.stringify({ action: "send", sender: currentUser.email, receiver: targetedReceiverEmail, content: val, type: "text" })
         });
-        loadChats();
+        loadChats(); // सर्वर से दोबारा सिंक करना
     }
 
-    // 6. वन-क्लिक इमेज सेंड
+    // 7. वन-क्लिक इमेज सेंडिंग (डायरेक्ट ड्राइव अपलोड)
     function executeImagePush(el) {
         const file = el.files[0];
         if (!file || !targetedReceiverEmail) return;
 
         const reader = new FileReader();
         reader.onload = async function(e) {
-            // तुरंत लोडिंग के लिए लोकल पुश
-            chatMessagesCache.push({ sender: currentUser.email, receiver: targetedReceiverEmail, content: "Uploading image...", type: "text" });
+            // अपलोड होते समय स्क्रीन पर लोडिंग स्टेटस दिखाना
+            chatMessagesCache.push({ sender: currentUser.email, receiver: targetedReceiverEmail, content: "📷 Sending image...", type: "text" });
             renderBubbles();
 
             await fetch(CLOUD_GATEWAY_URL, {
@@ -208,15 +232,17 @@
                     type: "image", imageRaw: e.target.result, fileName: file.name, mimeType: file.type
                 })
             });
-            el.value = "";
+            el.value = ""; // फ़ाइल इनपुट क्लियर करना
             loadChats();
         };
         reader.readAsDataURL(file);
     }
 
-    // इनिशियलाइज़ेशन
+    // पहली बार में यूज़र्स लोड करना
     renderUsers();
-    setInterval(loadChats, 3000); // हर 3 सेकंड में न्यू मेसेजेस चेक करेगा व्हाट्सएप की तरह
+    
+    // हर 3.5 सेकंड में बैकग्राउंड में न्यू मेसेजेस चेक करना (Real-time Sync)
+    setInterval(loadChats, 3500);
 </script>
 </body>
 </html>
