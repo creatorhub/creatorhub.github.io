@@ -6,11 +6,8 @@
 <title>User Profile | CreatorHub</title>
 
 <meta name="description" content="View and manage your CreatorHub profile, creator information, account details, activity and marketplace presence.">
-
 <meta name="keywords" content="CreatorHub profile, user profile, creator profile, account details, creator account">
-
 <meta name="robots" content="noindex,nofollow">
-
 <link rel="canonical" href="https://creatorhub.github.io/profile.html">
 
 <meta property="og:site_name" content="CreatorHub">
@@ -28,14 +25,15 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
-body{min-height:100vh;background:#f4f7fb;color:#07142f}
+body{min-height:100vh;background:#f4f7fb;color:#07142f;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
 button,input,textarea{font:inherit}
 button{cursor:pointer;border:0}
 
+/* Desktop Styles */
 .topbar{
   min-height:112px;
-  background:#fff;
+  background:#ffffff;
   border-bottom:1px solid #dce6f3;
   display:flex;
   align-items:center;
@@ -44,16 +42,14 @@ button{cursor:pointer;border:0}
   padding:24px 52px;
   position:sticky;
   top:0;
-  z-index:20;
+  z-index:999;
 }
-
 .brand{
   display:flex;
   align-items:center;
   gap:14px;
   min-width:220px;
 }
-
 .logo{
   width:54px;
   height:54px;
@@ -65,31 +61,26 @@ button{cursor:pointer;border:0}
   font-weight:900;
   font-size:24px;
 }
-
 .brand b{
   font-size:24px;
   font-weight:900;
   color:#06142c;
 }
-
 .page-title{
   text-align:center;
   flex:1;
 }
-
 .page-title h1{
   font-size:42px;
   line-height:1;
   font-weight:900;
   color:#06142c;
 }
-
 .page-title p{
   margin-top:8px;
   color:#62718b;
   font-size:17px;
 }
-
 .actions{
   display:flex;
   gap:12px;
@@ -97,7 +88,6 @@ button{cursor:pointer;border:0}
   justify-content:flex-end;
   min-width:360px;
 }
-
 .btn{
   height:54px;
   border-radius:12px;
@@ -109,19 +99,16 @@ button{cursor:pointer;border:0}
   justify-content:center;
   gap:10px;
 }
-
 .btn-primary{
   background:#315df4;
   color:#fff;
   box-shadow:0 14px 28px rgba(49,93,244,.22);
 }
-
 .btn-light{
   background:#fff;
   color:#07142f;
   border:1px solid #d6e1ef;
 }
-
 .btn:disabled{
   opacity:.65;
   cursor:wait;
@@ -130,11 +117,10 @@ button{cursor:pointer;border:0}
 .content{
   width:min(1660px,100%);
   margin:0 auto;
-  padding:32px 52px 110px;
+  padding:32px 52px 170px;
   display:grid;
   gap:26px;
 }
-
 .notice{
   display:none;
   border-radius:12px;
@@ -144,7 +130,6 @@ button{cursor:pointer;border:0}
   background:#fff5d7;
   color:#8a5b00;
 }
-
 .notice.ok{
   background:#dcfce7;
   color:#166534;
@@ -158,7 +143,6 @@ button{cursor:pointer;border:0}
   box-shadow:0 18px 45px rgba(16,24,40,.08);
   overflow:hidden;
 }
-
 .cover{
   min-height:330px;
   background:linear-gradient(120deg,#2f6bf2,#20a6a7);
@@ -166,14 +150,12 @@ button{cursor:pointer;border:0}
   background-position:center;
   position:relative;
 }
-
 .cover:after{
   content:"";
   position:absolute;
   inset:0;
   background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.24));
 }
-
 .cover-tools{
   position:absolute;
   right:28px;
@@ -182,7 +164,6 @@ button{cursor:pointer;border:0}
   display:flex;
   gap:12px;
 }
-
 .file-btn{
   height:52px;
   border-radius:12px;
@@ -194,8 +175,8 @@ button{cursor:pointer;border:0}
   align-items:center;
   gap:9px;
   font-weight:900;
+  cursor:pointer;
 }
-
 .file-btn input{
   position:absolute;
   opacity:0;
@@ -211,7 +192,6 @@ button{cursor:pointer;border:0}
   gap:26px;
   align-items:end;
 }
-
 .avatar{
   width:156px;
   height:156px;
@@ -224,7 +204,6 @@ button{cursor:pointer;border:0}
   z-index:5;
   box-shadow:0 20px 44px rgba(16,24,40,.2);
 }
-
 .identity h2{
   font-size:42px;
   line-height:1.05;
@@ -232,21 +211,18 @@ button{cursor:pointer;border:0}
   color:#06142c;
   overflow-wrap:anywhere;
 }
-
 .identity p{
   margin-top:10px;
   color:#62718b;
   font-size:18px;
   overflow-wrap:anywhere;
 }
-
 .chips{
   display:flex;
   gap:10px;
   justify-content:flex-end;
   flex-wrap:wrap;
 }
-
 .chip{
   height:36px;
   border-radius:999px;
@@ -258,12 +234,10 @@ button{cursor:pointer;border:0}
   font-weight:900;
   font-size:13px;
 }
-
 .chip.green{
   background:#e4f8ef;
   color:#0b9f55;
 }
-
 .chip.dark{
   background:#07142f;
   color:#fff;
@@ -275,7 +249,6 @@ button{cursor:pointer;border:0}
   gap:26px;
   align-items:start;
 }
-
 .card{
   background:#fff;
   border:1px solid #dce6f3;
@@ -283,42 +256,35 @@ button{cursor:pointer;border:0}
   box-shadow:0 18px 45px rgba(16,24,40,.08);
   padding:28px;
 }
-
 .card h3{
   font-size:24px;
   font-weight:900;
   color:#06142c;
   margin-bottom:7px;
 }
-
 .card>p{
   color:#62718b;
   line-height:1.55;
   font-size:15px;
   margin-bottom:24px;
 }
-
 .form-grid{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:18px;
 }
-
 .field{
   display:grid;
   gap:8px;
 }
-
 .field.full{
   grid-column:1/-1;
 }
-
 label{
   font-size:14px;
   font-weight:900;
   color:#26364f;
 }
-
 input,textarea{
   width:100%;
   border:1px solid #d6e1ef;
@@ -328,19 +294,17 @@ input,textarea{
   padding:13px 15px;
   outline:none;
   min-height:56px;
+  font-weight:700;
 }
-
 textarea{
   min-height:132px;
   resize:vertical;
   line-height:1.55;
 }
-
 input:focus,textarea:focus{
   border-color:#315df4;
   box-shadow:0 0 0 4px rgba(49,93,244,.12);
 }
-
 input[readonly]{
   background:#eef3f9;
   color:#64748b;
@@ -351,7 +315,6 @@ input[readonly]{
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:16px;
 }
-
 .stat{
   min-height:126px;
   border-radius:16px;
@@ -361,7 +324,6 @@ input[readonly]{
   display:grid;
   align-content:space-between;
 }
-
 .stat i{
   width:42px;
   height:42px;
@@ -372,25 +334,21 @@ input[readonly]{
   place-items:center;
   font-size:18px;
 }
-
 .stat span{
   font-size:13px;
   text-transform:uppercase;
   font-weight:900;
   color:#5d6d85;
 }
-
 .stat strong{
   font-size:30px;
   font-weight:900;
   color:#06142c;
 }
-
 .quick{
   display:grid;
   gap:12px;
 }
-
 .quick-item{
   min-height:58px;
   border-radius:14px;
@@ -402,34 +360,34 @@ input[readonly]{
   justify-content:space-between;
   gap:15px;
 }
-
 .quick-item b{
   color:#06142c;
 }
-
 .quick-item span{
   color:#62718b;
   text-align:right;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
+  font-weight:600;
 }
 
+/* Bottom Nav - Desktop View White Background Visible Always */
 .bottom-nav{
   position:fixed;
   bottom:0;
   left:0;
   width:100%;
   height:78px;
-  background:#fff;
+  background:#ffffff;
   display:flex;
   justify-content:space-around;
   align-items:center;
   padding:0 20px;
   border-top:1px solid #dce4f0;
   z-index:999;
+  box-shadow:0 -10px 40px rgba(16,24,40,.03);
 }
-
 .bottom-nav a{
   display:flex;
   flex-direction:column;
@@ -445,12 +403,10 @@ input[readonly]{
   border-radius:8px;
   text-decoration:none;
 }
-
 .bottom-nav a.active{
   color:#2f62e9;
   background:#eef3f9;
 }
-
 .bottom-nav a i{
   font-size:19px;
   background:none;
@@ -459,25 +415,10 @@ input[readonly]{
   color:inherit;
 }
 
-.bottom-nav a:hover{
-  color:#2f62e9;
-  background:#eef3f9;
-}
-
-.bottom-nav a:hover{
-  color:#315df4;
-  background:transparent;
-}
-
-.bottom-nav a:hover i{
-  color:#315df4;
-  background:#f3f6ff;
-}
-
+/* White Profile Menu Theme Fix */
 .profile-wrap{
   position:relative;
 }
-
 .profile-image{
   width:56px;
   height:56px;
@@ -485,154 +426,204 @@ input[readonly]{
   object-fit:cover;
   cursor:pointer;
   border:3px solid #fff;
+  box-shadow:0 4px 12px rgba(16,24,40,.08);
 }
-
 .profile-menu{
   position:absolute;
   top:70px;
   left:0;
   width:280px;
-  background:#07142f;
+  background:#ffffff;
+  border:1px solid #dce4f0;
   border-radius:14px;
   padding:20px;
   display:none;
   z-index:9999;
+  box-shadow:0 20px 45px rgba(16,24,40,.08);
 }
-
 .profile-menu.show{
   display:block;
 }
-
 .profile-header{
   display:flex;
   gap:12px;
   margin-bottom:15px;
+  border-bottom:1px solid #f2f4f7;
+  padding-bottom:12px;
 }
-
 .menu-profile-image{
   width:48px;
   height:48px;
   border-radius:50%;
   object-fit:cover;
 }
-
 #menuName{
-  color:#fff;
+  color:#101828;
   font-weight:900;
 }
-
 #menuEmail{
-  color:#94a3b8;
+  color:#667085;
   font-size:13px;
 }
-
 .profile-menu a{
   display:flex;
   align-items:center;
+  gap:12px;
   height:44px;
-  color:#fff;
-  padding:0 10px;
-}
-
-.logout-btn{
-  margin-top:10px;
-  background:#ef4444;
-  color:#fff;
-  height:44px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  color:#344054;
+  padding:0 14px;
   border-radius:8px;
-  cursor:pointer;
+  font-weight:700;
+  transition: all 0.2s ease;
+}
+.profile-menu a i {
+  font-size:16px;
+  color:#667085;
+  width:20px;
+  text-align:center;
+}
+.profile-menu a:hover{
+  background:#f2f4f7;
+  color:#2f62e9;
+}
+.profile-menu a:hover i{
+  color:#2f62e9;
 }
 
 .footer-slot{
   display:none;
 }
 
+/* Responsive Media Queries Configuration */
 @media(max-width:1100px){
   .topbar{
     align-items:flex-start;
     flex-direction:column;
     padding:22px;
   }
-
   .brand,.actions{
     min-width:0;
   }
-
   .page-title{
     text-align:left;
+    margin-top:12px;
   }
-
   .content{
-    padding:24px 22px 110px;
+    padding:24px 22px 170px;
   }
-
   .grid{
     grid-template-columns:1fr;
   }
 }
 
+/* Mobile Devices Breakpoint Exclusive Design */
 @media(max-width:760px){
-  .topbar h1,.page-title h1{
-    font-size:34px;
+  .topbar {
+    padding: 12px 16px;
+    min-height: auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    width: 100%;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
   }
-
-  .brand b{
-    font-size:22px;
-  }
-
+  .brand { min-width: auto; gap: 8px;}
+  .logo { width:38px; height:38px; font-size:18px; border-radius:8px; }
+  .brand b { font-size: 18px; }
+  
+  .page-title { display: none; } /* Clean look, title in banner standard */
+  
+  /* Buttons dynamic header block shifted to stack context */
   .actions{
     width:100%;
     display:grid;
     grid-template-columns:1fr 1fr;
+    gap: 10px;
+    margin-top: 14px;
   }
-
   .btn{
     padding:0 12px;
+    height: 46px;
+    font-size: 13px;
+    border-radius: 10px;
   }
+  
+  .profile-image{ width: 38px; height: 38px; }
+  .profile-menu{ position:fixed; top:60px; left:16px; right:16px; width:auto; }
 
+  body { padding-top: 64px; }
   .content{
-    padding:22px 16px 100px;
+    padding:16px 16px 130px;
+    gap: 16px;
   }
-
-  .identity{
-    grid-template-columns:1fr;
-    padding:0 22px 26px;
-  }
-
-  .avatar{
-    width:132px;
-    height:132px;
-    margin-top:-66px;
-  }
-
-  .identity h2{
-    font-size:34px;
-  }
-
-  .chips{
-    justify-content:flex-start;
-  }
-
-  .form-grid,.stat-grid{
-    grid-template-columns:1fr;
-  }
-
+  
+  .profile-card { border-radius: 14px; }
   .cover{
-    min-height:230px;
+    min-height:180px;
   }
-
   .cover-tools{
-    left:16px;
-    right:16px;
+    left:12px;
+    right:12px;
+    bottom:12px;
+    gap: 8px;
   }
-
   .file-btn{
     flex:1;
     justify-content:center;
+    height: 40px;
+    font-size: 12px;
+    border-radius: 8px;
+    padding: 0 10px;
   }
+  
+  .identity{
+    grid-template-columns:1fr;
+    padding:0 16px 20px;
+    text-align: center;
+    gap: 12px;
+  }
+  .avatar{
+    width:110px;
+    height:110px;
+    margin: -55px auto 0;
+    border: 5px solid #fff;
+  }
+  .identity h2{
+    font-size:26px;
+  }
+  .identity p{
+    font-size:14px;
+    margin-top: 4px;
+  }
+  .chips{
+    justify-content:center;
+    gap: 6px;
+  }
+  .chip { height: 30px; padding: 0 10px; font-size: 11px; }
+
+  .card { padding: 20px; border-radius: 14px; }
+  .card h3 { font-size: 20px; }
+  .card > p { font-size: 13px; margin-bottom: 16px; }
+  
+  .form-grid,.stat-grid{
+    grid-template-columns:1fr;
+    gap: 14px;
+  }
+  input, textarea { padding: 11px 14px; font-size: 14px; border-radius: 10px; min-height: 48px; }
+  textarea { min-height: 110px; }
+  label { font-size: 12px; }
+  
+  .stat { min-height: 100px; padding: 14px; }
+  .stat strong { font-size: 24px; }
+  .stat span { font-size: 11px; }
+  .stat i { width: 36px; height: 36px; font-size: 15px; }
+  
+  .quick-item { min-height: 48px; padding: 0 12px; font-size: 13px; border-radius: 10px; }
+  
+  .bottom-nav{ height: 68px; padding: 0 10px; }
+  .bottom-nav a { height: 50px; min-width: 55px; font-size: 11px; border-radius: 8px; }
+  .bottom-nav a i { font-size: 17px; }
 }
 </style>
 </head>
@@ -640,48 +631,37 @@ input[readonly]{
 <body>
 
 <header class="topbar">
-  <div id="profileWrap" class="profile-wrap">
-
-  <img
-    id="topProfileImage"
-    class="profile-image"
-    src="https://ui-avatars.com/api/?name=User&background=315df4&color=fff"
-    onclick="toggleProfileMenu()">
-
-  <div id="profileMenu" class="profile-menu">
-
-    <div class="profile-header">
-      <img id="menuProfileImage" class="menu-profile-image">
-
-      <div>
-        <div id="menuName">CreatorHub User</div>
-        <div id="menuEmail">user@email.com</div>
-      </div>
-    </div>
-        <a href="profile.html">My Profile</a>
-        <a href="seller-apply.html">Become Seller</a>
-        <a href="tranding.html">Trending Books</a>
-        <a href="library.html">Library</a>
-        <a href="topselling.html">Top Selling</a>
-      </div>
-
+  <div class="brand">
+    <div class="logo"><i class="fa-solid fa-bolt"></i></div>
+    <a href="dashboard.html"><b>Creator<span>Hub</span></b></a>
   </div>
-</div>
 
+  <div class="page-title">
     <h1>Creator Profile</h1>
     <p id="pageStatus">Load, edit, and save your CreatorHub profile.</p>
   </div>
 
-  <div class="actions">
-    <button class="btn btn-light" id="loadBtn" type="button">
-      <i class="fa-solid fa-rotate"></i>
-      Load Profile
-    </button>
+  <div id="profileWrap" class="profile-wrap">
+    <img
+      id="topProfileImage"
+      class="profile-image"
+      src="https://ui-avatars.com/api/?name=User&background=315df4&color=fff"
+      onclick="toggleProfileMenu()" alt="Profile">
 
-    <button class="btn btn-primary" id="saveBtn" type="button">
-      <i class="fa-solid fa-floppy-disk"></i>
-      Save Changes
-    </button>
+    <div id="profileMenu" class="profile-menu">
+      <div class="profile-header">
+        <img id="menuProfileImage" class="menu-profile-image" src="https://ui-avatars.com/api/?name=User&background=315df4&color=fff" alt="User Avatar">
+        <div>
+          <div id="menuName">CreatorHub User</div>
+          <div id="menuEmail">user@email.com</div>
+        </div>
+      </div>
+      <a href="profile.html"><i class="fa-solid fa-user-gear"></i> My Profile</a>
+      <a href="seller-apply.html"><i class="fa-solid fa-store"></i> Become Seller</a>
+      <a href="tranding.html"><i class="fa-solid fa-fire"></i> Trending Books</a>
+      <a href="library.html"><i class="fa-solid fa-book-bookmark"></i> Library</a>
+      <a href="topselling.html"><i class="fa-solid fa-chart-line"></i> Top Selling</a>
+    </div>
   </div>
 </header>
 
@@ -689,31 +669,31 @@ input[readonly]{
 
 <div class="notice" id="notice"></div>
 
+<div class="actions">
+  <button class="btn btn-light" id="loadBtn" type="button"><i class="fa-solid fa-rotate"></i> Load Profile</button>
+  <button class="btn btn-primary" id="saveBtn" type="button"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
+</div>
+
 <section class="profile-card">
   <div class="cover" id="coverPreview">
     <div class="cover-tools">
       <label class="file-btn">
-        <i class="fa-solid fa-image"></i>
-        Cover
+        <i class="fa-solid fa-image"></i> Cover
         <input id="coverImage" type="file" accept="image/*">
       </label>
-
       <label class="file-btn">
-        <i class="fa-solid fa-camera"></i>
-        Avatar
+        <i class="fa-solid fa-camera"></i> Avatar
         <input id="profileImage" type="file" accept="image/*">
       </label>
     </div>
   </div>
 
   <div class="identity">
-    <img class="avatar" id="avatarPreview" alt="Creator profile image">
-
+    <img class="avatar" id="avatarPreview" alt="Creator profile image" src="https://ui-avatars.com/api/?name=User&background=315df4&color=fff">
     <div>
       <h2 id="previewName">Your Creator Name</h2>
       <p id="previewEmail">Enter email and load profile</p>
     </div>
-
     <div class="chips">
       <span class="chip dark" id="levelChip">Beginner</span>
       <span class="chip green" id="statusChip">active</span>
@@ -732,52 +712,42 @@ input[readonly]{
         <label>Email</label>
         <input id="email" type="email" required placeholder="creator@email.com">
       </div>
-
       <div class="field">
         <label>Name</label>
         <input id="name" type="text" placeholder="Creator name">
       </div>
-
       <div class="field full">
         <label>Bio</label>
         <textarea id="bio" maxlength="500" placeholder="Tell your audience what you create."></textarea>
       </div>
-
       <div class="field">
         <label>Phone</label>
         <input id="phone" type="tel" placeholder="+91">
       </div>
-
       <div class="field">
         <label>Website</label>
         <input id="website" type="url" placeholder="https://">
       </div>
-
       <div class="field">
         <label>Country</label>
         <input id="country" type="text" value="India">
       </div>
-
       <div class="field">
         <label>State</label>
         <input id="state" type="text" placeholder="State">
       </div>
-
       <div class="field">
         <label>City</label>
         <input id="city" type="text" placeholder="City">
       </div>
-
       <div class="field">
         <label>Creator Level</label>
         <input id="creatorLevelText" type="text" value="Beginner" readonly>
       </div>
-
       <div class="field">
         <label>Verification</label>
         <input id="verifiedText" type="text" value="Not verified" readonly>
       </div>
-
       <input id="creatorLevel" type="hidden" value="Beginner">
       <input id="verified" type="hidden" value="false">
     </div>
@@ -793,19 +763,16 @@ input[readonly]{
         <span>Wallet Balance</span>
         <strong id="walletView">Rs 0</strong>
       </div>
-
       <div class="stat">
         <i class="fa-solid fa-chart-simple"></i>
         <span>Total Profit</span>
         <strong id="profitView">Rs 0</strong>
       </div>
-
       <div class="stat">
         <i class="fa-solid fa-book"></i>
         <span>Total Books</span>
         <strong id="booksView">0</strong>
       </div>
-
       <div class="stat">
         <i class="fa-solid fa-bag-shopping"></i>
         <span>Total Orders</span>
@@ -830,17 +797,14 @@ input[readonly]{
         <label>Instagram</label>
         <input id="instagram" type="text" placeholder="@username">
       </div>
-
       <div class="field">
         <label>YouTube</label>
         <input id="youtube" type="text" placeholder="Channel link or handle">
       </div>
-
       <div class="field">
         <label>Telegram</label>
         <input id="telegram" type="text" placeholder="@username">
       </div>
-
       <div class="field">
         <label>Twitter / X</label>
         <input id="twitter" type="text" placeholder="@username">
@@ -867,30 +831,11 @@ input[readonly]{
 </main>
 
 <nav class="bottom-nav">
-  <a href="index.html">
-    <i class="fa-solid fa-house"></i>
-    <span>Home</span>
-  </a>
-
-  <a href="explore.html">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span>Explore</span>
-  </a>
-
-  <a href="library.html">
-    <i class="fa-solid fa-book"></i>
-    <span>Library</span>
-  </a>
-
-  <a href="upload1.html">
-    <i class="fa-solid fa-upload"></i>
-    <span>Upload</span>
-  </a>
-
-  <a class="active" href="profile.html">
-    <i class="fa-solid fa-user"></i>
-    <span>Profile</span>
-  </a>
+  <a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
+  <a href="explore.html"><i class="fa-solid fa-magnifying-glass"></i><span>Explore</span></a>
+  <a href="library.html"><i class="fa-solid fa-book"></i><span>Library</span></a>
+  <a href="upload1.html"><i class="fa-solid fa-upload"></i><span>Upload</span></a>
+  <a class="active" href="profile.html"><i class="fa-solid fa-user"></i><span>Profile</span></a>
 </nav>
 
 <script>
@@ -928,13 +873,16 @@ const fields = [
 const $ = id => document.getElementById(id);
 
 function setStatus(text){
-  $("pageStatus").innerText = text || "";
+  const el = $("pageStatus");
+  if(el) el.innerText = text || "";
 }
 
 function showNotice(text,type){
-  $("notice").innerText = text || "";
-  $("notice").className = type === "ok" ? "notice ok" : "notice";
-  $("notice").style.display = text ? "block" : "none";
+  const el = $("notice");
+  if(!el) return;
+  el.innerText = text || "";
+  el.className = type === "ok" ? "notice ok" : "notice";
+  el.style.display = text ? "block" : "none";
 }
 
 function setBusy(flag){
@@ -943,7 +891,7 @@ function setBusy(flag){
 }
 
 function value(id){
-  return ($(id).value || "").trim();
+  return ($(id) && $(id).value || "").trim();
 }
 
 function formatMoney(v){
@@ -955,20 +903,9 @@ function formatNumber(v){
 }
 
 function getLoggedUser(){
-  let userText =
-    localStorage.getItem("user") ||
-    localStorage.getItem("currentUser") ||
-    localStorage.getItem("creatorhub_user");
-
+  let userText = localStorage.getItem("user") || localStorage.getItem("currentUser") || localStorage.getItem("creatorhub_user");
   let user = {};
-
-  if(userText){
-    try{
-      user = JSON.parse(userText) || {};
-    }catch(e){
-      user = {};
-    }
-  }
+  if(userText){ try{ user = JSON.parse(userText) || {}; }catch(e){ user = {}; } }
 
   return {
     email:user.email || user.user?.email || localStorage.getItem("user_email") || localStorage.getItem(EMAIL_KEY) || "",
@@ -980,16 +917,13 @@ function getLoggedUser(){
 
 function syncLoginStorage(user){
   if(!user || !user.email) return;
-
   const old = getLoggedUser();
-
   const userData = {
     email:user.email,
     name:user.name || old.name || "CreatorHub User",
     token:old.token || "",
     profile_image:user.profile_image || old.profile_image || ""
   };
-
   localStorage.setItem("isLoggedIn","true");
   localStorage.setItem("login","true");
   localStorage.setItem("loggedIn","true");
@@ -1006,24 +940,18 @@ function syncLoginStorage(user){
 
 function getDriveId(url){
   if(!url) return "";
-
   const text = String(url);
   const match = text.match(/[?&]id=([^&]+)/);
-
   if(match && match[1]) return match[1];
   if(text.includes("/d/")) return text.split("/d/")[1].split("/")[0];
-
   return "";
 }
 
 function driveImage(url){
   if(!url) return "";
   if(url.includes("ui-avatars.com") || url.startsWith("data:image")) return url;
-
   const id = getDriveId(url);
-
   if(id) return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1200";
-
   return url;
 }
 
@@ -1048,9 +976,7 @@ function readCache(email){
   try{
     const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
     return cache[email] || null;
-  }catch(e){
-    return null;
-  }
+  }catch(e){ return null; }
 }
 
 function saveCache(email,user){
@@ -1062,29 +988,15 @@ function saveCache(email,user){
 }
 
 async function postJSON(url,payload){
-  const res = await fetch(url,{
-    method:"POST",
-    body:JSON.stringify(payload)
-  });
-
+  const res = await fetch(url,{ method:"POST", body:JSON.stringify(payload) });
   const text = await res.text();
-
-  try{
-    return JSON.parse(text);
-  }catch(e){
-    return {success:false,message:"API returned non JSON"};
-  }
+  try{ return JSON.parse(text); }catch(e){ return {success:false,message:"API returned non JSON"}; }
 }
 
 async function getJSON(url){
   const res = await fetch(url);
   const text = await res.text();
-
-  try{
-    return JSON.parse(text);
-  }catch(e){
-    return {success:false,message:"API returned non JSON"};
-  }
+  try{ return JSON.parse(text); }catch(e){ return {success:false,message:"API returned non JSON"}; }
 }
 
 function updatePreview(){
@@ -1093,7 +1005,6 @@ function updatePreview(){
 
   $("levelChip").innerText = $("creatorLevel").value || "Beginner";
   $("creatorLevelText").value = $("creatorLevel").value || "Beginner";
-
   $("statusChip").innerText = "active";
 
   const isVerified = $("verified").value === "true";
@@ -1114,16 +1025,10 @@ function updatePreview(){
 
 function fillProfile(user){
   if(!user) return;
-
-  fields.forEach(key=>{
-    if($(key)){
-      $(key).value = user[key] ?? "";
-    }
-  });
+  fields.forEach(key=>{ if($(key)){ $(key).value = user[key] ?? ""; } });
 
   $("creatorLevel").value = user.creator_level || "Beginner";
   $("verified").value = String(user.verified === true || user.verified === "true");
-
   $("walletBalance").value = user.wallet_balance || 0;
   $("totalProfit").value = user.total_profit || 0;
   $("totalBooks").value = user.total_books || 0;
@@ -1135,31 +1040,17 @@ function fillProfile(user){
   if(!state.profileImageUrl) setAvatar(state.savedProfileUrl);
   if(!state.coverImageUrl) setCover(state.savedCoverUrl);
 
-  document.getElementById("topProfileImage").src =
-  driveImage(user.profile_image || DEFAULT_AVATAR);
-
-document.getElementById("menuProfileImage").src =
-  driveImage(user.profile_image || DEFAULT_AVATAR);
-
-document.getElementById("menuName").innerText =
-  user.name || "CreatorHub User";
-
-document.getElementById("menuEmail").innerText =
-  user.email || "";
+  document.getElementById("topProfileImage").src = driveImage(user.profile_image || DEFAULT_AVATAR);
+  document.getElementById("menuProfileImage").src = driveImage(user.profile_image || DEFAULT_AVATAR);
+  document.getElementById("menuName").innerText = user.name || "CreatorHub User";
+  document.getElementById("menuEmail").innerText = user.email || "";
 
   updatePreview();
 }
 
 function collectPayload(){
-  const payload = {
-    action:"update_profile"
-  };
-
-  fields.forEach(key=>{
-    if($(key)){
-      payload[key] = value(key);
-    }
-  });
+  const payload = { action:"update_profile" };
+  fields.forEach(key=>{ if($(key)){ payload[key] = value(key); } });
 
   payload.status = "active";
   payload.account_role = "CreatorHub Member";
@@ -1171,42 +1062,29 @@ function collectPayload(){
   payload.total_orders = $("totalOrders").value || 0;
   payload.profile_image = state.profileImageUrl || state.savedProfileUrl || "";
   payload.cover_image = state.coverImageUrl || state.savedCoverUrl || "";
-
   return payload;
 }
 
 async function loadProfile(){
   const email = value("email").toLowerCase();
-
-  if(!email){
-    showNotice("Enter email first.");
-    return;
-  }
-
+  if(!email){ showNotice("Enter email first."); return; }
   showNotice("");
   setBusy(true);
   setStatus("Loading profile...");
 
   const cached = readCache(email);
-
   if(cached) fillProfile(cached);
 
   try{
     const data = await getJSON(PROFILE_API + "?action=profile&email=" + encodeURIComponent(email));
-
-    if(!data.success){
-      throw new Error(data.message || "Profile not found");
-    }
+    if(!data.success){ throw new Error(data.message || "Profile not found"); }
 
     localStorage.setItem(EMAIL_KEY,email);
     saveCache(email,data.user);
-
     state.profileImageUrl = "";
     state.coverImageUrl = "";
-
     fillProfile(data.user);
     syncLoginStorage(data.user);
-
     showNotice("Profile loaded successfully.","ok");
     setStatus("Profile loaded.");
   }catch(err){
@@ -1217,19 +1095,13 @@ async function loadProfile(){
       showNotice("Profile not found. Fill details and save a new profile.");
       setStatus("Ready to create profile.");
     }
-  }finally{
-    setBusy(false);
-  }
+  }finally{ setBusy(false); }
 }
 
 async function saveProfile(){
   const payload = collectPayload();
   payload.email = String(payload.email || "").trim().toLowerCase();
-
-  if(!payload.email){
-    showNotice("Email required.");
-    return;
-  }
+  if(!payload.email){ showNotice("Email required."); return; }
 
   showNotice("");
   setBusy(true);
@@ -1237,119 +1109,67 @@ async function saveProfile(){
 
   try{
     const data = await postJSON(PROFILE_API,payload);
-
-    if(!data.success){
-      throw new Error(data.message || "Save failed");
-    }
-
+    if(!data.success){ throw new Error(data.message || "Save failed"); }
     const user = data.user || payload;
 
     localStorage.setItem(EMAIL_KEY,payload.email);
-
     state.profileImageUrl = "";
     state.coverImageUrl = "";
-
     saveCache(payload.email,user);
     fillProfile(user);
     syncLoginStorage(user);
 
     if(user.profile_image){
-      postJSON(AUTH_API,{
-        action:"updateProfileImage",
-        email:payload.email,
-        profile_image:user.profile_image
-      }).catch(()=>{});
+      postJSON(AUTH_API,{ action:"updateProfileImage", email:payload.email, profile_image:user.profile_image }).catch(()=>{});
     }
-
     setStatus("Profile saved.");
     showNotice("Profile saved successfully.","ok");
   }catch(err){
     console.error(err);
-
     saveCache(payload.email,payload);
     syncLoginStorage(payload);
-
     showNotice("Cloud save failed. Profile saved locally for preview.");
     setStatus("Local profile saved.");
-  }finally{
-    setBusy(false);
-  }
+  }finally{ setBusy(false); }
 }
 
 async function handleImage(input,type){
   const file = input.files && input.files[0];
-
   if(!file) return;
-
-  if(!file.type.startsWith("image/")){
-    showNotice("Select valid image.");
-    return;
-  }
-
-  if(file.size > 2.5 * 1024 * 1024){
-    showNotice("Max image size 2.5MB.");
-    return;
-  }
+  if(!file.type.startsWith("image/")){ showNotice("Select valid image."); return; }
+  if(file.size > 2.5 * 1024 * 1024){ showNotice("Max image size 2.5MB."); return; }
 
   const base64 = await readFileAsBase64(file);
-
-  if(type === "profile"){
-    state.profileImageUrl = base64;
-    setAvatar(base64);
-  }else{
-    state.coverImageUrl = base64;
-    setCover(base64);
-  }
+  if(type === "profile"){ state.profileImageUrl = base64; setAvatar(base64); }
+  else { state.coverImageUrl = base64; setCover(base64); }
 
   const email = value("email").toLowerCase();
-
   if(email){
     const cached = readCache(email) || {email};
-
-    if(type === "profile"){
-      cached.profile_image = base64;
-    }else{
-      cached.cover_image = base64;
-    }
-
+    if(type === "profile"){ cached.profile_image = base64; }
+    else { cached.cover_image = base64; }
     saveCache(email,cached);
   }
-
   updatePreview();
 }
 
 async function injectFooter(){
   try{
     const res = await fetch("footer.html");
-
-    if(res.ok){
-      $("footerContainer").innerHTML = await res.text();
-    }
+    if(res.ok){ $("footerContainer").innerHTML = await res.text(); }
   }catch(e){}
 }
 
 function toggleProfileMenu(){
-  document
-    .getElementById("profileMenu")
-    .classList.toggle("show");
+  document.getElementById("profileMenu").classList.toggle("show");
 }
 
 window.addEventListener("click",function(e){
-
-  const wrap =
-    document.getElementById("profileWrap");
-
+  const wrap = document.getElementById("profileWrap");
   if(wrap && !wrap.contains(e.target)){
-    document
-      .getElementById("profileMenu")
-      .classList.remove("show");
+    document.getElementById("profileMenu").classList.remove("show");
   }
 });
-
-function logout(){
-  localStorage.clear();
-  location.href="login.html";
-}
 
 function init(){
   setAvatar(DEFAULT_AVATAR);
@@ -1358,46 +1178,21 @@ function init(){
   const loggedUser = getLoggedUser();
   const savedEmail = loggedUser.email || localStorage.getItem(EMAIL_KEY) || "";
 
-  if(savedEmail){
-    $("email").value = savedEmail.toLowerCase();
-  }
-
-  if(loggedUser.name){
-    $("name").value = loggedUser.name;
-  }
-
-  if(loggedUser.profile_image){
-    state.savedProfileUrl = loggedUser.profile_image;
-    setAvatar(loggedUser.profile_image);
-  }
+  if(savedEmail){ $("email").value = savedEmail.toLowerCase(); }
+  if(loggedUser.name){ $("name").value = loggedUser.name; }
+  if(loggedUser.profile_image){ state.savedProfileUrl = loggedUser.profile_image; setAvatar(loggedUser.profile_image); }
 
   const cached = savedEmail ? readCache(savedEmail.toLowerCase()) : null;
-
-  if(cached){
-    fillProfile(cached);
-  }
+  if(cached){ fillProfile(cached); }
 
   updatePreview();
-
-  if(savedEmail){
-    loadProfile();
-  }
+  if(savedEmail){ loadProfile(); }
 
   $("loadBtn").addEventListener("click",loadProfile);
   $("saveBtn").addEventListener("click",saveProfile);
-
-  $("profileForm").addEventListener("submit",function(e){
-    e.preventDefault();
-    saveProfile();
-  });
-
-  $("profileImage").addEventListener("change",function(e){
-    handleImage(e.target,"profile");
-  });
-
-  $("coverImage").addEventListener("change",function(e){
-    handleImage(e.target,"cover");
-  });
+  $("profileForm").addEventListener("submit",function(e){ e.preventDefault(); saveProfile(); });
+  $("profileImage").addEventListener("change",function(e){ handleImage(e.target,"profile"); });
+  $("coverImage").addEventListener("change",function(e){ handleImage(e.target,"cover"); });
 
   document.querySelectorAll("input,textarea").forEach(control=>{
     control.addEventListener("input",updatePreview);
