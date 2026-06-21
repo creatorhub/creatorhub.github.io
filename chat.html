@@ -86,16 +86,31 @@
         .splash-blank-state { display: flex; flex-direction: column; justify-content: center; align-items: center; flex: 1; color: #64748b; background: #f8fafc; gap: 8px; font-weight: 500; }
 
         /* ====================================================== */
-        /* MOBILE RESPONSIVE MEDIA QUERIES                        */
+        /* MOBILE RESPONSIVE MEDIA QUERIES (FULL FIX)             */
         /* ====================================================== */
         @media screen and (max-width: 768px) {
-            body { height: 100vh; height: -webkit-fill-available; }
-            .app-container { height: 100%; width: 100vw; }
+            body { 
+                position: fixed; 
+                top: 0; 
+                left: 0; 
+                width: 100vw; 
+                height: 100% !important; 
+            }
+            .app-container { 
+                height: 100% !important; 
+                width: 100vw; 
+                position: relative;
+            }
             
             .sidebar-panel {
                 width: 100%;
                 min-width: 100%;
                 display: flex;
+                height: 100%;
+                background: #0f172a; /* पीछे का हाफ ब्लैंक स्पेस छुपाने के लिए */
+            }
+            .users-list-box {
+                background: #f8fafc;
             }
             .chat-view-panel {
                 width: 100%;
@@ -103,7 +118,7 @@
                 height: 100%;
             }
             
-            /* मोबाइल एक्टिव कन्वर्सेशन स्टेट */
+            /* मोबाइल एक्टिव स्टेट - फुल स्क्रीन यूटिलाइजेशन */
             .app-container.mobile-chat-active .sidebar-panel {
                 display: none;
             }
@@ -111,6 +126,9 @@
                 display: flex;
                 width: 100%;
                 height: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
             }
             
             #activeChatStateLayout {
@@ -136,9 +154,9 @@
                 max-width: 80%;
             }
             
-            /* मोबाइल पर इनपुट बॉक्स को हमेशा स्क्रीन के ऊपर दिखाने का फिक्स */
+            /* इनपुट डैशबोर्ड को बॉटम बार पर परफेक्ट सेट करने का फिक्स */
             .chat-input-dashboard {
-                padding: 10px 12px;
+                padding: 12px 12px;
                 gap: 8px;
                 background: #ffffff;
                 flex-shrink: 0;
@@ -149,12 +167,12 @@
                 font-size: 0.95rem;
             }
             .btn-media-trigger {
-                width: 38px;
-                height: 38px;
+                width: 40px;
+                height: 40px;
                 font-size: 1.1rem;
             }
             .btn-dispatch {
-                padding: 10px 16px;
+                padding: 10px 18px;
                 font-size: 0.9rem;
             }
         }
