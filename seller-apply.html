@@ -87,42 +87,8 @@ a{text-decoration:none;color:inherit}
 .info-text p{color:#63728a;font-size:14px;line-height:1.6;font-weight:500}
 .footer{margin-top:90px;text-align:center;line-height:1.6;color:#63728a;font-size:14px;font-weight:500;border-top:1px solid #dce4f0;padding-top:26px}
 
-/* Mobile Bottom Navigation (Only visible on screens <= 768px) */
-.mobile-bottom-nav {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 64px;
-  background: #ffffff;
-  border-top: 1px solid #dce4f0;
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
-  z-index: 1000;
-  justify-content: space-around;
-  align-items: center;
-}
-.mobile-bottom-nav a, .mobile-bottom-nav div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  color: #63728a;
-  font-weight: 700;
-  gap: 4px;
-  cursor: pointer;
-  flex: 1;
-}
-.mobile-bottom-nav .active-tab {
-  color: #2f62e9;
-}
-.mobile-bottom-nav i {
-  font-size: 18px;
-}
-
 /* ==========================================================================
-   FIXED MOBILE & TABLET LAYOUT ENGINE BLOCK (UPDATED FOR MENU REDIRECT)
+   FIXED MOBILE & TABLET LAYOUT ENGINE BLOCK
    ========================================================================== */
 
 @media (max-width: 1050px) {
@@ -133,12 +99,7 @@ a{text-decoration:none;color:inherit}
 }
 
 @media (max-width: 768px) {
-  /* Show mobile bottom navbar */
-  .mobile-bottom-nav {
-    display: flex;
-  }
-
-  /* Topbar Mobile Alignment: Clean Header styling with Logo + Menu Icon Trigger */
+  /* Topbar Mobile Setup */
   .topbar {
     padding: 12px 16px !important;
     min-height: 64px !important;
@@ -153,45 +114,45 @@ a{text-decoration:none;color:inherit}
     align-items: center !important;
   }
 
-  /* Desktop primary navigation hidden on mobile, wrapped into the bottom menu drawer */
+  /* Desktop primary nav bar elements hidden on mobile screen view states */
   .topbar .nav {
     display: none !important;
   }
 
-  /* Reset profile wrap floating positions on mobile */
+  /* Right Side Profile Wrap Integration Engine */
   .profile-wrap {
     display: inline-flex !important;
+    order: 2 !important; /* Pushes profile image wrapper to the absolute right side */
   }
-  .profile-image {
-    width: 36px !important;
-    height: 36px !important;
-  }
-
-  /* Drawer Dropdown alignment update for mobile screen dimensions */
-  .profile-menu {
-    position: fixed !important;
-    top: 64px !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
-    height: calc(100vh - 128px) !important;
-    border-radius: 0 !important;
-    border: none !important;
-    overflow-y: auto;
-    padding: 24px 16px !important;
-  }
-
+  
   .brand-name {
     font-size: 22px !important;
     margin: 0 !important;
+    order: 1 !important; /* Forces logo branding text mark cleanly to the left */
   }
 
-  .main { padding: 16px 12px 100px !important; } /* Space added at bottom so bottom-nav won't block submit buttons */
+  .profile-image {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  /* Menu dropdown position fix (Aligned to open from Right Side safely) */
+  .profile-menu {
+    position: absolute !important;
+    top: 50px !important;
+    left: auto !important;
+    right: 0 !important; /* Fixes left-side shifting, snaps accurately to right edge */
+    width: 260px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 15px 35px rgba(16,24,40,0.3) !important;
+  }
+
+  .main { padding: 16px 12px 60px !important; }
   .hero { padding: 24px 16px; margin-bottom: 24px; border-radius: 8px; }
   .hero-title { font-size: 24px !important; line-height: 1.3; }
   .hero-desc { font-size: 14px; margin-top: 10px; }
 
-  /* Stepper Grid Update */
+  /* Stepper Horizontal Node Engine */
   .stepper-container {
     gap: 8px !important;
     margin-top: 24px !important;
@@ -263,28 +224,13 @@ a{text-decoration:none;color:inherit}
           <div id="menuEmail">user@email.com</div>
         </div>
       </div>
-      <a href="profile.html"><i class="fa-solid fa-user-gear" style="margin-right:8px;"></i> My Profile</a>
-      <a href="seller-apply.html"><i class="fa-solid fa-store" style="margin-right:8px; color:#2f62e9;"></i> Become Seller</a>
-      <a href="tranding.html"><i class="fa-solid fa-fire" style="margin-right:8px;"></i> Trending Books</a>
-      <a href="library1.html"><i class="fa-solid fa-book-bookmark" style="margin-right:8px;"></i> Library</a>
-      <a href="topselling.html"><i class="fa-solid fa-chart-line" style="margin-right:8px;"></i> Top Selling</a>
-      
-      <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.08); margin: 10px 0; class='mobile-only-hr'">
-      <a href="cart.html" style="font-weight: 500;"><i class="fa-solid fa-cart-shopping" style="margin-right:8px;"></i> Cart</a>
-      <a href="dashboard.html" style="font-weight: 500;"><i class="fa-solid fa-gauge" style="margin-right:8px;"></i> Dashboard</a>
-      <a href="subscription.html" style="font-weight: 500;"><i class="fa-solid fa-bell" style="margin-right:8px;"></i> Subscription</a>
-      <a href="wallet.html" style="font-weight: 500;"><i class="fa-solid fa-wallet" style="margin-right:8px;"></i> Wallet</a>
-      <a href="my-orders.html" style="font-weight: 500;"><i class="fa-solid fa-box" style="margin-right:8px;"></i> Order</a>
+      <a href="cart.html"><i class="fa-solid fa-cart-shopping" style="margin-right:10px; width:16px;"></i> Cart</a>
+      <a href="dashboard.html"><i class="fa-solid fa-gauge" style="margin-right:10px; width:16px;"></i> Dashboard</a>
+      <a href="subscription.html"><i class="fa-solid fa-bell" style="margin-right:10px; width:16px;"></i> Subscription</a>
+      <a href="wallet.html"><i class="fa-solid fa-wallet" style="margin-right:10px; width:16px;"></i> Wallet</a>
+      <a href="my-orders.html"><i class="fa-solid fa-box" style="margin-right:10px; width:16px;"></i> Order</a>
     </div>
   </div>
-</div>
-
-<div class="mobile-bottom-nav">
-  <a href="dashboard.html"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
-  <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i><span>Cart</span></a>
-  <a href="seller-apply.html" class="active-tab"><i class="fa-solid fa-store"></i><span>Sell</span></a>
-  <a href="wallet.html"><i class="fa-solid fa-wallet"></i><span>Wallet</span></a>
-  <div onclick="toggleProfileMenu()"><i class="fa-solid fa-bars"></i><span>Menu</span></div>
 </div>
 
 <div class="main">
@@ -358,8 +304,7 @@ function toggleProfileMenu(){
 
 window.addEventListener("click",function(e){
   let wrap=document.getElementById("profileWrap");
-  let mobileMenuBtn = document.querySelector(".mobile-bottom-nav div");
-  if(wrap && !wrap.contains(e.target) && mobileMenuBtn && !mobileMenuBtn.contains(e.target)){
+  if(wrap && !wrap.contains(e.target)){
     document.getElementById("profileMenu").classList.remove("show");
   }
 });
