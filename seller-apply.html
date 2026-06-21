@@ -5,9 +5,7 @@
 <title>Become a Seller | CreatorHub</title>
 
 <meta name="description" content="Apply as a seller on CreatorHub and start selling books, digital products and physical products to customers worldwide.">
-
 <meta name="keywords" content="become a seller, creatorhub seller, sell products online, digital products, books, marketplace seller">
-
 <meta name="robots" content="index,follow">
 
 <link rel="canonical" href="https://creatorhub.github.io/seller-apply.html">
@@ -88,195 +86,125 @@ a{text-decoration:none;color:inherit}
 .info-text h3{font-size:17px;font-weight:900;color:#06142c;margin-bottom:6px}
 .info-text p{color:#63728a;font-size:14px;line-height:1.6;font-weight:500}
 .footer{margin-top:90px;text-align:center;line-height:1.6;color:#63728a;font-size:14px;font-weight:500;border-top:1px solid #dce4f0;padding-top:26px}
+
 /* ==========================================================================
-   UPDATED ENTERPRISE MOBILE & TABLET LAYOUT ENGINE BLOCK
+   FIXED MOBILE & TABLET LAYOUT ENGINE BLOCK (UPDATED)
    ========================================================================== */
 
-/* Tablet Optimization Layer */
 @media (max-width: 1050px) {
-  .main {
-    padding: 24px 20px 80px;
-  }
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-  .hero {
-    padding: 40px 30px;
-  }
-  .hero-title {
-    font-size: 38px;
-  }
+  .main { padding: 24px 20px 80px; }
+  .grid { grid-template-columns: 1fr; gap: 32px; }
+  .hero { padding: 40px 30px; }
+  .hero-title { font-size: 38px; }
 }
 
-/* Mobile Adaptive Framework Engine */
 @media (max-width: 768px) {
-  /* 🚀 FIXED: Forces horizontal alignment row with avatar first, then text logo next to it */
+  /* Topbar Linear Clean Row Fix */
   .topbar {
-    padding: 12px 16px;
-    min-height: auto;
+    padding: 12px 16px !important;
+    min-height: 70px !important;
     display: flex !important;
-    flex-direction: row !important; /* Locks linear horizontal orientation row */
-    justify-content: flex-start !important; /* Slams all elements tightly together on the left */
+    flex-direction: row !important;
+    justify-content: space-between !important;
     align-items: center !important;
-    gap: 12px !important; /* Controlled layout gap between avatar icon and text brand mark */
-    text-align: left;
-    flex-wrap: wrap;
+    gap: 12px !important;
   }
   
-  /* Forces the profile wrap container to be the first element on the absolute left */
+  .topbar-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+
   .profile-wrap {
     display: inline-flex !important;
-    width: auto !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    order: 1 !important; /* Step 1: Avatar displays first */
   }
 
-  /* Places the CreatorHub branding text right after your avatar */
+  .profile-image {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
   .brand-name {
-    display: inline-flex !important;
-    align-items: center !important;
-    font-size: 22px !important;
+    font-size: 20px !important;
     margin: 0 !important;
-    order: 2 !important; /* Step 2: Text logo clips directly next to it */
+    position: static !important;
   }
 
-  /* Pushes the navigation links tracking line cleanly beneath the header row */
+  /* Scrollable & Clean Navigation Links for Mobile Screens */
   .nav {
-    width: 100% !important;
-    justify-content: flex-start !important; /* Aligns page links to the left side */
-    gap: 10px 16px;
-    padding-top: 8px;
-    border-top: 1px solid #f1f5f9;
-    margin-top: 4px;
-    order: 3 !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    padding: 8px 0 !important;
+    gap: 16px !important;
+    width: auto !important;
+    border-top: none !important;
+    margin-top: 0 !important;
+    max-width: 50%;
+    scrollbar-width: none; /* Hidden scrollbar for Firefox */
+  }
+  .nav::-webkit-scrollbar {
+    display: none; /* Hidden scrollbar for Chrome/Safari */
   }
 
   .nav a {
-    font-size: 13px;
-    font-weight: 700;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
   }
 
-  .main {
-    padding: 16px 12px 60px;
-  }
+  .main { padding: 16px 12px 60px; }
+  .hero { padding: 24px 16px; margin-bottom: 24px; border-radius: 8px; }
+  .hero-title { font-size: 24px !important; line-height: 1.3; }
+  .hero-desc { font-size: 14px; margin-top: 10px; }
 
-  .hero {
-    padding: 28px 16px;
-    margin-bottom: 24px;
-    border-radius: 8px;
-  }
-
-  .hero-title {
-    font-size: 26px;
-    line-height: 1.2;
-  }
-
-  .hero-desc {
-    font-size: 14px;
-    margin-top: 10px;
-  }
-
+  /* Stepper Fixed Alignment */
   .stepper-container {
-    gap: 12px;
-    margin-top: 24px;
-    width: 100%;
-    justify-content: space-between;
+    gap: 8px !important;
+    margin-top: 24px !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: space-between !important;
   }
+  .step-node { flex: 1; }
+  .step-circle { width: 32px !important; height: 32px !important; font-size: 12px !important; }
+  .step-label { font-size: 9px !important; letter-spacing: 0.02em; text-align: center; margin-top: 4px; }
 
-  .step-circle {
-    width: 32px;
-    height: 32px;
-    font-size: 12px;
-  }
+  .card { padding: 20px 16px !important; border-radius: 8px; }
+  .card-title { font-size: 18px !important; margin-bottom: 18px; padding-bottom: 10px; }
 
-  .step-label {
-    font-size: 9px;
-    letter-spacing: 0.02em;
-  }
-
-  .card {
-    padding: 24px 16px;
-    border-radius: 8px;
-  }
-
-  .card-title {
-    font-size: 18px;
-    margin-bottom: 18px;
-    padding-bottom: 10px;
-  }
-
-  .form-grid-2 {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-
-  .input-field {
-    margin-bottom: 16px;
-  }
-
-  .input-field input, 
-  .input-field select, 
-  .input-field textarea {
-    min-height: 46px;
-    font-size: 14px;
-    padding: 10px 12px;
+  /* Stack inputs on Mobile */
+  .form-grid-2 { grid-template-columns: 1fr !important; gap: 0; }
+  .input-field { margin-bottom: 16px; }
+  .input-field input, .input-field select, .input-field textarea {
+    min-height: 46px !important;
+    font-size: 14px !important;
+    padding: 10px 12px !important;
     border-radius: 6px;
   }
 
-  .compliance-row {
-    margin-top: 14px;
-    gap: 10px;
+  .compliance-row { margin-top: 14px; gap: 10px; }
+  .nav-buttons { flex-direction: column-reverse !important; gap: 10px; margin-top: 20px; padding-top: 16px; }
+  .btn-nav { width: 100% !important; min-height: 46px !important; justify-content: center !important; }
+
+  /* Reverse grid order so form stays on top over the info bar */
+  .grid {
+    display: flex !important;
+    flex-direction: column-reverse !important;
   }
 
-  .nav-buttons {
-    flex-direction: column-reverse;
-    gap: 10px;
-    margin-top: 20px;
-    padding-top: 16px;
-  }
-
-  .btn-nav {
-    width: 100%;
-    min-height: 46px;
-    justify-content: center;
-  }
-
-  .info-item {
-    padding: 16px;
-    border-radius: 8px;
-    gap: 12px;
-  }
-
-  .info-icon {
-    width: 38px;
-    height: 38px;
-    font-size: 15px;
-  }
-
-  .info-text h3 {
-    font-size: 15px;
-  }
-
-  .info-text p {
-    font-size: 13px;
-  }
+  .info-item { padding: 16px; border-radius: 8px; gap: 12px; }
+  .info-icon { width: 38px; height: 38px; font-size: 15px; }
+  .info-text h3 { font-size: 15px; }
+  .info-text p { font-size: 13px; }
 }
 
 @media (max-width: 380px) {
-  .hero-title {
-    font-size: 22px;
-  }
-  .step-label {
-    display: none;
-  }
-  .stepper-container {
-    justify-content: center;
-    gap: 16px;
-  }
+  .hero-title { font-size: 20px !important; }
+  .step-label { display: none !important; }
+  .stepper-container { justify-content: center !important; gap: 16px !important; }
 }
-   
 </style>
 </head>
 
@@ -298,12 +226,10 @@ a{text-decoration:none;color:inherit}
         <a href="tranding.html">Trending Books</a>
         <a href="library1.html">Library</a>
         <a href="topselling.html">Top Selling</a>
-        
       </div>
     </div>
+    <a class="brand-name" href="index.html">Creator<span>Hub</span></a>
   </div>
-
-  <a class="brand-name" href="index.html">Creator<span>Hub</span></a>
 
   <div class="nav">
     <a href="cart.html">Cart</a>
@@ -546,22 +472,22 @@ async function applySeller(){
 
     const result=await response.json();
     if(result.blocked && result.status==="approved"){
-  loader.style.display="none";
-  const btn=document.getElementById("submitSellerBtn");
-  btn.disabled=true;
-  btn.innerHTML="Already Approved";
-  setStatusMessage("success","Seller account already approved. You cannot apply again.");
-  return;
-}
+      loader.style.display="none";
+      const btn=document.getElementById("submitSellerBtn");
+      btn.disabled=true;
+      btn.innerHTML="Already Approved";
+      setStatusMessage("success","Seller account already approved. You cannot apply again.");
+      return;
+    }
 
-if(result.blocked && result.status==="pending"){
-  loader.style.display="none";
-  const btn=document.getElementById("submitSellerBtn");
-  btn.disabled=true;
-  btn.innerHTML="Already Submitted";
-  setStatusMessage("pending","Your seller application is already pending review.");
-  return;
-}
+    if(result.blocked && result.status==="pending"){
+      loader.style.display="none";
+      const btn=document.getElementById("submitSellerBtn");
+      btn.disabled=true;
+      btn.innerHTML="Already Submitted";
+      setStatusMessage("pending","Your seller application is already pending review.");
+      return;
+    }
     loader.style.display="none";
 
     if(!result.success){
@@ -583,7 +509,7 @@ if(result.blocked && result.status==="pending"){
   }
 }
 
-  async function checkSellerStatus(){
+async function checkSellerStatus(){
   const logged=getLoggedUser();
   const email=logged.email;
   if(!email)return;
