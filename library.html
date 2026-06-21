@@ -38,7 +38,7 @@ a{text-decoration:none;color:inherit}
 .back-btn{cursor:pointer;font-size:15px;font-weight:900;color:#5d6d85;display:inline-flex;align-items:center;gap:8px}
 .back-btn:hover{color:#2f62e9}
 .dashboard{
-  min-height:50px;border-radius:9px;padding:0 22px;background:#2f62e9;color:#fff;font-size:15px;font-weight:900;
+  min-height:50px;border-radius:999px;padding:0 22px;background:#2f62e9;color:#fff;font-size:15px;font-weight:900;
   display:inline-flex;align-items:center;justify-content:center
 }
 .dashboard:hover{background:#2455cf}
@@ -48,53 +48,28 @@ a{text-decoration:none;color:inherit}
   width:52px;height:52px;border-radius:50%;object-fit:cover;background:#d9e1ec;border:3px solid #fff;
   box-shadow:0 8px 20px rgba(16,24,40,.12);cursor:pointer
 }
-/* Purane black background ko badal kar pure white kiya gaya hai */
-.profile-menu {
-  position: absolute;
-  top: 68px;
-  left: 0;
-  width: 280px;
-  background: #ffffff; /* Isko white kiya */
-  border: 1px solid #dce4f0; /* Dark border ki jagah light border kiya */
-  border-radius: 14px;
-  padding: 20px;
-  display: none;
-  box-shadow: 0 20px 45px rgba(16,24,40,.1); /* Shadow ko halka kiya taaki clean dikhe */
-  z-index: 1000;
-}
 
-/* Menu ke andar ke text aur hover background ko adjust kiya */
-.profile-menu a {
-  display: flex;
-  align-items: center;
-  height: 44px;
-  padding: 0 14px;
-  border-radius: 8px;
-  color: #344054; /* White text ki jagah dark gray text kiya taaki read ho sake */
-  font-size: 14px;
-  font-weight: 700;
+/* White Profile Menu UI with Light Borders */
+.profile-menu{
+  position:absolute;top:68px;left:0;width:280px;background:#ffffff;border:1px solid #dce4f0;border-radius:14px;
+  padding:20px;display:none;box-shadow:0 20px 45px rgba(16,24,40,.1);z-index:1000
 }
-
-/* Hover karne par halka blue/gray background aayega */
-.profile-menu a:hover {
-  background: #f2f4f7; 
-  color: #2f62e9; /* Hover karne par text blue ho jayega */
-}
-
-/* Profile header ke andar ke text ko dark karne ke liye */
-#menuName {
-  color: #101828 !important; /* White se dark text kiya */
-}
-#menuEmail {
-  color: #667085 !important; /* Halka gray text email ke liye */
-}
-.profile-header {
-  border-bottom: 1px solid #f2f4f7 !important; /* Divider line ko light gray kiya */
-}
-.profile-header{display:flex;align-items:center;gap:12px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:14px}
+.profile-menu.show{display:block}
+.profile-header{display:flex;align-items:center;gap:12px;padding-bottom:16px;border-bottom:1px solid #f2f4f7;margin-bottom:14px}
 .menu-profile-image{width:48px;height:48px;border-radius:50%;object-fit:cover}
-#menuName{color:#fff;font-size:16px;font-weight:900}
-#menuEmail{margin-top:3px;font-size:13px;color:#94a3b8;word-break:break-all}
+#menuName{color:#101828;font-size:16px;font-weight:900}
+#menuEmail{margin-top:3px;font-size:13px;color:#667085;word-break:break-all}
+
+/* Menu Links with Icons */
+.profile-menu a{
+  display:flex;align-items:center;gap:12px;height:44px;padding:0 14px;border-radius:8px;color:#344054;font-size:14px;font-weight:700;
+  transition: all 0.2s ease;
+}
+.profile-menu a i{
+  font-size:16px;color:#667085;width:20px;text-align:center;
+}
+.profile-menu a:hover{background:#f2f4f7;color:#2f62e9}
+.profile-menu a:hover i{color:#2f62e9}
 
 .container{max-width:1400px;margin:auto;padding:34px 34px 170px}
 .hero{
@@ -165,7 +140,7 @@ a{text-decoration:none;color:inherit}
   margin-top:20px;cursor:pointer
 }
 
-/* Bottom Nav - Desktop me bhi ab white background ke sath visible rahega */
+/* Bottom Nav - Desktop View Visible Always with White Color */
 .bottom-nav{
   position:fixed;bottom:0;left:0;width:100%;height:78px;background:#ffffff;display:flex;justify-content:space-around;align-items:center;
   padding:0 20px;border-top:1px solid #dce4f0;z-index:999
@@ -267,12 +242,13 @@ a{text-decoration:none;color:inherit}
             <div id="menuEmail">user@email.com</div>
           </div>
         </div>
-        <a href="profile.html">My Profile</a>
-        <a href="seller-apply.html">Become Seller</a>
-        <a href="tranding.html">Trending Books</a>
-        <a href="library.html">Library</a>
-        <a href="topselling.html">Top Selling</a>
-        </div>
+        <!-- Links with proper matching icons -->
+        <a href="profile.html"><i class="fa-solid fa-user-gear"></i> My Profile</a>
+        <a href="seller-apply.html"><i class="fa-solid fa-store"></i> Become Seller</a>
+        <a href="tranding.html"><i class="fa-solid fa-fire"></i> Trending Books</a>
+        <a href="library.html"><i class="fa-solid fa-book-bookmark"></i> Library</a>
+        <a href="topselling.html"><i class="fa-solid fa-chart-line"></i> Top Selling</a>
+      </div>
     </div>
   </div>
 
