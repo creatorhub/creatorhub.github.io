@@ -27,9 +27,9 @@
 body{background:#f6f8fc;color:#101828;min-height:100vh;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
 
-/* Desktop Styles (Aapke original design ko safe rakha hai) */
+/* Desktop Styles */
 .topbar{
-  position:sticky;top:0;z-index:999;min-height:92px;background:#fff;border-bottom:1px solid #dce4f0;
+  position:sticky;top:0;z-index:999;min-height:92px;background:#ffffff;border-bottom:1px solid #dce4f0;
   padding:22px 34px;display:flex;align-items:center;justify-content:space-between;gap:20px
 }
 .topbar-left{display:flex;align-items:center;gap:18px}
@@ -59,7 +59,6 @@ a{text-decoration:none;color:inherit}
 #menuEmail{margin-top:3px;font-size:13px;color:#94a3b8;word-break:break-all}
 .profile-menu a{display:flex;align-items:center;height:44px;padding:0 14px;border-radius:8px;color:#e7edf8;font-size:14px;font-weight:800}
 .profile-menu a:hover{background:#182a64}
-.logout-btn{margin-top:14px;height:46px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#ef4444;color:#fff;font-weight:900;cursor:pointer}
 
 .container{max-width:1400px;margin:auto;padding:34px 34px 170px}
 .hero{
@@ -130,14 +129,15 @@ a{text-decoration:none;color:inherit}
   margin-top:20px;cursor:pointer
 }
 
-/* Desktop Bottom Nav Default Hide */
+/* Bottom Nav - Desktop me bhi ab white background ke sath visible rahega */
 .bottom-nav{
-  position:fixed;bottom:0;left:0;width:100%;height:78px;background:#fff;display:none;justify-content:space-around;align-items:center;
+  position:fixed;bottom:0;left:0;width:100%;height:78px;background:#ffffff;display:flex;justify-content:space-around;align-items:center;
   padding:0 20px;border-top:1px solid #dce4f0;z-index:999
 }
 .nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:900;color:#5d6d85;cursor:pointer;min-width:65px;height:58px;border-radius:8px}
 .nav-item.active{color:#2f62e9;background:#eef3f9}
 .nav-icon{font-size:19px}
+
 .empty{grid-column:1/-1;min-height:40vh;display:flex;align-items:center;justify-content:center;text-align:center;font-size:16px;color:#63728a;font-weight:800}
 .spinner{width:48px;height:48px;border:4px solid #dce4f0;border-top-color:#2f62e9;border-radius:50%;animation:spinLoader .8s linear infinite;margin:0 auto 16px}
 @keyframes spinLoader{to{transform:rotate(360deg)}}
@@ -146,7 +146,7 @@ a{text-decoration:none;color:inherit}
 @media(max-width:1200px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:950px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
-/* Mobile Exclusive Design (Max-width: 700px) */
+/* Mobile View Adjustments (700px se niche) */
 @media(max-width:700px){
   .topbar{
     padding:12px 16px;
@@ -163,8 +163,7 @@ a{text-decoration:none;color:inherit}
     position:fixed; top:60px; left:16px; right:16px; width:auto;
   }
 
-  body { padding-top: 64px; } /* Topbar fix hone ki wajah se body content niche lane ke liye */
-  
+  body { padding-top: 64px; }
   .container{padding:16px 16px 120px}
   
   .hero{
@@ -176,7 +175,7 @@ a{text-decoration:none;color:inherit}
   .hero p { font-size: 13px; margin-top: 4px; }
   .sub-pill{margin-top:12px; width:max-content; min-height: 36px; padding: 0 14px; font-size: 13px;}
   
-  /* Stats Horizontal Scrollable Layout for Mobile Like Image */
+  /* Mobile Horizontal Scrollable Stats */
   .stats{
     display: flex;
     overflow-x: auto;
@@ -198,12 +197,10 @@ a{text-decoration:none;color:inherit}
   .stat-box h2 { font-size: 20px; }
   .stat-box p { font-size: 11px; }
 
-  /* Tabs UI */
   .tabs { margin-top: 20px; gap: 8px; }
   .tabs::-webkit-scrollbar { display: none; }
   .tab { min-height: 38px; padding: 0 14px; font-size: 13px; border-radius: 8px; }
 
-  /* Grid Layout (2 Columns, Pure Mobile Friendly Card) */
   .grid{grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top: 18px;}
   .card{ padding: 10px; border-radius: 8px; }
   .book-title{ font-size: 13px; min-height: 34px; margin-top: 8px; -webkit-line-clamp: 2; }
@@ -213,12 +210,10 @@ a{text-decoration:none;color:inherit}
   .actions { gap: 6px; margin-top: 8px; }
   .edit, .delete { min-height: 32px; font-size: 11px; border-radius: 6px; }
 
-  /* Bottom Nav Visible on Mobile Only */
-  .bottom-nav{ display: flex; height: 68px; padding: 0 10px; }
+  .bottom-nav{ height: 68px; padding: 0 10px; }
   .nav-item { height: 50px; min-width: 55px; font-size: 11px; }
   .nav-icon { font-size: 17px; }
 }
-@media(max-width:500px){}
 </style>
 </head>
 
@@ -241,8 +236,7 @@ a{text-decoration:none;color:inherit}
         <a href="tranding.html">Trending Books</a>
         <a href="library.html">Library</a>
         <a href="topselling.html">Top Selling</a>
-        <div class="logout-btn" onclick="logout()">Logout</div>
-      </div>
+        </div>
     </div>
   </div>
 
@@ -372,11 +366,6 @@ window.addEventListener("click", function(e){
     document.getElementById("profileMenu").classList.remove("show");
   }
 });
-
-function logout(){
-  localStorage.clear();
-  window.location.href = "login.html";
-}
 
 function updateLoginUI(){
   const img = user.image || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.name) + "&background=2f62e9&color=fff";
