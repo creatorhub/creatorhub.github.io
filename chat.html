@@ -270,28 +270,67 @@
     }
 
     // 7. सब-फ़ोल्डर इमेज अपलोडर 
-    function executeImagePush(el) {
-        const file = el.files[0];
-        if (!file || !targetedReceiverEmail) return;
+   // 7. सुपर-फास्ट इमेज अपलोड और सब-फ़ोल्डर सेंडिंग (फिक्स्ड वर्जन)
+function executeImagePush(el) {
+    const file = el.files[0];
+    if (!file || !targetedReceiverEmail) return;
 
-        const reader = new FileReader();
-        reader.onload = async function(e) {
-            const tempId = "temp_" + new Date().getTime();
-            chatMessagesCache.push({ id: tempId, sender: currentUser.email, receiver: targetedReceiverEmail, content: "📷 Sending asset file...", type: "text" });
-            renderBubbles();
-
-            await fetch(CLOUD_GATEWAY_URL, {
-                method: "POST",
-                body: JSON.stringify({
-                    action: "send", sender: currentUser.email, receiver: targetedReceiverEmail,
-                    type: "image", imageRaw: e.target.result, fileName: file.name, mimeType: file.type
-                })
-            });
-            el.value = ""; loadChats();
-        };
-        reader.readAsDataURL(file);
+    // सुरक्षा चेक: अगर फ़ाइल बहुत बड़ी है (2MB से ज़्यादा) तो अलर्ट दिखाएं
+    if (file.size > 2 * 1024 * 1024) {
+        alert("File size too big! Please upload an image under 2MB.");
+        el.value = "";
+        return;
     }
 
+    const reader = new FileReader();
+    reader.onload = async function(e) {
+        const tempId = "temp_" + new Date().getTime();
+        
+        // स्क्रीन पर तुरंत लोकल थंबनेल या अपलोडिंग दिखाना
+        chatMessagesCache.push({ 
+            id: tempId, 
+            sender: currentUser.email, 
+            receiver: targetedReceiverEmail, 
+            content: "📷 Sending image to sub-folder...", 
+            type: "text" 
+        });
+        renderBubbles();
+
+        // बेस64 डेटा को साफ़ और सुरक्षित करना
+        const rawBase64 = e.target.result;
+
+        try {
+            const response = await fetch(CLOUD_GATEWAY_URL, {
+                method: "POST",
+                mode: "no-cors", // CORS इश्यू को रोकने के लिए मोड जोड़ना आवश्यक है
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8"
+                },
+                body: JSON.stringify({
+                    action: "send", 
+                    sender: currentUser.email, 
+                    receiver: targetedReceiverEmail,
+                    type: "image", 
+                    imageRaw: rawBase64, 
+                    fileName: file.name, 
+                    mimeType: file.type
+                })
+            });
+            
+            // इनपुट बॉक्स खाली करें
+            el.value = "";
+            
+            // गूगल ड्राइव को फ़ाइल प्रोसेस करने के लिए 1.5 सेकंड का समय दें, फिर सिंक करें
+            setTimeout(loadChats, 1500);
+            
+        } catch (error) {
+            console.error("Image Upload Error: ", error);
+            alert("Image upload failed. Please try again.");
+        }
+    };
+    reader.readAsDataURL(file);
+}
+    
     // 8. एडिट इंजन
     async function editMessageTransaction(msgId, oldContent) {
         const newText = prompt("Update secure message content:", oldContent);
