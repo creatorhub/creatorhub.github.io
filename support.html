@@ -1102,6 +1102,47 @@ function updateCartCount(count) {
 // TEST RUN: Check karne ke liye abhi maine 3 set kiya hai.
 // Jab aap cart setup kar lenge tab data dynamic array length se replace kar dena.
 updateCartCount(3);
+
+// Universal dynamic counter system function
+function renderHeaderCounters() {
+    // 1. Real Cart Count Calculation from LocalStorage
+    try {
+        const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartElement = document.getElementById('cart-count');
+        
+        if (cartElement) {
+            cartElement.innerText = cartItems.length;
+            if (cartItems.length > 0) {
+                cartElement.classList.remove('hidden');
+            } else {
+                cartElement.classList.add('hidden');
+            }
+        }
+    } catch(e) {
+        console.log("Cart counter loading drop:", e);
+    }
+
+    // 2. Real Notification Count Calculation from LocalStorage
+    try {
+        const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+        // Agar aapke localstorage me arrays nahi sirf text storage hai, to length replace kar sakte hain
+        const bellElement = document.getElementById('bell-count');
+        
+        if (bellElement) {
+            bellElement.innerText = notifications.length;
+            if (notifications.length > 0) {
+                bellElement.classList.remove('hidden');
+            } else {
+                bellElement.classList.add('hidden');
+            }
+        }
+    } catch(e) {
+        console.log("Bell notification storage drop:", e);
+    }
+}
+
+// Page load hote hi counters refresh karne ke liye execute karein
+document.addEventListener("DOMContentLoaded", renderHeaderCounters);
 </script>
 </body>
 </html>
