@@ -27,23 +27,24 @@
         /* Right Chat Panel */
         .chat-view-panel { width: 70%; background: #f1f5f9; display: flex; flex-direction: column; position: relative; }
         
-        /* Header with 3-Dots */
+        /* Header Fix with Flex Alignment */
         .chat-view-header { background: #ffffff; padding: 20px 28px; border-bottom: 1px solid #e2e8f0; font-weight: 700; color: #0f172a; display: flex; justify-content: space-between; align-items: center; position: relative; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
         .chat-header-left { display: flex; align-items: center; gap: 12px; }
-        .mobile-back-btn { display: none; font-size: 1.5rem; cursor: pointer; background: none; border: none; color: #0f172a; font-weight: bold; padding: 4px 8px; }
+        
+        /* Professional SVG Mobile Back Button */
         .mobile-back-btn { 
-    display: none; 
-    background: none; 
-    border: none; 
-    cursor: pointer; 
-    padding: 4px 8px; 
-}
-/* आपके नए आइकन का साइज़ सेट करने के लिए */
-.back-custom-img {
-    width: 24px;   /* अपनी ज़रूरत के हिसाब से चौड़ाई बदलें */
-    height: 24px;  /* अपनी ज़रूरत के हिसाब से ऊँचाई बदलें */
-    object-fit: contain;
-}
+            display: none; 
+            background: none; 
+            border: none; 
+            cursor: pointer; 
+            padding: 6px; 
+            align-items: center; 
+            justify-content: center; 
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+        .mobile-back-btn:hover { background: #f1f5f9; }
+        .mobile-back-btn svg { display: block; }
         
         .three-dots-btn { font-size: 1.4rem; cursor: pointer; padding: 4px 12px; border-radius: 50%; transition: background 0.2s; user-select: none; }
         .three-dots-btn:hover { background: #f1f5f9; }
@@ -88,6 +89,7 @@
         /* MOBILE RESPONSIVE MEDIA QUERIES (768px or less)         */
         /* ====================================================== */
         @media screen and (max-width: 768px) {
+            body { height: 100vh; height: -webkit-fill-available; }
             .sidebar-panel {
                 width: 100%;
                 min-width: 100%;
@@ -95,18 +97,24 @@
             }
             .chat-view-panel {
                 width: 100%;
-                display: none; /* डिफ़ॉल्ट रूप से मोबाइल पर चैट छुपी रहेगी */
+                display: none;
             }
-            /* जब मोबाइल पर चैट एक्टिव हो तो लेआउट बदलने के लिए क्लास */
+            /* एक्टिव चैट क्लास ट्रिगर होने पर फुल स्क्रीन मोबाइल सिंक */
             .app-container.mobile-chat-active .sidebar-panel {
                 display: none;
             }
             .app-container.mobile-chat-active .chat-view-panel {
                 display: flex;
                 width: 100%;
+                height: 100%;
+            }
+            #activeChatStateLayout {
+                display: flex;
+                flex-direction: column;
+                height: 100% !important;
             }
             .mobile-back-btn {
-                display: block; /* मोबाइल पर बैक बटन दिखेगा */
+                display: flex; /* मोबाइल व्यू पर क्लीन SVG बटन विजिबल होगा */
             }
             .chat-view-header {
                 padding: 15px 20px;
@@ -115,17 +123,25 @@
                 padding: 15px;
             }
             .bubble-container {
-                max-width: 85%; /* मोबाइल स्क्रीन पर बबल को थोड़ा चौड़ा किया */
+                max-width: 85%;
             }
             .chat-input-dashboard {
-                padding: 10px 15px;
+                padding: 12px 15px;
                 gap: 8px;
+                background: #ffffff;
             }
             .input-bar-element {
-                padding: 10px 15px;
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+            .btn-media-trigger {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
             }
             .btn-dispatch {
                 padding: 10px 18px;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -151,11 +167,12 @@
         <div id="activeChatStateLayout" style="display: none; flex-direction: column; flex: 1; height: 100%;">
             <div class="chat-view-header">
                 <div class="chat-header-left">
-                    <!-- मोबाइल के लिए बैक बटन -->
-                    <!-- नया बटन (इमेज के साथ) -->
-<button class="mobile-back-btn" onclick="backToUserList()">
-    <img src="your-icon-path.png" alt="Back" class="back-custom-img">
-</button>
+                    <button class="mobile-back-btn" onclick="backToUserList()" aria-label="Go Back">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                    </button>
                     <span id="activeChatterHeaderTitle">Active Stream</span>
                 </div>
                 <div class="three-dots-btn" onclick="toggleDropdown(event)">⋮</div>
@@ -252,13 +269,11 @@
         document.getElementById("activeChatStateLayout").style.display = "flex";
         document.getElementById("activeChatterHeaderTitle").innerText = name;
         
-        // मोबाइल व्यू में चैट पैनल को फुल स्क्रीन दिखाने के लिए कंटेनर क्लास एक्टिव करें
         document.getElementById("appMainContainer").classList.add("mobile-chat-active");
         
         renderUsers(); loadChats();
     }
 
-    // मोबाइल पर चैट बंद करके वापस लिस्ट पर जाने का फंक्शन
     function backToUserList() {
         document.getElementById("appMainContainer").classList.remove("mobile-chat-active");
     }
@@ -403,7 +418,7 @@
 
     async function deleteMessageTransaction(msgId) {
         if (!confirm("Delete this message permanently?")) return;
-        chatMessagesCache = chatMessagesCache.filter(m => m.id !== msgId);
+        chatMessagesCache = chatMessagesCache.filter(m => msgId !== m.id);
         renderBubbles();
 
         await fetch(CLOUD_GATEWAY_URL, {
