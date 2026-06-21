@@ -605,6 +605,29 @@ a{
     margin-top: 60px;
 }
 
+/* Cart Badge Layout Settings */
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #ef4444; /* Alert Red Color */
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid var(--bg-secondary); /* Border taaki header me clean dikhe */
+}
+
+/* Agar cart empty ho to zero hide karne ke liye utility class */
+.cart-badge.hidden {
+    display: none;
+}
+
 /* =========================================================
    RESPONSIVE DESIGN RULES FOR MOBILE SCREENS
    ========================================================= */
@@ -792,7 +815,10 @@ a{
         <a href="./dashboard.html">Dashboard</a>
     </div>
     <div class="nav-right">
-        <i class="fa fa-cart-shopping" onclick="window.location.href='./cart.html'"></i>
+       <div class="cart-wrapper" onclick="window.location.href='./cart.html'" style="position: relative; display: inline-block; cursor: pointer;">
+    <i class="fa fa-cart-shopping"></i>
+    <span id="cart-count" class="cart-badge">0</span>
+</div>
         <i class="fa fa-bell" onclick="window.location.href./dashboard.html?tab=notifications'"></i>
         <i class="fa fa-bars mobile-menu-btn" onclick="toggleMobileMenu()"></i>
     </div>
@@ -800,11 +826,11 @@ a{
 
 <div class="container">
     
-    <div class="back-home">
-        <a href="./index.html">
-            <i class="fa fa-arrow-left"></i> Back to Home
-        </a>
-    </div>
+   <div class="back-home">
+    <a href="./index.html" aria-label="Back to Home">
+        <i class="fa fa-arrow-left"></i>
+    </a>
+</div>
 
     <div class="hero">
         <div>
@@ -1052,6 +1078,24 @@ function toggleAnswer(clickedFAQItemContextNode){
 function escapeHTMLString(str) {
     return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
 }
+// Cart count indicator ko dynamic update karne ka function
+function updateCartCount(count) {
+    const cartCountElement = document.getElementById('cart-count');
+    if (cartCountElement) {
+        cartCountElement.innerText = count;
+        
+        // Agar items zero honge to automatic badge gayab ho jayega
+        if (count === 0) {
+            cartCountElement.classList.add('hidden');
+        } else {
+            cartCountElement.classList.remove('hidden');
+        }
+    }
+}
+
+// TEST RUN: Check karne ke liye abhi maine 3 set kiya hai.
+// Jab aap cart setup kar lenge tab data dynamic array length se replace kar dena.
+updateCartCount(3);
 </script>
 </body>
 </html>
