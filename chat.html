@@ -20,33 +20,45 @@
         .u-email { font-size: 0.8rem; color: #64748b; }
 
         /* Chat Panel */
-        .chat-view-panel { width: 70%; background: #f1f5f9; display: flex; flex-direction: column; }
-        .chat-view-header { background: #ffffff; padding: 20px 28px; border-bottom: 1px solid #e2e8f0; font-weight: 700; color: #0f172a; }
+        .chat-view-panel { width: 70%; background: #f1f5f9; display: flex; flex-direction: column; position: relative; }
+        
+        /* Chat Header with 3-Dots Menu */
+        .chat-view-header { background: #ffffff; padding: 20px 28px; border-bottom: 1px solid #e2e8f0; font-weight: 700; color: #0f172a; display: flex; justify-content: space-between; align-items: center; position: relative; }
+        .three-dots-btn { font-size: 1.4rem; cursor: pointer; padding: 4px 10px; border-radius: 50%; transition: background 0.2s; }
+        .three-dots-btn:hover { background: #f1f5f9; }
+        
+        /* Dropdown Menu Dynamic Style */
+        .dropdown-menu { display: none; position: absolute; top: 60px; right: 28px; background: white; border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border-radius: 12px; z-index: 100; min-width: 160px; overflow: hidden; }
+        .dropdown-menu.show { display: block; }
+        .dropdown-item { padding: 12px 16px; font-size: 0.9rem; color: #1e293b; cursor: pointer; font-weight: 500; transition: background 0.2s; }
+        .dropdown-item:hover { background: #f1f5f9; }
+        .dropdown-item.danger { color: #dc2626; }
+
         .chat-scroller-window { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #f8fafc; }
         
-        /* Bubbles & Actions */
+        /* Bubbles Layout */
         .chat-line { display: flex; width: 100%; margin-bottom: 4px; }
         .chat-line.outward { justify-content: flex-end; }
         .chat-line.inward { justify-content: flex-start; }
         
-        .bubble-container { display: flex; flex-direction: column; max-width: 60%; position: relative; group; }
+        .bubble-container { display: flex; flex-direction: column; max-width: 60%; }
         .chat-bubble { padding: 10px 16px; border-radius: 16px; font-size: 0.95rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); position: relative; word-break: break-word; }
         
         .outward .chat-bubble { background: #4f46e5; color: #ffffff; border-bottom-right-radius: 4px; }
         .inward .chat-bubble { background: #ffffff; color: #1e293b; border-bottom-left-radius: 4px; border: 1px solid #e2e8f0; }
         
-        /* Edit/Delete Small Actions */
-        .msg-actions { font-size: 0.75rem; margin-top: 4px; display: flex; gap: 8px; justify-content: flex-end; opacity: 0.6; }
+        /* Edit/Delete Labels */
+        .msg-actions { font-size: 0.75rem; margin-top: 4px; display: flex; gap: 8px; justify-content: flex-end; opacity: 0.8; }
         .msg-actions span { cursor: pointer; color: #4f46e5; font-weight: 600; }
         .msg-actions span.del { color: #dc2626; }
         .msg-actions span:hover { text-decoration: underline; }
 
         .render-media-file { max-width: 100%; max-height: 250px; border-radius: 12px; display: block; margin-top: 5px; background: #cbd5e1; }
 
-        /* Input Bar */
+        /* Inputs */
         .chat-input-dashboard { background: #ffffff; padding: 15px 25px; display: flex; align-items: center; gap: 12px; border-top: 1px solid #e2e8f0; }
         .input-bar-element { flex: 1; padding: 12px 20px; border: 1px solid #cbd5e1; border-radius: 9999px; outline: none; }
-        .btn-media-trigger { background: #f1f5f9; border: none; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; }
+        .btn-media-trigger { background: #f1f5f9; border: none; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; color: #475569; }
         .btn-dispatch { background: #4f46e5; color: white; border: none; padding: 12px 24px; border-radius: 9999px; font-weight: 600; cursor: pointer; }
         .splash-blank-state { display: flex; flex-direction: column; justify-content: center; align-items: center; flex: 1; color: #64748b; background: #f8fafc; }
     </style>
@@ -63,7 +75,16 @@
         <div class="splash-blank-state" id="blankStatePrompt"><p>💬 Select a contact to chat</p></div>
         
         <div id="activeChatStateLayout" style="display: none; flex-direction: column; flex: 1; height: 100%;">
-            <div class="chat-view-header" id="activeChatterHeaderTitle">Chat</div>
+            <div class="chat-view-header">
+                <span id="activeChatterHeaderTitle">Chat</span>
+                <div class="three-dots-btn" onclick="toggleDropdown()">⋮</div>
+                <div class="dropdown-menu" id="headerDropdown">
+                    <div class="dropdown-item" onclick="alert('User details matching secure infrastructure.')">View Profile</div>
+                    <div class="dropdown-item" onclick="alert('All media assets stored safely in drive.')">Shared Media</div>
+                    <div class="dropdown-item danger" onclick="clearCurrentChat()">Clear Chat</div>
+                </div>
+            </div>
+            
             <div class="chat-scroller-window" id="chatContentScroller"></div>
             
             <div class="chat-input-dashboard">
@@ -77,7 +98,7 @@
 </div>
 
 <script>
-    // नए Deployment का URL यहाँ अपडेट करें
+    // यहाँ अपना नया Apps Script Deployment URL डालें
     const CLOUD_GATEWAY_URL = "https://script.google.com/macros/s/AKfycbw9T3_1uvxU7O2ER5GRF5VLZ-8BNmxO5B5ZS_rPTkJk4ol5giC0-l9vM2AIULLbhRildg/exec";
     
     const urlParams = new URLSearchParams(window.location.search);
@@ -140,7 +161,7 @@
             (msg.sender === targetedReceiverEmail && msg.receiver === currentUser.email)
         );
 
-        activeLogs.forEach(msg => {
+        activeLogs.forEach((msg, index) => {
             const isSelf = msg.sender === currentUser.email;
             const line = document.createElement("div");
             line.className = `chat-line ${isSelf ? 'outward' : 'inward'}`;
@@ -152,7 +173,6 @@
             bubble.className = "chat-bubble";
             
             if (msg.type === "image") {
-                // इमेज को लोड करने के लिए डायरेक्ट व्यू लिंक
                 bubble.innerHTML = `<a href="${msg.content}" target="_blank"><img src="${msg.content}" class="render-media-file" alt="Shared Image"></a>`;
             } else {
                 bubble.innerText = msg.content;
@@ -160,13 +180,13 @@
             
             container.appendChild(bubble);
 
-            // अगर खुद का भेजा मैसेज है, तो Edit और Delete का बटन दिखाओ
-            if (isSelf) {
+            // एडिट/डिलीट केवल खुद के मैसेजेस पर काम करेगा
+            if (isSelf && msg.id && msg.id !== "temp") {
                 const actions = document.createElement("div");
                 actions.className = "msg-actions";
                 
                 if (msg.type !== "image") {
-                    actions.innerHTML = `<span onclick="editMessage('${msg.id}', '${msg.content}')">Edit</span>`;
+                    actions.innerHTML = `<span onclick="editMessage('${msg.id}', \`${msg.content.replace(/'/g, "\\'")}\`)">Edit</span>`;
                 }
                 actions.innerHTML += `<span class="del" onclick="deleteMessage('${msg.id}')">Delete</span>`;
                 container.appendChild(actions);
@@ -216,7 +236,6 @@
         reader.readAsDataURL(file);
     }
 
-    // एडिट फंक्शन
     async function editMessage(msgId, oldContent) {
         const newText = prompt("Edit your message:", oldContent);
         if (!newText || newText.trim() === oldContent) return;
@@ -228,15 +247,47 @@
         loadChats();
     }
 
-    // डिलीट फंक्शन
     async function deleteMessage(msgId) {
-        if (!confirm("Are you sure you want to delete this message?")) return;
+        if (!confirm("Delete this message?")) return;
 
         await fetch(CLOUD_GATEWAY_URL, {
             method: "POST",
             body: JSON.stringify({ action: "delete", msgId: msgId, sender: currentUser.email })
         });
         loadChats();
+    }
+
+    // 3-Dots dropdown menu toggle
+    function toggleDropdown() {
+        document.getElementById("headerDropdown").classList.toggle("show");
+    }
+
+    // क्लियर चैट फ़ंक्शन
+    async function clearCurrentChat() {
+        if (!targetedReceiverEmail) return;
+        if (!confirm("Are you sure you want to clear all messages in this chat?")) return;
+        
+        document.getElementById("headerDropdown").classList.remove("show");
+        chatMessagesCache = [];
+        renderBubbles();
+
+        await fetch(CLOUD_GATEWAY_URL, {
+            method: "POST",
+            body: JSON.stringify({ action: "clear_chat", sender: currentUser.email, receiver: targetedReceiverEmail })
+        });
+        loadChats();
+    }
+
+    // स्क्रीन पर क्लिक करने पर ड्रॉपडाउन बंद करना
+    window.onclick = function(event) {
+        if (!event.target.matches('.three-dots-btn')) {
+            const dropdowns = document.getElementsByClassName("dropdown-menu");
+            for (let i = 0; i < dropdowns.length; i++) {
+                if (dropdowns[i].classList.contains('show')) {
+                    dropdowns[i].classList.remove('show');
+                }
+            }
+        }
     }
 
     renderUsers();
