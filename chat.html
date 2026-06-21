@@ -3,174 +3,232 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CreatorHub Chat Pro</title>
+    <title>CreatorHub Workspace Chat Pro</title>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        
         body { 
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; 
-            background-color: #f0f2f5; 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            background-color: #0f172a; 
             height: 100vh; 
             display: flex; 
             overflow: hidden;
+            color: #1e293b;
         }
         
-        /* Full-Screen Web App Framework */
+        /* Premium Container Dashboard */
         .app-container { 
             display: flex; 
             width: 100vw; 
             height: 100vh; 
-            background: #fff; 
+            background: #ffffff; 
         }
         
-        /* Left Sidebar: 30% Width on Desktop */
+        /* Modern Sidebar (30%) */
         .sidebar-panel { 
             width: 30%; 
-            min-width: 320px;
-            background: #ffffff; 
-            border-right: 1px solid #e3e3e3; 
+            min-width: 340px;
+            background: #f8fafc; 
+            border-right: 1px solid #e2e8f0; 
             display: flex; 
             flex-direction: column; 
         }
+        
         .sidebar-header { 
-            padding: 22px 20px; 
-            background: #0056b3; 
-            color: white; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 24px 20px; 
+            background: #1e1b4b; /* Deep Premium Indigo */
+            color: #ffffff; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
-        .sidebar-header h3 { font-size: 1.3rem; font-weight: 600; }
-        .session-badge { font-size: 0.8rem; opacity: 0.85; margin-top: 5px; }
+        .sidebar-header h3 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.5px; }
+        .session-badge { font-size: 0.8rem; opacity: 0.8; margin-top: 6px; font-weight: 500; color: #cbd5e1; }
         
         .users-list-box { 
             flex: 1; 
             overflow-y: auto; 
-            background: #fff;
+            padding: 10px 0;
         }
         
-        /* Custom Modern User Cards */
+        /* Elegant User Cards */
         .user-item-card { 
             display: flex; 
             align-items: center; 
             justify-content: space-between; 
-            padding: 16px 20px; 
-            border-bottom: 1px solid #f7f7f7; 
+            padding: 14px 20px; 
+            margin: 4px 12px;
+            border-radius: 12px;
             cursor: pointer; 
-            transition: all 0.2s ease; 
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
         }
-        .user-item-card:hover { background: #f8f9fa; }
-        .user-item-card.active-chat { background: #e8f0fe; border-left: 4px solid #0056b3; }
+        .user-item-card:hover { background: #f1f5f9; }
+        .user-item-card.active-chat { background: #e0e7ff; color: #1e1b4b; }
         
-        .user-details { display: flex; flex-direction: column; gap: 3px; }
-        .u-name { font-weight: 600; color: #222; font-size: 0.98rem; }
-        .u-email { font-size: 0.8rem; color: #666; }
+        .user-details { display: flex; flex-direction: column; gap: 2px; }
+        .u-name { font-weight: 600; color: #0f172a; font-size: 0.95rem; }
+        .u-email { font-size: 0.8rem; color: #64748b; }
+        .active-chat .u-email { color: #4338ca; }
         
-        .status-indicator { width: 11px; height: 11px; border-radius: 50%; }
-        .status-indicator.online { background: #2cfc5d; box-shadow: 0 0 8px #28a745; border: 1px solid white; }
-        .status-indicator.offline { background: #adb5bd; }
+        /* Soft Pulse Status Indicators */
+        .status-container { display: flex; align-items: center; justify-content: center; position: relative; }
+        .status-indicator { width: 10px; height: 10px; border-radius: 50%; }
+        .status-indicator.online { 
+            background: #10b981; 
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
+        }
+        .status-indicator.offline { background: #94a3b8; }
 
-        /* Right Window Chat Interface: 70% Width */
+        /* Premium Workspace Chat View (70%) */
         .chat-view-panel { 
             width: 70%; 
-            background: #efeae2; /* Classic Chatroom Texture Wallpaper */
+            background: #f1f5f9; 
             display: flex; 
             flex-direction: column; 
-        }
-        .chat-view-header { 
-            background: #ffffff; 
-            padding: 18px 25px; 
-            border-bottom: 1px solid #e0e0e0; 
-            font-weight: 600; 
-            font-size: 1.1rem; 
-            color: #333;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            position: relative;
         }
         
+        .chat-view-header { 
+            background: #ffffff; 
+            padding: 20px 28px; 
+            border-bottom: 1px solid #e2e8f0; 
+            font-weight: 700; 
+            font-size: 1.1rem; 
+            color: #0f172a;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Modernized Chat Stream */
         .chat-scroller-window { 
             flex: 1; 
-            padding: 25px; 
+            padding: 30px; 
             overflow-y: auto; 
             display: flex; 
             flex-direction: column; 
-            gap: 12px; 
+            gap: 16px; 
+            background: #f8fafc;
         }
         
-        /* Modernized Chat Bubbles Layout */
-        .chat-line { display: flex; width: 100%; }
+        /* Aesthetic Text Bubbles */
+        .chat-line { display: flex; width: 100%; animation: fadeIn 0.3s ease; }
         .chat-line.outward { justify-content: flex-end; }
         .chat-line.inward { justify-content: flex-start; }
         
         .chat-bubble { 
-            max-width: 60%; 
-            padding: 11px 15px; 
-            border-radius: 10px; 
+            max-width: 65%; 
+            padding: 12px 18px; 
+            border-radius: 18px; 
             font-size: 0.95rem; 
-            box-shadow: 0 1px 1px rgba(0,0,0,0.06); 
-            line-height: 1.4;
+            box-shadow: 0 2px 4px rgba(15, 23, 42, 0.04); 
+            line-height: 1.5;
         }
-        .outward .chat-bubble { background: #d9fdd3; color: #111; border-top-right-radius: 0; }
-        .inward .chat-bubble { background: #ffffff; color: #111; border-top-left-radius: 0; }
-        .render-media-file { max-width: 100%; max-height: 250px; border-radius: 8px; display: block; margin-top: 5px; }
+        .outward .chat-bubble { background: #4f46e5; color: #ffffff; border-bottom-right-radius: 4px; }
+        .inward .chat-bubble { background: #ffffff; color: #1e293b; border-bottom-left-radius: 4px; border: 1px solid #e2e8f0; }
+        
+        .render-media-file { max-width: 100%; max-height: 280px; border-radius: 12px; display: block; margin-top: 6px; transition: transform 0.2s; }
+        .render-media-file:hover { transform: scale(1.02); }
 
-        /* Integrated Bottom Control Dashboard */
+        /* Integrated Input Floating Bar */
         .chat-input-dashboard { 
-            background: #f0f0f0; 
-            padding: 15px 25px; 
+            background: #ffffff; 
+            padding: 20px 30px; 
             display: flex; 
             align-items: center; 
-            gap: 15px; 
-            border-top: 1px solid #e0e0e0; 
+            gap: 14px; 
+            border-top: 1px solid #e2e8f0; 
         }
+        
         .input-bar-element { 
             flex: 1; 
-            padding: 14px 22px; 
-            border: 1px solid #dcdcdc; 
-            border-radius: 30px; 
+            padding: 14px 24px; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 9999px; 
             outline: none; 
             font-size: 0.95rem; 
-            background: white;
+            background: #f8fafc;
+            color: #0f172a;
+            transition: all 0.2s;
         }
-        .input-bar-element:focus { border-color: #0056b3; }
-        .btn-media-trigger { background: white; border: 1px solid #ccc; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.3rem; display: flex; justify-content: center; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .btn-dispatch { background: #0056b3; color: white; border: none; padding: 13px 28px; border-radius: 30px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
-        .btn-dispatch:hover { background: #004085; }
+        .input-bar-element:focus { border-color: #4f46e5; background: #ffffff; box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
         
-        .splash-blank-state { 
+        .btn-media-trigger { 
+            background: #f1f5f9; 
+            border: none; 
+            width: 48px; 
+            height: 48px; 
+            border-radius: 50%; 
+            cursor: pointer; 
+            font-size: 1.2rem; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
+            transition: all 0.2s;
+            color: #475569;
+        }
+        .btn-media-trigger:hover { background: #e2e8f0; color: #0f172a; }
+        
+        .btn-dispatch { 
+            background: #4f46e5; 
+            color: white; 
+            border: none; 
+            padding: 14px 28px; 
+            border-radius: 9999px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+        }
+        .btn-dispatch:hover { background: #4338ca; box-shadow: 0 4px 16px rgba(79, 70, 229, 0.35); }
+        
+        /* Modern Blank Placeholder Screen */
+        .splash-blank-state { 
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
             flex: 1; 
-            color: #888; 
-            font-size: 1.1rem; 
+            color: #64748b; 
+            font-size: 1.05rem; 
             font-weight: 500;
-            background: #f8f9fa;
+            background: #f8fafc;
+            gap: 10px;
+        }
+        .splash-blank-state span { font-size: 2.5rem; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <div class="app-container">
-    <!-- Left User Panel -->
     <div class="sidebar-panel">
         <div class="sidebar-header">
             <h3>CreatorHub Workspace</h3>
             <div class="session-badge" id="sessionIdentity">Verifying Profile Session...</div>
         </div>
         <div class="users-list-box" id="userDirectoryView">
-            <!-- JavaScript will auto populate users here -->
-        </div>
+            </div>
     </div>
 
-    <!-- Right Chat Panel -->
     <div class="chat-view-panel" id="chatEngineView">
-        <div class="splash-blank-state" id="blankStatePrompt">👉 Select an active member from the left panel to initiate workspace chat</div>
+        <div class="splash-blank-state" id="blankStatePrompt">
+            <span>💬</span>
+            <p>Select a workspace team member to start a personal chat</p>
+        </div>
         
         <div id="activeChatStateLayout" style="display: none; flex-direction: column; flex: 1; height: 100%;">
-            <div class="chat-view-header" id="activeChatterHeaderTitle">Active Stream</div>
+            <div class="chat-view-header" id="activeChatterHeaderTitle">Active Workspace Stream</div>
             <div class="chat-scroller-window" id="chatContentScroller"></div>
             
             <div class="chat-input-dashboard">
                 <input type="file" id="mediaSelectorHidden" accept="image/*" style="display: none;" onchange="executeImagePush(this)">
-                <button class="btn-media-trigger" onclick="document.getElementById('mediaSelectorHidden').click()">/*🖼️*/</button>
-                <input type="text" id="messageTextField" class="input-bar-element" placeholder="Type your secure message here..." onkeypress="if(event.key==='Enter') executeTextPush()">
+                <button class="btn-media-trigger" onclick="document.getElementById('mediaSelectorHidden').click()">📷</button>
+                <input type="text" id="messageTextField" class="input-bar-element" placeholder="Type your secure private message here..." onkeypress="if(event.key==='Enter') executeTextPush()">
                 <button class="btn-dispatch" onclick="executeTextPush()">Send</button>
             </div>
         </div>
@@ -180,27 +238,28 @@
 <script>
     const CLOUD_GATEWAY_URL = "https://script.google.com/macros/s/AKfycbw9T3_1uvxU7O2ER5GRF5VLZ-8BNmxO5B5ZS_rPTkJk4ol5giC0-l9vM2AIULLbhRildg/exec";
     
-    // Auto tracking your central JSON login system
+    // Auto session parsing
     const userSessionProfile = JSON.parse(localStorage.getItem("user_login_data")) || {
         name: "Ayush Prajapati", 
         email: "ayush@gmail.com"
     };
 
-    document.getElementById("sessionIdentity").innerText = `Logged in as: ${userSessionProfile.name}`;
+    document.getElementById("sessionIdentity").innerText = `Active User: ${userSessionProfile.name}`;
 
     let targetedReceiverEmail = null;
     let localDatabaseCache = { users: {}, messages: [] };
 
-    // 1. High-Speed Sync Core & Online Pulse Transmitter
+    // 1. High-Speed Sync (अब ईमेल आईडी के साथ सुरक्षित GET रिक्वेस्ट भेजेगा)
     async function performGlobalDatabaseSync() {
         try {
-            // Heartbeat notify to assert active session status
+            // Heartbeat Pulse (POST)
             await fetch(CLOUD_GATEWAY_URL, {
                 method: "POST",
                 body: JSON.stringify({ name: userSessionProfile.name, email: userSessionProfile.email, action: "heartbeat" })
             });
 
-            const callResponse = await fetch(CLOUD_GATEWAY_URL);
+            // Secure GET Fetching only personal messages 
+            const callResponse = await fetch(`${CLOUD_GATEWAY_URL}?email=${encodeURIComponent(userSessionProfile.email)}`);
             localDatabaseCache = await callResponse.json();
 
             processRenderList();
@@ -208,21 +267,23 @@
                 processRenderBubbles();
             }
         } catch (err) {
-            console.error("Sync Interrupted:", err);
+            console.error("Database Sync Error:", err);
         }
     }
 
-    // 2. Render Users list from live storage register
+    // 2. Render Users Directory List
     function processRenderList() {
         const directoryView = document.getElementById("userDirectoryView");
         directoryView.innerHTML = "";
         const referenceTimestamp = new Date().getTime();
 
+        if(!localDatabaseCache.users) return;
+
         Object.keys(localDatabaseCache.users).forEach(email => {
-            if (email === userSessionProfile.email) return; // Skip self display
+            if (email === userSessionProfile.email) return; // Skip showing own self
             
             const client = localDatabaseCache.users[email];
-            // If user pinged backend within last 12 seconds = Online
+            // 12 Seconds window filter for active green pulse
             const onlineStatusFlag = (referenceTimestamp - client.lastSeen) < 12000;
 
             const userCardNode = document.createElement("div");
@@ -234,27 +295,32 @@
                     <span class="u-name">${client.name}</span>
                     <span class="u-email">${client.email}</span>
                 </div>
-                <span class="status-indicator ${onlineStatusFlag ? 'online' : 'offline'}"></span>
+                <div class="status-container">
+                    <span class="status-indicator ${onlineStatusFlag ? 'online' : 'offline'}"></span>
+                </div>
             `;
             directoryView.appendChild(userCardNode);
         });
     }
 
-    // 3. Switch chat thread target
+    // 3. Switch active thread target
     function activateChatThread(email, name) {
         targetedReceiverEmail = email;
         document.getElementById("blankStatePrompt").style.display = "none";
         document.getElementById("activeChatStateLayout").style.display = "flex";
-        document.getElementById("activeChatterHeaderTitle").innerText = `Workspace Chat with: ${name}`;
+        document.getElementById("activeChatterHeaderTitle").innerHTML = `🔒 Chat with <b>${name}</b>`;
         processRenderList();
         processRenderBubbles();
     }
 
-    // 4. Render Thread Specific Private Messages
+    // 4. Render Personal Chat Bubbles (Inward / Outward Filtered)
     function processRenderBubbles() {
         const scroller = document.getElementById("chatContentScroller");
         scroller.innerHTML = "";
 
+        if(!localDatabaseCache.messages) return;
+
+        // Double filter check on client-side to ensure absolute thread isolation
         const threadLogs = localDatabaseCache.messages.filter(msg => 
             (msg.sender === userSessionProfile.email && msg.receiver === targetedReceiverEmail) ||
             (msg.sender === targetedReceiverEmail && msg.receiver === userSessionProfile.email)
@@ -269,9 +335,9 @@
             bubbleNode.className = "chat-bubble";
 
             if (msg.type === "image") {
-                bubbleNode.innerHTML = `<a href="${msg.content}" target="_blank"><img src="${msg.content}" class="render-media-file"></a>`;
+                bubbleNode.innerHTML = `<a href="${msg.content}" target="_blank"><img src="${msg.content}" class="render-media-file" alt="Shared Media"></a>`;
             } else {
-                bubbleNode.innerHTML = `<span>${msg.content}</span>`;
+                bubbleNode.innerHTML = `<span>${escapeHTML(msg.content)}</span>`;
             }
 
             lineNode.appendChild(bubbleNode);
@@ -280,7 +346,7 @@
         scroller.scrollTop = scroller.scrollHeight;
     }
 
-    // 5. Send Text
+    // 5. Send Secure Text Transaction
     async function executeTextPush() {
         const messageField = document.getElementById("messageTextField");
         const cleanContent = messageField.value.trim();
@@ -297,7 +363,7 @@
         });
     }
 
-    // 6. Send Media File via Base64 binary parsing
+    // 6. Base64 Media Parser File Dispatcher
     function executeImagePush(element) {
         const targetFile = element.files[0];
         if (!targetFile || !targetedReceiverEmail) return;
@@ -314,7 +380,7 @@
                 fileName: targetFile.name,
                 mimeType: targetFile.type
             });
-            element.value = ""; // Flush selector
+            element.value = ""; 
         };
         fileReaderInstance.readAsDataURL(targetFile);
     }
@@ -324,8 +390,15 @@
         performGlobalDatabaseSync();
     }
 
-    // Performance Sync engine loops
-    setInterval(performGlobalDatabaseSync, 3500);
+    // Security Helper to avoid XSS text injections
+    function escapeHTML(str) {
+        return str.replace(/[&<>'"]/g, 
+            tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+        );
+    }
+
+    // Setup Performance intervals
+    setInterval(performGlobalDatabaseSync, 4000);
     window.onload = performGlobalDatabaseSync;
 </script>
 </body>
