@@ -16,7 +16,6 @@
             color: #1e293b;
         }
         
-        /* Premium Container Dashboard */
         .app-container { 
             display: flex; 
             width: 100vw; 
@@ -24,7 +23,7 @@
             background: #ffffff; 
         }
         
-        /* Modern Sidebar (30%) */
+        /* Sidebar (30%) */
         .sidebar-panel { 
             width: 30%; 
             min-width: 340px;
@@ -36,7 +35,7 @@
         
         .sidebar-header { 
             padding: 24px 20px; 
-            background: #1e1b4b; /* Deep Premium Indigo */
+            background: #1e1b4b; 
             color: #ffffff; 
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
@@ -49,7 +48,7 @@
             padding: 10px 0;
         }
         
-        /* Elegant User Cards */
+        /* User Cards */
         .user-item-card { 
             display: flex; 
             align-items: center; 
@@ -58,26 +57,23 @@
             margin: 4px 12px;
             border-radius: 12px;
             cursor: pointer; 
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
+            transition: all 0.25s ease; 
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
         }
-        .user-item-card:hover { background: #f1f5f9; }
-        .user-item-card.active-chat { background: #e0e7ff; color: #1e1b4b; }
+        .user-item-card:hover { background: #f1f5f9; transform: translateY(-1px); }
+        .user-item-card.active-chat { background: #e0e7ff; color: #1e1b4b; border-color: #4f46e5; }
         
         .user-details { display: flex; flex-direction: column; gap: 2px; }
         .u-name { font-weight: 600; color: #0f172a; font-size: 0.95rem; }
         .u-email { font-size: 0.8rem; color: #64748b; }
-        .active-chat .u-email { color: #4338ca; }
         
-        /* Soft Pulse Status Indicators */
-        .status-container { display: flex; align-items: center; justify-content: center; position: relative; }
+        .status-container { display: flex; align-items: center; justify-content: center; }
         .status-indicator { width: 10px; height: 10px; border-radius: 50%; }
-        .status-indicator.online { 
-            background: #10b981; 
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
-        }
+        .status-indicator.online { background: #10b981; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2); }
         .status-indicator.offline { background: #94a3b8; }
 
-        /* Premium Workspace Chat View (70%) */
+        /* Chat View Panel (70%) */
         .chat-view-panel { 
             width: 70%; 
             background: #f1f5f9; 
@@ -94,12 +90,8 @@
             font-size: 1.1rem; 
             color: #0f172a;
             box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
         
-        /* Modernized Chat Stream */
         .chat-scroller-window { 
             flex: 1; 
             padding: 30px; 
@@ -110,8 +102,8 @@
             background: #f8fafc;
         }
         
-        /* Aesthetic Text Bubbles */
-        .chat-line { display: flex; width: 100%; animation: fadeIn 0.3s ease; }
+        /* Chat Bubbles */
+        .chat-line { display: flex; width: 100%; animation: fadeIn 0.2s ease; }
         .chat-line.outward { justify-content: flex-end; }
         .chat-line.inward { justify-content: flex-start; }
         
@@ -126,10 +118,9 @@
         .outward .chat-bubble { background: #4f46e5; color: #ffffff; border-bottom-right-radius: 4px; }
         .inward .chat-bubble { background: #ffffff; color: #1e293b; border-bottom-left-radius: 4px; border: 1px solid #e2e8f0; }
         
-        .render-media-file { max-width: 100%; max-height: 280px; border-radius: 12px; display: block; margin-top: 6px; transition: transform 0.2s; }
-        .render-media-file:hover { transform: scale(1.02); }
+        .render-media-file { max-width: 100%; max-height: 280px; border-radius: 12px; display: block; margin-top: 6px; }
 
-        /* Integrated Input Floating Bar */
+        /* Bottom Action Bar */
         .chat-input-dashboard { 
             background: #ffffff; 
             padding: 20px 30px; 
@@ -147,59 +138,27 @@
             outline: none; 
             font-size: 0.95rem; 
             background: #f8fafc;
-            color: #0f172a;
-            transition: all 0.2s;
         }
-        .input-bar-element:focus { border-color: #4f46e5; background: #ffffff; box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
+        .input-bar-element:focus { border-color: #4f46e5; background: #ffffff; }
         
         .btn-media-trigger { 
-            background: #f1f5f9; 
-            border: none; 
-            width: 48px; 
-            height: 48px; 
-            border-radius: 50%; 
-            cursor: pointer; 
-            font-size: 1.2rem; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            transition: all 0.2s;
-            color: #475569;
+            background: #f1f5f9; border: none; width: 48px; height: 48px; border-radius: 50%; 
+            cursor: pointer; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; color: #475569;
         }
-        .btn-media-trigger:hover { background: #e2e8f0; color: #0f172a; }
+        .btn-media-trigger:hover { background: #e2e8f0; }
         
         .btn-dispatch { 
-            background: #4f46e5; 
-            color: white; 
-            border: none; 
-            padding: 14px 28px; 
-            border-radius: 9999px; 
-            font-weight: 600; 
-            cursor: pointer; 
-            transition: all 0.2s; 
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+            background: #4f46e5; color: white; border: none; padding: 14px 28px; 
+            border-radius: 9999px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
         }
-        .btn-dispatch:hover { background: #4338ca; box-shadow: 0 4px 16px rgba(79, 70, 229, 0.35); }
+        .btn-dispatch:hover { background: #4338ca; }
         
-        /* Modern Blank Placeholder Screen */
         .splash-blank-state { 
-            display: flex; 
-            flex-direction: column;
-            justify-content: center; 
-            align-items: center; 
-            flex: 1; 
-            color: #64748b; 
-            font-size: 1.05rem; 
-            font-weight: 500;
-            background: #f8fafc;
-            gap: 10px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            flex: 1; color: #64748b; font-size: 1.05rem; font-weight: 500; background: #f8fafc; gap: 10px;
         }
         .splash-blank-state span { font-size: 2.5rem; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -218,17 +177,17 @@
     <div class="chat-view-panel" id="chatEngineView">
         <div class="splash-blank-state" id="blankStatePrompt">
             <span>💬</span>
-            <p>Select a workspace team member to start a personal chat</p>
+            <p>Select a user from the list to start private conversation</p>
         </div>
         
         <div id="activeChatStateLayout" style="display: none; flex-direction: column; flex: 1; height: 100%;">
-            <div class="chat-view-header" id="activeChatterHeaderTitle">Active Workspace Stream</div>
+            <div class="chat-view-header" id="activeChatterHeaderTitle">Chat Window</div>
             <div class="chat-scroller-window" id="chatContentScroller"></div>
             
             <div class="chat-input-dashboard">
                 <input type="file" id="mediaSelectorHidden" accept="image/*" style="display: none;" onchange="executeImagePush(this)">
                 <button class="btn-media-trigger" onclick="document.getElementById('mediaSelectorHidden').click()">📷</button>
-                <input type="text" id="messageTextField" class="input-bar-element" placeholder="Type your secure private message here..." onkeypress="if(event.key==='Enter') executeTextPush()">
+                <input type="text" id="messageTextField" class="input-bar-element" placeholder="Type a message here..." onkeypress="if(event.key==='Enter') executeTextPush()">
                 <button class="btn-dispatch" onclick="executeTextPush()">Send</button>
             </div>
         </div>
@@ -236,55 +195,60 @@
 </div>
 
 <script>
+    // आपका Apps Script का Web App URL
     const CLOUD_GATEWAY_URL = "https://script.google.com/macros/s/AKfycbw9T3_1uvxU7O2ER5GRF5VLZ-8BNmxO5B5ZS_rPTkJk4ol5giC0-l9vM2AIULLbhRildg/exec";
     
-    // Auto session parsing
+    // लोकलस्टोरेज से लॉगिन डेटा उठाना (अगर नहीं है तो Ayush सेट रहेगा टेस्टिंग के लिए)
     const userSessionProfile = JSON.parse(localStorage.getItem("user_login_data")) || {
         name: "Ayush Prajapati", 
         email: "ayush@gmail.com"
     };
 
-    document.getElementById("sessionIdentity").innerText = `Active User: ${userSessionProfile.name}`;
+    document.getElementById("sessionIdentity").innerText = `Active: ${userSessionProfile.name} (${userSessionProfile.email})`;
 
     let targetedReceiverEmail = null;
     let localDatabaseCache = { users: {}, messages: [] };
 
-    // 1. High-Speed Sync (अब ईमेल आईडी के साथ सुरक्षित GET रिक्वेस्ट भेजेगा)
+    // 1. डेटाबेस सिंक करना (GET और POST दोनों के साथ)
     async function performGlobalDatabaseSync() {
         try {
-            // Heartbeat Pulse (POST)
+            // हर बार बैकएंड को हार्टबीट भेजना ताकि यूज़र ऑनलाइन दिखे
             await fetch(CLOUD_GATEWAY_URL, {
                 method: "POST",
                 body: JSON.stringify({ name: userSessionProfile.name, email: userSessionProfile.email, action: "heartbeat" })
             });
 
-            // Secure GET Fetching only personal messages 
+            // बैकएंड से पूरा डेटाबेस मंगाना
             const callResponse = await fetch(`${CLOUD_GATEWAY_URL}?email=${encodeURIComponent(userSessionProfile.email)}`);
             localDatabaseCache = await callResponse.json();
 
+            // इंटरफ़ेस को अपडेट करना
             processRenderList();
             if (targetedReceiverEmail) {
                 processRenderBubbles();
             }
         } catch (err) {
-            console.error("Database Sync Error:", err);
+            console.error("Sync Failure:", err);
         }
     }
 
-    // 2. Render Users Directory List
+    // 2. लेफ्ट पैनल में यूज़र्स की लिस्ट रेंडर करना
     function processRenderList() {
         const directoryView = document.getElementById("userDirectoryView");
         directoryView.innerHTML = "";
         const referenceTimestamp = new Date().getTime();
 
-        if(!localDatabaseCache.users) return;
+        if (!localDatabaseCache.users || Object.keys(localDatabaseCache.users).length === 0) {
+            directoryView.innerHTML = "<div style='padding:20px; color:#888; text-align:center;'>No users found in DB</div>";
+            return;
+        }
 
         Object.keys(localDatabaseCache.users).forEach(email => {
-            if (email === userSessionProfile.email) return; // Skip showing own self
+            if (email === userSessionProfile.email) return; // खुद को लिस्ट में न दिखाएं
             
             const client = localDatabaseCache.users[email];
-            // 12 Seconds window filter for active green pulse
-            const onlineStatusFlag = (referenceTimestamp - client.lastSeen) < 12000;
+            // अगर यूज़र ने पिछले 20 सेकंड में पिंग किया है तो वो ऑनलाइन दिखेगा
+            const onlineStatusFlag = (referenceTimestamp - client.lastSeen) < 20000;
 
             const userCardNode = document.createElement("div");
             userCardNode.className = `user-item-card ${targetedReceiverEmail === email ? 'active-chat' : ''}`;
@@ -303,7 +267,7 @@
         });
     }
 
-    // 3. Switch active thread target
+    // 3. यूज़र सिलेक्ट करके चैट विंडो एक्टिवेट करना
     function activateChatThread(email, name) {
         targetedReceiverEmail = email;
         document.getElementById("blankStatePrompt").style.display = "none";
@@ -313,14 +277,14 @@
         processRenderBubbles();
     }
 
-    // 4. Render Personal Chat Bubbles (Inward / Outward Filtered)
+    // 4. सिलेक्टेड यूज़र के पर्सनल चैट बबल्स दिखाना
     function processRenderBubbles() {
         const scroller = document.getElementById("chatContentScroller");
         scroller.innerHTML = "";
 
-        if(!localDatabaseCache.messages) return;
+        if (!localDatabaseCache.messages) return;
 
-        // Double filter check on client-side to ensure absolute thread isolation
+        // सिर्फ उन मैसेजेस को फ़िल्टर करना जो करेंट यूज़र और सिलेक्टेड यूज़र के बीच के हैं
         const threadLogs = localDatabaseCache.messages.filter(msg => 
             (msg.sender === userSessionProfile.email && msg.receiver === targetedReceiverEmail) ||
             (msg.sender === targetedReceiverEmail && msg.receiver === userSessionProfile.email)
@@ -335,7 +299,7 @@
             bubbleNode.className = "chat-bubble";
 
             if (msg.type === "image") {
-                bubbleNode.innerHTML = `<a href="${msg.content}" target="_blank"><img src="${msg.content}" class="render-media-file" alt="Shared Media"></a>`;
+                bubbleNode.innerHTML = `<a href="${msg.content}" target="_blank"><img src="${msg.content}" class="render-media-file" alt="Shared Image"></a>`;
             } else {
                 bubbleNode.innerHTML = `<span>${escapeHTML(msg.content)}</span>`;
             }
@@ -343,10 +307,10 @@
             lineNode.appendChild(bubbleNode);
             scroller.appendChild(lineNode);
         });
-        scroller.scrollTop = scroller.scrollHeight;
+        scroller.scrollTop = scroller.scrollHeight; // स्क्रॉल हमेशा नीचे रहेगा नए मैसेजेस पर
     }
 
-    // 5. Send Secure Text Transaction
+    // 5. टेक्स्ट मैसेज भेजना
     async function executeTextPush() {
         const messageField = document.getElementById("messageTextField");
         const cleanContent = messageField.value.trim();
@@ -363,7 +327,7 @@
         });
     }
 
-    // 6. Base64 Media Parser File Dispatcher
+    // 6. फोटो/इमेज अपलोड करके भेजना (Base64)
     function executeImagePush(element) {
         const targetFile = element.files[0];
         if (!targetFile || !targetedReceiverEmail) return;
@@ -387,17 +351,17 @@
 
     async function pushDataTransaction(payload) {
         await fetch(CLOUD_GATEWAY_URL, { method: "POST", body: JSON.stringify(payload) });
-        performGlobalDatabaseSync();
+        performGlobalDatabaseSync(); // डेटा भेजने के तुरंत बाद सिंक करना
     }
 
-    // Security Helper to avoid XSS text injections
+    // सुरक्षा के लिए HTML एस्केप फंक्शन
     function escapeHTML(str) {
         return str.replace(/[&<>'"]/g, 
             tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
         );
     }
 
-    // Setup Performance intervals
+    // हर 4 सेकंड में ऑटो-सिंक चलाना (Real-time updates के लिए)
     setInterval(performGlobalDatabaseSync, 4000);
     window.onload = performGlobalDatabaseSync;
 </script>
