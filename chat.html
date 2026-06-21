@@ -31,6 +31,19 @@
         .chat-view-header { background: #ffffff; padding: 20px 28px; border-bottom: 1px solid #e2e8f0; font-weight: 700; color: #0f172a; display: flex; justify-content: space-between; align-items: center; position: relative; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
         .chat-header-left { display: flex; align-items: center; gap: 12px; }
         .mobile-back-btn { display: none; font-size: 1.5rem; cursor: pointer; background: none; border: none; color: #0f172a; font-weight: bold; padding: 4px 8px; }
+        .mobile-back-btn { 
+    display: none; 
+    background: none; 
+    border: none; 
+    cursor: pointer; 
+    padding: 4px 8px; 
+}
+/* आपके नए आइकन का साइज़ सेट करने के लिए */
+.back-custom-img {
+    width: 24px;   /* अपनी ज़रूरत के हिसाब से चौड़ाई बदलें */
+    height: 24px;  /* अपनी ज़रूरत के हिसाब से ऊँचाई बदलें */
+    object-fit: contain;
+}
         
         .three-dots-btn { font-size: 1.4rem; cursor: pointer; padding: 4px 12px; border-radius: 50%; transition: background 0.2s; user-select: none; }
         .three-dots-btn:hover { background: #f1f5f9; }
@@ -139,7 +152,10 @@
             <div class="chat-view-header">
                 <div class="chat-header-left">
                     <!-- मोबाइल के लिए बैक बटन -->
-                    <button class="mobile-back-btn" onclick="backToUserList()">←</button>
+                    <!-- नया बटन (इमेज के साथ) -->
+<button class="mobile-back-btn" onclick="backToUserList()">
+    <img src="your-icon-path.png" alt="Back" class="back-custom-img">
+</button>
                     <span id="activeChatterHeaderTitle">Active Stream</span>
                 </div>
                 <div class="three-dots-btn" onclick="toggleDropdown(event)">⋮</div>
