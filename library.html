@@ -48,17 +48,53 @@ a{text-decoration:none;color:inherit}
   width:52px;height:52px;border-radius:50%;object-fit:cover;background:#d9e1ec;border:3px solid #fff;
   box-shadow:0 8px 20px rgba(16,24,40,.12);cursor:pointer
 }
-.profile-menu{
-  position:absolute;top:68px;left:0;width:280px;background:#0d1628;border:1px solid #182a64;border-radius:14px;
-  padding:20px;display:none;box-shadow:0 20px 45px rgba(16,24,40,.25);z-index:1000
+/* Purane black background ko badal kar pure white kiya gaya hai */
+.profile-menu {
+  position: absolute;
+  top: 68px;
+  left: 0;
+  width: 280px;
+  background: #ffffff; /* Isko white kiya */
+  border: 1px solid #dce4f0; /* Dark border ki jagah light border kiya */
+  border-radius: 14px;
+  padding: 20px;
+  display: none;
+  box-shadow: 0 20px 45px rgba(16,24,40,.1); /* Shadow ko halka kiya taaki clean dikhe */
+  z-index: 1000;
 }
-.profile-menu.show{display:block}
+
+/* Menu ke andar ke text aur hover background ko adjust kiya */
+.profile-menu a {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 8px;
+  color: #344054; /* White text ki jagah dark gray text kiya taaki read ho sake */
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Hover karne par halka blue/gray background aayega */
+.profile-menu a:hover {
+  background: #f2f4f7; 
+  color: #2f62e9; /* Hover karne par text blue ho jayega */
+}
+
+/* Profile header ke andar ke text ko dark karne ke liye */
+#menuName {
+  color: #101828 !important; /* White se dark text kiya */
+}
+#menuEmail {
+  color: #667085 !important; /* Halka gray text email ke liye */
+}
+.profile-header {
+  border-bottom: 1px solid #f2f4f7 !important; /* Divider line ko light gray kiya */
+}
 .profile-header{display:flex;align-items:center;gap:12px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:14px}
 .menu-profile-image{width:48px;height:48px;border-radius:50%;object-fit:cover}
 #menuName{color:#fff;font-size:16px;font-weight:900}
 #menuEmail{margin-top:3px;font-size:13px;color:#94a3b8;word-break:break-all}
-.profile-menu a{display:flex;align-items:center;height:44px;padding:0 14px;border-radius:8px;color:#e7edf8;font-size:14px;font-weight:800}
-.profile-menu a:hover{background:#182a64}
 
 .container{max-width:1400px;margin:auto;padding:34px 34px 170px}
 .hero{
