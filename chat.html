@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSEB Commerce Hub - Live Community Chat</title>
+    <style>
+        /* CSS Reset & Variable Setup for Modern Look */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f0f2f5; 
+            height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        }
+
+        /* Desktop Layout Container */
+        .desktop-chat-wrapper {
+            display: flex;
+            width: 95vw;
+            max-width: 1200px;
+            height: 90vh;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        /* Left Sidebar: Branding & Active User Profile */
+        .chat-sidebar {
+            width: 30%;
+            background: #004085;
+            color: #ffffff;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 1px solid #e0e0e0;
+        }
+        .sidebar-header h2 { font-size: 1.5rem; margin-bottom: 10px; font-weight: 700; color: #fff; }
+        .sidebar-header p { font-size: 0.9rem; opacity: 0.8; line-height: 1.4; }
+        
+        .community-rules { margin-top: 30px; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; }
+        .community-rules h4 { margin-bottom: 8px; font-size: 0.95rem; color: #ffc107; }
+        .community-rules ul { list-style: none; font-size: 0.85rem; opacity: 0.9; }
+        .community-rules ul li { margin-bottom: 6px; }
+
+        .user-profile-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .user-profile-card .profile-lbl { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #ffc107; font-weight: bold; }
+        .user-profile-card .user-name { font-size: 1.1rem; font-weight: 600; }
+        .user-profile-card .user-email { font-size: 0.85rem; opacity: 0.7; word-break: break-all; }
+
+        /* Right Side: Core Chat Interface */
+        .chat-main-area {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            background: #efeae2; /* Premium Classic WhatsApp Tint */
+            position: relative;
+        }
+
+        /* Top Bar inside Chat Window */
+        .chat-window-header {
+            background: #ffffff;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-window-header h3 { font-size: 1.15rem; color: #333; font-weight: 600; }
+        .live-indicator { font-size: 0.8rem; background: #28a745; color: white; padding: 3px 8px; border-radius: 12px; font-weight: bold; display: flex; align-items: center; gap: 5px; }
+        .live-indicator::before { content: ""; display: inline-block; width: 6px; height: 6px; background: white; border-radius: 50%; animation: blink 1.5s infinite; }
+
+        /* Scrollable Message Box */
+        .chat-messages-box {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Message Bubbles Styling */
+        .message-row { display: flex; width: 100%; }
+        .message-row.sent-row { justify-content: flex-end; }
+        .message-row.received-row { justify-content: flex-start; }
+
+        .chat-bubble {
+            max-width: 65%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            line-height: 1.45;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+            word-wrap: break-word;
+        }
+        .sent-row .chat-bubble {
+            background: #d9fdd3; /* Light green for current logged-in user */
+            color: #111b21;
+            border-top-right-radius: 0;
+        }
+        .received-row .chat-bubble {
+            background: #ffffff; /* Clean white for other community members */
+            color: #111b21;
+            border-top-left-radius: 0;
+        }
+
+        .bubble-meta { font-size: 0.75rem; font-weight: bold; color: #128c7e; margin-bottom: 4px; display: block; }
+        .message-image-render { max-width: 100%; max-height: 250px; border-radius: 8px; display: block; margin-top: 5px; cursor: pointer; border: 1px solid #ddd; }
+        
+        /* Fixed Input Dashboard at Bottom */
+        .chat-footer-input-bar {
+            background: #f0f0f0;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-top: 1px solid #e0e0e0;
+        }
+        .media-attach-btn {
+            background: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .media-attach-btn:hover { background: #e9ecef; border-color: #0056b3; }
+        
+        .main-text-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 1px solid #ccc;
+            border-radius: 30px;
+            outline: none;
+            font-size: 0.95rem;
+            background: #ffffff;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .main-text-input:focus { border-color: #0056b3; box-shadow: 0 0 5px rgba(0, 86, 179, 0.2); }
+
+        .action-send-btn {
+            background: #0056b3;
+            color: #ffffff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,56,179,0.2);
+        }
+        .action-send-btn:hover { background: #004085; }
+
+        @keyframes blink {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+
+        /* Custom Scrollbar for Chat Box */
+        .chat-messages-box::-webkit-scrollbar { width: 6px; }
+        .chat-messages-box::-webkit-scrollbar-track { background: transparent; }
+        .chat-messages-box::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.2); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="desktop-chat-wrapper">
+    
+    <!-- Left Dashboard Sidebar -->
+    <div class="chat-sidebar">
+        <div class="sidebar-header">
+            <h2>GSEB Commerce Hub</h2>
+            <p>Welcome to the official digital discussion platform for Class 11 & 12 Commerce students.</p>
+            
+            <div class="community-rules">
+                <h4>📌 Community Guidelines</h4>
+                <ul>
+                    <li>• Share only educational materials.</li>
+                    <li>• Don't post spam links or ads.</li>
+                    <li>• Help each other with solutions.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Live User Data connected via LocalStorage Login Session JSON -->
+        <div class="user-profile-card">
+            <span class="profile-lbl">Your Active Profile</span>
+            <div class="user-name" id="profileNameDisplay">Syncing Profile...</div>
+            <div class="user-email" id="profileEmailDisplay">Loading Identity JSON...</div>
+        </div>
+    </div>
+
+    <!-- Right Live Chat Window -->
+    <div class="chat-main-area">
+        <div class="chat-window-header">
+            <h3>Discussion Lounge (All Streams)</h3>
+            <div class="live-indicator">Live Sync Enabled</div>
+        </div>
+        
+        <!-- Message Box Area -->
+        <div class="chat-messages-box" id="renderWindow"></div>
+        
+        <!-- Footer Form Elements -->
+        <div class="chat-footer-input-bar">
+            <!-- Image Selector System -->
+            <input type="file" id="mediaInputFile" accept="image/*" style="display: none;" onchange="processMediaUpload(this)">
+            <button class="media-attach-btn" onclick="document.getElementById('mediaInputFile').click()" title="Attach Study Image">🖼️</button>
+            
+            <input type="text" id="chatMessageField" class="main-text-input" placeholder="Type a study query, answer, or share updates..." onkeypress="if(event.key === 'Enter') dispatchText()">
+            <button class="action-send-btn" onclick="dispatchText()">Send Message</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Configured System URL Endpoint
+    const CONFIG_API_ENDPOINT = "https://script.google.com/macros/s/AKfycbw9T3_1uvxU7O2ER5GRF5VLZ-8BNmxO5B5ZS_rPTkJk4ol5giC0-l9vM2AIULLbhRildg/exec";
+    
+    // Auto sync system with user's core login identity data format
+    const currentActiveSession = JSON.parse(localStorage.getItem("user_login_data")) || {
+        name: "Ayush Prajapati", 
+        email: "ayush@gmail.com"
+    };
+
+    // DOM Setup
+    document.getElementById("profileNameDisplay").innerText = currentActiveSession.name;
+    document.getElementById("profileEmailDisplay").innerText = currentActiveSession.email;
+    
+    let trackerCacheLength = 0;
+
+    // 1. Fetch data stream with optimization filter
+    async function synchronizeChatStreams() {
+        try {
+            const response = await fetch(CONFIG_API_ENDPOINT);
+            const dataLogs = await response.json();
+            
+            if (dataLogs.length === trackerCacheLength) return; // Prevent unnecessary re-renders
+            trackerCacheLength = dataLogs.length;
+            
+            const renderWindow = document.getElementById("renderWindow");
+            renderWindow.innerHTML = "";
+            
+            dataLogs.forEach(chat => {
+                const isAuthorizedUser = chat.email === currentActiveSession.email;
+                
+                const rowWrapper = document.createElement("div");
+                rowWrapper.className = `message-row ${isAuthorizedUser ? 'sent-row' : 'received-row'}`;
+                
+                const bubble = document.createElement("div");
+                bubble.className = "chat-bubble";
+                
+                let structureHTML = "";
+                if (!isAuthorizedUser) {
+                    structureHTML += `<span class="bubble-meta">${chat.name}</span>`;
+                }
+                
+                if (chat.type === "image") {
+                    structureHTML += `<a href="${chat.content}" target="_blank"><img src="${chat.content}" class="message-image-render" alt="User Uploaded Sheet"></a>`;
+                } else {
+                    structureHTML += `<span>${chat.content}</span>`;
+                }
+                
+                bubble.innerHTML = structureHTML;
+                rowWrapper.appendChild(bubble);
+                renderWindow.appendChild(rowWrapper);
+            });
+            
+            // Auto scroll down smoothly on new message receipt
+            renderWindow.scrollTop = renderWindow.scrollHeight;
+        } catch(error) {
+            console.error("Transmission error from Drive database:", error);
+        }
+    }
+
+    // 2. Dispatch Text messages
+    async function dispatchText() {
+        const inputField = document.getElementById("chatMessageField");
+        const filteredValue = inputField.value.trim();
+        if (!filteredValue) return;
+        
+        inputField.value = ""; // Instant field clean for speed experience
+        
+        await commitPayloadToServer({
+            name: currentActiveSession.name,
+            email: currentActiveSession.email,
+            content: filteredValue,
+            type: "text"
+        });
+    }
+
+    // 3. Convert Media Selection to Base64 payload instantly
+    function processMediaUpload(element) {
+        const fileObj = element.files[0];
+        if (!fileObj) return;
+        
+        const fileReader = new FileReader();
+        fileReader.onload = async function(e) {
+            await commitPayloadToServer({
+                name: currentActiveSession.name,
+                email: currentActiveSession.email,
+                type: "image",
+                imageRaw: e.target.result,
+                fileName: fileObj.name,
+                mimeType: fileObj.type
+            });
+            element.value = ""; // Clear file selector handle
+        };
+        fileReader.readAsDataURL(fileObj);
+    }
+
+    // 4. Send API data securely to Backend Apps Script
+    async function commitPayloadToServer(payload) {
+        try {
+            await fetch(CONFIG_API_ENDPOINT, {
+                method: "POST",
+                body: JSON.stringify(payload)
+            });
+            synchronizeChatStreams(); // Instant layout refresh sync
+        } catch(e) {
+            console.error("Sync Network Crash:", e);
+        }
+    }
+
+    // High performance sync loop execution (Checks for updates every 3 seconds)
+    setInterval(synchronizeChatStreams, 3000);
+    window.onload = synchronizeChatStreams;
+</script>
+
+</body>
+</html>
