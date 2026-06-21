@@ -37,6 +37,8 @@ a{text-decoration:none;color:inherit}
 .nav a:hover{color:#2f62e9}
 .profile-wrap{position:relative;display:none;align-items:center}
 .profile-image{width:44px;height:44px;border-radius:50%;object-fit:cover;background:#d9e1ec;border:2px solid #fff;box-shadow:0 8px 20px rgba(16,24,40,.12);cursor:pointer}
+
+/* Desktop style default menu styling */
 .profile-menu{position:absolute;top:55px;left:0;width:290px;background:#0d1628;border:1px solid #182a64;border-radius:14px;padding:20px;display:none;box-shadow:0 20px 45px rgba(16,24,40,.25);z-index:1000}
 .profile-menu.show{display:block}
 .profile-header{display:flex;align-items:center;gap:12px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:14px}
@@ -99,7 +101,7 @@ a{text-decoration:none;color:inherit}
 }
 
 @media (max-width: 768px) {
-  /* Topbar Mobile Setup */
+  /* Topbar Mobile Alignment */
   .topbar {
     padding: 12px 16px !important;
     min-height: 64px !important;
@@ -114,21 +116,19 @@ a{text-decoration:none;color:inherit}
     align-items: center !important;
   }
 
-  /* Desktop primary nav bar elements hidden on mobile screen view states */
   .topbar .nav {
     display: none !important;
   }
 
-  /* Right Side Profile Wrap Integration Engine */
   .profile-wrap {
     display: inline-flex !important;
-    order: 2 !important; /* Pushes profile image wrapper to the absolute right side */
+    order: 2 !important;
   }
   
   .brand-name {
     font-size: 22px !important;
     margin: 0 !important;
-    order: 1 !important; /* Forces logo branding text mark cleanly to the left */
+    order: 1 !important;
   }
 
   .profile-image {
@@ -136,15 +136,41 @@ a{text-decoration:none;color:inherit}
     height: 38px !important;
   }
 
-  /* Menu dropdown position fix (Aligned to open from Right Side safely) */
+  /* White Color Menu Dropdown aligned safely to the right */
   .profile-menu {
     position: absolute !important;
     top: 50px !important;
     left: auto !important;
-    right: 0 !important; /* Fixes left-side shifting, snaps accurately to right edge */
+    right: 0 !important;
     width: 260px !important;
+    background: #ffffff !important; /* Fixed Menu background to White */
+    border: 1px solid #dce4f0 !important;
     border-radius: 12px !important;
-    box-shadow: 0 15px 35px rgba(16,24,40,0.3) !important;
+    box-shadow: 0 10px 30px rgba(16,24,40,0.1) !important;
+    padding: 16px !important;
+  }
+
+  /* Dark typography for White dropdown styling */
+  .profile-header {
+    border-bottom: 1px solid #f1f5f9 !important;
+    margin-bottom: 10px !important;
+    padding-bottom: 12px !important;
+  }
+  #menuName {
+    color: #06142c !important;
+  }
+  #menuEmail {
+    color: #63728a !important;
+  }
+
+  .profile-menu a {
+    color: #344054 !important; /* Readable text against a white background */
+    font-size: 14px !important;
+    font-weight: 700 !important;
+  }
+  .profile-menu a:hover {
+    background: #f8f9fa !important;
+    color: #2f62e9 !important;
   }
 
   .main { padding: 16px 12px 60px !important; }
@@ -152,7 +178,6 @@ a{text-decoration:none;color:inherit}
   .hero-title { font-size: 24px !important; line-height: 1.3; }
   .hero-desc { font-size: 14px; margin-top: 10px; }
 
-  /* Stepper Horizontal Node Engine */
   .stepper-container {
     gap: 8px !important;
     margin-top: 24px !important;
@@ -167,7 +192,6 @@ a{text-decoration:none;color:inherit}
   .card { padding: 20px 16px !important; border-radius: 8px; }
   .card-title { font-size: 18px !important; margin-bottom: 18px; padding-bottom: 10px; }
 
-  /* Grid element blocks stacking */
   .form-grid-2 { grid-template-columns: 1fr !important; gap: 0; }
   .input-field { margin-bottom: 16px; }
   .input-field input, .input-field select, .input-field textarea {
@@ -224,11 +248,11 @@ a{text-decoration:none;color:inherit}
           <div id="menuEmail">user@email.com</div>
         </div>
       </div>
-      <a href="cart.html"><i class="fa-solid fa-cart-shopping" style="margin-right:10px; width:16px;"></i> Cart</a>
-      <a href="dashboard.html"><i class="fa-solid fa-gauge" style="margin-right:10px; width:16px;"></i> Dashboard</a>
-      <a href="subscription.html"><i class="fa-solid fa-bell" style="margin-right:10px; width:16px;"></i> Subscription</a>
-      <a href="wallet.html"><i class="fa-solid fa-wallet" style="margin-right:10px; width:16px;"></i> Wallet</a>
-      <a href="my-orders.html"><i class="fa-solid fa-box" style="margin-right:10px; width:16px;"></i> Order</a>
+      <a href="cart.html"><i class="fa-solid fa-cart-shopping" style="margin-right:10px; width:16px; color:#5d6d85;"></i> Cart</a>
+      <a href="dashboard.html"><i class="fa-solid fa-gauge" style="margin-right:10px; width:16px; color:#5d6d85;"></i> Dashboard</a>
+      <a href="subscription.html"><i class="fa-solid fa-bell" style="margin-right:10px; width:16px; color:#5d6d85;"></i> Subscription</a>
+      <a href="wallet.html"><i class="fa-solid fa-wallet" style="margin-right:10px; width:16px; color:#5d6d85;"></i> Wallet</a>
+      <a href="my-orders.html"><i class="fa-solid fa-box" style="margin-right:10px; width:16px; color:#5d6d85;"></i> Order</a>
     </div>
   </div>
 </div>
@@ -298,13 +322,23 @@ a{text-decoration:none;color:inherit}
 <script>
 const REAL_APPS_SCRIPT_API_URL = "https://script.google.com/macros/s/AKfycby78v_g_Of7t49vF1Rccn52ObqaSAcm6DLcIB_-3ATqDLHfaLr-jk82BZi5hmw3Al92aw/exec";
 
+// Toggle function logic updated to allow click event firing purely under mobile dimensions
 function toggleProfileMenu(){
-  document.getElementById("profileMenu").classList.toggle("show");
+  if(window.innerWidth <= 768) {
+    document.getElementById("profileMenu").classList.toggle("show");
+  }
 }
 
 window.addEventListener("click",function(e){
   let wrap=document.getElementById("profileWrap");
   if(wrap && !wrap.contains(e.target)){
+    document.getElementById("profileMenu").classList.remove("show");
+  }
+});
+
+// Window resize safety handler to close floating drawers automatically when switching viewport states
+window.addEventListener("resize", function() {
+  if(window.innerWidth > 768) {
     document.getElementById("profileMenu").classList.remove("show");
   }
 });
