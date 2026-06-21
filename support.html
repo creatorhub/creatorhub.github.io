@@ -29,12 +29,12 @@
    CREATORHUB CORE STANDARD LIGHT DESIGN SYSTEM VARIABLES
    ========================================================= */
 :root {
-    --bg-primary: #f8fafc;       /* Modern soft workspace white */
-    --bg-secondary: #ffffff;     /* Pure high-fidelity white panels */
-    --text-primary: #0f172a;     /* Deep slate text colors */
-    --text-secondary: #475569;   /* Muted structural labels */
+    --bg-primary: #f8fafc;       
+    --bg-secondary: #ffffff;     
+    --text-primary: #0f172a;     
+    --text-secondary: #475569;   
     --text-muted: #94a3b8;
-    --accent-blue: #2563eb;      /* Main Platform Royal Blue */
+    --accent-blue: #2563eb;      
     --accent-blue-hover: #1d4ed8;
     --accent-blue-light: #eff6ff;
     --border-color: #e2e8f0;
@@ -142,6 +142,7 @@ a{
     font-size: 22px;
     color: var(--text-secondary);
     cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
 /* MAIN VIEWPORT */
@@ -609,7 +610,7 @@ a{
 }
 
 @media(max-width: 768px){
-    /* Header/Navbar System Fixes */
+    /* Header/Navbar System Fixes & Dropdown Setup */
     .navbar { 
         padding: 0 16px; 
         height: 65px;
@@ -617,13 +618,34 @@ a{
     .logo {
         font-size: 22px;
     }
-    .nav-links, 
+    
+    /* Re-purposed nav-links as absolute dropdown panel for mobile */
+    .nav-links { 
+        display: none; 
+        flex-direction: column;
+        position: absolute;
+        top: 65px;
+        left: 0;
+        width: 100%;
+        background: var(--bg-secondary);
+        border-bottom: 1px solid var(--border-color);
+        padding: 20px;
+        gap: 16px;
+        box-shadow: var(--shadow-md);
+        z-index: 999;
+    }
+
+    /* Active state to show mobile menu items */
+    .nav-links.active {
+        display: flex;
+    }
+
     .nav-right .search-box, 
     .nav-right i.fa-search { 
-        display: none !important; /* Hides desktop navigation clutter completely */
+        display: none !important; 
     }
     .mobile-menu-btn {
-        display: block; /* Triggers responsive mobile burger control */
+        display: block; 
     }
     .nav-right {
         gap: 16px;
@@ -770,7 +792,7 @@ a{
         <i class="fa fa-search" onclick="window.location.href='./products.html'"></i>
         <i class="fa fa-cart-shopping" onclick="window.location.href='./cart.html'"></i>
         <i class="fa fa-bell" onclick="window.location.href='./dashboard.html?tab=notifications'"></i>
-        <i class="fa fa-bars mobile-menu-btn" onclick="alert('Mobile Nav Trigger Loop')"></i>
+        <i class="fa fa-bars mobile-menu-btn" onclick="toggleMobileMenu()"></i>
     </div>
 </div>
 
@@ -904,6 +926,25 @@ a{
 </div>
 
 <script>
+// Mobile Menu Open/Close Toggle Mechanism Logic
+function toggleMobileMenu() {
+    const navLinks = document.querySelector('.nav-links');
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+
+    navLinks.classList.toggle('active');
+
+    // Smooth icon transitions (Hamburger to Cross)
+    if (navLinks.classList.contains('active')) {
+        menuBtn.classList.remove('fa-bars');
+        menuBtn.classList.add('fa-xmark');
+        menuBtn.style.transform = "rotate(90deg)";
+    } else {
+        menuBtn.classList.remove('fa-xmark');
+        menuBtn.classList.add('fa-bars');
+        menuBtn.style.transform = "rotate(0deg)";
+    }
+}
+
 // Load dynamic inner layout pages context cleanly
 fetch("faq.html")
     .then(res => res.text())
