@@ -3,232 +3,330 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CreatorHub Link & Chat Room</title>
+    <title>CreatorHub Chat Pro</title>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f0f2f5; height: 100vh; display: flex; justify-content: center; align-items: center; }
+        body { 
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; 
+            background-color: #f0f2f5; 
+            height: 100vh; 
+            display: flex; 
+            overflow: hidden;
+        }
         
-        .chat-app-wrapper { display: flex; width: 95vw; max-width: 1200px; height: 90vh; background: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden; }
+        /* Full-Screen Web App Framework */
+        .app-container { 
+            display: flex; 
+            width: 100vw; 
+            height: 100vh; 
+            background: #fff; 
+        }
         
-        /* Left Panel - Users List */
-        .sidebar-users { width: 35%; background: #ffffff; border-right: 1px solid #e3e3e3; display: flex; flex-direction: column; }
-        .sidebar-header { padding: 20px; background: #0056b3; color: white; }
-        .user-list-container { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+        /* Left Sidebar: 30% Width on Desktop */
+        .sidebar-panel { 
+            width: 30%; 
+            min-width: 320px;
+            background: #ffffff; 
+            border-right: 1px solid #e3e3e3; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        .sidebar-header { 
+            padding: 22px 20px; 
+            background: #0056b3; 
+            color: white; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .sidebar-header h3 { font-size: 1.3rem; font-weight: 600; }
+        .session-badge { font-size: 0.8rem; opacity: 0.85; margin-top: 5px; }
         
-        .user-card { display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; border-bottom: 1px solid #f2f2f2; cursor: pointer; transition: background 0.2s; }
-        .user-card:hover { background: #f5f6f7; }
-        .user-card.active-chat { background: #e9ecef; }
-        .user-info { display: flex; flex-direction: column; gap: 4px; }
-        .user-name { font-weight: 600; color: #333; font-size: 1rem; }
-        .user-email { font-size: 0.8rem; color: #777; }
+        .users-list-box { 
+            flex: 1; 
+            overflow-y: auto; 
+            background: #fff;
+        }
         
-        /* Status Badges */
-        .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-        .status-dot.online { background: #28a745; box-shadow: 0 0 8px #28a745; }
-        .status-dot.offline { background: #6c757d; }
+        /* Custom Modern User Cards */
+        .user-item-card { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 16px 20px; 
+            border-bottom: 1px solid #f7f7f7; 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+        }
+        .user-item-card:hover { background: #f8f9fa; }
+        .user-item-card.active-chat { background: #e8f0fe; border-left: 4px solid #0056b3; }
+        
+        .user-details { display: flex; flex-direction: column; gap: 3px; }
+        .u-name { font-weight: 600; color: #222; font-size: 0.98rem; }
+        .u-email { font-size: 0.8rem; color: #666; }
+        
+        .status-indicator { width: 11px; height: 11px; border-radius: 50%; }
+        .status-indicator.online { background: #2cfc5d; box-shadow: 0 0 8px #28a745; border: 1px solid white; }
+        .status-indicator.offline { background: #adb5bd; }
 
-        /* Right Panel - Chat Area */
-        .chat-main-window { width: 65%; background: #efeae2; display: flex; flex-direction: column; }
-        .chat-window-header { background: #fff; padding: 15px 20px; border-bottom: 1px solid #e0e0e0; font-weight: bold; font-size: 1.1rem; color: #333; }
-        .chat-messages-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        /* Right Window Chat Interface: 70% Width */
+        .chat-view-panel { 
+            width: 70%; 
+            background: #efeae2; /* Classic Chatroom Texture Wallpaper */
+            display: flex; 
+            flex-direction: column; 
+        }
+        .chat-view-header { 
+            background: #ffffff; 
+            padding: 18px 25px; 
+            border-bottom: 1px solid #e0e0e0; 
+            font-weight: 600; 
+            font-size: 1.1rem; 
+            color: #333;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
         
-        /* Chat Bubbles */
-        .msg-row { display: flex; width: 100%; }
-        .msg-row.sent { justify-content: flex-end; }
-        .msg-row.received { justify-content: flex-start; }
-        .bubble { max-width: 65%; padding: 10px 14px; border-radius: 8px; font-size: 0.95rem; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-        .sent .bubble { background: #d9fdd3; color: #111b21; border-top-right-radius: 0; }
-        .received .bubble { background: #ffffff; color: #111b21; border-top-left-radius: 0; }
-        .message-img { max-width: 100%; max-height: 200px; border-radius: 6px; display: block; margin-top: 5px; }
+        .chat-scroller-window { 
+            flex: 1; 
+            padding: 25px; 
+            overflow-y: auto; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+        }
+        
+        /* Modernized Chat Bubbles Layout */
+        .chat-line { display: flex; width: 100%; }
+        .chat-line.outward { justify-content: flex-end; }
+        .chat-line.inward { justify-content: flex-start; }
+        
+        .chat-bubble { 
+            max-width: 60%; 
+            padding: 11px 15px; 
+            border-radius: 10px; 
+            font-size: 0.95rem; 
+            box-shadow: 0 1px 1px rgba(0,0,0,0.06); 
+            line-height: 1.4;
+        }
+        .outward .chat-bubble { background: #d9fdd3; color: #111; border-top-right-radius: 0; }
+        .inward .chat-bubble { background: #ffffff; color: #111; border-top-left-radius: 0; }
+        .render-media-file { max-width: 100%; max-height: 250px; border-radius: 8px; display: block; margin-top: 5px; }
 
-        /* Input Deck */
-        .chat-input-bar { background: #f0f0f0; padding: 15px; display: flex; align-items: center; gap: 10px; border-top: 1px solid #e0e0e0; }
-        .main-input { flex: 1; padding: 12px 20px; border: 1px solid #ccc; border-radius: 30px; outline: none; font-size: 0.95rem; }
-        .btn-attach { background: white; border: 1px solid #ccc; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; }
-        .btn-send { background: #0056b3; color: white; border: none; padding: 11px 24px; border-radius: 30px; font-weight: bold; cursor: pointer; }
-        .no-chat-selected { display: flex; justify-content: center; align-items: center; flex: 1; color: #777; font-size: 1.1rem; font-weight: 500; }
+        /* Integrated Bottom Control Dashboard */
+        .chat-input-dashboard { 
+            background: #f0f0f0; 
+            padding: 15px 25px; 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            border-top: 1px solid #e0e0e0; 
+        }
+        .input-bar-element { 
+            flex: 1; 
+            padding: 14px 22px; 
+            border: 1px solid #dcdcdc; 
+            border-radius: 30px; 
+            outline: none; 
+            font-size: 0.95rem; 
+            background: white;
+        }
+        .input-bar-element:focus { border-color: #0056b3; }
+        .btn-media-trigger { background: white; border: 1px solid #ccc; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.3rem; display: flex; justify-content: center; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .btn-dispatch { background: #0056b3; color: white; border: none; padding: 13px 28px; border-radius: 30px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+        .btn-dispatch:hover { background: #004085; }
+        
+        .splash-blank-state { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            flex: 1; 
+            color: #888; 
+            font-size: 1.1rem; 
+            font-weight: 500;
+            background: #f8f9fa;
+        }
     </style>
 </head>
 <body>
 
-<div class="chat-app-wrapper">
-    <div class="sidebar-users">
+<div class="app-container">
+    <!-- Left User Panel -->
+    <div class="sidebar-panel">
         <div class="sidebar-header">
-            <h3>CreatorHub Active Users</h3>
-            <div style="font-size: 0.8rem; opacity: 0.9; margin-top: 5px;" id="myProfileBadge">Syncing Profile...</div>
+            <h3>CreatorHub Workspace</h3>
+            <div class="session-badge" id="sessionIdentity">Verifying Profile Session...</div>
         </div>
-        <div class="user-list-container" id="userListRender">
-            </div>
+        <div class="users-list-box" id="userDirectoryView">
+            <!-- JavaScript will auto populate users here -->
+        </div>
     </div>
 
-    <div class="chat-main-window" id="chatMainWindow">
-        <div class="no-chat-selected" id="blankState">👈 Select a user from the list to start a private chat</div>
+    <!-- Right Chat Panel -->
+    <div class="chat-view-panel" id="chatEngineView">
+        <div class="splash-blank-state" id="blankStatePrompt">👉 Select an active member from the left panel to initiate workspace chat</div>
         
-        <div id="activeChatState" style="display: none; flex-direction: column; flex: 1; height: 100%;">
-            <div class="chat-window-header" id="chatHeaderName">Chatting with...</div>
-            <div class="chat-messages-box" id="messagesRenderBox"></div>
+        <div id="activeChatStateLayout" style="display: none; flex-direction: column; flex: 1; height: 100%;">
+            <div class="chat-view-header" id="activeChatterHeaderTitle">Active Stream</div>
+            <div class="chat-scroller-window" id="chatContentScroller"></div>
             
-            <div class="chat-input-bar">
-                <input type="file" id="imageInputHidden" accept="image/*" style="display: none;" onchange="uploadPrivateImage(this)">
-                <button class="btn-attach" onclick="document.getElementById('imageInputHidden').click()">🖼️</button>
-                <input type="text" id="chatInputField" class="main-input" placeholder="Type a private message..." onkeypress="if(event.key==='Enter') sendPrivateText()">
-                <button class="btn-send" onclick="sendPrivateText()">Send</button>
+            <div class="chat-input-dashboard">
+                <input type="file" id="mediaSelectorHidden" accept="image/*" style="display: none;" onchange="executeImagePush(this)">
+                <button class="btn-media-trigger" onclick="document.getElementById('mediaSelectorHidden').click()">/*🖼️*/</button>
+                <input type="text" id="messageTextField" class="input-bar-element" placeholder="Type your secure message here..." onkeypress="if(event.key==='Enter') executeTextPush()">
+                <button class="btn-dispatch" onclick="executeTextPush()">Send</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbw9T3_1uvxU7O2ER5GRF5VLZ-8BNmxO5B5ZS_rPTkJk4ol5giC0-l9vM2AIULLbhRildg/exec";
+    const CLOUD_GATEWAY_URL = "https://script.google.com/macros/s/AKfycbw9T3_1uvxU7O2ER5GRF5VLZ-8BNmxO5B5ZS_rPTkJk4ol5giC0-l9vM2AIULLbhRildg/exec";
     
-    // Auto sync system with login localstorage JSON data
-    const mySession = JSON.parse(localStorage.getItem("user_login_data")) || {
+    // Auto tracking your central JSON login system
+    const userSessionProfile = JSON.parse(localStorage.getItem("user_login_data")) || {
         name: "Ayush Prajapati", 
         email: "ayush@gmail.com"
     };
 
-    document.getElementById("myProfileBadge").innerText = `Logged in as: ${mySession.name}`;
+    document.getElementById("sessionIdentity").innerText = `Logged in as: ${userSessionProfile.name}`;
 
-    let selectedUserEmail = null;
-    let serverCacheData = { users: {}, messages: [] };
+    let targetedReceiverEmail = null;
+    let localDatabaseCache = { users: {}, messages: [] };
 
-    // 1. Sync System Data Stream & Track Heartbeat
-    async function syncDatabase() {
+    // 1. High-Speed Sync Core & Online Pulse Transmitter
+    async function performGlobalDatabaseSync() {
         try {
-            // Send regular heartbeat pulse to mark current user ONLINE
-            await fetch(API_URL, {
+            // Heartbeat notify to assert active session status
+            await fetch(CLOUD_GATEWAY_URL, {
                 method: "POST",
-                body: JSON.stringify({ name: mySession.name, email: mySession.email, action: "heartbeat" })
+                body: JSON.stringify({ name: userSessionProfile.name, email: userSessionProfile.email, action: "heartbeat" })
             });
 
-            // Get complete logs
-            const response = await fetch(API_URL);
-            serverCacheData = await response.json();
+            const callResponse = await fetch(CLOUD_GATEWAY_URL);
+            localDatabaseCache = await callResponse.json();
 
-            renderUsersList();
-            if (selectedUserEmail) {
-                renderPrivateMessages();
+            processRenderList();
+            if (targetedReceiverEmail) {
+                processRenderBubbles();
             }
-        } catch (e) {
-            console.error("Sync Failure:", e);
+        } catch (err) {
+            console.error("Sync Interrupted:", err);
         }
     }
 
-    // 2. Render Users list with Online/Offline calculation (active if active within last 10 seconds)
-    function renderUsersList() {
-        const container = document.getElementById("userListRender");
-        container.innerHTML = "";
-        const currentTime = new Date().getTime();
+    // 2. Render Users list from live storage register
+    function processRenderList() {
+        const directoryView = document.getElementById("userDirectoryView");
+        directoryView.innerHTML = "";
+        const referenceTimestamp = new Date().getTime();
 
-        Object.keys(serverCacheData.users).forEach(email => {
-            if (email === mySession.email) return; // Skip self representation
+        Object.keys(localDatabaseCache.users).forEach(email => {
+            if (email === userSessionProfile.email) return; // Skip self display
             
-            const user = serverCacheData.users[email];
-            const isOnline = (currentTime - user.lastSeen) < 12000; // 12 seconds buffer Window
+            const client = localDatabaseCache.users[email];
+            // If user pinged backend within last 12 seconds = Online
+            const onlineStatusFlag = (referenceTimestamp - client.lastSeen) < 12000;
 
-            const card = document.createElement("div");
-            card.className = `user-card ${selectedUserEmail === email ? 'active-chat' : ''}`;
-            card.onclick = () => selectActiveTargetChat(email, user.name);
+            const userCardNode = document.createElement("div");
+            userCardNode.className = `user-item-card ${targetedReceiverEmail === email ? 'active-chat' : ''}`;
+            userCardNode.onclick = () => activateChatThread(email, client.name);
 
-            card.innerHTML = `
-                <div class="user-info">
-                    <span class="user-name">${user.name}</span>
-                    <span class="user-email">${user.email}</span>
+            userCardNode.innerHTML = `
+                <div class="user-details">
+                    <span class="u-name">${client.name}</span>
+                    <span class="u-email">${client.email}</span>
                 </div>
-                <span class="status-dot ${isOnline ? 'online' : 'offline'}" title="${isOnline ? 'Online' : 'Offline'}"></span>
+                <span class="status-indicator ${onlineStatusFlag ? 'online' : 'offline'}"></span>
             `;
-            container.appendChild(card);
+            directoryView.appendChild(userCardNode);
         });
     }
 
-    // 3. Select user chat target
-    function selectActiveTargetChat(email, name) {
-        selectedUserEmail = email;
-        document.getElementById("blankState").style.display = "none";
-        document.getElementById("activeChatState").style.display = "flex";
-        document.getElementById("chatHeaderName").innerText = `Chat with ${name}`;
-        renderUsersList();
-        renderPrivateMessages();
+    // 3. Switch chat thread target
+    function activateChatThread(email, name) {
+        targetedReceiverEmail = email;
+        document.getElementById("blankStatePrompt").style.display = "none";
+        document.getElementById("activeChatStateLayout").style.display = "flex";
+        document.getElementById("activeChatterHeaderTitle").innerText = `Workspace Chat with: ${name}`;
+        processRenderList();
+        processRenderBubbles();
     }
 
-    // 4. Render Private Messages filtering Sender & Receiver keys
-    function renderPrivateMessages() {
-        const box = document.getElementById("messagesRenderBox");
-        box.innerHTML = "";
+    // 4. Render Thread Specific Private Messages
+    function processRenderBubbles() {
+        const scroller = document.getElementById("chatContentScroller");
+        scroller.innerHTML = "";
 
-        // Filter messages belonging only to the selected private chat thread
-        const currentThread = serverCacheData.messages.filter(msg => 
-            (msg.sender === mySession.email && msg.receiver === selectedUserEmail) ||
-            (msg.sender === selectedUserEmail && msg.receiver === mySession.email)
+        const threadLogs = localDatabaseCache.messages.filter(msg => 
+            (msg.sender === userSessionProfile.email && msg.receiver === targetedReceiverEmail) ||
+            (msg.sender === targetedReceiverEmail && msg.receiver === userSessionProfile.email)
         );
 
-        currentThread.forEach(msg => {
-            const isMe = msg.sender === mySession.email;
-            const row = document.createElement("div");
-            row.className = `msg-row ${isMe ? 'sent' : 'received'}`;
+        threadLogs.forEach(msg => {
+            const isSelfMessage = msg.sender === userSessionProfile.email;
+            const lineNode = document.createElement("div");
+            lineNode.className = `chat-line ${isSelfMessage ? 'outward' : 'inward'}`;
 
-            const bubble = document.createElement("div");
-            bubble.className = "bubble";
+            const bubbleNode = document.createElement("div");
+            bubbleNode.className = "chat-bubble";
 
             if (msg.type === "image") {
-                bubble.innerHTML = `<a href="${msg.content}" target="_blank"><img src="${msg.content}" class="message-img"></a>`;
+                bubbleNode.innerHTML = `<a href="${msg.content}" target="_blank"><img src="${msg.content}" class="render-media-file"></a>`;
             } else {
-                bubble.innerHTML = `<span>${msg.content}</span>`;
+                bubbleNode.innerHTML = `<span>${msg.content}</span>`;
             }
 
-            row.appendChild(bubble);
-            box.appendChild(row);
+            lineNode.appendChild(bubbleNode);
+            scroller.appendChild(lineNode);
         });
-        box.scrollTop = box.scrollHeight;
+        scroller.scrollTop = scroller.scrollHeight;
     }
 
-    // 5. Send Private Text
-    async function sendPrivateText() {
-        const input = document.getElementById("chatInputField");
-        const val = input.value.trim();
-        if (!val || !selectedUserEmail) return;
-        input.value = "";
+    // 5. Send Text
+    async function executeTextPush() {
+        const messageField = document.getElementById("messageTextField");
+        const cleanContent = messageField.value.trim();
+        if (!cleanContent || !targetedReceiverEmail) return;
+        messageField.value = "";
 
-        await pushTransaction({
+        await pushDataTransaction({
             action: "send",
-            name: mySession.name,
-            email: mySession.email,
-            receiver: selectedUserEmail,
-            content: val,
+            name: userSessionProfile.name,
+            email: userSessionProfile.email,
+            receiver: targetedReceiverEmail,
+            content: cleanContent,
             type: "text"
         });
     }
 
-    // 6. Send Private Image via Base64 stream
-    function uploadPrivateImage(element) {
-        const file = element.files[0];
-        if (!file || !selectedUserEmail) return;
+    // 6. Send Media File via Base64 binary parsing
+    function executeImagePush(element) {
+        const targetFile = element.files[0];
+        if (!targetFile || !targetedReceiverEmail) return;
 
-        const reader = new FileReader();
-        reader.onload = async function(e) {
-            await pushTransaction({
+        const fileReaderInstance = new FileReader();
+        fileReaderInstance.onload = async function(event) {
+            await pushDataTransaction({
                 action: "send",
-                name: mySession.name,
-                email: mySession.email,
-                receiver: selectedUserEmail,
+                name: userSessionProfile.name,
+                email: userSessionProfile.email,
+                receiver: targetedReceiverEmail,
                 type: "image",
-                imageRaw: e.target.result,
-                fileName: file.name,
-                mimeType: file.type
+                imageRaw: event.target.result,
+                fileName: targetFile.name,
+                mimeType: targetFile.type
             });
-            element.value = "";
+            element.value = ""; // Flush selector
         };
-        reader.readAsDataURL(file);
+        fileReaderInstance.readAsDataURL(targetFile);
     }
 
-    async function pushTransaction(payload) {
-        await fetch(API_URL, { method: "POST", body: JSON.stringify(payload) });
-        syncDatabase();
+    async function pushDataTransaction(payload) {
+        await fetch(CLOUD_GATEWAY_URL, { method: "POST", body: JSON.stringify(payload) });
+        performGlobalDatabaseSync();
     }
 
-    // Run interval sync loop for responsive experience
-    setInterval(syncDatabase, 4000);
-    window.onload = syncDatabase;
+    // Performance Sync engine loops
+    setInterval(performGlobalDatabaseSync, 3500);
+    window.onload = performGlobalDatabaseSync;
 </script>
 </body>
 </html>
