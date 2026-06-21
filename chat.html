@@ -9,71 +9,61 @@
         body { font-family: 'Inter', sans-serif; background-color: #0f172a; height: 100vh; display: flex; overflow: hidden; }
         .app-container { display: flex; width: 100vw; height: 100vh; background: #ffffff; }
         
-        /* Left Sidebar */
+        /* Sidebar */
         .sidebar-panel { width: 30%; min-width: 340px; background: #f8fafc; border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; }
-        .sidebar-header { padding: 24px 20px; background: #1e1b4b; color: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-        .sidebar-header h3 { font-size: 1.25rem; font-weight: 700; }
-        .session-badge { font-size: 0.8rem; opacity: 0.8; margin-top: 6px; color: #cbd5e1; }
+        .sidebar-header { padding: 24px 20px; background: #1e1b4b; color: #ffffff; }
         .users-list-box { flex: 1; overflow-y: auto; padding: 10px 0; }
         
-        /* WhatsApp-like User Cards */
-        .user-item-card { display: flex; align-items: center; gap: 12px; padding: 14px 20px; margin: 4px 12px; border-radius: 12px; cursor: pointer; border: 1px solid #e2e8f0; background: #fff; transition: all 0.2s; }
-        .user-item-card:hover { background: #f1f5f9; transform: translateY(-1px); }
+        .user-item-card { display: flex; align-items: center; gap: 12px; padding: 14px 20px; margin: 4px 12px; border-radius: 12px; cursor: pointer; border: 1px solid #e2e8f0; background: #fff; }
         .user-item-card.active-chat { background: #e0e7ff; border-color: #4f46e5; }
-        .user-details { display: flex; flex-direction: column; gap: 2px; }
         .u-name { font-weight: 600; color: #0f172a; font-size: 0.95rem; }
         .u-email { font-size: 0.8rem; color: #64748b; }
 
-        /* Right Chat Panel */
+        /* Chat Panel */
         .chat-view-panel { width: 70%; background: #f1f5f9; display: flex; flex-direction: column; }
-        .chat-view-header { background: #ffffff; padding: 20px 28px; border-bottom: 1px solid #e2e8f0; font-weight: 700; color: #0f172a; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+        .chat-view-header { background: #ffffff; padding: 20px 28px; border-bottom: 1px solid #e2e8f0; font-weight: 700; color: #0f172a; }
         .chat-scroller-window { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #f8fafc; }
         
-        /* Chat Bubbles */
-        .chat-line { display: flex; width: 100%; animation: fadeIn 0.2s ease; }
+        /* Bubbles & Actions */
+        .chat-line { display: flex; width: 100%; margin-bottom: 4px; }
         .chat-line.outward { justify-content: flex-end; }
         .chat-line.inward { justify-content: flex-start; }
-        .chat-bubble { max-width: 60%; padding: 10px 16px; border-radius: 16px; font-size: 0.95rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        
+        .bubble-container { display: flex; flex-direction: column; max-width: 60%; position: relative; group; }
+        .chat-bubble { padding: 10px 16px; border-radius: 16px; font-size: 0.95rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); position: relative; word-break: break-word; }
+        
         .outward .chat-bubble { background: #4f46e5; color: #ffffff; border-bottom-right-radius: 4px; }
         .inward .chat-bubble { background: #ffffff; color: #1e293b; border-bottom-left-radius: 4px; border: 1px solid #e2e8f0; }
-        .render-media-file { max-width: 100%; max-height: 250px; border-radius: 8px; display: block; margin-top: 5px; }
-
-        /* Input Dashboard */
-        .chat-input-dashboard { background: #ffffff; padding: 15px 25px; display: flex; align-items: center; gap: 12px; border-top: 1px solid #e2e8f0; }
-        .input-bar-element { flex: 1; padding: 12px 20px; border: 1px solid #cbd5e1; border-radius: 9999px; outline: none; background: #f8fafc; }
-        .input-bar-element:focus { border-color: #4f46e5; background: #fff; }
-        .btn-media-trigger { background: #f1f5f9; border: none; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; color: #475569; }
-        .btn-media-trigger:hover { background: #e2e8f0; }
-        .btn-dispatch { background: #4f46e5; color: white; border: none; padding: 12px 24px; border-radius: 9999px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25); }
-        .btn-dispatch:hover { background: #4338ca; }
         
-        .splash-blank-state { display: flex; flex-direction: column; justify-content: center; align-items: center; flex: 1; color: #64748b; background: #f8fafc; gap: 10px; font-weight: 500; }
-        .splash-blank-state span { font-size: 2.5rem; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+        /* Edit/Delete Small Actions */
+        .msg-actions { font-size: 0.75rem; margin-top: 4px; display: flex; gap: 8px; justify-content: flex-end; opacity: 0.6; }
+        .msg-actions span { cursor: pointer; color: #4f46e5; font-weight: 600; }
+        .msg-actions span.del { color: #dc2626; }
+        .msg-actions span:hover { text-decoration: underline; }
+
+        .render-media-file { max-width: 100%; max-height: 250px; border-radius: 12px; display: block; margin-top: 5px; background: #cbd5e1; }
+
+        /* Input Bar */
+        .chat-input-dashboard { background: #ffffff; padding: 15px 25px; display: flex; align-items: center; gap: 12px; border-top: 1px solid #e2e8f0; }
+        .input-bar-element { flex: 1; padding: 12px 20px; border: 1px solid #cbd5e1; border-radius: 9999px; outline: none; }
+        .btn-media-trigger { background: #f1f5f9; border: none; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; }
+        .btn-dispatch { background: #4f46e5; color: white; border: none; padding: 12px 24px; border-radius: 9999px; font-weight: 600; cursor: pointer; }
+        .splash-blank-state { display: flex; flex-direction: column; justify-content: center; align-items: center; flex: 1; color: #64748b; background: #f8fafc; }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <div class="app-container">
-    <!-- Left Sidebar Panel -->
     <div class="sidebar-panel">
-        <div class="sidebar-header">
-            <h3 id="profileName">CreatorHub Chat</h3>
-            <div class="session-badge" id="sessionIdentity">Checking active session...</div>
-        </div>
+        <div class="sidebar-header"><h3 id="profileName">CreatorHub Chat</h3></div>
         <div class="users-list-box" id="userDirectoryView">Loading Users...</div>
     </div>
 
-    <!-- Right Chat Panel -->
     <div class="chat-view-panel">
-        <div class="splash-blank-state" id="blankStatePrompt">
-            <span>💬</span>
-            <p>Select a contact from the list to start a chat</p>
-        </div>
+        <div class="splash-blank-state" id="blankStatePrompt"><p>💬 Select a contact to chat</p></div>
         
         <div id="activeChatStateLayout" style="display: none; flex-direction: column; flex: 1; height: 100%;">
-            <div class="chat-view-header" id="activeChatterHeaderTitle">Chat Window</div>
+            <div class="chat-view-header" id="activeChatterHeaderTitle">Chat</div>
             <div class="chat-scroller-window" id="chatContentScroller"></div>
             
             <div class="chat-input-dashboard">
@@ -87,25 +77,18 @@
 </div>
 
 <script>
-    // आपका Google Apps Script Web App URL
+    // नए Deployment का URL यहाँ अपडेट करें
     const CLOUD_GATEWAY_URL = "https://script.google.com/macros/s/AKfycbw9T3_1uvxU7O2ER5GRF5VLZ-8BNmxO5B5ZS_rPTkJk4ol5giC0-l9vM2AIULLbhRildg/exec";
     
-    // 1. डायनेमिक यूज़र डिटेक्शन (URL parameters या localStorage से)
     const urlParams = new URLSearchParams(window.location.search);
-    const paramEmail = urlParams.get('email');
-    const paramName = urlParams.get('name');
     const localStorageUser = JSON.parse(localStorage.getItem("user_login_data"));
-
     const currentUser = {
-        name: paramName || (localStorageUser ? localStorageUser.name : "Ayush Prajapati"),
-        email: paramEmail || (localStorageUser ? localStorageUser.email : "ayushprajpati6@gmail.com")
+        name: urlParams.get('name') || (localStorageUser ? localStorageUser.name : "Ayush Prajapati"),
+        email: urlParams.get('email') || (localStorageUser ? localStorageUser.email : "ayushprajpati6@gmail.com")
     };
     
-    // यूज़र इंटरफ़ेस सेट करना
     document.getElementById("profileName").innerText = currentUser.name;
-    document.getElementById("sessionIdentity").innerText = `Logged in as: ${currentUser.email}`;
 
-    // आपका पूरा users.json डेटाबेस एरे फॉर्मेट में
     const staticUsersList = [
       {"name": "Ayush Prajapati", "email": "ayushprajpati6@gmail.com", "profile_image": "https://drive.google.com/thumbnail?id=1lhVDcQn_g1hpyjrGtM92asMDsC2Z_JWK&sz=w1200"},
       {"name": "Ayush Prajapati", "email": "carforsalesimulator6@gmail.com", "profile_image": ""},
@@ -118,59 +101,40 @@
     let targetedReceiverEmail = null;
     let chatMessagesCache = [];
 
-    // 2. लेफ्ट साइडबार में सभी यूज़र्स को दिखाना (करेंट लॉगिन यूज़र को छोड़कर)
     function renderUsers() {
-        const view = document.getElementById("userDirectoryView");
-        view.innerHTML = "";
-        
+        const view = document.getElementById("userDirectoryView"); view.innerHTML = "";
         staticUsersList.forEach(user => {
-            // जो यूज़र लॉगिन है, वह खुद को लिस्ट में नहीं देखेगा
-            if (user.email.toLowerCase().trim() === currentUser.email.toLowerCase().trim()) return; 
-            
-            const img = user.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random&color=fff`;
+            if (user.email.toLowerCase().trim() === currentUser.email.toLowerCase().trim()) return;
+            const img = user.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random`;
             const card = document.createElement("div");
             card.className = `user-item-card ${targetedReceiverEmail === user.email ? 'active-chat' : ''}`;
             card.onclick = () => startChat(user.email, user.name);
-            
-            card.innerHTML = `
-                <img src="${img}" style="width:42px; height:42px; border-radius:50%; object-fit:cover; border: 1px solid #e2e8f0;">
-                <div class="user-details">
-                    <span class="u-name">${user.name}</span>
-                    <span class="u-email">${user.email}</span>
-                </div>
-            `;
+            card.innerHTML = `<img src="${img}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;"><div class="user-details"><span class="u-name">${user.name}</span><span class="u-email">${user.email}</span></div>`;
             view.appendChild(card);
         });
     }
 
-    // 3. नाम पर क्लिक करते ही चैट स्क्रीन ओपन करना (One-Click)
     function startChat(email, name) {
         targetedReceiverEmail = email;
         document.getElementById("blankStatePrompt").style.display = "none";
         document.getElementById("activeChatStateLayout").style.display = "flex";
         document.getElementById("activeChatterHeaderTitle").innerText = name;
-        renderUsers();
-        loadChats();
+        renderUsers(); loadChats();
     }
 
-    // 4. क्लाउड डेटाबेस से चैट मैसेजेस लोड करना
     async function loadChats() {
         try {
             const res = await fetch(CLOUD_GATEWAY_URL);
             const data = await res.json();
             chatMessagesCache = data.messages || [];
             renderBubbles();
-        } catch (e) { console.error("Error loading chat from DB", e); }
+        } catch (e) { console.error("Error loading chat", e); }
     }
 
-    // 5. मैसेज बबल्स को स्क्रीन पर रेंडर करना (व्हाट्सएप लेआउट)
     function renderBubbles() {
-        const scroller = document.getElementById("chatContentScroller");
-        scroller.innerHTML = "";
-        
+        const scroller = document.getElementById("chatContentScroller"); scroller.innerHTML = "";
         if (!targetedReceiverEmail) return;
 
-        // सिर्फ करेंट लॉगिन यूज़र और सिलेक्टेड यूज़र के बीच की पर्सनल चैट फ़िल्टर करना
         const activeLogs = chatMessagesCache.filter(msg => 
             (msg.sender === currentUser.email && msg.receiver === targetedReceiverEmail) ||
             (msg.sender === targetedReceiverEmail && msg.receiver === currentUser.email)
@@ -181,48 +145,62 @@
             const line = document.createElement("div");
             line.className = `chat-line ${isSelf ? 'outward' : 'inward'}`;
             
+            const container = document.createElement("div");
+            container.className = "bubble-container";
+
             const bubble = document.createElement("div");
             bubble.className = "chat-bubble";
             
             if (msg.type === "image") {
-                bubble.innerHTML = `<a href="${msg.content}" target="_blank"><img src="${msg.content}" class="render-media-file"></a>`;
+                // इमेज को लोड करने के लिए डायरेक्ट व्यू लिंक
+                bubble.innerHTML = `<a href="${msg.content}" target="_blank"><img src="${msg.content}" class="render-media-file" alt="Shared Image"></a>`;
             } else {
                 bubble.innerText = msg.content;
             }
             
-            line.appendChild(bubble);
+            container.appendChild(bubble);
+
+            // अगर खुद का भेजा मैसेज है, तो Edit और Delete का बटन दिखाओ
+            if (isSelf) {
+                const actions = document.createElement("div");
+                actions.className = "msg-actions";
+                
+                if (msg.type !== "image") {
+                    actions.innerHTML = `<span onclick="editMessage('${msg.id}', '${msg.content}')">Edit</span>`;
+                }
+                actions.innerHTML += `<span class="del" onclick="deleteMessage('${msg.id}')">Delete</span>`;
+                container.appendChild(actions);
+            }
+            
+            line.appendChild(container);
             scroller.appendChild(line);
         });
-        scroller.scrollTop = scroller.scrollHeight; // स्क्रॉल बार हमेशा नीचे ले जाएं
+        scroller.scrollTop = scroller.scrollHeight;
     }
 
-    // 6. वन-क्लिक टेक्स्ट मैसेज भेजना
     async function executeTextPush() {
         const input = document.getElementById("messageTextField");
         const val = input.value.trim();
         if (!val || !targetedReceiverEmail) return;
         input.value = "";
 
-        // तुरंत स्क्रीन पर दिखाना ताकि व्हाट्सएप जैसी स्पीड मिले (Optimistic UI)
-        chatMessagesCache.push({ sender: currentUser.email, receiver: targetedReceiverEmail, content: val, type: "text" });
+        chatMessagesCache.push({ id: "temp", sender: currentUser.email, receiver: targetedReceiverEmail, content: val, type: "text" });
         renderBubbles();
 
         await fetch(CLOUD_GATEWAY_URL, {
             method: "POST",
             body: JSON.stringify({ action: "send", sender: currentUser.email, receiver: targetedReceiverEmail, content: val, type: "text" })
         });
-        loadChats(); // सर्वर से दोबारा सिंक करना
+        loadChats();
     }
 
-    // 7. वन-क्लिक इमेज सेंडिंग (डायरेक्ट ड्राइव अपलोड)
     function executeImagePush(el) {
         const file = el.files[0];
         if (!file || !targetedReceiverEmail) return;
 
         const reader = new FileReader();
         reader.onload = async function(e) {
-            // अपलोड होते समय स्क्रीन पर लोडिंग स्टेटस दिखाना
-            chatMessagesCache.push({ sender: currentUser.email, receiver: targetedReceiverEmail, content: "📷 Sending image...", type: "text" });
+            chatMessagesCache.push({ id: "temp", sender: currentUser.email, receiver: targetedReceiverEmail, content: "📷 Sending image...", type: "text" });
             renderBubbles();
 
             await fetch(CLOUD_GATEWAY_URL, {
@@ -232,16 +210,36 @@
                     type: "image", imageRaw: e.target.result, fileName: file.name, mimeType: file.type
                 })
             });
-            el.value = ""; // फ़ाइल इनपुट क्लियर करना
+            el.value = "";
             loadChats();
         };
         reader.readAsDataURL(file);
     }
 
-    // पहली बार में यूज़र्स लोड करना
+    // एडिट फंक्शन
+    async function editMessage(msgId, oldContent) {
+        const newText = prompt("Edit your message:", oldContent);
+        if (!newText || newText.trim() === oldContent) return;
+
+        await fetch(CLOUD_GATEWAY_URL, {
+            method: "POST",
+            body: JSON.stringify({ action: "edit", msgId: msgId, sender: currentUser.email, newContent: newText.trim() })
+        });
+        loadChats();
+    }
+
+    // डिलीट फंक्शन
+    async function deleteMessage(msgId) {
+        if (!confirm("Are you sure you want to delete this message?")) return;
+
+        await fetch(CLOUD_GATEWAY_URL, {
+            method: "POST",
+            body: JSON.stringify({ action: "delete", msgId: msgId, sender: currentUser.email })
+        });
+        loadChats();
+    }
+
     renderUsers();
-    
-    // हर 3.5 सेकंड में बैकग्राउंड में न्यू मेसेजेस चेक करना (Real-time Sync)
     setInterval(loadChats, 3500);
 </script>
 </body>
