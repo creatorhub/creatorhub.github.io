@@ -3,85 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CreatorHub Chat Pro</title>
+    <title>CreatorHub Chat SuperPro</title>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; background-color: #0f172a; height: 100vh; display: flex; overflow: hidden; }
         .app-container { display: flex; width: 100vw; height: 100vh; background: #ffffff; }
         
-        /* Sidebar */
+        /* Left Sidebar Panel */
         .sidebar-panel { width: 30%; min-width: 340px; background: #f8fafc; border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; }
-        .sidebar-header { padding: 24px 20px; background: #1e1b4b; color: #ffffff; }
+        .sidebar-header { padding: 24px 20px; background: #1e1b4b; color: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .sidebar-header h3 { font-size: 1.25rem; font-weight: 700; }
+        .session-badge { font-size: 0.8rem; opacity: 0.8; margin-top: 6px; color: #cbd5e1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .users-list-box { flex: 1; overflow-y: auto; padding: 10px 0; }
         
-        .user-item-card { display: flex; align-items: center; gap: 12px; padding: 14px 20px; margin: 4px 12px; border-radius: 12px; cursor: pointer; border: 1px solid #e2e8f0; background: #fff; }
+        /* WhatsApp Style User Cards */
+        .user-item-card { display: flex; align-items: center; gap: 12px; padding: 14px 20px; margin: 4px 12px; border-radius: 12px; cursor: pointer; border: 1px solid #e2e8f0; background: #fff; transition: all 0.2s; }
+        .user-item-card:hover { background: #f1f5f9; transform: translateY(-1px); }
         .user-item-card.active-chat { background: #e0e7ff; border-color: #4f46e5; }
+        .user-details { display: flex; flex-direction: column; gap: 2px; }
         .u-name { font-weight: 600; color: #0f172a; font-size: 0.95rem; }
         .u-email { font-size: 0.8rem; color: #64748b; }
 
-        /* Chat Panel */
+        /* Right Chat Panel */
         .chat-view-panel { width: 70%; background: #f1f5f9; display: flex; flex-direction: column; position: relative; }
         
-        /* Chat Header with 3-Dots Menu */
-        .chat-view-header { background: #ffffff; padding: 20px 28px; border-bottom: 1px solid #e2e8f0; font-weight: 700; color: #0f172a; display: flex; justify-content: space-between; align-items: center; position: relative; }
-        .three-dots-btn { font-size: 1.4rem; cursor: pointer; padding: 4px 10px; border-radius: 50%; transition: background 0.2s; }
+        /* Chat Window Header with 3-Dots */
+        .chat-view-header { background: #ffffff; padding: 20px 28px; border-bottom: 1px solid #e2e8f0; font-weight: 700; color: #0f172a; display: flex; justify-content: space-between; align-items: center; position: relative; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+        .three-dots-btn { font-size: 1.4rem; cursor: pointer; padding: 4px 12px; border-radius: 50%; transition: background 0.2s; user-select: none; }
         .three-dots-btn:hover { background: #f1f5f9; }
         
-        /* Dropdown Menu Dynamic Style */
-        .dropdown-menu { display: none; position: absolute; top: 60px; right: 28px; background: white; border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border-radius: 12px; z-index: 100; min-width: 160px; overflow: hidden; }
+        /* Premium Dropdown Menu */
+        .dropdown-menu { display: none; position: absolute; top: 65px; right: 28px; background: white; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px -3px rgba(0,0,0,0.1); border-radius: 12px; z-index: 100; min-width: 160px; overflow: hidden; }
         .dropdown-menu.show { display: block; }
         .dropdown-item { padding: 12px 16px; font-size: 0.9rem; color: #1e293b; cursor: pointer; font-weight: 500; transition: background 0.2s; }
         .dropdown-item:hover { background: #f1f5f9; }
-        .dropdown-item.danger { color: #dc2626; }
+        .dropdown-item.danger { color: #dc2626; border-top: 1px solid #f1f5f9; }
 
         .chat-scroller-window { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #f8fafc; }
         
-        /* Bubbles Layout */
+        /* Chat Bubble Framework */
         .chat-line { display: flex; width: 100%; margin-bottom: 4px; }
         .chat-line.outward { justify-content: flex-end; }
         .chat-line.inward { justify-content: flex-start; }
         
         .bubble-container { display: flex; flex-direction: column; max-width: 60%; }
-        .chat-bubble { padding: 10px 16px; border-radius: 16px; font-size: 0.95rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); position: relative; word-break: break-word; }
+        .chat-bubble { padding: 10px 16px; border-radius: 16px; font-size: 0.95rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); position: relative; word-break: break-word; line-height: 1.45; }
         
         .outward .chat-bubble { background: #4f46e5; color: #ffffff; border-bottom-right-radius: 4px; }
         .inward .chat-bubble { background: #ffffff; color: #1e293b; border-bottom-left-radius: 4px; border: 1px solid #e2e8f0; }
         
-        /* Edit/Delete Labels */
-        .msg-actions { font-size: 0.75rem; margin-top: 4px; display: flex; gap: 8px; justify-content: flex-end; opacity: 0.8; }
-        .msg-actions span { cursor: pointer; color: #4f46e5; font-weight: 600; }
+        /* Actions Links under Message */
+        .msg-actions { font-size: 0.75rem; margin-top: 4px; display: flex; gap: 10px; justify-content: flex-end; opacity: 0.8; }
+        .msg-actions span { cursor: pointer; color: #4f46e5; font-weight: 600; user-select: none; }
         .msg-actions span.del { color: #dc2626; }
         .msg-actions span:hover { text-decoration: underline; }
 
-        .render-media-file { max-width: 100%; max-height: 250px; border-radius: 12px; display: block; margin-top: 5px; background: #cbd5e1; }
+        .render-media-file { max-width: 100%; max-height: 260px; border-radius: 12px; display: block; margin-top: 4px; background: #f1f5f9; object-fit: cover; }
 
-        /* Inputs */
+        /* Chat Controls Dashboard */
         .chat-input-dashboard { background: #ffffff; padding: 15px 25px; display: flex; align-items: center; gap: 12px; border-top: 1px solid #e2e8f0; }
-        .input-bar-element { flex: 1; padding: 12px 20px; border: 1px solid #cbd5e1; border-radius: 9999px; outline: none; }
-        .btn-media-trigger { background: #f1f5f9; border: none; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; color: #475569; }
-        .btn-dispatch { background: #4f46e5; color: white; border: none; padding: 12px 24px; border-radius: 9999px; font-weight: 600; cursor: pointer; }
-        .splash-blank-state { display: flex; flex-direction: column; justify-content: center; align-items: center; flex: 1; color: #64748b; background: #f8fafc; }
+        .input-bar-element { flex: 1; padding: 12px 20px; border: 1px solid #cbd5e1; border-radius: 9999px; outline: none; background: #f8fafc; font-size: 0.95rem; }
+        .input-bar-element:focus { border-color: #4f46e5; background: #ffffff; }
+        .btn-media-trigger { background: #f1f5f9; border: none; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; color: #475569; transition: background 0.2s; }
+        .btn-media-trigger:hover { background: #e2e8f0; }
+        .btn-dispatch { background: #4f46e5; color: white; border: none; padding: 12px 24px; border-radius: 9999px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25); transition: background 0.2s; }
+        .btn-dispatch:hover { background: #3931d8; }
+        
+        .splash-blank-state { display: flex; flex-direction: column; justify-content: center; align-items: center; flex: 1; color: #64748b; background: #f8fafc; gap: 8px; font-weight: 500; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <div class="app-container">
     <div class="sidebar-panel">
-        <div class="sidebar-header"><h3 id="profileName">CreatorHub Chat</h3></div>
+        <div class="sidebar-header">
+            <h3 id="profileName">CreatorHub Chat</h3>
+            <div class="session-badge" id="sessionIdentity">Verifying active session...</div>
+        </div>
         <div class="users-list-box" id="userDirectoryView">Loading Users...</div>
     </div>
 
     <div class="chat-view-panel">
-        <div class="splash-blank-state" id="blankStatePrompt"><p>💬 Select a contact to chat</p></div>
+        <div class="splash-blank-state" id="blankStatePrompt">
+            <p style="font-size: 2.5rem;">💬</p>
+            <p>Select a workspace team member to start chatting</p>
+        </div>
         
         <div id="activeChatStateLayout" style="display: none; flex-direction: column; flex: 1; height: 100%;">
             <div class="chat-view-header">
-                <span id="activeChatterHeaderTitle">Chat</span>
-                <div class="three-dots-btn" onclick="toggleDropdown()">⋮</div>
+                <span id="activeChatterHeaderTitle">Active Stream</span>
+                <div class="three-dots-btn" onclick="toggleDropdown(event)">⋮</div>
                 <div class="dropdown-menu" id="headerDropdown">
-                    <div class="dropdown-item" onclick="alert('User details matching secure infrastructure.')">View Profile</div>
-                    <div class="dropdown-item" onclick="alert('All media assets stored safely in drive.')">Shared Media</div>
-                    <div class="dropdown-item danger" onclick="clearCurrentChat()">Clear Chat</div>
+                    <div class="dropdown-item" onclick="alert('Secure Workspace Session Verified.')">View Profile</div>
+                    <div class="dropdown-item danger" onclick="clearCurrentChatThread()">Clear Chat History</div>
                 </div>
             </div>
             
@@ -90,7 +106,7 @@
             <div class="chat-input-dashboard">
                 <input type="file" id="mediaSelectorHidden" accept="image/*" style="display: none;" onchange="executeImagePush(this)">
                 <button class="btn-media-trigger" onclick="document.getElementById('mediaSelectorHidden').click()">📷</button>
-                <input type="text" id="messageTextField" class="input-bar-element" placeholder="Type a message..." onkeypress="if(event.key==='Enter') executeTextPush()">
+                <input type="text" id="messageTextField" class="input-bar-element" placeholder="Type a secure message..." onkeypress="if(event.key==='Enter') executeTextPush()">
                 <button class="btn-dispatch" onclick="executeTextPush()">Send</button>
             </div>
         </div>
@@ -98,18 +114,23 @@
 </div>
 
 <script>
-    // यहाँ अपना नया Apps Script Deployment URL डालें
+    // ⚠️ अपने नए Apps Script Deployment का URL यहाँ बिल्कुल सही पेस्ट करें
     const CLOUD_GATEWAY_URL = "https://script.google.com/macros/s/AKfycbw9T3_1uvxU7O2ER5GRF5VLZ-8BNmxO5B5ZS_rPTkJk4ol5giC0-l9vM2AIULLbhRildg/exec";
     
+    // URL Parameters और LocalStorage डिटेक्शन इंजन
     const urlParams = new URLSearchParams(window.location.search);
     const localStorageUser = JSON.parse(localStorage.getItem("user_login_data"));
+    
     const currentUser = {
         name: urlParams.get('name') || (localStorageUser ? localStorageUser.name : "Ayush Prajapati"),
-        email: urlParams.get('email') || (localStorageUser ? localStorageUser.email : "ayushprajpati6@gmail.com")
+        email: (urlParams.get('email') || (localStorageUser ? localStorageUser.email : "ayushprajpati6@gmail.com")).toLowerCase().trim()
     };
     
+    // UI पर एक्टिव यूज़र का नाम सेट करना
     document.getElementById("profileName").innerText = currentUser.name;
+    document.getElementById("sessionIdentity").innerText = `Session: ${currentUser.email}`;
 
+    // आपकी फिक्स 6 यूज़र वाली डेटाबेस लिस्ट
     const staticUsersList = [
       {"name": "Ayush Prajapati", "email": "ayushprajpati6@gmail.com", "profile_image": "https://drive.google.com/thumbnail?id=1lhVDcQn_g1hpyjrGtM92asMDsC2Z_JWK&sz=w1200"},
       {"name": "Ayush Prajapati", "email": "carforsalesimulator6@gmail.com", "profile_image": ""},
@@ -122,38 +143,58 @@
     let targetedReceiverEmail = null;
     let chatMessagesCache = [];
 
+    // 1. लेफ्ट साइडबार रेंडरर
     function renderUsers() {
-        const view = document.getElementById("userDirectoryView"); view.innerHTML = "";
+        const view = document.getElementById("userDirectoryView"); 
+        view.innerHTML = "";
+        
         staticUsersList.forEach(user => {
-            if (user.email.toLowerCase().trim() === currentUser.email.toLowerCase().trim()) return;
-            const img = user.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random`;
+            if (user.email.toLowerCase().trim() === currentUser.email) return; // खुद की आईडी को लिस्ट से छुपाएं
+            
+            const img = user.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random&color=fff`;
             const card = document.createElement("div");
-            card.className = `user-item-card ${targetedReceiverEmail === user.email ? 'active-chat' : ''}`;
-            card.onclick = () => startChat(user.email, user.name);
-            card.innerHTML = `<img src="${img}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;"><div class="user-details"><span class="u-name">${user.name}</span><span class="u-email">${user.email}</span></div>`;
+            card.className = `user-item-card ${targetedReceiverEmail === user.email.toLowerCase().trim() ? 'active-chat' : ''}`;
+            card.onclick = () => startChat(user.email.toLowerCase().trim(), user.name);
+            
+            card.innerHTML = `
+                <img src="${img}" style="width:42px; height:42px; border-radius:50%; object-fit:cover; border: 1px solid #e2e8f0;">
+                <div class="user-details">
+                    <span class="u-name">${user.name}</span>
+                    <span class="u-email">${user.email}</span>
+                </div>
+            `;
             view.appendChild(card);
         });
     }
 
+    // 2. वन-क्लिक चैट थ्रेड चेंजर
     function startChat(email, name) {
         targetedReceiverEmail = email;
         document.getElementById("blankStatePrompt").style.display = "none";
         document.getElementById("activeChatStateLayout").style.display = "flex";
         document.getElementById("activeChatterHeaderTitle").innerText = name;
-        renderUsers(); loadChats();
+        renderUsers(); 
+        loadChats();
     }
 
+    // 3. सुपर-फास्ट चैट्स सिंक (सुरक्षित तरीके से ईमेल भेजकर डेटा लाना)
     async function loadChats() {
+        if (!currentUser.email) return;
         try {
-            const res = await fetch(CLOUD_GATEWAY_URL);
+            const res = await fetch(`${CLOUD_GATEWAY_URL}?email=${encodeURIComponent(currentUser.email)}`);
             const data = await res.json();
-            chatMessagesCache = data.messages || [];
-            renderBubbles();
-        } catch (e) { console.error("Error loading chat", e); }
+            
+            if (data.messages) {
+                chatMessagesCache = data.messages;
+                renderBubbles();
+            }
+        } catch (e) { console.error("Syncing delay: ", e); }
     }
 
+    // 4. मैसेज बबल्स रेंडरर (व्हाट्सएप स्टाइल)
     function renderBubbles() {
-        const scroller = document.getElementById("chatContentScroller"); scroller.innerHTML = "";
+        const scroller = document.getElementById("chatContentScroller"); 
+        scroller.innerHTML = "";
         if (!targetedReceiverEmail) return;
 
         const activeLogs = chatMessagesCache.filter(msg => 
@@ -161,7 +202,7 @@
             (msg.sender === targetedReceiverEmail && msg.receiver === currentUser.email)
         );
 
-        activeLogs.forEach((msg, index) => {
+        activeLogs.forEach(msg => {
             const isSelf = msg.sender === currentUser.email;
             const line = document.createElement("div");
             line.className = `chat-line ${isSelf ? 'outward' : 'inward'}`;
@@ -173,22 +214,23 @@
             bubble.className = "chat-bubble";
             
             if (msg.type === "image") {
-                bubble.innerHTML = `<a href="${msg.content}" target="_blank"><img src="${msg.content}" class="render-media-file" alt="Shared Image"></a>`;
+                // इमेज दिखने के लिए डायरेक्ट थंबनेल रेंडरर इमेज टैग
+                bubble.innerHTML = `<a href="${msg.content}" target="_blank"><img src="${msg.content}" class="render-media-file" alt="Media File"></a>`;
             } else {
                 bubble.innerText = msg.content;
             }
             
             container.appendChild(bubble);
 
-            // एडिट/डिलीट केवल खुद के मैसेजेस पर काम करेगा
-            if (isSelf && msg.id && msg.id !== "temp") {
+            // एडिट और डिलीट बटन (सिर्फ खुद के मैसेज पर और जो पूरी तरह अपलोड हो चुके हैं)
+            if (isSelf && msg.id && !msg.id.startsWith("temp_")) {
                 const actions = document.createElement("div");
                 actions.className = "msg-actions";
                 
                 if (msg.type !== "image") {
-                    actions.innerHTML = `<span onclick="editMessage('${msg.id}', \`${msg.content.replace(/'/g, "\\'")}\`)">Edit</span>`;
+                    actions.innerHTML = `<span onclick="editMessageTransaction('${msg.id}', \`${msg.content.replace(/'/g, "\\'")}\`)">Edit</span>`;
                 }
-                actions.innerHTML += `<span class="del" onclick="deleteMessage('${msg.id}')">Delete</span>`;
+                actions.innerHTML += `<span class="del" onclick="deleteMessageTransaction('${msg.id}')">Delete</span>`;
                 container.appendChild(actions);
             }
             
@@ -198,29 +240,35 @@
         scroller.scrollTop = scroller.scrollHeight;
     }
 
+    // 5. सुपर-फास्ट टेक्स्ट सेंडिंग (Optimistic UI - तुरंत स्क्रीन पर दिखेगा)
     async function executeTextPush() {
         const input = document.getElementById("messageTextField");
         const val = input.value.trim();
         if (!val || !targetedReceiverEmail) return;
         input.value = "";
 
-        chatMessagesCache.push({ id: "temp", sender: currentUser.email, receiver: targetedReceiverEmail, content: val, type: "text" });
+        const tempId = "temp_" + new Date().getTime();
+        // बिना सर्वर का वेट किए मैसेज तुरंत स्क्रीन पर पुश करना
+        chatMessagesCache.push({ id: tempId, sender: currentUser.email, receiver: targetedReceiverEmail, content: val, type: "text" });
         renderBubbles();
 
         await fetch(CLOUD_GATEWAY_URL, {
             method: "POST",
             body: JSON.stringify({ action: "send", sender: currentUser.email, receiver: targetedReceiverEmail, content: val, type: "text" })
         });
-        loadChats();
+        loadChats(); // बैकएंड से रीयल आईडी सिंक करना
     }
 
+    // 6. सुपर-फास्ट इमेज सेंडिंग (डायरेक्ट ड्राइव सब-फ़ोल्डर अपलोड)
     function executeImagePush(el) {
         const file = el.files[0];
         if (!file || !targetedReceiverEmail) return;
 
         const reader = new FileReader();
         reader.onload = async function(e) {
-            chatMessagesCache.push({ id: "temp", sender: currentUser.email, receiver: targetedReceiverEmail, content: "📷 Sending image...", type: "text" });
+            const tempId = "temp_" + new Date().getTime();
+            // स्क्रीन पर तुरंत लोकल थंबनेल या अपलोडिंग दिखाना
+            chatMessagesCache.push({ id: tempId, sender: currentUser.email, receiver: targetedReceiverEmail, content: "📷 Uploading new asset image...", type: "text" });
             renderBubbles();
 
             await fetch(CLOUD_GATEWAY_URL, {
@@ -236,9 +284,15 @@
         reader.readAsDataURL(file);
     }
 
-    async function editMessage(msgId, oldContent) {
-        const newText = prompt("Edit your message:", oldContent);
+    // 7. मैसेज एडिट ट्रांसजैक्शन
+    async function editMessageTransaction(msgId, oldContent) {
+        const newText = prompt("Update your secure message content:", oldContent);
         if (!newText || newText.trim() === oldContent) return;
+
+        // स्क्रीन पर तुरंत एडिट दिखाना
+        const index = chatMessagesCache.findIndex(m => m.id === msgId);
+        if(index !== -1) chatMessagesCache[index].content = newText.trim();
+        renderBubbles();
 
         await fetch(CLOUD_GATEWAY_URL, {
             method: "POST",
@@ -247,8 +301,13 @@
         loadChats();
     }
 
-    async function deleteMessage(msgId) {
-        if (!confirm("Delete this message?")) return;
+    // 8. मैसेज डिलीट ट्रांसजैक्शन
+    async function deleteMessageTransaction(msgId) {
+        if (!confirm("Are you sure you want to delete this message for everyone?")) return;
+
+        // स्क्रीन से तुरंत गायब करना
+        chatMessagesCache = chatMessagesCache.filter(m => m.id !== msgId);
+        renderBubbles();
 
         await fetch(CLOUD_GATEWAY_URL, {
             method: "POST",
@@ -257,18 +316,21 @@
         loadChats();
     }
 
-    // 3-Dots dropdown menu toggle
-    function toggleDropdown() {
+    // 3-Dots dropdown menu toggler
+    function toggleDropdown(event) {
+        event.stopPropagation();
         document.getElementById("headerDropdown").classList.toggle("show");
     }
 
-    // क्लियर चैट फ़ंक्शन
-    async function clearCurrentChat() {
+    // 9. 3-Dot मेनू से पूरी चैट क्लियर करना (Clear Chat)
+    async function clearCurrentChatThread() {
         if (!targetedReceiverEmail) return;
-        if (!confirm("Are you sure you want to clear all messages in this chat?")) return;
+        if (!confirm("Clear full conversation history with this contact? This cannot be undone.")) return;
         
-        document.getElementById("headerDropdown").classList.remove("show");
-        chatMessagesCache = [];
+        chatMessagesCache = chatMessagesCache.filter(m => !(
+            (m.sender === currentUser.email && m.receiver === targetedReceiverEmail) ||
+            (m.sender === targetedReceiverEmail && msg.receiver === currentUser.email)
+        ));
         renderBubbles();
 
         await fetch(CLOUD_GATEWAY_URL, {
@@ -278,19 +340,16 @@
         loadChats();
     }
 
-    // स्क्रीन पर क्लिक करने पर ड्रॉपडाउन बंद करना
-    window.onclick = function(event) {
-        if (!event.target.matches('.three-dots-btn')) {
-            const dropdowns = document.getElementsByClassName("dropdown-menu");
-            for (let i = 0; i < dropdowns.length; i++) {
-                if (dropdowns[i].classList.contains('show')) {
-                    dropdowns[i].classList.remove('show');
-                }
-            }
-        }
+    // स्क्रीन पर कहीं भी क्लिक करने से ड्रॉपडाउन बंद करना
+    window.onclick = function() {
+        document.getElementById("headerDropdown").classList.remove("show");
     }
 
+    // इनिशियलाइज़ेशन रनर
     renderUsers();
+    loadChats();
+    
+    // प्रत्येक 3.5 सेकंड में ऑटोमैटिकली नए मैसेजेस फैच करना
     setInterval(loadChats, 3500);
 </script>
 </body>
