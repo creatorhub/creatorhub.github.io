@@ -29,6 +29,9 @@
         
         /* Header with 3-Dots */
         .chat-view-header { background: #ffffff; padding: 20px 28px; border-bottom: 1px solid #e2e8f0; font-weight: 700; color: #0f172a; display: flex; justify-content: space-between; align-items: center; position: relative; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+        .chat-header-left { display: flex; align-items: center; gap: 12px; }
+        .mobile-back-btn { display: none; font-size: 1.5rem; cursor: pointer; background: none; border: none; color: #0f172a; font-weight: bold; padding: 4px 8px; }
+        
         .three-dots-btn { font-size: 1.4rem; cursor: pointer; padding: 4px 12px; border-radius: 50%; transition: background 0.2s; user-select: none; }
         .three-dots-btn:hover { background: #f1f5f9; }
         
@@ -67,12 +70,57 @@
         .btn-dispatch { background: #4f46e5; color: white; border: none; padding: 12px 24px; border-radius: 9999px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25); }
         
         .splash-blank-state { display: flex; flex-direction: column; justify-content: center; align-items: center; flex: 1; color: #64748b; background: #f8fafc; gap: 8px; font-weight: 500; }
+
+        /* ====================================================== */
+        /* MOBILE RESPONSIVE MEDIA QUERIES (768px or less)         */
+        /* ====================================================== */
+        @media screen and (max-width: 768px) {
+            .sidebar-panel {
+                width: 100%;
+                min-width: 100%;
+                display: flex;
+            }
+            .chat-view-panel {
+                width: 100%;
+                display: none; /* डिफ़ॉल्ट रूप से मोबाइल पर चैट छुपी रहेगी */
+            }
+            /* जब मोबाइल पर चैट एक्टिव हो तो लेआउट बदलने के लिए क्लास */
+            .app-container.mobile-chat-active .sidebar-panel {
+                display: none;
+            }
+            .app-container.mobile-chat-active .chat-view-panel {
+                display: flex;
+                width: 100%;
+            }
+            .mobile-back-btn {
+                display: block; /* मोबाइल पर बैक बटन दिखेगा */
+            }
+            .chat-view-header {
+                padding: 15px 20px;
+            }
+            .chat-scroller-window {
+                padding: 15px;
+            }
+            .bubble-container {
+                max-width: 85%; /* मोबाइल स्क्रीन पर बबल को थोड़ा चौड़ा किया */
+            }
+            .chat-input-dashboard {
+                padding: 10px 15px;
+                gap: 8px;
+            }
+            .input-bar-element {
+                padding: 10px 15px;
+            }
+            .btn-dispatch {
+                padding: 10px 18px;
+            }
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="app-container">
+<div class="app-container" id="appMainContainer">
     <div class="sidebar-panel">
         <div class="sidebar-header">
             <h3 id="profileName">CreatorHub Chat</h3>
@@ -89,7 +137,11 @@
         
         <div id="activeChatStateLayout" style="display: none; flex-direction: column; flex: 1; height: 100%;">
             <div class="chat-view-header">
-                <span id="activeChatterHeaderTitle">Active Stream</span>
+                <div class="chat-header-left">
+                    <!-- मोबाइल के लिए बैक बटन -->
+                    <button class="mobile-back-btn" onclick="backToUserList()">←</button>
+                    <span id="activeChatterHeaderTitle">Active Stream</span>
+                </div>
                 <div class="three-dots-btn" onclick="toggleDropdown(event)">⋮</div>
                 <div class="dropdown-menu" id="headerDropdown">
                     <div class="dropdown-item" onclick="alert('Secure Workspace Session Verified.')">View Profile</div>
@@ -110,12 +162,8 @@
 </div>
 
 <script>
-    // ⚠️ अपना नया Apps Script Web App URL यहाँ पेस्ट करो
     const CLOUD_GATEWAY_URL = "https://script.google.com/macros/s/AKfycbw9T3_1uvxU7O2ER5GRF5VLZ-8BNmxO5B5ZS_rPTkJk4ol5giC0-l9vM2AIULLbhRildg/exec";
     
-    // ======================================================
-    // 1. होमपेज से सिंक्रोनाइज्ड एडवांस डिटेक्शन इंजन (No Popups!)
-    // ======================================================
     const urlParams = new URLSearchParams(window.location.search);
     const paramEmail = urlParams.get('email');
     const paramName = urlParams.get('name');
@@ -125,7 +173,6 @@
         email: paramEmail ? paramEmail.toLowerCase().trim() : null
     };
 
-    // अगर URL में डेटा नहीं है, तो आपके होमपेज (Index) की सभी स्टोरेज कीज़ को छान मारो
     if (!currentUser.email) {
         let userText = localStorage.getItem("user") || localStorage.getItem("currentUser") || localStorage.getItem("creatorhub_user") || localStorage.getItem("user_login_data");
         let userObj = {};
@@ -140,12 +187,10 @@
         }
     }
 
-    // सुरक्षा ब्लॉक: अगर यूज़र कहीं भी लॉगिन नहीं है, तो सीधे 'login.html' पर धकेल दो
     if (!currentUser.email) {
         alert("Access Denied! Please login to CreatorHub first.");
         window.location.href = "login.html"; 
     } else {
-        // अगर ईमेल मिल गया लेकिन डिफ़ॉल्ट नाम था, तो एरे लिस्ट से ऑटो-मैच करो
         if (!currentUser.name || currentUser.name === "CreatorHub User") {
             const cleanEmail = currentUser.email;
             if (cleanEmail.includes("umesh")) currentUser.name = "Umesh Kumar's";
@@ -156,11 +201,9 @@
         }
     }
 
-    // UI हेडर लोड करना
     document.getElementById("profileName").innerText = currentUser.name || "CreatorHub User";
     document.getElementById("sessionIdentity").innerText = `Active: ${currentUser.email}`;
 
-    // स्टेटिक यूज़र्स डायरेक्टरी
     const staticUsersList = [
       {"name": "Ayush Prajapati", "email": "ayushprajpati6@gmail.com", "profile_image": "https://drive.google.com/thumbnail?id=1lhVDcQn_g1hpyjrGtM92asMDsC2Z_JWK&sz=w1200"},
       {"name": "Ayush Prajapati", "email": "carforsalesimulator6@gmail.com", "profile_image": ""},
@@ -173,7 +216,6 @@
     let targetedReceiverEmail = null;
     let chatMessagesCache = [];
 
-    // 2. लेफ्ट साइडबार रेंडरर
     function renderUsers() {
         const view = document.getElementById("userDirectoryView"); view.innerHTML = "";
         staticUsersList.forEach(user => {
@@ -188,16 +230,23 @@
         });
     }
 
-    // 3. थ्रेड स्विचर
     function startChat(email, name) {
         targetedReceiverEmail = email;
         document.getElementById("blankStatePrompt").style.display = "none";
         document.getElementById("activeChatStateLayout").style.display = "flex";
         document.getElementById("activeChatterHeaderTitle").innerText = name;
+        
+        // मोबाइल व्यू में चैट पैनल को फुल स्क्रीन दिखाने के लिए कंटेनर क्लास एक्टिव करें
+        document.getElementById("appMainContainer").classList.add("mobile-chat-active");
+        
         renderUsers(); loadChats();
     }
 
-    // 4. फ़ास्ट कैश लोडिंग सिंक (सुरक्षित API फ़ेच)
+    // मोबाइल पर चैट बंद करके वापस लिस्ट पर जाने का फंक्शन
+    function backToUserList() {
+        document.getElementById("appMainContainer").classList.remove("mobile-chat-active");
+    }
+
     async function loadChats() {
         if (!currentUser.email) return;
         try {
@@ -210,7 +259,6 @@
         } catch (e) { console.error("Syncing delay: ", e); }
     }
 
-    // 5. रियल-टाइम बबल बिल्डर
     function renderBubbles() {
         const scroller = document.getElementById("chatContentScroller"); scroller.innerHTML = "";
         if (!targetedReceiverEmail) return;
@@ -251,7 +299,6 @@
         scroller.scrollTop = scroller.scrollHeight;
     }
 
-    // 6. इंस्टेंट ऑप्टिमिस्टिक टेक्स्ट पुश (0 मिलीसेकंड लोडिंग एक्सपीरियंस)
     async function executeTextPush() {
         const input = document.getElementById("messageTextField");
         const val = input.value.trim();
@@ -269,69 +316,60 @@
         loadChats(); 
     }
 
-    // 7. सब-फ़ोल्डर इमेज अपलोडर 
-   // 7. सुपर-फास्ट इमेज अपलोड और सब-फ़ोल्डर सेंडिंग (फिक्स्ड वर्जन)
-function executeImagePush(el) {
-    const file = el.files[0];
-    if (!file || !targetedReceiverEmail) return;
+    function executeImagePush(el) {
+        const file = el.files[0];
+        if (!file || !targetedReceiverEmail) return;
 
-    // सुरक्षा चेक: अगर फ़ाइल बहुत बड़ी है (2MB से ज़्यादा) तो अलर्ट दिखाएं
-    if (file.size > 2 * 1024 * 1024) {
-        alert("File size too big! Please upload an image under 2MB.");
-        el.value = "";
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = async function(e) {
-        const tempId = "temp_" + new Date().getTime();
-        
-        // स्क्रीन पर तुरंत लोकल थंबनेल या अपलोडिंग दिखाना
-        chatMessagesCache.push({ 
-            id: tempId, 
-            sender: currentUser.email, 
-            receiver: targetedReceiverEmail, 
-            content: "📷 Sending image to sub-folder...", 
-            type: "text" 
-        });
-        renderBubbles();
-
-        // बेस64 डेटा को साफ़ और सुरक्षित करना
-        const rawBase64 = e.target.result;
-
-        try {
-            const response = await fetch(CLOUD_GATEWAY_URL, {
-                method: "POST",
-                mode: "no-cors", // CORS इश्यू को रोकने के लिए मोड जोड़ना आवश्यक है
-                headers: {
-                    "Content-Type": "text/plain;charset=utf-8"
-                },
-                body: JSON.stringify({
-                    action: "send", 
-                    sender: currentUser.email, 
-                    receiver: targetedReceiverEmail,
-                    type: "image", 
-                    imageRaw: rawBase64, 
-                    fileName: file.name, 
-                    mimeType: file.type
-                })
-            });
-            
-            // इनपुट बॉक्स खाली करें
+        if (file.size > 2 * 1024 * 1024) {
+            alert("File size too big! Please upload an image under 2MB.");
             el.value = "";
-            
-            // गूगल ड्राइव को फ़ाइल प्रोसेस करने के लिए 1.5 सेकंड का समय दें, फिर सिंक करें
-            setTimeout(loadChats, 1500);
-            
-        } catch (error) {
-            console.error("Image Upload Error: ", error);
-            alert("Image upload failed. Please try again.");
+            return;
         }
-    };
-    reader.readAsDataURL(file);
-}
+
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            const tempId = "temp_" + new Date().getTime();
+            
+            chatMessagesCache.push({ 
+                id: tempId, 
+                sender: currentUser.email, 
+                receiver: targetedReceiverEmail, 
+                content: "📷 Sending image to sub-folder...", 
+                type: "text" 
+            });
+            renderBubbles();
+
+            const rawBase64 = e.target.result;
+
+            try {
+                const response = await fetch(CLOUD_GATEWAY_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                        "Content-Type": "text/plain;charset=utf-8"
+                    },
+                    body: JSON.stringify({
+                        action: "send", 
+                        sender: currentUser.email, 
+                        receiver: targetedReceiverEmail,
+                        type: "image", 
+                        imageRaw: rawBase64, 
+                        fileName: file.name, 
+                        mimeType: file.type
+                    })
+                });
+                
+                el.value = "";
+                setTimeout(loadChats, 1500);
+                
+            } catch (error) {
+                console.error("Image Upload Error: ", error);
+                alert("Image upload failed. Please try again.");
+            }
+        };
+        reader.readAsDataURL(file);
+    }
     
-    // 8. एडिट इंजन
     async function editMessageTransaction(msgId, oldContent) {
         const newText = prompt("Update secure message content:", oldContent);
         if (!newText || newText.trim() === oldContent) return;
@@ -347,7 +385,6 @@ function executeImagePush(el) {
         loadChats();
     }
 
-    // 9. डिलीट इंजन
     async function deleteMessageTransaction(msgId) {
         if (!confirm("Delete this message permanently?")) return;
         chatMessagesCache = chatMessagesCache.filter(m => m.id !== msgId);
@@ -365,7 +402,6 @@ function executeImagePush(el) {
         document.getElementById("headerDropdown").classList.toggle("show");
     }
 
-    // 10. थ्री-डॉट क्लियर चैट हिस्ट्री
     async function clearCurrentChatThread() {
         if (!targetedReceiverEmail) return;
         if (!confirm("Clear full conversation thread history? This cannot be undone.")) return;
@@ -385,9 +421,8 @@ function executeImagePush(el) {
 
     window.onclick = function() { document.getElementById("headerDropdown").classList.remove("show"); }
 
-    // ऑटो इनिशियलाइज़ बूटस्ट्रैप
     renderUsers(); loadChats();
-    setInterval(loadChats, 3500); // ऑटो-सिंक इंटरवल
+    setInterval(loadChats, 3500);
 </script>
 </body>
 </html>
