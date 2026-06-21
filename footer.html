@@ -214,10 +214,10 @@ Support
 FAQ
 </a>
 
-<a href="chat.html">
+<a href="chat.html" id="footerChatLink" onclick="syncFooterChatSession(event)">
     <i class="fa-solid fa-comments"></i>
     Workspace Chat
-    </a>
+</a>
 
 <a href="support.html">
 <i class="fa-solid fa-headset"></i>
@@ -964,3 +964,23 @@ width:100%;
 <!-- FONT AWESOME -->
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<script>
+function syncFooterChatSession(event) {
+    // डिफ़ॉल्ट रूप से तुरंत जाने से रोकें ताकि हम पहले यूआरएल तैयार कर सकें
+    event.preventDefault();
+
+    // चेक करें कि क्या यूज़र पहले से लॉगिन है
+    const activeSession = JSON.parse(localStorage.getItem("user_login_data"));
+
+    if (activeSession && activeSession.email) {
+        // अगर यूज़र लॉगिन है (जैसे उमेश या अभिषेक), तो उसकी डिटेल्स यूआरएल में जोड़कर भेजें
+        const safeName = encodeURIComponent(activeSession.name);
+        const safeEmail = encodeURIComponent(activeSession.email);
+        window.location.href = `chat.html?name=${safeName}&email=${safeEmail}`;
+    } else {
+        // अगर कोई भी लॉगिन नहीं है, तो सामान्य रूप से चैट पेज पर भेजें
+        window.location.href = "chat.html";
+    }
+}
+</script>
