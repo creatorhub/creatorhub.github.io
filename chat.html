@@ -77,7 +77,6 @@
 <body>
 
 <div class="app-container">
-    <!-- Left Navigation Sidebar -->
     <div class="sidebar-panel">
         <div class="sidebar-header">
             <h3 id="profileName">CreatorHub Chat</h3>
@@ -86,7 +85,6 @@
         <div class="users-list-box" id="userDirectoryView">Loading Workspace...</div>
     </div>
 
-    <!-- Right Window Chat Panel -->
     <div class="chat-view-panel">
         <div class="splash-blank-state" id="blankStatePrompt">
             <p style="font-size: 2.5rem;">💬</p>
@@ -96,7 +94,6 @@
         <div id="activeChatStateLayout" style="display: none; flex-direction: column; flex: 1; height: 100%;">
             <div class="chat-view-header">
                 <span id="activeChatterHeaderTitle">Active Stream</span>
-                <!-- 3-Dots Action Button -->
                 <div class="three-dots-btn" onclick="toggleDropdown(event)">⋮</div>
                 <div class="dropdown-menu" id="headerDropdown">
                     <div class="dropdown-item" onclick="alert('Secure Workspace Session Verified.')">View Profile</div>
@@ -121,7 +118,7 @@
     const CLOUD_GATEWAY_URL = "https://script.google.com/macros/s/AKfycbw9T3_1uvxU7O2ER5GRF5VLZ-8BNmxO5B5ZS_rPTkJk4ol5giC0-l9vM2AIULLbhRildg/exec";
     
     // ======================================================
-    // 1. फुल ऑटोमैटिक यूज़र डिटेक्शन इंजन
+    // 1. फुल ऑटोमैटिक क्लीन यूज़र डिटेक्शन इंजन (No Popups!)
     // ======================================================
     const urlParams = new URLSearchParams(window.location.search);
     const paramEmail = urlParams.get('email');
@@ -132,7 +129,7 @@
         email: paramEmail ? paramEmail.toLowerCase().trim() : null
     };
 
-    // अगर URL में डेटा नहीं है, तो लोकलस्टोरेज चेक करो
+    // अगर URL में डेटा नहीं है, तो LocalStorage चेक करो
     if (!currentUser.email) {
         const localStorageUser = JSON.parse(localStorage.getItem("user_login_data"));
         if (localStorageUser && localStorageUser.email) {
@@ -141,35 +138,28 @@
         }
     }
 
-    // जादूई प्रॉम्प्ट: अगर कैशे पुराना है या डेटा मिसिंग है, तो यह यूज़र से खुद उसकी सही आईडी मांग लेगा
+    // अगर फूटर से क्लिक किया और कोई लॉगिन सेशन नहीं मिला, तो सीधे लॉगिन पेज पर रीडायरेक्ट करो
     if (!currentUser.email) {
-        const userEmailInput = prompt("सुरक्षा जांच: अपनी रजिस्टर्ड ईमेल आईडी डालें (जैसे: umesh323354@gmail.com):");
-        
-        if (userEmailInput && userEmailInput.trim() !== "") {
-            const cleanInput = userEmailInput.trim().toLowerCase();
-            currentUser.email = cleanInput;
-            
-            if (cleanInput.includes("umesh")) currentUser.name = "Umesh Kumar's";
-            else if (cleanInput.includes("ay808")) currentUser.name = "Abhishek YADAV";
-            else if (cleanInput.includes("support")) currentUser.name = "Creatorhub";
-            else if (cleanInput.includes("carforsale")) currentUser.name = "Ayush (Car Simulator)";
-            else if (cleanInput.includes("ayushprajpati6")) currentUser.name = "Ayush Prajapati";
+        alert("Please login first to access the Workspace Chat.");
+        window.location.href = "login.html"; 
+    } else {
+        // अगर ईमेल मिल गया लेकिन नाम गायब था, तो लिस्ट से नाम का ऑटोमैटिक मिलान करो
+        if (!currentUser.name) {
+            const cleanEmail = currentUser.email;
+            if (cleanEmail.includes("umesh")) currentUser.name = "Umesh Kumar's";
+            else if (cleanEmail.includes("ay808")) currentUser.name = "Abhishek YADAV";
+            else if (cleanEmail.includes("support")) currentUser.name = "Creatorhub";
+            else if (cleanEmail.includes("carforsale")) currentUser.name = "Ayush (Car Simulator)";
+            else if (cleanEmail.includes("ayushprajpati6")) currentUser.name = "Ayush Prajapati";
             else currentUser.name = "CreatorHub User";
-            
-            // लोकलस्टोरेज में सेव करें ताकि बार-बार प्रॉम्प्ट न आए
-            localStorage.setItem("user_login_data", JSON.stringify(currentUser));
-        } else {
-            // अगर यूज़र कुछ नहीं डालता तो ब्लॉक कर दो
-            alert("बिना ईमेल आईडी के आप चैट एक्सेस नहीं कर सकते।");
-            window.location.href = "login.html"; 
         }
     }
 
     // UI पर लॉगिन डिटेल्स सेट करना
-    document.getElementById("profileName").innerText = currentUser.name;
+    document.getElementById("profileName").innerText = currentUser.name || "CreatorHub User";
     document.getElementById("sessionIdentity").innerText = `Active: ${currentUser.email}`;
 
-    // आपकी फिक्स 6 यूज़र वाली डेटाबेस लिस्ट
+    // फिक्स 6 यूज़र वाली डेटाबेस लिस्ट
     const staticUsersList = [
       {"name": "Ayush Prajapati", "email": "ayushprajpati6@gmail.com", "profile_image": "https://drive.google.com/thumbnail?id=1lhVDcQn_g1hpyjrGtM92asMDsC2Z_JWK&sz=w1200"},
       {"name": "Ayush Prajapati", "email": "carforsalesimulator6@gmail.com", "profile_image": ""},
@@ -253,7 +243,6 @@
             bubble.className = "chat-bubble";
             
             if (msg.type === "image") {
-                // इमेज रेंडर करने के लिए डायरेक्ट वर्किंग इमेज टैग
                 bubble.innerHTML = `<a href="${msg.content}" target="_blank"><img src="${msg.content}" class="render-media-file" alt="Shared Media Asset"></a>`;
             } else {
                 bubble.innerText = msg.content;
@@ -279,7 +268,7 @@
         scroller.scrollTop = scroller.scrollHeight;
     }
 
-    // 6. सुपर-फास्ट टेक्स्ट पुश (Optimistic UI Strategy)
+    // 6. सुपर-फास्ट टेक्स्ट पुश
     async function executeTextPush() {
         const input = document.getElementById("messageTextField");
         const val = input.value.trim();
@@ -287,7 +276,6 @@
         input.value = "";
 
         const tempId = "temp_" + new Date().getTime();
-        // बिना सर्वर का वेट किए मैसेज स्क्रीन पर दिखाना (फास्ट एक्सपीरियंस)
         chatMessagesCache.push({ id: tempId, sender: currentUser.email, receiver: targetedReceiverEmail, content: val, type: "text" });
         renderBubbles();
 
@@ -383,8 +371,6 @@
     // इनिशियलाइज़ेशन रनर
     renderUsers();
     loadChats();
-    
-    // प्रत्येक 3.5 सेकंड में ऑटोमैटिक रियल-टाइम सिंक
     setInterval(loadChats, 3500);
 </script>
 </body>
