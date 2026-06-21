@@ -44,11 +44,15 @@ button{cursor:pointer;border:0}
   top:0;
   z-index:999;
 }
+.topbar-left{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
 .brand{
   display:flex;
   align-items:center;
   gap:14px;
-  min-width:220px;
 }
 .logo{
   width:54px;
@@ -206,7 +210,7 @@ button{cursor:pointer;border:0}
 }
 .identity h2{
   font-size:42px;
-  line-height:1.05;
+  line-height.1.05;
   font-weight:900;
   color:#06142c;
   overflow-wrap:anywhere;
@@ -372,7 +376,7 @@ input[readonly]{
   font-weight:600;
 }
 
-/* Bottom Nav - Desktop View White Background Visible Always */
+/* Bottom Nav */
 .bottom-nav{
   position:fixed;
   bottom:0;
@@ -532,9 +536,8 @@ input[readonly]{
   .logo { width:38px; height:38px; font-size:18px; border-radius:8px; }
   .brand b { font-size: 18px; }
   
-  .page-title { display: none; } /* Clean look, title in banner standard */
+  .page-title { display: none; }
   
-  /* Buttons dynamic header block shifted to stack context */
   .actions{
     width:100%;
     display:grid;
@@ -631,9 +634,35 @@ input[readonly]{
 <body>
 
 <header class="topbar">
-  <div class="brand">
-    <div class="logo"><i class="fa-solid fa-bolt"></i></div>
-    <a href="dashboard.html"><b>Creator<span>Hub</span></b></a>
+  <div class="topbar-left">
+    <!-- Profile Menu wrapped right next to CreatorHub brand items -->
+    <div id="profileWrap" class="profile-wrap">
+      <img
+        id="topProfileImage"
+        class="profile-image"
+        src="https://ui-avatars.com/api/?name=User&background=315df4&color=fff"
+        onclick="toggleProfileMenu()" alt="Profile">
+
+      <div id="profileMenu" class="profile-menu">
+        <div class="profile-header">
+          <img id="menuProfileImage" class="menu-profile-image" src="https://ui-avatars.com/api/?name=User&background=315df4&color=fff" alt="User Avatar">
+          <div>
+            <div id="menuName">CreatorHub User</div>
+            <div id="menuEmail">user@email.com</div>
+          </div>
+        </div>
+        <a href="profile.html"><i class="fa-solid fa-user-gear"></i> My Profile</a>
+        <a href="seller-apply.html"><i class="fa-solid fa-store"></i> Become Seller</a>
+        <a href="tranding.html"><i class="fa-solid fa-fire"></i> Trending Books</a>
+        <a href="library.html"><i class="fa-solid fa-book-bookmark"></i> Library</a>
+        <a href="topselling.html"><i class="fa-solid fa-chart-line"></i> Top Selling</a>
+      </div>
+    </div>
+
+    <div class="brand" style="margin-left: 8px;">
+      <div class="logo"><i class="fa-solid fa-bolt"></i></div>
+      <a href="dashboard.html"><b>Creator<span>Hub</span></b></a>
+    </div>
   </div>
 
   <div class="page-title">
@@ -641,38 +670,15 @@ input[readonly]{
     <p id="pageStatus">Load, edit, and save your CreatorHub profile.</p>
   </div>
 
-  <div id="profileWrap" class="profile-wrap">
-    <img
-      id="topProfileImage"
-      class="profile-image"
-      src="https://ui-avatars.com/api/?name=User&background=315df4&color=fff"
-      onclick="toggleProfileMenu()" alt="Profile">
-
-    <div id="profileMenu" class="profile-menu">
-      <div class="profile-header">
-        <img id="menuProfileImage" class="menu-profile-image" src="https://ui-avatars.com/api/?name=User&background=315df4&color=fff" alt="User Avatar">
-        <div>
-          <div id="menuName">CreatorHub User</div>
-          <div id="menuEmail">user@email.com</div>
-        </div>
-      </div>
-      <a href="profile.html"><i class="fa-solid fa-user-gear"></i> My Profile</a>
-      <a href="seller-apply.html"><i class="fa-solid fa-store"></i> Become Seller</a>
-      <a href="tranding.html"><i class="fa-solid fa-fire"></i> Trending Books</a>
-      <a href="library.html"><i class="fa-solid fa-book-bookmark"></i> Library</a>
-      <a href="topselling.html"><i class="fa-solid fa-chart-line"></i> Top Selling</a>
-    </div>
+  <div class="actions">
+    <button class="btn btn-light" id="loadBtn" type="button"><i class="fa-solid fa-rotate"></i> Load Profile</button>
+    <button class="btn btn-primary" id="saveBtn" type="button"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
   </div>
 </header>
 
 <main class="content">
 
 <div class="notice" id="notice"></div>
-
-<div class="actions">
-  <button class="btn btn-light" id="loadBtn" type="button"><i class="fa-solid fa-rotate"></i> Load Profile</button>
-  <button class="btn btn-primary" id="saveBtn" type="button"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
-</div>
 
 <section class="profile-card">
   <div class="cover" id="coverPreview">
