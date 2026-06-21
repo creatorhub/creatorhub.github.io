@@ -3,191 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CreatorHub Workspace Chat Pro</title>
+    <title>CreatorHub Chat</title>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; height: 100vh; display: flex; overflow: hidden; }
+        .app-container { display: flex; width: 100vw; height: 100vh; background: #ffffff; }
         
-        body { 
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-            background-color: #0f172a; 
-            height: 100vh; 
-            display: flex; 
-            overflow: hidden;
-            color: #1e293b;
-        }
+        /* Left Sidebar */
+        .sidebar-panel { width: 30%; min-width: 340px; background: #f8fafc; border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; }
+        .sidebar-header { padding: 24px 20px; background: #1e1b4b; color: #ffffff; }
+        .users-list-box { flex: 1; overflow-y: auto; padding: 10px 0; }
         
-        .app-container { 
-            display: flex; 
-            width: 100vw; 
-            height: 100vh; 
-            background: #ffffff; 
-        }
-        
-        /* Sidebar (30%) */
-        .sidebar-panel { 
-            width: 30%; 
-            min-width: 340px;
-            background: #f8fafc; 
-            border-right: 1px solid #e2e8f0; 
-            display: flex; 
-            flex-direction: column; 
-        }
-        
-        .sidebar-header { 
-            padding: 24px 20px; 
-            background: #1e1b4b; 
-            color: #ffffff; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-        .sidebar-header h3 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.5px; }
-        .session-badge { font-size: 0.8rem; opacity: 0.8; margin-top: 6px; font-weight: 500; color: #cbd5e1; }
-        
-        .users-list-box { 
-            flex: 1; 
-            overflow-y: auto; 
-            padding: 10px 0;
-        }
-        
-        /* User Cards */
-        .user-item-card { 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            padding: 14px 20px; 
-            margin: 4px 12px;
-            border-radius: 12px;
-            cursor: pointer; 
-            transition: all 0.25s ease; 
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-        }
-        .user-item-card:hover { background: #f1f5f9; transform: translateY(-1px); }
-        .user-item-card.active-chat { background: #e0e7ff; color: #1e1b4b; border-color: #4f46e5; }
-        
-        .user-details { display: flex; flex-direction: column; gap: 2px; }
+        /* WhatsApp-like User Cards */
+        .user-item-card { display: flex; align-items: center; gap: 12px; padding: 14px 20px; margin: 4px 12px; border-radius: 12px; cursor: pointer; border: 1px solid #e2e8f0; background: #fff; transition: all 0.2s; }
+        .user-item-card:hover { background: #f1f5f9; }
+        .user-item-card.active-chat { background: #e0e7ff; border-color: #4f46e5; }
         .u-name { font-weight: 600; color: #0f172a; font-size: 0.95rem; }
         .u-email { font-size: 0.8rem; color: #64748b; }
-        
-        .status-container { display: flex; align-items: center; justify-content: center; }
-        .status-indicator { width: 10px; height: 10px; border-radius: 50%; }
-        .status-indicator.online { background: #10b981; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2); }
-        .status-indicator.offline { background: #94a3b8; }
 
-        /* Chat View Panel (70%) */
-        .chat-view-panel { 
-            width: 70%; 
-            background: #f1f5f9; 
-            display: flex; 
-            flex-direction: column; 
-            position: relative;
-        }
-        
-        .chat-view-header { 
-            background: #ffffff; 
-            padding: 20px 28px; 
-            border-bottom: 1px solid #e2e8f0; 
-            font-weight: 700; 
-            font-size: 1.1rem; 
-            color: #0f172a;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-        }
-        
-        .chat-scroller-window { 
-            flex: 1; 
-            padding: 30px; 
-            overflow-y: auto; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 16px; 
-            background: #f8fafc;
-        }
+        /* Right Chat Panel */
+        .chat-view-panel { width: 70%; background: #f1f5f9; display: flex; flex-direction: column; }
+        .chat-view-header { background: #ffffff; padding: 20px 28px; border-bottom: 1px solid #e2e8f0; font-weight: 700; color: #0f172a; }
+        .chat-scroller-window { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #f8fafc; }
         
         /* Chat Bubbles */
-        .chat-line { display: flex; width: 100%; animation: fadeIn 0.2s ease; }
+        .chat-line { display: flex; width: 100%; }
         .chat-line.outward { justify-content: flex-end; }
         .chat-line.inward { justify-content: flex-start; }
-        
-        .chat-bubble { 
-            max-width: 65%; 
-            padding: 12px 18px; 
-            border-radius: 18px; 
-            font-size: 0.95rem; 
-            box-shadow: 0 2px 4px rgba(15, 23, 42, 0.04); 
-            line-height: 1.5;
-        }
+        .chat-bubble { max-width: 60%; padding: 10px 16px; border-radius: 16px; font-size: 0.95rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
         .outward .chat-bubble { background: #4f46e5; color: #ffffff; border-bottom-right-radius: 4px; }
         .inward .chat-bubble { background: #ffffff; color: #1e293b; border-bottom-left-radius: 4px; border: 1px solid #e2e8f0; }
-        
-        .render-media-file { max-width: 100%; max-height: 280px; border-radius: 12px; display: block; margin-top: 6px; }
+        .render-media-file { max-width: 100%; max-height: 250px; border-radius: 8px; display: block; margin-top: 5px; }
 
-        /* Bottom Action Bar */
-        .chat-input-dashboard { 
-            background: #ffffff; 
-            padding: 20px 30px; 
-            display: flex; 
-            align-items: center; 
-            gap: 14px; 
-            border-top: 1px solid #e2e8f0; 
-        }
-        
-        .input-bar-element { 
-            flex: 1; 
-            padding: 14px 24px; 
-            border: 1px solid #cbd5e1; 
-            border-radius: 9999px; 
-            outline: none; 
-            font-size: 0.95rem; 
-            background: #f8fafc;
-        }
-        .input-bar-element:focus { border-color: #4f46e5; background: #ffffff; }
-        
-        .btn-media-trigger { 
-            background: #f1f5f9; border: none; width: 48px; height: 48px; border-radius: 50%; 
-            cursor: pointer; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; color: #475569;
-        }
-        .btn-media-trigger:hover { background: #e2e8f0; }
-        
-        .btn-dispatch { 
-            background: #4f46e5; color: white; border: none; padding: 14px 28px; 
-            border-radius: 9999px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
-        }
-        .btn-dispatch:hover { background: #4338ca; }
-        
-        .splash-blank-state { 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            flex: 1; color: #64748b; font-size: 1.05rem; font-weight: 500; background: #f8fafc; gap: 10px;
-        }
-        .splash-blank-state span { font-size: 2.5rem; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+        /* Input Dashboard */
+        .chat-input-dashboard { background: #ffffff; padding: 15px 25px; display: flex; align-items: center; gap: 12px; border-top: 1px solid #e2e8f0; }
+        .input-bar-element { flex: 1; padding: 12px 20px; border: 1px solid #cbd5e1; border-radius: 9999px; outline: none; }
+        .btn-media-trigger { background: #f1f5f9; border: none; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; }
+        .btn-dispatch { background: #4f46e5; color: white; border: none; padding: 12px 24px; border-radius: 9999px; font-weight: 600; cursor: pointer; }
+        .splash-blank-state { display: flex; flex-direction: column; justify-content: center; align-items: center; flex: 1; color: #64748b; background: #f8fafc; gap: 10px; }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <div class="app-container">
     <div class="sidebar-panel">
         <div class="sidebar-header">
-            <h3>CreatorHub Workspace</h3>
-            <div class="session-badge" id="sessionIdentity">Verifying Profile Session...</div>
+            <h3 id="profileName">CreatorHub Chat</h3>
         </div>
-        <div class="users-list-box" id="userDirectoryView">
-            </div>
+        <div class="users-list-box" id="userDirectoryView">Loading Users...</div>
     </div>
 
-    <div class="chat-view-panel" id="chatEngineView">
+    <div class="chat-view-panel">
         <div class="splash-blank-state" id="blankStatePrompt">
-            <span>💬</span>
-            <p>Select a user from the list to start private conversation</p>
+            <p>💬 Select a contact to chat</p>
         </div>
         
         <div id="activeChatStateLayout" style="display: none; flex-direction: column; flex: 1; height: 100%;">
-            <div class="chat-view-header" id="activeChatterHeaderTitle">Chat Window</div>
+            <div class="chat-view-header" id="activeChatterHeaderTitle">Chat</div>
             <div class="chat-scroller-window" id="chatContentScroller"></div>
             
             <div class="chat-input-dashboard">
                 <input type="file" id="mediaSelectorHidden" accept="image/*" style="display: none;" onchange="executeImagePush(this)">
                 <button class="btn-media-trigger" onclick="document.getElementById('mediaSelectorHidden').click()">📷</button>
-                <input type="text" id="messageTextField" class="input-bar-element" placeholder="Type a message here..." onkeypress="if(event.key==='Enter') executeTextPush()">
+                <input type="text" id="messageTextField" class="input-bar-element" placeholder="Type a message..." onkeypress="if(event.key==='Enter') executeTextPush()">
                 <button class="btn-dispatch" onclick="executeTextPush()">Send</button>
             </div>
         </div>
@@ -195,175 +73,150 @@
 </div>
 
 <script>
-    // आपका Apps Script का Web App URL
     const CLOUD_GATEWAY_URL = "https://script.google.com/macros/s/AKfycbw9T3_1uvxU7O2ER5GRF5VLZ-8BNmxO5B5ZS_rPTkJk4ol5giC0-l9vM2AIULLbhRildg/exec";
     
-    // लोकलस्टोरेज से लॉगिन डेटा उठाना (अगर नहीं है तो Ayush सेट रहेगा टेस्टिंग के लिए)
-    const userSessionProfile = JSON.parse(localStorage.getItem("user_login_data")) || {
-        name: "Ayush Prajapati", 
-        email: "ayush@gmail.com"
+    // आपका लॉगिन सेशन (डिफ़ॉल्ट आयुष सेट है)
+    const currentUser = {
+        name: "Ayush Prajapati",
+        email: "ayushprajpati6@gmail.com"
     };
+    
+    document.getElementById("profileName").innerText = currentUser.name;
 
-    document.getElementById("sessionIdentity").innerText = `Active: ${userSessionProfile.name} (${userSessionProfile.email})`;
+    // आपका पूरा users.json डेटा डायरेक्ट एरे फॉर्मैट में यहाँ पेस्ट है
+    const staticUsersList = [
+      {"name": "Ayush Prajapati", "email": "ayushprajpati6@gmail.com", "profile_image": "https://drive.google.com/thumbnail?id=1lhVDcQn_g1hpyjrGtM92asMDsC2Z_JWK&sz=w1200"},
+      {"name": "Ayush Prajapati", "email": "carforsalesimulator6@gmail.com", "profile_image": ""},
+      {"name": "Umesh Kumar's", "email": "umesh323354@gmail.com", "profile_image": "https://lh3.googleusercontent.com/a/ACg8ocJsPaM_y4BZ6qoEFesKHQUSN45Su1yuikrMqwksTOwGRj0VtueL=s96-c"},
+      {"name": "Creatorhub", "email": "supportcreatorhub@gmail.com", "profile_image": "https://lh3.googleusercontent.com/a/ACg8ocK8rPb8p8ugBiilFPqult0VRf9DK3qkAml7eTlfF1rMIBbpyQ=s96-c"},
+      {"name": "Ayush", "email": "ggcccchgyu@gmail.com", "profile_image": "https://lh3.googleusercontent.com/a/ACg8ocIBpCKW68BIFiZn7nxJxV3o0NKtbcQk1PJRGXCyjXcapmlM=s96-c"},
+      {"name": "Abhishek YADAV", "email": "ay8083827@gmail.com", "profile_image": "https://lh3.googleusercontent.com/a/ACg8ocJr5GnW_Hfp05rtHsZauT_3md8ZOlp7WW0UPSwajXhxqRgH8A=s96-c"}
+    ];
 
     let targetedReceiverEmail = null;
-    let localDatabaseCache = { users: {}, messages: [] };
+    let chatMessagesCache = [];
 
-    // 1. डेटाबेस सिंक करना (GET और POST दोनों के साथ)
-    async function performGlobalDatabaseSync() {
-        try {
-            // हर बार बैकएंड को हार्टबीट भेजना ताकि यूज़र ऑनलाइन दिखे
-            await fetch(CLOUD_GATEWAY_URL, {
-                method: "POST",
-                body: JSON.stringify({ name: userSessionProfile.name, email: userSessionProfile.email, action: "heartbeat" })
-            });
-
-            // बैकएंड से पूरा डेटाबेस मंगाना
-            const callResponse = await fetch(`${CLOUD_GATEWAY_URL}?email=${encodeURIComponent(userSessionProfile.email)}`);
-            localDatabaseCache = await callResponse.json();
-
-            // इंटरफ़ेस को अपडेट करना
-            processRenderList();
-            if (targetedReceiverEmail) {
-                processRenderBubbles();
-            }
-        } catch (err) {
-            console.error("Sync Failure:", err);
-        }
-    }
-
-    // 2. लेफ्ट पैनल में यूज़र्स की लिस्ट रेंडर करना
-    function processRenderList() {
-        const directoryView = document.getElementById("userDirectoryView");
-        directoryView.innerHTML = "";
-        const referenceTimestamp = new Date().getTime();
-
-        if (!localDatabaseCache.users || Object.keys(localDatabaseCache.users).length === 0) {
-            directoryView.innerHTML = "<div style='padding:20px; color:#888; text-align:center;'>No users found in DB</div>";
-            return;
-        }
-
-        Object.keys(localDatabaseCache.users).forEach(email => {
-            if (email === userSessionProfile.email) return; // खुद को लिस्ट में न दिखाएं
+    // 1. लेफ्ट साइडबार में सभी यूज़र्स को तुरंत रेंडर करना
+    function renderUsers() {
+        const view = document.getElementById("userDirectoryView");
+        view.innerHTML = "";
+        
+        staticUsersList.forEach(user => {
+            if (user.email === currentUser.email) return; // खुद को हाइड करें
             
-            const client = localDatabaseCache.users[email];
-            // अगर यूज़र ने पिछले 20 सेकंड में पिंग किया है तो वो ऑनलाइन दिखेगा
-            const onlineStatusFlag = (referenceTimestamp - client.lastSeen) < 20000;
-
-            const userCardNode = document.createElement("div");
-            userCardNode.className = `user-item-card ${targetedReceiverEmail === email ? 'active-chat' : ''}`;
-            userCardNode.onclick = () => activateChatThread(email, client.name);
-
-            userCardNode.innerHTML = `
+            const img = user.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random`;
+            const card = document.createElement("div");
+            card.className = `user-item-card ${targetedReceiverEmail === user.email ? 'active-chat' : ''}`;
+            card.onclick = () => startChat(user.email, user.name);
+            
+            card.innerHTML = `
+                <img src="${img}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
                 <div class="user-details">
-                    <span class="u-name">${client.name}</span>
-                    <span class="u-email">${client.email}</span>
-                </div>
-                <div class="status-container">
-                    <span class="status-indicator ${onlineStatusFlag ? 'online' : 'offline'}"></span>
+                    <span class="u-name">${user.name}</span>
+                    <span class="u-email">${user.email}</span>
                 </div>
             `;
-            directoryView.appendChild(userCardNode);
+            view.appendChild(card);
         });
     }
 
-    // 3. यूज़र सिलेक्ट करके चैट विंडो एक्टिवेट करना
-    function activateChatThread(email, name) {
+    // 2. वन-क्लिक चैट थ्रेड ओपन लॉजिक
+    function startChat(email, name) {
         targetedReceiverEmail = email;
         document.getElementById("blankStatePrompt").style.display = "none";
         document.getElementById("activeChatStateLayout").style.display = "flex";
-        document.getElementById("activeChatterHeaderTitle").innerHTML = `🔒 Chat with <b>${name}</b>`;
-        processRenderList();
-        processRenderBubbles();
+        document.getElementById("activeChatterHeaderTitle").innerText = name;
+        renderUsers();
+        loadChats();
     }
 
-    // 4. सिलेक्टेड यूज़र के पर्सनल चैट बबल्स दिखाना
-    function processRenderBubbles() {
+    // 3. क्लाउड से चैट मैसेज लोड करना
+    async function loadChats() {
+        try {
+            const res = await fetch(CLOUD_GATEWAY_URL);
+            const data = await res.json();
+            chatMessagesCache = data.messages || [];
+            renderBubbles();
+        } catch (e) { console.error("Error loading chat", e); }
+    }
+
+    // 4. मैसेज बबल्स स्क्रीन पर रेंडर करना
+    function renderBubbles() {
         const scroller = document.getElementById("chatContentScroller");
         scroller.innerHTML = "";
+        
+        if (!targetedReceiverEmail) return;
 
-        if (!localDatabaseCache.messages) return;
-
-        // सिर्फ उन मैसेजेस को फ़िल्टर करना जो करेंट यूज़र और सिलेक्टेड यूज़र के बीच के हैं
-        const threadLogs = localDatabaseCache.messages.filter(msg => 
-            (msg.sender === userSessionProfile.email && msg.receiver === targetedReceiverEmail) ||
-            (msg.sender === targetedReceiverEmail && msg.receiver === userSessionProfile.email)
+        const activeLogs = chatMessagesCache.filter(msg => 
+            (msg.sender === currentUser.email && msg.receiver === targetedReceiverEmail) ||
+            (msg.sender === targetedReceiverEmail && msg.receiver === currentUser.email)
         );
 
-        threadLogs.forEach(msg => {
-            const isSelfMessage = msg.sender === userSessionProfile.email;
-            const lineNode = document.createElement("div");
-            lineNode.className = `chat-line ${isSelfMessage ? 'outward' : 'inward'}`;
-
-            const bubbleNode = document.createElement("div");
-            bubbleNode.className = "chat-bubble";
-
+        activeLogs.forEach(msg => {
+            const isSelf = msg.sender === currentUser.email;
+            const line = document.createElement("div");
+            line.className = `chat-line ${isSelf ? 'outward' : 'inward'}`;
+            
+            const bubble = document.createElement("div");
+            bubble.className = "chat-bubble";
+            
             if (msg.type === "image") {
-                bubbleNode.innerHTML = `<a href="${msg.content}" target="_blank"><img src="${msg.content}" class="render-media-file" alt="Shared Image"></a>`;
+                bubble.innerHTML = `<a href="${msg.content}" target="_blank"><img src="${msg.content}" class="render-media-file"></a>`;
             } else {
-                bubbleNode.innerHTML = `<span>${escapeHTML(msg.content)}</span>`;
+                bubble.innerText = msg.content;
             }
-
-            lineNode.appendChild(bubbleNode);
-            scroller.appendChild(lineNode);
+            
+            line.appendChild(bubble);
+            scroller.appendChild(line);
         });
-        scroller.scrollTop = scroller.scrollHeight; // स्क्रॉल हमेशा नीचे रहेगा नए मैसेजेस पर
+        scroller.scrollTop = scroller.scrollHeight;
     }
 
-    // 5. टेक्स्ट मैसेज भेजना
+    // 5. वन-क्लिक टेक्स्ट सेंड
     async function executeTextPush() {
-        const messageField = document.getElementById("messageTextField");
-        const cleanContent = messageField.value.trim();
-        if (!cleanContent || !targetedReceiverEmail) return;
-        messageField.value = "";
+        const input = document.getElementById("messageTextField");
+        const val = input.value.trim();
+        if (!val || !targetedReceiverEmail) return;
+        input.value = "";
 
-        await pushDataTransaction({
-            action: "send",
-            name: userSessionProfile.name,
-            email: userSessionProfile.email,
-            receiver: targetedReceiverEmail,
-            content: cleanContent,
-            type: "text"
+        // तुरंत लोकल स्क्रीन पर दिखाना (WhatsApp की तरह फ़ास्ट)
+        chatMessagesCache.push({ sender: currentUser.email, receiver: targetedReceiverEmail, content: val, type: "text" });
+        renderBubbles();
+
+        await fetch(CLOUD_GATEWAY_URL, {
+            method: "POST",
+            body: JSON.stringify({ action: "send", sender: currentUser.email, receiver: targetedReceiverEmail, content: val, type: "text" })
         });
+        loadChats();
     }
 
-    // 6. फोटो/इमेज अपलोड करके भेजना (Base64)
-    function executeImagePush(element) {
-        const targetFile = element.files[0];
-        if (!targetFile || !targetedReceiverEmail) return;
+    // 6. वन-क्लिक इमेज सेंड
+    function executeImagePush(el) {
+        const file = el.files[0];
+        if (!file || !targetedReceiverEmail) return;
 
-        const fileReaderInstance = new FileReader();
-        fileReaderInstance.onload = async function(event) {
-            await pushDataTransaction({
-                action: "send",
-                name: userSessionProfile.name,
-                email: userSessionProfile.email,
-                receiver: targetedReceiverEmail,
-                type: "image",
-                imageRaw: event.target.result,
-                fileName: targetFile.name,
-                mimeType: targetFile.type
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            // तुरंत लोडिंग के लिए लोकल पुश
+            chatMessagesCache.push({ sender: currentUser.email, receiver: targetedReceiverEmail, content: "Uploading image...", type: "text" });
+            renderBubbles();
+
+            await fetch(CLOUD_GATEWAY_URL, {
+                method: "POST",
+                body: JSON.stringify({
+                    action: "send", sender: currentUser.email, receiver: targetedReceiverEmail,
+                    type: "image", imageRaw: e.target.result, fileName: file.name, mimeType: file.type
+                })
             });
-            element.value = ""; 
+            el.value = "";
+            loadChats();
         };
-        fileReaderInstance.readAsDataURL(targetFile);
+        reader.readAsDataURL(file);
     }
 
-    async function pushDataTransaction(payload) {
-        await fetch(CLOUD_GATEWAY_URL, { method: "POST", body: JSON.stringify(payload) });
-        performGlobalDatabaseSync(); // डेटा भेजने के तुरंत बाद सिंक करना
-    }
-
-    // सुरक्षा के लिए HTML एस्केप फंक्शन
-    function escapeHTML(str) {
-        return str.replace(/[&<>'"]/g, 
-            tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-        );
-    }
-
-    // हर 4 सेकंड में ऑटो-सिंक चलाना (Real-time updates के लिए)
-    setInterval(performGlobalDatabaseSync, 4000);
-    window.onload = performGlobalDatabaseSync;
+    // इनिशियलाइज़ेशन
+    renderUsers();
+    setInterval(loadChats, 3000); // हर 3 सेकंड में न्यू मेसेजेस चेक करेगा व्हाट्सएप की तरह
 </script>
 </body>
 </html>
