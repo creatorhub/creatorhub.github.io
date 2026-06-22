@@ -731,7 +731,23 @@ function escapeAttr(str){
 }
 
 initMe();
-loadUsers();
+
+// 🟢 Users load hone ke baad automatic pichhli chat kholne ka logic
+loadUsers().then(() => {
+  try {
+    const lastUser = localStorage.getItem("active_chat_user");
+    if (lastUser) {
+      const parsedUser = JSON.parse(lastUser);
+      // Check karenge ki wo user abhi bhi valid list me hai ya nahi
+      const stillExists = users.find(u => u.email === parsedUser.email);
+      if (stillExists) {
+        selectUser(stillExists);
+      }
+    }
+  } catch(e) {
+    console.error("Error auto-selecting last user:", e);
+  }
+});
 </script>
 
 </body>
