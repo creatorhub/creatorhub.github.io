@@ -386,6 +386,7 @@ window.renderUsers = function(){
 }
 
 window.selectUser = async function(user){
+  localStorage.setItem("active_chat_user", JSON.stringify(user));
   selectedUser = user;
   messagesByKey = {};
   currentChatId = makeChatId(me.email, selectedUser.email);
