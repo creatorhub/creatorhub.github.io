@@ -67,14 +67,19 @@ radial-gradient(circle at top left,rgba(49,93,244,.08),transparent 30%),
 
 .toast{position:fixed;top:18px;left:50%;transform:translateX(-50%);background:#07142f;color:#fff;padding:12px 16px;border-radius:12px;font-size:14px;font-weight:800;display:none;z-index:99}
 
+/* --- FIXED MOBILE STYLES --- */
 @media(max-width:820px){
 .app{grid-template-columns:1fr}
-.sidebar{display:flex}
-.chat{position:fixed;inset:0;z-index:20;transform:translateX(100%);transition:.25s ease}
+.sidebar{display:flex;width:100%}
+.chat{position:fixed;inset:0;z-index:20;transform:translateX(100%);transition:.25s ease-in-out;width:100%;height:100vh}
 .chat.open{transform:translateX(0)}
-.back-mobile{display:grid}
+.back-mobile{display:grid;place-items:center;margin-right:4px}
 .msg{max-width:82%}
-.preview{left:12px;right:12px}
+.preview{left:12px;right:12px;bottom:86px}
+.chat-head{padding:16px 14px}
+.composer{padding:12px;min-height:72px}
+.composer textarea{padding:12px 14px;min-height:44px}
+.send, .attach{width:46px;height:46px;font-size:16px}
 }
 </style>
 </head>
