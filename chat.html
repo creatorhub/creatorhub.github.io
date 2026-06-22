@@ -18,27 +18,31 @@ button{border:0;cursor:pointer}
 .sidebar{border-right:1px solid #dce6f3;background:#fff;display:flex;flex-direction:column;min-width:0}
 .side-head{height:82px;padding:16px 18px;border-bottom:1px solid #dce6f3;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .me{display:flex;align-items:center;gap:12px;min-width:0}
-.avatar{width:48px;height:48px;border-radius:50%;object-fit:cover;background:#315df4;flex:none;cursor:pointer}
+.avatar{width:48px;height:48px;border-radius:50%;object-fit:cover;background:#315df4;flex:none;cursor:pointer;transition:transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)}
+.avatar:hover{transform: scale(1.05);}
 .me-info{min-width:0;}
 .me-info b{display:block;font-size:17px;font-weight:900;color:#06142c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .me-info span{display:block;font-size:13px;color:#63728a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .actions-wrap{display:flex;align-items:center;gap:8px}
-.icon-btn{width:44px;height:44px;border-radius:12px;background:#eef4ff;color:#315df4;font-size:18px;display:grid;place-items:center}
+.icon-btn{width:44px;height:44px;border-radius:12px;background:#eef4ff;color:#315df4;font-size:18px;display:grid;place-items:center;transition:all 0.25s ease}
+.icon-btn:hover{background:#dbdffb;transform: translateY(-2px);}
 .icon-btn.active{background:#315df4;color:#fff}
 
 .search{padding:14px 18px;border-bottom:1px solid #dce6f3}
-.search input{width:100%;height:46px;border:1px solid #d6e1ef;border-radius:14px;background:#f6f9fd;outline:none;padding:0 15px;font-size:15px;font-weight:700}
+.search input{width:100%;height:46px;border:1px solid #d6e1ef;border-radius:14px;background:#f6f9fd;outline:none;padding:0 15px;font-size:15px;font-weight:700;transition:all 0.25s ease}
+.search input:focus{border-color:#315df4;box-shadow: 0 0 0 4px rgba(49, 93, 244, 0.12);background:#fff;}
 .users{flex:1;overflow:auto;padding:8px}
-.user{height:72px;border-radius:16px;padding:10px;display:flex;align-items:center;gap:12px;cursor:pointer;position:relative}
+.user{height:72px;border-radius:16px;padding:10px;display:flex;align-items:center;gap:12px;cursor:pointer;position:relative;transition:all 0.25s cubic-bezier(0.4, 0, 0.2, 1);animation:slideInUser 0.35s ease-out both;}
 .user:hover,.user.active{background:#eef4ff}
-.user img{width:50px;height:50px;border-radius:50%;object-fit:cover;background:#315df4;flex:none;transition:transform 0.2s}
-.user img:hover{transform:scale(1.05)}
+.user img{width:50px;height:50px;border-radius:50%;object-fit:cover;background:#315df4;flex:none;transition:transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)}
+.user img:hover{transform:scale(1.1)}
 .uinfo{min-width:0;flex:1}
 .uinfo b{display:block;color:#06142c;font-size:15px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.uinfo span{display:block;margin-top:4px;color:#63728a;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.uinfo span{display:block;margin-top:4px;color:#63728a;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color 0.25s}
 .badge-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:none}
 .dot{width:10px;height:10px;border-radius:50%;background:#22c55e}
-.chat-actions-trigger{display:none;position:absolute;right:14px;top:24px;color:#64748b;font-size:14px;background:none;border:none;}
+.chat-actions-trigger{display:none;position:absolute;right:14px;top:24px;color:#64748b;font-size:14px;background:none;border:none;transition:transform 0.2s}
+.chat-actions-trigger:hover{transform: scale(1.15);color:#315df4;}
 .user:hover .chat-actions-trigger{display:block}
 
 .chat{display:flex;flex-direction:column;height:100vh;background:#f6f8fc;min-width:0;position:relative}
@@ -47,26 +51,27 @@ button{border:0;cursor:pointer}
 .chat-user img{width:50px;height:50px;border-radius:50%;object-fit:cover;background:#315df4;flex:none;cursor:pointer}
 .chat-name-wrap{display:flex;align-items:center;gap:6px;}
 .chat-user b{display:block;font-size:18px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.edit-contact-icon{font-size:13px;color:#315df4;cursor:pointer;opacity:0.6;transition:opacity 0.2s}
-.edit-contact-icon:hover{opacity:1}
+.edit-contact-icon{font-size:13px;color:#315df4;cursor:pointer;opacity:0.6;transition:all 0.2s}
+.edit-contact-icon:hover{opacity:1;transform: scale(1.1);}
 .chat-user span{display:block;margin-top:3px;color:#63728a;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .head-actions{display:flex;align-items:center;gap:10px}
 .back-mobile{display:none}
 
 .messages{flex:1;overflow:auto;padding:24px;display:flex;flex-direction:column;gap:10px;background:radial-gradient(circle at top left,rgba(49,93,244,.08),transparent 30%),#f6f8fc}
 .empty{margin:auto;text-align:center;color:#63728a}
-.empty i{font-size:46px;color:#315df4;margin-bottom:14px}
+.empty i{font-size:46px;color:#315df4;margin-bottom:14px;animation:floatIcon 3s ease-in-out infinite;}
 .empty h2{font-size:24px;color:#06142c;margin-bottom:6px}
-.msg{max-width:64%;display:flex;flex-direction:column;gap:5px;position:relative}
-.msg.mine{align-self:flex-end;align-items:flex-end}
-.msg.their{align-self:flex-start;align-items:flex-start}
+.msg{max-width:64%;display:flex;flex-direction:column;gap:5px;position:relative;animation:msgPopUp 0.3s cubic-bezier(0.1, 0.8, 0.25, 1) both;}
+.msg.mine{align-self:flex-end;align-items:flex-end;transform-origin: right bottom;}
+.msg.their{align-self:flex-start;align-items:flex-start;transform-origin: left bottom;}
 .bubble-wrap{display:flex;align-items:flex-end;gap:6px}
 .mine .bubble-wrap{flex-direction:row-reverse}
-.bubble{border-radius:18px;padding:11px 13px;font-size:15px;line-height:1.45;box-shadow:0 8px 20px rgba(16,24,40,.06);word-break:break-word;min-width:48px}
+.bubble{border-radius:18px;padding:11px 13px;font-size:15px;line-height:1.45;box-shadow:0 8px 20px rgba(16,24,40,.06);word-break:break-word;min-width:48px;transition:all 0.2s}
 .mine .bubble{background:#315df4;color:#fff;border-bottom-right-radius:5px}
 .their .bubble{background:#fff;color:#07142f;border:1px solid #dce6f3;border-bottom-left-radius:5px}
 .deleted .bubble{font-style:italic;color:#8a94a6;background:#eef3f9;border:1px solid #dce6f3}
-.msg-img{max-width:300px;max-height:340px;border-radius:16px;object-fit:cover;display:block;cursor:pointer;box-shadow:0 12px 24px rgba(16,24,40,.12)}
+.msg-img{max-width:300px;max-height:340px;border-radius:16px;object-fit:cover;display:block;cursor:pointer;box-shadow:0 12px 24px rgba(16,24,40,.12);transition:transform 0.25s ease}
+.msg-img:hover{transform: scale(1.025);}
 .mine .msg-img{border:3px solid #315df4}
 .their .msg-img{border:3px solid #fff}
 .time{font-size:11px;color:#7a879c;padding:0 4px}
@@ -75,31 +80,36 @@ button{border:0;cursor:pointer}
 .msg:hover .msg-more{display:grid;place-items:center}
 
 .composer{min-height:82px;background:#fff;border-top:1px solid #dce6f3;padding:14px 18px;display:flex;align-items:flex-end;gap:12px}
-.composer textarea{flex:1;min-height:52px;max-height:130px;resize:none;border:1px solid #d6e1ef;border-radius:18px;outline:none;padding:15px 16px;font-size:15px;line-height:1.4;background:#f6f9fd}
-.send,.attach{width:52px;height:52px;border-radius:50%;font-size:18px;flex:none}
+.composer textarea{flex:1;min-height:52px;max-height:130px;resize:none;border:1px solid #d6e1ef;border-radius:18px;outline:none;padding:15px 16px;font-size:15px;line-height:1.4;background:#f6f9fd;transition:all 0.25s ease}
+.composer textarea:focus{border-color:#315df4;background:#fff;}
+.send,.attach{width:52px;height:52px;border-radius:50%;font-size:18px;flex:none;transition:all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)}
 .send{background:#315df4;color:#fff}
+.send:hover{transform: scale(1.08) rotate(-5deg);background:#234cd2;}
 .attach{background:#eef4ff;color:#315df4}
+.attach:hover{transform: scale(1.08) rotate(15deg);background:#dbdffb;}
 #imageInput{display:none}
 
-.preview{display:none;position:absolute;left:18px;right:18px;bottom:92px;background:#fff;border:1px solid #dce6f3;border-radius:18px;padding:12px;box-shadow:0 16px 40px rgba(16,24,40,.14);align-items:center;gap:12px;z-index:20}
+.preview{display:none;position:absolute;left:18px;right:18px;bottom:92px;background:#fff;border:1px solid #dce6f3;border-radius:18px;padding:12px;box-shadow:0 16px 40px rgba(16,24,40,.14);align-items:center;gap:12px;z-index:20;animation:slideUpPreview 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
 .preview img{width:74px;height:74px;border-radius:12px;object-fit:cover}
 .preview b{font-size:14px}
-.preview button{margin-left:auto;width:38px;height:38px;border-radius:12px;background:#fee2e2;color:#ef4444}
+.preview button{margin-left:auto;width:38px;height:38px;border-radius:12px;background:#fee2e2;color:#ef4444;transition:transform 0.2s}
+.preview button:hover{transform: scale(1.08);}
 
-.menu{position:fixed;background:#fff;border:1px solid #dce6f3;border-radius:14px;box-shadow:0 18px 45px rgba(16,24,40,.18);padding:8px;display:none;z-index:100;min-width:190px}
-.menu button{width:100%;height:42px;border-radius:10px;background:#fff;color:#07142f;text-align:left;padding:0 12px;font-size:14px;font-weight:800;display:flex;align-items:center;gap:10px}
-.menu button:hover{background:#eef4ff;color:#315df4}
+.menu{position:fixed;background:#fff;border:1px solid #dce6f3;border-radius:14px;box-shadow:0 18px 45px rgba(16,24,40,.18);padding:8px;display:none;z-index:100;min-width:190px;transform-origin: top left;animation:menuShow 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);}
+.menu button{width:100%;height:42px;border-radius:10px;background:#fff;color:#07142f;text-align:left;padding:0 12px;font-size:14px;font-weight:800;display:flex;align-items:center;gap:10px;transition:all 0.15s ease}
+.menu button:hover{background:#eef4ff;color:#315df4;transform: translateX(2px);}
 .menu button.danger:hover{background:#fee2e2;color:#ef4444}
-.toast{position:fixed;top:18px;left:50%;transform:translateX(-50%);background:#07142f;color:#fff;padding:12px 16px;border-radius:12px;font-size:14px;font-weight:800;display:none;z-index:120}
+.toast{position:fixed;top:18px;left:50%;transform:translateX(-50%);background:#07142f;color:#fff;padding:12px 16px;border-radius:12px;font-size:14px;font-weight:800;display:none;z-index:120;animation:toastShow 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
 
 .image-viewer {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(7, 20, 47, 0.6);
+  background: rgba(7, 20, 47, 0.5);
   backdrop-filter: blur(4px);
   z-index: 200;
   place-items: center;
+  transition: opacity 0.25s ease;
 }
 .viewer-content {
   background: #fff;
@@ -110,11 +120,7 @@ button{border:0;cursor:pointer}
   width: 340px;
   text-align: center;
   position: relative;
-  animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-@keyframes popIn {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .viewer-content img {
   width: 100%;
@@ -145,6 +151,50 @@ button{border:0;cursor:pointer}
   display: grid;
   place-items: center;
   font-size: 16px;
+  transition: transform 0.2s ease;
+}
+.viewer-close:hover { transform: scale(1.1) rotate(90deg); }
+
+/* --- 🔴 PROFESSIONAL ANIMATION KEYFRAMES --- */
+@keyframes slideInUser {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes msgPopUp {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes popIn {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+@keyframes zoomInMedia {
+  from { transform: scale(0.92); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+@keyframes menuShow {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes toastShow {
+  from { opacity: 0; transform: translate(-50%, -20px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+@keyframes slideUpPreview {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes splashSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes splashPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(0.88); opacity: 0.7; }
 }
 
 @media(max-width:860px){
@@ -156,7 +206,7 @@ button{border:0;cursor:pointer}
   inset:0;
   z-index:40;
   transform:translateX(100%);
-  transition:.25s ease;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   height: 100dvh !important;
   display: flex !important;
   flex-direction: column !important;
@@ -210,19 +260,12 @@ button{border:0;cursor:pointer}
   z-index: 50 !important;
 }
 }
-/* 🔴 इस </style> टैग के ठीक ऊपर यह कोड पेस्ट करें */
-@keyframes splashSpin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-@keyframes splashPulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(0.88); opacity: 0.7; }
-}
 </style>
 </head>
 
 <body>
+
+<!-- 🔴 SPLASH SCREEN LOADING ANIMATION -->
 <div id="appSplashScreen" style="position:fixed; inset:0; background:#f6f9fd; z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; transition: opacity 0.4s ease, visibility 0.4s;">
   <div class="splash-logo-wrap" style="position:relative; width:90px; height:90px; display:grid; place-items:center;">
     <div style="position:absolute; inset:0; border:4px solid #eef4ff; border-top-color:#315df4; border-radius:50%; animation: splashSpin 1s linear infinite;"></div>
@@ -237,18 +280,13 @@ button{border:0;cursor:pointer}
 <div class="menu" id="msgMenu"></div>
 <div class="menu" id="userMenu"></div>
 
+<!-- चैट इमेजेस के लिए पॉपअप थियेटर लाइटबॉक्स -->
 <div id="mediaViewer" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(5px); z-index:300; place-items:center; cursor:pointer;" onclick="this.style.display='none'">
   <button style="position:absolute; top:20px; right:20px; width:44px; height:44px; border-radius:50%; background:#fff; color:#000; font-size:20px; display:grid; place-items:center; border:0; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-  <img id="mediaViewerImg" src="" style="max-width:90%; max-height:85vh; object-fit:contain; border-radius:12px; box-shadow:0 20px 50px rgba(0,0,0,0.5); animation: zoomInMedia 0.2s ease-out;">
+  <img id="mediaViewerImg" src="" style="max-width:90%; max-height:85vh; object-fit:contain; border-radius:12px; box-shadow:0 20px 50px rgba(0,0,0,0.5); animation: zoomInMedia 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);">
 </div>
 
-<style>
-@keyframes zoomInMedia {
-  from { transform: scale(0.95); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-</style>
-
+<!-- WhatsApp स्टाइल अवतार बड़े व्यू के लिए पॉपअप बॉक्स -->
 <div class="image-viewer" id="imageViewer" onclick="closeImageViewer()">
   <div class="viewer-content" onclick="event.stopPropagation()">
     <button class="viewer-close" onclick="closeImageViewer()"><i class="fa-solid fa-xmark"></i></button>
@@ -444,32 +482,27 @@ function initMe(){
   $("meAvatar").src = avatarUrl(me);
 }
 
-// 🔴 NEW: लोकल स्टोरेज से सेव किया हुआ निकनेम लाने का सपोर्टर फ़ंक्शन
 function getSavedNickname(email, defaultName) {
   const savedName = localStorage.getItem("nickname_" + safeEmail(email));
   return savedName || defaultName;
 }
 
-// 🔴 NEW: सामने वाले यूजर का नाम बदलने (Edit) का फंक्शन
 window.editContactNickname = function() {
   if (!selectedUser) return;
   const currentDisplayName = getSavedNickname(selectedUser.email, selectedUser.name);
-  const newNickname = prompt(`Change name for ${selectedUser.email}:`, currentDisplayName);
+  const newNickname = prompt(`Change local nickname for ${selectedUser.email}:`, currentDisplayName);
   
   if (newNickname === null) return;
   const cleanNickname = newNickname.trim();
   
   if (!cleanNickname) {
-    // अगर खाली छोड़ा तो पुराना डिफ़ॉल्ट नाम आ जायेगा (यानी नाम रीसेट)
     localStorage.removeItem("nickname_" + safeEmail(selectedUser.email));
     toast("Name reset to original");
   } else {
-    // नया निकनेम लोकल स्टोरेज में सेव करें
     localStorage.setItem("nickname_" + safeEmail(selectedUser.email), cleanNickname);
     toast("Name updated locally!");
   }
   
-  // स्क्रीन पर रेंडर तुरंत अपडेट करें
   $("chatName").innerText = getSavedNickname(selectedUser.email, selectedUser.name);
   $("chatAvatar").src = avatarUrl(selectedUser);
   renderUsers();
@@ -575,15 +608,15 @@ window.renderUsers = function(){
     return;
   }
 
-  $("usersList").innerHTML = list.map(u => {
+  $("usersList").innerHTML = list.map((u, index) => {
     const uSafeEmail = safeEmail(u.email);
     const count = unreadCounts[uSafeEmail] || 0;
     const lastMsg = u.last_message ? escapeHtml(u.last_message) : "";
-    const displayContactName = getSavedNickname(u.email, u.name); // 🔴 निकनेम लोड किया
+    const displayContactName = getSavedNickname(u.email, u.name);
     const avatarImgUrl = avatarUrl(u);
     
     const badgeHtml = count > 0 
-      ? `<span style="background:#ef4444; color:#fff; font-size:11px; font-weight:900; min-width:20px; height:20px; border-radius:50%; display:grid; place-items:center; padding:0 5px; flex:none;">${count}</span>`
+      ? `<span style="background:#ef4444; color:#fff; font-size:11px; font-weight:900; min-width:20px; height:20px; border-radius:50%; display:grid; place-items:center; padding:0 5px; flex:none; animation: popIn 0.3s ease;">${count}</span>`
       : `<span class="dot" style="display:${showAllUsersMode?'none':'block'}"></span>`;
 
     const actionTriggerHtml = !showAllUsersMode 
@@ -591,7 +624,7 @@ window.renderUsers = function(){
       : ``;
 
     return `
-      <div class="user ${selectedUser && selectedUser.email === u.email ? "active" : ""}" onclick='selectUser(${JSON.stringify(u).replace(/'/g,"&#039;")})'>
+      <div class="user ${selectedUser && selectedUser.email === u.email ? "active" : ""}" style="animation-delay: ${index * 0.04}s" onclick='selectUser(${JSON.stringify(u).replace(/'/g,"&#039;")})'>
         <img src="${avatarImgUrl}" onclick="event.stopPropagation(); openAvatarPopup('${escapeHtml(displayContactName)}', '${avatarImgUrl}')">
         <div class="uinfo">
           <b>${escapeHtml(displayContactName)}</b>
@@ -656,13 +689,13 @@ window.selectUser = async function(user){
     $("searchInput").placeholder = "Search chats...";
   }
 
-  const finalName = getSavedNickname(user.email, user.name); // निकनेम शो किया
+  const finalName = getSavedNickname(user.email, user.name);
 
   $("chatPanel").classList.add("open");
   $("chatName").innerText = finalName;
   $("chatEmail").innerText = user.email;
   $("chatAvatar").src = avatarUrl(user);
-  $("editContactBtn").style.display = "inline-block"; // 🔴 पेंसिल आइकॉन चालू करें
+  $("editContactBtn").style.display = "inline-block";
   $("messages").innerHTML = `<div class="empty"><i class="fa-solid fa-circle-notch fa-spin"></i><h2>Loading...</h2></div>`;
 
   renderUsers();
@@ -831,7 +864,7 @@ async function updateChatIndex(lastMessage, timestamp){
   });
 
   await set(ref(db, "chatIndex/" + safeEmail(selectedUser.email) + "/" + safeEmail(me.email)),{
-    with:me.email, name:me.name, profile_image:me.profile_image || "",
+    with:me.email, name:me.name, profile_image:me.me_image || me.profile_image || "",
     last_message:lastMessage, updated_at:timestamp
   });
 }
@@ -934,13 +967,14 @@ loadAllUsersList().then(() => {
     }
   } catch(e) { console.error(e); }
 });
-// 🔴 इस </script> टैग के ठीक ऊपर यह कोड पेस्ट करें
+
+// 🔴 सब कुछ लोड होने के बाद स्प्लैश स्क्रीन को 1.8 सेकंड बाद छिपाने का लॉजिक
 setTimeout(() => {
   const splash = document.getElementById("appSplashScreen");
   if (splash) {
     splash.style.opacity = "0";
     splash.style.visibility = "hidden";
-    setTimeout(() => splash.remove(), 400);
+    setTimeout(() => splash.remove(), 400); // फ़ेड आउट होने के बाद DOM से हटा दें
   }
 }, 1800);
 </script>
