@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>CreatorHub Chat</title>
+<title>CreatorHub Chat Firebase-Live</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -171,7 +171,6 @@ button{border:0;cursor:pointer}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getDatabase, ref, push, set, update, get, onValue, off, serverTimestamp, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAfYB5sgL770yLShdaJVDaxjpZrQHx5JcU",
@@ -188,12 +187,11 @@ const USERS_API = "https://script.google.com/macros/s/AKfycbw9T3_1uvxU7O2ER5GRF5
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-const storage = getStorage(app);
 
 let me = getLoggedUser();
 let users = [];
 let selectedUser = null;
-let selectedFile = null;
+let selectedFileBase64 = null; // Storage फाइल के बजाय Base64 स्टोर करेंगे
 let currentQuery = null;
 let currentChatId = "";
 let clearBefore = 0;
@@ -268,7 +266,7 @@ function getLoggedUser(){
     (u.user && u.user.profile_image) ||
     localStorage.getItem("user_image") ||
     localStorage.getItem("profile_image") ||
-    "";
+    ""
 
   return {email,name,profile_image};
 }
@@ -439,6 +437,7 @@ window.handleEnter = function(e){
   }
 }
 
+// 🛠️ इमेजेस को बिना Storage के कंप्रेस करके फ्री में लोड करना
 window.selectImage = function(e){
   const file = e.target.files[0];
   if(!file) return;
@@ -448,18 +447,42 @@ window.selectImage = function(e){
     return;
   }
 
-  if(file.size > 5 * 1024 * 1024){
-    toast("Image max 5MB");
-    return;
-  }
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    const img = new Image();
+    img.src = evt.target.result;
+    
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      
+      const MAX_WIDTH = 500;
+      const MAX_HEIGHT = 500;
+      let width = img.width;
+      let height = img.height;
 
-  selectedFile = file;
-  $("previewImg").src = URL.createObjectURL(file);
-  $("previewBox").style.display = "flex";
+      if (width > height) {
+        if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
+      } else {
+        if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+      ctx.drawImage(img, 0, 0, width, height);
+      
+      // 0.5 क्वालिटी पर बेस्ट कंप्रेशन (ताकि RTDB साइज एरर न दे)
+      selectedFileBase64 = canvas.toDataURL('image/jpeg', 0.5);
+      
+      $("previewImg").src = selectedFileBase64;
+      $("previewBox").style.display = "flex";
+    };
+  };
+  reader.readAsDataURL(file);
 }
 
 window.clearImage = function(){
-  selectedFile = null;
+  selectedFileBase64 = null;
   $("imageInput").value = "";
   $("previewBox").style.display = "none";
 }
@@ -471,8 +494,7 @@ window.sendMessage = async function(){
   }
 
   const text = $("messageInput").value.trim();
-
-  if(!text && !selectedFile) return;
+  if(!text && !selectedFileBase64) return;
 
   $("messageInput").value = "";
 
@@ -480,12 +502,9 @@ window.sendMessage = async function(){
     let imageUrl = "";
     let type = "text";
 
-    if(selectedFile){
+    if(selectedFileBase64){
       type = "image";
-      const path = "chat-images/" + currentChatId + "/" + Date.now() + "_" + selectedFile.name;
-      const fileRef = sRef(storage, path);
-      await uploadBytes(fileRef, selectedFile);
-      imageUrl = await getDownloadURL(fileRef);
+      imageUrl = selectedFileBase64; // डायरेक्ट कनवर्टेड बेस64 डेटा पास करें
       clearImage();
     }
 
@@ -534,21 +553,17 @@ async function updateChatIndex(lastMessage){
 
 window.openChatMenu = function(e){
   e.stopPropagation();
-
   const menu = $("chatMenu");
-
   menu.innerHTML = `
     <button onclick="scrollBottom();closeMenus()"><i class="fa-solid fa-arrow-down"></i>Scroll bottom</button>
     <button onclick="loadUsers();closeMenus()"><i class="fa-solid fa-rotate"></i>Refresh users</button>
     <button onclick="clearChatForMe()" class="danger"><i class="fa-solid fa-broom"></i>Clear chat</button>
   `;
-
   placeMenu(menu,e.clientX,e.clientY);
 }
 
 window.openMsgMenu = function(e,key){
   e.stopPropagation();
-
   const msg = messagesByKey[key];
   if(!msg) return;
 
@@ -557,16 +572,13 @@ window.openMsgMenu = function(e,key){
   const menu = $("msgMenu");
 
   let html = "";
-
   if(mine && !deleted){
     html += `<button onclick="editMessage('${key}')"><i class="fa-solid fa-pen"></i>Edit message</button>`;
     html += `<button onclick="deleteForEveryone('${key}')" class="danger"><i class="fa-solid fa-trash"></i>Delete for everyone</button>`;
   }
-
   if(!deleted){
     html += `<button onclick="deleteForMe('${key}')" class="danger"><i class="fa-solid fa-eye-slash"></i>Delete for me</button>`;
   }
-
   if(!html){
     html = `<button onclick="closeMenus()"><i class="fa-solid fa-circle-info"></i>No actions</button>`;
   }
@@ -578,12 +590,10 @@ window.openMsgMenu = function(e,key){
 function placeMenu(menu,x,y){
   closeMenus();
   menu.style.display = "block";
-
   const w = 210;
   const h = 150;
   const left = Math.min(x, window.innerWidth - w - 10);
   const top = Math.min(y, window.innerHeight - h - 10);
-
   menu.style.left = left + "px";
   menu.style.top = top + "px";
 }
@@ -601,11 +611,9 @@ window.editMessage = async function(key){
 
   const oldText = msg.text || "";
   const newText = prompt("Edit message", oldText);
-
   if(newText === null) return;
 
   const clean = newText.trim();
-
   if(!clean && msg.type !== "image"){
     toast("Message cannot be empty");
     return;
@@ -622,7 +630,6 @@ window.editMessage = async function(key){
 
 window.deleteForEveryone = async function(key){
   closeMenus();
-
   if(!confirm("Delete this message for everyone?")) return;
 
   await update(ref(db, "chats/" + currentChatId + "/messages/" + key),{
@@ -638,22 +645,15 @@ window.deleteForEveryone = async function(key){
 
 window.deleteForMe = async function(key){
   closeMenus();
-
   await update(ref(db, "chats/" + currentChatId + "/messages/" + key + "/deleted_for"),{
     [safeEmail(me.email)]:true
   });
-
   toast("Deleted for you");
 }
 
 window.clearChatForMe = async function(){
   closeMenus();
-
-  if(!selectedUser){
-    toast("Select user first");
-    return;
-  }
-
+  if(!selectedUser){ toast("Select user first"); return; }
   if(!confirm("Clear this chat for you?")) return;
 
   const now = Date.now();
@@ -666,11 +666,7 @@ window.addEventListener("click",closeMenus);
 
 function escapeHtml(str){
   return String(str || "").replace(/[&<>"']/g, ch => ({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#039;"
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
   }[ch]));
 }
 
