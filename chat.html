@@ -87,20 +87,18 @@ button{border:0;cursor:pointer}
 .app{grid-template-columns:1fr; height: 100dvh;}
 .sidebar{height:100dvh}
 
-/* Chat area ko full screen dynamic viewport height di taaki browser bar se na kate */
 .chat{
   position:fixed;
   inset:0;
   z-index:40;
   transform:translateX(100%);
   transition:.25s ease;
-  height: 100dvh !important; /* Fixed cutoff issue */
+  height: 100dvh !important;
   display: flex !important;
   flex-direction: column !important;
 }
 .chat.open{transform:translateX(0)}
 
-/* Header settings */
 .chat-head {
   height: 76px !important; 
   padding: 10px 14px !important;
@@ -118,23 +116,21 @@ button{border:0;cursor:pointer}
 
 .msg{max-width:84%}
 
-/* Messages ko flexible rakha taaki yeh composer ko neeche na dhakele */
 .messages {
   padding: 16px 12px; 
-  flex: 1 !important; /* Dynamic height allocation */
+  flex: 1 !important;
   overflow-y: auto !important;
-  height: auto !important; /* Removed hardcoded calc */
+  height: auto !important;
 }
 .msg-img{max-width:245px;max-height:290px}
 
-/* Composer safe areas for mobile screens */
 .composer {
   padding: 12px !important; 
   height: auto !important; 
   min-height: 72px !important;
   flex: none !important;
   background: #fff !important;
-  margin-bottom: env(safe-area-inset-bottom) !important; /* Mobile bottom gap fix */
+  margin-bottom: env(safe-area-inset-bottom) !important;
 }
 .attach,.send{width:46px !important; height:46px !important; font-size:16px !important;}
 .composer textarea {
@@ -150,7 +146,6 @@ button{border:0;cursor:pointer}
   z-index: 50 !important;
 }
 }
-
 </style>
 </head>
 
@@ -246,11 +241,12 @@ const db = getDatabase(app);
 let me = getLoggedUser();
 let users = [];
 let selectedUser = null;
-let selectedFileBase64 = null; // Storage फाइल के बजाय Base64 स्टोर करेंगे
+let selectedFileBase64 = null;
 let currentQuery = null;
 let currentChatId = "";
 let clearBefore = 0;
 let messagesByKey = {};
+let unreadCounts = {}; // 🔴 अनरीड मैसेज काउंट्स ट्रैक करने के लिए
 
 function $(id){return document.getElementById(id)}
 
@@ -360,6 +356,7 @@ window.loadUsers = async function(){
   }
 }
 
+// 🔴 अनरीड मैसेज बैज के साथ री-रेंडर करने के लिए अपडेटेड फंक्शन
 window.renderUsers = function(){
   const q = $("searchInput").value.toLowerCase().trim();
 
@@ -373,16 +370,34 @@ window.renderUsers = function(){
     return;
   }
 
-  $("usersList").innerHTML = list.map(u => `
-    <div class="user ${selectedUser && selectedUser.email === u.email ? "active" : ""}" onclick='selectUser(${JSON.stringify(u).replace(/'/g,"&#039;")})'>
-      <img src="${avatarUrl(u)}">
-      <div class="uinfo">
-        <b>${escapeHtml(u.name)}</b>
-        <span>${escapeHtml(u.email)}</span>
+  $("usersList").innerHTML = list.map(u => {
+    const uSafeEmail = safeEmail(u.email);
+    const count = unreadCounts[uSafeEmail] || 0;
+    
+    // अगर मैसेज बिना पढ़े हैं, तो लाल रंग का गोल बैज दिखेगा, वरना ऑनलाइन डॉट
+    const badgeHtml = count > 0 
+      ? `<span style="background:#ef4444; color:#fff; font-size:11px; font-weight:900; min-width:20px; height:20px; border-radius:50%; display:grid; place-items:center; padding:0 5px; flex:none;">${count}</span>`
+      : `<span class="dot"></span>`;
+
+    return `
+      <div class="user ${selectedUser && selectedUser.email === u.email ? "active" : ""}" onclick='selectUser(${JSON.stringify(u).replace(/'/g,"&#039;")})'>
+        <img src="${avatarUrl(u)}">
+        <div class="uinfo">
+          <b>${escapeHtml(u.name)}</b>
+          <span>${escapeHtml(u.email)}</span>
+        </div>
+        ${badgeHtml}
       </div>
-      <span class="dot"></span>
-    </div>
-  `).join("");
+    `;
+  }).join("");
+}
+
+// 🔴 अपना अनरीड काउंटर 0 (क्लियर) करने के लिए फंक्शन
+async function clearMyUnreadCount(targetEmail) {
+  if (!me.email || !targetEmail) return;
+  const chatId = makeChatId(me.email, targetEmail);
+  const mySafeEmail = safeEmail(me.email);
+  await set(ref(db, "chats/" + chatId + "/unread/" + mySafeEmail), 0);
 }
 
 window.selectUser = async function(user){
@@ -400,6 +415,9 @@ window.selectUser = async function(user){
   renderUsers();
   await loadClearTime();
   listenMessages();
+  
+  // 🔴 चैट खोलते ही अपना काउंट जीरो करें
+  clearMyUnreadCount(user.email);
 }
 
 async function loadClearTime(){
@@ -493,7 +511,6 @@ window.handleEnter = function(e){
   }
 }
 
-// 🛠️ इमेजेस को बिना Storage के कंप्रेस करके फ्री में लोड करना
 window.selectImage = function(e){
   const file = e.target.files[0];
   if(!file) return;
@@ -527,7 +544,6 @@ window.selectImage = function(e){
       canvas.height = height;
       ctx.drawImage(img, 0, 0, width, height);
       
-      // 0.5 क्वालिटी पर बेस्ट कंप्रेशन (ताकि RTDB साइज एरर न दे)
       selectedFileBase64 = canvas.toDataURL('image/jpeg', 0.5);
       
       $("previewImg").src = selectedFileBase64;
@@ -560,7 +576,7 @@ window.sendMessage = async function(){
 
     if(selectedFileBase64){
       type = "image";
-      imageUrl = selectedFileBase64; // डायरेक्ट कनवर्टेड बेस64 डेटा पास करें
+      imageUrl = selectedFileBase64;
       clearImage();
     }
 
@@ -582,6 +598,18 @@ window.sendMessage = async function(){
     });
 
     await updateChatIndex(type === "image" ? "Image" : text);
+
+    // 🔴 रिसीवर (सामने वाले यूजर) के लिए अनरीड मैसेज काउंटर +1 बढ़ाएं
+    try {
+      const receiverSafeEmail = safeEmail(selectedUser.email);
+      const unreadRef = ref(db, "chats/" + currentChatId + "/unread/" + receiverSafeEmail);
+      
+      const currentSnap = await get(unreadRef);
+      const currentCount = Number(currentSnap.val() || 0);
+      await set(unreadRef, currentCount + 1);
+    } catch(err) {
+      console.error("Error updating unread count:", err);
+    }
 
   }catch(err){
     console.error(err);
@@ -732,13 +760,30 @@ function escapeAttr(str){
 
 initMe();
 
-// 🟢 Users load hone ke baad automatic pichhli chat kholne ka logic
+// 🟢 यूज़र्स लोड होने के बाद अनरीड काउंट्स को रियल-टाइम लिसन (सुनने) का लॉजिक
 loadUsers().then(() => {
+  users.forEach(u => {
+    const cId = makeChatId(me.email, u.email);
+    const mySafeEmail = safeEmail(me.email);
+    
+    // रियल-टाइम लिसनर डेटाबेस से
+    onValue(ref(db, "chats/" + cId + "/unread/" + mySafeEmail), snap => {
+      const count = Number(snap.val() || 0);
+      unreadCounts[safeEmail(u.email)] = count;
+      
+      // अगर उसी यूजर की चैट खुली है और उसने नया मैसेज भेजा, तो काउंट तुरंत क्लियर (0) कर दें
+      if (selectedUser && selectedUser.email === u.email && count > 0) {
+        clearMyUnreadCount(u.email);
+      }
+      
+      renderUsers(); // लिस्ट को री-रेंडर करके लाल नंबर शो करें
+    });
+  });
+
   try {
     const lastUser = localStorage.getItem("active_chat_user");
     if (lastUser) {
       const parsedUser = JSON.parse(lastUser);
-      // Check karenge ki wo user abhi bhi valid list me hai ya nahi
       const stillExists = users.find(u => u.email === parsedUser.email);
       if (stillExists) {
         selectUser(stillExists);
