@@ -803,7 +803,10 @@ window.selectImage = function(e){
     img.onload = function() {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-      const MAX_WIDTH = 500; const MAX_HEIGHT = 500;
+      
+      // 🔴 क्वालिटी बढ़ाने के लिए हमने मैक्सिमम साइज़ 500 से बढ़ाकर 1000 कर दिया है
+      const MAX_WIDTH = 1000; 
+      const MAX_HEIGHT = 1000;
       let width = img.width; let height = img.height;
 
       if (width > height) { if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; } }
@@ -811,7 +814,10 @@ window.selectImage = function(e){
 
       canvas.width = width; canvas.height = height;
       ctx.drawImage(img, 0, 0, width, height);
-      selectedFileBase64 = canvas.toDataURL('image/jpeg', 0.5);
+      
+      // 🔴 यहाँ क्वालिटी को 0.5 से बढ़ाकर 0.8 (80%) कर दिया है जिससे इमेज एकदम साफ़ दिखेगी
+      selectedFileBase64 = canvas.toDataURL('image/jpeg', 0.8);
+      
       $("previewImg").src = selectedFileBase64;
       $("previewBox").style.display = "flex";
     };
