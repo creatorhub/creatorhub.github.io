@@ -22,7 +22,9 @@ button{border:0;cursor:pointer}
 .me-info{min-width:0}
 .me-info b{display:block;font-size:17px;font-weight:900;color:#06142c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .me-info span{display:block;font-size:13px;color:#63728a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.actions-wrap{display:flex;align-items:center;gap:8px}
 .icon-btn{width:44px;height:44px;border-radius:12px;background:#eef4ff;color:#315df4;font-size:18px;display:grid;place-items:center}
+.icon-btn.active{background:#315df4;color:#fff}
 
 .search{padding:14px 18px;border-bottom:1px solid #dce6f3}
 .search input{width:100%;height:46px;border:1px solid #d6e1ef;border-radius:14px;background:#f6f9fd;outline:none;padding:0 15px;font-size:15px;font-weight:700}
@@ -33,7 +35,8 @@ button{border:0;cursor:pointer}
 .uinfo{min-width:0;flex:1}
 .uinfo b{display:block;color:#06142c;font-size:15px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .uinfo span{display:block;margin-top:4px;color:#63728a;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.dot{width:10px;height:10px;border-radius:50%;background:#22c55e;flex:none}
+.badge-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:none}
+.dot{width:10px;height:10px;border-radius:50%;background:#22c55e}
 
 .chat{display:flex;flex-direction:column;height:100vh;background:#f6f8fc;min-width:0;position:relative}
 .chat-head{height:82px;background:#fff;border-bottom:1px solid #dce6f3;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
@@ -165,11 +168,14 @@ button{border:0;cursor:pointer}
           <span id="meEmail">Loading...</span>
         </div>
       </div>
-      <button class="icon-btn" onclick="loadUsers()"><i class="fa-solid fa-rotate"></i></button>
+      <div class="actions-wrap">
+        <button class="icon-btn" id="newChatBtn" onclick="toggleAllUsersMode()" title="New Chat"><i class="fa-solid fa-plus"></i></button>
+        <button class="icon-btn" onclick="initChatList()"><i class="fa-solid fa-rotate"></i></button>
+      </div>
     </div>
 
     <div class="search">
-      <input id="searchInput" placeholder="Search users..." oninput="renderUsers()">
+      <input id="searchInput" placeholder="Search chats..." oninput="renderUsers()">
     </div>
 
     <div class="users" id="usersList"></div>
@@ -239,14 +245,16 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 let me = getLoggedUser();
-let users = [];
+let allUsers = [];      // API से आने वाले सारे यूजर्स
+let activeChats = [];    // केवल वो यूजर्स जिनसे बात हुई है (Firebase Index से)
 let selectedUser = null;
 let selectedFileBase64 = null;
 let currentQuery = null;
 let currentChatId = "";
 let clearBefore = 0;
 let messagesByKey = {};
-let unreadCounts = {}; // 🔴 अनरीड मैसेज काउंट्स ट्रैक करने के लिए
+let unreadCounts = {};
+let showAllUsersMode = false; // WhatsApp की तरह 'Plus' दबाने पर ही सब दिखेंगे
 
 function $(id){return document.getElementById(id)}
 
@@ -328,71 +336,125 @@ function initMe(){
     setTimeout(() => location.href = "login.html", 800);
     return;
   }
-
   $("meName").innerText = me.name;
   $("meEmail").innerText = me.email;
   $("meAvatar").src = avatarUrl(me);
 }
 
-window.loadUsers = async function(){
-  $("usersList").innerHTML = `<div style="padding:18px;color:#63728a;font-weight:800">Loading users...</div>`;
-
+// API से सारे यूजर्स बैकग्राउंड में लोड करके रख लेना
+async function loadAllUsersList(){
   try{
     const res = await fetch(USERS_API + "?action=getUsers&_=" + Date.now());
     const data = await res.json();
-
-    users = (data.users || data.data || [])
+    allUsers = (data.users || data.data || [])
       .map(u => ({
         name:u.name || u.full_name || "CreatorHub User",
         email:String(u.email || "").toLowerCase().trim(),
         profile_image:u.profile_image || u.picture || u.image || ""
       }))
       .filter(u => u.email && u.email !== me.email);
-
-    renderUsers();
   }catch(err){
-    console.error(err);
-    $("usersList").innerHTML = `<div style="padding:18px;color:#ef4444;font-weight:900">Users load failed</div>`;
+    console.error("Error loading API users:", err);
   }
 }
 
-// 🔴 अनरीड मैसेज बैज के साथ री-रेंडर करने के लिए अपडेटेड फंक्शन
+// 🔴 WhatsApp मोड स्विच करना (सिर्फ एक्टिव चैट्स vs सारे कांटेक्ट)
+window.toggleAllUsersMode = function() {
+  showAllUsersMode = !showAllUsersMode;
+  if(showAllUsersMode) {
+    $("newChatBtn").classList.add("active");
+    $("searchInput").placeholder = "Search new contacts...";
+  } else {
+    $("newChatBtn").classList.remove("active");
+    $("searchInput").placeholder = "Search chats...";
+  }
+  renderUsers();
+}
+
+// 🔴 Firebase Chat Index को लाइव सुनना ताकि लेटेस्ट मैसेज वाला यूजर तुरंत टॉप पर आये
+function listenChatIndex() {
+  const mySafeEmail = safeEmail(me.email);
+  onValue(ref(db, "chatIndex/" + mySafeEmail), snap => {
+    const data = snap.val() || {};
+    
+    // ऑब्जेक्ट को ऐरे में बदलकर टाइमस्टैम्प (updated_at) के हिसाब से सॉर्ट (Top पर लाना) करना
+    activeChats = Object.keys(data).map(key => ({
+      email: data[key].with,
+      name: data[key].name || "CreatorHub User",
+      profile_image: data[key].profile_image || "",
+      last_message: data[key].last_message || "",
+      updated_at: Number(data[key].updated_at || 0)
+    })).sort((a, b) => b.updated_at - a.updated_at); // 🔴 लेटेस्ट टाइम सबसे ऊपर
+
+    // सभी यूज़र्स के अनरीड काउंट के रियल-टाइम लिसनर्स चालू करना
+    activeChats.forEach(c => {
+      listenUnreadCountForUser(c.email);
+    });
+
+    renderUsers();
+  });
+}
+
+function listenUnreadCountForUser(targetEmail) {
+  const cId = makeChatId(me.email, targetEmail);
+  const mySafeEmail = safeEmail(me.email);
+  
+  // ऑफ करके दोबारा ऑन करना ताकि डुप्लीकेट लिसनर न बने
+  off(ref(db, "chats/" + cId + "/unread/" + mySafeEmail));
+  onValue(ref(db, "chats/" + cId + "/unread/" + mySafeEmail), snap => {
+    const count = Number(snap.val() || 0);
+    unreadCounts[safeEmail(targetEmail)] = count;
+    
+    if (selectedUser && selectedUser.email === targetEmail && count > 0) {
+      clearMyUnreadCount(targetEmail);
+    }
+    renderUsers();
+  });
+}
+
+// 🔴 रेंडर फ़ंक्शन: व्हाट्सएप जैसा या प्लस बटन दबाने पर कॉन्टैक्ट लिस्ट दिखाना
 window.renderUsers = function(){
   const q = $("searchInput").value.toLowerCase().trim();
+  
+  // मोड के हिसाब से लिस्ट चुनना (Active Chats या All Contacts)
+  let sourceList = showAllUsersMode ? allUsers : activeChats;
 
-  const list = users.filter(u =>
+  const list = sourceList.filter(u =>
     u.name.toLowerCase().includes(q) ||
     u.email.toLowerCase().includes(q)
   );
 
   if(!list.length){
-    $("usersList").innerHTML = `<div style="padding:18px;color:#63728a;font-weight:800">No users found</div>`;
+    $("usersList").innerHTML = showAllUsersMode 
+      ? `<div style="padding:18px;color:#63728a;font-weight:800">No contacts found</div>`
+      : `<div style="padding:32px 18px;text-align:center;color:#63728a;"><i class="fa-solid fa-message" style="font-size:30px;margin-bottom:10px;color:#315df4"></i><h4 style="color:#06142c">No active chats</h4><p style="font-size:13px;margin-top:4px">Tap the '+' icon above to start a new chat.</p></div>`;
     return;
   }
 
   $("usersList").innerHTML = list.map(u => {
     const uSafeEmail = safeEmail(u.email);
     const count = unreadCounts[uSafeEmail] || 0;
+    const lastMsg = u.last_message ? escapeHtml(u.last_message) : "";
     
-    // अगर मैसेज बिना पढ़े हैं, तो लाल रंग का गोल बैज दिखेगा, वरना ऑनलाइन डॉट
     const badgeHtml = count > 0 
       ? `<span style="background:#ef4444; color:#fff; font-size:11px; font-weight:900; min-width:20px; height:20px; border-radius:50%; display:grid; place-items:center; padding:0 5px; flex:none;">${count}</span>`
-      : `<span class="dot"></span>`;
+      : `<span class="dot" style="display:${showAllUsersMode?'none':'block'}"></span>`;
 
     return `
       <div class="user ${selectedUser && selectedUser.email === u.email ? "active" : ""}" onclick='selectUser(${JSON.stringify(u).replace(/'/g,"&#039;")})'>
         <img src="${avatarUrl(u)}">
         <div class="uinfo">
           <b>${escapeHtml(u.name)}</b>
-          <span>${escapeHtml(u.email)}</span>
+          <span style="font-weight:${count>0?'700':'400'}; color:${count>0?'#315df4':'#63728a'}">${showAllUsersMode ? escapeHtml(u.email) : (lastMsg || escapeHtml(u.email))}</span>
         </div>
-        ${badgeHtml}
+        <div class="badge-wrap">
+          ${badgeHtml}
+        </div>
       </div>
     `;
   }).join("");
 }
 
-// 🔴 अपना अनरीड काउंटर 0 (क्लियर) करने के लिए फंक्शन
 async function clearMyUnreadCount(targetEmail) {
   if (!me.email || !targetEmail) return;
   const chatId = makeChatId(me.email, targetEmail);
@@ -406,6 +468,13 @@ window.selectUser = async function(user){
   messagesByKey = {};
   currentChatId = makeChatId(me.email, selectedUser.email);
 
+  // अगर प्लस आइकॉन वाले कांटेक्ट मोड से किसी को सेलेक्ट किया, तो वापस होम स्क्रीन लिस्ट पर आएं
+  if(showAllUsersMode) {
+    showAllUsersMode = false;
+    $("newChatBtn").classList.remove("active");
+    $("searchInput").placeholder = "Search chats...";
+  }
+
   $("chatPanel").classList.add("open");
   $("chatName").innerText = user.name;
   $("chatEmail").innerText = user.email;
@@ -415,8 +484,6 @@ window.selectUser = async function(user){
   renderUsers();
   await loadClearTime();
   listenMessages();
-  
-  // 🔴 चैट खोलते ही अपना काउंट जीरो करें
   clearMyUnreadCount(user.email);
 }
 
@@ -426,10 +493,7 @@ async function loadClearTime(){
 }
 
 function listenMessages(){
-  if(currentQuery){
-    off(currentQuery);
-  }
-
+  if(currentQuery){ off(currentQuery); }
   currentQuery = query(ref(db, "chats/" + currentChatId + "/messages"), limitToLast(120));
 
   onValue(currentQuery, snap => {
@@ -453,7 +517,6 @@ function renderMessages(rows){
     $("messages").innerHTML = `<div class="empty"><i class="fa-solid fa-comments"></i><h2>No messages</h2><p>Say hello.</p></div>`;
     return;
   }
-
   $("messages").innerHTML = rows.map(msg => messageHtml(msg)).join("");
   scrollBottom();
 }
@@ -462,7 +525,6 @@ function messageHtml(msg){
   const mine = msg.from === me.email;
   const deleted = msg.deleted === true || msg.type === "deleted";
   const cls = `msg ${mine ? "mine" : "their"} ${deleted ? "deleted" : ""}`;
-
   let content = "";
 
   if(deleted){
@@ -514,38 +576,24 @@ window.handleEnter = function(e){
 window.selectImage = function(e){
   const file = e.target.files[0];
   if(!file) return;
-
-  if(!file.type.startsWith("image/")){
-    toast("Select image only");
-    return;
-  }
+  if(!file.type.startsWith("image/")){ toast("Select image only"); return; }
 
   const reader = new FileReader();
   reader.onload = function(evt) {
     const img = new Image();
     img.src = evt.target.result;
-    
     img.onload = function() {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-      
-      const MAX_WIDTH = 500;
-      const MAX_HEIGHT = 500;
-      let width = img.width;
-      let height = img.height;
+      const MAX_WIDTH = 500; const MAX_HEIGHT = 500;
+      let width = img.width; let height = img.height;
 
-      if (width > height) {
-        if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
-      } else {
-        if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
-      }
+      if (width > height) { if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; } }
+      else { if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; } }
 
-      canvas.width = width;
-      canvas.height = height;
+      canvas.width = width; canvas.height = height;
       ctx.drawImage(img, 0, 0, width, height);
-      
       selectedFileBase64 = canvas.toDataURL('image/jpeg', 0.5);
-      
       $("previewImg").src = selectedFileBase64;
       $("previewBox").style.display = "flex";
     };
@@ -560,78 +608,50 @@ window.clearImage = function(){
 }
 
 window.sendMessage = async function(){
-  if(!selectedUser){
-    toast("Select user first");
-    return;
-  }
-
+  if(!selectedUser){ toast("Select user first"); return; }
   const text = $("messageInput").value.trim();
   if(!text && !selectedFileBase64) return;
-
   $("messageInput").value = "";
 
   try{
-    let imageUrl = "";
-    let type = "text";
-
-    if(selectedFileBase64){
-      type = "image";
-      imageUrl = selectedFileBase64;
-      clearImage();
-    }
+    let imageUrl = ""; let type = "text";
+    if(selectedFileBase64){ type = "image"; imageUrl = selectedFileBase64; clearImage(); }
 
     const msgRef = push(ref(db, "chats/" + currentChatId + "/messages"));
+    const timestampNow = Date.now();
 
     await set(msgRef,{
-      id:msgRef.key,
-      from:me.email,
-      from_name:me.name,
-      to:selectedUser.email,
-      to_name:selectedUser.name,
-      type:type,
-      text:text,
-      image_url:imageUrl,
-      created_at:Date.now(),
-      server_time:serverTimestamp(),
-      edited:false,
-      deleted:false
+      id:msgRef.key, from:me.email, from_name:me.name, to:selectedUser.email, to_name:selectedUser.name,
+      type:type, text:text, image_url:imageUrl, created_at:timestampNow, server_time:serverTimestamp(),
+      edited:false, deleted:false
     });
 
-    await updateChatIndex(type === "image" ? "Image" : text);
+    // 🔴 इंडेक्स अपडेट करें (लास्ट मैसेज और टाइम) ताकि यूजर तुरंत लिस्ट में सबसे ऊपर आ जाए
+    await updateChatIndex(type === "image" ? "📷 Image" : text, timestampNow);
 
-    // 🔴 रिसीवर (सामने वाले यूजर) के लिए अनरीड मैसेज काउंटर +1 बढ़ाएं
+    // अनरीड काउंट बढ़ाएं
     try {
       const receiverSafeEmail = safeEmail(selectedUser.email);
       const unreadRef = ref(db, "chats/" + currentChatId + "/unread/" + receiverSafeEmail);
-      
       const currentSnap = await get(unreadRef);
       const currentCount = Number(currentSnap.val() || 0);
       await set(unreadRef, currentCount + 1);
-    } catch(err) {
-      console.error("Error updating unread count:", err);
-    }
+    } catch(err) { console.error(err); }
 
-  }catch(err){
-    console.error(err);
-    toast("Message send failed");
-  }
+  }catch(err){ console.error(err); toast("Message send failed"); }
 }
 
-async function updateChatIndex(lastMessage){
+async function updateChatIndex(lastMessage, timestamp){
+  // मेरे लिए इंडेक्स अपडेट
   await set(ref(db, "chatIndex/" + safeEmail(me.email) + "/" + safeEmail(selectedUser.email)),{
-    with:selectedUser.email,
-    name:selectedUser.name,
-    profile_image:selectedUser.profile_image || "",
-    last_message:lastMessage,
-    updated_at:Date.now()
+    with:selectedUser.email, name:selectedUser.name, profile_image:selectedUser.profile_image || "",
+    last_message:lastMessage, updated_at:timestamp
   });
 
+  // सामने वाले के लिए इंडेक्स अपडेट
   await set(ref(db, "chatIndex/" + safeEmail(selectedUser.email) + "/" + safeEmail(me.email)),{
-    with:me.email,
-    name:me.name,
-    profile_image:me.profile_image || "",
-    last_message:lastMessage,
-    updated_at:Date.now()
+    with:me.email, name:me.name, profile_image:me.profile_image || "",
+    last_message:lastMessage, updated_at:timestamp
   });
 }
 
@@ -640,7 +660,7 @@ window.openChatMenu = function(e){
   const menu = $("chatMenu");
   menu.innerHTML = `
     <button onclick="scrollBottom();closeMenus()"><i class="fa-solid fa-arrow-down"></i>Scroll bottom</button>
-    <button onclick="loadUsers();closeMenus()"><i class="fa-solid fa-rotate"></i>Refresh users</button>
+    <button onclick="toggleAllUsersMode();closeMenus()"><i class="fa-solid fa-user-plus"></i>New Chat / Contacts</button>
     <button onclick="clearChatForMe()" class="danger"><i class="fa-solid fa-broom"></i>Clear chat</button>
   `;
   placeMenu(menu,e.clientX,e.clientY);
@@ -648,9 +668,7 @@ window.openChatMenu = function(e){
 
 window.openMsgMenu = function(e,key){
   e.stopPropagation();
-  const msg = messagesByKey[key];
-  if(!msg) return;
-
+  const msg = messagesByKey[key]; if(!msg) return;
   const mine = msg.from === me.email;
   const deleted = msg.deleted === true || msg.type === "deleted";
   const menu = $("msgMenu");
@@ -660,86 +678,52 @@ window.openMsgMenu = function(e,key){
     html += `<button onclick="editMessage('${key}')"><i class="fa-solid fa-pen"></i>Edit message</button>`;
     html += `<button onclick="deleteForEveryone('${key}')" class="danger"><i class="fa-solid fa-trash"></i>Delete for everyone</button>`;
   }
-  if(!deleted){
-    html += `<button onclick="deleteForMe('${key}')" class="danger"><i class="fa-solid fa-eye-slash"></i>Delete for me</button>`;
-  }
-  if(!html){
-    html = `<button onclick="closeMenus()"><i class="fa-solid fa-circle-info"></i>No actions</button>`;
-  }
+  if(!deleted){ html += `<button onclick="deleteForMe('${key}')" class="danger"><i class="fa-solid fa-eye-slash"></i>Delete for me</button>`; }
+  if(!html){ html = `<button onclick="closeMenus()"><i class="fa-solid fa-circle-info"></i>No actions</button>`; }
 
   menu.innerHTML = html;
   placeMenu(menu,e.clientX,e.clientY);
 }
 
 function placeMenu(menu,x,y){
-  closeMenus();
-  menu.style.display = "block";
-  const w = 210;
-  const h = 150;
+  closeMenus(); menu.style.display = "block";
+  const w = 210; const h = 150;
   const left = Math.min(x, window.innerWidth - w - 10);
   const top = Math.min(y, window.innerHeight - h - 10);
-  menu.style.left = left + "px";
-  menu.style.top = top + "px";
+  menu.style.left = left + "px"; menu.style.top = top + "px";
 }
 
-window.closeMenus = function(){
-  $("chatMenu").style.display = "none";
-  $("msgMenu").style.display = "none";
-}
+window.closeMenus = function(){ $("chatMenu").style.display = "none"; $("msgMenu").style.display = "none"; }
 
 window.editMessage = async function(key){
-  const msg = messagesByKey[key];
-  closeMenus();
-
+  const msg = messagesByKey[key]; closeMenus();
   if(!msg || msg.from !== me.email || msg.deleted) return;
-
-  const oldText = msg.text || "";
-  const newText = prompt("Edit message", oldText);
+  const oldText = msg.text || ""; const newText = prompt("Edit message", oldText);
   if(newText === null) return;
-
   const clean = newText.trim();
-  if(!clean && msg.type !== "image"){
-    toast("Message cannot be empty");
-    return;
-  }
+  if(!clean && msg.type !== "image"){ toast("Message cannot be empty"); return; }
 
-  await update(ref(db, "chats/" + currentChatId + "/messages/" + key),{
-    text:clean,
-    edited:true,
-    edited_at:Date.now()
-  });
-
-  await updateChatIndex(clean || "Image");
+  const tNow = Date.now();
+  await update(ref(db, "chats/" + currentChatId + "/messages/" + key),{ text:clean, edited:true, edited_at:tNow });
+  await updateChatIndex(clean || "📷 Image", tNow);
 }
 
 window.deleteForEveryone = async function(key){
-  closeMenus();
-  if(!confirm("Delete this message for everyone?")) return;
-
-  await update(ref(db, "chats/" + currentChatId + "/messages/" + key),{
-    type:"deleted",
-    text:"",
-    image_url:"",
-    deleted:true,
-    deleted_at:Date.now()
-  });
-
-  await updateChatIndex("Message deleted");
+  closeMenus(); if(!confirm("Delete this message for everyone?")) return;
+  const tNow = Date.now();
+  await update(ref(db, "chats/" + currentChatId + "/messages/" + key),{ type:"deleted", text:"", image_url:"", deleted:true, deleted_at:tNow });
+  await updateChatIndex("Message deleted", tNow);
 }
 
 window.deleteForMe = async function(key){
   closeMenus();
-  await update(ref(db, "chats/" + currentChatId + "/messages/" + key + "/deleted_for"),{
-    [safeEmail(me.email)]:true
-  });
+  await update(ref(db, "chats/" + currentChatId + "/messages/" + key + "/deleted_for"),{ [safeEmail(me.email)]:true });
   toast("Deleted for you");
 }
 
 window.clearChatForMe = async function(){
-  closeMenus();
-  if(!selectedUser){ toast("Select user first"); return; }
+  closeMenus(); if(!selectedUser){ toast("Select user first"); return; }
   if(!confirm("Clear this chat for you?")) return;
-
   const now = Date.now();
   await set(ref(db, "chats/" + currentChatId + "/cleared/" + safeEmail(me.email)),now);
   clearBefore = now;
@@ -749,49 +733,25 @@ window.clearChatForMe = async function(){
 window.addEventListener("click",closeMenus);
 
 function escapeHtml(str){
-  return String(str || "").replace(/[&<>"']/g, ch => ({
-    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
-  }[ch]));
+  return String(str || "").replace(/[&<>"']/g, ch => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;" }[ch]));
 }
-
-function escapeAttr(str){
-  return String(str || "").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
-}
+function escapeAttr(str){ return String(str || "").replace(/"/g,"&quot;").replace(/'/g,"&#039;"); }
 
 initMe();
 
-// 🟢 यूज़र्स लोड होने के बाद अनरीड काउंट्स को रियल-टाइम लिसन (सुनने) का लॉजिक
-loadUsers().then(() => {
-  users.forEach(u => {
-    const cId = makeChatId(me.email, u.email);
-    const mySafeEmail = safeEmail(me.email);
-    
-    // रियल-टाइम लिसनर डेटाबेस से
-    onValue(ref(db, "chats/" + cId + "/unread/" + mySafeEmail), snap => {
-      const count = Number(snap.val() || 0);
-      unreadCounts[safeEmail(u.email)] = count;
-      
-      // अगर उसी यूजर की चैट खुली है और उसने नया मैसेज भेजा, तो काउंट तुरंत क्लियर (0) कर दें
-      if (selectedUser && selectedUser.email === u.email && count > 0) {
-        clearMyUnreadCount(u.email);
-      }
-      
-      renderUsers(); // लिस्ट को री-रेंडर करके लाल नंबर शो करें
-    });
-  });
+// 🟢 लोड होने का मुख्य लॉजिक
+loadAllUsersList().then(() => {
+  // 1. सबसे पहले चैट इंडेक्स (सिर्फ पुरानी बातचीत वाली लिस्ट) सुनना शुरू करें
+  listenChatIndex();
 
   try {
     const lastUser = localStorage.getItem("active_chat_user");
     if (lastUser) {
       const parsedUser = JSON.parse(lastUser);
-      const stillExists = users.find(u => u.email === parsedUser.email);
-      if (stillExists) {
-        selectUser(stillExists);
-      }
+      // अगर आख़िरी खुली चैट थी, तो उसे खोलें
+      selectUser(parsedUser);
     }
-  } catch(e) {
-    console.error("Error auto-selecting last user:", e);
-  }
+  } catch(e) { console.error(e); }
 });
 </script>
 
