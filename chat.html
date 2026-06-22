@@ -1,491 +1,482 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CreatorHub Chat SuperPro</title>
-    <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; background-color: #0f172a; height: 100vh; display: flex; overflow: hidden; }
-        .app-container { display: flex; width: 100vw; height: 100vh; background: #ffffff; }
-        
-        /* Left Sidebar Panel */
-        .sidebar-panel { width: 30%; min-width: 340px; background: #f8fafc; border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; }
-        .sidebar-header { padding: 24px 20px; background: #1e1b4b; color: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-        .sidebar-header h3 { font-size: 1.25rem; font-weight: 700; }
-        .session-badge { font-size: 0.8rem; opacity: 0.8; margin-top: 6px; color: #cbd5e1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .users-list-box { flex: 1; overflow-y: auto; padding: 10px 0; }
-        
-        /* User Cards */
-        .user-item-card { display: flex; align-items: center; gap: 12px; padding: 14px 20px; margin: 4px 12px; border-radius: 12px; cursor: pointer; border: 1px solid #e2e8f0; background: #fff; transition: all 0.2s; }
-        .user-item-card:hover { background: #f1f5f9; transform: translateY(-1px); }
-        .user-item-card.active-chat { background: #e0e7ff; border-color: #4f46e5; }
-        .user-details { display: flex; flex-direction: column; gap: 2px; }
-        .u-name { font-weight: 600; color: #0f172a; font-size: 0.95rem; }
-        .u-email { font-size: 0.8rem; color: #64748b; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CreatorHub Chat</title>
 
-        /* Right Chat Panel */
-        .chat-view-panel { width: 70%; background: #f1f5f9; display: flex; flex-direction: column; position: relative; }
-        
-        /* Header Fix */
-        .chat-view-header { background: #ffffff; padding: 20px 28px; border-bottom: 1px solid #e2e8f0; font-weight: 700; color: #0f172a; display: flex; justify-content: space-between; align-items: center; position: relative; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
-        .chat-header-left { display: flex; align-items: center; gap: 12px; }
-        
-        /* Professional SVG Mobile Back Button */
-        .mobile-back-btn { 
-            display: none; 
-            background: none; 
-            border: none; 
-            cursor: pointer; 
-            padding: 6px; 
-            align-items: center; 
-            justify-content: center; 
-            border-radius: 50%;
-            transition: background 0.2s;
-        }
-        .mobile-back-btn:hover { background: #f1f5f9; }
-        .mobile-back-btn svg { display: block; }
-        
-        .three-dots-btn { font-size: 1.4rem; cursor: pointer; padding: 4px 12px; border-radius: 50%; transition: background 0.2s; user-select: none; }
-        .three-dots-btn:hover { background: #f1f5f9; }
-        
-        /* Dropdown Menu */
-        .dropdown-menu { display: none; position: absolute; top: 65px; right: 28px; background: white; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px -3px rgba(0,0,0,0.1); border-radius: 12px; z-index: 100; min-width: 160px; overflow: hidden; }
-        .dropdown-menu.show { display: block; }
-        .dropdown-item { padding: 12px 16px; font-size: 0.9rem; color: #1e293b; cursor: pointer; font-weight: 500; transition: background 0.2s; }
-        .dropdown-item:hover { background: #f1f5f9; }
-        .dropdown-item.danger { color: #dc2626; border-top: 1px solid #f1f5f9; }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-        .chat-scroller-window { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #f8fafc; }
-        
-        /* Chat Bubble Framework */
-        .chat-line { display: flex; width: 100%; margin-bottom: 4px; }
-        .chat-line.outward { justify-content: flex-end; }
-        .chat-line.inward { justify-content: flex-start; }
-        
-        .bubble-container { display: flex; flex-direction: column; max-width: 60%; }
-        .chat-bubble { padding: 10px 16px; border-radius: 16px; font-size: 0.95rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); position: relative; word-break: break-word; line-height: 1.45; }
-        
-        .outward .chat-bubble { background: #4f46e5; color: #ffffff; border-bottom-right-radius: 4px; }
-        .inward .chat-bubble { background: #ffffff; color: #1e293b; border-bottom-left-radius: 4px; border: 1px solid #e2e8f0; }
-        
-        .msg-actions { font-size: 0.75rem; margin-top: 4px; display: flex; gap: 10px; justify-content: flex-end; opacity: 0.8; }
-        .msg-actions span { cursor: pointer; color: #4f46e5; font-weight: 600; user-select: none; }
-        .msg-actions span.del { color: #dc2626; }
-        .msg-actions span:hover { text-decoration: underline; }
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{height:100vh;background:#eef3f9;color:#07142f;overflow:hidden}
+.app{height:100vh;display:grid;grid-template-columns:380px 1fr;background:#fff}
+.sidebar{border-right:1px solid #dce6f3;background:#fff;display:flex;flex-direction:column;min-width:0}
+.side-head{height:82px;padding:16px 18px;border-bottom:1px solid #dce6f3;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.me{display:flex;align-items:center;gap:12px;min-width:0}
+.avatar{width:48px;height:48px;border-radius:50%;object-fit:cover;background:#315df4;color:#fff;display:grid;place-items:center;font-weight:900;flex:none}
+.me-info{min-width:0}
+.me-info b{display:block;font-size:17px;font-weight:900;color:#06142c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.me-info span{display:block;font-size:13px;color:#63728a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.icon-btn{width:44px;height:44px;border:0;border-radius:12px;background:#eef4ff;color:#315df4;font-size:18px;cursor:pointer}
+.search{padding:14px 18px;border-bottom:1px solid #dce6f3}
+.search input{width:100%;height:46px;border:1px solid #d6e1ef;border-radius:14px;background:#f6f9fd;outline:none;padding:0 15px;font-size:15px;font-weight:700}
+.users{flex:1;overflow:auto;padding:8px}
+.user{height:72px;border-radius:16px;padding:10px;display:flex;align-items:center;gap:12px;cursor:pointer}
+.user:hover,.user.active{background:#eef4ff}
+.user img{width:50px;height:50px;border-radius:50%;object-fit:cover;background:#315df4;flex:none}
+.user .uinfo{min-width:0;flex:1}
+.user .uinfo b{display:block;color:#06142c;font-size:15px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user .uinfo span{display:block;margin-top:4px;color:#63728a;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dot{width:10px;height:10px;border-radius:50%;background:#22c55e;flex:none}
 
-        .render-media-file { max-width: 100%; max-height: 260px; border-radius: 12px; display: block; margin-top: 4px; background: #f1f5f9; object-fit: cover; }
+.chat{display:flex;flex-direction:column;height:100vh;background:#f6f8fc;min-width:0}
+.chat-head{height:82px;background:#fff;border-bottom:1px solid #dce6f3;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.chat-user{display:flex;align-items:center;gap:12px;min-width:0}
+.chat-user img{width:50px;height:50px;border-radius:50%;object-fit:cover;background:#315df4;flex:none}
+.chat-user b{display:block;font-size:18px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-user span{display:block;margin-top:3px;color:#63728a;font-size:13px}
+.back-mobile{display:none}
 
-        /* Inputs Dashboard */
-        .chat-input-dashboard { background: #ffffff; padding: 15px 25px; display: flex; align-items: center; gap: 12px; border-top: 1px solid #e2e8f0; width: 100%; }
-        .input-bar-element { flex: 1; padding: 12px 20px; border: 1px solid #cbd5e1; border-radius: 9999px; outline: none; background: #f8fafc; font-size: 0.95rem; }
-        .input-bar-element:focus { border-color: #4f46e5; background: #ffffff; }
-        .btn-media-trigger { background: #f1f5f9; border: none; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; color: #475569; flex-shrink: 0; }
-        .btn-dispatch { background: #4f46e5; color: white; border: none; padding: 12px 24px; border-radius: 9999px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25); flex-shrink: 0; }
-        
-        .splash-blank-state { display: flex; flex-direction: column; justify-content: center; align-items: center; flex: 1; color: #64748b; background: #f8fafc; gap: 8px; font-weight: 500; }
+.messages{flex:1;overflow:auto;padding:24px;display:flex;flex-direction:column;gap:10px;background:
+radial-gradient(circle at top left,rgba(49,93,244,.08),transparent 30%),
+#f6f8fc}
+.empty{margin:auto;text-align:center;color:#63728a}
+.empty i{font-size:46px;color:#315df4;margin-bottom:14px}
+.msg{max-width:62%;display:flex;flex-direction:column;gap:5px}
+.msg.mine{align-self:flex-end;align-items:flex-end}
+.msg.their{align-self:flex-start;align-items:flex-start}
+.bubble{border-radius:18px;padding:11px 13px;font-size:15px;line-height:1.45;box-shadow:0 8px 20px rgba(16,24,40,.06);word-break:break-word}
+.mine .bubble{background:#315df4;color:#fff;border-bottom-right-radius:5px}
+.their .bubble{background:#fff;color:#07142f;border:1px solid #dce6f3;border-bottom-left-radius:5px}
+.time{font-size:11px;color:#7a879c;padding:0 4px}
+.msg-img{max-width:280px;max-height:320px;border-radius:16px;object-fit:cover;display:block;cursor:pointer}
+.mine .msg-img{border:3px solid #315df4}
+.their .msg-img{border:3px solid #fff}
 
-        /* ====================================================== */
-        /* MOBILE RESPONSIVE MEDIA QUERIES (FULL FIX)             */
-        /* ====================================================== */
-        @media screen and (max-width: 768px) {
-            body { 
-                position: fixed; 
-                top: 0; 
-                left: 0; 
-                width: 100vw; 
-                height: 100% !important; 
-            }
-            .app-container { 
-                height: 100% !important; 
-                width: 100vw; 
-                position: relative;
-            }
-            
-            .sidebar-panel {
-                width: 100%;
-                min-width: 100%;
-                display: flex;
-                height: 100%;
-                background: #0f172a; /* पीछे का हाफ ब्लैंक स्पेस छुपाने के लिए */
-            }
-            .users-list-box {
-                background: #f8fafc;
-            }
-            .chat-view-panel {
-                width: 100%;
-                display: none;
-                height: 100%;
-            }
-            
-            /* मोबाइल एक्टिव स्टेट - फुल स्क्रीन यूटिलाइजेशन */
-            .app-container.mobile-chat-active .sidebar-panel {
-                display: none;
-            }
-            .app-container.mobile-chat-active .chat-view-panel {
-                display: flex;
-                width: 100%;
-                height: 100%;
-                position: absolute;
-                top: 0;
-                left: 0;
-            }
-            
-            #activeChatStateLayout {
-                display: flex !important;
-                flex-direction: column;
-                height: 100%;
-                overflow: hidden;
-            }
-            
-            .mobile-back-btn {
-                display: flex;
-            }
-            .chat-view-header {
-                padding: 12px 16px;
-                flex-shrink: 0;
-            }
-            .chat-scroller-window {
-                padding: 15px;
-                flex: 1;
-                overflow-y: auto;
-            }
-            .bubble-container {
-                max-width: 80%;
-            }
-            
-            /* इनपुट डैशबोर्ड को बॉटम बार पर परफेक्ट सेट करने का फिक्स */
-            .chat-input-dashboard {
-                padding: 12px 12px;
-                gap: 8px;
-                background: #ffffff;
-                flex-shrink: 0;
-                box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-            }
-            .input-bar-element {
-                padding: 10px 16px;
-                font-size: 0.95rem;
-            }
-            .btn-media-trigger {
-                width: 40px;
-                height: 40px;
-                font-size: 1.1rem;
-            }
-            .btn-dispatch {
-                padding: 10px 18px;
-                font-size: 0.9rem;
-            }
-        }
-    </style>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+.composer{min-height:82px;background:#fff;border-top:1px solid #dce6f3;padding:14px 18px;display:flex;align-items:flex-end;gap:12px}
+.composer textarea{flex:1;min-height:52px;max-height:130px;resize:none;border:1px solid #d6e1ef;border-radius:18px;outline:none;padding:15px 16px;font-size:15px;line-height:1.4;background:#f6f9fd}
+.send{width:52px;height:52px;border-radius:50%;border:0;background:#315df4;color:#fff;font-size:18px;cursor:pointer;flex:none}
+.attach{width:52px;height:52px;border-radius:50%;border:0;background:#eef4ff;color:#315df4;font-size:18px;cursor:pointer;flex:none}
+#imageInput{display:none}
+.preview{display:none;position:absolute;left:410px;right:20px;bottom:92px;background:#fff;border:1px solid #dce6f3;border-radius:18px;padding:12px;box-shadow:0 16px 40px rgba(16,24,40,.14);align-items:center;gap:12px;z-index:10}
+.preview img{width:72px;height:72px;border-radius:12px;object-fit:cover}
+.preview b{font-size:14px}
+.preview button{margin-left:auto;width:36px;height:36px;border-radius:10px;border:0;background:#fee2e2;color:#ef4444}
+
+.toast{position:fixed;top:18px;left:50%;transform:translateX(-50%);background:#07142f;color:#fff;padding:12px 16px;border-radius:12px;font-size:14px;font-weight:800;display:none;z-index:99}
+
+@media(max-width:820px){
+.app{grid-template-columns:1fr}
+.sidebar{display:flex}
+.chat{position:fixed;inset:0;z-index:20;transform:translateX(100%);transition:.25s ease}
+.chat.open{transform:translateX(0)}
+.back-mobile{display:grid}
+.msg{max-width:82%}
+.preview{left:12px;right:12px}
+}
+</style>
 </head>
+
 <body>
 
-<div class="app-container" id="appMainContainer">
-    <div class="sidebar-panel">
-        <div class="sidebar-header">
-            <h3 id="profileName">CreatorHub Chat</h3>
-            <div class="session-badge" id="sessionIdentity">Detecting Session Identity...</div>
+<div class="toast" id="toast"></div>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="side-head">
+      <div class="me">
+        <img class="avatar" id="meAvatar" alt="Me">
+        <div class="me-info">
+          <b id="meName">CreatorHub User</b>
+          <span id="meEmail">Loading...</span>
         </div>
-        <div class="users-list-box" id="userDirectoryView">Loading Workspace...</div>
+      </div>
+      <button class="icon-btn" onclick="loadUsers()" title="Refresh"><i class="fa-solid fa-rotate"></i></button>
     </div>
 
-    <div class="chat-view-panel">
-        <div class="splash-blank-state" id="blankStatePrompt">
-            <p style="font-size: 2.5rem;">💬</p>
-            <p>Select a workspace team member to start chatting</p>
-        </div>
-        
-        <div id="activeChatStateLayout" style="display: none; flex-direction: column; flex: 1; height: 100%;">
-            <div class="chat-view-header">
-                <div class="chat-header-left">
-                    <button class="mobile-back-btn" onclick="backToUserList()" aria-label="Go Back">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="19" y1="12" x2="5" y2="12"></line>
-                            <polyline points="12 19 5 12 12 5"></polyline>
-                        </svg>
-                    </button>
-                    <span id="activeChatterHeaderTitle">Active Stream</span>
-                </div>
-                <div class="three-dots-btn" onclick="toggleDropdown(event)">⋮</div>
-                <div class="dropdown-menu" id="headerDropdown">
-                    <div class="dropdown-item" onclick="alert('Secure Workspace Session Verified.')">View Profile</div>
-                    <div class="dropdown-item danger" onclick="clearCurrentChatThread()">Clear Chat History</div>
-                </div>
-            </div>
-            
-            <div class="chat-scroller-window" id="chatContentScroller"></div>
-            
-            <div class="chat-input-dashboard">
-                <input type="file" id="mediaSelectorHidden" accept="image/*" style="display: none;" onchange="executeImagePush(this)">
-                <button class="btn-media-trigger" onclick="document.getElementById('mediaSelectorHidden').click()">📷</button>
-                <input type="text" id="messageTextField" class="input-bar-element" placeholder="Type a secure message..." onkeypress="if(event.key==='Enter') executeTextPush()">
-                <button class="btn-dispatch" onclick="executeTextPush()">Send</button>
-            </div>
-        </div>
+    <div class="search">
+      <input id="searchInput" placeholder="Search users..." oninput="renderUsers()">
     </div>
+
+    <div class="users" id="usersList"></div>
+  </aside>
+
+  <main class="chat" id="chatPanel">
+    <div class="chat-head">
+      <div class="chat-user">
+        <button class="icon-btn back-mobile" onclick="closeChat()"><i class="fa-solid fa-arrow-left"></i></button>
+        <img id="chatAvatar" alt="User">
+        <div>
+          <b id="chatName">Select a user</b>
+          <span id="chatEmail">Personal chat</span>
+        </div>
+      </div>
+      <button class="icon-btn" onclick="scrollBottom()"><i class="fa-solid fa-arrow-down"></i></button>
+    </div>
+
+    <div class="messages" id="messages">
+      <div class="empty">
+        <i class="fa-solid fa-comments"></i>
+        <h2>Select a user</h2>
+        <p>Start a fast personal chat.</p>
+      </div>
+    </div>
+
+    <div class="preview" id="previewBox">
+      <img id="previewImg">
+      <div>
+        <b>Image ready</b>
+        <div style="font-size:13px;color:#63728a">Tap send to share</div>
+      </div>
+      <button onclick="clearImage()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="composer">
+      <button class="attach" onclick="document.getElementById('imageInput').click()"><i class="fa-solid fa-image"></i></button>
+      <input id="imageInput" type="file" accept="image/*" onchange="selectImage(event)">
+      <textarea id="messageInput" placeholder="Type a message..." onkeydown="handleEnter(event)"></textarea>
+      <button class="send" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+  </main>
 </div>
 
-<script>
-    const CLOUD_GATEWAY_URL = "https://script.google.com/macros/s/AKfycbw9T3_1uvxU7O2ER5GRF5VLZ-8BNmxO5B5ZS_rPTkJk4ol5giC0-l9vM2AIULLbhRildg/exec";
-    
-    const urlParams = new URLSearchParams(window.location.search);
-    const paramEmail = urlParams.get('email');
-    const paramName = urlParams.get('name');
-    
-    let currentUser = {
-        name: paramName,
-        email: paramEmail ? paramEmail.toLowerCase().trim() : null
-    };
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, push, set, onChildAdded, off, serverTimestamp, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
-    if (!currentUser.email) {
-        let userText = localStorage.getItem("user") || localStorage.getItem("currentUser") || localStorage.getItem("creatorhub_user") || localStorage.getItem("user_login_data");
-        let userObj = {};
-        if (userText) { try { userObj = JSON.parse(userText) || {}; } catch(e){} }
-        
-        const foundEmail = userObj.email || localStorage.getItem("user_email") || "";
-        const foundName = userObj.name || localStorage.getItem("user_name") || "CreatorHub User";
-        
-        if (foundEmail) {
-            currentUser.email = foundEmail.toLowerCase().trim();
-            currentUser.name = foundName;
-        }
+const firebaseConfig = {
+  apiKey: "AIzaSyAfYB5sgL770yLShdaJVDaxjpZrQHx5JcU",
+  authDomain: "creatorhub-chat.firebaseapp.com",
+  databaseURL: "https://creatorhub-chat-default-rtdb.firebaseio.com",
+  projectId: "creatorhub-chat",
+  storageBucket: "creatorhub-chat.firebasestorage.app",
+  messagingSenderId: "744130503143",
+  appId: "1:744130503143:web:7603e8f316f16947255d42",
+  measurementId: "G-3M6XXVNS24"
+};
+
+const USERS_API = "https://script.google.com/macros/s/AKfycbw9T3_1uvxU7O2ER5GRF5VLZ-8BNmxO5B5ZS_rPTkJk4ol5giC0-l9vM2AIULLbhRildg/exec";
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const storage = getStorage(app);
+
+let me = getLoggedUser();
+let users = [];
+let selectedUser = null;
+let selectedFile = null;
+let currentChatRef = null;
+let seenMessages = new Set();
+
+function $(id){return document.getElementById(id)}
+
+function toast(text){
+  $("toast").innerText = text;
+  $("toast").style.display = "block";
+  setTimeout(() => $("toast").style.display = "none", 2200);
+}
+
+function safeEmail(email){
+  return String(email || "").toLowerCase().replace(/[.#$[\]/]/g,"_");
+}
+
+function makeChatId(a,b){
+  return [safeEmail(a),safeEmail(b)].sort().join("__");
+}
+
+function avatarUrl(user){
+  const img = user.profile_image || user.picture || user.image || "";
+  if(img) return driveImage(img);
+  return "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.name || user.email || "User") + "&background=315df4&color=fff";
+}
+
+function driveImage(url){
+  if(!url) return "";
+  const text = String(url);
+  if(text.startsWith("data:image") || text.includes("ui-avatars.com")) return text;
+  let id = "";
+  if(text.includes("uc?id=")) id = text.split("id=")[1].split("&")[0];
+  else if(text.includes("open?id=")) id = text.split("id=")[1].split("&")[0];
+  else if(text.includes("/d/")) id = text.split("/d/")[1].split("/")[0];
+  else {
+    const m = text.match(/[?&]id=([^&]+)/);
+    if(m && m[1]) id = m[1];
+  }
+  return id ? "https://drive.google.com/thumbnail?id=" + id + "&sz=w500" : text;
+}
+
+function readJson(key){
+  try{return JSON.parse(localStorage.getItem(key) || "{}") || {}}catch(e){return {}}
+}
+
+function getLoggedUser(){
+  const user = readJson("user");
+  const currentUser = readJson("currentUser");
+  const creatorUser = readJson("creatorhub_user");
+  const u = Object.keys(user).length ? user : (Object.keys(currentUser).length ? currentUser : creatorUser);
+
+  const email = String(
+    u.email ||
+    u.user?.email ||
+    localStorage.getItem("user_email") ||
+    localStorage.getItem("creatorhub_profile_email") ||
+    ""
+  ).toLowerCase().trim();
+
+  const name =
+    u.name ||
+    u.user?.name ||
+    localStorage.getItem("user_name") ||
+    email.split("@")[0] ||
+    "CreatorHub User";
+
+  const profile_image =
+    u.profile_image ||
+    u.profileImage ||
+    u.picture ||
+    u.user?.profile_image ||
+    localStorage.getItem("user_image") ||
+    localStorage.getItem("profile_image") ||
+    "";
+
+  return {email,name,profile_image};
+}
+
+function initMe(){
+  if(!me.email){
+    toast("Login required");
+    setTimeout(() => location.href = "login.html", 800);
+    return;
+  }
+
+  $("meName").innerText = me.name;
+  $("meEmail").innerText = me.email;
+  $("meAvatar").src = avatarUrl(me);
+}
+
+async function loadUsers(){
+  $("usersList").innerHTML = `<div style="padding:18px;color:#63728a;font-weight:800">Loading users...</div>`;
+
+  try{
+    const res = await fetch(USERS_API + (USERS_API.includes("?") ? "&" : "?") + "action=getUsers&_=" + Date.now());
+    const data = await res.json();
+
+    users = (data.users || data.data || [])
+      .map(u => ({
+        name:u.name || u.full_name || "CreatorHub User",
+        email:String(u.email || "").toLowerCase().trim(),
+        profile_image:u.profile_image || u.picture || u.image || ""
+      }))
+      .filter(u => u.email && u.email !== me.email);
+
+    renderUsers();
+  }catch(err){
+    console.error(err);
+    $("usersList").innerHTML = `<div style="padding:18px;color:#ef4444;font-weight:900">Users load failed. Check USERS_API.</div>`;
+  }
+}
+
+window.renderUsers = function(){
+  const q = $("searchInput").value.toLowerCase().trim();
+
+  const list = users.filter(u =>
+    u.name.toLowerCase().includes(q) ||
+    u.email.toLowerCase().includes(q)
+  );
+
+  if(!list.length){
+    $("usersList").innerHTML = `<div style="padding:18px;color:#63728a;font-weight:800">No users found</div>`;
+    return;
+  }
+
+  $("usersList").innerHTML = list.map(u => `
+    <div class="user ${selectedUser?.email === u.email ? "active" : ""}" onclick='selectUser(${JSON.stringify(u).replace(/'/g,"&#039;")})'>
+      <img src="${avatarUrl(u)}">
+      <div class="uinfo">
+        <b>${escapeHtml(u.name)}</b>
+        <span>${escapeHtml(u.email)}</span>
+      </div>
+      <span class="dot"></span>
+    </div>
+  `).join("");
+}
+
+window.selectUser = function(user){
+  selectedUser = user;
+  seenMessages = new Set();
+
+  $("chatPanel").classList.add("open");
+  $("chatName").innerText = user.name;
+  $("chatEmail").innerText = user.email;
+  $("chatAvatar").src = avatarUrl(user);
+  $("messages").innerHTML = "";
+
+  renderUsers();
+  listenMessages();
+}
+
+window.closeChat = function(){
+  $("chatPanel").classList.remove("open");
+}
+
+function listenMessages(){
+  if(currentChatRef){
+    off(currentChatRef);
+  }
+
+  const id = makeChatId(me.email, selectedUser.email);
+  currentChatRef = query(ref(db, "chats/" + id + "/messages"), limitToLast(80));
+
+  onChildAdded(currentChatRef, snap => {
+    const msg = snap.val();
+    if(!msg || seenMessages.has(snap.key)) return;
+    seenMessages.add(snap.key);
+    appendMessage(msg);
+    scrollBottom();
+  });
+}
+
+function appendMessage(msg){
+  const mine = msg.from === me.email;
+  const wrap = document.createElement("div");
+  wrap.className = "msg " + (mine ? "mine" : "their");
+
+  let body = "";
+
+  if(msg.type === "image"){
+    body = `<img class="msg-img" src="${msg.image_url}" onclick="window.open('${msg.image_url}','_blank')">`;
+    if(msg.text) body += `<div class="bubble">${escapeHtml(msg.text)}</div>`;
+  }else{
+    body = `<div class="bubble">${escapeHtml(msg.text || "")}</div>`;
+  }
+
+  wrap.innerHTML = body + `<div class="time">${formatTime(msg.created_at)}</div>`;
+  $("messages").appendChild(wrap);
+}
+
+function formatTime(t){
+  if(!t || typeof t !== "number") return "now";
+  return new Date(t).toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"});
+}
+
+window.scrollBottom = function(){
+  const box = $("messages");
+  box.scrollTop = box.scrollHeight;
+}
+
+window.handleEnter = function(e){
+  if(e.key === "Enter" && !e.shiftKey){
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+window.selectImage = function(e){
+  const file = e.target.files[0];
+  if(!file) return;
+
+  if(!file.type.startsWith("image/")){
+    toast("Select image only");
+    return;
+  }
+
+  if(file.size > 5 * 1024 * 1024){
+    toast("Image max 5MB");
+    return;
+  }
+
+  selectedFile = file;
+  $("previewImg").src = URL.createObjectURL(file);
+  $("previewBox").style.display = "flex";
+}
+
+window.clearImage = function(){
+  selectedFile = null;
+  $("imageInput").value = "";
+  $("previewBox").style.display = "none";
+}
+
+window.sendMessage = async function(){
+  if(!selectedUser){
+    toast("Select user first");
+    return;
+  }
+
+  const text = $("messageInput").value.trim();
+
+  if(!text && !selectedFile){
+    return;
+  }
+
+  $("messageInput").value = "";
+
+  try{
+    let imageUrl = "";
+    let type = "text";
+
+    if(selectedFile){
+      type = "image";
+      const path = "chat-images/" + makeChatId(me.email, selectedUser.email) + "/" + Date.now() + "_" + selectedFile.name;
+      const fileRef = sRef(storage, path);
+      await uploadBytes(fileRef, selectedFile);
+      imageUrl = await getDownloadURL(fileRef);
+      clearImage();
     }
 
-    if (!currentUser.email) {
-        alert("Access Denied! Please login to CreatorHub first.");
-        window.location.href = "login.html"; 
-    } else {
-        if (!currentUser.name || currentUser.name === "CreatorHub User") {
-            const cleanEmail = currentUser.email;
-            if (cleanEmail.includes("umesh")) currentUser.name = "Umesh Kumar's";
-            else if (cleanEmail.includes("ay808")) currentUser.name = "Abhishek YADAV";
-            else if (cleanEmail.includes("support")) currentUser.name = "Creatorhub";
-            else if (cleanEmail.includes("carforsale")) currentUser.name = "Ayush (Car Simulator)";
-            else if (cleanEmail.includes("ayushprajpati6")) currentUser.name = "Ayush Prajapati";
-        }
-    }
+    const id = makeChatId(me.email, selectedUser.email);
+    const msgRef = push(ref(db, "chats/" + id + "/messages"));
 
-    document.getElementById("profileName").innerText = currentUser.name || "CreatorHub User";
-    document.getElementById("sessionIdentity").innerText = `Active: ${currentUser.email}`;
+    await set(msgRef,{
+      id:msgRef.key,
+      from:me.email,
+      from_name:me.name,
+      to:selectedUser.email,
+      to_name:selectedUser.name,
+      type:type,
+      text:text,
+      image_url:imageUrl,
+      created_at:Date.now(),
+      server_time:serverTimestamp()
+    });
 
-    const staticUsersList = [
-      {"name": "Ayush Prajapati", "email": "ayushprajpati6@gmail.com", "profile_image": "https://drive.google.com/thumbnail?id=1lhVDcQn_g1hpyjrGtM92asMDsC2Z_JWK&sz=w1200"},
-      {"name": "Ayush Prajapati", "email": "carforsalesimulator6@gmail.com", "profile_image": ""},
-      {"name": "Umesh Kumar's", "email": "umesh323354@gmail.com", "profile_image": "https://lh3.googleusercontent.com/a/ACg8ocJsPaM_y4BZ6qoEFesKHQUSN45Su1yuikrMqwksTOwGRj0VtueL=s96-c"},
-      {"name": "Creatorhub", "email": "supportcreatorhub@gmail.com", "profile_image": "https://lh3.googleusercontent.com/a/ACg8ocK8rPb8p8ugBiilFPqult0VRf9DK3qkAml7eTlfF1rMIBbpyQ=s96-c"},
-      {"name": "Ayush", "email": "ggcccchgyu@gmail.com", "profile_image": "https://lh3.googleusercontent.com/a/ACg8ocIBpCKW68BIFiZn7nxJxV3o0NKtbcQk1PJRGXCyjXcapmlM=s96-c"},
-      {"name": "Abhishek YADAV", "email": "ay8083827@gmail.com", "profile_image": "https://lh3.googleusercontent.com/a/ACg8ocJr5GnW_Hfp05rtHsZauT_3md8ZOlp7WW0UPSwajXhxqRgH8A=s96-c"}
-    ];
+    await set(ref(db, "chatIndex/" + safeEmail(me.email) + "/" + safeEmail(selectedUser.email)),{
+      with:selectedUser.email,
+      name:selectedUser.name,
+      profile_image:selectedUser.profile_image || "",
+      last_message:type === "image" ? "Image" : text,
+      updated_at:Date.now()
+    });
 
-    let targetedReceiverEmail = null;
-    let chatMessagesCache = [];
+    await set(ref(db, "chatIndex/" + safeEmail(selectedUser.email) + "/" + safeEmail(me.email)),{
+      with:me.email,
+      name:me.name,
+      profile_image:me.profile_image || "",
+      last_message:type === "image" ? "Image" : text,
+      updated_at:Date.now()
+    });
 
-    function renderUsers() {
-        const view = document.getElementById("userDirectoryView"); view.innerHTML = "";
-        staticUsersList.forEach(user => {
-            if (user.email.toLowerCase().trim() === currentUser.email) return; 
-            
-            const img = user.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random&color=fff`;
-            const card = document.createElement("div");
-            card.className = `user-item-card ${targetedReceiverEmail === user.email.toLowerCase().trim() ? 'active-chat' : ''}`;
-            card.onclick = () => startChat(user.email.toLowerCase().trim(), user.name);
-            card.innerHTML = `<img src="${img}" style="width:42px; height:42px; border-radius:50%; object-fit:cover; border:1px solid #e2e8f0;"><div class="user-details"><span class="u-name">${user.name}</span><span class="u-email">${user.email}</span></div>`;
-            view.appendChild(card);
-        });
-    }
+  }catch(err){
+    console.error(err);
+    toast("Message send failed");
+  }
+}
 
-    function startChat(email, name) {
-        targetedReceiverEmail = email;
-        document.getElementById("blankStatePrompt").style.display = "none";
-        document.getElementById("activeChatStateLayout").style.display = "flex";
-        document.getElementById("activeChatterHeaderTitle").innerText = name;
-        
-        document.getElementById("appMainContainer").classList.add("mobile-chat-active");
-        
-        renderUsers(); loadChats();
-    }
+function escapeHtml(str){
+  return String(str || "").replace(/[&<>"']/g, ch => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  }[ch]));
+}
 
-    function backToUserList() {
-        document.getElementById("appMainContainer").classList.remove("mobile-chat-active");
-    }
-
-    async function loadChats() {
-        if (!currentUser.email) return;
-        try {
-            const res = await fetch(`${CLOUD_GATEWAY_URL}?email=${encodeURIComponent(currentUser.email)}`, { cache: 'no-store' });
-            const data = await res.json();
-            if (data.messages) {
-                chatMessagesCache = data.messages;
-                renderBubbles();
-            }
-        } catch (e) { console.error("Syncing delay: ", e); }
-    }
-
-    function renderBubbles() {
-        const scroller = document.getElementById("chatContentScroller"); scroller.innerHTML = "";
-        if (!targetedReceiverEmail) return;
-
-        const activeLogs = chatMessagesCache.filter(msg => 
-            (msg.sender === currentUser.email && msg.receiver === targetedReceiverEmail) ||
-            (msg.sender === targetedReceiverEmail && msg.receiver === currentUser.email)
-        );
-
-        activeLogs.forEach(msg => {
-            const isSelf = msg.sender === currentUser.email;
-            const line = document.createElement("div");
-            line.className = `chat-line ${isSelf ? 'outward' : 'inward'}`;
-            
-            const container = document.createElement("div");
-            container.className = "bubble-container";
-            const bubble = document.createElement("div");
-            bubble.className = "chat-bubble";
-            
-            if (msg.type === "image") {
-                bubble.innerHTML = `<a href="${msg.content}" target="_blank"><img src="${msg.content}" class="render-media-file" alt="Shared ImageAsset"></a>`;
-            } else {
-                bubble.innerText = msg.content;
-            }
-            container.appendChild(bubble);
-
-            if (isSelf && msg.id && !msg.id.startsWith("temp_")) {
-                const actions = document.createElement("div");
-                actions.className = "msg-actions";
-                if (msg.type !== "image") {
-                    actions.innerHTML = `<span onclick="editMessageTransaction('${msg.id}', \`${msg.content.replace(/'/g, "\\'")}\`)">Edit</span>`;
-                }
-                actions.innerHTML += `<span class="del" onclick="deleteMessageTransaction('${msg.id}')">Delete</span>`;
-                container.appendChild(actions);
-            }
-            line.appendChild(container); scroller.appendChild(line);
-        });
-        scroller.scrollTop = scroller.scrollHeight;
-    }
-
-    async function executeTextPush() {
-        const input = document.getElementById("messageTextField");
-        const val = input.value.trim();
-        if (!val || !targetedReceiverEmail) return;
-        input.value = "";
-
-        const tempId = "temp_" + new Date().getTime();
-        chatMessagesCache.push({ id: tempId, sender: currentUser.email, receiver: targetedReceiverEmail, content: val, type: "text" });
-        renderBubbles();
-
-        await fetch(CLOUD_GATEWAY_URL, {
-            method: "POST",
-            body: JSON.stringify({ action: "send", sender: currentUser.email, receiver: targetedReceiverEmail, content: val, type: "text" })
-        });
-        loadChats(); 
-    }
-
-    function executeImagePush(el) {
-        const file = el.files[0];
-        if (!file || !targetedReceiverEmail) return;
-
-        if (file.size > 2 * 1024 * 1024) {
-            alert("File size too big! Please upload an image under 2MB.");
-            el.value = "";
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = async function(e) {
-            const tempId = "temp_" + new Date().getTime();
-            
-            chatMessagesCache.push({ 
-                id: tempId, 
-                sender: currentUser.email, 
-                receiver: targetedReceiverEmail, 
-                content: "📷 Sending image to sub-folder...", 
-                type: "text" 
-            });
-            renderBubbles();
-
-            const rawBase64 = e.target.result;
-
-            try {
-                const response = await fetch(CLOUD_GATEWAY_URL, {
-                    method: "POST",
-                    mode: "no-cors",
-                    headers: {
-                        "Content-Type": "text/plain;charset=utf-8"
-                    },
-                    body: JSON.stringify({
-                        action: "send", 
-                        sender: currentUser.email, 
-                        receiver: targetedReceiverEmail,
-                        type: "image", 
-                        imageRaw: rawBase64, 
-                        fileName: file.name, 
-                        mimeType: file.type
-                    })
-                });
-                
-                el.value = "";
-                setTimeout(loadChats, 1500);
-                
-            } catch (error) {
-                console.error("Image Upload Error: ", error);
-                alert("Image upload failed. Please try again.");
-            }
-        };
-        reader.readAsDataURL(file);
-    }
-    
-    async function editMessageTransaction(msgId, oldContent) {
-        const newText = prompt("Update secure message content:", oldContent);
-        if (!newText || newText.trim() === oldContent) return;
-
-        const index = chatMessagesCache.findIndex(m => m.id === msgId);
-        if(index !== -1) chatMessagesCache[index].content = newText.trim();
-        renderBubbles();
-
-        await fetch(CLOUD_GATEWAY_URL, {
-            method: "POST",
-            body: JSON.stringify({ action: "edit", msgId: msgId, sender: currentUser.email, newContent: newText.trim() })
-        });
-        loadChats();
-    }
-
-    async function deleteMessageTransaction(msgId) {
-        if (!confirm("Delete this message permanently?")) return;
-        chatMessagesCache = chatMessagesCache.filter(m => msgId !== m.id);
-        renderBubbles();
-
-        await fetch(CLOUD_GATEWAY_URL, {
-            method: "POST",
-            body: JSON.stringify({ action: "delete", msgId: msgId, sender: currentUser.email })
-        });
-        loadChats();
-    }
-
-    function toggleDropdown(event) {
-        event.stopPropagation();
-        document.getElementById("headerDropdown").classList.toggle("show");
-    }
-
-    async function clearCurrentChatThread() {
-        if (!targetedReceiverEmail) return;
-        if (!confirm("Clear full conversation thread history? This cannot be undone.")) return;
-        
-        chatMessagesCache = chatMessagesCache.filter(m => !(
-            (m.sender === currentUser.email && m.receiver === targetedReceiverEmail) ||
-            (m.sender === targetedReceiverEmail && m.receiver === currentUser.email)
-        ));
-        renderBubbles();
-
-        await fetch(CLOUD_GATEWAY_URL, {
-            method: "POST",
-            body: JSON.stringify({ action: "clear_chat", sender: currentUser.email, receiver: targetedReceiverEmail })
-        });
-        loadChats();
-    }
-
-    window.onclick = function() { document.getElementById("headerDropdown").classList.remove("show"); }
-
-    renderUsers(); loadChats();
-    setInterval(loadChats, 3500);
+initMe();
+loadUsers();
 </script>
+
 </body>
 </html>
