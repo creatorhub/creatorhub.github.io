@@ -18,7 +18,7 @@ button{border:0;cursor:pointer}
 .sidebar{border-right:1px solid #dce6f3;background:#fff;display:flex;flex-direction:column;min-width:0}
 .side-head{height:82px;padding:16px 18px;border-bottom:1px solid #dce6f3;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .me{display:flex;align-items:center;gap:12px;min-width:0}
-.avatar{width:48px;height:48px;border-radius:50%;object-fit:cover;background:#315df4;flex:none}
+.avatar{width:48px;height:48px;border-radius:50%;object-fit:cover;background:#315df4;flex:none;cursor:pointer}
 .me-info{min-width:0}
 .me-info b{display:block;font-size:17px;font-weight:900;color:#06142c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .me-info span{display:block;font-size:13px;color:#63728a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -31,7 +31,8 @@ button{border:0;cursor:pointer}
 .users{flex:1;overflow:auto;padding:8px}
 .user{height:72px;border-radius:16px;padding:10px;display:flex;align-items:center;gap:12px;cursor:pointer}
 .user:hover,.user.active{background:#eef4ff}
-.user img{width:50px;height:50px;border-radius:50%;object-fit:cover;background:#315df4;flex:none}
+.user img{width:50px;height:50px;border-radius:50%;object-fit:cover;background:#315df4;flex:none;transition:transform 0.2s}
+.user img:hover{transform:scale(1.05)}
 .uinfo{min-width:0;flex:1}
 .uinfo b{display:block;color:#06142c;font-size:15px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .uinfo span{display:block;margin-top:4px;color:#63728a;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -41,7 +42,7 @@ button{border:0;cursor:pointer}
 .chat{display:flex;flex-direction:column;height:100vh;background:#f6f8fc;min-width:0;position:relative}
 .chat-head{height:82px;background:#fff;border-bottom:1px solid #dce6f3;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .chat-user{display:flex;align-items:center;gap:12px;min-width:0}
-.chat-user img{width:50px;height:50px;border-radius:50%;object-fit:cover;background:#315df4;flex:none}
+.chat-user img{width:50px;height:50px;border-radius:50%;object-fit:cover;background:#315df4;flex:none;cursor:pointer}
 .chat-user b{display:block;font-size:18px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chat-user span{display:block;margin-top:3px;color:#63728a;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .head-actions{display:flex;align-items:center;gap:10px}
@@ -85,6 +86,62 @@ button{border:0;cursor:pointer}
 .menu button:hover{background:#eef4ff;color:#315df4}
 .menu button.danger:hover{background:#fee2e2;color:#ef4444}
 .toast{position:fixed;top:18px;left:50%;transform:translateX(-50%);background:#07142f;color:#fff;padding:12px 16px;border-radius:12px;font-size:14px;font-weight:800;display:none;z-index:120}
+
+/* 🔴 NEW: WhatsApp स्टाइल इमेज व्यूअर मॉडल (Popup Box) */
+.image-viewer {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 20, 47, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  place-items: center;
+}
+.viewer-content {
+  background: #fff;
+  padding: 12px;
+  border-radius: 24px;
+  box-shadow: 0 24px 60px rgba(6, 20, 44, 0.3);
+  max-width: 90%;
+  width: 340px;
+  text-align: center;
+  position: relative;
+  animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.viewer-content img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 16px;
+  background: #f0f4f9;
+}
+.viewer-title {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #06142c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.viewer-close {
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  color: #07142f;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+}
 
 @media(max-width:860px){
 .app{grid-template-columns:1fr; height: 100dvh;}
@@ -158,11 +215,19 @@ button{border:0;cursor:pointer}
 <div class="menu" id="chatMenu"></div>
 <div class="menu" id="msgMenu"></div>
 
+<div class="image-viewer" id="imageViewer" onclick="closeImageViewer()">
+  <div class="viewer-content" onclick="event.stopPropagation()">
+    <button class="viewer-close" onclick="closeImageViewer()"><i class="fa-solid fa-xmark"></i></button>
+    <img id="viewerImg" src="" alt="Avatar Large">
+    <div class="viewer-title" id="viewerTitle">User Name</div>
+  </div>
+</div>
+
 <div class="app">
   <aside class="sidebar">
     <div class="side-head">
       <div class="me">
-        <img class="avatar" id="meAvatar" alt="Me">
+        <img class="avatar" id="meAvatar" alt="Me" onclick="openAvatarPopup(me.name, this.src)">
         <div class="me-info">
           <b id="meName">CreatorHub User</b>
           <span id="meEmail">Loading...</span>
@@ -185,7 +250,7 @@ button{border:0;cursor:pointer}
     <div class="chat-head">
       <div class="chat-user">
         <button class="icon-btn back-mobile" onclick="closeChat()"><i class="fa-solid fa-arrow-left"></i></button>
-        <img id="chatAvatar" alt="User">
+        <img id="chatAvatar" alt="User" onclick="if(selectedUser) openAvatarPopup(selectedUser.name, this.src)">
         <div>
           <b id="chatName">Select a user</b>
           <span id="chatEmail">Personal chat</span>
@@ -245,8 +310,8 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 let me = getLoggedUser();
-let allUsers = [];      // API से आने वाले सारे यूजर्स
-let activeChats = [];    // केवल वो यूजर्स जिनसे बात हुई है (Firebase Index से)
+let allUsers = [];
+let activeChats = [];
 let selectedUser = null;
 let selectedFileBase64 = null;
 let currentQuery = null;
@@ -254,7 +319,7 @@ let currentChatId = "";
 let clearBefore = 0;
 let messagesByKey = {};
 let unreadCounts = {};
-let showAllUsersMode = false; // WhatsApp की तरह 'Plus' दबाने पर ही सब दिखेंगे
+let showAllUsersMode = false;
 
 function $(id){return document.getElementById(id)}
 
@@ -341,7 +406,17 @@ function initMe(){
   $("meAvatar").src = avatarUrl(me);
 }
 
-// API से सारे यूजर्स बैकग्राउंड में लोड करके रख लेना
+// 🔴 NEW: इमेज पॉपअप खोलने और बंद करने का ग्लोबल फंक्शंस
+window.openAvatarPopup = function(name, src) {
+  $("viewerImg").src = src;
+  $("viewerTitle").innerText = name;
+  $("imageViewer").style.display = "grid";
+}
+
+window.closeImageViewer = function() {
+  $("imageViewer").style.display = "none";
+}
+
 async function loadAllUsersList(){
   try{
     const res = await fetch(USERS_API + "?action=getUsers&_=" + Date.now());
@@ -358,7 +433,6 @@ async function loadAllUsersList(){
   }
 }
 
-// 🔴 WhatsApp मोड स्विच करना (सिर्फ एक्टिव चैट्स vs सारे कांटेक्ट)
 window.toggleAllUsersMode = function() {
   showAllUsersMode = !showAllUsersMode;
   if(showAllUsersMode) {
@@ -371,22 +445,19 @@ window.toggleAllUsersMode = function() {
   renderUsers();
 }
 
-// 🔴 Firebase Chat Index को लाइव सुनना ताकि लेटेस्ट मैसेज वाला यूजर तुरंत टॉप पर आये
 function listenChatIndex() {
   const mySafeEmail = safeEmail(me.email);
   onValue(ref(db, "chatIndex/" + mySafeEmail), snap => {
     const data = snap.val() || {};
     
-    // ऑब्जेक्ट को ऐरे में बदलकर टाइमस्टैम्प (updated_at) के हिसाब से सॉर्ट (Top पर लाना) करना
     activeChats = Object.keys(data).map(key => ({
       email: data[key].with,
       name: data[key].name || "CreatorHub User",
       profile_image: data[key].profile_image || "",
       last_message: data[key].last_message || "",
       updated_at: Number(data[key].updated_at || 0)
-    })).sort((a, b) => b.updated_at - a.updated_at); // 🔴 लेटेस्ट टाइम सबसे ऊपर
+    })).sort((a, b) => b.updated_at - a.updated_at);
 
-    // सभी यूज़र्स के अनरीड काउंट के रियल-टाइम लिसनर्स चालू करना
     activeChats.forEach(c => {
       listenUnreadCountForUser(c.email);
     });
@@ -399,7 +470,6 @@ function listenUnreadCountForUser(targetEmail) {
   const cId = makeChatId(me.email, targetEmail);
   const mySafeEmail = safeEmail(me.email);
   
-  // ऑफ करके दोबारा ऑन करना ताकि डुप्लीकेट लिसनर न बने
   off(ref(db, "chats/" + cId + "/unread/" + mySafeEmail));
   onValue(ref(db, "chats/" + cId + "/unread/" + mySafeEmail), snap => {
     const count = Number(snap.val() || 0);
@@ -412,11 +482,9 @@ function listenUnreadCountForUser(targetEmail) {
   });
 }
 
-// 🔴 रेंडर फ़ंक्शन: व्हाट्सएप जैसा या प्लस बटन दबाने पर कॉन्टैक्ट लिस्ट दिखाना
+// 🔴 रेंडर यूज़र्स: इमेज पर क्लिक करने के लिए stopPropagation के साथ openAvatarPopup लगाया गया है
 window.renderUsers = function(){
   const q = $("searchInput").value.toLowerCase().trim();
-  
-  // मोड के हिसाब से लिस्ट चुनना (Active Chats या All Contacts)
   let sourceList = showAllUsersMode ? allUsers : activeChats;
 
   const list = sourceList.filter(u =>
@@ -435,6 +503,7 @@ window.renderUsers = function(){
     const uSafeEmail = safeEmail(u.email);
     const count = unreadCounts[uSafeEmail] || 0;
     const lastMsg = u.last_message ? escapeHtml(u.last_message) : "";
+    const avatarImgUrl = avatarUrl(u);
     
     const badgeHtml = count > 0 
       ? `<span style="background:#ef4444; color:#fff; font-size:11px; font-weight:900; min-width:20px; height:20px; border-radius:50%; display:grid; place-items:center; padding:0 5px; flex:none;">${count}</span>`
@@ -442,7 +511,7 @@ window.renderUsers = function(){
 
     return `
       <div class="user ${selectedUser && selectedUser.email === u.email ? "active" : ""}" onclick='selectUser(${JSON.stringify(u).replace(/'/g,"&#039;")})'>
-        <img src="${avatarUrl(u)}">
+        <img src="${avatarImgUrl}" onclick="event.stopPropagation(); openAvatarPopup('${escapeHtml(u.name)}', '${avatarImgUrl}')">
         <div class="uinfo">
           <b>${escapeHtml(u.name)}</b>
           <span style="font-weight:${count>0?'700':'400'}; color:${count>0?'#315df4':'#63728a'}">${showAllUsersMode ? escapeHtml(u.email) : (lastMsg || escapeHtml(u.email))}</span>
@@ -468,7 +537,6 @@ window.selectUser = async function(user){
   messagesByKey = {};
   currentChatId = makeChatId(me.email, selectedUser.email);
 
-  // अगर प्लस आइकॉन वाले कांटेक्ट मोड से किसी को सेलेक्ट किया, तो वापस होम स्क्रीन लिस्ट पर आएं
   if(showAllUsersMode) {
     showAllUsersMode = false;
     $("newChatBtn").classList.remove("active");
@@ -626,10 +694,8 @@ window.sendMessage = async function(){
       edited:false, deleted:false
     });
 
-    // 🔴 इंडेक्स अपडेट करें (लास्ट मैसेज और टाइम) ताकि यूजर तुरंत लिस्ट में सबसे ऊपर आ जाए
     await updateChatIndex(type === "image" ? "📷 Image" : text, timestampNow);
 
-    // अनरीड काउंट बढ़ाएं
     try {
       const receiverSafeEmail = safeEmail(selectedUser.email);
       const unreadRef = ref(db, "chats/" + currentChatId + "/unread/" + receiverSafeEmail);
@@ -642,13 +708,11 @@ window.sendMessage = async function(){
 }
 
 async function updateChatIndex(lastMessage, timestamp){
-  // मेरे लिए इंडेक्स अपडेट
   await set(ref(db, "chatIndex/" + safeEmail(me.email) + "/" + safeEmail(selectedUser.email)),{
     with:selectedUser.email, name:selectedUser.name, profile_image:selectedUser.profile_image || "",
     last_message:lastMessage, updated_at:timestamp
   });
 
-  // सामने वाले के लिए इंडेक्स अपडेट
   await set(ref(db, "chatIndex/" + safeEmail(selectedUser.email) + "/" + safeEmail(me.email)),{
     with:me.email, name:me.name, profile_image:me.profile_image || "",
     last_message:lastMessage, updated_at:timestamp
@@ -739,16 +803,12 @@ function escapeAttr(str){ return String(str || "").replace(/"/g,"&quot;").replac
 
 initMe();
 
-// 🟢 लोड होने का मुख्य लॉजिक
 loadAllUsersList().then(() => {
-  // 1. सबसे पहले चैट इंडेक्स (सिर्फ पुरानी बातचीत वाली लिस्ट) सुनना शुरू करें
   listenChatIndex();
-
   try {
     const lastUser = localStorage.getItem("active_chat_user");
     if (lastUser) {
       const parsedUser = JSON.parse(lastUser);
-      // अगर आख़िरी खुली चैट थी, तो उसे खोलें
       selectUser(parsedUser);
     }
   } catch(e) { console.error(e); }
