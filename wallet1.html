@@ -5,31 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>My Wallet | CreatorHub</title>
 
-<meta name="description" content="Manage your CreatorHub wallet, track balances, transactions, earnings, payments and account funds securely in one place.">
+  <meta name="description" content="Manage your CreatorHub wallet, track balances, transactions, earnings, payments and account funds securely in one place.">
+  <meta name="keywords" content="CreatorHub wallet, wallet balance, earnings, transactions, payments, account funds">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://creatorhub.github.io/wallet1.html">
 
-<meta name="keywords" content="CreatorHub wallet, wallet balance, earnings, transactions, payments, account funds">
+  <meta property="og:site_name" content="CreatorHub">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="My Wallet | CreatorHub">
+  <meta property="og:description" content="Track wallet balance, earnings, transactions and payments on CreatorHub.">
+  <meta property="og:url" content="https://creatorhub.github.io/wallet1.html">
 
-<meta name="robots" content="index,follow">
-
-<link rel="canonical" href="https://creatorhub.github.io/wallet1.html">
-
-<meta property="og:site_name" content="CreatorHub">
-<meta property="og:type" content="website">
-<meta property="og:title" content="My Wallet | CreatorHub">
-<meta property="og:description" content="Track wallet balance, earnings, transactions and payments on CreatorHub.">
-<meta property="og:url" content="https://creatorhub.github.io/wallet1.html">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="My Wallet | CreatorHub">
-<meta name="twitter:description" content="Manage your wallet, earnings and transactions on CreatorHub.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="My Wallet | CreatorHub">
+  <meta name="twitter:description" content="Manage your wallet, earnings and transactions on CreatorHub.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
     /* =====================================================
-    CORE RESET & CREATORHUB PREMIUM THEME INTERFACES
-    ===================================================== */
+       CORE RESET & CREATORHUB PREMIUM THEME INTERFACES
+       ===================================================== */
     :root {
       --bg-primary: #f8fafc;       
       --bg-secondary: #ffffff;     
@@ -63,8 +60,8 @@
     }
 
     /* =====================================================
-    LEFT SIDEBAR MODULE LAYOUT
-    ===================================================== */
+       LEFT SIDEBAR MODULE LAYOUT
+       ===================================================== */
     .sidebar {
       width: 260px;
       background-color: var(--sidebar-dark);
@@ -117,8 +114,8 @@
     .menu-item i { width: 20px; text-align: center; }
 
     /* =====================================================
-    RIGHT CONTENT CONTROLLERS WRAPPER
-    ===================================================== */
+       RIGHT CONTENT CONTROLLERS WRAPPER
+       ===================================================== */
     .main-wrapper {
       margin-left: 260px;
       width: calc(100% - 260px);
@@ -139,26 +136,13 @@
       top: 0;
       z-index: 90;
     }
-    .topbar-left {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    .back-btn {
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text-secondary);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .back-btn:hover { color: var(--accent-blue); }
+    
+    .page-title { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
 
-    /* PROFILE MODULE INLINE DROPDOWN */
+    /* CLEAN WHITE PROFILE DROPDOWN LAYOUT MATRIX */
     .profile-wrap {
       position: relative;
-      display: none;
+      display: flex;
       align-items: center;
     }
     .profile-image {
@@ -168,56 +152,82 @@
       object-fit: cover;
       border: 2px solid var(--border-color);
       cursor: pointer;
+      transition: all 0.2s ease;
     }
+    .profile-image:hover { border-color: var(--accent-blue); transform: scale(1.05); }
+
     .profile-menu {
       position: absolute;
       top: 55px;
       right: 0;
       width: 280px;
-      background: #0d1628;
-      border: 1px solid #182a64;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
       border-radius: 12px;
-      padding: 20px;
+      padding: 16px;
       display: none;
       box-shadow: var(--shadow-md);
       z-index: 1000;
     }
     .profile-menu.show { display: block; animation: subFade 0.2s ease-out; }
+    
     .profile-header {
       display: flex;
       align-items: center;
       gap: 12px;
       padding-bottom: 14px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid var(--border-color);
       margin-bottom: 12px;
     }
-    .menu-profile-image { width: 44px; height: 44px; border-radius: 50%; }
-    #menuName { color: #fff; font-size: 15px; font-weight: 800; }
-    #menuEmail { margin-top: 2px; font-size: 12px; color: #63728a; word-break: break-all; }
+    .menu-profile-image { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border-color); }
+    #menuName { color: var(--text-primary); font-size: 15px; font-weight: 800; }
+    #menuEmail { margin-top: 2px; font-size: 12px; color: var(--text-secondary); word-break: break-all; }
+    
     .profile-menu a {
       display: flex;
       align-items: center;
+      gap: 10px;
       height: 42px;
       padding: 0 12px;
-      border-radius: 6px;
-      color: #e7edf8;
+      border-radius: 8px;
+      color: var(--text-secondary);
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 600;
       text-decoration: none;
+      transition: all 0.2s ease;
     }
-    .profile-menu a:hover { background: #182a64; }
+    .profile-menu a:hover { background: var(--bg-primary); color: var(--accent-blue); }
+    .profile-menu a.active { background: #eff6ff; color: var(--accent-blue); }
+    .profile-menu a i { width: 18px; text-align: center; font-size: 14px; color: var(--text-muted); transition: color 0.2s; }
+    .profile-menu a:hover i { color: var(--accent-blue); }
+    .profile-menu a.active i { color: var(--accent-blue); }
+
     .logout-btn {
       margin-top: 12px;
-      height: 44px;
-      border-radius: 6px;
+      height: 42px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--red-alert);
-      color: #fff;
-      font-weight: 800;
+      gap: 8px;
+      background: #fff5f5;
+      color: var(--red-alert);
+      font-weight: 700;
       font-size: 14px;
+      border: 1px solid #fee2e2;
       cursor: pointer;
+      transition: all 0.2s;
+    }
+    .logout-btn:hover { background: var(--red-alert); color: #fff; }
+    
+    .badge {
+      background: #eff6ff;
+      color: var(--accent-blue);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid rgba(47, 98, 233, 0.1);
     }
 
     /* MAIN CONTAINER INTERFACE BLOCKS */
@@ -226,14 +236,15 @@
       flex: 1;
       max-width: 1400px;
       width: 100%;
+      margin: 0 auto;
     }
     .header-block { margin-bottom: 32px; }
     .title { font-size: 36px; font-weight: 900; letter-spacing: -0.02em; color: var(--text-primary); }
     .desc { font-size: 15px; color: var(--text-secondary); margin-top: 8px; max-width: 800px; }
 
     /* =====================================================
-    HIGH-END BALANCE METRICS GRAPHICS SECTION
-    ===================================================== */
+       HIGH-END BALANCE METRICS GRAPHICS SECTION
+       ===================================================== */
     .balance-card-premium {
       background: var(--bg-secondary);
       border: 1px solid var(--border-color);
@@ -283,8 +294,8 @@
     }
 
     /* =====================================================
-    🚀 NEW MULTI-CHANNEL TAB SELECTOR DESIGN
-    ===================================================== */
+       🚀 MULTI-CHANNEL TAB SELECTOR DESIGN
+       ===================================================== */
     .channel-tabs {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -366,8 +377,8 @@
     .action-trigger-btn:hover { background-color: var(--accent-blue-hover); }
 
     /* =====================================================
-    DYNAMIC TRANSACTION LEDGERS ROWS STYLES
-    ===================================================== */
+       DYNAMIC TRANSACTION LEDGERS ROWS STYLES
+       ===================================================== */
     .transactions-stack-box { display: flex; flex-direction: column; gap: 14px; }
     .txn-row-node {
       display: flex;
@@ -630,17 +641,17 @@
               <img id="menuProfileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="menu-profile-image" alt="User">
               <div>
                 <div id="menuName">CreatorHub User</div>
-                <small id="menuEmail">Loading...</small>
+                <div id="menuEmail">user@email.com</div>
               </div>
             </div>
-            <a href="profile.html">My Profile</a>
-            <a href="seller-apply.html">Become Seller</a>
-            <a href="tranding.html">Trending Books</a>
-            <a href="library.html">Library</a>
-            <a href="topselling.html">Top Selling</a>
+            <a href="profile.html"><i class="fa-solid fa-user"></i> My Profile</a>
+            <a href="seller-apply.html"><i class="fa-solid fa-store"></i> Become Seller</a>
+            <a href="tranding.html"><i class="fa-solid fa-fire"></i> Trending Books</a>
+            <a href="library1.html"><i class="fa-solid fa-book-open"></i> Library</a>
+            <a href="topselling.html"><i class="fa-solid fa-award"></i> Top Selling</a>
+            <div class="logout-btn" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</div>
           </div>
         </div>
-       
       </div>
       <div class="badge">Wallet Center Pro</div>
     </header>
@@ -697,7 +708,7 @@
           <h2 class="panel-title-bold">Withdraw Earnings</h2>
           <p class="panel-desc-text">Select your preferred transaction route execution channel parameters safely.</p>
           
-          <!-- 🚀 NEW: MULTI-CHANNEL CHANNEL SELECTOR TAB SWITCHES -->
+          <!-- MULTI-CHANNEL CHANNEL SELECTOR TAB SWITCHES -->
           <div class="channel-tabs">
             <button class="channel-btn active" onclick="switchChannel(event, 'bank-view')"><i class="fa-solid fa-building-columns"></i> Bank</button>
             <button class="channel-btn" onclick="switchChannel(event, 'upi-view')"><i class="fa-solid fa-qrcode"></i> UPI ID</button>
@@ -758,11 +769,12 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec";
 
     let USER = JSON.parse(localStorage.getItem("user") || "{}");
-    const USER_EMAIL = USER.email || "";
+    const USER_EMAIL = USER.email || localStorage.getItem("user_email") || localStorage.getItem("creatorhub_profile_email") || "";
     let isListExpanded = false; 
 
     function driveImage(url){
       if(!url) return "";
+      if(url.includes("ui-avatars.com")) return url;
       if(url.includes("uc?id=")){
         let id = url.split("id=")[1].split("&")[0];
         return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
@@ -806,28 +818,37 @@
     }
 
     function updateLoginUI(){
-      let token = localStorage.getItem("user_token");
       let profileWrap = document.getElementById("profileWrap");
       let cachedUser = localStorage.getItem("creatorhub_profile_cache_v6");
-      let email = localStorage.getItem("creatorhub_profile_email");
+      let email = USER_EMAIL || localStorage.getItem("creatorhub_profile_email") || "";
       
-      if(token || USER_EMAIL){
+      if(email || localStorage.getItem("user_token")){
         profileWrap.style.display = "flex";
+        
+        let targetName = USER.name || localStorage.getItem("user_name") || "CreatorHub User";
+        let targetImage = USER.profile_image || USER.image || localStorage.getItem("user_image") || "";
+
         if(cachedUser && email){
           try {
-            let data = JSON.parse(cachedUser)[email];
-            if(data && data.profile_image){
-              document.getElementById("profileImage").src = driveImage(data.profile_image);
-              document.getElementById("menuProfileImage").src = driveImage(data.profile_image);
-              document.getElementById("menuName").innerText = data.name || "CreatorHub User";
-              document.getElementById("menuEmail").innerText = data.email || email;
+            let data = JSON.parse(cachedUser)[email.toLowerCase().trim()];
+            if(data){
+              targetName = data.name || targetName;
+              targetImage = data.profile_image || data.image || targetImage;
             }
           } catch(e) {}
         }
+
+        const finalImg = targetImage || "https://ui-avatars.com/api/?name=" + encodeURIComponent(targetName) + "&background=2f62e9&color=fff";
+        
+        document.getElementById("profileImage").src = driveImage(finalImg);
+        document.getElementById("menuProfileImage").src = driveImage(finalImg);
+        document.getElementById("menuName").innerText = targetName;
+        document.getElementById("menuEmail").innerText = email;
       }
     }
 
     function loadCachedWallet() {
+      if(!USER_EMAIL) return;
       let cachedData = localStorage.getItem("creatorhub_wallet_cache_" + USER_EMAIL);
       if(cachedData) {
         try {
