@@ -59,18 +59,31 @@
     .brand-name span{
       color: #2f62e9;
     }
+    
+    /* 📦 BACK BUTTON BOX DESIGN (FOR BOTH DESKTOP & MOBILE) */
     .back-btn{
       cursor: pointer;
       font-size: 16px;
-      font-weight: 800;
-      color: #5d6d85;
+      font-weight: 700;
+      color: #101828;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      transition: color 0.2s ease;
+      background: #ffffff;
+      border: 1px solid #dce4f0;
+      padding: 10px 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(16, 24, 40, 0.05);
+      transition: all 0.2s ease;
     }
     .back-btn:hover{
       color: #2f62e9;
+      border-color: #2f62e9;
+      background: #fcfde2; /* Subtle light tint effect */
+      transform: translateY(-1px);
+    }
+    .back-btn i {
+      font-size: 14px;
     }
     
     .book-header-info {
@@ -87,7 +100,7 @@
       color: #06142c;
     }
     
-    /* Mobile dedicated sub-bar (Desktop par hidden rahegi) */
+    /* Mobile dedicated sub-bar */
     .mobile-book-title-bar {
       display: none;
       background: #eef3f9;
@@ -256,7 +269,7 @@
     }
 
     /* =====================================================
-    ⚡ MOBILE RESPONSIVE FIXES (DESKTOP UNSWAPPED)
+    ⚡ MOBILE RESPONSIVE FIXES 
     ===================================================== */
     @media(max-width: 768px) {
       .topbar { 
@@ -265,13 +278,13 @@
         gap: 10px;
       }
       .book-header-info { 
-        display: none; /* Main layout se hata kar sub-bar me shift kiya */
+        display: none; 
       }
       .mobile-book-title-bar {
-        display: block; /* Mobile par Title Bar active ho jayegi */
+        display: block; 
       }
       .brand-name {
-        font-size: 20px; /* Mobile par thoda chota logo */
+        font-size: 20px; 
       }
       .badge {
         padding: 4px 10px;
@@ -280,9 +293,14 @@
       .topbar-right {
         gap: 8px !important;
       }
+      
+      /* Mobile optimization for Boxed Back Button */
       .back-btn {
-        font-size: 15px;
+        font-size: 14px;
+        padding: 6px 14px;
+        border-radius: 8px;
       }
+      
       .profile-image {
         width: 40px;
         height: 40px;
@@ -291,7 +309,7 @@
       .profile-menu {
         top: 55px;
         width: 260px;
-        position: fixed; /* Screen overlap problem fixed */
+        position: fixed; 
         left: 16px;
       }
     }
@@ -321,6 +339,7 @@
         </div>
       </div>
 
+      <!-- 📦 Boxed Back Button -->
       <div class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i> Back</div>
     </div>
 
@@ -336,6 +355,7 @@
     </div>
   </div>
 
+  <!-- Mobile Screen Title Sub-Bar -->
   <div id="mobileBookTitleBar" class="mobile-book-title-bar">
     📖 Loading Premium Ebook Stream...
   </div>
@@ -457,9 +477,6 @@
       }
     }
     
-    /* =====================================================
-    ⚡ RESTORED ORIGINAL VIEWER EXTRACTION LOGIC (UPDATED FOR MOBILE BAR)
-    ===================================================== */
     function initializeBookViewer(){
       try {
         let pdfUrl = localStorage.getItem("viewerPDF");
@@ -475,7 +492,6 @@
           const book = JSON.parse(bookDataRaw);
           const dynamicTitle = `📖 Reading: ${book.title || "Premium Ebook"}`;
           
-          // Desktop and Mobile dono titles ko sync kiya
           document.getElementById("bookMainTitle").innerText = dynamicTitle;
           document.getElementById("mobileBookTitleBar").innerText = dynamicTitle;
         }
