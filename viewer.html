@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Ebook Viewer - CreatorHub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
@@ -60,30 +60,24 @@
       color: #2f62e9;
     }
     
-    /* 📦 BACK BUTTON BOX DESIGN (FOR BOTH DESKTOP & MOBILE) */
-    .back-btn{
+    /* 📦 CLEAN TEXT-ONLY BACK BUTTON (NO ICON BOX) */
+    .back-btn {
       cursor: pointer;
       font-size: 16px;
       font-weight: 700;
-      color: #101828;
+      color: #475569;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: #ffffff;
-      border: 1px solid #dce4f0;
-      padding: 10px 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 4px rgba(16, 24, 40, 0.05);
-      transition: all 0.2s ease;
+      transition: color 0.2s ease;
+      background: transparent;
+      border: none;
+      padding: 0;
+      box-shadow: none;
     }
-    .back-btn:hover{
+    .back-btn:hover {
       color: #2f62e9;
-      border-color: #2f62e9;
-      background: #fcfde2; /* Subtle light tint effect */
-      transform: translateY(-1px);
-    }
-    .back-btn i {
-      font-size: 14px;
+      background: transparent;
+      transform: none;
     }
     
     .book-header-info {
@@ -127,106 +121,90 @@
     }
 
     /* =====================================================
-    PROFILE BLOCK Dropdown Menu
+    CLEAN WHITE PROFILE DROPDOWN LAYOUT MATRIX
     ===================================================== */
-    .profile-wrap{
+    .profile-wrap {
       position: relative;
       display: none;
       align-items: center;
     }
-    .profile-image{
-      width: 52px;
-      height: 52px;
+    .profile-image {
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       object-fit: cover;
-      background: #d9e1ec;
-      border: 3px solid #fff;
-      box-shadow: 0 8px 20px rgba(16, 24, 40, 0.12);
-      transition: transform 0.2s ease, border-color 0.2s ease;
+      border: 2px solid #dce4f0;
       cursor: pointer;
+      transition: all 0.2s ease;
     }
-    .profile-image:hover{
-      transform: scale(1.04);
-      border-color: #2f62e9;
-    }
-    .profile-menu{
+    .profile-image:hover { border-color: #2f62e9; transform: scale(1.05); }
+
+    .profile-menu {
       position: absolute;
-      top: 68px;
-      left: 0;
+      top: 55px;
+      right: 0;
+      left: auto;
       width: 280px;
-      background: #0d1628;
-      border: 1px solid #182a64;
-      border-radius: 14px;
-      padding: 20px;
+      background: #ffffff;
+      border: 1px solid #dce4f0;
+      border-radius: 12px;
+      padding: 16px;
       display: none;
-      box-shadow: 0 20px 45px rgba(16, 24, 40, 0.25);
+      box-shadow: 0 12px 30px -4px rgba(15,23,42,0.06);
       z-index: 1000;
     }
-    .profile-menu.show{
-      display: block;
-      animation: menuFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+    .profile-menu.show { display: block; animation: menuFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+    
     @keyframes menuFadeIn{
       from { opacity: 0; transform: translateY(8px) scale(0.97); }
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
-    .profile-header{
+    .profile-header {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #dce4f0;
+      margin-bottom: 12px;
     }
-    .menu-profile-image{
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-    #menuName{
-      color: #fff;
-      font-size: 16px;
-      font-weight: 800;
-    }
-    #menuEmail{
-      margin-top: 3px;
-      font-size: 13px;
-      color: #63728a;
-      word-break: break-all;
-    }
-    .profile-menu a{
+    .menu-profile-image { width: 44px; height: 44px; border-radius: 50%; border: 1px solid #dce4f0; }
+    #menuName { color: #101828; font-size: 15px; font-weight: 800; }
+    #menuEmail { margin-top: 2px; font-size: 12px; color: #475569; word-break: break-all; }
+    
+    .profile-menu a {
       display: flex;
       align-items: center;
-      height: 46px;
-      padding: 0 14px;
+      gap: 10px;
+      height: 42px;
+      padding: 0 12px;
       border-radius: 8px;
-      color: #e7edf8;
-      font-size: 15px;
-      font-weight: 700;
-      transition: background 0.2s, transform 0.2s;
+      color: #475569;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
     }
-    .profile-menu a:hover{
-      background: #182a64;
-      transform: translateX(4px);
-    }
-    .logout-btn{
-      margin-top: 14px;
-      height: 48px;
+    .profile-menu a:hover { background: #f6f8fc; color: #2f62e9; transform: none; }
+    .profile-menu a i { width: 18px; text-align: center; font-size: 14px; color: #63728a; transition: color 0.2s; }
+    .profile-menu a:hover i { color: #2f62e9; }
+
+    .logout-btn {
+      margin-top: 12px;
+      height: 42px;
       border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #ef4444;
-      color: #fff;
-      font-weight: 800;
-      font-size: 15px;
+      gap: 8px;
+      background: #fff5f5;
+      color: #ef4444;
+      font-weight: 700;
+      font-size: 14px;
+      border: 1px solid #fee2e2;
       cursor: pointer;
-      transition: opacity 0.2s;
+      transition: all 0.2s;
     }
-    .logout-btn:hover{
-      opacity: 0.9;
-    }
+    .logout-btn:hover { background: #ef4444; color: #fff; opacity: 1; }
 
     /* =====================================================
     DYNAMIC HIGH-PERFORMANCE PDF CONTAINER FRAME
@@ -294,11 +272,10 @@
         gap: 8px !important;
       }
       
-      /* Mobile optimization for Boxed Back Button */
       .back-btn {
-        font-size: 14px;
-        padding: 6px 14px;
-        border-radius: 8px;
+        font-size: 15px;
+        padding: 0;
+        border-radius: 0;
       }
       
       .profile-image {
@@ -307,10 +284,11 @@
         border-width: 2px;
       }
       .profile-menu {
-        top: 55px;
+        top: 60px;
         width: 260px;
-        position: fixed; 
-        left: 16px;
+        position: absolute; 
+        right: 0;
+        left: auto;
       }
     }
   </style>
@@ -319,6 +297,19 @@
 
   <div class="topbar">
     <div class="topbar-left">
+      <div class="back-btn" onclick="goBack()">Back</div>
+    </div>
+
+    <div class="book-header-info">
+      <div id="bookMainTitle">Loading Premium Ebook Stream...</div>
+    </div>
+
+    <div class="topbar-right" style="display: flex; align-items: center; gap: 20px;">
+      <div class="badge">Reader Mode</div>
+      <a class="brand-logo" href="./dashboard.html">
+        <span class="brand-name">Creator<span>Hub</span></span>
+      </a>
+      
       <div id="profileWrap" class="profile-wrap">
         <img id="profileImage" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" class="profile-image" onclick="toggleProfileMenu()" alt="Profile">
         
@@ -330,32 +321,17 @@
               <div id="menuEmail">user@email.com</div>
             </div>
           </div>
-          <a href="profile.html">My Profile</a>
-          <a href="seller-apply.html">Become Seller</a>
-          <a href="tranding.html">Trending Books</a>
-          <a href="library.html">Library</a>
-          <a href="topselling.html">Top Selling</a>
-          <div class="logout-btn" onclick="logout()">Logout</div>
+          <a href="profile.html"><i class="fa-solid fa-user"></i> My Profile</a>
+          <a href="seller-apply.html"><i class="fa-solid fa-store"></i> Become Seller</a>
+          <a href="tranding.html"><i class="fa-solid fa-fire"></i> Trending Books</a>
+          <a href="library1.html"><i class="fa-solid fa-book-open"></i> Library</a>
+          <a href="topselling.html"><i class="fa-solid fa-award"></i> Top Selling</a>
+          <div class="logout-btn" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</div>
         </div>
       </div>
-
-      <!-- 📦 Boxed Back Button -->
-      <div class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i> Back</div>
-    </div>
-
-    <div class="book-header-info">
-      <div id="bookMainTitle">Loading Premium Ebook Stream...</div>
-    </div>
-
-    <div class="topbar-right" style="display: flex; align-items: center; gap: 16px;">
-      <div class="badge">Reader Mode</div>
-      <a class="brand-logo" href="./dashboard.html">
-        <span class="brand-name">Creator<span>Hub</span></span>
-      </a>
     </div>
   </div>
 
-  <!-- Mobile Screen Title Sub-Bar -->
   <div id="mobileBookTitleBar" class="mobile-book-title-bar">
     📖 Loading Premium Ebook Stream...
   </div>
@@ -374,6 +350,7 @@
   <script>
     function driveImage(url){
       if(!url) return "";
+      if(url.includes("ui-avatars.com")) return url;
       if(url.includes("uc?id=")){
         let id = url.split("id=")[1].split("&")[0];
         return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
@@ -397,7 +374,7 @@
     });
 
     function logout(){ localStorage.clear(); window.location.href = "login.html"; }
-    function goBack(){ window.location.href = "library.html"; }
+    function goBack(){ window.location.href = "library1.html"; }
 
     function getLoggedUser(){
       let user = {};
@@ -439,7 +416,7 @@
       if(cachedUser && email){
         try{
           let cache = JSON.parse(cachedUser);
-          let profile = cache[email];
+          let profile = cache[email.toLowerCase().trim()];
           if(profile){
             name = profile.name || name;
             image = profile.profile_image || profile.image || image;
@@ -484,7 +461,7 @@
 
         if(!pdfUrl) {
           alert("PDF stream source parameter empty. Routing back to library.");
-          window.location.href = "library.html";
+          window.location.href = "library1.html";
           return;
         }
 
