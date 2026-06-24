@@ -161,43 +161,21 @@ body{
     border: 2px solid var(--border-color);
     cursor: pointer;
 }
+/* Clean White Profile Menu Matrix */
 .profile-menu {
-    position: absolute;
-    top: 55px;
-    right: 0;
-    width: 280px;
-    background: #0d1628;
-    border: 1px solid #182a64;
-    border-radius: 12px;
-    padding: 20px;
-    display: none;
-    box-shadow: var(--shadow-md);
-    z-index: 1000;
+    position: absolute; top: 55px; right: 0; width: 280px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; display: none; box-shadow: var(--shadow-md); z-index: 1000;
 }
 .profile-menu.show { display: block; animation: subFade 0.2s ease-out; }
-.profile-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    margin-bottom: 12px;
-}
-.menu-profile-image { width: 44px; height: 44px; border-radius: 50%; }
-#menuName { color: #fff; font-size: 15px; font-weight: 800; }
-#menuEmail { margin-top: 2px; font-size: 12px; color: #63728a; word-break: break-all; }
-.profile-menu a {
-    display: flex;
-    align-items: center;
-    height: 42px;
-    padding: 0 12px;
-    border-radius: 6px;
-    color: #e7edf8;
-    font-size: 14px;
-    font-weight: 700;
-    text-decoration: none;
-}
-.profile-menu a:hover { background: #182a64; }
+.profile-header { display: flex; align-items: center; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--border-color); margin-bottom: 12px; }
+.menu-profile-image { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border-color); }
+#menuName { color: var(--text-primary); font-size: 15px; font-weight: 800; }
+#menuEmail { margin-top: 2px; font-size: 12px; color: var(--text-secondary); word-break: break-all; }
+.profile-menu a { display: flex; align-items: center; gap: 10px; height: 42px; padding: 0 12px; border-radius: 8px; color: var(--text-secondary); font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.2s ease; }
+.profile-menu a:hover { background: var(--bg-primary); color: var(--accent-blue); }
+.profile-menu a.active { background: #eff6ff; color: var(--accent-blue); }
+.profile-menu a i { width: 18px; text-align: center; font-size: 14px; color: var(--text-muted); transition: color 0.2s; }
+.profile-menu a:hover i { color: var(--accent-blue); }
+.profile-menu a.active i { color: var(--accent-blue); }
 .logout-btn {
     margin-top: 12px; height: 44px; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: var(--red-alert); color: #fff; font-weight: 800; font-size: 14px; cursor: pointer;
 }
@@ -467,11 +445,11 @@ body{
                         <div id="menuEmail">user@email.com</div>
                     </div>
                 </div>
-                <a href="profile.html">My Profile</a>
-                <a href="seller-apply.html">Become Seller</a>
-                <a href="tranding.html">Trending Books</a>
-                <a class="active" href="library1.html">Library</a>
-                <a href="topselling.html">Top Selling</a>
+               <a href="profile.html"><i class="fa-solid fa-user"></i> My Profile</a>
+<a href="seller-apply.html"><i class="fa-solid fa-store"></i> Become Seller</a>
+<a href="tranding.html"><i class="fa-solid fa-fire"></i> Trending Books</a>
+<a class="active" href="library1.html"><i class="fa-solid fa-book-open"></i> Library</a>
+<a href="topselling.html"><i class="fa-solid fa-award"></i> Top Selling</a>
             </div>
         </div>
     </header>
