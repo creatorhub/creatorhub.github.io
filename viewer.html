@@ -61,23 +61,26 @@
     }
     
     /* 📦 CLEAN TEXT-ONLY BACK BUTTON (NO ICON BOX) */
+   /* 📦 PREMIUM BOXED BACK BUTTON */
     .back-btn {
       cursor: pointer;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
-      color: #475569;
+      color: #101828;
       display: inline-flex;
       align-items: center;
-      transition: color 0.2s ease;
-      background: transparent;
-      border: none;
-      padding: 0;
-      box-shadow: none;
+      background: #ffffff;
+      border: 1px solid #dce4f0;
+      padding: 8px 18px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(16, 24, 40, 0.05);
+      transition: all 0.2s ease;
     }
     .back-btn:hover {
       color: #2f62e9;
-      background: transparent;
-      transform: none;
+      border-color: #2f62e9;
+      background: #f8fafc;
+      transform: translateY(-1px);
     }
     
     .book-header-info {
@@ -326,7 +329,7 @@
           <a href="tranding.html"><i class="fa-solid fa-fire"></i> Trending Books</a>
           <a href="library1.html"><i class="fa-solid fa-book-open"></i> Library</a>
           <a href="topselling.html"><i class="fa-solid fa-award"></i> Top Selling</a>
-          <div class="logout-btn" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</div>
+         
         </div>
       </div>
     </div>
