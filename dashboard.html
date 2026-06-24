@@ -1,532 +1,817 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CreatorHub - Marketplace for Books, Digital & Physical Products</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>User Dashboard | CreatorHub</title>
 
-<meta name="description" content="CreatorHub is a marketplace where users can discover, buy and sell books, digital products and physical products from trusted creators and sellers.">
-
-<meta name="keywords" content="CreatorHub, books, ebooks, digital products, physical products, marketplace, creators, online shopping">
-
+<meta name="description" content="Manage your account, orders, products, library, subscriptions and creator activities from your CreatorHub dashboard.">
+<meta name="keywords" content="CreatorHub dashboard, user dashboard, account management, orders, products, library, creator tools">
 <meta name="robots" content="index,follow">
-
-<link rel="canonical" href="https://creatorhub.github.io/">
+<link rel="canonical" href="https://creatorhub.github.io/dashboard.html">
 
 <meta property="og:site_name" content="CreatorHub">
 <meta property="og:type" content="website">
-<meta property="og:title" content="CreatorHub - Marketplace for Books, Digital & Physical Products">
-<meta property="og:description" content="Discover books, digital products and physical products from creators and trusted sellers on CreatorHub.">
-<meta property="og:url" content="https://creatorhub.github.io/">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta property="og:title" content="User Dashboard | CreatorHub">
+<meta property="og:description" content="Access your account, orders, products, subscriptions and creator tools from the CreatorHub dashboard.">
+<meta property="og:url" content="https://creatorhub.github.io/dashboard.html">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
-body{background:#f6f8fc;color:#101828;min-height:100vh;overflow-x:hidden}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
+body{min-height:100vh;background:#f6f8fc;color:#101828;display:flex;overflow:hidden}
 a{text-decoration:none;color:inherit}
-.topbar{position:sticky;top:0;z-index:999;min-height:80px;background:#fff;border-bottom:1px solid #dce4f0;padding:16px 34px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.topbar-left{display:flex;align-items:center;gap:20px}
-.brand-name{font-size:25px;font-weight:900;color:#06142c}
-.brand-name span{color:#2f62e9}
-.nav{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
-.nav a{color:#5d6d85;font-size:14px;font-weight:800}
-.nav a:hover{color:#2f62e9}
-.login-btn{height:38px;border:0;border-radius:8px;padding:0 16px;background:#2f62e9;color:#fff!important;font-size:13px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;white-space:nowrap}
-.profile-wrap{position:relative;display:none;align-items:center}
-.profile-image{width:44px;height:44px;border-radius:50%;object-fit:cover;background:#d9e1ec;border:2px solid #fff;box-shadow:0 8px 20px rgba(16,24,40,.12);cursor:pointer}
-.profile-menu{position:absolute;top:55px;left:0;width:290px;background:#0d1628;border:1px solid #182a64;border-radius:14px;padding:20px;display:none;box-shadow:0 20px 45px rgba(16,24,40,.25);z-index:1000}
-.profile-menu {
-    position: absolute;
-    top: 55px;
+button{font:inherit}
+
+/* =========================================================
+    🚀 SIDEBAR THEME GRAPHICS (DESKTOP)
+   ========================================================= */
+.sidebar {
+    width: 260px;
+    background-color: #0f172a; 
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
     left: 0;
-    width: 290px;
-    background: #ffffff;
-    border: 1px solid #dce4f0;
-    border-radius: 14px;
-    padding: 20px;
-    display: none;
-    box-shadow: 0 20px 45px rgba(16, 24, 40, 0.08);
-    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    border-right: 1px solid rgba(255,255,255,0.05);
+    padding: 0; 
+    overflow-y: auto;
 }
-.profile-menu.show { display: block; }
-.profile-header {
+
+.sidebar-brand {
+    padding: 28px 24px;
+    font-size: 22px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.sidebar-brand span {
+    color: #2f62e9; 
+}
+
+.sidebar-menu {
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.menu-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid #f1f5f9;
-    margin-bottom: 14px;
-}
-.menu-profile-image { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: #d9e1ec; }
-#menuName { color: #101828; font-size: 16px; font-weight: 900; }
-#menuEmail { margin-top: 4px; font-size: 13px; color: #63728a; word-break: break-all; }
-.profile-menu a {
-    display: flex;
-    align-items: center;
-    height: 44px;
-    padding: 0 14px;
-    border-radius: 8px;
-    color: #344054;
+    padding: 12px 16px;
+    color: #94a3b8;
     font-size: 14px;
     font-weight: 700;
-    margin-right: 0px !important;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
-.profile-menu a:hover { background: #f8fafc; color: #2f62e9; }
-.profile-menu a i { margin-right: 10px !important; color: #2f62e9 !important; font-size: 16px; }
-.logout-btn{margin-top:14px;height:46px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#ef4444;color:#fff;font-weight:900;font-size:14px;cursor:pointer}
-.main{max-width:1400px;margin:auto;padding:36px 34px 90px}
-.hero{background:#fff;border:1px solid #dce4f0;border-radius:9px;padding:60px 50px;box-shadow:0 18px 45px rgba(16,24,40,.06)}
-.hero-title{font-size:52px;font-weight:900;line-height:1.1;color:#06142c;max-width:850px}
-.hero-title span{color:#2f62e9}
-.hero-desc{margin-top:20px;max-width:750px;line-height:1.6;color:#63728a;font-size:17px}
-.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
-.hero-btn{min-height:52px;border-radius:9px;padding:0 26px;font-size:15px;font-weight:900;display:inline-flex;align-items:center;justify-content:center}
-.hero-btn.primary{background:#2f62e9;color:#fff}
-.hero-btn.secondary{background:#fff;color:#101828;border:1px solid #d9e3f0}
-.search-container{margin-top:40px;background:#fff;padding:20px;border-radius:12px;border:1px solid #dce4f0}
-.search-wrapper{position:relative;width:100%}
-.search-icon{position:absolute;left:18px;top:50%;transform:translateY(-50%);color:#94a3b8}
-.search-input{width:100%;padding:16px 20px 16px 50px;border-radius:9px;border:1px solid #cbd5e1;background:#f8fafc;font-size:16px;color:#101828;outline:none}
-.search-input:focus{border-color:#2f62e9;background:#fff;box-shadow:0 0 0 4px rgba(47,98,233,.1)}
-.section{margin-top:40px}
-.section-title{font-size:36px;font-weight:900;color:#06142c}
-.section-desc{margin-top:8px;color:#63728a;font-size:16px}
-.filters{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
-.filter-btn{min-height:44px;padding:0 20px;border:1px solid #d9e3f0;border-radius:9px;background:#fff;color:#26364f;font-size:14px;font-weight:800;cursor:pointer}
-.filter-active{background:#182a64;color:#fff;border-color:#3157c9}
-.books-grid {display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px;margin-top:32px}
-.book{background:#fff;border:1px solid #dce4f0;border-radius:9px;overflow:hidden;cursor:pointer;box-shadow:0 10px 30px rgba(16,24,40,.04);transition:.2s}
-.book:hover{transform:translateY(-5px);border-color:#3157c9}
-.book-cover{width:100%;aspect-ratio:3/4;object-fit:cover;background:#eef3f9;border-bottom:1px solid #dce4f0}
-.book-content{padding:18px}
-.book-title{font-size:15px;font-weight:900;color:#06142c;line-height:1.4;min-height:42px}
-.book-author{margin-top:8px;font-size:13px;color:#63728a}
-.book-price{margin-top:14px;font-size:22px;font-weight:900;color:#2f62e9}
-.features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:32px}
-.feature{background:#fff;padding:28px;border-radius:9px;border:1px solid #dce4f0}
-.feature-icon{width:52px;height:52px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#eef3f9;color:#2f62e9;font-size:22px;font-weight:900}
-.feature h3{margin-top:18px;font-size:19px;font-weight:900;color:#06142c}
-.feature p{margin-top:10px;line-height:1.6;color:#63728a;font-size:15px}
-.empty{grid-column:1/-1;text-align:center;color:#63728a;padding:42px 0;font-weight:800;background:#fff;border:1px solid #dce4f0;border-radius:9px}
 
-/* Mobile Actions Elements (Hidden by default on Desktop) */
-.mobile-controls { display: none; align-items: center; gap: 15px; }
-.mobile-menu-toggle { font-size: 22px; color: #06142c; cursor: pointer; background: none; border: none; }
-.mobile-cart-icon { font-size: 20px; color: #5d6d85; position: relative; }
+.menu-item:hover {
+    background-color: #1e293b;
+    color: #ffffff;
+}
+
+.menu-item.active {
+    background-color: #2f62e9;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(47, 98, 233, 0.25);
+}
+
+.menu-item i {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
+
+/* =========================================================
+    🚀 CONTENT WORKSPACE AREA (DESKTOP)
+   ========================================================= */
+.main {
+    margin-left: 260px !important; 
+    width: calc(100% - 260px) !important;
+    height: 100vh;
+    overflow-y: auto;
+    background: #f6f8fc;
+}
+
+.topbar{min-height:114px;background:#fff;border-bottom:1px solid #dce4f0;padding:26px 34px;display:flex;align-items:center;justify-content:space-between;gap:20px;position:sticky;top:0;z-index:10}
+.title h1{font-size:43px;line-height:1;font-weight:950;letter-spacing:-.02em}
+.title p{margin-top:8px;color:#63728a;font-size:17px}
+
+.profile-box{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #d9e3f0;border-radius:10px;padding:10px 14px;min-width:245px;box-shadow:0 12px 28px rgba(16,24,40,.07)}
+.profile-box img{width:58px;height:58px;border-radius:50%;object-fit:cover;background:#d9e1ec;border:3px solid #fff;box-shadow:0 0 0 2px #3157c9}
+#userName{max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#101828;font-size:18px;font-weight:900}
+#userEmail{display:block;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:3px;color:#667085;font-size:14px}
+
+.content{padding:36px 34px;display:grid;gap:28px}
+.notice{display:none;background:#fff7df;color:#8a5b00;border:1px solid #f2d37b;border-radius:9px;padding:14px 16px;font-weight:800}
+.stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.card{background:#fff;border:1px solid #dce4f0;border-radius:9px;box-shadow:0 18px 45px rgba(16,24,40,.08);padding:25px}
+.stat-card{min-height:154px;background:#eef3f9;display:grid;align-content:space-between}
+.card h3{color:#5d6d85;font-size:16px;font-weight:950;text-transform:uppercase}
+.card h2{color:#06142c;font-size:41px;line-height:1;font-weight:950;margin-top:18px}
+.growth{margin-top:12px;color:#0f9f57;font-size:16px;font-weight:900}
+
+.content-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(340px,1fr);gap:24px}
+.chart-card{min-height:430px; position: relative;}
+.section-title{color:#06142c;margin-bottom:20px;text-transform:none;font-size:22px}
+.chart-fallback{height:330px;display:flex;align-items:end;gap:10px;padding-top:20px}
+.chart-bar{flex:1;background:linear-gradient(180deg,#2563eb,#21b7e8);border-radius:8px 8px 0 0;min-height:8px}
+
+.wallet-list{list-style:none;display:grid}
+.wallet-list li{min-height:66px;display:flex;align-items:center;justify-content:space-between;gap:16px;color:#101828;border-bottom:1px solid #dce4f0;font-size:18px}
+.wallet-list li:last-child{border-bottom:0}
+.wallet-list strong{color:#06142c;font-size:20px;font-weight:950}
+
+.table-card{overflow-x:auto}
+table{width:100%;min-width:820px;border-collapse:collapse}
+th,td{padding:18px 14px;border-bottom:1px solid #dce4f0;text-align:left}
+th{color:#667085;font-size:13px;font-weight:950;text-transform:uppercase}
+td{color:#101828;font-size:14px}
+.badge{min-height:32px;border-radius:999px;display:inline-flex;align-items:center;padding:0 12px;font-size:12px;font-weight:900}
+.paid{background:#e7f8ef;color:#0f9f57}
+.pending{background:#fff7df;color:#b98100}
+
+.review-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.review-item{background:#eef3f9;border:1px solid #dce4f0;border-radius:99px;padding:18px}
+.review-user{color:#06142c;font-size:17px;font-weight:950;margin-bottom:8px}
+.review-text{color:#63728a;font-size:14px;line-height:1.6}
+.empty{color:#63728a;padding:18px 0}
 
 /* ==========================================================================
-   UPDATED RESPONSIVE DESIGN (PREMIUM APP STYLE FOR MOBILE)
+   📱 PREMIUM MOBILE RESPONSIVE UPGRADE (DESKTOP REMAINS UNTOUCHED)
    ========================================================================== */
-
-@media (max-width: 1200px) {
-  .books-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+@media (max-width: 1050px) {
+  .sidebar { width: 70px; padding: 0 !important; }
+  .sidebar-brand span, .menu-item span { display: none; }
+  .sidebar-brand { padding: 24px 0; text-align: center; font-size: 16px; }
+  .menu-item { padding: 14px; justify-content: center; }
+  .main { margin-left: 70px !important; width: calc(100% - 70px) !important; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
 }
 
-@media (max-width: 992px) {
-  .books-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .features { grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  .hero-title { font-size: 42px; }
+@media (max-width: 1220px) {
+  .content-grid { grid-template-columns: 1fr; }
 }
 
-/* 📱 Complete Premium Mobile View Overhaul (<= 768px) */
 @media (max-width: 768px) {
-  .topbar {
-    padding: 12px 20px;
-    min-height: 70px;
+  body { flex-direction: column; overflow: auto; }
+  
+  /* Bottom Fixed Bar Configuration */
+  .sidebar { 
+    width: 100%; 
+    min-height: auto; 
+    height: 68px; 
+    position: fixed; 
+    top: auto; 
+    bottom: 0; 
+    left: 0; 
     flex-direction: row; 
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
+    background-color: #0f172a; 
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.22); 
+    border-right: 0; 
+    border-top: 1px solid rgba(255,255,255,0.08); 
+    overflow: hidden; 
+    z-index: 999;
   }
+  .sidebar-brand { display: none; }
+  .sidebar-menu { flex-direction: row; padding: 0; gap: 0; width: 100%; justify-content: space-around; align-items: center; }
   
-  .topbar-left { gap: 12px; }
-  .brand-name { font-size: 22px; }
-
-  /* Desktop Nav transform inside Mobile Drawer Dropdown style */
-  .nav {
-    display: none; 
-    flex-direction: column;
-    width: 100%;
-    position: absolute;
-    top: 70px;
-    left: 0;
-    background: #ffffff;
-    border-bottom: 2px solid #2f62e9;
-    padding: 15px 24px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    gap: 0;
-    z-index: 9999;
-  }
-  
-  .nav.mobile-active { display: flex; }
-  
-  .nav a {
-    width: 100%;
-    padding: 14px 0;
-    font-size: 15px;
-    border-bottom: 1px solid #f1f5f9;
-    margin: 0;
-  }
-  
-  .nav a:last-of-type { border-bottom: none; }
-  
-  .login-btn {
-    width: 100%;
-    margin-top: 12px;
-    height: 44px;
-    font-size: 14px;
-    border-radius: 8px;
-  }
-
-  /* Show controls on mobile */
-  .mobile-controls { display: flex; }
-
-  /* Main Container Adjustment */
-  .main { padding: 16px 16px 60px; }
-
-  /* Hero Section Mobile Polish */
-  .hero {
-    padding: 35px 20px;
+  .menu-item { 
+    flex-direction: column !important; 
+    gap: 4px; 
+    padding: 6px 2px !important; 
+    border-radius: 0; 
+    flex: 1; 
+    justify-content: center; 
+    height: 100%; 
     text-align: center;
-    border-radius: 12px;
   }
-  .hero-title { font-size: 28px; line-height: 1.2; }
-  .hero-desc { font-size: 14px; margin-top: 14px; }
-  .hero-actions { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
-  .hero-btn { width: 100%; min-height: 48px; border-radius: 8px; font-size: 14px; }
-
-  /* Filter Slider UX */
-  .filters {
-    gap: 8px;
-    overflow-x: auto; 
-    padding-bottom: 8px;
-    margin-top: 16px;
-    white-space: nowrap;
-    width: 100%;
-    -webkit-overflow-scrolling: touch;
-  }
-  .filters::-webkit-scrollbar { display: none; }
-  .filter-btn { min-height: 36px; padding: 0 14px; font-size: 13px; border-radius: 20px; }
-
-  /* Product Items App Style Grid */
-  .books-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 20px; }
-  .book-content { padding: 10px; }
-  .book-title { font-size: 13px; min-height: 36px; line-height: 1.3; }
-  .book-author { font-size: 11px; margin-top: 2px; }
-  .book-price { font-size: 16px; margin-top: 6px; }
-
-  /* Features vertical stack */
-  .features { grid-template-columns: 1fr; gap: 12px; margin-top: 20px; }
-  .feature { padding: 20px; border-radius: 12px; }
-  .feature h3 { font-size: 17px; margin-top: 12px; }
-  .feature p { font-size: 13px; margin-top: 6px; }
+  .menu-item span { font-size: 11px !important; font-weight: 600 !important; display: block !important; }
+  .menu-item i { font-size: 18px !important; }
+  .menu-item.active { background-color: transparent; color: #2f62e9; box-shadow: none; }
   
-  /* User profile dropdown alignment over mobile context */
-  .profile-menu {
-    position: fixed;
-    top: 70px;
-    left: 16px;
-    right: 16px;
-    width: calc(100% - 32px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+  /* Main Container Canvas Wrap */
+  .main { margin-left: 0 !important; width: 100% !important; height: auto; padding-bottom: 90px !important; }
+  
+  /* Top Title + Profile Alignment Clean Row Switch */
+  .topbar { 
+    min-height: auto; 
+    padding: 16px 20px; 
+    flex-direction: row !important; 
+    align-items: center !important; 
+    justify-content: space-between !important; 
+    gap: 12px; 
+    background: #fff; 
   }
-}
-
-@media (max-width: 480px) {
-  .hero-title { font-size: 24px; }
-  .section-title { font-size: 24px; }
-  .section-desc { font-size: 13px; }
+  .title h1 { font-size: 26px; }
+  .title p { font-size: 13px; margin-top: 2px; }
+  
+  .profile-box { 
+    width: auto !important; 
+    min-width: auto !important; 
+    background: transparent !important; 
+    border: none !important; 
+    box-shadow: none !important; 
+    padding: 0 !important; 
+  }
+  .profile-box img { width: 46px; height: 46px; border-width: 2px; }
+  .profile-box div { display: none; } /* Drop redundant mobile text fields */
+  
+  .content { padding: 16px; gap: 20px; }
+  
+  /* Stats 2x2 Clean Pro Grid Ratio Deployed */
+  .stats-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px; }
+  .stat-card { min-height: 120px; padding: 16px; }
+  .card h3 { font-size: 12px; }
+  .card h2 { font-size: 26px; margin-top: 8px; }
+  
+  .content-grid { display: flex !important; flex-direction: column !important; gap: 20px; }
+  .chart-card { min-height: 320px; width: 100%; }
+  
+  /* 🌟 PREMIUM WALLET CARD GRID SPLIT */
+  .wallet-list {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    width: 100% !important;
+  }
+  .wallet-list li {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    padding: 12px 14px !important;
+    min-height: 80px !important;
+  }
+  .wallet-list li span {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    color: #64748b !important;
+    text-transform: uppercase !important;
+    margin-bottom: 4px;
+  }
+  .wallet-list li strong {
+    font-size: 18px !important;
+    font-weight: 900 !important;
+    color: #0f172a !important;
+  }
+  
+  /* Recent Orders Render Filter Override */
+  #ordersTable tr { display: grid; gap: 6px; padding: 14px 0; border-bottom: 1px solid #dce4f0; }
+  #ordersTable td { padding: 2px 0; border: none; }
+  
+  .review-grid { grid-template-columns: 1fr; gap: 12px; }
+  .review-item { border-radius: 14px; padding: 14px; }
 }
 </style>
+
+<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 </head>
 
 <body>
 
-<div class="topbar">
-  <div class="topbar-left">
-    <div id="profileWrap" class="profile-wrap">
-      <img id="profileImage" class="profile-image" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" onclick="toggleProfileMenu()" alt="Profile">
-
-      <div id="profileMenu" class="profile-menu">
-        <div class="profile-header">
-          <img id="menuProfileImage" class="menu-profile-image" src="https://ui-avatars.com/api/?name=User&background=2f62e9&color=fff" alt="User">
-          <div>
-            <div id="menuName">CreatorHub User</div>
-            <div id="menuEmail">user@email.com</div>
-          </div>
+<aside class="sidebar">
+    <div class="sidebar-brand">Creator<span>Hub</span></div>
+    <div class="sidebar-menu">
+        <div class="menu-item" onclick="location.href='index.html'">
+            <i class="fa-solid fa-house"></i> <span>Home</span>
         </div>
-        <a href="profile.html"><i class="fa-solid fa-user"></i> My Profile</a>
-        <a href="seller-apply.html"><i class="fa-solid fa-store"></i> Become Seller</a>
-        <a href="tranding.html"><i class="fa-solid fa-fire"></i> Trending Books</a>
-        <a href="library.html"><i class="fa-solid fa-book"></i> Library</a>
-        <a href="topselling.html"><i class="fa-solid fa-trophy"></i> Top Selling</a>
-      </div>
+        <div class="menu-item active" onclick="location.href='dashboard.html'">
+            <i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span>
+        </div>
+        <div class="menu-item" onclick="location.href='products.html'">
+            <i class="fa-solid fa-bag-shopping"></i> <span>Store</span>
+        </div>
+        <div class="menu-item" onclick="location.href='library1.html'">
+            <i class="fa-solid fa-book-open"></i> <span>Library</span>
+        </div>
+        <div class="menu-item" onclick="location.href='wallet1.html'">
+            <i class="fa-solid fa-wallet"></i> <span>Wallet</span>
+        </div>
+        <div class="menu-item" onclick="location.href='settings.html'">
+            <i class="fa-solid fa-gear"></i> <span>Settings</span>
+        </div>
     </div>
+</aside>
 
-    <a href="index.html">
-      <span class="brand-name">Creator<span>Hub</span></span>
-    </a>
+<main class="main">
+<header class="topbar">
+  <div class="title">
+    <h1>Dashboard</h1>
+    <p id="pageStatus">Loading CreatorHub data...</p>
   </div>
 
-<div class="mobile-controls">
-    <a href="cart.html" class="mobile-cart-icon">
-        <i class="fa-solid fa-basket-shopping" style="color:#5d6d85; margin:0; font-size: 22px;"></i>
-        <span id="mobileCartCountBadge" class="cart-badge">0</span>
-    </a>
-    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()"><i class="fa-solid fa-bars"></i></button>
-</div>
-
-  <div class="nav" id="navMenu">
-    <a href="cart.html">Cart</a>
-    <a href="dashboard.html">Dashboard</a>
-    <a href="subscription.html">Subscription</a>
-    <a href="wallet.html">Wallet</a>
-    <a href="my-orders.html">Order</a>
-    <a id="loginBtn" href="login.html" class="login-btn">Login</a>
+  <div class="profile-box">
+    <img id="profileImage" alt="Profile image" src="">
+    <div>
+      <div id="userName">Creator</div>
+      <small id="userEmail">Loading...</small>
+    </div>
   </div>
+</header>
+
+<div class="content">
+<div class="notice" id="notice"></div>
+
+<section class="stats-grid">
+  <div class="card stat-card">
+    <h3>Total Sales</h3>
+    <h2 id="totalSales">₹0</h2>
+    <div class="growth">Live data</div>
+  </div>
+  <div class="card stat-card">
+    <h3>Total Profit</h3>
+    <h2 id="totalProfit">₹0</h2>
+    <div class="growth">Real earnings</div>
+  </div>
+  <div class="card stat-card">
+    <h3>Total Orders</h3>
+    <h2 id="totalOrders">0</h2>
+    <div class="growth">Orders count</div>
+  </div>
+  <div class="card stat-card">
+    <h3>Total Products</h3>
+    <h2 id="totalBooks">0</h2>
+    <div class="growth">Products uploaded</div>
+  </div>
+</section>
+
+<section class="content-grid">
+  <div class="card chart-card">
+    <h3 class="section-title">Monthly Sales</h3>
+    <div style="height: 330px; position: relative; width: 100%;">
+        <canvas id="salesChart"></canvas>
+    </div>
+    <div id="chartFallback" class="chart-fallback" style="display:none"></div>
+  </div>
+
+  <div class="card">
+    <h3 class="section-title">Wallet Overview</h3>
+    <ul class="wallet-list">
+      <li><span>Available</span><strong id="walletAvailable">₹0</strong></li>
+      <li><span>Pending</span><strong id="walletPending">₹0</strong></li>
+      <li><span>Withdrawn</span><strong id="walletWithdrawn">₹0</strong></li>
+      <li><span>Lifetime</span><strong id="walletLifetime">₹0</strong></li>
+    </ul>
+  </div>
+</section>
+
+<section class="card table-card">
+  <h3 class="section-title">Recent Orders</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Book</th>
+        <th>Amount</th>
+        <th>Profit</th>
+        <th>Status</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody id="ordersTable"></tbody>
+  </table>
+</section>
+
+<section class="card">
+  <h3 class="section-title">Latest Reviews</h3>
+  <div class="review-grid" id="reviewsContainer"></div>
+</section>
+
 </div>
-
-<div class="main">
-
-  <section class="hero">
-    <div class="hero-title">Discover Premium <span>Ebooks</span> From Top Digital Creators</div>
-    <div class="hero-desc">Buy premium ebooks with secure checkout, live order tracking, automated fulfillment, and instant access through the CreatorHub marketplace ecosystem.</div>
-    <div class="hero-actions">
-      <a href="#books" class="hero-btn primary">Browse Marketplace</a>
-      <a href="my-orders.html" class="hero-btn secondary">Track Your Order</a>
-    </div>
-  </section>
-
-  <section class="search-container">
-    <div class="search-wrapper">
-      <span class="search-icon"></span>
-      <input type="text" id="homepageSearch" class="search-input" placeholder="Search premium ebooks by title, author name or category..." oninput="handleSearchFilter()">
-    </div>
-  </section>
-
-  <section id="books" class="section">
-    <div class="section-title">Featured Collection</div>
-    <div class="section-desc">Browse latest premium ebooks uploaded by creators.</div>
-
-    <div class="filters">
-      <button class="filter-btn filter-active" onclick="filterBooks('all',this)">All Books</button>
-      <button class="filter-btn" onclick="filterBooks('trending',this)">Trending</button>
-      <button class="filter-btn" onclick="filterBooks('high',this)">High Rated</button>
-      <button class="filter-btn" onclick="filterBooks('low',this)">Budget Reads</button>
-    </div>
-
-    <div id="booksGrid" class="books-grid">
-      <div class="empty">Loading ebooks...</div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section-title">Why Readers Love CreatorHub</div>
-    <div class="section-desc">A premium ebook buying experience with secure payments, live tracking and trusted creators.</div>
-
-    <div class="features">
-      <div class="feature">
-        <div class="feature-icon">1</div>
-        <h3>Instant Checkout</h3>
-        <p>Fast and secure payments with a simple buying experience.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">2</div>
-        <h3>Digital Access</h3>
-        <p>Access your ebooks and resources through your CreatorHub account.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">3</div>
-        <h3>Trusted Creators</h3>
-        <p>Explore premium ebooks from creators, experts and digital sellers.</p>
-      </div>
-    </div>
-  </section>
-
-</div>
-
-<div id="footerContainer"></div>
+</main>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec";
+const DASHBOARD_API_URL = "https://script.google.com/macros/s/AKfycbxj1Ch941zvniDEzIs__cYVmGBaECx6GPmmEw5PPyehtU2_KxQ_o3TS6jhuoZS0AKUv8w/exec";
+const PROFILE_API_URL = "https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
+const CACHE_KEY = "creatorhub_dashboard_cache_v3";
 
-window.MASTER_CATALOG_POOL = [];
-window.CURRENT_ACTIVE_FILTER_TYPE = "all";
+const DEFAULT_AVATAR = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='80' fill='%23d9e1ec'/%3E%3Ccircle cx='80' cy='58' r='28' fill='%2394a3b8'/%3E%3Cpath d='M30 145c8-36 30-54 50-54s43 18 50 54' fill='%2394a3b8'/%3E%3C/svg%3E";
 
-// New Mobile Navigation Opener Logic 
-function toggleMobileMenu() {
-  document.getElementById("navMenu").classList.toggle("mobile-active");
+document.getElementById("profileImage").src = DEFAULT_AVATAR;
+
+let USER = {};
+try {
+    USER = JSON.parse(localStorage.getItem("user") || "{}");
+} catch (err) {
+    USER = {};
 }
 
-function driveImage(url, size = 400){
-  if(!url) return "";
-  if(url.includes("ui-avatars.com")){ return url; }
-  if(url.includes("uc?id=")){
-    let id = url.split("id=")[1].split("&")[0];
-    return "https://drive.google.com/thumbnail?id=" + id + "&sz=w" + size;
-  }
-  if(url.includes("/d/")){
-    let id = url.split("/d/")[1].split("/")[0];
-    return "https://drive.google.com/thumbnail?id=" + id + "&sz=w" + size;
-  }
-  return url;
+const params = new URLSearchParams(window.location.search);
+const currentUserEmail = params.get("email") || USER.email || localStorage.getItem("creatorhub_profile_email") || "test@gmail.com";
+
+function setStatus(text) {
+    document.getElementById("pageStatus").innerText = text;
 }
 
-function getUserFromStorage(){
-  let userText = localStorage.getItem("user") || localStorage.getItem("currentUser") || localStorage.getItem("creatorhub_user");
-  let user = {};
-  if(userText){ try{ user = JSON.parse(userText) || {}; }catch(e){ user = {}; } }
-  return {
-    id: user.id || "",
-    email: user.email || localStorage.getItem("user_email") || "",
-    name: user.name || localStorage.getItem("user_name") || "CreatorHub User",
-    token: user.token || localStorage.getItem("user_token") || localStorage.getItem("token") || "",
-    profile_image: user.profile_image || localStorage.getItem("user_image") || localStorage.getItem("profile_image") || ""
-  };
+function showNotice(text) {
+    const notice = document.getElementById("notice");
+    notice.innerText = text;
+    notice.style.display = text ? "block" : "none";
 }
 
-function updateLoginUI(){
-  let loginBtn = document.getElementById("loginBtn");
-  let profileWrap = document.getElementById("profileWrap");
-  let user = getUserFromStorage();
-  let isLoggedIn = localStorage.getItem("isLoggedIn") === "true" || localStorage.getItem("login") === "true" || localStorage.getItem("loggedIn") === "true" || user.token || user.email;
-
-  if(isLoggedIn){
-    if(loginBtn) loginBtn.style.display = "none";
-    profileWrap.style.display = "flex";
-    let avatar = user.profile_image || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.name || "CreatorHub User") + "&background=2f62e9&color=fff";
-    document.getElementById("profileImage").src = driveImage(avatar);
-    document.getElementById("menuProfileImage").src = driveImage(avatar);
-    document.getElementById("menuName").innerText = user.name || "CreatorHub User";
-    document.getElementById("menuEmail").innerText = user.email || "";
-  }else{
-    if(loginBtn) loginBtn.style.display = "inline-flex";
-    profileWrap.style.display = "none";
-  }
+function escapeHTML(value) {
+    return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
 
-function toggleProfileMenu(){
-  document.getElementById("profileMenu").classList.toggle("show");
+function formatMoney(value) {
+    return "₹" + Number(value || 0).toLocaleString("en-IN");
 }
 
-window.addEventListener("click",function(e){
-  let wrap = document.getElementById("profileWrap");
-  let menu = document.getElementById("profileMenu");
-  let toggleBtn = document.querySelector(".mobile-menu-toggle");
-  let navMenu = document.getElementById("navMenu");
-
-  if(wrap && menu && !wrap.contains(e.target)){
-    menu.classList.remove("show");
-  }
-  // Auto close menu when tap outside in mobile devices
-  if(navMenu && toggleBtn && !navMenu.contains(e.target) && !toggleBtn.contains(e.target)) {
-    navMenu.classList.remove("mobile-active");
-  }
-});
-
-function logout(){
-  localStorage.clear();
-  window.location.href = "login.html";
+function formatNumber(value) {
+    return Number(value || 0).toLocaleString("en-IN");
 }
 
-async function loadBooks(){
-  let grid = document.getElementById("booksGrid");
-  try{
-    let res = await fetch(API_URL + "?action=products", { cache: 'force-cache' });
-    let data = await res.json();
-    if(!data.success || !data.products || !data.products.length){
-      grid.innerHTML = "<div class='empty'>No ebooks found</div>";
-      return;
+async function fetchJSON(url, timeoutMs) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs || 9000);
+    try {
+        const response = await fetch(url, { signal: controller.signal, cache: "no-store" });
+        return await response.json();
+    } finally {
+        const timerTimeout = timer;
+        clearTimeout(timerTimeout);
     }
-    window.MASTER_CATALOG_POOL = data.products.reverse();
-    renderBooks(window.MASTER_CATALOG_POOL);
-  }catch(err){
-    grid.innerHTML = "<div class='empty'>Failed to load ebooks</div>";
-  }
 }
 
-function renderBooks(books){
-  let grid = document.getElementById("booksGrid");
-  grid.innerHTML = "";
-  if(!books || books.length === 0){
-    grid.innerHTML = "<div class='empty'>No books match your search</div>";
-    return;
-  }
-  const batchSize = 20;
-  let index = 0;
-  function renderBatch(){
-    const fragment = document.createDocumentFragment();
-    for(let i=0;i<batchSize && index<books.length;i++,index++){
-      const book = books[index];
-      const card = document.createElement('div');
-      card.className = 'book';
-      card.onclick = function(){ window.location.href = 'book.html?id=' + (book.id || ''); };
+function readCache() {
+    try {
+        const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || "null");
+        if (cached && cached.email === currentUserEmail && cached.data) {
+          return cached.data;
+        }
+    } catch (err) {}
+    return null;
+}
 
-      const img = document.createElement('img');
-      img.className = 'book-cover';
-      img.src = driveImage(book.front_cover || book.cover || "", 400);
-      img.loading = 'lazy';
-      img.decoding = 'async';
-      img.alt = 'Book Cover';
+function saveCache(data) {
+    try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify({
+          email: currentUserEmail,
+          saved_at: Date.now(),
+          data: data
+        }));
+    } catch (err) {}
+}
 
-      const content = document.createElement('div');
-      content.className = 'book-content';
-      content.innerHTML = `
-        <div class="book-title">${book.title || "Untitled"}</div>
-        <div class="book-author">by ${book.author || "Unknown"}</div>
-        <div class="book-price">₹${Number(book.price || 0)}</div>
-      `;
-      card.appendChild(img);
-      card.appendChild(content);
-      fragment.appendChild(card);
+function driveImage(url) {
+    if (!url) return "";
+    const text = String(url).trim();
+
+    if (text.startsWith("data:image")) return text;
+
+    const idMatch = text.match(/[?&]id=([^&]+)/);
+    if (idMatch && idMatch[1]) {
+        return "https://drive.google.com/thumbnail?id=" + idMatch[1] + "&sz=w1000";
     }
-    grid.appendChild(fragment);
-    if(index < books.length){ setTimeout(renderBatch, 50); }
-  }
-  renderBatch();
+
+    if (text.includes("/d/")) {
+        const parts = text.split("/d/")[1];
+        if (parts) {
+          const id = parts.split("/")[0];
+          return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+        }
+    }
+      
+    if (text.includes("uc?id=")) {
+        const id = text.split("uc?id=")[1].split("&")[0];
+        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w1000";
+    }
+
+    return text;
+}
+    
+function applyProfile(profile) {
+    const name = profile.name || "Creator";
+    const email = profile.email || currentUserEmail;
+    const image = driveImage(profile.image) || DEFAULT_AVATAR;
+
+    document.getElementById("userName").innerText = name;
+    document.getElementById("userEmail").innerText = email;
+    document.getElementById("profileImage").src = image;
+    localStorage.setItem("creatorhub_profile_email", email);
 }
 
-function handleSearchFilter(){
-  let searchToken = document.getElementById("homepageSearch").value.toLowerCase().trim();
-  let books = window.MASTER_CATALOG_POOL || [];
-  if(window.CURRENT_ACTIVE_FILTER_TYPE === "trending"){ books = books.filter(b => Number(b.price || 0) >= 300); }
-  if(window.CURRENT_ACTIVE_FILTER_TYPE === "high"){ books = books.filter(b => String(b.title || "").length > 15); }
-  if(window.CURRENT_ACTIVE_FILTER_TYPE === "low"){ books = books.filter(b => Number(b.price || 0) < 300); }
-  if(searchToken){
-    books = books.filter(book=>{
-      return (
-        String(book.title || "").toLowerCase().includes(searchToken) ||
-        String(book.author || "").toLowerCase().includes(searchToken) ||
-        String(book.category || "").toLowerCase().includes(searchToken)
-      );
+function pickDashboardProfile(data) {
+    const user = data.user || {};
+    const profile = data.profile || {};
+    return {
+        name: user.name || profile.name || USER.name || "Creator",
+        email: user.email || profile.email || currentUserEmail,
+        image: user.profile_image || user.image || user.avatar || profile.profile_image || profile.image || profile.avatar || ""
+    };
+}
+
+function renderStats(data) {
+    document.getElementById("totalSales").innerText = formatMoney(data.total_sales || (data.stats && data.stats.total_sales) || 0);
+    document.getElementById("totalProfit").innerText = formatMoney(data.total_profit || (data.stats && data.stats.total_profit) || 0);
+    document.getElementById("totalOrders").innerText = formatNumber(data.total_orders || (data.stats && data.stats.total_orders) || 0);
+    document.getElementById("totalBooks").innerText = formatNumber(data.total_products || data.total_books || (data.stats && data.stats.total_books) || 0);
+}
+
+function renderWallet(data) {
+    const wallet = data.wallet || {};
+    document.getElementById("walletAvailable").innerText = formatMoney(wallet.available || 0);
+    document.getElementById("walletPending").innerText = formatMoney(wallet.pending || 0);
+    document.getElementById("walletWithdrawn").innerText = formatMoney(wallet.withdrawn || 0);
+    document.getElementById("walletLifetime").innerText = formatMoney(wallet.lifetime || wallet.total_earnings || 0);
+}
+
+function renderOrders(data) {
+    const orders = data.orders || data.recent_orders || [];
+    const table = document.getElementById("ordersTable");
+
+    if (!orders.length) {
+        table.innerHTML = `<tr><td colspan="5" class="empty" style="text-align:center;padding:30px;">No recent orders found.</td></tr>`;
+        return;
+    }
+
+    table.innerHTML = orders.map(order => {
+        const status = String(order.payment_status || "pending");
+        const statusClass = status.toLowerCase() === "paid" ? "paid" : "pending";
+        
+        let rawImgUrl = order.front_cover || order.cover || order.image || order.book_image || order.thumbnail || order.product_image || order.frontCover || "";
+
+        let finalImageUrl = "";
+        if (rawImgUrl) {
+            let cleanText = String(rawImgUrl).trim();
+            if (cleanText.includes("id=")) {
+                let extractedId = cleanText.split("id=")[1].split("&")[0];
+                finalImageUrl = "https://drive.google.com/thumbnail?id=" + extractedId + "&sz=w500";
+            } else if (cleanText.includes("/d/")) {
+                let extractedId = cleanText.split("/d/")[1].split("/")[0];
+                finalImageUrl = "https://drive.google.com/thumbnail?id=" + extractedId + "&sz=w500";
+            } else if (cleanText.includes("/file/d/")) {
+                let extractedId = cleanText.split("/file/d/")[1].split("/")[0];
+                finalImageUrl = "https://drive.google.com/thumbnail?id=" + extractedId + "&sz=w500";
+            } else {
+                finalImageUrl = driveImage(cleanText);
+            }
+        }
+
+        if (!finalImageUrl || finalImageUrl === "") {
+            finalImageUrl = "https://via.placeholder.com/55x70/eef3f9/63728a?text=Book";
+        }
+
+        return `
+          <tr>
+            <td>
+              <div style="display:flex;align-items:center;gap:14px">
+                <img src="${escapeHTML(finalImageUrl)}" alt="Book Cover" style="width:55px;height:70px;border-radius:10px;object-fit:cover;background:#d9e1ec;border:1px solid #dce4f0;" onerror="this.onerror=null;this.src='https://via.placeholder.com/55x70/eef3f9/63728a?text=Ebook'">
+                <div>
+                  <div style="font-weight:900;margin-bottom:4px">${escapeHTML(order.book_title || order.title || "Untitled Product")}</div>
+                  <div style="font-size:12px;color:#667085">${escapeHTML(order.id || order.order_id || "")}</div>
+                </div>
+              </div>
+            </td>
+            <td>${formatMoney(order.amount || order.total_amount || 0)}</td>
+            <td>${formatMoney(order.seller_profit || order.profit || 0)}</td>
+            <td><span class="badge ${statusClass}">${escapeHTML(status)}</span></td>
+            <td>${order.created_at ? new Date(order.created_at).toLocaleDateString("en-IN") : "-"}</td>
+          </tr>
+        `;
+    }).join("");
+}
+    
+function renderReviews(data) {
+    const fallback = [
+        { user_name:"Aarav", review:"Amazing quality and fast delivery." },
+        { user_name:"Rahul", review:"Dashboard and ebook system working perfectly." },
+        { user_name:"Priya", review:"Best creator marketplace experience." }
+    ];
+    const reviews = data.reviews && data.reviews.length ? data.reviews : fallback;
+    document.getElementById("reviewsContainer").innerHTML =
+        reviews.map(review => `
+          <div class="review-item">
+            <div class="review-user">${escapeHTML(review.user_name || "Customer")}</div>
+            <div class="review-text">${escapeHTML(review.review || "Amazing product")}</div>
+          </div>
+        `).join("");
+}
+
+function renderFallbackChart(amounts) {
+    const box = document.getElementById("chartFallback");
+    const canvas = document.getElementById("salesChart");
+    const values = amounts && amounts.length ? amounts : [0,0,0,0,0,0];
+    const max = Math.max(...values, 1);
+
+    canvas.style.display = "none";
+    box.style.display = "flex";
+    box.innerHTML = values.map(value => {
+        const height = Math.max(8, Math.round((Number(value || 0) / max) * 300));
+        return `<div class="chart-bar" style="height:${height}px"></div>`;
+    }).join("");
+}
+
+function renderChart(data) {
+    const sales = data.monthly_sales || [];
+    
+    let labels = [];
+    let amounts = [];
+    
+    if (sales.length > 0) {
+        sales.forEach(item => {
+          let labelText = item.date ? new Date(item.date).toLocaleDateString("en-IN", {day: 'numeric', month: 'short'}) : "Day " + (item.day || "");
+          labels.push(labelText);
+          amounts.push(Number(item.amount || 0));
+        });
+    } else {
+        labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+        amounts = [0, 0, 0, 0, 0, 0];
+    }
+
+    if (typeof Chart === "undefined") {
+        renderFallbackChart(amounts);
+        return;
+    }
+
+    document.getElementById("salesChart").style.display = "block";
+    document.getElementById("chartFallback").style.display = "none";
+
+    if (window.salesChart && typeof window.salesChart.destroy === "function") {
+        window.salesChart.destroy();
+    }
+
+    window.salesChart = new Chart(document.getElementById("salesChart"), {
+        type: "line",
+        data: {
+          labels: labels,
+          datasets: [{
+            label: "Revenue Growth",
+            data: amounts,
+            borderColor: "#2563eb",
+            backgroundColor: "rgba(37,99,235,0.12)",
+            fill: true,
+            tension: 0.3,
+            pointRadius: 5,
+            pointBackgroundColor: "#2563eb"
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: { font: { family: 'Inter', weight: '600' }, color: "#101828" }
+            }
+          },
+          scales: {
+            x: {
+              ticks: { color: "#667085", font: { family: 'Inter' } },
+              grid: { color: "rgba(102,112,133,0.08)" }
+            },
+            y: {
+              ticks: { color: "#667085", font: { family: 'Inter' } },
+              grid: { color: "rgba(102,112,133,0.08)" }
+            }
+          }
+        }
     });
-  }
-  renderBooks(books);
 }
 
-function filterBooks(type,button){
-  document.querySelectorAll(".filter-btn").forEach(btn=>{ btn.classList.remove("filter-active"); });
-  button.classList.add("filter-active");
-  window.CURRENT_ACTIVE_FILTER_TYPE = type;
-  handleSearchFilter();
+function renderDashboard(data) {
+    renderStats(data);
+    renderWallet(data);
+    renderOrders(data);
+    renderReviews(data);
+    applyProfile(pickDashboardProfile(data));
+
+    requestAnimationFrame(() => {
+        renderChart(data);
+    });
 }
 
-async function injectFooter(){
-  try{
-    let res = await fetch("footer.html");
-    if(!res.ok){ throw new Error("footer.html not found"); }
-    let html = await res.text();
-    document.getElementById("footerContainer").innerHTML = html;
-  }catch(err){ console.log("Footer load failed:", err); }
+async function loadProfileFallback(existingProfile) {
+    try {
+        const data = await fetchJSON(PROFILE_API_URL + "?action=profile&email=" + encodeURIComponent(currentUserEmail), 7000);
+        if (data.success && data.user) {
+          applyProfile({
+            name: data.user.name || existingProfile.name,
+            email: data.user.email || existingProfile.email,
+            image: data.user.profile_image || existingProfile.image
+          });
+          return;
+        }
+    } catch (err) {
+        console.log("Profile fallback failed:", err);
+    }
+    applyProfile(existingProfile);
 }
 
-updateLoginUI();
-loadBooks();
-if('requestIdleCallback' in window){ requestIdleCallback(injectFooter, {timeout:2000}); }else{ setTimeout(injectFooter, 1000); }
+async function loadDashboard() {
+    try {
+        showNotice("");
+        setStatus("Loading CreatorHub data...");
+
+        applyProfile({
+          name: USER.name || "Creator",
+          email: currentUserEmail,
+          image: USER.profile_image || USER.image || ""
+        });
+
+        const cachedData = readCache();
+        if (cachedData) {
+          renderDashboard(cachedData);
+          setStatus("Showing saved data. Updating...");
+        } else {
+          renderDashboard(getDefaultDashboard());
+        }
+
+        try {
+          const response = await fetch(DASHBOARD_API_URL, {
+            method: "POST",
+            mode: "cors",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({
+              action: "sellerDashboard",
+              email: currentUserEmail
+            }),
+            timeout: 10000
+          });
+
+          if (!response.ok) {
+            throw new Error("API responded with status: " + response.status);
+          }
+
+          const data = await response.json();
+
+          if (data.success) {
+            saveCache(data);
+            renderDashboard(data);
+            setStatus("Welcome back to CreatorHub");
+            loadProfileFallback(pickDashboardProfile(data));
+            return;
+          }
+        } catch (apiErr) {
+          console.log("API call failed:", apiErr);
+        }
+
+        // If we reach here, API failed - use cached or default data
+        setStatus("Welcome back to CreatorHub");
+        renderDashboard(cachedData || getDefaultDashboard());
+        
+        loadProfileFallback({
+          name: USER.name || "Creator",
+          email: currentUserEmail,
+          image: USER.profile_image || USER.image || ""
+        });
+
+    } catch (err) {
+        console.error("Dashboard load error:", err);
+        setStatus("Welcome back to CreatorHub");
+        renderDashboard(readCache() || getDefaultDashboard());
+
+        loadProfileFallback({
+          name: USER.name || "Creator",
+          email: currentUserEmail,
+          image: USER.profile_image || USER.image || ""
+        });
+    }
+}
+
+function getDefaultDashboard() {
+    return {
+        success: true,
+        total_sales: 0,
+        total_profit: 0,
+        total_orders: 0,
+        total_products: 0,
+        wallet: {
+            available: 0,
+            pending: 0,
+            withdrawn: 0,
+            lifetime: 0
+        },
+        orders: [],
+        reviews: [],
+        monthly_sales: [],
+        user: {
+            name: USER.name || "Creator",
+            email: currentUserEmail,
+            profile_image: USER.profile_image || USER.image || ""
+        }
+    };
+}
+
+window.addEventListener("DOMContentLoaded", loadDashboard);
 </script>
-
 </body>
 </html>
