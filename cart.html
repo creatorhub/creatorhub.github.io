@@ -486,10 +486,23 @@ a{text-decoration:none;color:inherit}
 <script>
 const PRODUCT_API = "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec";
 
+// 1. लॉग-इन यूजर का ईमेल निकालने का फंक्शन
+function getUserEmail() {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  return user.email || (user.user && user.user.email) || localStorage.getItem("user_email") || localStorage.getItem("creatorhub_profile_email") || "guest";
+}
+
+// 2. हर यूजर के लिए अलग स्टोरेज की (Key) बनाना
+function getCartStorageKey() {
+  const email = getUserEmail();
+  return "cart_" + email.replace(/[^a-zA-Z0-9]/g, "_"); // सुरक्षित की (Key) नाम
+}
+
 let cartIds = normalizeCart();
 
 function normalizeCart(){
-  let raw = JSON.parse(localStorage.getItem("cart") || "[]");
+  const storageKey = getCartStorageKey();
+  let raw = JSON.parse(localStorage.getItem(storageKey) || "[]");
 
   if(!Array.isArray(raw)) raw = [];
 
@@ -501,7 +514,7 @@ function normalizeCart(){
   }).filter(Boolean);
 
   raw = [...new Set(raw.map(String))];
-  localStorage.setItem("cart", JSON.stringify(raw));
+  localStorage.setItem(storageKey, JSON.stringify(raw));
   return raw;
 }
 
@@ -556,6 +569,9 @@ async function loadCart(){
   const summaryBox = document.getElementById("summaryBox");
   const cartSection = document.getElementById("cartSection");
 
+  // हर बार लोड होने पर करंट यूजर के हिसाब से कार्ट रिफ्रेश करें
+  cartIds = normalizeCart();
+
   if(cartIds.length === 0){
     showEmptyCart();
     return;
@@ -574,8 +590,7 @@ async function loadCart(){
       .filter(p => p && isApproved(p));
 
     if(validProducts.length === 0){
-      cartIds = [];
-      localStorage.setItem("cart", JSON.stringify([]));
+      // ध्यान दें: अब यहाँ से कार्ट को डिलीट करने वाली लाइन हटा दी गई है, ताकि कार्ट सुरक्षित रहे।
       showEmptyCart();
       return;
     }
@@ -657,7 +672,7 @@ function showEmptyCart(){
 function removeItem(event,id){
   event.stopPropagation();
   cartIds = cartIds.filter(itemId => String(itemId) !== String(id));
-  localStorage.setItem("cart", JSON.stringify(cartIds));
+  localStorage.setItem(getCartStorageKey(), JSON.stringify(cartIds));
   loadCart();
 }
 
@@ -671,14 +686,8 @@ function redirectToCheckout(){
     return;
   }
 
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-  const email =
-    user.email ||
-    (user.user && user.user.email) ||
-    localStorage.getItem("user_email") ||
-    localStorage.getItem("creatorhub_profile_email");
-
-  if(!email){
+  const email = getUserEmail();
+  if(!email || email === "guest"){
     alert("Please login first.");
     location.href = "login.html";
     return;
