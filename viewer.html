@@ -253,32 +253,25 @@
     ⚡ MOBILE RESPONSIVE FIXES 
     ===================================================== */
     @media(max-width: 768px) {
-      .topbar { 
-        min-height: 70px; 
-        padding: 12px 16px; 
-        gap: 10px;
-      }
-      .book-header-info { 
-        display: none; 
-      }
-      .mobile-book-title-bar {
-        display: block; 
-      }
-      .brand-name {
-        font-size: 20px; 
-      }
-      .badge {
-        padding: 4px 10px;
-        font-size: 11px;
-      }
-      .topbar-right {
-        gap: 8px !important;
+     .topbar { 
+        min-height: 75px; /* मोबाइल पर हाइट को थोड़ा बढ़ाया ताकि बॉक्स अच्छे से आए */
+        padding: 0 16px;  /* वर्टिकल पैडिंग हटाकर फ्लेक्स अलाइनमेंट को फ्री किया */
+        gap: 12px;
+        display: flex;
+        align-items: center; /* बटन को वर्टिकली बिल्कुल बीच में रखने के लिए */
       }
       
       .back-btn {
-        font-size: 15px;
-        padding: 0;
-        border-radius: 0;
+        font-size: 13px;
+        padding: 8px 14px; /* बॉक्स का इनर स्पेस परफेक्ट किया */
+        border-radius: 8px;
+        background: #ffffff;
+        border: 1px solid #dce4f0;
+        box-shadow: 0 2px 4px rgba(16, 24, 40, 0.05);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap; /* टेक्स्ट को टूटने से रोकने के लिए */
       }
       
       .profile-image {
