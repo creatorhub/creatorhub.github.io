@@ -21,7 +21,7 @@
 <meta name="twitter:title" content="Shopping Cart | CreatorHub">
 <meta name="twitter:description" content="Review products in your cart and proceed to checkout on CreatorHub.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
@@ -58,13 +58,13 @@ a{text-decoration:none;color:inherit}
 
 .back-btn{
   height:46px;
-  padding:0 18px;
+  padding:0 22px;
   border:1px solid var(--line);
   border-radius:10px;
   background:#fff;
   display:flex;
   align-items:center;
-  gap:10px;
+  justify-content:center;
   color:#334155;
   font-weight:800;
   cursor:pointer;
@@ -74,7 +74,6 @@ a{text-decoration:none;color:inherit}
 .brand{font-size:26px;font-weight:900;letter-spacing:-.03em}
 .brand span{color:var(--blue)}
 
-/* CONTAINER: Flexbox configuration for center alignment */
 .container{
   max-width: 1240px;
   margin: 0 auto;
@@ -179,7 +178,6 @@ a{text-decoration:none;color:inherit}
   font-weight:900;
 }
 
-/* FIXED SIZE & PADDING: Order overview box fixed to wrap fit content */
 .summary{
   background:#fff;
   border:1px solid var(--line);
@@ -321,12 +319,10 @@ a{text-decoration:none;color:inherit}
 
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* DESKTOP VIEW SETTINGS */
-/* इसे बदलकर यह पेस्ट कर दें: */
 @media(min-width: 951px) {
   .container {
     flex-direction: row;
-    align-items: stretch; /* यह दोनों साइड्स की हाइट बिल्कुल बराबर कर देगा */
+    align-items: stretch;
   }
   .container > section {
     flex: 1.35;
@@ -334,11 +330,10 @@ a{text-decoration:none;color:inherit}
   .summary {
     flex: 0.75;
     min-width: 360px;
-    height: 100%; /* यह समरी बॉक्स को पैरेंट की पूरी हाइट लेने में मदद करेगा */
+    height: 100%;
   }
 }
 
-/* MOBILE DESIGN: आपके शेयर किए गए मोबाइल यूआई स्क्रीनशॉट जैसा सटीक लेआउट */
 @media(max-width:950px){
   .header{
     height: 64px;
@@ -346,7 +341,7 @@ a{text-decoration:none;color:inherit}
   }
   .back-btn {
     height: 38px;
-    padding: 0 12px;
+    padding: 0 16px;
     font-size: 13px;
     border-radius: 8px;
   }
@@ -434,9 +429,7 @@ a{text-decoration:none;color:inherit}
 <body>
 
 <header class="header">
-<button class="back-btn" onclick="history.back()">
-  Back
-</button>
+  <button class="back-btn" onclick="history.back()">Back</button>
   <a class="brand" href="index.html">Creator<span>Hub</span></a>
 </header>
 
@@ -486,36 +479,52 @@ a{text-decoration:none;color:inherit}
 <script>
 const PRODUCT_API = "https://script.google.com/macros/s/AKfycbxrwzYN0t_4yY7qfcUT3JyDA69vlD4SbVzND-Y_9n5sqwEauTj4j4J-9qxoY3RQ6QWTvw/exec";
 
-// 1. लॉग-इन यूजर का ईमेल निकालने का फंक्शन
 function getUserEmail() {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
-  return user.email || (user.user && user.user.email) || localStorage.getItem("user_email") || localStorage.getItem("creatorhub_profile_email") || "guest";
+  return user.email || (user.user && user.user.email) || localStorage.getItem("user_email") || localStorage.getItem("creatorhub_profile_email") || "";
 }
 
-// 2. हर यूजर के लिए अलग स्टोरेज की (Key) बनाना
 function getCartStorageKey() {
   const email = getUserEmail();
-  return "cart_" + email.replace(/[^a-zA-Z0-9]/g, "_"); // सुरक्षित की (Key) नाम
+  if(!email) return "cart"; // अगर लॉग-इन नहीं है तो नॉर्मल 'cart' में सेव होगा
+  return "cart_" + email.replace(/[^a-zA-Z0-9]/g, "_"); // लॉग-इन है तो ईमेल वाली चाबी में जाएगा
 }
 
 let cartIds = normalizeCart();
 
 function normalizeCart(){
-  const storageKey = getCartStorageKey();
-  let raw = JSON.parse(localStorage.getItem(storageKey) || "[]");
+  const normalKey = "cart";
+  const userKey = getCartStorageKey();
+  
+  let rawNormal = JSON.parse(localStorage.getItem(normalKey) || "[]");
+  let rawUser = [];
+  
+  if(userKey !== normalKey) {
+    rawUser = JSON.parse(localStorage.getItem(userKey) || "[]");
+  }
 
-  if(!Array.isArray(raw)) raw = [];
+  if(!Array.isArray(rawNormal)) rawNormal = [];
+  if(!Array.isArray(rawUser)) rawUser = [];
 
-  raw = raw.map(item => {
+  // दोनों कार्ट्स (सामान्य और यूज़र स्पेसिफिक) को आपस में मर्ज (Merge) कर देना ताकि प्रोडक्ट गायब न हो
+  let combined = [...rawNormal, ...rawUser];
+
+  combined = combined.map(item => {
     if(typeof item === "object" && item !== null){
       return item.id || item.product_id || item.productId || item.book_id || "";
     }
     return item;
   }).filter(Boolean);
 
-  raw = [...new Set(raw.map(String))];
-  localStorage.setItem(storageKey, JSON.stringify(raw));
-  return raw;
+  combined = [...new Set(combined.map(String))];
+  
+  // दोनों जगह डेटा सिंक करके सेव रखना ताकि ऐड बटन काम करता रहे
+  localStorage.setItem(userKey, JSON.stringify(combined));
+  if(userKey !== normalKey) {
+    localStorage.setItem(normalKey, JSON.stringify(combined));
+  }
+  
+  return combined;
 }
 
 function money(value){
@@ -569,7 +578,6 @@ async function loadCart(){
   const summaryBox = document.getElementById("summaryBox");
   const cartSection = document.getElementById("cartSection");
 
-  // हर बार लोड होने पर करंट यूजर के हिसाब से कार्ट रिफ्रेश करें
   cartIds = normalizeCart();
 
   if(cartIds.length === 0){
@@ -590,7 +598,6 @@ async function loadCart(){
       .filter(p => p && isApproved(p));
 
     if(validProducts.length === 0){
-      // ध्यान दें: अब यहाँ से कार्ट को डिलीट करने वाली लाइन हटा दी गई है, ताकि कार्ट सुरक्षित रहे।
       showEmptyCart();
       return;
     }
@@ -672,7 +679,10 @@ function showEmptyCart(){
 function removeItem(event,id){
   event.stopPropagation();
   cartIds = cartIds.filter(itemId => String(itemId) !== String(id));
+  
   localStorage.setItem(getCartStorageKey(), JSON.stringify(cartIds));
+  localStorage.setItem("cart", JSON.stringify(cartIds));
+  
   loadCart();
 }
 
@@ -687,7 +697,7 @@ function redirectToCheckout(){
   }
 
   const email = getUserEmail();
-  if(!email || email === "guest"){
+  if(!email){
     alert("Please login first.");
     location.href = "login.html";
     return;
