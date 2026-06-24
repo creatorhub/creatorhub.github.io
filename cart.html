@@ -439,7 +439,7 @@ a{text-decoration:none;color:inherit}
     <p class="page-subtitle">Review your selected CreatorHub products before checkout.</p>
 
     <div id="cartList" class="cart-list">
-      <div class="loader"><div class="spin"></div> Loading cart items...</div>
+      <div class="loader"><div class="spin"></div> Fetching your multi-device cloud cart...</div>
     </div>
   </section>
 
@@ -484,47 +484,54 @@ function getUserEmail() {
   return user.email || (user.user && user.user.email) || localStorage.getItem("user_email") || localStorage.getItem("creatorhub_profile_email") || "";
 }
 
-function getCartStorageKey() {
-  const email = getUserEmail();
-  if(!email) return "cart"; // अगर लॉग-इन नहीं है तो नॉर्मल 'cart' में सेव होगा
-  return "cart_" + email.replace(/[^a-zA-Z0-9]/g, "_"); // लॉग-इन है तो ईमेल वाली चाबी में जाएगा
-}
-
-let cartIds = normalizeCart();
-
-function normalizeCart(){
-  const normalKey = "cart";
-  const userKey = getCartStorageKey();
-  
-  let rawNormal = JSON.parse(localStorage.getItem(normalKey) || "[]");
-  let rawUser = [];
-  
-  if(userKey !== normalKey) {
-    rawUser = JSON.parse(localStorage.getItem(userKey) || "[]");
-  }
-
-  if(!Array.isArray(rawNormal)) rawNormal = [];
-  if(!Array.isArray(rawUser)) rawUser = [];
-
-  // दोनों कार्ट्स (सामान्य और यूज़र स्पेसिफिक) को आपस में मर्ज (Merge) कर देना ताकि प्रोडक्ट गायब न हो
-  let combined = [...rawNormal, ...rawUser];
-
-  combined = combined.map(item => {
+// स्थानीय स्टोरेज एरे को क्लीन और सही करने का बेसिक फंक्शन
+function parseRawCart(rawString) {
+  let raw = JSON.parse(rawString || "[]");
+  if(!Array.isArray(raw)) raw = [];
+  return raw.map(item => {
     if(typeof item === "object" && item !== null){
       return item.id || item.product_id || item.productId || item.book_id || "";
     }
     return item;
-  }).filter(Boolean);
+  }).filter(Boolean).map(String);
+}
 
-  combined = [...new Set(combined.map(String))];
+// बैकएंड API सर्वर से क्लाउड डेटा सिंक करने का फंक्शन
+async function syncCloudCart() {
+  const email = getUserEmail();
+  let localCart = parseRawCart(localStorage.getItem("cart"));
   
-  // दोनों जगह डेटा सिंक करके सेव रखना ताकि ऐड बटन काम करता रहे
-  localStorage.setItem(userKey, JSON.stringify(combined));
-  if(userKey !== normalKey) {
-    localStorage.setItem(normalKey, JSON.stringify(combined));
+  if (!email) return localCart; // अगर लॉगइन नहीं है, तो लोकल डिवाइस मेमोरी ही चलाओ
+
+  try {
+    // 1. सर्वर (Database) से इस यूजर की कार्ट डेटा मंगाना
+    const fetchUrl = `${PRODUCT_API}?action=get_cart&email=${encodeURIComponent(email)}&t=${Date.now()}`;
+    const response = await fetch(fetchUrl);
+    const result = await response.json();
+    
+    let cloudCart = result.cart || result.data || [];
+    if (!Array.isArray(cloudCart)) cloudCart = [];
+    cloudCart = cloudCart.map(String);
+
+    // 2. लोकल और क्लाउड कार्ट को आपस में मिला देना (Merge)
+    let combined = [...new Set([...localCart, ...cloudCart])];
+    
+    // 3. अगर लोकल में नया आइटम है जो सर्वर पर नहीं है, तो उसे ऑनलाइन भेजें
+    if (localCart.length > 0 && JSON.stringify(combined) !== JSON.stringify(cloudCart)) {
+      await fetch(PRODUCT_API, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `action=update_cart&email=${encodeURIComponent(email)}&cart=${encodeURIComponent(JSON.stringify(combined))}`
+      });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(combined));
+    return combined;
+  } catch (e) {
+    console.log("Cloud sync delayed, using fallback memory.");
+    return localCart; // अगर इंटरनेट धीमा है या API रिस्पॉन्स नहीं कर रही
   }
-  
-  return combined;
 }
 
 function money(value){
@@ -543,7 +550,6 @@ function escapeHTML(value){
 
 function coverUrl(url){
   if(!url) return "https://via.placeholder.com/400x600/e2e8f0/64748b?text=CreatorHub";
-
   try{
     if(url.includes("thumbnail?id=")) return url;
     if(url.includes("uc?id=")){
@@ -559,17 +565,14 @@ function coverUrl(url){
       return "https://drive.google.com/thumbnail?id=" + id + "&sz=w600";
     }
   }catch(e){}
-
   return url;
 }
 
 function isApproved(product){
   const status = String(product.status || "").toLowerCase();
   const aiStatus = String(product.ai_status || product.aiStatus || "").toLowerCase();
-
   if(status && status !== "approved") return false;
   if(aiStatus && aiStatus !== "approved") return false;
-
   return true;
 }
 
@@ -578,7 +581,8 @@ async function loadCart(){
   const summaryBox = document.getElementById("summaryBox");
   const cartSection = document.getElementById("cartSection");
 
-  cartIds = normalizeCart();
+  // अब यह डिवाइस क्लाउड सर्वर से सिंक करेगा
+  let cartIds = await syncCloudCart();
 
   if(cartIds.length === 0){
     showEmptyCart();
@@ -650,7 +654,7 @@ async function loadCart(){
         <div>
           <i class="fa-solid fa-circle-exclamation"></i>
           <h3>Cart loading failed</h3>
-          <p>Please reload the page or check your product API deployment.</p>
+          <p>Please check your connection or refresh the page.</p>
         </div>
       </div>
     `;
@@ -660,7 +664,6 @@ async function loadCart(){
 
 function showEmptyCart(){
   document.getElementById("summaryBox").style.display = "none";
-  
   const cartSection = document.getElementById("cartSection");
   if(cartSection) cartSection.style.width = "100%";
 
@@ -676,12 +679,25 @@ function showEmptyCart(){
   `;
 }
 
-function removeItem(event,id){
+async function removeItem(event, id){
   event.stopPropagation();
-  cartIds = cartIds.filter(itemId => String(itemId) !== String(id));
+  let localCart = parseRawCart(localStorage.getItem("cart"));
+  localCart = localCart.filter(itemId => String(itemId) !== String(id));
   
-  localStorage.setItem(getCartStorageKey(), JSON.stringify(cartIds));
-  localStorage.setItem("cart", JSON.stringify(cartIds));
+  localStorage.setItem("cart", JSON.stringify(localCart));
+  
+  const email = getUserEmail();
+  if (email) {
+    try {
+      // ऑनलाइन डेटाबेस सर्वर से भी इस आइटम को डिलीट (Update) करना
+      await fetch(PRODUCT_API, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `action=update_cart&email=${encodeURIComponent(email)}&cart=${encodeURIComponent(JSON.stringify(localCart))}`
+      });
+    } catch (e) {}
+  }
   
   loadCart();
 }
@@ -691,7 +707,8 @@ function openBook(id){
 }
 
 function redirectToCheckout(){
-  if(cartIds.length === 0){
+  let localCart = parseRawCart(localStorage.getItem("cart"));
+  if(localCart.length === 0){
     alert("Your cart is empty.");
     return;
   }
@@ -703,7 +720,7 @@ function redirectToCheckout(){
     return;
   }
 
-  location.href = "checkout.html?id=" + encodeURIComponent(cartIds[0]);
+  location.href = "checkout.html?id=" + encodeURIComponent(localCart[0]);
 }
 
 window.addEventListener("DOMContentLoaded", loadCart);
