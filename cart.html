@@ -484,7 +484,6 @@ function getUserEmail() {
   return user.email || (user.user && user.user.email) || localStorage.getItem("user_email") || localStorage.getItem("creatorhub_profile_email") || "";
 }
 
-// स्थानीय स्टोरेज एरे को क्लीन और सही करने का बेसिक फंक्शन
 function parseRawCart(rawString) {
   let raw = JSON.parse(rawString || "[]");
   if(!Array.isArray(raw)) raw = [];
@@ -496,15 +495,13 @@ function parseRawCart(rawString) {
   }).filter(Boolean).map(String);
 }
 
-// बैकएंड API सर्वर से क्लाउड डेटा सिंक करने का फंक्शन
 async function syncCloudCart() {
   const email = getUserEmail();
   let localCart = parseRawCart(localStorage.getItem("cart"));
   
-  if (!email) return localCart; // अगर लॉगइन नहीं है, तो लोकल डिवाइस मेमोरी ही चलाओ
+  if (!email) return localCart;
 
   try {
-    // 1. सर्वर (Database) से इस यूजर की कार्ट डेटा मंगाना
     const fetchUrl = `${PRODUCT_API}?action=get_cart&email=${encodeURIComponent(email)}&t=${Date.now()}`;
     const response = await fetch(fetchUrl);
     const result = await response.json();
@@ -513,16 +510,16 @@ async function syncCloudCart() {
     if (!Array.isArray(cloudCart)) cloudCart = [];
     cloudCart = cloudCart.map(String);
 
-    // 2. लोकल और क्लाउड कार्ट को आपस में मिला देना (Merge)
     let combined = [...new Set([...localCart, ...cloudCart])];
     
-    // 3. अगर लोकल में नया आइटम है जो सर्वर पर नहीं है, तो उसे ऑनलाइन भेजें
     if (localCart.length > 0 && JSON.stringify(combined) !== JSON.stringify(cloudCart)) {
       await fetch(PRODUCT_API, {
         method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `action=update_cart&email=${encodeURIComponent(email)}&cart=${encodeURIComponent(JSON.stringify(combined))}`
+        body: JSON.stringify({
+          action: "update_cart",
+          email: email,
+          cart: combined
+        })
       });
     }
 
@@ -530,7 +527,7 @@ async function syncCloudCart() {
     return combined;
   } catch (e) {
     console.log("Cloud sync delayed, using fallback memory.");
-    return localCart; // अगर इंटरनेट धीमा है या API रिस्पॉन्स नहीं कर रही
+    return localCart; 
   }
 }
 
@@ -581,7 +578,6 @@ async function loadCart(){
   const summaryBox = document.getElementById("summaryBox");
   const cartSection = document.getElementById("cartSection");
 
-  // अब यह डिवाइस क्लाउड सर्वर से सिंक करेगा
   let cartIds = await syncCloudCart();
 
   if(cartIds.length === 0){
@@ -689,12 +685,13 @@ async function removeItem(event, id){
   const email = getUserEmail();
   if (email) {
     try {
-      // ऑनलाइन डेटाबेस सर्वर से भी इस आइटम को डिलीट (Update) करना
       await fetch(PRODUCT_API, {
         method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `action=update_cart&email=${encodeURIComponent(email)}&cart=${encodeURIComponent(JSON.stringify(localCart))}`
+        body: JSON.stringify({
+          action: "update_cart",
+          email: email,
+          cart: localCart
+        })
       });
     } catch (e) {}
   }
