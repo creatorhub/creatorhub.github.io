@@ -395,8 +395,8 @@ td{color:#101828;font-size:14px}
 </main>
 
 <script>
+// बैकएंड के doGet() स्ट्रक्चर के हिसाब से रूट यूआरएल कॉन्फ़िगरेशन
 const DASHBOARD_API_URL = "https://script.google.com/macros/s/AKfycbxj1Ch941zvniDEzIs__cYVmGBaECx6GPmmEw5PPyehtU2_KxQ_o3TS6jhuoZS0AKUv8w/exec";
-const PROFILE_API_URL = "https://script.google.com/macros/s/AKfycbwixoNFY7P2j1eSoIPyt4w2Jb0Ai8DvJty_YrwC351y1AlN9OiG7P7Fz1Gsz_oDuWna/exec";
 const CACHE_KEY = "creatorhub_dashboard_cache_v3";
 
 const DEFAULT_AVATAR = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='80' fill='%23d9e1ec'/%3E%3Ccircle cx='80' cy='58' r='28' fill='%2394a3b8'/%3E%3Cpath d='M30 145c8-36 30-54 50-54s43 18 50 54' fill='%2394a3b8'/%3E%3C/svg%3E";
@@ -417,12 +417,6 @@ function setStatus(text) {
     document.getElementById("pageStatus").innerText = text;
 }
 
-function showNotice(text) {
-    const notice = document.getElementById("notice");
-    notice.innerText = text;
-    notice.style.display = text ? "block" : "none";
-}
-
 function escapeHTML(value) {
     return String(value || "")
     .replace(/&/g,"&amp;")
@@ -440,23 +434,15 @@ function formatNumber(value) {
     return Number(value || 0).toLocaleString("en-IN");
 }
 
-async function fetchJSON(url, bodyData, timeoutMs = 8000) {
+// GET रिक्वेस्ट के लिए ऑप्टिमाइज़्ड लाइटवेट फेचर
+async function fetchDashboardGET(url, email, timeoutMs = 12000) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), timeoutMs);
     try {
-        const fetchOptions = bodyData ? {
-            method: "POST",
-            mode: "cors",
-            headers: { "Content-Type": "text/plain;charset=utf-8" },
-            body: JSON.stringify(bodyData),
-            signal: controller.signal
-        } : {
-            method: "GET",
-            signal: controller.signal
-        };
-        
-        const response = await fetch(url, fetchOptions);
-        if (!response.ok) throw new Error("Fetch failed Status: " + response.status);
+        // ऐप्स स्क्रिप्ट के 'doGet' एक्शन "dashboard" इंजन को डायरेक्ट ट्रिगर करना
+        const targetUrl = `${url}?action=dashboard&email=${encodeURIComponent(email)}`;
+        const response = await fetch(targetUrl, { method: "GET" });
+        if (!response.ok) throw new Error("HTTP Network Error Status: " + response.status);
         return await response.json();
     } finally {
         clearTimeout(timer);
@@ -486,42 +472,29 @@ function saveCache(data) {
 function driveImage(url) {
     if (!url) return "";
     const text = String(url).trim();
-
-    if (text.startsWith("data:image")) return text;
-
-    const idMatch = text.match(/[?&]id=([^&]+)/);
-    if (idMatch && idMatch[1]) {
-        return "https://drive.google.com/thumbnail?id=" + idMatch[1] + "&sz=w500";
-    }
-
-    if (text.includes("/d/")) {
-        const parts = text.split("/d/")[1];
-        if (parts) {
-          const id = parts.split("/")[0];
-          return "https://drive.google.com/thumbnail?id=" + id + "&sz=w500";
+    if (text.startsWith("data:image") || text.startsWith("http")) {
+        if(text.includes("drive.google.com")){
+            const idMatch = text.match(/[?&]id=([^&]+)/);
+            if (idMatch && idMatch[1]) return "https://drive.google.com/thumbnail?id=" + idMatch[1] + "&sz=w500";
+            
+            if (text.includes("/d/")) {
+                const parts = text.split("/d/")[1];
+                if (parts) return "https://drive.google.com/thumbnail?id=" + parts.split("/")[0] + "&sz=w500";
+            }
+            if (text.includes("/file/d/")) {
+                const parts = text.split("/file/d/")[1];
+                if (parts) return "https://drive.google.com/thumbnail?id=" + parts.split("/")[0] + "&sz=w500";
+            }
         }
+        return text;
     }
-    
-    if (text.includes("/file/d/")) {
-        const parts = text.split("/file/d/")[1];
-        if (parts) {
-          const id = parts.split("/")[0];
-          return "https://drive.google.com/thumbnail?id=" + id + "&sz=w500";
-        }
-    }
-      
-    if (text.includes("uc?id=")) {
-        const id = text.split("uc?id=")[1].split("&")[0];
-        return "https://drive.google.com/thumbnail?id=" + id + "&sz=w500";
-    }
-
     return text;
 }
     
-function applyProfile(profile) {
-    const name = profile.name || "Creator";
-    const email = profile.email || currentUserEmail;
-    const image = driveImage(profile.image) || DEFAULT_AVATAR;
+function applyProfile(profileData, fallbackImage) {
+    const name = profileData.name || "Creator";
+    const email = profileData.email || currentUserEmail;
+    const image = driveImage(fallbackImage) || DEFAULT_AVATAR;
 
     document.getElementById("userName").innerText = name;
     document.getElementById("userEmail").innerText = email;
@@ -529,45 +502,35 @@ function applyProfile(profile) {
     localStorage.setItem("creatorhub_profile_email", email);
 }
 
-function pickDashboardProfile(data) {
-    const user = data.user || {};
-    const profile = data.profile || {};
-    return {
-        name: user.name || profile.name || USER.name || "Creator",
-        email: user.email || profile.email || currentUserEmail,
-        image: user.profile_image || user.image || user.avatar || profile.profile_image || profile.image || profile.avatar || ""
-    };
+function renderStats(stats) {
+    const s = stats || {};
+    document.getElementById("totalSales").innerText = formatMoney(s.total_sales || 0);
+    document.getElementById("totalProfit").innerText = formatMoney(s.total_profit || 0);
+    document.getElementById("totalOrders").innerText = formatNumber(s.total_orders || 0);
+    document.getElementById("totalBooks").innerText = formatNumber(s.total_books || 0); // बैकएंड की कीज़ 'total_books' से मैप किया
 }
 
-function renderStats(data) {
-    document.getElementById("totalSales").innerText = formatMoney(data.total_sales || (data.stats && data.stats.total_sales) || 0);
-    document.getElementById("totalProfit").innerText = formatMoney(data.total_profit || (data.stats && data.stats.total_profit) || 0);
-    document.getElementById("totalOrders").innerText = formatNumber(data.total_orders || (data.stats && data.stats.total_orders) || 0);
-    document.getElementById("totalBooks").innerText = formatNumber(data.total_products || data.total_books || (data.stats && data.stats.total_books) || 0);
+function renderWallet(wallet) {
+    const w = wallet || {};
+    document.getElementById("walletAvailable").innerText = formatMoney(w.available || 0);
+    document.getElementById("walletPending").innerText = formatMoney(w.pending || 0);
+    document.getElementById("walletWithdrawn").innerText = formatMoney(w.withdrawn || 0);
+    document.getElementById("walletLifetime").innerText = formatMoney(w.lifetime || 0);
 }
 
-function renderWallet(data) {
-    const wallet = data.wallet || {};
-    document.getElementById("walletAvailable").innerText = formatMoney(wallet.available || 0);
-    document.getElementById("walletPending").innerText = formatMoney(wallet.pending || 0);
-    document.getElementById("walletWithdrawn").innerText = formatMoney(wallet.withdrawn || 0);
-    document.getElementById("walletLifetime").innerText = formatMoney(wallet.lifetime || wallet.total_earnings || 0);
-}
-
-function renderOrders(data) {
-    const orders = data.orders || data.recent_orders || [];
+function renderOrders(recentOrders) {
+    const orders = recentOrders || [];
     const table = document.getElementById("ordersTable");
 
     if (!orders.length) {
-        table.innerHTML = `<tr><td colspan="5" class="empty" style="text-align:center;padding:30px;">No recent orders found.</td></tr>`;
+        table.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:30px;color:#63728a;">No recent orders found.</td></tr>`;
         return;
     }
 
     table.innerHTML = orders.map(order => {
         const status = String(order.payment_status || "pending");
         const statusClass = status.toLowerCase() === "paid" ? "paid" : "pending";
-        let rawImgUrl = order.front_cover || order.cover || order.image || order.book_image || order.thumbnail || order.product_image || order.frontCover || "";
-        let finalImageUrl = driveImage(rawImgUrl) || "https://via.placeholder.com/55x70/eef3f9/63728a?text=Book";
+        let finalImageUrl = driveImage(order.image) || "https://via.placeholder.com/55x70/eef3f9/63728a?text=Book";
 
         return `
           <tr>
@@ -575,13 +538,13 @@ function renderOrders(data) {
               <div style="display:flex;align-items:center;gap:14px">
                 <img src="${escapeHTML(finalImageUrl)}" alt="Book Cover" style="width:55px;height:70px;border-radius:10px;object-fit:cover;background:#d9e1ec;border:1px solid #dce4f0;" onerror="this.onerror=null;this.src='https://via.placeholder.com/55x70/eef3f9/63728a?text=Ebook'">
                 <div>
-                  <div style="font-weight:900;margin-bottom:4px">${escapeHTML(order.book_title || order.title || "Untitled Product")}</div>
-                  <div style="font-size:12px;color:#667085">${escapeHTML(order.id || order.order_id || "")}</div>
+                  <div style="font-weight:900;margin-bottom:4px">${escapeHTML(order.book_title || "Untitled Product")}</div>
+                  <div style="font-size:12px;color:#667085">${escapeHTML(order.id || "")}</div>
                 </div>
               </div>
             </td>
-            <td>${formatMoney(order.amount || order.total_amount || 0)}</td>
-            <td>${formatMoney(order.seller_profit || order.profit || 0)}</td>
+            <td>${formatMoney(order.amount || 0)}</td>
+            <td>${formatMoney(order.seller_profit || 0)}</td>
             <td><span class="badge ${statusClass}">${escapeHTML(status)}</span></td>
             <td>${order.created_at ? new Date(order.created_at).toLocaleDateString("en-IN") : "-"}</td>
           </tr>
@@ -589,13 +552,14 @@ function renderOrders(data) {
     }).join("");
 }
     
-function renderReviews(data) {
+function renderReviews(reviewsArray) {
+    // बैकएंड में रिव्यूज नहीं थे, इसलिए हमने इसे स्टेबलाइज रखा है
     const fallback = [
         { user_name:"Aarav", review:"Amazing quality and fast delivery." },
         { user_name:"Rahul", review:"Dashboard and ebook system working perfectly." },
         { user_name:"Priya", review:"Best creator marketplace experience." }
     ];
-    const reviews = data.reviews && data.reviews.length ? data.reviews : fallback;
+    const reviews = reviewsArray && reviewsArray.length ? reviewsArray : fallback;
     document.getElementById("reviewsContainer").innerHTML =
         reviews.map(review => `
           <div class="review-item">
@@ -619,15 +583,14 @@ function renderFallbackChart(amounts) {
     }).join("");
 }
 
-function renderChart(data) {
-    const sales = data.monthly_sales || [];
+function renderChart(monthlySales) {
+    const sales = monthlySales || [];
     let labels = [];
     let amounts = [];
     
     if (sales.length > 0) {
         sales.forEach(item => {
-          let labelText = item.date ? new Date(item.date).toLocaleDateString("en-IN", {day: 'numeric', month: 'short'}) : "Day " + (item.day || "");
-          labels.push(labelText);
+          labels.push("Day " + (item.day || ""));
           amounts.push(Number(item.amount || 0));
         });
     } else {
@@ -652,13 +615,13 @@ function renderChart(data) {
         data: {
           labels: labels,
           datasets: [{
-            label: "Revenue Growth",
+            label: "Revenue Growth (30 Days)",
             data: amounts,
             borderColor: "#2563eb",
             backgroundColor: "rgba(37,99,235,0.12)",
             fill: true,
             tension: 0.3,
-            pointRadius: 5,
+            pointRadius: 2,
             pointBackgroundColor: "#2563eb"
           }]
         },
@@ -666,67 +629,50 @@ function renderChart(data) {
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: {
-              labels: { font: { family: 'Inter', weight: '600' }, color: "#101828" }
-            }
+            legend: { labels: { font: { family: 'Inter', weight: '600' }, color: "#101828" } }
           },
           scales: {
-            x: {
-              ticks: { color: "#667085", font: { family: 'Inter' } },
-              grid: { color: "rgba(102,112,133,0.08)" }
-            },
-            y: {
-              ticks: { color: "#667085", font: { family: 'Inter' } },
-              grid: { color: "rgba(102,112,133,0.08)" }
-            }
+            x: { ticks: { color: "#667085", font: { family: 'Inter', size: 10 } }, grid: { display: false } },
+            y: { ticks: { color: "#667085", font: { family: 'Inter' } }, grid: { color: "rgba(102,112,133,0.08)" } }
           }
         }
     });
 }
 
-function renderDashboard(data) {
-    renderStats(data);
-    renderWallet(data);
-    renderOrders(data);
-    renderReviews(data);
-    applyProfile(pickDashboardProfile(data));
+// पूरे रिस्पांस ऑब्जेक्ट को क्लीन रेंडर करना
+function renderDashboard(responseObj) {
+    if(!responseObj) return;
+    renderStats(responseObj.stats);
+    renderWallet(responseObj.wallet);
+    renderOrders(responseObj.recent_orders);
+    renderReviews(responseObj.reviews);
+    
+    // बैकएंड की 'user' और 'profile' ऑब्जेक्ट मैपिंग
+    if (responseObj.user) {
+        applyProfile(responseObj.user, responseObj.profile?.image);
+    }
 
     requestAnimationFrame(() => {
-        renderChart(data);
+        renderChart(responseObj.monthly_sales);
     });
 }
 
 function getDefaultDashboard() {
     return {
         success: true,
-        total_sales: 0,
-        total_profit: 0,
-        total_orders: 0,
-        total_products: 0,
+        stats: { total_sales: 0, total_profit: 0, total_orders: 0, total_books: 0 },
         wallet: { available: 0, pending: 0, withdrawn: 0, lifetime: 0 },
-        orders: [],
+        recent_orders: [],
         reviews: [],
         monthly_sales: [],
-        user: {
-            name: USER.name || "Creator",
-            email: currentUserEmail,
-            profile_image: USER.profile_image || USER.image || ""
-        }
+        user: { name: "Creator", email: currentUserEmail }
     };
 }
 
 async function loadDashboard() {
-    showNotice("");
     setStatus("Loading CreatorHub data...");
 
-    // 1. Initial Quick Render with Local Values
-    const primaryProfile = {
-        name: USER.name || "Creator",
-        email: currentUserEmail,
-        image: USER.profile_image || USER.image || ""
-    };
-    applyProfile(primaryProfile);
-
+    // तुरंत लोकल डमी स्टेट या पुराना कैश रेंडर करें ताकि स्क्रीन ब्लैंक न रहे
     const cachedData = readCache();
     if (cachedData) {
         renderDashboard(cachedData);
@@ -735,41 +681,23 @@ async function loadDashboard() {
         renderDashboard(getDefaultDashboard());
     }
 
-    // 2. Parallel Network Executions (Fastest Loading Approach)
+    // GET मोड से बैकएंड पर प्रहार
     try {
-        const dashboardPromise = fetchJSON(DASHBOARD_API_URL, {
-            action: "sellerDashboard",
-            email: currentUserEmail
-        });
+        const liveData = await fetchDashboardGET(DASHBOARD_API_URL, currentUserEmail);
 
-        const profilePromise = fetchJSON(PROFILE_API_URL + "?action=profile&email=" + encodeURIComponent(currentUserEmail), null)
-            .catch(err => { console.log("Fallback profile stream ignored:", err); return null; });
-
-        const [dashData, profData] = await Promise.all([dashboardPromise, profilePromise]);
-
-        if (dashData && dashData.success) {
-            saveCache(dashData);
-            renderDashboard(dashData);
+        if (liveData && liveData.success) {
+            saveCache(liveData); // डेटा सुरक्षित लोकल स्टोर हुआ
+            renderDashboard(liveData); // स्क्रीन पर लाइव डेटा फ़्लैश हुआ
             setStatus("Welcome back to CreatorHub");
-
-            if (profData && profData.success && profData.user) {
-                applyProfile({
-                    name: profData.user.name || dashData.user?.name || primaryProfile.name,
-                    email: profData.user.email || dashData.user?.email || primaryProfile.email,
-                    image: profData.user.profile_image || dashData.user?.profile_image || primaryProfile.image
-                });
-            }
             return;
+        } else {
+            if(liveData && liveData.message) console.error("Backend Logic Failure:", liveData.message);
         }
     } catch (apiErr) {
-        console.error("Network Fetch Engine Interrupted:", apiErr);
+        console.error("Network Pipe Broken or Web App CORS Triggered:", apiErr);
     }
 
-    // 3. Absolute Fallback State Engine
     setStatus("Welcome back to CreatorHub");
-    if (!cachedData) {
-        renderDashboard(getDefaultDashboard());
-    }
 }
 
 window.addEventListener("DOMContentLoaded", loadDashboard);
