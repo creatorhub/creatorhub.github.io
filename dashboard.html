@@ -472,22 +472,25 @@ function saveCache(data) {
 function driveImage(url) {
     if (!url) return "";
     const text = String(url).trim();
-    if (text.startsWith("data:image") || text.startsWith("http")) {
-        if(text.includes("drive.google.com")){
-            const idMatch = text.match(/[?&]id=([^&]+)/);
-            if (idMatch && idMatch[1]) return "https://drive.google.com/thumbnail?id=" + idMatch[1] + "&sz=w500";
-            
-            if (text.includes("/d/")) {
-                const parts = text.split("/d/")[1];
-                if (parts) return "https://drive.google.com/thumbnail?id=" + parts.split("/")[0] + "&sz=w500";
-            }
-            if (text.includes("/file/d/")) {
-                const parts = text.split("/file/d/")[1];
-                if (parts) return "https://drive.google.com/thumbnail?id=" + parts.split("/")[0] + "&sz=w500";
-            }
-        }
-        return text;
+
+    if (text.startsWith("data:image")) return text;
+
+    let id = "";
+    
+    // सभी प्रकार के गूगल ड्राइव लिंक से ID निकालना
+    if (text.includes("id=")) {
+        id = text.split("id=")[1].split("&")[0];
+    } else if (text.includes("/file/d/")) {
+        id = text.split("/file/d/")[1].split("/")[0];
+    } else if (text.includes("/d/")) {
+        id = text.split("/d/")[1].split("/")[0];
     }
+
+    if (id) {
+        // सबसे सुरक्षित डायरेक्ट इमेज व्यू लिंक
+        return "https://docs.google.com/uc?export=view&id=" + id;
+    }
+
     return text;
 }
     
