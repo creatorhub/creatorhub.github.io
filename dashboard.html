@@ -473,11 +473,12 @@ function driveImage(url) {
     if (!url) return "";
     const text = String(url).trim();
 
+    // अगर पहले से बेस64 इमेज डेटा हो तो डायरेक्ट रिटर्न करें
     if (text.startsWith("data:image")) return text;
 
     let id = "";
     
-    // सभी प्रकार के गूगल ड्राइव लिंक से ID निकालना
+    // गूगल ड्राइव के सभी संभावित यूआरएल पैटर्न्स से ID एक्सट्रेक्ट करना
     if (text.includes("id=")) {
         id = text.split("id=")[1].split("&")[0];
     } else if (text.includes("/file/d/")) {
@@ -487,7 +488,7 @@ function driveImage(url) {
     }
 
     if (id) {
-        // सबसे सुरक्षित डायरेक्ट इमेज व्यू लिंक
+        // गूगल का सबसे फ़ास्ट और विश्वसनीय डायरेक्ट व्यू लिंक
         return "https://docs.google.com/uc?export=view&id=" + id;
     }
 
@@ -534,7 +535,7 @@ function renderOrders(recentOrders) {
         const status = String(order.payment_status || "pending");
         const statusClass = status.toLowerCase() === "paid" ? "paid" : "pending";
         
-        // आपके बैकएंड स्क्रिप्ट से सीधे 'order.image' आ रहा है, इसे यहाँ फिक्स किया गया है
+        // बैकएंड द्वारा ट्रांसफॉर्म की गई 'image' की को रीड करना
         let rawImgUrl = order.image || ""; 
         let finalImageUrl = driveImage(rawImgUrl);
 
