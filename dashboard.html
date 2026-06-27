@@ -530,7 +530,14 @@ function renderOrders(recentOrders) {
     table.innerHTML = orders.map(order => {
         const status = String(order.payment_status || "pending");
         const statusClass = status.toLowerCase() === "paid" ? "paid" : "pending";
-        let finalImageUrl = driveImage(order.image) || "https://via.placeholder.com/55x70/eef3f9/63728a?text=Book";
+        
+        // आपके बैकएंड स्क्रिप्ट से सीधे 'order.image' आ रहा है, इसे यहाँ फिक्स किया गया है
+        let rawImgUrl = order.image || ""; 
+        let finalImageUrl = driveImage(rawImgUrl);
+
+        if (!finalImageUrl) {
+            finalImageUrl = "https://via.placeholder.com/55x70/eef3f9/63728a?text=Book";
+        }
 
         return `
           <tr>
