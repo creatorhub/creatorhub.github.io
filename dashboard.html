@@ -395,7 +395,6 @@ td{color:#101828;font-size:14px}
 </main>
 
 <script>
-// बैकएंड के doGet() स्ट्रक्चर के हिसाब से रूट यूआरएल कॉन्फ़िगरेशन
 const DASHBOARD_API_URL = "https://script.google.com/macros/s/AKfycbxj1Ch941zvniDEzIs__cYVmGBaECx6GPmmEw5PPyehtU2_KxQ_o3TS6jhuoZS0AKUv8w/exec";
 const CACHE_KEY = "creatorhub_dashboard_cache_v3";
 
@@ -412,6 +411,17 @@ try {
 
 const params = new URLSearchParams(window.location.search);
 const currentUserEmail = params.get("email") || USER.email || localStorage.getItem("creatorhub_profile_email") || "test@gmail.com";
+
+// 🌟 हार्डकोडेड प्रोडक्ट्स लिस्ट फॉलबैक (ताकि ID/Title मिसमैच होने पर भी कवर लोड हो जाए)
+const BACKUP_PRODUCTS_DATABASE = [
+  { "title": "Mastering Artificial Intelligence for Digital", "front_cover": "https://drive.google.com/uc?id=1zGncrorambzo4WYPZC-G-taJ9YuxUzRV" },
+  { "title": "CreatorHub Sample Content", "front_cover": "https://drive.google.com/thumbnail?id=1xQ7sm8LhmqmFQvFX8CnYXxYXaWLjv5Y3&sz=w1200" },
+  { "title": "Rise From Zero - The RK Top Level Journey Chapter 1: The Climb Continues", "front_cover": "https://drive.google.com/thumbnail?id=1iGtllooW2E8MLHdzpmobQ9T-zxUaWuIg&sz=w1200" },
+  { "title": "Special Collector's Note: Pride and Prejudice", "front_cover": "https://drive.google.com/thumbnail?id=1CPqx55w-nLwJIVDaKdOgSeiJtI06vfaz&sz=w1200" },
+  { "title": "Elements of Accounts: Class 11 (Part 1 Solutions) Digest", "front_cover": "https://drive.google.com/thumbnail?id=1U4e6E7JzZWCcdgkCYeD3i8Zjr-mgOa0t&sz=w1200" },
+  { "title": "Elements of Accounts – Part 2 Digest | Std. 11 Commerce | Gujarat Board", "front_cover": "https://drive.google.com/thumbnail?id=1rtOl406yiZ8hM_YLryfEG23Br1wTQPMU&sz=w1200" },
+  { "title": "Digest Economics | Class 11 Commerce | Gujarat Board | English Medium", "front_cover": "https://drive.google.com/thumbnail?id=1J12g1VOFcdR__qCx7TfFag6oW5wWhOVP&sz=w1200" }
+];
 
 function setStatus(text) {
     document.getElementById("pageStatus").innerText = text;
@@ -434,12 +444,10 @@ function formatNumber(value) {
     return Number(value || 0).toLocaleString("en-IN");
 }
 
-// GET रिक्वेस्ट के लिए ऑप्टिमाइज़्ड लाइटवेट फेचर
 async function fetchDashboardGET(url, email, timeoutMs = 12000) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), timeoutMs);
     try {
-        // ऐप्स स्क्रिप्ट के 'doGet' एक्शन "dashboard" इंजन को डायरेक्ट ट्रिगर करना
         const targetUrl = `${url}?action=dashboard&email=${encodeURIComponent(email)}`;
         const response = await fetch(targetUrl, { method: "GET" });
         if (!response.ok) throw new Error("HTTP Network Error Status: " + response.status);
@@ -469,27 +477,26 @@ function saveCache(data) {
     } catch (err) {}
 }
 
+// 🌟 बुलेटप्रूफ ड्राइव इमेज कनवर्टर (नॉन-ड्राइव लिंक्स जैसे प्रवतार को कभी ब्लॉक नहीं करता)
 function driveImage(url) {
     if (!url) return "";
     const text = String(url).trim();
 
-    // अगर पहले से बेस64 इमेज डेटा हो तो डायरेक्ट रिटर्न करें
     if (text.startsWith("data:image")) return text;
 
-    let id = "";
-    
-    // गूगल ड्राइव के सभी संभावित यूआरएल पैटर्न्स से ID एक्सट्रेक्ट करना
-    if (text.includes("id=")) {
-        id = text.split("id=")[1].split("&")[0];
-    } else if (text.includes("/file/d/")) {
-        id = text.split("/file/d/")[1].split("/")[0];
-    } else if (text.includes("/d/")) {
-        id = text.split("/d/")[1].split("/")[0];
-    }
+    if (text.includes("drive.google.com") || text.includes("docs.google.com")) {
+        let id = "";
+        if (text.includes("id=")) {
+            id = text.split("id=")[1].split("&")[0];
+        } else if (text.includes("/file/d/")) {
+            id = text.split("/file/d/")[1].split("/")[0];
+        } else if (text.includes("/d/")) {
+            id = text.split("/d/")[1].split("/")[0];
+        }
 
-    if (id) {
-        // गूगल का सबसे फ़ास्ट और विश्वसनीय डायरेक्ट व्यू लिंक
-        return "https://docs.google.com/uc?export=view&id=" + id;
+        if (id) {
+            return "https://docs.google.com/uc?export=view&id=" + id;
+        }
     }
 
     return text;
@@ -498,7 +505,9 @@ function driveImage(url) {
 function applyProfile(profileData, fallbackImage) {
     const name = profileData.name || "Creator";
     const email = profileData.email || currentUserEmail;
-    const image = driveImage(fallbackImage) || DEFAULT_AVATAR;
+    
+    let rawImage = fallbackImage || profileData.image || profileData.profile_image || "";
+    const image = driveImage(rawImage) || DEFAULT_AVATAR;
 
     document.getElementById("userName").innerText = name;
     document.getElementById("userEmail").innerText = email;
@@ -511,7 +520,7 @@ function renderStats(stats) {
     document.getElementById("totalSales").innerText = formatMoney(s.total_sales || 0);
     document.getElementById("totalProfit").innerText = formatMoney(s.total_profit || 0);
     document.getElementById("totalOrders").innerText = formatNumber(s.total_orders || 0);
-    document.getElementById("totalBooks").innerText = formatNumber(s.total_books || 0); // बैकएंड की कीज़ 'total_books' से मैप किया
+    document.getElementById("totalBooks").innerText = formatNumber(s.total_books || 0);
 }
 
 function renderWallet(wallet) {
@@ -522,6 +531,7 @@ function renderWallet(wallet) {
     document.getElementById("walletLifetime").innerText = formatMoney(w.lifetime || 0);
 }
 
+// 🌟 अल्टीमेट हाइब्रिड रेंडर ऑर्डर्स इंजन (मिसमैच होने पर भी टाइटल से इमेज निकाल लेगा)
 function renderOrders(recentOrders) {
     const orders = recentOrders || [];
     const table = document.getElementById("ordersTable");
@@ -535,10 +545,17 @@ function renderOrders(recentOrders) {
         const status = String(order.payment_status || "pending");
         const statusClass = status.toLowerCase() === "paid" ? "paid" : "pending";
         
-        // बैकएंड द्वारा ट्रांसफॉर्म की गई 'image' की को रीड करना
         let rawImgUrl = order.image || ""; 
-        let finalImageUrl = driveImage(rawImgUrl);
 
+        // बैकएंड मैपिंग फॉलबैक: अगर इमेज खाली है तो लोकल डेटाबेस से बुक टाइटल मैच करके इमेज उठाओ
+        if (!rawImgUrl) {
+            let matched = BACKUP_PRODUCTS_DATABASE.find(p => 
+                String(p.title).trim().toLowerCase() === String(order.book_title).trim().toLowerCase()
+            );
+            if (matched) rawImgUrl = matched.front_cover;
+        }
+
+        let finalImageUrl = driveImage(rawImgUrl);
         if (!finalImageUrl) {
             finalImageUrl = "https://via.placeholder.com/55x70/eef3f9/63728a?text=Book";
         }
@@ -564,7 +581,6 @@ function renderOrders(recentOrders) {
 }
     
 function renderReviews(reviewsArray) {
-    // बैकएंड में रिव्यूज नहीं थे, इसलिए हमने इसे स्टेबलाइज रखा है
     const fallback = [
         { user_name:"Aarav", review:"Amazing quality and fast delivery." },
         { user_name:"Rahul", review:"Dashboard and ebook system working perfectly." },
@@ -650,7 +666,6 @@ function renderChart(monthlySales) {
     });
 }
 
-// पूरे रिस्पांस ऑब्जेक्ट को क्लीन रेंडर करना
 function renderDashboard(responseObj) {
     if(!responseObj) return;
     renderStats(responseObj.stats);
@@ -658,7 +673,6 @@ function renderDashboard(responseObj) {
     renderOrders(responseObj.recent_orders);
     renderReviews(responseObj.reviews);
     
-    // बैकएंड की 'user' और 'profile' ऑब्जेक्ट मैपिंग
     if (responseObj.user) {
         applyProfile(responseObj.user, responseObj.profile?.image);
     }
@@ -683,7 +697,6 @@ function getDefaultDashboard() {
 async function loadDashboard() {
     setStatus("Loading CreatorHub data...");
 
-    // तुरंत लोकल डमी स्टेट या पुराना कैश रेंडर करें ताकि स्क्रीन ब्लैंक न रहे
     const cachedData = readCache();
     if (cachedData) {
         renderDashboard(cachedData);
@@ -692,20 +705,17 @@ async function loadDashboard() {
         renderDashboard(getDefaultDashboard());
     }
 
-    // GET मोड से बैकएंड पर प्रहार
     try {
         const liveData = await fetchDashboardGET(DASHBOARD_API_URL, currentUserEmail);
 
         if (liveData && liveData.success) {
-            saveCache(liveData); // डेटा सुरक्षित लोकल स्टोर हुआ
-            renderDashboard(liveData); // स्क्रीन पर लाइव डेटा फ़्लैश हुआ
+            saveCache(liveData); 
+            renderDashboard(liveData); 
             setStatus("Welcome back to CreatorHub");
             return;
-        } else {
-            if(liveData && liveData.message) console.error("Backend Logic Failure:", liveData.message);
         }
     } catch (apiErr) {
-        console.error("Network Pipe Broken or Web App CORS Triggered:", apiErr);
+        console.error("Network Engine Interrupted:", apiErr);
     }
 
     setStatus("Welcome back to CreatorHub");
